@@ -18,7 +18,7 @@ This only the scripting repository. As I mentioned before, since the sphere serv
 
 #Useful Informations
 
-The FILE obj 
+##The FILE obj 
 FILE object permit the manipulation of a file. For the momnet is limited to one file at time
 but if the test goes well a FILE[x] will be added. To access file function you should use
 FILE.x or <FILE.x>. Some of the function/props can be used only when a file is opened, if
@@ -55,7 +55,7 @@ DELETEFILE (w)(*) = Delete the file supplied as argument. Warning: if the file t
 					the one opened, it'll be not deleted.
 FLUSH (w) = Flush the buffers associated to the file. Use it at your own risk.
 
-**** Settings in sphere.ini **************************************************************** 
+## Settings in Sphere.ini
 Please review default sphere.ini, especially the OptionFlags= and Experimental=
 settings with it comments. They DO CHANGE from version to version, thus make
 SURE that you are using the values you really need.
@@ -81,7 +81,7 @@ Default value:	FeaturesLogin=00
 NOTE: Do not enable AOS features if you plan that T2A/LBR clients will be used
 by clients of your server.
 
-**** Things to pay attention in scripts ****************************************************** 
+## Things to pay attein in scripts
 
 - RETURN values
   Make sure you include an "eval" in your return, wherever you're not returning a plain number,
@@ -101,7 +101,7 @@ by clients of your server.
 
 
 
-**** Skill difficulties and ACTDIFF.  ******************************************************** 
+##Skill dificulties and ACCDIFF
 
 For most triggers where a skill is involved, ACTDIFF can be used to read/modify the current
 difficulty. ACTDIFF makes sense wherever ACTION makes sense, seeing as it is associated to
@@ -120,8 +120,7 @@ that you can always find out the initial difficulty, even on a failure. Settinf 
 
 
 
-
-**** TRIGGERS: ********************************************************************************
+##Triggers
 
 "IN" refers to arguments supplied by the server.
 OUT refers to values read back by the server, so that changing them within the trigger actually
@@ -136,7 +135,8 @@ RET refers to the return value and its effect. Note that there are 3 possible re
 				action.
 
 
-**** CHARACTER TRIGGERS ******
+##Character Triggers
+
 @GetHit
   IN:	argn1		Damage being applied.
 	argn2		Type of damage (see damage type flags).
@@ -275,7 +275,7 @@ RET refers to the return value and its effect. Note that there are 3 possible re
 NOTE: This trigger listing may appear inaccurate - please read up REVISIONS.TXT
 	to check if some alterations were made to them.
 
-**** ITEM TRIGGERS ******
+## Item Triggers
 
 @Step, @ItemStep
   IN:	argn1		1 if standing, 0 if moving into position
@@ -297,7 +297,7 @@ NOTE: This trigger listing may appear inaccurate - please read up REVISIONS.TXT
 NOTE: This trigger listing may appear inaccurate - please read up REVISIONS.TXT
 	to check if some alterations were made to them.
 
-**** OTHER TRIGGERS ******
+## Other Triggers
 
 @ResourceTest		// for REGIONRESOURCE sections
   This trigger is called once for every resource listed in a REGIONTYPE, to check if the player (SRC)
@@ -316,7 +316,8 @@ NOTE: This trigger listing may appear inaccurate - please read up REVISIONS.TXT
 NOTE: This trigger listing may appear inaccurate - please read up REVISIONS.TXT
 	to check if some alterations were made to them.
 
-**** Stuff you might need in scripts ************************************************************ 
+## Stuff you might need in scripts
+
 This is a set of flags that you might find in static tiles, in statics(n).TILEFLAGS:
 
 [DEFNAME tile_flags]			// by Shadowlord
@@ -376,7 +377,7 @@ CAN_I_REPAIR	01000	// Is it repairable (difficulty based on value)
 CAN_I_REPLICATE	02000	// Things like arrows are pretty much all the same.
 
 
-**** AREA / ROOM changes ****************************************************************************
+## AREA/ROOM
 Areas / rooms can now be supplied in a different format, similar to ITEMDEF and CHARDEF:
    [AREADEF defname]
    NAME = ...
