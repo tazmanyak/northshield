@@ -1,4 +1,4 @@
-﻿
+//All mysql operations is being done from here.
 
 [dialog d_mysql_item_list]
 0,0
