@@ -1,0 +1,158 @@
+[events e_kirmizi]
+on=@click
+message @33 [Terorist Timi]
+message <name>
+return 1
+
+on=@kill
+var.terorpuan (<eval <var.terorpuan>> + 1)
+src.sysmessage @63,1,1 1 Puan Aldiniz...
+
+on=@dclick
+if (<src.isevent.e_kirmizi>)
+src.sysmessage @58,1,1 Kirmizi Grup <src.targ.name>
+
+on=@skillstart
+if (<src.flags>&statf_hidden) || (<src.flags>&statf_invisible)
+src.sysmessage @95,,1 Bu yarismadayken gizlenemessiniz.
+return 1
+endif
+
+on=@spellcast
+if (<isevent.e_kirmizi>)
+if (<act.isevent.e_kirmizi>)
+if !((<argn> == 4) || (<argn> == 6) || (<argn> == 29) || (<argn> == 44) || (<argn> == 59) || (<argn> == 11))
+sysmessage @38,1,1 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+endif
+if (<isevent.e_kirmizi>)
+if (<act.isevent.e_mavi>)
+if !((<argn> == 32) || (<argn> == 45) || (<argn> == 52) || (<argn> == 6) || (<argn> == 2) || (<argn> == 4) || (<argn> == 7) || (<argn> == 9) || (<argn> == 10) || (<argn> == 11) || (<argn> == 15) || (<argn> == 16) || (<argn> == 17) || (<argn> == 36) || (<argn> == 59) || (<argn> == 41))
+src.message @38,1,1 Dusmaniniza bu buyuyu atamazsiniz..
+return 1
+endif
+endif
+endif
+
+on=@attack
+if (<isevent.e_kirmizi>)
+if (<act.isevent.e_kirmizi>)
+src.sysmessage @58,1,1 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+
+on=@hit
+if (<isevent.e_kirmizi>)
+if (<act.isevent.e_kirmizi>)
+src.sysmessage @58 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+
+on=@hitmiss
+if (<isevent.e_kirmizi>)
+if (<act.isevent.e_kirmizi>)
+src.sysmessage @58,1,1 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+
+on=@ItemDclick
+if (<act.baseid> == i_ethereal_llama) || (<act.baseid> == i_ethereal_ostard) || (<act.baseid> == i_ethereal_horse) || (<act.baseid> == i_runebook) || (<act.baseid> == i_shrink_deed) || (<act.type> == t_figurine)
+sysmessage @38,,1 Bu Alanda Yasaktir....
+return 1
+endif
+if (<act.baseid> == i_runebook)
+sysmessage @38,,1 Cs Esnasinda bunu kullanamassiniz.
+return 1
+endif
+
+on=@death
+src.newitem i_teror_timer
+src.act.equip
+src.go 1163,2235,60
+
+
+[events e_mavi]
+
+on=@click
+message @0800 [Counter Timi]
+message <name> 
+return 1
+
+
+on=@dclick
+if (<src.isevent.e_mavi>)
+src.sysmessage @58,1,1 Counter Timi <src.targ.name>
+
+on=@skillstart
+if (<src.flags>&statf_hidden) || (<src.flags>&statf_invisible)
+src.sysmessage @95,,1 Bu yarismadayken gizlenemessiniz.
+return 1
+endif
+
+on=@kill
+var.cspuan (<eval <var.cspuan>> + 1)
+src.sysmessage @63,1,1 1 Puan Aldiniz...
+
+on=@spellcast
+if (<isevent.e_mavi>)
+if (<act.isevent.e_mavi>)
+if !((<argn> == 4) || (<argn> == 6) || (<argn> == 29) || (<argn> == 44) || (<argn> == 59) || (<argn> == 11))
+sysmessage @38,1,1 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+endif
+if (<isevent.e_mavi>)
+if (<act.isevent.e_kirmizi>)
+if !((<argn> == 32) || (<argn> == 45) || (<argn> == 52) || (<argn> == 6) || (<argn> == 2) || (<argn> == 4) || (<argn> == 7) || (<argn> == 9) || (<argn> == 10) || (<argn> == 11) || (<argn> == 15) || (<argn> == 16) || (<argn> == 17) || (<argn> == 36) || (<argn> == 59) || (<argn> == 41))
+src.message @38,1,1 Dusmaniniza bu buyuyu atamazsiniz..
+return 1
+endif
+endif
+endif
+
+on=@attack
+if (<isevent.e_mavi>)
+if (<act.isevent.e_mavi>)
+src.sysmessage @58,1,1 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+
+on=@hit
+if (<isevent.e_mavi>)
+if (<act.isevent.e_mavi>)
+src.sysmessage @58 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+
+on=@hitmiss
+if (<isevent.e_mavi>)
+if (<act.isevent.e_mavi>)
+src.sysmessage @58,1,1 Grup arkadaslariniza saldiramazsiniz..
+return 1
+endif
+endif
+
+on=@death
+src.newitem i_teror_timer
+src.act.equip
+src.go 1131,2218,61
+
+on=@ItemDclick
+if (<act.baseid> == i_ethereal_llama) || (<act.baseid> == i_ethereal_ostard) || (<act.baseid> == i_ethereal_horse) || (<act.baseid> == i_runebook) || (<act.baseid> == i_shrink_deed) || (<act.type> == t_figurine)
+sysmessage @38,,1 Bu Alanda Yasaktir....
+return 1
+endif
+if (<act.baseid> == i_runebook)
+sysmessage @38,,1 Cs Esnasinda bunu kullanamassiniz.
+return 1
+endif
+
+[EOF]

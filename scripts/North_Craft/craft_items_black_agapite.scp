@@ -1,0 +1,45 @@
+[defname def_black_agapite_items]
+// total page
+blacksmith_agapite_pagesum	4
+// platemail
+blacksmith_agapite_0_1		i_platemail_leggings_agapite
+blacksmith_agapite_1_1		i_platemail_chest_agapite
+blacksmith_agapite_2_1		i_platemail_arms_agapite
+blacksmith_agapite_3_1		i_platemail_helm_agapite
+blacksmith_agapite_4_1		i_platemail_gorget_agapite
+blacksmith_agapite_5_1		i_platemail_gloves_agapite
+blacksmith_agapite_6_1		i_shield_heater_agapite
+blacksmith_agapite_7_1		i_ringmail_gloves_agapite
+blacksmith_agapite_8_1		i_ringmail_leggings_agapite
+blacksmith_agapite_9_1		i_ringmail_sleeves_agapite
+blacksmith_agapite_10_1		i_ringmail_tunic_agapite
+
+blacksmith_agapite_11_1		i_chainmail_coif_agapite
+blacksmith_agapite_12_1		i_chainmail_leggings_agapite
+blacksmith_agapite_13_1		i_chainmail_tunic_agapite
+// swords
+blacksmith_agapite_0_2		i_katana_agapite
+blacksmith_agapite_1_2		i_scimitar_agapite
+blacksmith_agapite_2_2		i_cutlass_agapite
+blacksmith_agapite_3_2		i_bardiche_agapite
+blacksmith_agapite_4_2		i_halberd_agapite
+blacksmith_agapite_5_2		i_sword_long_agapite
+blacksmith_agapite_6_2		i_sword_viking_agapite
+blacksmith_agapite_7_2		i_sword_broad_agapite
+
+// fence
+blacksmith_agapite_0_3		i_dagger_agapite
+blacksmith_agapite_1_3		i_kryss_agapite
+blacksmith_agapite_2_3		i_pitchfork_agapite
+blacksmith_agapite_3_3		i_spear_agapite
+blacksmith_agapite_4_3		i_spear_short_agapite
+blacksmith_agapite_5_3		i_war_fork_agapite
+// mace
+blacksmith_agapite_0_4		i_axe_war_agapite
+blacksmith_agapite_1_4		i_hammer_pick_agapite
+//blacksmith_agapite_2_4		//i_hammer_war_agapite
+blacksmith_agapite_2_4		i_maul_agapite
+blacksmith_agapite_3_4		i_mace_agapite
+blacksmith_agapite_4_4		i_mace_war_agapite
+
+[EOF]

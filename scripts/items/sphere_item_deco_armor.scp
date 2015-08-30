@@ -1,0 +1,130 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 013c8]
+DEFNAME=i_leather_sleeves_decoration
+TYPE=t_normal
+DUPELIST=013cf
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Leather Sleeves Hanging
+
+[ITEMDEF 013cf]
+DUPEITEM=013c8
+
+[ITEMDEF 013c9]
+DEFNAME=i_leather_leggings_decoration
+TYPE=t_normal
+DUPELIST=013d0
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Leather Leggings Hanging
+
+[ITEMDEF 013d0]
+DUPEITEM=013c9
+
+[ITEMDEF 013ca]
+DEFNAME=i_leather_tunic_decoration
+TYPE=t_normal
+DUPELIST=013d1
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Leather Tunic Hanging
+
+[ITEMDEF 013d1]
+DUPEITEM=013ca
+
+[ITEMDEF 013d7]
+DEFNAME=i_studded_sleeves_decoration
+TYPE=t_normal
+DUPELIST=013de
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Studded Sleeves Hanging
+
+[ITEMDEF 013de]
+DUPEITEM=013d7
+
+[ITEMDEF 013d8]
+DEFNAME=i_studded_leggings_decoration
+TYPE=t_normal
+DUPELIST=013df
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Studded Leggings Hanging
+
+[ITEMDEF 013df]
+DUPEITEM=013d8
+
+[ITEMDEF 013d9]
+DEFNAME=i_studded_tunic_decoration
+TYPE=t_normal
+DUPELIST=013e0
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Studded Tunic Hanging
+
+[ITEMDEF 013e0]
+DUPEITEM=013d9
+
+[ITEMDEF 013e5]
+DEFNAME=i_ringmail_leggings_decoration
+TYPE=t_normal
+DUPELIST=013e6
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Ringmail Leggings Hanging
+
+[ITEMDEF 013e6]
+DUPEITEM=013e5
+
+[ITEMDEF 013e7]
+DEFNAME=i_ringmail_tunic_decoration
+TYPE=t_normal
+DUPELIST=013e8
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Ringmail Chest Hanging
+
+[ITEMDEF 013e8]
+DUPEITEM=013e7
+
+[ITEMDEF 013e9]
+DEFNAME=i_ringmail_sleeves_decoration
+TYPE=t_normal
+DUPELIST=013ea
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Ringmail Sleeves Hanging
+
+[ITEMDEF 013ea]
+DUPEITEM=013e9
+
+[ITEMDEF 013bc]
+DEFNAME=i_chainmail_leggings_decoration
+TYPE=t_normal
+DUPELIST=013c1
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Chainmail Leggings Hanging
+
+[ITEMDEF 013c1]
+DUPEITEM=013bc
+
+[ITEMDEF 013bd]
+DEFNAME=i_chainmail_tunic_decoration
+TYPE=t_normal
+DUPELIST=013c2
+CATEGORY=Decoration - Armor
+SUBSECTION=Hanging Armor
+DESCRIPTION=Chainmail Tunic Hanging
+
+[ITEMDEF 013c2]
+DUPEITEM=013bd
+
+[eof]

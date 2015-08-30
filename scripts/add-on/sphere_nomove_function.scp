@@ -1,0 +1,147 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 16-12-2010
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// WildGenie - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// No Move - functions
+
+[DEFNAME nomove]
+nv_f_skillabort	01
+nv_f_skillfail	02
+nv_f_skillsuccess	04
+nv_f_gethit	08
+nv_f_skillstart	010
+
+nv_t_spell	1
+nv_t_bandage	2
+nv_t_potion	3
+nv_t_Subdued	4
+nv_t_EtherealMount	5
+nv_t_peacemaked	6
+nv_t_stuned	7
+
+// usage: nomoves time,flag,type,removecall
+// time: per tick  0.1 sec ( 1 sec = 10 ) ( -1 no decay )
+// flag: oto remove flags (<eval <def.nv_f_skillabort>|<def.nv_f_skillfail>>)
+// type: type for remove all (<def.nv_t_peacemaked>)
+// removecall: command for decay (f_peacemaked_remove)
+// return nomoveitem uid
+// sample : tag.peacemakeduid <nomove 50,<def.nv_f_gethit>,<def.nv_t_peacemaked>>,f_peacemaked_remove
+[FUNCTION nomoves]
+SERV.NEWITEM i_nomove
+NEW.CONT <uid>
+NEW.TIMERD <argn1>
+NEW.MORE1 <argn2>
+NEW.MORE2 <argn3>
+NEW.TAG.FUNCTION <StrEat <StrEat <StrEat <args>>>>
+if (<argn1>==-1)
+	TAG0.nomovetill 07fffffff
+elseif (<tag0.nomovetill> < <serv.time>+<argn1>)
+	TAG0.nomovetill <serv.time>+<argn1>
+endif
+if (<speedmode>!=4)
+	TAG0.default_speedmode <speedmode>
+endif
+SPEEDMODE 4
+TAG0.nomoveflag |= <argn2>
+events=+e_nomove
+RETURN <NEW.uid>
+
+[ITEMDEF i_nomove]
+ID=i_memory
+NAME=No MOVE [DONT REMOVE]
+TYPE=t_eq_script
+
+ON=@Create
+attr=attr_move_never|attr_can_decay
+
+ON=@TIMER
+TOPOBJ.f_nomove_removeby_uid <uid>
+RETURN 1
+
+[FUNCTION f_nomove_check]
+if !(<LOCAL.totalnomove>)
+	TAG0.nomoveflag
+	TAG0.nomovetill
+	SPEEDMODE <TAG0.default_speedmode>
+	events=-e_nomove
+else
+	TAG0.nomoveflag=<LOCAL.totalnomoveflag>
+endif
+
+// usage: f_nomove_removeby_uid uid
+// sample: f_nomove_removeby_uid <tag.peacemakeduid>
+[FUNCTION f_nomove_removeby_uid]
+LOCAL.totalnomove 0
+LOCAL.totalnomoveflag 0
+forcontid i_nomove
+	if <uid>==<argn1>
+		if !<ISEMPTY <TAG.FUNCTION>>
+			TOPOBJ.<TAG.FUNCTION>
+		endif
+		REMOVE
+	else
+	LOCAL.totalnomove ++
+	LOCAL.totalnomoveflag |= <more1>
+	endif
+endfor
+CALL f_nomove_check
+
+// usage: f_nomove_removeby_flag flag
+// sample: f_nomove_removeby_flag <def.nv_f_skillstart>
+[FUNCTION f_nomove_removeby_flag]
+LOCAL.totalnomove 0
+LOCAL.totalnomoveflag 0
+forcontid i_nomove
+	if <more1>&<argn1>
+		if !<ISEMPTY <TAG.FUNCTION>>
+			TOPOBJ.<TAG.FUNCTION>
+		endif
+		REMOVE
+	else
+	LOCAL.totalnomove ++
+	LOCAL.totalnomoveflag |= <more1>
+	endif
+endfor
+CALL f_nomove_check
+
+// usage: f_nomove_removeby_type type
+// sample: f_nomove_removeby_type <def.nv_t_peacemaked>
+[FUNCTION f_nomove_removeby_type]
+LOCAL.totalnomove 0
+LOCAL.totalnomoveflag 0
+forcontid i_nomove
+	if (<more2>==<argn1>)
+		if !<ISEMPTY <TAG.FUNCTION>>
+			TOPOBJ.<TAG.FUNCTION>
+		endif
+		REMOVE
+	else
+	LOCAL.totalnomove ++
+	LOCAL.totalnomoveflag |= <more1>
+	endif
+endfor
+CALL f_nomove_check
+
+[EVENTS e_nomove]
+ON=@SkillAbort
+f_nomove_removeby_flag <DEF.nv_f_skillabort>
+ON=@SkillFail
+f_nomove_removeby_flag <DEF.nv_f_skillfail>
+ON=@SkillStart
+f_nomove_removeby_flag <DEF.nv_f_skillstart>
+ON=@SkillSuccess
+f_nomove_removeby_flag <DEF.nv_f_skillsuccess>
+ON=@GetHit
+f_nomove_removeby_flag <DEF.nv_f_gethit>
+
+[EOF]

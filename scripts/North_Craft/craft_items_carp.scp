@@ -1,0 +1,195 @@
+[defname def_carpenter_items]
+// total page
+carpentry_pagesum	14
+// chairs
+carpentry_0_1		i_chair_throne
+carpentry_1_1		i_chair_wood_rough_dark
+carpentry_2_1		i_chair_wood_fancy_cushion
+carpentry_3_1		i_chair_wood
+carpentry_4_1		i_chair_wood_bamboo
+carpentry_5_1		i_chair_stool_bar
+carpentry_6_1		i_chair_stool
+carpentry_7_1		i_chair_elven_cozy
+carpentry_8_1		i_chair_wood_cushion
+carpentry_9_1		i_chair_elven_ornate
+carpentry_10_1		i_bench_wood_dark
+
+// containers
+carpentry_0_2		i_chest_wooden_brass
+carpentry_1_2		i_box_wood
+carpentry_2_2		i_crate_small
+carpentry_3_2		i_crate_md
+carpentry_4_2		i_crate_lg
+carpentry_5_2		i_chest_wooden_finished
+carpentry_6_2		i_chest_wooden_gilded
+carpentry_7_2		i_chest_wooden_ornate
+carpentry_8_2		i_chest_wooden_plain
+carpentry_9_2		i_chest_rarewood
+carpentry_10_2		i_box_decorative
+carpentry_11_2		i_footlocker_wooden
+// tables
+carpentry_0_3		i_table_nightstand
+carpentry_1_3		i_table_wood_rough_small
+carpentry_2_3		i_table_wood_rough_board
+carpentry_3_3		i_bench_woodworker_end
+carpentry_4_3		i_vise
+carpentry_5_3		i_bench_cooper
+carpentry_6_3		i_table_writing
+carpentry_7_3		i_table_low_elegant
+carpentry_8_3 		i_podium_elven
+carpentry_9_3 		i_table_low_elegant
+carpentry_10_3		i_table_ornate
+carpentry_11_3		i_table_low_plain
+
+
+// weap & tools
+carpentry_0_4		i_club
+carpentry_1_4		i_staff_gnarled
+carpentry_2_4		i_staff_quarter
+carpentry_3_4		i_shepherds_crook
+carpentry_4_4		i_staff_black
+carpentry_5_4		i_fishing_pole
+carpentry_6_4		i_shield_wood
+carpentry_7_4		i_staff_black_frostwood
+carpentry_8_4		i_staff_black_bloodwood
+carpentry_9_4		i_staff_quarter_frostwood
+carpentry_10_4		i_staff_quarter_bloodwood
+// furniture
+carpentry_0_5		i_bar_door_ne
+carpentry_1_5		i_bar_piece
+carpentry_2_5		i_bookcase
+carpentry_3_5		i_armoir_dk
+carpentry_4_5		i_armoir_lt
+carpentry_5_5		i_bureau_2
+carpentry_6_5		i_music_stand
+carpentry_7_5		i_music_stand_tall
+carpentry_8_5		i_bookcase_full
+carpentry_9_5		i_bookshelf_arcane
+carpentry_10_5		i_armoire_cherry
+
+
+
+carpentry_0_6		i_armoire_elegant
+carpentry_1_6		i_armoire_elven_fancy
+carpentry_2_6		i_armoire_elven_simple
+carpentry_3_6		i_armoire_maple
+carpentry_4_6		i_dye_tub
+carpentry_5_6		i_dartboard
+carpentry_6_6		i_model_ship
+carpentry_7_6		i_lantern
+carpentry_8_6		i_board
+carpentry_9_6		i_barrel_open
+carpentry_10_6		i_barrel_lid
+
+
+carpentry_0_7		i_dress_form
+carpentry_1_7		i_easel
+carpentry_2_7		088a
+carpentry_3_7		088b
+carpentry_4_7		i_tambourine_tassel
+carpentry_5_7		i_flute_bamboo
+carpentry_6_7		i_drum
+carpentry_7_7		i_harp_lap
+carpentry_8_7		i_harp_standing
+carpentry_9_7		i_lute
+carpentry_10_7		i_tambourine
+carpentry_11_7		i_bulletin_board
+carpentry_12_7		i_saddle
+carpentry_13_7		i_kulucka
+carpentry_14_7		i_dartboard
+carpentry_15_7		i_barrel_staves
+
+
+
+
+
+
+
+carpentry_0_8		 i_deed_anvil_east 
+carpentry_1_8		 i_deed_anvil_south 
+carpentry_2_8		 i_deed_forge_elven 
+carpentry_3_8		 i_deed_forge_large_east 
+carpentry_4_8		 i_deed_forge_large_south 
+carpentry_5_8		 i_deed_forge_small 
+carpentry_6_8		 i_deed_elven_dresser_east 
+carpentry_7_8		 i_deed_elven_dresser_south 
+carpentry_8_8	 	 i_deed_elven_washbasin_east 
+carpentry_9_8		 i_deed_elven_washbasin_south 
+carpentry_10_8		 i_deed_ornate_elven_chest_east 
+carpentry_11_8		 i_deed_ornate_elven_chest_south 
+carpentry_12_8		 i_deed_hardwood_table_east 
+carpentry_13_8		 i_deed_hardwood_table_south 
+carpentry_14_8		 i_deed_abbatoir 
+carpentry_15_8		 i_deed_alchemist_table_east 
+
+carpentry_0_9		 i_deed_alchemist_table_south 
+carpentry_1_9		 i_deed_arcane_circle 
+carpentry_2_9		 i_deed_elven_bed_east 
+carpentry_3_9		 i_deed_elven_bed_south 
+carpentry_4_9		 i_deed_elven_loveseat_east 
+carpentry_5_9		 i_deed_elven_loveseat_south 
+carpentry_6_9		 i_deed_large_bed_east 
+carpentry_7_9		 i_deed_large_bed_south 
+carpentry_8_9		 i_deed_parrot_perch_east 
+
+
+
+
+carpentry_0_10		 i_deed_ankh
+carpentry_1_10		 i_deed_arcanist_statue_east
+carpentry_2_10		 i_deed_arcanist_statue_south
+carpentry_3_10		 i_deed_squirrel_statue_east
+carpentry_4_10		 i_deed_squirrel_statue_south
+carpentry_5_10		 i_deed_warrior_statue_east
+carpentry_6_10		 i_deed_warrior_statue_south
+
+
+carpentry_7_10		 i_dress_form 
+carpentry_8_10		 i_deed_wheel_n // i_deed_elven_oven_east 
+carpentry_9_10		 i_deed_elven_spinning_wheel_east 
+carpentry_10_10		 i_deed_elven_spinning_wheel_south 
+
+
+carpentry_0_11		 i_deed_parrot_perch_south 
+carpentry_1_11		 i_deed_pentagram 
+carpentry_2_11		 i_deed_small_bed_east 
+carpentry_3_11		 i_deed_small_bed_south 
+carpentry_4_11		 i_deed_tall_elven_bed_east 
+carpentry_5_11	 	 i_deed_tall_elven_bed_south 
+
+
+
+
+
+carpentry_0_12		 i_deed_small_bed_n 
+carpentry_1_12		 i_deed_small_bed_w 
+//carpentry_2_12		 i_deed_large_bed_n 
+//carpentry_3_12		 i_deed_large_bed_w 
+carpentry_2_12		 i_deed_carpet_bluebrown 
+carpentry_3_12		 i_deed_carpet_bluered 
+carpentry_4_12		 i_deed_loom_w 
+carpentry_5_12		 i_deed_loom_n 
+carpentry_6_12		 i_deed_elven_oven_east 
+carpentry_7_12		 ""//i_deed_carpet_magic_n
+
+carpentry_0_13		i_bamboo_screen
+carpentry_1_13		i_easel_with_canvas
+carpentry_2_13		i_fishing_pole
+carpentry_3_13		i_lantern_hanging_white
+carpentry_4_13		i_acorn_replica_giant
+carpentry_5_13		i_mounted_dread_horn
+carpentry_6_13		i_lantern_hanging_red
+carpentry_7_13		i_shoji_screen
+carpentry_8_13		i_music_stand_short
+carpentry_9_13		i_music_stand_tall
+carpentry_10_13		i_rare_dye_5
+carpentry_11_13		i_leather_dye_5
+carpentry_12_13		i_furniture_dye_duzrenk
+carpentry_13_13		i_lantern
+carpentry_14_13		i_lantern_hanging_white
+
+carpentry_0_14		i_TUB_WATER
+carpentry_1_14		i_tub_empty
+carpentry_2_14		i_statue_warrior
+carpentry_3_14		i_PAPER
+[EOF]

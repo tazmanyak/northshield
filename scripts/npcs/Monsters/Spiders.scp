@@ -1,0 +1,384 @@
+[CHARDEF 0b]
+DEFNAME=c_spider_dread
+NAME=dread spider
+ICON=i_pet_spider_dread
+SOUND=snd_monster_gispidr1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=13,33
+ARMOR=40
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=88.0
+TAG.DamPoison=80
+TAG.HitPoison=5//Lethal
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores2
+RESDISPDNID=c_spider_giant
+RESLEVEL=2
+RESDISPDNHUE=0ad
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Dread Spider
+ON=@Create
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-5000
+   STR={196 220}
+   MAXHITS={118 132}
+   DEX={126 145}
+   MAXSTAM={126 145}
+   INT={286 310}
+   MAXMANA={286 310}
+   EVALUATINGINTEL={65.0 80.0}
+   MAGERY={65.0 80.0}
+   MAGICRESISTANCE={45.0 60.0}
+   //POISONING={100.0 125.0}
+   TACTICS={55.0 70.0}
+   WRESTLING={60.0 75.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={20 30}
+   RESFIRE={20 30}
+   RESPOISON=100
+ON=@NpcRestock
+   ITEM=loot_spider_dread
+   //450 - 650 Gold. 8 Spider Silk, Magic Items
+
+[CHARDEF 013]
+//Malefic is a named Dread Spider from the Twisted Weald.
+DEFNAME=c_spider_malefic
+NAME=Malefic
+ICON=i_pet_spider_dread
+SOUND=snd_monster_gispidr1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,22
+ARMOR=60
+//DESIRES=r_dungeon_twisted_weald,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+MOVERATE=200
+TAG.Barding.Diff=126.6
+TAG.DamPoison=80
+TAG.HitPoison=5//Lethal
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Dread Spider (Malefic)
+ON=@Create
+   NPC=brain_monster
+   FAME=21000
+   KARMA=-21000
+   STR={220 225}
+   MAXHITS={655 700}
+   DEX={367 377}
+   MAXSTAM={367 377}
+   INT={286 310}
+   MAXMANA={286 310}
+   EVALUATINGINTEL={106.0 110.0}
+   MAGERY={107.0 110.0}
+   MAGICRESISTANCE={88.0 90.0}
+   MEDITATION={17.0 20.0}
+   //POISONING={100.0 125.0}
+   TACTICS={99.0 101.0}
+   WRESTLING={103.0 105.0}
+   RESCOLD={45 50}
+   RESENERGY={45 50}
+   RESFIRE={45 50}
+   RESPOISON=100
+ON=@NpcRestock
+   ITEM=loot_spider_dread
+ON=@Hit
+   //Dismount Attack
+   IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+      MANA -= 20
+      SRC.DISMOUNT
+      SRC.EMOTE knocked off mount!
+      SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+   ENDIF
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SERV.NEWITEM i_bleed_timer
+      NEW.LINK=<UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+
+
+
+[CHARDEF 01c]
+DEFNAME=c_spider_giant
+NAME=giant spider
+ICON=i_pet_spider_giant
+SOUND=snd_monster_gispidr1
+CAN=MT_WALK|MT_NONHUM
+DAM=7,19
+ARMOR=15
+DESIRES=r_jungle,r_forests,r_caves,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=5 i_reag_spider_silk
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=57.5
+TAG.Control.Slots=1
+TAG.HitPoison=1//Lesser
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Giant Spider
+ON=@Create
+   NPC=brain_monster
+   FAME=600
+   KARMA=-600
+   STR={76 100}
+   MAXHITS={46 60}
+   DEX={76 95}
+   MAXSTAM={76 95}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={25.0 40.0}
+   //POISONING={0.1 25.0}
+   TACTICS={35.0 50.0}
+   TAMING={55.0 65.0}
+   WRESTLING={50.0 65.0}
+   MODAR={0 5}
+   RESCOLD=0
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=loot_spider
+   //25 - 50 Gold. 5 Spiders Silk
+
+[CHARDEF 09d]
+//"Lady Lissith is a named Giant Black Widow from the Twisted Weald.
+// Carries 'Lissith Silk', one of the keys to access Dreadhorn."
+//FIXME: Bleed attack
+DEFNAME=c_lady_lissith
+NAME=Lissith
+ICON=i_pet_spider_dread
+SOUND=snd_monster_gispidr1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,22
+ARMOR=40
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=92.2
+TAG.HitPoison=5//Lethal
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Dread Spider (Lady Lissith)
+ON=@Create
+   NPC=brain_monster
+   FAME=18900
+   KARMA=-18900
+   STR={80 95}
+   MAXHITS={250 260}
+   DEX={126 145}
+   MAXSTAM={115 120}
+   INT={60 75}
+   MAXMANA={60 75}
+   ANATOMY={75.0 90.0}
+   MAGICRESISTANCE={80.0 90.0}
+   //POISONING={110.0 120.0}
+   TACTICS={100.0 115.0}
+   WRESTLING={115.0 125.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={30 40}
+   RESFIRE={30 40}
+   RESPOISON={70 80}
+ON=@NpcRestock
+   ITEM=loot_spider_dread
+
+   
+
+[CHARDEF 02d9]
+//FIXME: Incomplete Stratics data
+DEFNAME=c_mimic
+NAME=mimic
+ICON=i_pet_mimic
+SOUND=snd_monster_mimic
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=13,20
+ARMOR=60
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=111.4
+TAG.DamCold=20
+TAG.DamEnergy=20
+TAG.DamFire=20
+TAG.DamPoison=20
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Mimic
+ON=@Create
+   NPC=brain_monster
+   FAME=7000
+   KARMA=-7000
+   STR={275 300}
+   MAXHITS={525 550}
+   DEX={120 140}
+   MAXSTAM={120 140}
+   INT={250 275}
+   MAXMANA={250 275}
+   EVALUATINGINTEL={95.0 105.0}
+   MAGERY={105.0 110.0}
+   MAGICRESISTANCE={45.0 60.0}
+   MEDITATION={95.0 105.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 5}
+   RESCOLD={35 40}
+   RESENERGY={40 45}
+   RESFIRE={40 45}
+   RESPOISON={35 40}
+ON=@NpcRestock
+   ITEM=loot_mimic
+   //1600 - 1601 Gold. magic items, scrolls, reagents
+
+[CHARDEF 02e0]
+DEFNAME=c_spider_wolf
+NAME=wolf spider
+ICON=i_pet_spider_wolf
+SOUND=snd_monster_gispidr1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,18
+ARMOR=30
+DESIRES=r_caves,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=89.4
+TAG.Control.Slots=2
+TAG.DamPoison=30
+TAG.HitPoison=3//Greater
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Wolf Spider
+ON=@Create
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-5000
+   STR={230 265}
+   MAXHITS={150 200}
+   DEX={145 155}
+   MAXSTAM={145 155}
+   INT={285 310}
+   MAXMANA={285 310}
+   ANATOMY={80.0 90.0}
+   MAGICRESISTANCE={60.0 75.0}
+   //POISONING={65.0 80.0}
+   TACTICS={80.0 100.0}
+   TAMING={55.0 65.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 5}
+   RESCOLD={25 35}
+   RESENERGY={25 35}
+   RESFIRE={20 30}
+   RESPOISON=100
+ON=@NpcRestock
+   ITEM=loot_spider_wolf
+   //Special: Bottle of Ichor, spider carapace
+
+[CHARDEF 02e1]
+DEFNAME=c_spider_trapdoor
+NAME=trapdoor spider
+ICON=i_pet_spider_trapdoor
+SOUND=snd_monster_spider_trapdoor
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,18
+ARMOR=20
+DESIRES=r_caves,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=110
+TAG.Barding.Diff=78.6
+TAG.DamPoison=80
+TAG.Slayer=SLAYER_SPIDER
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Trapdoor Spider
+ON=@Create
+   NPC=brain_monster
+   FAME=2000
+   KARMA=-2000
+   STR={100 115}
+   MAXHITS={125 145}
+   DEX={160 165}
+   MAXSTAM={160 165}
+   INT={25 50}
+   MAXMANA={25 50}
+   ANATOMY={5.0 10.0}
+   HIDING={90.0 100.0}
+   MAGICRESISTANCE={45.0 60.0}
+   //POISONING={70.0 75.0}
+   STEALTH={95.0 100.0}
+   TACTICS={70.0 80.0}
+   WRESTLING={90.0 95.0}
+   MODAR={0 10}
+   RESCOLD={30 35}
+   RESENERGY={90 100}
+   RESFIRE={30 35}
+   RESPOISON={40 45}
+ON=@NpcRestock
+   ITEM=loot_spider_trapdoor
+   //250 - 350 Gold. 8spider silk, 1 - 4magic items
+   //Special: bottle of ichor, spider carapace, tattered scroll. level 2 Treasure Map
+ON=@NPCSeeNewPlayer
+   //Summon pack
+   IF (<FLAGS> & statf_conjured) || (<FLAGS> & statf_pet)
+      RETURN 0
+   ENDIF
+   IF (<MANA> >= 25) && (<TAG0.CURFOLLOWER> < 2)
+      SRC.SYSMESSAGELOC color_text,1112367//"You've been ambushed!"
+      MANA -= 25
+      TAG0.CURFOLLOWER += 2
+      TRYSRV SERV.NEWNPC c_spider_trapdoor
+      NEW.FLAGS |= (statf_war|statf_conjured)
+      NEW.P=<P>
+      NEW.ACTION stealth
+      NEW.f_NPCRemovalTimer 1200
+      TRYSRV SERV.NEWNPC c_spider_trapdoor
+      NEW.FLAGS |= (statf_war|statf_conjured)
+      NEW.P=<P>
+      NEW.ACTION stealth
+      NEW.f_NPCRemovalTimer 1200
+   ENDIF
+ON=@Death
+   IF (<FINDID.i_summon_mem>)
+      REF1=<FINDID.i_summon_mem.LINK.UID>
+      IF (<REF1.ID>==c_raptor)
+         REF1.TAG0.CURFOLLOWER -= 1
+      ENDIF
+   ENDIF
+
+[EOF]

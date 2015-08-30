@@ -1,0 +1,47 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 05-Dec-2009
+VERSION=0.56b
+[SKILL 47]
+DEFNAME=SKILL_STEALTH
+KEY=Stealth
+TITLE=Rogue
+PROMPT_MSG=
+DELAY=2.0
+//ADV_RATE=1.0,1.0,1.0
+
+on=@start
+	if (<hiding> < 80.0)
+		sysmessage @38,,1 Yetersiz hiding.
+		skill fail
+		return 1
+	elseif (<eval (<ac> * 100)> > <eval (<stealth> + 200)>)
+		sysmessage @38,,1 Asiri zirhlisiniz.
+		//sysmessage @,,1 ARmorun <ac> kadar
+		skill fail
+		return 1
+	elseif (<flags>&statf_onhorse)
+		sysmessage @38,,1 Binek uzerinde saklanamazsiniz.
+		skill fail
+		return 1
+	endif
+
+ON=@Fail
+	src.sysmessage Kendinizi gizleyemediniz.
+	
+ON=@success
+        if (<eval (<ac> * 100)> > <eval (<stealth> + 200)>)
+		sysmessage @38,,1 Asiri zirhlisiniz.
+		skill fail
+		return 1
+	elseif (<flags>&statf_onhorse)
+		sysmessage @38,,1 Binek uzerinde saklanamazsiniz.
+		skill fail
+		return 1
+	endif
+
+
+[eof]

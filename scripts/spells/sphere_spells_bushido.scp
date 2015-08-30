@@ -1,0 +1,111 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SPELL 401]
+DEFNAME=s_honorable_execution
+NAME=Honorable Execution
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=0
+SKILLREQ=BUSHIDO 25.0
+INTERRUPT=0.0,0.0
+
+[SPELL 402]
+DEFNAME=s_confidence
+NAME=Confidence
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=10
+SKILLREQ=BUSHIDO 25.0
+INTERRUPT=0.0,0.0
+
+[SPELL 403]
+DEFNAME=s_evasion
+NAME=Evasion
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=10
+SKILLREQ=BUSHIDO 60.0
+INTERRUPT=0.0,0.0
+
+[SPELL 404]
+DEFNAME=s_counter_attack
+NAME=Counter Attack
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=5
+SKILLREQ=BUSHIDO 40.0
+INTERRUPT=0.0,0.0
+
+[SPELL 405]
+DEFNAME=s_lightning_strike
+NAME=Lightning Strike
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=5
+SKILLREQ=BUSHIDO 50.0
+INTERRUPT=0.0,0.0
+
+[SPELL 406]
+DEFNAME=s_momentum_strike
+NAME=Momentum Strike
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=10
+SKILLREQ=BUSHIDO 70.0
+INTERRUPT=0.0,0.0
+
+[eof]

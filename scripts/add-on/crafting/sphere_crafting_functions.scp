@@ -1,0 +1,89 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// pyromapes2k - Base crafting system used in here
+// coruja - Updated to be more OSI compatible
+// ShiryuX - Updated to the scriptpack and tweaked many parts of it
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// OSI Crafting System
+
+[function craftskill]
+if strcmp("<argv[0]>","<ctag.craft.skill>")
+ctag.craft.last
+ctag.craft.page.sidebar
+ctag.craft.sidebar = 01
+endif
+ctag.craft.skill=<argv[0]>
+sdialog d_craft_menu
+
+
+[function craft]
+makeitem <args>
+if rand(100)==1
+actdiff=-10
+else
+actdiff=10
+endif
+//craftsuccesschance <args>
+
+
+//
+
+
+
+[function craftsuccesschance]
+if (<src.<streat <serv.itemdef.<args>.skillmake.1>>> >= <serv.itemdef.<args>.skillmake.1.val>)
+local.r = <eval (<src.<streat <serv.itemdef.<args>.skillmake.1>>> - <serv.itemdef.<args>.skillmake.1.val>) * 4>
+local.r += 100
+endif
+if !(<isitem>)
+	if (<r2000> < <local.r>)
+	actdiff = 10
+	else
+	actdiff = -10
+	endif
+return 1
+else
+	if <local.r> < 0
+	local.r = 0
+	elif <local.r> > 1000
+	local.r = 1000
+	endif
+return <local.r>
+endif
+
+[function craft_exceptionalchance]
+if <src.<serv.skill.<serv.itemdef.<uid>.skillmake.0.key>.name>> < 95.0
+local.r = <eval <craftsuccesschance> - 60>
+else
+local.r = <eval <craftsuccesschance> - 45>
+endif
+if <local.r> < 0
+local.r = 0
+endif
+return <local.r>
+
+[function f_crafting_render_materials]
+xmfhtmlgumpcolor 175 40 370 20 1044011 0 0 <ddef.dcolor_white>
+local.x = 180
+dorigin 180 45
+while !(<isempty <def.<ctag0.craft.skill>_material_<dlocal.n>_name>>)
+dtext +35 *20 0480 <def.<ctag0.craft.skill>_material_<dlocal.n>_name>
+button *0 *0 4005 4007 1 0 <eval 5020 + <local.n>>
+	if <local.n> > 9
+	local.x += 180
+	dorigin <local.x> 45
+	endif
+local.n ++
+endwhile
+
+[eof]

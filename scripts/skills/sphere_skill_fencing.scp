@@ -1,0 +1,29 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 42]
+DEFNAME=Skill_Fencing
+KEY=Fencing
+TITLE=Fencer
+PROMPT_MSG=
+STAT_STR=55
+STAT_INT=60
+STAT_DEX=95
+BONUS_STR=20
+BONUS_DEX=80
+BONUS_INT=0
+BONUS_STATS=10
+//ADV_RATE=10.0,150.0,600.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=0,0,0
+
+on=@start
+//timerd = <eval <f_combatsys_hitspeed> / 2>
+//return 2
+
+[eof]

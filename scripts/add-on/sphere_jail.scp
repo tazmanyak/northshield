@@ -1,0 +1,125 @@
+[dialog d_jailcore]
+150,150
+page 0
+resizepic 0 0 9250 300 225
+dhtmlgump 15 15 269 25 1 0 <def.center><def.big>Staff - Jail Menu<def.bige><def.centere>
+dhtmlgump 17 57 100 25 0 0 Sebep:
+resizepic 60 55 9350 225 55
+dtextentry 65 55 220 55 0 1  
+dhtmlgump 17 122 100 25 0 0 Sure(Dk):
+resizepic 60 120 9350 225 25
+dtextentry 65 120 220 25 0 2  
+dhtmlgump 145 185 110 25 1 0 <def.center><def.big>Onayla<def.bige><def.centere>
+button 255 186 4005 4007 1 0 1
+
+[dialog d_jailcore button]
+on=0
+sys_error Iptal ettiniz.
+return 1
+
+on=1
+targetf f_jail_targ <strarg <argtxt[2]>> <argtxt[1]>
+
+[function f_jail_targ]
+if !<argo.isplayer>
+sys_error Bu bir oyuncu degil.
+return 1
+endif
+if <argo.uid> == <uid>
+sys_error Kendini jaile atamassin LoL.
+return 1
+endif
+serv.newitem i_jail_timer
+new.timer 60*<strarg <args>>
+new.tag0.reason = <streat <args>>
+SERV.WRITEFILE2 C:\North_Player_Log_Arsivi\Jailed\<argo.account.name>.txt <serv.rtime> - Ceza veren | <src.name> | - Ceza Alan | <argo.name> | - Sure : <strarg <args>> saat - Sebep | <streat <args>> | 
+argo.equip <new.uid>
+argo.sys_error Kurallara uymadiginiz icin Jail cezasi aldiniz.
+if !<argo.tag0.jailed>
+	argo.tag.jailed 1
+else
+	argo.tag.jailed ++
+endif
+argo.tag.jaile_sebep <streat <args>>
+return 1
+
+[function sicil]
+src.sys_error Siciline bakmak istediğin oyuncuyu seçiniz.
+targetf f_sicil
+
+[function f_sicil]
+src.sys_normal  <argo.name> ,<eval <argo.tag.jailed>> defa jail cezası almış.
+src.sys_normal  Son atılma sebebi : <argo.tag.jaile_sebep>
+
+[itemdef i_jail_timer]
+name Jail ITEM
+id=i_memory
+type=t_eq_script
+
+on=@equip
+src.go jail
+src.trigger @Jailed,tat_as_argn,1
+src.events +e_jailed
+
+on=@timer
+cont.sys_normal Cezaniz sona ermistir.
+cont.events -e_jailed
+//cont.go <def.scp.JailSystem_GoUnjailed>
+remove
+return 1
+
+[function f_forgive]
+argo.findid.i_jail_timer.remove
+argo.events -e_jailed
+argo.update
+
+[events e_jailed]
+on=@click
+if !<findid.i_jail_timer.timer>
+	findid.i_jail_timer.remove
+	events -e_jailed
+	sys_normal Cezaniz bitmistir.
+else
+	message @38 Jailed
+	message @,,1 Sebeb | <FINDID.i_jail_timer.TAG0.reason> | Sure |<FTIME <FINDID.i_jail_timer.TIMER>> |
+	return 1
+endif
+
+on=@login
+if <findid.i_jail_timer.timer> <= 0
+	src.findid.i_jail_timer.remove
+	src.events -e_jailed
+	src.sys_normal Cezaniz bitmistir.
+endif
+
+On=@DClick
+//resendtooltip
+
+
+On=@SkillPreStart
+ACTION = -1
+return 1
+
+On=@SkillWait
+return 1
+
+On=@SkillSelect
+ACTION = -1
+return 1
+
+On=@Attack
+return 1
+
+On=@Hunger
+return 1
+
+On=@Hit
+return 1
+
+On=@HitTry
+return 1
+
+On=@GetHit
+return 1
+
+[eof]

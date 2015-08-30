@@ -1,0 +1,178 @@
+//sdfdfgkdfg
+[function f_deny_for_store]
+	if (0)
+	elseif (<isjewelrydrow>)
+		return 0
+	else
+		return 0
+	endif
+	return 1
+
+[typedef t_storage_crate]
+on=@click
+	message a <name>
+	return 1
+on=@dclick
+	dialog d_storage_crate
+	return 1
+on=@targon_char
+	src.message this is not a jail. cant store live creatures.
+	target
+	return 1
+on=@targon_item
+	if (<src.targ.topobj.uid> != <src.uid>)
+		src.sysmessage "You must have this item in your inventory"
+	elseif (<src.targ.type> == t_container)
+		src.sysmessage "You can not store containers"
+	elseif (<src.targ.value> < 1 )
+		src.sysmessage "You can not store that"
+	elseif (<isempty <src.targ.resources>>)
+		src.sysmessage "You can not store that"
+	elseif <src.targ.cont.uid> != <src.findlayer.layer_pack.uid>
+		src.sysmessage "This item already in other container"
+	elseif <src.targ.attr> & ( attr_static | attr_move_never )
+		src.sysmessage "You can not store items of that type"
+	elseif <src.targ.f_deny_for_store>
+		src.sysmessage "You cant store that types of item"
+	else
+		//store
+		local.item			=<src.targ.baseid>
+		local.amount		=<src.rescount <src.targ.baseid>>
+		//local.value		=<eval ( <src.targ.value> * 85 ) / 100 >
+		local.value		=<eval ( <src.targ.value> * 50 ) / 100 >
+		if (<isempty <tag.item>>)
+			tag.item		=<local.item>
+			tag.value		=<local.value>
+			tag.dispiddec	=<src.targ.dispiddec>
+		else
+			if (<tag.item> != <local.item>)
+				src.sysmessage "Only one item per storage. use another empty crate for this item"
+				return 1
+			endif
+		endif
+		if (<eval <local.amount> + <tag0.amount>> > <tag0.capacity>)
+			local.amount=<eval <tag0.capacity> - <tag0.amount> >
+		endif
+		if (<local.amount> > 0)
+			src.consume <eval <local.amount>> <local.item>
+			tag0.amount += <local.amount>
+			src.sysmessage "You fill storage with <eval <local.amount>> <src.targ.name>s"
+		else
+			src.sysmessage "Storage is full of that items"
+		endif
+	endif
+	return 1
+on=@targon_ground
+	return 1
+
+[DIALOG d_storage_crate]
+250, 200
+PAGE 0
+	gumppic 0 0 68
+
+	dorigin 20 0
+		dhtmlgump +2 +2 150 20 0 0 <def.bfont> color="#181010"<def.r1><def.small><def.center><name>
+		dhtmlgump *0 *0 150 20 0 0 <def.bfont> color="#CEAD7B"<def.r1><def.small><def.center><name>
+		
+		IF <IsEmpty <tag.item>>
+		ELSE
+			IF <SRC.CANMAKE <tag.item>>
+			ENDIF
+
+			IF (<isNum <eval <tag0.dispiddec>>>) && (<tag0.dispiddec> > 0)
+				dorigin 30 30
+					local.amount=<tag0.amount>
+					IF <local.amount> > 10
+						local.amount=10
+					ENDIF
+					for i 1 <local.amount>
+						tilepic +<eval 0 + rand(0,50)> +<eval 0 + rand(0,50)> <eval <tag0.dispiddec>>
+					endfor
+			ENDIF
+			dorigin 20 0
+				dhtmlgump *0 *15 150 20 0 0 <def.bfont> color="#EFD69C"<def.r1><def.center><eval <tag0.amount>> <SERV.ITEMDEF.<tag.item>.NAME>s
+				dhtmlgump *0 *12 150 20 0 0 <def.bfont> color="#cccc00"<def.r1><def.small><def.center>(total value: <eval <tag0.amount> * <tag0.value>> gp)
+		ENDIF
+
+	dorigin 50 103
+		button *0 *0 2103 2104 1 0 10	///put
+			dhtmlgump +20 -5 120 20 0 0 <def.bfont> color="#F7E7AD"<def.r1><def.small>fill storage
+//		button *0 *12 2103 2104 1 0 20	///get 1
+//			dhtmlgump +20 -5 120 20 0 0 <def.bfont> color="#F7E7AD"<def.r1><def.small>get 1 item
+//		button *0 *12 2103 2104 1 0 30	///get 10
+//			dhtmlgump +20 -5 120 20 0 0 <def.bfont> color="#F7E7AD"<def.r1><def.small>get 10 items
+
+
+[DIALOG d_storage_crate TEXT]
+[DIALOG d_storage_crate BUTTON]
+ON = 0
+ON = 10
+	TARGET Please choose item for storage
+	RETURN 1
+
+ON = 20
+	f_storage_crate_get 1
+
+ON = 30
+	f_storage_crate_get 10
+
+[function f_storage_crate_get]
+	local.get=<argn1>
+	while <local.get> > 0
+		IF <tag0.amount> > 0
+			serv.newitem <tag.item>
+			new.bounce
+			tag0.amount -= 1
+			local.get -= 1
+		ELSE
+			local.get=
+		ENDIF
+	endwhile
+	IF <tag0.amount> < 1
+		SRC.SYSMESSAGE Storage is empty.
+		tag.item		=
+		tag.value		=
+		tag.dispiddec	=
+		tag.amount		=
+	ENDIF
+
+//////////items
+
+
+[ITEMDEF i_storage_crate_small]
+id=i_crate_small
+name=small storage crate
+WEIGHT=3
+VALUE=300
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+RESOURCES=16 i_log
+tag.capacity=100
+TYPE=t_container
+TEVENTS=t_storage_crate
+
+on=@Create
+	ATTR=attr_magic
+
+CATEGORY=#_misc
+SUBSECTION=Special
+DESCRIPTION=storage crate (small)
+
+[ITEMDEF i_storage_crate_large]
+id=i_crate_lg
+name=large storage crate
+WEIGHT=10
+VALUE=900
+SKILLMAKE=CARPENTRY 100.0, t_carpentry
+RESOURCES=32 i_log
+tag.capacity=300
+TYPE=t_container
+TEVENTS=t_storage_crate
+
+on=@Create
+	ATTR=attr_magic
+
+CATEGORY=#_misc
+SUBSECTION=Special
+DESCRIPTION=storage crate (large)
+
+[eof]

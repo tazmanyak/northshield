@@ -1,0 +1,728 @@
+
+[REGIONRESOURCE mr_nothing]
+// there is nothing here
+REAP=i_unused
+REGEN=60*60
+
+
+///////////////////////////////////////////////////////////////
+//////// T_SAND DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_sand. Normally, sand.
+[REGIONRESOURCE mr_sand]
+// t_sand
+skill=85.0,120.0
+amount=9,30
+reapamount=4,6
+reap=i_sand
+regen=60*60*2
+
+
+///////////////////////////////////////////////////////////////
+//////// T_WATER DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_water. Normally, fish.
+[REGIONRESOURCE mr_fish1]
+// fishing default
+// t_water
+skill=1.0,100.0
+amount=9,30
+REAP=i_fish_big_1
+//REGEN=60*60
+REGEN=60*15
+
+ON=@RESOURCEFOUND
+	call f_water_mob_spawn
+
+[REGIONRESOURCE mr_fish2]
+// fishing default
+// t_water
+skill=1.0,100.0
+REAP=i_fish_big_2
+amount=9,30
+//REGEN=60*60
+REGEN=60*15
+
+ON=@RESOURCEFOUND
+	call f_water_mob_spawn
+
+[REGIONRESOURCE mr_fish3]
+// fishing default
+// t_water
+skill=1.0,100.0
+amount=9,30
+REAP=i_fish_big_3
+//REGEN=60*60
+REGEN=60*15
+
+ON=@RESOURCEFOUND
+	call f_water_mob_spawn
+
+[REGIONRESOURCE mr_fish4]
+// fishing default
+// t_water
+skill=1.0,100.0
+amount=9,30
+REAP=i_fish_big_4
+//REGEN=60*60
+REGEN=60*15
+
+ON=@RESOURCEFOUND
+	call f_water_mob_spawn
+
+[REGIONRESOURCE mr_footwear]
+SKILL=1.0,75.0
+AMOUNT=1
+REAP=random_footwear
+//REGEN=60*60
+REGEN=60*15
+
+[REGIONRESOURCE mr_fish_highly_peculiar]
+SKILL=1.0,100.0
+AMOUNT=1,2
+REAP=i_highly_peculiar_fish
+//REGEN=60*60
+REGEN=60*15
+
+[REGIONRESOURCE mr_fish_prized]
+SKILL=1.0,100.0
+AMOUNT=1,2
+REAP=i_prized_fish
+//REGEN=60*60
+REGEN=60*15
+
+[REGIONRESOURCE mr_fish_wondrous]
+SKILL=1.0,100.0
+AMOUNT=1,2
+REAP=i_wondrous_fish
+//REGEN=60*60
+REGEN=60*15
+
+[REGIONRESOURCE mr_fish_truly_rare]
+SKILL=1.0,100.0
+AMOUNT=1,2
+REAP=i_truly_rare_fish
+//REGEN=60*60
+REGEN=60*15
+
+[REGIONRESOURCE mr_sos_bottle]
+SKILL=99.8,100.0
+AMOUNT=1,1
+REAP=i_sos_bottle
+//REGEN=60*60
+REGEN=60*15
+
+[REGIONRESOURCE mr_kil_Tasi]
+SKILL=99.8,100.0
+AMOUNT=1,1
+REAP=i_kil_tasi
+//REGEN=60*60
+REGEN=60*15
+
+
+
+
+///////////////////////////////////////////////////////////////
+//////// T_TREE DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_tree. Normally, logs.
+[REGIONRESOURCE mr_tree]
+// t_tree
+skill=1.0,80.0
+amount=10,30
+REAP=i_log
+REGEN=60*60
+
+ON=@RESOURCEFOUND
+	call f_tree_mob_spawn
+	
+[REGIONRESOURCE mr_oak]
+// t_tree
+skill=65.0,90.0
+amount=2,5
+REAP=i_log_oak
+REGEN=60*60
+
+on=@ResourceFound
+//src.tag.skillgain_north 44
+//src.f_skillgain_north 
+
+[REGIONRESOURCE mr_ash]
+// t_tree
+skill=80.0,105.0
+amount=2,5
+REAP=i_log_ash
+REGEN=60*60
+
+on=@ResourceFound
+//src.tag.skillgain_north 44
+//src.f_skillgain_north 
+
+[REGIONRESOURCE mr_yew]
+// t_tree
+skill=95.0,120.0
+amount=2,5
+REAP=i_log_yew
+REGEN=60*60
+
+on=@ResourceFound
+//src.tag.skillgain_north 44
+//src.f_skillgain_north 
+
+[REGIONRESOURCE mr_heartwood]
+// t_tree
+skill=100.0,120.0
+amount=2,5
+REAP=i_log_heartwood
+REGEN=60*60
+
+ON=@RESOURCEFOUND
+	call f_tree_mob_spawn
+
+[REGIONRESOURCE mr_plant_seed]
+SKILL=99.8,100.0
+AMOUNT=1,1
+REAP=i_seed_plain
+//REGEN=60*60
+REGEN=15
+
+ON=@RESOURCEFOUND
+	call f_tree_mob_spawn
+
+[REGIONRESOURCE mr_bloodwood]
+// t_tree
+skill=99.0,99.9
+amount=2,5
+REAP=i_log_bloodwood
+REGEN=60*60
+
+ON=@RESOURCEFOUND
+	call f_tree_mob_spawn
+
+
+[REGIONRESOURCE mr_frostwood]
+// t_tree
+skill=99.0,99.9
+amount=2,5
+REAP=i_log_frostwood
+REGEN=60*60
+
+ON=@RESOURCEFOUND
+	call f_tree_mob_spawn
+
+[REGIONRESOURCE mr_bark_fragment]
+// t_tree
+skill=100.0,120.0
+amount=1,2
+REAP=i_ingredient_diseased_bark
+REGEN=60*60
+
+
+
+
+///////////////////////////////////////////////////////////////
+//////// T_GRASS DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_grass. Grass for animals?
+[REGIONRESOURCE mr_grass]
+// grazing animals
+// t_grass
+AMOUNT=9,30
+REGEN=60*60
+REAP=i_hay_sheaf
+
+
+///////////////////////////////////////////////////////////////
+//////// T_ROCK (OSI) DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_rock. OSI-Like.
+[REGIONRESOURCE mr_iron]
+// t_rock
+skill=0.1,50.0
+amount=8,11
+REAP=i_ore_iron
+REGEN=60*15//REGEN=60*60
+
+
+[REGIONRESOURCE mr_dull_copper]
+// t_rock
+skill=65.0,66.0
+amount=4,7
+REAP=i_ore_dull_copper
+REGEN=60*15//REGEN=60*60
+
+
+
+[REGIONRESOURCE mr_shadow]
+// t_rock
+skill=70.0,75.0
+amount=4,7
+REAP=i_ore_shadow
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+	
+		
+[REGIONRESOURCE mr_copper]
+// t_rock
+skill=75.0,80.0
+amount=4,7
+REAP=i_ore_copper
+REGEN=60*15//REGEN=60*60
+
+
+
+[REGIONRESOURCE mr_bronze]
+// t_rock
+skill=80.0,85.0
+amount=4,7
+REAP=i_ore_bronze
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+
+[REGIONRESOURCE mr_gold]
+// t_rock
+skill=75.0,80.0
+amount=4,7
+REAP=i_ore_gold
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+
+[REGIONRESOURCE mr_agapite]
+// t_rock
+skill=70.0,75.0
+amount=4,7
+REAP=i_ore_agapite
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+
+[REGIONRESOURCE mr_verite]
+// t_rock
+skill=95.0,100.0
+amount=3,5
+REAP=i_ore_verite
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn 
+
+
+[REGIONRESOURCE mr_valorite]
+// t_rock
+skill=95.0,100.0
+amount=3,5
+REAP=i_ore_valorite
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn 
+
+
+///////////////////////////////////////////////////////////////
+//////// T_ROCK (SPHERE) DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_rock. Sphere Backwards Comp.
+[REGIONRESOURCE mr_old_copper]
+// this is really just a variety of copper. copper makes terrible armor
+// t_rock
+skill=1.0,30.0
+amount=1,3
+REAP=i_ore_old_copper
+REGEN=60*60*10
+
+on=@ResourceFound
+//src.tag.skillgain_north 45
+//src.f_skillgain_north  
+
+[REGIONRESOURCE mr_rusty]
+// t_rock - Iron gets rusty. It's not smeltable !
+skill=1.0,30.0
+amount=4,7
+REAP=i_ore_rusty
+REGEN=60*60
+
+on=@ResourceFound
+//src.tag.skillgain_north 45
+//src.f_skillgain_north 
+
+[REGIONRESOURCE mr_rose]
+// t_rock
+skill=30.0,60.0
+amount=4,7
+REAP=i_ore_rose
+REGEN=60*60*10
+
+on=@ResourceFound
+//src.tag.skillgain_north 45
+//src.f_skillgain_north 
+
+[REGIONRESOURCE mr_bloodrock]
+// t_rock
+skill=99.0,100.0
+amount=1,3
+REAP=i_ore_bloodrock
+REGEN=60*15//REGEN=60*60
+
+
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+	
+if (rand(25)==1)
+	serv.newitem i_granite_ore_new
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+endif
+
+
+
+if (rand(4)==1)
+	serv.newitem i_stone_normal
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(6)==1)
+	serv.newitem i_stone_gold
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(8)==1)
+	serv.newitem i_stone_shadow
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(10)==1)
+	serv.newitem i_stone_verite
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(12)==1)
+	serv.newitem i_stone_valorite
+	new.timer 300
+	new.attr |= attr_decay
+	new.p <argo.p>
+	return 1
+endif
+
+
+
+[REGIONRESOURCE mr_silver]
+// t_rock
+skill=30.0,60.0
+amount=2,5
+REAP=i_ore_silver
+REGEN=60*60*10
+
+
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+if (rand(25)==1)
+	serv.newitem i_granite_ore_new
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+endif
+
+
+
+if (rand(4)==1)
+	serv.newitem i_stone_normal
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(6)==1)
+	serv.newitem i_stone_gold
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(8)==1)
+	serv.newitem i_stone_shadow
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(10)==1)
+	serv.newitem i_stone_verite
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(12)==1)
+	serv.newitem i_stone_valorite
+	new.timer 300
+	new.attr |= attr_decay
+	new.p <argo.p>
+	return 1
+endif
+
+[REGIONRESOURCE mr_mytheril]
+// t_rock
+skill=95.0,100.0
+amount=2,5
+REAP=i_ore_mytheril
+REGEN=60*15//REGEN=60*60
+
+on=@ResourceFound
+//src.tag.skillgain_north 45
+//src.f_skillgain_north 
+
+[REGIONRESOURCE mr_blackrock]
+// t_rock
+skill=99.0,100.0
+amount=1,3
+REAP=i_ore_blackrock
+REGEN=60*15//REGEN=60*60
+
+ON=@RESOURCEFOUND
+	ref1=<argo>
+	local.more1=<ref1.more1>
+	local.mob= <strsub 3 4 <local.more1>>
+	local.mob= c_elemental_ore_<local.mob>
+	call f_earth_mob_spawn
+	
+if (rand(25)==1)
+	serv.newitem i_granite_ore_new
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+endif
+
+
+
+if (rand(4)==1)
+	serv.newitem i_stone_normal
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(6)==1)
+	serv.newitem i_stone_gold
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(8)==1)
+	serv.newitem i_stone_shadow
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(10)==1)
+	serv.newitem i_stone_verite
+	new.attr |= attr_decay
+	new.timer 300
+	new.p <argo.p>
+	return 1
+endif
+
+if (rand(12)==1)
+	serv.newitem i_stone_valorite
+	new.timer 300
+	new.attr |= attr_decay
+	new.p <argo.p>
+	return 1
+endif
+
+
+//if (rand(15)==1)
+//	serv.newitem i_kil_tasi
+//	new.p <argo.p>
+//endif
+
+///////////////////////////////////////////////////////////////
+//////// T_ROCK (GEMS) DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_rock. Gems and that stuff.
+[REGIONRESOURCE mr_diamond]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_diamond
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_ruby]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_ruby
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_citrine]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_citrine
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_Emerald]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_Emerald
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_Star_Sapphire]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_Star_Sapphire
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_Sapphire]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_Sapphire
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_Amethyst]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_Amethyst
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_Tourmaline]
+// t_rock
+skill=60.0,110.0
+amount=1,4
+REAP=i_gem_Tourmaline
+REGEN=60*60*10
+
+///////////////////////////////////////////////////////////////
+//////// T_ROCK (OSI) DISTRIBUTION
+///////////////////////////////////////////////////////////////
+// These are generally used in t_rock. OSI-Like.
+[REGIONRESOURCE mr_iron_granit]
+// t_rock
+skill=0.1,50.0
+amount=1,5
+REAP=i_granite
+REGEN=60*60
+
+[REGIONRESOURCE mr_dull_copper_granit]
+// t_rock
+skill=65.0,90.0
+amount=1,5
+REAP=i_granite_dull_copper
+REGEN=60*60
+
+[REGIONRESOURCE mr_shadow_granit]
+// t_rock
+skill=70.0,95.0
+amount=1,5
+REAP=i_granite_shadow
+REGEN=60*60
+
+[REGIONRESOURCE mr_copper_granit]
+// t_rock
+skill=75.0,100.0
+amount=1,5
+REAP=i_granite_copper
+REGEN=60*60
+
+[REGIONRESOURCE mr_bronze_granit]
+// t_rock
+skill=80.0,105.0
+amount=1,5
+REAP=i_granite_bronze
+REGEN=60*60
+
+[REGIONRESOURCE mr_gold_granit]
+// t_rock
+skill=85.0,110.0
+amount=1,5
+REAP=i_granite_gold
+REGEN=60*60*10
+
+[REGIONRESOURCE mr_agapite_granit]
+// t_rock
+skill=90.0,115.0
+amount=1,5
+REAP=i_granite_agapite
+REGEN=60*60
+
+[REGIONRESOURCE mr_verite_granit]
+// t_rock
+skill=95.0,120.0
+amount=1,5
+REAP=i_granite_verite
+REGEN=60*60
+
+[REGIONRESOURCE mr_valorite_granit]
+// t_rock
+skill=99.0,120.0
+amount=1,5
+REAP=i_granite_valorite
+REGEN=60*60
+
+[eof]

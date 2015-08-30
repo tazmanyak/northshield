@@ -1,0 +1,273 @@
+////////////////////////////////////Dull copper 	//060a
+[ITEMDEF i_pickaxe_dull]
+ID=i_pickaxe
+NAME=dull copper pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 50.0, t_tinker_tools
+RESOURCES=4 i_ingot_dull_copper
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=060a
+HITPOINTS=30
+tag0.saglamlik 30
+
+////////////////////////////////////copper	//0641
+
+[ITEMDEF i_pickaxe_copper]
+ID=i_pickaxe
+NAME=copper pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 60.0, t_tinker_tools
+RESOURCES=4 i_ingot_copper
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=0641
+HITPOINTS=40
+tag0.saglamlik 40
+	
+////////////////////////////////////Bronze	//06d6
+[ITEMDEF i_pickaxe_bronze]
+ID=i_pickaxe
+NAME=bronze pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 70.0, t_tinker_tools
+RESOURCES=4 i_ingot_bronze
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=06d6
+HITPOINTS=50
+tag0.saglamlik 50
+////////////////////////////////////Gold	//045e
+[ITEMDEF i_pickaxe_gold]
+ID=i_pickaxe
+NAME=gold pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 75.0, t_tinker_tools
+RESOURCES=4 i_ingot_gold
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=045e
+HITPOINTS=60
+tag0.saglamlik 60
+////////////////////////////////////Shadow	//0770
+[ITEMDEF i_pickaxe_shadow]
+ID=i_pickaxe
+NAME=shadow pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 80.0, t_tinker_tools
+RESOURCES=4 i_ingot_shadow
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=0770
+HITPOINTS=75
+tag0.saglamlik 75
+////////////////////////////////////Agapite	//03e9
+[ITEMDEF i_pickaxe_agapite]
+ID=i_pickaxe
+NAME=agapite pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 50.0, t_tinker_tools
+RESOURCES=4 i_ingot_agapite
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=0979
+HITPOINTS=70
+tag0.saglamlik 70
+
+////////////////////////////////////Mytheril	//051f
+[ITEMDEF i_pickaxe_mytheril]
+ID=i_pickaxe
+NAME=mytheril pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 90.0, t_tinker_tools
+RESOURCES=4 i_ingot_mytheril
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=051f
+HITPOINTS=90
+tag0.saglamlik 90
+
+////////////////////////////////////Verite	//07d1
+[ITEMDEF i_pickaxe_verite]
+ID=i_pickaxe
+NAME=verite pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 85.0, t_tinker_tools
+RESOURCES=4 i_ingot_verite
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=07d1
+HITPOINTS=80
+tag0.saglamlik 80
+
+////////////////////////////////////Valorite	//0515
+[ITEMDEF i_pickaxe_valorite]
+ID=i_pickaxe
+NAME=valorite pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 85.0, t_tinker_tools
+RESOURCES=4 i_ingot_valorite
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=0515
+HITPOINTS=85
+tag0.saglamlik 85
+////////////////////////////////////Bloodrock	//04c2
+[ITEMDEF i_pickaxe_bloodrock]
+ID=i_pickaxe
+NAME=bloodrock pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 99.0, t_tinker_tools
+RESOURCES=4 i_ingot_bloodrock
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=04c2
+HITPOINTS=100
+tag0.saglamlik 100
+////////////////////////////////////Blackrock	//0455
+
+[ITEMDEF i_pickaxe_blackrock]
+ID=i_pickaxe
+NAME=blackrock pickaxe
+TYPE=T_WEAPON_MACE_PICK
+SKILL=Fencing
+FLIP=1
+DAM=13,15
+SPEED=3.0
+REQSTR=50
+TWOHANDS=N
+WEIGHT=11
+TEVENTS=t_iprop
+SKILLMAKE=TINKERING 99.0, t_tinker_tools
+RESOURCES=4 i_ingot_blackrock
+DUPELIST=0e86
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Pickaxes
+DESCRIPTION=Pickaxe
+
+ON=@Create
+color=0455
+HITPOINTS=100
+tag0.saglamlik 100
+
+[EOF]

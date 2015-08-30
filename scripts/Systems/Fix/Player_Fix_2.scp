@@ -1,0 +1,192 @@
+
+[function isim_fix]
+if !<isinfamily> //|| (<src.tag.evlendi> == 0)
+	local.ilkharf <strsub 0 1 <name>>
+	name <strtolower <name>>
+	local.gerisi <strsub 1 15 <name>>
+
+	for harf 1 26
+	if strmatch(<local.ilkharf>,<def.kucukharf_<dlocal.harf>>)
+		local.yeniilkharf <def.buyukharf_<dlocal.harf>>
+		name <local.yeniilkharf><local.gerisi>
+		name <strarg <name>>
+	endif
+	endfor
+endif
+
+[defname alfabem]
+kucukharf_1 a
+kucukharf_2 b
+kucukharf_3 c
+kucukharf_4 d
+kucukharf_5 e
+kucukharf_6 f
+kucukharf_7 g
+kucukharf_8 h
+kucukharf_9 i
+kucukharf_10 j
+kucukharf_11 k
+kucukharf_12 l
+kucukharf_13 m
+kucukharf_14 n
+kucukharf_15 o
+kucukharf_16 p
+kucukharf_17 r
+kucukharf_18 s
+kucukharf_19 t
+kucukharf_20 u
+kucukharf_21 v
+kucukharf_22 y
+kucukharf_23 z
+kucukharf_24 w
+kucukharf_25 x
+kucukharf_26 q
+
+buyukharf_1 A
+buyukharf_2 B
+buyukharf_3 C
+buyukharf_4 D
+buyukharf_5 E
+buyukharf_6 F
+buyukharf_7 G
+buyukharf_8 H
+buyukharf_9 I
+buyukharf_10 J
+buyukharf_11 K
+buyukharf_12 L
+buyukharf_13 M
+buyukharf_14 N
+buyukharf_15 O
+buyukharf_16 P
+buyukharf_17 R
+buyukharf_18 S
+buyukharf_19 T
+buyukharf_20 U
+buyukharf_21 V
+buyukharf_22 Y
+buyukharf_23 Z
+buyukharf_24 W
+buyukharf_25 X
+buyukharf_26 Q
+
+
+
+
+[FUNCTION Spellfreeze]
+src.findid.i_spellfreeze.remove
+var.m <act.uid>
+newitem i_spellfreeze
+act.more1 <args>
+act.equip
+act <var.m>
+
+
+
+[itemdef i_spellfreeze]
+name=magery freeze
+type=t_eq_script
+layer=layer_special
+
+On=@Equip
+cont.flags <cont.flags>|04 
+if (<more1>)
+	timer <more1>
+endif
+src.findlayer(1).unequip
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+remove
+return 1
+
+
+[FUNCTION smy]
+sysmessage @0713,,1 <args>
+
+[FUNCTION sms]
+sysmessage @0713,,1 <args>
+
+[FUNCTION smg]
+sysmessage @0713,,1 <args>
+
+[FUNCTION smx]
+sysmessage @0713,,1 <args>
+
+[FUNCTION smsgx]
+sysmessage @0713,,1 <args>
+
+[function hata]
+sysmessage @38,,1,1,1 <args>
+
+
+[FUNCTION lynx]
+VAR.OLDACT <ACT>
+VAR.BLAH=<P> 
+NEWITEM=i_colored_speech 
+ACT.P=5190 1150 
+VAR.OLD_FLAGS=<ACT.REGION.FLAGS> 
+VAR.OLD_EVENTS=<REGION.EVENTS> 
+ACT.REGION.FLAGS=<REGION.FLAGS> 
+ACT.CONT=<UID> 
+REGION.EVENTS -0  
+P=5190 1150 
+ACT.CONT=<UID>
+TAG.SUA_COLOR=00481
+ACT.SAYUA <EVAL <TAG.SUA_COLOR>>,0,0,1 <ARGS> 
+P=<VAR.BLAH> 
+REGION.EVENTS <VAR.OLD_EVENTS> 
+ACT.P=5190 1150 
+ACT.REGION.FLAGS=<VAR.OLD_FLAGS> 
+ACT.REMOVE 
+ACT <VAR.OLDACT> 
+TAG.SUA_COLOR= 
+
+[ITEMDEF i_colored_speech]
+Name=~
+Id=i_memory
+Type=t_eq_script
+ 
+ON=@Timer
+remove
+
+[function dene]
+src.smy Bu Smy
+src.smx Bu Smx
+src.smg Bu Smg
+src.sms Bu Sms
+
+[function olumsuz]
+sayua 38,6,0,enu <args>
+
+[function olumlu]
+sayua 68,6,0,enu <args>
+
+[function dx]
+src.sysmessage @0713,,1 <args>
+
+[function staffgel]
+var.p <p>
+serv.allclients s_gel
+
+[function s_gel]
+IF (<ACCOUNT.PLEVEL> < 2)
+	RETURN 1
+ENDIF
+go <var.p>
+
+[plevel 2]
+sphere
+
+[function server_uptime]
+return <eval <eval <eval <serv.timeup>/3600>/24>> gun <eval <eval <serv.timeup>/3600>-<eval <eval <eval <serv.timeup>/3600>/24>*24>> saat <eval <eval <serv.timeup>-<eval <eval <serv.timeup>/3600>*3600>>/60> dk. <eval <eval <serv.timeup>>-<eval <eval <serv.timeup>/60>*60>> saniyedir calismakta.
+
+[function sphere]
+src.s <eval <eval <eval <serv.timeup>/3600>/24>> gun <eval <eval <serv.timeup>/3600>-<eval <eval <eval <serv.timeup>/3600>/24>*24>> saat <eval <eval <serv.timeup>-<eval <eval <serv.timeup>/3600>*3600>>/60> dk. <eval <eval <serv.timeup>>-<eval <eval <serv.timeup>/60>*60>> saniyedir calismakta.
+src.writefile2 logs\ServerRuntime.txt <strsub 11 8 <serv.rtime>> Sphere; <eval <eval <eval <serv.timeup>/3600>/24>+3> gun <eval <eval <serv.timeup>/3600>-<eval <eval <eval <serv.timeup>/3600>/24>*24>> saat <eval <eval <serv.timeup>-<eval <eval <serv.timeup>/3600>*3600>>/60> dk.<var.ebe>/font<var.ebesi>  //<eval <eval <serv.timeup>>-<eval <eval <serv.timeup>/60>*60>> saniyedir calismakta.
+return 1
+
+[EOF]

@@ -1,0 +1,116 @@
+[CHARDEF c_h_noble]
+DEFNAME=C_H_NOBLE
+NAME=#NAMES_HUMANMALE the Noble
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff,e_carnivores3
+
+TSPEECH=spk_human_prime
+TSPEECH=jobNoble
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Villagers
+DESCRIPTION=Noble (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={31 45}
+	DEX={41 55}
+	INT={51 65}
+
+	FENCING={15.0 38.0}
+	PARRYING={25.0 48.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={25.0 48.0}
+	TACTICS={25.0 48.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_all
+	ITEM=i_pants_long
+	COLOR=colors_all
+	ITEM=i_cape
+	COLOR=colors_all
+	ITEM=i_SASH
+	COLOR=colors_all
+	ITEM=random_boots
+	ITEM=i_sword_long
+	ITEM=backpack_loaded
+
+
+[CHARDEF c_h_noble_f]
+DEFNAME=C_H_NOBLE_F
+NAME=#NAMES_HUMANFEMALE the Noble
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff,e_carnivores3
+
+TSPEECH=spk_human_prime
+TSPEECH=jobNoble
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Villagers
+DESCRIPTION=Noble (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={31 45}
+	DEX={0 0}
+	INT={51 65}
+
+	FENCING={15.0 38.0}
+	PARRYING={25.0 48.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={25.0 48.0}
+	TACTICS={25.0 48.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_dress_full
+	COLOR=colors_neutral
+	ITEM=i_cape
+	COLOR=colors_all
+	ITEM=i_SASH
+	COLOR=colors_all
+	ITEM=random_boots
+	ITEM=i_sword_long
+	ITEM=backpack_loaded
+
+[EOF]

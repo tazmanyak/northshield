@@ -1,0 +1,259 @@
+﻿[EVENTS e_champion]
+ON=@DeathCorpse
+local.oldnew=<new>
+serv.newitem=i_gold_champion
+new.p=<p>
+new.timer=1
+FOR 3
+//serv.newitem=i_osi_treasure_map
+//new.tag.level=5
+//	IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+//	NEW.TAG.LEVEL=6
+//	ENDIF
+//new.cont=<argo.uid>
+//ENDFOR
+//new=<local.oldnew>
+
+on=@click
+message @0790,4 ( Boss )
+message @,,1 <name>
+return 1
+
+ON=@Death
+//serv.newitem i_egg_ostard
+//new.p <p>
+
+if <r5> == 1
+serv.newnpc c_random_mustang
+else
+serv.newnpc c_shire
+//endif
+NEW.HOME=<P>
+NEW.HOMEDIST=5
+//new.karma -1500
+
+//serv.newitem i_power_scroll
+//new.p <p>
+
+//serv.newitem i_power_scroll
+//new.p <p>
+
+//serv.newitem i_LBRTICKET,200
+//new.p <p>
+
+duyurx The Champion, <name>, <region.name>'de öldürülmüştür. Shire Spawn oldu.
+REF1=<TAG0.CHAMPIONIDOL>
+REF1.TAG.CHAMPIONUP=
+REF1.TIMERF CLEAR
+REF1.REGION.LIGHT=1
+//REF1.REGION.FLAGS &= ~<HVAL <DEF.region_antimagic_teleport>|<DEF.region_antimagic_recall_out>|<DEF.region_antimagic_gate>|<DEF.region_flag_nodecay>>
+LIST.ChampionPowerScroll.ADD=0
+LIST.ReceivedPowerScroll.ADD=0
+IF (<ATTACKER>)
+	FOR 0 <EVAL <ATTACKER>-1>
+		IF (<ATTACKER.<dLOCAL._FOR>.DAM>)
+		REF2=<ATTACKER.<dLOCAL._FOR>>
+			IF (<REF2.FLAGS>&STATF_PET)
+			REF2=<REF2.OWNER>
+			ENDIF
+			IF (<LIST.ChampionPowerScroll.FINDELEM <REF2>> == -1) && (<REF2.ISPLAYER>)
+			LIST.ChampionPowerScroll.ADD=<REF2>
+			ENDIF
+		ENDIF
+	ENDFOR
+	IF (<LIST.ChampionPowerScroll.COUNT> > 1)
+	LIST.ChampionPowerScroll.0.REMOVE
+	LOCAL.TOTALPOWERSCROLLSTOBEGIVEN=<LIST.ChampionPowerScroll.COUNT>
+		IF (<LOCAL.TOTALPOWERSCROLLSTOBEGIVEN> > 6)
+		LOCAL.TOTALPOWERSCROLLSTOBEGIVEN=6
+		ENDIF
+		WHILE (<EVAL <LIST.ReceivedPowerScroll.COUNT>-1> < <LOCAL.TOTALPOWERSCROLLSTOBEGIVEN>)
+		REF2=<LIST.ChampionPowerScroll.<R<LIST.ChampionPowerScroll.COUNT>>>
+			IF (<LIST.ReceivedPowerScroll.FINDELEM <REF2>> == -1)
+				IF (<MAP> == 0)
+				LOCAL.OLDNEW=<NEW>
+				SERV.NEWITEM=i_gold
+					IF (!(<REF2.FLAGS>&STATF_DEAD))
+					REF2.BOUNCE <NEW>
+					ELSE
+					NEW.P=<REF2.P>
+					NEW.UPDATE
+					ENDIF
+				NEW=<LOCAL.OLDNEW>
+				REF2.TRIGGER @ReceivePowerScroll
+				REF2.SYSMESSAGELOC -1,1049524
+				ENDIF
+				IF (75 > <R100>)
+				//REF2.RANDMAGICITEMGREAT
+				ELSE
+				//REF2.RANDMAGICITEM
+				ENDIF
+				IF ((<FLOATVAL 0.35> > <RANDOMDOUBLE>) && (!(<LOCAL.GAVEREWARD>)))
+				LOCAL.OLDNEW=<NEW>
+				//SERV.NEWITEM <DEF.champ_<REF1.TAG0.MONSTERGROUP>_REWARD>
+				//REF2.BOUNCE <NEW>
+				LOCAL.GAVEREWARD=1
+				NEW=<LOCAL.OLDNEW>
+				ENDIF
+				IF (<FLOATVAL 0.075> > <RANDOMDOUBLE>)
+				LOCAL.OLDNEW=<NEW>
+				//SERV.NEWITEM <HVAL <DEF.MINORARTIS>>
+				//REF2.BOUNCE <NEW>
+				//NEW=<LOCAL.OLDNEW>
+				ENDIF
+				IF (<FLOATVAL 0.02> > <RANDOMDOUBLE>)
+				LOCAL.OLDNEW=<NEW>
+				SERV.NEWITEM <HVAL <DEF.RANDOM_ML_SETS_DROP_LIST>>
+				//REF2.BOUNCE <NEW>
+				NEW=<LOCAL.OLDNEW>
+				ENDIF
+				IF (<BASEID> != c_meraktus)
+				TRY REF2.TAG0.CHAMPION.<BASEID>=<EVAL <REF2.TAG0.CHAMPION.<BASEID>>+1>
+					IF (!(<REF2.FINDID.i_champion_title_<BASEID>>))
+					SERV.NEWITEM=i_champion_title_<BASEID>,1,<REF2.UID>
+					NEW.TIMER=<EVAL 60*60*24*3>
+					ELIF (<REF2.FINDID.i_champion_title_<BASEID>>)
+					TRY REF2.FINDID.i_champion_title_<BASEID>.TIMER=<EVAL 60*60*24*3>
+					ENDIF
+				ENDIF
+			LIST.ReceivedPowerScroll.ADD <REF2.UID>
+			ENDIF
+		ENDWHILE
+	ENDIF
+	IF (<MAP> == 0) && (<TAG0.CHAMPIONSKULL.COLOR>)
+	REF3=<ATTACKER.MAX>
+	//SERV.NEWITEM i_champion_skull
+	//NEW.NAME=Skull of <F_CHAMPIONSKULL_NAME>
+	//NEW.COLOR=<TAG0.CHAMPIONSKULL.COLOR>
+        //serv.newitem i_skillgain_scroll2
+        //REF3.BOUNCE <NEW>
+	ENDIF
+ENDIF
+LIST.ChampionPowerScroll.CLEAR
+LIST.ReceivedPowerScroll.CLEAR
+IF (<REF1.UID>)
+REF1.TAG.ACTIVE
+REF1.MORE1=0
+REF1.MOREX=0
+REF1.TIMER <EVAL 60*20*10>
+	//IF !(<MAP>)
+	//SERV.NEWITEM i_moongate_blue
+	//NEW.TAG.ALWAYSSEND=1
+	//NEW.P=<REF1.P>
+	//NEW.MOREP=5146,1759
+	//NEW.COLOR=038b
+	//NEW.TIMER 60*10
+	//NEW.ATTR=ATTR_MOVE_NEVER|ATTR_DECAY|ATTR_CAN_DECAY
+	//NEW.FIX
+	//ENDIF
+REF1.TAG.IDLE=1
+REF1.TIMER 1
+REF1.F_REMOVEALLMINIONS
+REF1.F_SET_PENTAGRAM_COLOR 55
+ENDIF
+FOR 4
+NEWLOOT i_gold
+ENDFOR
+FOR 10
+//RANDMAGICITEMGREAT
+ENDFOR
+IF (<FLOATVAL 0.005> > <RANDOMDOUBLE>)
+NEWLOOT=i_gold
+ENDIF
+
+
+
+
+
+
+/////////Gold Champion////
+
+[itemdef i_gold_champion]
+NAME=champion gold
+ID=i_worldgem_bit
+TYPE=t_script
+
+ON=@create
+color=084d
+attr=attr_invis|attr_move_never|attr_decay
+
+on=@timer
+if (!(<tag0.zombie.uid>))
+serv.newnpc=c_zombie
+new.removefromview
+new.name=gold spawn checker
+new.npc=brain_human
+new.flags=<DEF.statf_invisible>|<DEF.statf_insubstantial>|<DEF.statf_stone>
+new.karma=10000
+tag.zombie.uid=<new.uid>
+endif
+REF1=<tag0.zombie.uid>
+serv.newitem=i_gold
+//new.amount=<R1000,3000>
+new.amount=<R45000,65000>
+new.attr |= <DEF.attr_invis>
+new.p=<p>
+new.attr=attr_decay|attr_can_decay
+new.timer=100
+new.move <r10>,<r10>
+new.fix
+REF1.FLAGS=<DEF.statf_invisible>|<DEF.statf_insubstantial>|<DEF.statf_stone>
+REF1.p=<new.p>
+REF1.fix
+WHILE (<REF1.ISSTUCK>) && (<LOCAL._WHILE> < 400) //try 400 times to find a good spot
+new.p=<p>
+new.move <r10>,<r10>
+new.fix
+REF1.FLAGS=<DEF.statf_invisible>|<DEF.statf_insubstantial>
+REF1.p=<new.p>
+REF1.fix
+ENDWHILE
+new.attr &= ~<DEF.attr_invis>
+tag0.goldamount += <new.amount>
+IF (<tag0.goldamount> >= <def.champion_goldprize>)
+REF1.REMOVE
+REMOVE
+ELSE
+timerd 5
+ENDIF
+return 1
+
+////////////////////////
+
+[FUNCTION F_CHAMPIONSKULL_NAME]
+IF (STRMATCH(*Semidar*,<NAME>))
+RETURN Pain
+ELIF (STRMATCH(*Barracoon*,<NAME>))
+RETURN Greed
+ELIF (STRMATCH(*Lord Oaks*,<NAME>))
+RETURN Enlightenment
+ELIF (STRMATCH(*Mephitis*,<NAME>))
+RETURN Venom
+ELIF (STRMATCH(*Rikktor*,<NAME>))
+RETURN Power
+ELIF (STRMATCH(*Neira*,<NAME>))
+RETURN Death
+ENDIF
+RETURN That is bugged OMFGLOL
+
+[ITEMDEF i_champion_skull]
+ID=i_bone_skull
+NAME=Champion Skull
+TAG.NOVENDOR=1
+
+ON=@Create
+ATTR=ATTR_CURSED
+COLOR=03a0
+
+on=@dclick
+
+//src.newitem i_egg_ostard_olgun
+//src.act.bounce
+
+//src.newitem i_egg_ostard_olgun
+//src.act.bounce
+
+remove
+return 1
+
+[EOF]

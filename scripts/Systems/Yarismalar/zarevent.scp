@@ -1,0 +1,27 @@
+[events e_zar]
+on=@click
+src.message @466,1 [Zar Turnuvasi]
+src.message @0803 <name>
+return 1
+
+on=@skillstart
+sysmessage @07a1,1,1 Bu alanda olmaz, <src.name>!
+f_fizzle
+return 1
+
+on=@gethit
+return 1
+
+on=@spellcast
+return 1
+
+on=@hit
+return 1
+
+on=@hittry
+return 1
+
+on=@attack
+return 1
+
+[EOF]

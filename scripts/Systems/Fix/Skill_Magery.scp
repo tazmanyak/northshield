@@ -1,0 +1,856 @@
+[function spell_say]
+//sayua 0835,6,0,enu <args>
+if (0< <src.account.plevel> < 2)
+	if (<isevent.e_ibranice_acik>)
+		say @0481,8 <strtoupper <args>>
+	return 1
+else
+	sayua 0835,6,0,enu <args>
+	return 1
+endif
+
+//if <src.account.plevel> < 2
+//	if <isevent.e_ibranice_acik>
+//		say @0481,8 <strtoupper <args>>
+//		return 1
+//	elseif <isevent.e_vampir_elder>
+//		if ( strmatch('<args>','Rel Por') )
+//		else
+//		say @32,4 <args>
+//		endif
+//		return 1
+//	else
+//		sayua 0835,6,0,enu <args> //sayua diyince sphere version atiyor return yoksa sacmaliga gel..
+//		return 1
+//	endif
+//endif
+
+// ----------------------------
+// MAGERY.SCP - MAGERY VE FREEZETIME SISTEMi
+//
+// ----------------------------
+
+//------------------
+// freezetime - eq items
+//------------------
+
+[function f_fizzle] // fizzle func.
+effect 3,i_fx_smoke_small,3,40,1
+sound 92
+
+if (<mana> > 8)
+	mana -=4
+else
+	mana = 1
+endif
+
+if (<findid.i_magerylvl>)
+	findid.i_magerylvl.remove
+endif
+
+if (<findid.i_evallvl>)
+	findid.i_evallvl.remove
+endif
+
+if (<findid.i_poisonlvl>)
+	findid.i_poisonlvl.remove
+endif
+sdsil
+
+
+
+[itemdef i_magerylvl]
+name=magery gain
+id=i_memory
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 6
+	
+On=@Timer
+if (<cont.int> < 60)
+	if (rand(15) == 1)
+		cont.int (<cont.int> + 1)
+	endif
+elseif (<cont.int> < 100)
+	if (rand(25) == 1)
+		cont.int (<cont.int> + 1)
+	endif
+endif
+
+// Level 1
+if (<more1> == 1)
+	if (rand(1) == 1) //3
+		cont.magery (<cont.magery> + 1)
+	endif
+// Level 2
+elseif (<more1> == 2)
+	if (rand(2) == 1) //8
+		cont.magery (<cont.magery> + 1)
+	endif
+// Level 3
+elseif (<more1> == 3) 
+	if (rand(2) == 1) //10
+		cont.magery (<cont.magery> + 1)
+	endif
+// Level 4
+elseif (<more1> == 4) 
+	if (rand(2) == 1) //15
+		cont.magery (<cont.magery> + 1)
+	endif
+// Level 5
+elseif (<more1> == 5) 
+	if (rand(2) == 1) //20
+		cont.magery (<cont.magery> + 1)
+	endif
+// Level 6
+elseif (<more1> == 6)
+	if (rand(2) == 1) //25
+		cont.magery (<cont.magery> + 1)
+	endif
+	
+// Level 7
+elseif (<more1> == 7)
+	if (rand(2) == 1) //30
+		cont.magery (<cont.magery> + 1)
+	endif
+// Level 8
+elseif (<more1> == 8)
+	if (rand(4) == 1) //35
+		cont.magery (<cont.magery> + 1)
+	endif
+endif
+attr attr_decay
+remove
+return 1
+
+[itemdef i_evallvl]
+name=eval intel gain
+id=i_memory
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 6
+	
+On=@Timer
+// Level 1
+if (<more1> == 1)
+	if (rand(2) == 1)
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 2
+elseif (<more1> == 2)
+	if (rand(3) == 1) //3
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 3
+elseif (<more1> == 3)
+	if (rand(3) == 1) //8
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 4
+elseif (<more1> == 4)
+	if (rand(3) == 1) //10
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 5
+elseif (<more1> == 5)
+	if (rand(3) == 1) //15
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 6
+elseif (<more1> == 6)
+	if (rand(3) == 1) //20
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 7
+elseif (<more1> == 7)
+	if (rand(15) == 1) //25
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+// Level 8
+elseif (<more1> == 8)
+	if (rand(16) == 1) //30
+		cont.evaluatingintel (<cont.evaluatingintel> + 1)
+	endif
+endif
+attr attr_decay
+remove
+return 1
+
+[itemdef i_poisonlvl]
+name=poison gain
+id=i_memory
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 3
+	
+On=@Timer
+
+cont.skillgain_poison
+
+attr attr_decay
+remove
+return 1
+
+[comment poi]
+if (<more1> == 1)
+
+elseif (<more1> == 2)
+	cont.poisoning (<cont.poisoning> + 2)
+elseif (<more1> == 3)
+	cont.poisoning (<cont.poisoning> + 3)
+elseif (<more1> == 4)
+	cont.poisoning (<cont.poisoning> + 4)
+elseif (<more1> == 5)
+	cont.poisoning (<cont.poisoning> + 5)
+elseif (<more1> == 6)
+	cont.poisoning (<cont.poisoning> + 6)
+elseif (<more1> == 7)
+	cont.poisoning (<cont.poisoning> + 7)
+elseif (<more1> == 8)
+	cont.poisoning (<cont.poisoning> + 8)
+endif
+
+[itemdef i_spdelay_woman]
+name=magery delay (woman)
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.body c_woman_nomove
+if (<more1>)
+	timer <more1>
+endif
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+	cont.body c_woman
+	cont.obody c_woman
+endif
+
+On=@Timer
+remove
+return 1
+
+[itemdef i_spdelay_poly]
+name=magery delay poly
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+cont.flags <cont.flags>|04
+if (<more1>)
+	timer <more1>
+endif
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+remove
+return 1
+
+[itemdef i_spdelay_man]
+name=magery delay (man)
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.body c_man_nomove
+if (<more1>)
+	timer <more1>
+endif
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+	cont.body c_man
+	cont.obody c_man
+endif
+
+On=@Timer
+remove
+return 1
+
+//------------------
+// freeze body's
+//------------------
+
+[chardef c_man_nomove] 
+id c_man 
+can mt_usehands // newly added
+foodtype 15 t_food, t_fruit
+
+On=@GetHit 
+body c_man
+obody c_man
+
+[chardef c_woman_nomove] 
+id c_woman 
+can mt_usehands|mt_female
+foodtype 15 t_food, t_fruit
+
+On=@GetHit 
+body c_woman
+obody c_woman
+
+//------------------
+// freezetime control functionz
+//------------------
+
+
+//------------------
+// magery control functionz
+//------------------
+
+// Level 1
+[function mg1]
+if (<magery> < 30.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 1
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 30.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 1
+	act.equip
+	act <local.m2>
+endif
+
+// Level 2
+[function mg2]
+if (<magery> < 40.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 2
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 40.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 2
+	act.equip
+	act <local.m2>
+endif
+
+// Level 3
+[function mg3]
+if (<magery> < 50.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 3
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 50.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 3
+	act.equip
+	act <local.m2>
+endif
+
+// Level 4
+[function mg4]
+if (<magery> < 60.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 4
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 60.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 4
+	act.equip
+	act <local.m2>
+endif
+
+// Level 5
+[function mg5]
+if (<magery> < 70.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 5
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 70.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 5
+	act.equip
+	act <local.m2>
+endif
+
+// Level 6
+[function mg6]
+if (<magery> < 80.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 6
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 80.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 6
+	act.equip
+	act <local.m2>
+endif
+
+// Level 7
+[function mg7]
+if (<magery> < 90.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 7
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 90.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 7
+	act.equip
+	act <local.m2>
+endif
+
+// Level 8
+[function mg8]
+if (<magery> < 100.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 8
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 100.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 8
+	act.equip
+	act <local.m2>
+endif
+
+//------------------
+// poison functionz
+//------------------
+
+[function psg]
+if (<magery> < 50.0) && ((<skilllock[25]> == 0) && (<skilltotal> < 700.0))
+	findid.i_magerylvl.remove
+	local.m2 <act.uid>	
+	newitem i_magerylvl
+	act.more1 3
+	act.equip
+	act <local.m2>
+endif
+
+if (<evaluatingintel> < 50.0) && ((<skilllock[16]> == 0) && (<skilltotal> < 700.0))
+	findid.i_evallvl.remove
+	local.m2 <act.uid>	
+	newitem i_evallvl
+	act.more1 3
+	act.equip
+	act <local.m2>
+endif
+
+//
+//if (<poisoning> < <src.tag0.override.skillcap_16>) && ((<skilllock[30]> == 0) && (<skilltotal> < 700.0))
+//	findid.i_poisonlvl.remove
+//	local.m2 <act.uid>	
+//	newitem i_poisonlvl
+//endif
+//else
+if ((<skilllock[30]> == 0) && (<skilltotal> < 700.0))
+if (<src.tag0.override.skillcap_16> > 100.0)
+if (<poisoning> < <src.tag0.override.skillcap_16>)
+
+
+	findid.i_poisonlvl.remove
+	local.m2 <act.uid>	
+	newitem i_poisonlvl
+	act.equip
+	act <local.m2>
+endif
+else
+if (<poisoning> < 100.1)
+	findid.i_poisonlvl.remove
+	local.m2 <act.uid>	
+	newitem i_poisonlvl
+	act.equip
+	act <local.m2>
+endif
+endif
+
+//------------------
+// breakspell functionz
+//------------------
+
+// Circle 1
+[function breakspell1]
+f_fizzle
+
+// Circle 2
+[function breakspell2]
+f_fizzle
+if (<src.mana> > 20)
+	src.mana (<src.mana> - {8 10})
+else
+	src.mana 0
+endif
+
+// Circle 3
+[function breakspell3]
+f_fizzle
+if (<src.mana> > 25)
+	src.mana (<mana> - {10 15})
+else
+	src.mana 0
+endif
+
+// Circle 4
+[function breakspell4]
+f_fizzle
+if (<src.mana> > 30)
+	src.mana (<src.mana> - {15 20})
+else
+	src.mana 0
+endif
+
+// Circle 5
+[function breakspell5]
+f_fizzle
+if (<src.mana> > 35)
+	src.mana (<src.mana> - {20 55})
+else
+	src.mana 0
+endif
+
+// Circle 6
+[function breakspell6]
+f_fizzle
+if (<src.mana> > 40)
+	src.mana (<src.mana> - {25 30})
+else
+	src.mana 0
+endif
+
+// Circle 7
+[function breakspell7]
+f_fizzle
+if (<src.mana> > 45)
+	src.mana (<src.mana> - {30 40})
+else
+	src.mana 0
+endif
+
+// Circle 8
+[function breakspell8]
+f_fizzle
+if (<src.mana> > 50)
+	src.mana (<src.mana> - {40 50})
+else
+	src.mana 0
+endif
+
+//------------------
+// spell: explosion
+//------------------
+
+[itemdef i_spelleffect_explosion]
+name=[explosion spelleffect]
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+cont.sayu explosion
+timer 2
+
+On=@Timer
+cont.effect 3,i_fx_explode,6,15,1
+cont.sfx snd_spell_explosion
+
+if (<cont.hitpoints> > 32)
+	cont.hits=(<cont.hits> - {25 30})
+	cont.damage 1
+else
+	cont.hits=0
+endif
+
+attr attr_decay
+remove
+return 1
+
+//------------------
+// spell: polymorph
+//------------------
+
+[function plym]
+if (<findid.i_pre_morph>)
+	findid.i_pre_morph.remove
+	f_fizzle
+endif
+
+if !(<findid.i_morpher>)
+	newitem i_pre_morph
+	act.more <args>
+	act.equip
+	newitem i_morpher
+	act.more <body>
+	act.equip
+else
+	findid.i_morpher.timer {285 320}
+	newitem i_pre_morph
+	act.more <args>
+	act.equip
+endif
+
+[itemdef i_pre_morph]
+name=[casting polymorph]
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer 4
+cont.spell_say Vas Ylem Rel
+cont.anim 17
+cont.sd 3
+cont.events +e_breakpoly
+
+On=@UnEquip
+cont.events -e_breakpoly
+cont.consume 1 i_reag_spider_silk
+cont.consume 1 i_reag_blood_moss
+cont.consume 1 i_reag_mandrake_root
+cont.consume 1 i_reag_sulfur_ash
+
+On=@Timer
+attr attr_decay
+if (<cont.mana> < 40)
+	cont.f_fizzle
+else
+	cont.mana (<cont.mana> - 40)
+	cont.sfx snd_spell_polymorph
+	cont.body <more>
+	cont.update
+endif
+remove
+return 1
+
+[itemdef i_morpher]
+name=Polymorph
+id=i_rune_polymorph
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer {285 320}
+cont.events +e_poly
+
+On=@UnEquip
+cont.events -e_poly
+cont.body <more>
+cont.update
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+[events e_poly]
+On=@Death
+findid.i_morpher.remove
+
+
+[events e_breakpoly]
+On=@SpellCast
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+On=@GetHit
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+On=@Hit
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+On=@Death
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+
+On=@SkillStart
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+[itemdef i_spdelay_unisex] // unicornlarla seks anlaminda
+name=magery delay (unisex)
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+cont.flags <cont.flags>|04 // paralarim lan adami uniseksmi$
+if (<more1>)
+	timer <more1>
+endif
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+remove
+return 1
+
+//------------------
+// freezetime control functionz
+//------------------
+
+[function SdSil]
+timerf clear
+speedmode 0
+
+[function sd]
+speedmode 4
+timerf <argn>,speedmode 0
+
+
+[EOF]
+
+if !((<findid.i_spdelay_man>) || (<findid.i_spdelay_woman>) || (<findid.i_spdelay_unisex>))
+	if (<body> == c_man)
+		local.m <act.uid>
+		newitem i_spdelay_man
+		act.more1 <args>
+		act.equip
+		act <local.m>
+	elseif (<body> == c_woman)
+		local.m <act.uid>
+		newitem i_spdelay_woman
+		act.more1 <args>
+		act.equip
+		act <local.m>
+	elseif (<body> == c_elf_male)
+		local.m <act.uid>
+		newitem i_spdelay_man
+		act.more1 <args>
+		act.equip
+		act <local.m>
+	elseif (<body> == c_elf_female)
+		local.m <act.uid>
+		newitem i_spdelay_woman
+		act.more1 <args>
+		act.equip
+		act <local.m>
+
+	else
+		local.m <act.uid>
+		newitem i_spdelay_unisex
+		act.more1 <args>
+		act.equip
+		act <local.m>
+	endif
+elseif (<body> == c_man)
+
+	if (<findid.i_spdelay_man.timer> < <argn>)
+		findid.i_spdelay_man.timer <args>
+	endif
+
+elseif (<body> == c_elf_male)
+
+	if (<findid.i_spdelay_man.timer> < <argn>)
+		findid.i_spdelay_man.timer <args>
+	endif
+
+elseif (<body> == c_elf_female)
+
+	if (<findid.i_spdelay_man.timer> < <argn>)
+		findid.i_spdelay_man.timer <args>
+	endif
+
+elseif (<body> == c_woman)
+
+	if (<findid.i_spdelay_woman.timer> < <argn>)
+		findid.i_spdelay_woman.timer <args>
+	endif
+else
+	if (<findid.i_spdelay_unisex.timer> < <argn>)
+		findid.i_spdelay_unisex.timer <args>
+	endif
+endif
+
+
+
+if (<findid.i_spdelay_man>)
+	findid.i_spdelay_man.remove //timer 1
+elseif (<findid.i_spdelay_woman>)
+	findid.i_spdelay_woman.remove //timer 1
+endif

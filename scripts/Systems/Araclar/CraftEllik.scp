@@ -1,0 +1,35 @@
+﻿[itemdef i_craft_gloves]
+name Usta Eldiveni
+id i_leather_gloves
+type t_normal
+
+
+on=@create
+attr 04
+color 0995
+
+on=@click
+message @33,,1 <name>
+return 1
+
+on=@dclick
+src.sysmessage @,,1 Ustunuze surukleyiniz.
+return 1
+
+
+on=@equip
+src.BLACKSMITHING +=10.0
+src.MINING +=10.0
+src.CARPENTRY +=10.0
+src.TINKERING +=10.0
+src.TAILORING +=10.0
+
+
+on=@unequip
+src.BLACKSMITHING -=10.0
+src.MINING -=10.0
+src.CARPENTRY -=10.0
+src.TINKERING -=10.0
+src.TAILORING -=10.0
+
+[EOF]

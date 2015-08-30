@@ -1,0 +1,117 @@
+[DIALOG d_help_menu]
+50,50
+resizepic 50 25 2600 540 430
+//gumppictiled 50 25 410 540 0a40
+checkertrans  50 25 540 430
+gumppic 540 100 12 1002
+gumppic 540 100 0c544
+gumppic 540 100 0c5c4 36
+gumppic 540 100 0ee3b <eval 0480>
+page 0
+dhtmlgump 247 50 260 20 0 0 <def.bfont_white>North Shield Yardım Menüsü
+//button 425 415 2073 2072 1 0 0 // Close
+button 125 50 2445 2445 1 0 9
+dhtmlgump 130 52 260 20 0 0 <def.bfont_lgreen> ONLINE : <eval <serv.clients>+<dvar.botsayisi>>
+button 425 50 2445 2445 1 0 10
+dhtmlgump 438 52 260 20 0 0 <def.bfont_lgreen>TNS STATUS
+button 125 415 2445 2445 1 0 11 // stuck
+dhtmlgump 142 417 260 20 0 0 <def.bfont_lgreen>STUCK ÇEK
+button 425 415 2445 2445 1 0 12 // stuck
+dhtmlgump 442 417 260 20 0 0 <def.bfont_lgreen>KOMUTLAR
+page 1
+xmfhtmlgump 110 90 450 74 1001003 1 1 // <U>General question about Ultima Online</U>: Select this option if you are having difficulties learning to use a skill, if you have a general gameplay question, or you would like to search the UO Knowledge Base.
+xmfhtmlgump 110 170 450 74 1001004 1 1 // <u>My character is physically stuck in the game.</u> This choice only covers cases where your character is physically stuck in a location they cannot move out of. This option will only work two times in 24 hours.
+xmfhtmlgump 110 250 450 74 1001005 1 1 // <u>Another player is harassing me.</u> Another player is verbally harassing your character. When you select this option you will be sending a text log to Origin Systems. To see what constitutes harassment please visit http://support.uo.com/gm_9.html.
+xmfhtmlgump 110 330 450 74 1001006 1 1 // <u>Other.</u> If you are experiencing a problem in the game that does not fall into one of the other categories or is not addressed on the Support web page (located at http://support.uo.com), please use this option.
+button 80 90 5540 5541 1 0 1 // General
+button 80 170 5540 5541 1 0 2 // Stuck
+button 80 250 5540 5541 0 3 0 // Harrasing
+button 80 330 5540 5541 0 2 0 // Other
+
+page 2
+xmfhtmlgump 110 90 450 74 1001009 1 1 // <U>Report a bug</U>: Use this option to launch your web browser submit a bug report. Your report will be read by our Quality Assurance staff. We apologize for not being able to reply to individual bug reports.
+xmfhtmlgump 110 170 450 74 1001010 1 1 // <U>Contact a Counselor</U>: A Counselor is an experienced Ultima Online player who has volunteered their time to help answer general gameplay questions. Selecting this option will let you send a message to a Counselor. Please remember that Counselors are volunteers and may not be available at all times so please be patient and remember to check the website for additional help.;Original
+xmfhtmlgump 110 250 450 74 1074795 1 1 // <U>Suggestion for the Game</U>: If you'd like to make a suggestion for the game it should be directed to the Development Team Members who participate in the discussion forums. Choosing this option will take you to the discussion forums.
+xmfhtmlgump 110 330 450 74 1001006 1 1 // <u>Other.</u> If you are experiencing a problem in the game that does not fall into one of the other categories or is not addressed on the Support web page (located at http://support.uo.com), please use this option.
+button 80 90 5540 5541 1 0 3 // Bug
+button 80 170 5540 5541 1 0 4 // Counselor
+button 80 250 5540 5541 1 0 5 // Suggestion
+button 80 330 5540 5541 1 0 6 // Other
+
+page 3
+xmfhtmlgump 110 90 450 145 1062572 1 1 // Verbal Harassment
+xmfhtmlgump 110 240 450 145 1062573 1 1 // Physical Harassment
+xmfhtmlgump 180 390 335 40 1001015 0 0 // Wrong section
+button 80 90 5540 5541 1 0 7 // Verbal
+button 80 240 5540 5541 1 0 8 // Physical
+button 150 390 5540 5541 0 1 0 // Wrong section
+
+[DIALOG d_help_menu BUTTON]
+ON=0
+sysmessage @035,,1 Yardım menüsü kapatıldı.
+return 1
+on=9
+src.online
+
+on=12
+src.oyuncu
+
+on=10
+src.dialog d_mysql_statistics
+
+on=11
+if <src.tag.suanquestte>	
+	src.sysmessage @,,1 Quest yaparken kullanamazsiniz.
+	return 1
+endif
+
+if strmatch(*Doom*,<src.region.name>)
+	src.sys_error Bu bolgede stuck kullanamazsiniz.
+	return 1
+endif
+IF (<src.MEMORYFINDTYPE.memory_fight>)
+src.sysmessage @69,1,1 Savas Halindeyken bu menuyu kullanamassiniz.
+return 1
+endif
+
+if ((<src.flags>&statf_stone))
+	Smg Su anda stuck sistemini kullanamazsiniz.
+elseif <src.findid.i_stuck>
+	src.sysmessage @,,1 Tekrar kullanim sureniz dolmamistir.
+	return 1
+elseif (<findid.i_stuck.timer> < 0) || (<findid.i_stuck.timer> == 0)
+	findid.i_stuck.remove
+	src.dialog d_helpstuck
+elseif <isevent.e_nouse>
+	sysmessage @,,1 Ticaret yaparken bu imkansiz.
+	return 1
+elseif (<findid.i_stuck>)
+	Smg Stuck sistemini suan kullanamazsiniz.
+else
+dialog d_helpstuck
+endif
+
+
+ON=1 8
+if !<onlinestaff>
+	src.sys_error Suan yetkili bulunmamaktadir.Foruma sorununuzu belirtmeniz daha dogru olacaktir.
+	src.weblink forum.tns.gen.tr
+	return 1
+endif
+doswitch <argn>
+local.blank
+local.reason = General
+local.reason = Stuck
+local.reason = Bug
+local.reason = Counselor
+local.reason = Suggestion
+local.reason = Other
+local.reason = Verbal_Harassment
+local.reason = Physical_Harassment
+enddo
+ctag0.page.reason = <local.reason>
+sdialog d_page_request
+return 1
+
+
+[eof]

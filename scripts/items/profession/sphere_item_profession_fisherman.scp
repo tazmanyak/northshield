@@ -1,0 +1,24 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0dbf]
+//Fishing Pole
+DEFNAME=i_fishing_pole
+TYPE=T_FISH_POLE
+SKILLMAKE=CARPENTRY 68.4, TAILORING 40.0, t_carpentry
+RESOURCES=5 i_log, 5 i_cloth
+WEIGHT=2
+DUPELIST=0dc0
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Fishing Pole
+
+[ITEMDEF 0dc0]
+DUPEITEM=0dbf
+
+[eof]

@@ -1,0 +1,210 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// - Target needs to be evil (red) in both cases
+// - Pets, Players and Vendors can't be provoked
+// tag0.noprovoke =  The npc cannot be provoked by any means.
+// tag0.noprovoke.1 = cannot be first target (the attacker)
+// tag0.noprovoke.2 = cannot be second target (who receive the attack)
+
+[SKILL 22]
+DEFNAME=SKILL_PROVOCATION
+KEY=Provocation
+TITLE=Bard
+PROMPT_MSG=@,,2 501587
+DELAY=3.0
+STAT_STR=20
+STAT_INT=60
+STAT_DEX=70
+BONUS_STR=0
+BONUS_DEX=90
+BONUS_INT=10
+BONUS_STATS=5
+//ADV_RATE=0,0,0
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+
+on=@wait
+if <def.scp.BardingSystem> == 1
+	if <def.scp.NewBarding_Provocation> == 1
+	f_onbarding_start 22
+	f_skill_delay <getargv 0 <def.skill.22.waittime>>
+	return 1
+	endif
+endif
+
+on=@select
+if (<FLAGS>&statf_invisible) //|| (<findid.i_rune_invisibility>
+	src.sys_error Görünmez iken kullanamazsınız.
+	return 1
+endif
+if strmatch(*Doom Gauntlet*,<region.name>)
+	src.sysmessage @,,1 Bu alanda provocation yeteneğinizi kullanamazsınız.
+	return 1
+endif
+if strmatch("Craft Koyu","<region.name>")
+	src.sysmessage @,,1 Bu alanda provocation yeteneğinizi kullanamazsınız.
+	return 1
+endif
+
+if <src.region.guarded>
+	src.sysmessage @,,1 Guard zonede bu yetenegi kullanamazsiniz.
+	return 1
+endif
+//f_skill_delay <getargv 0 <def.skill.22.waittime>>
+f_start_provocation
+return 1
+
+on=@success
+//f_skill_delay <getargv 1 <def.skill.22.waittime>>
+
+on=@fail
+//f_skill_delay <getargv 2 <def.skill.22.waittime>>
+
+
+[function f_start_provocation]
+
+if <Musicianship> < 100.0
+	sysmessage @33,,1 Musicianship yeteneginizin 100.0 olmasi gerekmektedir.
+	return 1
+elif !<findtype.t_musical>
+	sysmessage @33,,1 Cantanizda muzik aleti olmasi gerekmektedir.
+	return 1
+endif
+
+sysmessage @69,,1 Hangi npcyi kiskirtmak istiyorsunuz ?
+targetf f_start_provocation_birinci <argo>
+
+
+[function f_start_provocation_birinci]
+if <findid.i_rune_invisibility>
+	findid.i_rune_invisibility.remove
+endif
+if (<argo.hits> == 0)
+	src.sys_error Adam olmus daha nasil provoke etmeyi dusunuyorsunuz :)
+	return 1
+endif
+if strmatch("Craft Koyu","<argo.region.name>")
+	src.sysmessage @,,1 Bu alanda provocation yeteneğinizi kullanamazsınız.
+	return 1
+endif
+if <argo.memoryfindtype.memory_ipet.uid>
+	sysmessage @33,,1 Bu npc evcillestirilmis.
+	return 1
+elif (<argo.isplayer>)  
+	sysmessage @33,,1 Malesef insanlari kiskirtamazsiniz.
+	return 1
+elif <argo.isitem>
+	sys_error Cansiz varliklarin neyini sakinlestireceksiniz ?
+	return 1
+endif
+
+if (<PROVOCATION> < 50.0)
+	if <argo.hits> > 100
+	sysmessage @33,,1 Hedefi kiskirtacak kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<PROVOCATION> < 60.0)
+	if <argo.hits> > 150
+	sysmessage @33,,1 Hedefi kiskirtacak kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<PROVOCATION> < 70.0)
+	if <argo.hits> > 200
+	sysmessage @33,,1 Hedefi kiskirtacak kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<PROVOCATION> < 80.0)
+	if <argo.hits> > 250
+	sysmessage @33,,1 Hedefi kiskirtacak kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<PROVOCATION> < 90.0)
+	if <argo.hits> > 300
+	sysmessage @33,,1 Hedefi kiskirtacak kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<PROVOCATION> < 100.0)
+	if <argo.hits> > 350
+	sysmessage @33,,1 Hedefi kiskirtacak kadar yetenekli degilsiniz.
+	return 1
+	endif
+endif
+
+sysmessage @69,,1 Muzik aletini calmaya basladiniz...
+timerf 2,targetf f_start_provocation_ikinci
+timerf 2,sysmessage @69,,1 <uid.<argo>.name> isimli npcyi kime karsi kiskirtmak istiyorsunuz ?
+tag.provocation_birinci <argo>
+return 1
+
+[function f_start_provocation_ikinci]
+if <findid.i_rune_invisibility>
+	findid.i_rune_invisibility.remove
+endif
+tag.provocation_ikinci <argo>
+ref1 <uid.<tag.provocation_birinci>>
+ref2 <uid.<tag.provocation_ikinci>>
+
+if <ref1.distance <ref2>> > 13
+	sysmessage @33,,1 Kiskirtacaginiz npc hedefinizden cok uzakta.
+	return 1
+endif
+
+if <ref2.isplayer>
+	sysmessage @,,1 Insanlara kistirtamazsiniz.
+	return 1
+endif
+
+//if <uid.<tag.provocation_birinci>.hits> < <uid.<tag.provocation_ikinci>.hits>
+//	sysmessage @33,,1 Malesef kiskirtacaginiz npc hedefinizden zayif oldugu icin korktu.
+//	return 1
+//else
+
+	if <ref1> == <ref2>
+		sysmessage @33,,1 Farkli bir hedef seciniz.
+		return 1
+	endif
+
+if <provocation> < 60.0
+local.chances 2
+elif <provocation> < 80.0
+local.chances 2
+elif <provocation> < 99.9
+local.chances 2
+else
+local.chances 1
+endif
+
+	IF (<REF1.CANSEELOS <ref2>>)
+		if (RAND(<local.chances>) == 0)
+			uid.<ref1>.peacemaking_sakinles
+			uid.<ref1>.attack <ref2>
+			uid.<ref1>.olumsuz1 * Attacked , <ref2.name> *
+			sysmessage @69,,1 Basarili oldunuz.
+			skillgain_provocation
+			f_skill_delay <getargv 2 <def.skill.22.waittime>>
+		else
+			skillgain_provocation
+			sysmessage @33,,1 Basarisiz oldunuz.
+			uid.<ref1>.olumsuz1 * Confused *
+		endif
+		
+	else
+			sysmessage @33,,1 Npc hedefi goremiyor.
+	endif
+//endif
+
+
+[eof]
+///////////////////////////////////////////////////////

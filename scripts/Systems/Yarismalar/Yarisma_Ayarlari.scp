@@ -1,0 +1,583 @@
+﻿
+[DIALOG d_oto_etkinlik_secim]
+1000,100
+page 0
+resizepic 32 1 9200 457 270
+checkertrans 32 1 457 270
+htmlgump 41 9 443 113 0 1 1
+Group 0
+radio 72 137 9722 9723 0 1
+radio 250 136 9722 9723 0 2
+radio 72 177 9722 9723 0 3
+radio 250 177 9722 9723 0 4
+//radio 72 222 9722 9723 0 5
+text 113 140 137 1
+text 292 183 137 2
+text 292 139 137 3
+text 113 183 137 4
+text 113 223 137 5
+button 380 235 247 248 1 0 1
+
+[DIALOG d_oto_etkinlik_secim text]
+Bu sistem günde 1 defa calismaktadır. Sistemin amacı oyuncuların istegi dogrultusunda etkinliğin otomatik olarak calistirilmasidir. Asagida listelenilen yarismalardan lütfen birisine oy veriniz. Birden fazla oy kullanımı yapamazsınız ve oyunuzu degistiremezsiniz.3 dakika sonra bu ekran kapanacaktir ve en fazla oy alan yarisma duzenlenecektir.
+Gm Topuk (Min: 2)
+Engelli  Kosu ( Min: 2)
+Last Man Standing (Min: 2)
+Explosion (Min: 2)
+Capture the Flag (Min: 4)
+
+[DIALOG d_oto_etkinlik_secim button]
+ON=0
+src.sys_error Secim yapmadiniz.
+
+ON=1
+
+if <argchk[1]> //Gm Topuk
+	var.etkinlik_sayac_topuk ++
+	src.sys_error Seciminizi yaptiniz ( Gm Topuk ).
+	return 1
+endif
+
+if <argchk[2]> // LMS
+	var.etkinlik_sayac_lms ++
+	src.sys_error Seciminizi yaptiniz ( LMS ).
+	return 1
+	
+endif
+
+if <argchk[3]> // Explosion
+	var.etkinlik_sayac_explosion ++
+	src.sys_error Seciminizi yaptiniz ( Explosion ).
+	return 1
+endif
+
+if <argchk[4]> // Engelli
+	var.etkinlik_sayac_engelli ++
+	src.sys_error Seciminizi yaptiniz ( Engelli Kosu ). 
+	return 1
+endif
+
+if <argchk[5]> // CTF
+	var.etkinlik_sayac_ctf ++
+	src.sys_error Seciminizi yaptiniz ( CTF ). 
+	return 1
+endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////
+//							//
+//							//
+//		Yarisma Ayarlari / Rhodos		//
+//							//
+//							//
+//////////////////////////////////////////////////////////
+///////////////////////////// Yarisma Icin Gecilen Yell
+[function Yarisma_duyurusu]
+sysmessage @08c2,4,0,enu * Etkinlik duyurusu *
+sysmessage @0790,4, <args>
+
+/////////////////////////////////////////////////////////
+///////////////////////////// Katilanlarin Isimleri
+
+[function Yarisma_Katilan]
+sysmessage @0790,,1 <args>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_etk_drm]
+if <argn1> == 0
+	return <var.sonetkinlik>
+elif <argn1> == 1
+	return <var.son_topuk>
+elif <argn1> == 2
+	return <var.son_ctf>
+elif <argn1> == 3
+	return <var.son_expo>
+elif <argn1> == 4
+	return <var.son_last>
+endif
+
+
+
+
+
+
+[function etkinlikler]
+src.DIALOG d_etkinlik_programi
+
+
+[plevel 1]
+katılım
+katilim
+katıl
+katil
+etkinlikler
+
+[function katil]
+src.katilim
+
+[function katıl]
+src.katilim
+
+[function katılım]
+src.katilim
+
+[function katilim]
+if strmatch("Etkinlik Alani","<src.region.name>")
+	src.sys_error Zaten etkinlik alanındasınız.
+	return 1
+endif
+if <src.isevent.e_yarisma_topuk> || <src.isevent.e_yarisma_LMS> || <src.isevent.e_yarisma_expo> || <src.isevent.e_yarisma_engelli> || <src.isevent.e_cpvp> || <src.isevent.e_cpvp_duello>
+	src.sys_error Suan zaten bir etkinliktesiniz.
+	return 1
+endif
+if <src.isevent.e_jailed>	
+	src.sys_error Bu durumda etkinliğe katılamazsınız.
+	return 1
+endif
+if (<src.findid.i_kufur_ettin>) 
+	src.sys_error Cezalı iken yarışmaya katılamazsınız.
+	return 1
+endif
+if (<src.account.plevel> > 2)
+	src.sys_error Yetkililer bu yarışmalara katılamazlar.
+	return 1
+else
+	if !<var.katilim>
+		src.sys_error Henuz bir yarisma duzenlenmemektedir.
+		return 1
+	elseif <src.hits> < <src.maxhits>
+		src.sysmessage @,,1 Caniniz az oldugu icin  etkinlige katilamazsiniz.
+		return 1
+	elseif (<flags>&statf_war)
+		src.sys_error Savas modundayken etkinlige katilamazsiniz.
+		return 1
+	elseif <src.MEMORYFINDTYPE.memory_fight>
+		src.sysmessage @69,1,1 Savas modundayken etkinlige katilamazsiniz.
+		return 1
+	else
+		src.go 5323,1822
+		src.closealldialogs
+		src.sysmessage @,,1 Bu alanda yarisma portalindan gecerek yarismaya katilabilirsiniz.
+		return 1
+	endif
+		
+endif
+
+src.closealldialogs
+//sDIALOG d_etkinlik_programi
+
+[DIALOG d_etkinlik_programi]
+0,0
+page 0
+resizepic 160 0 9200 675 580	
+gumppictiled 170 10 655 560 2624
+
+local.hour=<serv.rtime.format %H>
+
+htmlgump 185 490 620 70 0 1 1
+
+dhtmlgump 520 20 300 20 0 0 <def.bfont_lgray> Yil: <rtime.year> | Ay: <rtime.month> | Gun: <rtime.day> | Saat: <rtime.time>
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_white> <serv.name> Etkinlik Programi
+
+/////////////////////////////////////////////////////////////////////////////////// Ogleden Once
+
+dhtmlgump 260 70 300 20 0 0 <def.bfont_white> Saatler (Ogleden Once)
+
+dhtmlgump 180 110 300 20 0 0 <def.bfont_lgray> 00 : 00 - 01 : 00
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgray> 01 : 00 - 02 : 00
+dhtmlgump 180 170 300 20 0 0 <def.bfont_lgray> 02 : 00 - 03 : 00
+dhtmlgump 180 200 300 20 0 0 <def.bfont_lgray> 03 : 00 - 04 : 00
+dhtmlgump 180 230 300 20 0 0 <def.bfont_lgray> 04 : 00 - 05 : 00
+dhtmlgump 180 260 300 20 0 0 <def.bfont_lgray> 05 : 00 - 06 : 00
+dhtmlgump 180 290 300 20 0 0 <def.bfont_lgray> 06 : 00 - 07 : 00
+dhtmlgump 180 320 300 20 0 0 <def.bfont_lgray> 07 : 00 - 08 : 00
+dhtmlgump 180 350 300 20 0 0 <def.bfont_lgray> 08 : 00 - 09 : 00
+dhtmlgump 180 380 300 20 0 0 <def.bfont_lgray> 09 : 00 - 10 : 00
+dhtmlgump 180 410 300 20 0 0 <def.bfont_lgray> 10 : 00 - 11 : 00
+dhtmlgump 180 440 300 20 0 0 <def.bfont_lgray> 11 : 00 - 12 : 00
+
+For 12
+dhtmlgump 320 <eval (<local._for>*30)+80> 300 20 0 0 <def.bfont_lgray> :
+endfor
+
+
+////////////////////////Etkinlikler
+
+dhtmlgump 335 110 300 20 0 0 <def.bfont_lred> -//Secmeli Etkinlik //Last Man Standing  //00 : 00 - 01 : 00
+dhtmlgump 335 140 300 20 0 0 <def.bfont_lred> - //01 : 00 - 02 : 00
+dhtmlgump 335 170 300 20 0 0 <def.bfont_lred> - //02 : 00 - 03 : 00
+dhtmlgump 335 200 300 20 0 0 <def.bfont_lred> - //03 : 00 - 04 : 00
+dhtmlgump 335 230 300 20 0 0 <def.bfont_lred> - //04 : 00 - 05 : 00
+dhtmlgump 335 260 300 20 0 0 <def.bfont_lred> - //05 : 00 - 06 : 00
+dhtmlgump 335 290 300 20 0 0 <def.bfont_lred> - //06 : 00 - 07 : 00
+dhtmlgump 335 320 300 20 0 0 <def.bfont_lred> - //07 : 00 - 08 : 00
+dhtmlgump 335 350 300 20 0 0 <def.bfont_lred> - //08 : 00 - 09 : 00
+dhtmlgump 335 380 300 20 0 0 <def.bfont_lred> - //09 : 00 - 10 : 00
+dhtmlgump 335 410 300 20 0 0 <def.bfont_lred> - //10 : 00 - 11 : 00
+dhtmlgump 335 440 300 20 0 0 <def.bfont_lred> - //11 : 00 - 12 : 00
+
+///////////////////////////////////////////////////////////////////////////////////
+
+For 31
+dhtmlgump 490 <eval (<local._for>*13)+50> 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+/////////////////////////////////////////////////////////////////////////////////// Ogleden Sonra
+
+dhtmlgump 590 70 300 20 0 0 <def.bfont_white> Saatler (Ogleden Sonra)
+
+dhtmlgump 510 110 300 20 0 0 <def.bfont_lgray> 12 : 00 - 13 : 00
+dhtmlgump 510 140 300 20 0 0 <def.bfont_lgray> 13 : 00 - 14 : 00
+dhtmlgump 510 170 300 20 0 0 <def.bfont_lgray> 14 : 00 - 15 : 00
+dhtmlgump 510 200 300 20 0 0 <def.bfont_lgray> 15 : 00 - 16 : 00
+dhtmlgump 510 230 300 20 0 0 <def.bfont_lgray> 16 : 00 - 17 : 00
+dhtmlgump 510 260 300 20 0 0 <def.bfont_lgray> 17 : 00 - 18 : 00
+dhtmlgump 510 290 300 20 0 0 <def.bfont_lgray> 18 : 00 - 19 : 00
+dhtmlgump 510 320 300 20 0 0 <def.bfont_lgray> 19 : 00 - 20 : 00
+dhtmlgump 510 350 300 20 0 0 <def.bfont_lgray> 20 : 00 - 21 : 00
+dhtmlgump 510 380 300 20 0 0 <def.bfont_lgray> 21 : 00 - 22 : 00
+dhtmlgump 510 410 300 20 0 0 <def.bfont_lgray> 22 : 00 - 23 : 00
+dhtmlgump 510 440 300 20 0 0 <def.bfont_lgray> 23 : 00 - 24 : 00
+
+For 11
+dhtmlgump 650 <eval (<local._for>*30)+80> 300 20 0 0 <def.bfont_lgray> :
+endfor
+
+////////////////////////Etkinlikler
+
+dhtmlgump 665 110 300 20 0 0 <def.bfont_lred> -// Secmeli Etkinlik 				//12 : 00 - 13 : 00
+dhtmlgump 665 140 300 20 0 0 <def.bfont_lred> - 				//13 : 00 - 14 : 00
+dhtmlgump 665 170 300 20 0 0 <def.bfont_lred> - 				//14 : 00 - 15 : 00
+dhtmlgump 665 200 300 20 0 0 <def.bfont_lred> - 			//15 : 00 - 16 : 00
+dhtmlgump 665 230 300 20 0 0 <def.bfont_lred> -//Secmeli Etkinlik				//16 : 00 - 17 : 00
+dhtmlgump 665 260 300 20 0 0 <def.bfont_lred> - 				//17 : 00 - 18 : 00
+dhtmlgump 665 290 300 20 0 0 <def.bfont_lred> -//Gm Topuk 				//18 : 00 - 19 : 00
+dhtmlgump 665 320 300 20 0 0 <def.bfont_lred> -			//19 : 00 - 20 : 00
+dhtmlgump 665 350 300 20 0 0 <def.bfont_lred> Seçmeli Etkinlik //Capture The Flag 				//20 : 00 - 21 : 00
+dhtmlgump 665 380 300 20 0 0 <def.bfont_lgreen> Raid (Cumartesi)				//21 : 00 - 22 : 00
+dhtmlgump 665 410 300 20 0 0 <def.bfont_lgreen> PvP (Pazar) 		//22 : 00 - 23 : 00
+dhtmlgump 665 440 300 20 0 0 <def.bfont_lred> - //Explosion 				//23 : 00 - 24 : 00
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <local.hour>> == 00)
+dhtmlgump 180 110 300 20 0 0 <def.bfont_lgreen> 00 : 00 - 01 : 00
+endif
+IF (<eval <local.hour>> == 01)
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> 01 : 00 - 02 : 00
+endif
+IF (<eval <local.hour>> == 02)
+dhtmlgump 180 170 300 20 0 0 <def.bfont_lgreen> 02 : 00 - 03 : 00
+endif
+IF (<eval <local.hour>> == 03)
+dhtmlgump 180 200 300 20 0 0 <def.bfont_lgreen> 03 : 00 - 04 : 00
+endif
+IF (<eval <local.hour>> == 04)
+dhtmlgump 180 230 300 20 0 0 <def.bfont_lgreen> 04 : 00 - 05 : 00
+endif
+IF (<eval <local.hour>> == 05)
+dhtmlgump 180 260 300 20 0 0 <def.bfont_lgreen> 05 : 00 - 06 : 00
+endif
+IF (<eval <local.hour>> == 06)
+dhtmlgump 180 290 300 20 0 0 <def.bfont_lgreen> 06 : 00 - 07 : 00
+endif
+IF (<eval <local.hour>> == 07)
+dhtmlgump 180 320 300 20 0 0 <def.bfont_lgreen> 07 : 00 - 08 : 00
+endif
+IF (<eval <local.hour>> == 08)
+dhtmlgump 180 350 300 20 0 0 <def.bfont_lgreen> 08 : 00 - 09 : 00
+endif
+IF (<eval <local.hour>> == 09)
+dhtmlgump 180 380 300 20 0 0 <def.bfont_lgreen> 09 : 00 - 10 : 00
+endif
+IF (<eval <local.hour>> == 10)
+dhtmlgump 180 410 300 20 0 0 <def.bfont_lgreen> 10 : 00 - 11 : 00
+endif
+IF (<eval <local.hour>> == 11)
+dhtmlgump 180 440 300 20 0 0 <def.bfont_lgreen> 11 : 00 - 12 : 00
+endif
+
+IF (<eval <local.hour>> == 12)
+dhtmlgump 510 110 300 20 0 0 <def.bfont_lgreen> 12 : 00 - 13 : 00
+endif
+IF (<eval <local.hour>> == 13)
+dhtmlgump 510 140 300 20 0 0 <def.bfont_lgreen> 13 : 00 - 14 : 00
+endif
+IF (<eval <local.hour>> == 14)
+dhtmlgump 510 170 300 20 0 0 <def.bfont_lgreen> 14 : 00 - 15 : 00
+endif
+IF (<eval <local.hour>> == 15)
+dhtmlgump 510 200 300 20 0 0 <def.bfont_lgreen> 15 : 00 - 16 : 00
+endif
+IF (<eval <local.hour>> == 16)
+dhtmlgump 510 230 300 20 0 0 <def.bfont_lgreen> 16 : 00 - 17 : 00
+endif
+IF (<eval <local.hour>> == 17)
+dhtmlgump 510 260 300 20 0 0 <def.bfont_lgreen> 17 : 00 - 18 : 00
+endif
+IF (<eval <local.hour>> == 18)
+dhtmlgump 510 290 300 20 0 0 <def.bfont_lgreen> 18 : 00 - 19 : 00
+endif
+IF (<eval <local.hour>> == 19)
+dhtmlgump 510 320 300 20 0 0 <def.bfont_lgreen> 19 : 00 - 20 : 00
+endif
+IF (<eval <local.hour>> == 20)
+dhtmlgump 510 350 300 20 0 0 <def.bfont_lgreen> 20 : 00 - 21 : 00
+endif
+IF (<eval <local.hour>> == 21)
+dhtmlgump 510 380 300 20 0 0 <def.bfont_lgreen> 21 : 00 - 22 : 00
+endif
+IF (<eval <local.hour>> == 22)
+dhtmlgump 510 410 300 20 0 0 <def.bfont_lgreen> 22 : 00 - 23 : 00
+endif
+IF (<eval <local.hour>> == 23)
+dhtmlgump 510 440 300 20 0 0 <def.bfont_lgreen> 23 : 00 - 24 : 00
+endif
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+For 89
+dhtmlgump <eval (<local._for>*7)+170> 80 300 20 0 0 <def.bfont_lgray> _
+endfor
+
+For 89
+dhtmlgump <eval (<local._for>*7)+170> 455 300 20 0 0 <def.bfont_lgray> _
+endfor
+
+[DIALOG d_etkinlik_programi text]
+Etkinlik Programindan Son Haber : <var.etkinlikprogramisondurum>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////fasulyenin faydalari
+[itemdef i_etkinlik_stone2]
+ID=0ede
+name Etkinlik Sayaci 2
+type t_normal
+
+on=@create
+attr 08000
+color 0995
+timer 180
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@dclick
+if (<src.account.plevel> < 7)
+src.sysmessage @,,1 Bu islem icin yetkin yok.
+return 1
+endif
+timer 1
+return 1
+
+on=@timer
+if <eval <var.secmeli_etkinlik>> == 1
+	var.secmeli_etkinlik 0
+	//SERV.ALLCLIENTS CLOSESECMELIDLG
+	local.max = <f_maximum_number <eval <var.etkinlik_sayac_topuk>>,<eval <var.etkinlik_sayac_explosion>>,<eval <var.etkinlik_sayac_engelli>>,<eval <var.etkinlik_sayac_lms>>,<eval <var.etkinlik_sayac_ctf>>>
+	//serv.log <eval <local.max>>
+	if <eval <var.max_etkinlik>> == 0
+		duyurx Secmeli etkinlik icin hic bir oylama yapilmadigi icin yarisma duzenlenmiyor.
+		var.etkinlikprogramisondurum Oylama yapilmadigi icin etkinlik duzenlenmedi.
+		return 1 
+	endif
+	serv.allclients sys_error [Etkinlik Oylamaları]
+	serv.allclients sys_normal Topuk:<eval <var.etkinlik_sayac_topuk>> - Expo:<eval <var.etkinlik_sayac_explosion>> - Engelli:<eval <var.etkinlik_sayac_engelli>> - LMS:<eval <var.etkinlik_sayac_lms>>
+
+	if <eval <var.max_etkinlik>> == 1 // topuk
+		serv.f_topuk_open
+		duyurx Topuk yarışmasına katılım icin .katılım yaziniz.
+		var.etkinlikprogramisondurum Topuk yarışmasına katılımlar sürüyor
+		var.sonetkinlik Gm Topuk
+		var.katilim 1
+		return 1
+	endif
+	if <eval <var.max_etkinlik>> == 2 // Expo
+		serv.f_expo_open
+		duyurx Explosion yarışmasına katılım icin .katılım yaziniz.
+		var.etkinlikprogramisondurum Explosion yarışmasına katılımlar sürüyor
+		var.sonetkinlik Explosion
+		var.katilim 1
+		return 1
+	endif
+	if <eval <var.max_etkinlik>> == 3 // Engel
+		serv.f_engelli_open
+		duyurx Engelli Kosu yarışmasına katılım icin .katılım yaziniz.
+		var.etkinlikprogramisondurum Engelli Kosu yarışmasına katılımlar sürüyor
+		var.sonetkinlik Engelli Kosu
+		var.katilim 1
+		return 1
+	endif
+	if <eval <var.max_etkinlik>> == 4 // LMS
+		serv.f_LMS_open
+		duyurx Last Man Standing yarışmasına katılım icin .katılım yaziniz.
+		var.etkinlikprogramisondurum Last Man Standing yarışmasına katılımlar sürüyor
+		var.sonetkinlik Last Man Std.
+		var.katilim 1
+		return 1
+	endif	
+	if <eval <var.max_etkinlik>> == 5 // LMS
+		serv.f_ctf_open
+		duyurx Capture the Flag(Bayrak Kapmaca) yarışmasına katılım icin .katılım yaziniz.
+		var.etkinlikprogramisondurum Last Man Standing yarışmasına katılımlar sürüyor
+		var.sonetkinlik Capture the Flag.
+		var.katilim 1
+		return 1
+	endif	
+endif
+return 1
+
+
+[itemdef i_etkinlik_stone]
+ID=0ede
+name Etkinlik Sayaci
+type t_normal
+
+on=@create
+attr 08000
+color 0995
+timer 180
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@dclick
+if (<src.account.plevel> < 7)
+src.sysmessage @,,1 Bu islem icin yetkin yok.
+return 1
+endif
+timer 1
+return 1
+
+on=@timer
+local.hour=<serv.rtime.format %H>
+
+
+
+IF (<eval <local.hour>> == 20)
+var.secmeli_etkinlik 1
+var.etkinlik_sayac_topuk 0
+var.etkinlik_sayac_explosion 0
+var.etkinlik_sayac_engelli 0
+var.etkinlik_sayac_lms 0
+var.etkinlik_sayac_ctf 0
+timer 3601
+uid.04000db23.timer 180
+
+serv.ALLCLIENTS DIALOG_UP d_oto_etkinlik_secim
+return 1
+endif
+
+
+timer 180
+return 1
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+[function f_maximum_number]
+var.max_etkinlik 0
+var.temp = 0
+for 0 <ARGV>
+	if <eval <argv[<dlocal._for>]>> > <eval <var.temp>>
+		var.temp = <argv[<dlocal._for>]>
+		var.max_etkinlik = <eval <local._for> +1>
+	endif
+endfor
+
+serv.log Max :<eval <var.temp>> 
+//serv.log Max_Etkinlik : <eval <var.max_etkinlik>>
+return <eval <var.max_etkinlik>>
+
+
+[itemdef i_deed_yarisma_duyurusu]
+
+id i_deed
+name Anons Deed
+type t_normal
+
+on=@create
+attr 080
+color 0810
+timer 1
+
+on=@timer
+ref1 <uid>
+
+foritems 4
+if (<baseid>==i_gate_ctf)
+	ref11 =<uid>
+	//duyurx Capture The Flag yarışması icin katılımlar sürüyor(.katilim).Son <ftime <ref11.timer>> kalmistir.
+	duyurx Capture The Flag yarışması icin katılımlar sürüyor( .katılım ).Son <ftime <ref11.timer>> kalmıştır
+	//duyurx Son <ftime <ref11.timer>> kalmistir.
+	ref1.timer 120
+	return 1
+elif (<baseid>==i_gate_expo)
+	ref11=<uid>
+	//duyurx Expo yarışması icin katılımlar sürüyor  ( .katilim ) Son <ftime <ref11.timer>> kalmistir.
+	duyurx Expo yarışması icin katılımlar sürüyor  ( .katılım ) Son <ftime <ref11.timer>> kalmıştır
+	//duyurx Son <ftime <ref11.timer>> kalmistir.
+	ref1.timer 120
+	return 1
+elif (<baseid>==i_gate_LMS)
+	ref11=<uid>
+	//duyurx Last Man Standing yarışması icin katılımlar sürüyor  ( .katilim ) Son <ftime <ref11.timer>> kalmistir.
+	duyurx Last Man Standing yarışması icin katılımlar sürüyor  ( .katılım ) Son <ftime <ref11.timer>> kalmıştır
+	//duyurx Son <ftime <ref11.timer>> kalmistir.
+	ref1.timer 120
+	return 1
+elif (<baseid>==i_gate_topuk)
+	ref11=<uid>
+	//duyurx Topuk yarışması icin katılımlar sürüyor  ( .katilim ) Son <ftime <ref11.timer>> kalmistir.
+	duyurx Gm Topuk yarışması icin katılımlar sürüyor  ( .katılım ) Son <ftime <ref11.timer>> kalmıştır
+	
+	ref1.timer 120
+	return 1
+elif (<baseid>==i_gate_engelli)
+	ref11=<uid>
+	//duyurx Engelli Kosu yarışması icin katılımlar sürüyor  ( .katilim ) Son <ftime <ref11.timer>> kalmistir.
+	duyurx Engelli Kosu yarışması icin katılımlar sürüyor  ( .katılım ) Son <ftime <ref11.timer>> kalmıştır
+	
+	ref1.timer 120
+	return 1
+elif (<baseid>==i_cpvpgate)
+	ref11=<uid>
+	//duyurx Engelli Kosu yarışması icin katılımlar sürüyor  ( .katilim ) Son <ftime <ref11.timer>> kalmistir.
+	duyurx Arena'da Pvp Turnuvası katılımları devam ediyor( .katılım ) Son <ftime <ref11.timer>> kalmıştır
+	
+	ref1.timer 120
+	return 1
+endif
+endfor
+timer 120
+return 1
+
+
+
+
+
+[eof]

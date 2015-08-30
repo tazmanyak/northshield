@@ -1,0 +1,109 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[typedef t_weapon_sword]
+on=@targon_ground
+if <argn1>
+	if <serv.itemdef.<argn1>.type>==t_tree
+		if <distance <argn1>> < 3
+		serv.newitem=i_memory
+		new.camping_harvestkindling <src.uid>,"<src.targp>"
+		return 1
+		endif
+	endif
+endif
+
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Sağlamlık: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+src.sys_error Damage:<dam> - Hız:<speed> 
+return 1
+
+on=@equiptest
+if ((<twohands>) && <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error Cift el silahlari mage seviyeniz 40.0 üzerinde zehirli olarak kullanamazsınız.
+		return 1
+	endif
+endif
+if <hitpoints> > <eval <maxhits>>
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+
+if <hitpoints> <= 1 
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+if ((<twohands>) && (!<def0.scp.poisoning_weapontwohands>) && (!<tag0.override.poisonable>))
+  if <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error 40 magery ustu poisonlu olarak cift el silah kullanamazsiniz.
+		return 1
+	endif
+  endif
+endif
+
+
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.swordsmanship> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 Swordsmanship , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.swordsmanship> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 Swordsmanship , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.swordsmanship> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah icin en az 70.0 Swordsmanship , 70.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.swordsmanship> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah icin en az 80.0 Swordsmanship , 80.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.swordsmanship> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah icin en az 90.0 Swordsmanship , 90.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+[eof]

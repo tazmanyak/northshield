@@ -1,0 +1,82 @@
+[events esyacikarmabe]
+
+// on=@itemcreate
+// if (<src.account.plevel> > 1)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','korayuras') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+// try uid.<argo.uid>.tag.tarihisoylebab <serv.rtime>
+// try uid.<argo.uid>.tag.cikarankim <eval <src.uid>>
+// serv.writefile2 logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi.  'Item:<act.name>','Cikaran Isim:<serv.uid.<act.tag0.cikarankim>.name>','Cikaran Acc:<serv.uid.<act.tag0.cikarankim>.account.name>'
+// //serv.log itemcikartti 'Item:<act.name>','Cikaran Isim:<serv.uid.<act.tag0.cikarankim>.name>',':<serv.uid.<act.tag0.cikarankim>.account.name>'
+// endif
+
+// on=@charcreate
+// if (<src.account.plevel> > 1)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+// try uid.<argo.uid>.tag.tarihisoylebab <serv.rtime>
+// try uid.<argo.uid>.tag.cikarankim <eval <src.uid>>
+// serv.writefile2 logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi.  'Item:<act.name>','Cikaran Isim:<serv.uid.<act.tag0.cikarankim>.name>','Cikaran Acc:<serv.uid.<act.tag0.cikarankim>.account.name>'
+// endif
+
+// on=@itemdropon_char
+// if (<src.account.plevel> > 1)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','korayuras') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+// src.sysmessage @0785,1,1 Gorevliler Kimseye Esya veremez !
+// serv.writefile2 logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi. Playera Item Vermeye Calisti'
+// return 1
+
+// [events staff_edit]
+// on=@dclick
+// if <act.isplayer>
+	// if <act.uid> != <src.uid>
+		// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+			// return 1
+		// endif
+	// endif
+// endif
+// On=@ItemDClick
+// if (<act.type> == t_spawn_char)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+// src.s Spawnlari Kurcaliyorum !
+// serv.writefile2 logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi. Spawnlari Bozmaya Calisti.
+// return 1 
+// endif
+
+// if (<act.cont>)
+// if (<act.topobj.npc>)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+// src.s Npc Cantasini Acmaya Calisiyorum !
+// serv.writefile2 logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi. Npc Cantasi acmayi denedi.
+// return 1 
+// endif
+// endif
+
+// if (<act.type> == t_corpse)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras')) 
+// src.s Ceset Kari$tiriyorum !
+// serv.writefile2 logs\stafflog\<src.account.name>.txt.txt <serv.rtime> Cesetleri karistiriyor.
+// //serv.log <src.account> <serv.rtime> Cesetleri kari$tiriyor.
+// return 1 
+// endif 
+
+// ON=@ItemPickUp_Pack
+	// if <act.cont.uid> != <src.uid>
+		// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras')) 
+		// return 1
+	// endif
+// endif
+// On=@itemPickUp_Ground
+// //if (<act.type> == t_corpse)
+// //if !(strmatch('<src.account>','tazmanyak') || (strmatch('<src.account>','rhodos') || (strmatch('<src.account>','rasengan')) || (strmatch('<src.account>','reina')) || (strmatch('<src.account>','reina')) || (strmatch('<src.account>','hakanabe'))
+// //src.s Ceset Tasiyorum
+// //src.writefile logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi. Cesetleri karistiriyor.
+// //return 1 
+// //endif
+
+// if (<act.type> == t_spawn_char)
+// if !(strmatch('<src.account>','tazmanyak') || strmatch('<src.account>','berkarslan') || strmatch('<src.account>','ewan') || strmatch('<src.account>','noxier') || strmatch('<src.account>','berkayuras'))
+// src.s Spawnlari Tasiyorum!
+// serv.writefile2 logs\stafflog\<src.account.name>.txt <strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi.Spawnlari Tasiyor..
+// return 1 
+// endif
+
+[eof]

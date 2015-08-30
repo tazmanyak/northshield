@@ -1,0 +1,186 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_main]
+10,10
+
+page 0
+Guild_RenderMainDialog
+dhtmlgump 96 43 110 26 0 0 <DEF.Guild.DialogFont.DarkBlue>Guildim
+
+gumppictiled 65 80 160 26 0A40
+gumppictiled 67 82 156 22 0BBC
+dhtmlgump 70 83 150 20 0 0 <DEF.I>Guild Ismi
+dhtmlgump 233 84 320 26 0 0 <NAME>
+
+gumppictiled 65 114 160 26 0A40
+gumppictiled 67 116 156 22 0BBC
+dhtmlgump 70 117 150 20 0 0 <DEF.I>Kisaltma
+dhtmlgump 233 118 320 26 0 0 <ABBREV>
+
+IF (<DEF0.Guild.EnableAlign>)
+ gumppictiled 65 148 160 26 0A40
+ gumppictiled 67 150 156 22 0BBC
+ dhtmlgump 70 151 150 20 0 0 <DEF.I>Durum
+ dhtmlgump 233 152 320 26 0 0 <DEF0.Guild.AlignName.<ALIGN>>
+ENDIF
+
+//gumppictiled 65 114 160 26 0A40
+//gumppictiled 67 116 156 22 0BBC
+//dhtmlgump 70 117 150 20 0 0 <DEF.I>Ittifaklar
+// if( guild.Alliance != null && guild.Alliance.IsMember( guild ) )
+// {
+//  AddHtml( 233 118 320 26 guild.Alliance.Name false false
+//  button 40 120 04B9 04BA 6 GumpButtonType.Reply 0	//Alliance Roster
+// }
+//
+//gumppictiled 65 148 160 26 0A40
+//gumppictiled 67 150 156 22 0BBC
+//dhtmlgump 70 151 150 20 0 0 <DEF.I>Guild Faction
+// Faction f = Faction.Find( guild.Leader
+// if( f != null )
+// 	AddHtml( 233 152 320 26 f.ToString() false false
+//
+gumppictiled 65 196 480 4 0238D
+
+IF (<isempty <CHARTER>>)
+ dhtmlgump 65 216 480 80 1 1 Guild lideri henuz guild tuzugunu hazirlamadi.
+ELSE
+ dhtmlgump 65 216 480 80 1 1 <CHARTER>
+ENDIF
+
+IF (<isempty <WEBPAGE>>)
+ dhtmlgump 65 306 480 30 1 0 Guild sitesi henuz ayarlanmadi.
+ELSE
+ dhtmlgump 65 306 480 30 1 0 <WEBPAGE>
+ENDIF
+
+button 65 370 <QVAL STRCMP("On","<AbbreviationToggle>")? 0D2 0D3:0D3 0D2> 1 0 1	//<MemberFromUID.<SRC>.GuildTitle>>
+dhtmlgump 95 370 150 26 0 0 Guild Kisaltmasini Goster
+
+
+if !(strmatch(*True Britannians*,<NAME>) || strmatch(*Shadowlords*,<NAME> )
+resizepic 450 370 02486 100 26
+button 455 375 0845 0846 1 0 2
+dhtmlgump 480 373 60 26 0 0 <QVAL (<SRC.CTAG0.Guild.IsResigning>)? <DEF.BFONT_RED>:<DEF.BFONT_BLACK>><DEF.I> Ayril
+endif
+IF (<SRC>==<MASTERUID>)
+ IF (<DEF0.Guild.EnableChangeName>)
+  button 40 86 04B9 04BA 1 0 5
+ ENDIF
+ IF (<DEF0.Guild.EnableChangeAbbrev>)
+  button 40 120 04B9 04BA 1 0 6
+ ENDIF
+ IF (<DEF0.Guild.EnableAlign>)
+  button 40 154 04B9 04BA 1 0 7
+ ENDIF
+ button 40 251 04B9 04BA 1 0 3	//Charter Edit button
+ button 40 313 04B9 04BA 1 0 4	//Website Edit button
+ IF (<DEF0.Guild.EnableChangeChatColor>)
+  button 67 347 04B9 04BA 1 0 8
+  dtext 95 345 <QVAL (<COLOR>)? <eval <COLOR>-1>:0> Guild Chat Color
+ ENDIF
+ENDIF
+
+
+[DIALOG d_guild_main BUTTON]
+ON=0
+SRC.CTAG.Guild.IsResigning=
+
+ON=1 2
+IF (<ARGN>==1)
+ ToggleAbbreviation <SRC>
+ SDIALOG d_guild_main
+ELIF (<ARGN>==2)
+ IF !(<SRC.CTAG0.Guild.IsResigning>)
+  SRC.SYSMESSAGE @,,1 Guildden istifa etmek istediginizden emin misiniz?
+  SRC.CTAG.Guild.IsResigning=1
+  SDIALOG d_guild_main
+  return 1
+ ELSE
+  SRC.SYSMESSAGE @,,1 Guildden istifa ettiniz.
+  SRC.CTAG.Guild.IsResigning=
+  Guild_RemoveMember <SRC>
+ ENDIF
+ENDIF
+
+ON=3 8
+SRC.CTAG.Guild.IsResigning=
+IF !(<MemberFromUID.<SRC>.IsMaster>)
+  SRC.SYSMESSAGE @,,1 Bunu yapmaya izniniz bulunmamaktadir.
+  return 1
+ELIF (<ARGN>==3)
+  SRC.SYSMESSAGE @,,1 Yeni guild tuzugunu giriniz (<dDEF.Guild.CharterMaxLenght> characters max):
+  SRC.PROMPTCONSOLE Guild_SetCharter_CallBack
+ELIF (<ARGN>==4)
+  SRC.SYSMESSAGE @,,1 Yeni guild web sitesini giriniz (<dDEF.Guild.WebsiteMaxLenght> characters max):
+  SRC.PROMPTCONSOLE Guild_SetWebsite_CallBack
+ELIF (<ARGN>==5)
+  IF (<TAG0.Delay.ChangeName> > <SERV.TIME>)
+   SRC.SYSMESSAGE @,,1 Guild ismini degistirmeniz icin bir sure beklemeniz gerekmektedir.
+   return 1
+  ENDIF
+  SRC.SYSMESSAGE @,,1 Yeni guild ismini giriniz (<dDEF.Guild.NameMaxLenght> characters max):
+  SRC.PROMPTCONSOLE Guild_SetName_CallBack
+ELIF (<ARGN>==6)
+  IF (<TAG0.Delay.ChangeAbbrev> > <SERV.TIME>)
+   SRC.SYSMESSAGE @,,1 Guild kisaltmasini degistirmek icin bir sure beklemeniz gerekmektedir.
+   return 1
+  ENDIF
+  SRC.SYSMESSAGE @,,1 Yeni guild kisaltmasini giriniz (<dDEF.Guild.AbbrevMaxLenght> characters max):
+  SRC.PROMPTCONSOLE Guild_SetAbbrev_CallBack
+ELIF (<ARGN>==7)
+  IF (<Guild_WarCount>)
+   SRC.SYSMESSAGE @,,1 Savas halindeyken savas durumunu degistiremezsiniz.
+  ELSE
+   ALIGN ++
+   IF (<ALIGN> > 2)
+    ALIGN=0
+   ENDIF
+  ENDIF
+  SDIALOG d_guild_main
+ELIF (<ARGN>==8)
+  FOR 10
+   IF !(<isempty <DEF.Guild.ChatColor.<dLOCAL._FOR>>>)
+    IF (<COLOR>==<DEF0.Guild.ChatColor.<dLOCAL._FOR>>)
+     LOCAL.Color=<eval <LOCAL._FOR>+1>
+    ENDIF
+   ENDIF
+  ENDFOR
+  IF (<DEF0.Guild.ChatColor.<dLOCAL.Color>>)
+   COLOR=<DEF0.Guild.ChatColor.<dLOCAL.Color>>
+  ELSE
+   COLOR=0
+  ENDIF
+  SDIALOG d_guild_main
+ENDIF
+
+ON=100 102
+SRC.CTAG.Guild.IsResigning=
+Guild_RenderMainDialogButton <ARGN>
+
+/////////////////////////////////////////
+
+[FUNCTION Guild_RenderMainDialog]
+resizepic 0 0 024AE 600 440
+resizepic 66 40 02486 150 26
+button 71 45 0845 0846 1 0 100
+dhtmlgump 96 43 110 26 0 0 Guildim
+resizepic 236 40 02486 150 26
+button 241 45 0845 0846 1 0 101
+dhtmlgump 266 43 110 26 0 0 Guild Kadrosu
+resizepic 401 40 02486 150 26
+button 406 45 0845 0846 1 0 102
+dhtmlgump 431 43 110 26 0 0 Diplomasi
+
+[FUNCTION Guild_RenderMainDialogButton]
+IF (<ARGS>==100)
+ SDIALOG d_guild_main
+ELIF (<ARGS>==101)
+ SDIALOG d_guild_roster
+ELIF (<ARGS>==102)
+ SDIALOG d_guild_diplomacy
+ENDIF
+
+[EOF]

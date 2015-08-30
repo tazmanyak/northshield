@@ -1,0 +1,53 @@
+[CHARDEF c_sprite_elf_sorceress]
+DEFNAME=c_sprite_elf_sorceress
+//DEFNAME=C_H_SPRITE_SORCERESS
+NAME=#NAMES_ELF_FEMALE the Sprite Sorceress
+ID=C_ELF_FEMALE
+DAM=6,10
+//ARMOR=
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+//ALIGNMENT=EVIL
+CAN=MT_WALK|MT_FLY|MT_FEMALE
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+RESDISP=5
+RESDISPDNID=c_woman
+RESDISPDNHUE=045e
+
+CATEGORY=Civilized
+SUBSECTION=Sprite-Elf (Evil)
+DESCRIPTION=Sprite Sorcerous
+
+ON=@Create
+	COLOR=045e
+	NPC=brain_thief
+	KARMA={-2000 -6500}
+	FAME={1700 3700}
+
+	STR={86 95}
+	DEX={91 100}
+	INT={71 85}
+
+	WRESTLING={68.0 88.0}
+	MAGICRESISTANCE={70.0 85.0}
+	MAGERY={75.0 95.0}
+
+	ITEMNEWBIE=i_hair_LONG
+	COLOR=0
+
+ON=@NPCRestock
+	ITEM=i_hat_wizards
+	COLOR=0599
+	ITEM=i_robe
+	COLOR=0595
+	ITEM=i_sandals
+	COLOR=0599
+	ITEM=random_coin_purse
+	ITEM=backpack_average
+	ITEM=random_upper_scroll
+	ITEM=random_scroll
+
+[EOF]

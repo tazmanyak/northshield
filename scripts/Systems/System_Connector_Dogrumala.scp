@@ -1,0 +1,190 @@
+
+
+
+
+
+
+
+[function disc]
+TRY <args> DISCONNECT
+
+
+
+[function consil]
+targetf connsik
+
+[function connsik]
+src.consume 100 i_connector
+
+
+[FUNCTION f_disconnect]
+src.consume 99 i_mem_disconnecter
+serv.newitem i_mem_disconnecter
+src.equip <new.uid>
+
+[ITEMDEF i_mem_disconnecter]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Disconnect Me!
+
+ON=@create
+timer
+
+ON=@EQUIP
+ATTR = attr_decay | attr_invis
+LINK = <SRC.UID>
+
+ON=@TIMER
+LINK.DISCONNECT
+REMOVE
+return 1
+
+
+[ITEMDEF i_fenasiker]
+ID = i_memory
+NAME = sikici
+TYPE = T_Eq_Script
+
+on=@equip
+timer 5
+
+on=@timer
+cont.invul 0
+cont.gm 0
+cont.invis 1
+timerf 5, cont.kill
+timerf 5, cont.message @,,1 Dunyadaki en buyuk it kim: Tabiki Benim !
+timer 5
+return 1
+
+[ITEMDEF i_connector]
+ID = i_memory
+NAME = connector
+TYPE = T_Eq_Script
+
+on=@equip
+//TRYSRC <cont.uid> dialog d_connect
+//timerf 5, cont.f_connector_baglanti
+//timerf 10,cont.f_connector_baglanti
+//timer 6
+timerf 10, cont.f_connector_baglanti
+timer 15
+
+on=@Timer
+//cont.f_connector_baglanti
+if !(<cont.tag0.conkullaniyor>)
+	//	TRYSRC <cont.uid> closedialog d_connect
+	//	TRYSRC <cont.uid> closedialog d_connect
+	//cont.sysmessage @,,1 Illegall yontemlerle oyuna girmeye calisiyorsunuz.Buna devam ederseniz otomatik olarak banlanacaksiniz.
+	//serv.log <cont.name> iti illegal yontem deniyor bak sen suna ya....
+	//TRYSRC <cont.uid> DIALOG d_disconnect
+	//TRYSRC <cont.uid> f_disconnect
+	
+	//trysrc <cont.uid> disc <cont.uid>
+	//cont.message @,,1 Baglanti onayiniz alinamiyor fakat oyundan dusmuceksiniz. Lutfen baglanti onayini duzgun almak icin bir sekilde sorunu cozmeye calisiniz.
+	remove
+	return 1
+endif
+remove
+return 1
+
+[Plevel 1]
+albirdeburdanyak23123asd43521412_asdasd_123asd_213
+
+[function onaylandiacc]
+//serv.log  <src.account.name> client dogru.
+//src.sysmessage @50 Client Dogrulandi.
+
+[function albirdeburdanyak23123asd43521412_asdasd_123asd_213]
+tag0.conkullaniyor 1
+src.consume 100 i_connector
+src.sysmessage @,,1 Onayladin Liseli....
+
+
+///////////////////////Eski Status Bar/////////////////////////////////
+// Created 08.02.2012 01:16:08, with Gump Studio.
+// Exported with with SphereExporter ver 1.1.
+// Script for 0.56/Revisions
+
+[Plevel 1]
+aceskistatusbar
+kapateskistatusbar
+
+[function kapateskistatusbar]
+src.ctag.statusacik 0
+src.closealldialogs
+
+[function aceskistatusbar]
+src.dialog d_statuseski
+src.ctag.statusacik 1
+
+[DIALOG d_statuseski]
+0,0
+page 0
+gumppic 76 48 2050
+//text 162 87 0 0
+//text 158 105 0 1
+//text 158 118 0 2
+//text 158 130 0 3
+//text 157 154 0 4
+//text 247 105 0 5
+//text 247 118 0 6
+//text 247 131 0 7
+//text 247 144 0 8
+//text 247 156 0 9
+
+[DIALOG d_statuseski text]
+//<src.name>
+//<src.str>
+//<src.dex>
+//<src.int>
+//<src.ar>
+//<src.hits>/<src.str>
+//<src.mana>/<src.int>
+//<src.stam>/<src.dex>
+//<src.bankbalance>
+//<src.weight>
+
+
+[DIALOG d_statuseski button]
+
+on=0
+if <src.ctag.statusacik>
+	src.closedialog d_statuseski
+	src.dialog d_statuseski
+endif
+
+
+[plevel 7]
+f_timer0_place
+
+[function f_timer0_place]
+targetf f_timer0_place2
+
+[function f_timer0_place2]
+serv.newitem i_timer0_bul
+src.equip
+
+[ITEMDEF i_timer0_bul]
+ID = i_memory
+NAME = Timerci
+TYPE = T_Eq_Script
+
+on=@equip
+timer 60*5
+
+on=@timer
+cont.f_timer0_bul
+timer 60*5
+return 1
+
+[function f_timer0_bul]
+foritems 6144
+	if <timer> == 0
+		src.go <p>
+		//src.sysmessage @,,1 Ulasilan : <local._for>
+	endif
+endfor
+	
+
+[EOF]

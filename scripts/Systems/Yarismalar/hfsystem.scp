@@ -1,0 +1,364 @@
+//////////////////////////////////HALF LIFE EVENTS////////////////////////////
+
+//**Itemler**// 
+
+[TEMPLATE loot_halflife]
+DEFNAME=loot_halflife
+CATEGORY=Item Templates
+SUBSECTION=Loot Templates
+DESCRIPTION=Poor Backpack
+CONTAINER=i_bag
+ITEM=i_potion_healgreat,{5}
+ITEM=i_potion_bleed,{5}
+ITEM=i_arrow,{50 100}
+ 
+
+[itemdef i_halflife_timer] 
+id=i_memory 
+type=t_eq_script 
+name=res timer 
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+on=@equip 
+if (<src.hits><1) 
+src.flags <src.flags>|04 
+src.sysmessage @60 5 Saniye Icinde Hayata Doneceksiniz. 
+timer 5 
+src.tag.pos <src.p> 
+endif 
+
+on=@timer 
+if (0<cont.hits> < 1) 
+cont.flags <cont.flags>&~04 
+if (<cont.tag.pos>==<cont.p>) 
+cont.region.flags 0880 
+cont.spelleffect s_resurrection 1000 
+if (strmatch(´<cont.events>´,´e_hf´)) || (strmatch(´<cont.region.events>´,´e_halflifepuansistem´)) 
+cont.region.flags 0892 
+endif 
+endif 
+cont.tag.regionflags 
+cont.tag.pos 
+cont.sayu * Hayata Doner * 
+cont.resurrect 1 
+cont.hits 100
+cont.SPELLEFFECT s_night_sight,100.0
+else 
+cont.sysmessage @39 Canlanmak icin yarismada olmalisiniz.
+remove 
+return 1 
+endif 
+remove 
+return 1 
+
+[Plevel 4]
+halflifebaslat
+
+
+[function skillyuzle]
+src.allskills 1000
+
+[function halflifebaslat]
+var.hflife 1
+src.anons Half Life Turnuvasi Baslamistir.
+src.anons Katilimlar icin lutfen .katil komutunu kullaniniz.
+timerf 5, serv.allclients sysmessage @0481 Half Life Katilimlar icin lutfen .katil komutunu kullaniniz.
+timerf 30, serv.allclients sysmessage @0481 Half Life Katilimlar icin lutfen .katil komutunu kullaniniz.
+timerf 75, serv.allclients sysmessage @0481 Half Life Katilimlar icin lutfen .katil komutunu kullaniniz.
+timerf 100, serv.allclients sysmessage @0481 Half Life Katilimlar icin lutfen .katil komutunu kullaniniz.
+timerf 200, serv.allclients sysmessage @0481 Half Life Katilimlar icin lutfen .katil komutunu kullaniniz.
+timerf 250, serv.allclients sysmessage @0481 Half Life Katilimlar icin lutfen .katil komutunu kullaniniz.
+
+[itemdef i_halflife_giris]
+id i_moongate_red
+name Ozel Yarismalar
+
+on=@create
+color 0798
+attr 08000
+timer 500
+
+on=@click
+message @95,,1 Half Life Gecisi
+message @69,1,1 [<timer>] Sn Sonra Kapanacak
+return 1
+
+on=@Dclick
+src.message @0803 Lutfen Gate Ustunden Geciniz..
+return 1
+
+on=@step
+src.events -e_safe
+src.go Half Life
+src.Cantalarbanka
+src.binekolmazsaolmaz
+src.stone
+src.hits 100
+src.mana 100
+src.stam 100
+src.allskills 1000
+src.events +e_halflifepuansistem
+src.events +e_hf
+src.sysmessage @95,,1 Half Life yarismasina katildiniz.
+src.sysmessage @95,,1 Iyi Eglenceler
+return 1
+
+on=@timer
+src.anons Half Life Turnuvasina Katilim Bitmistir.
+remove
+
+
+[itemdef i_halflife_cikis]
+id i_moongate_red
+name Ozel Yarismalar
+
+on=@create
+color 0798
+attr 08000
+timer 500
+
+on=@click
+message @95,,1 Half Life Cikis
+message @69,1,1 [<timer>] Sn Sonra Kapanacak
+return 1
+on=@Dclick
+src.message @0803 Lutfen Gate Ustunden Geciniz..
+return 1
+
+on=@step
+src.findid.i_backpack.remove
+src.findid.i_spear.remove
+src.findid.i_katana.remove
+src.findid.i_bow_elven.remove
+src.findid.i_bag.remove
+tag.halflife=0
+src.events +e_safe
+src.events -e_hf
+src.events -e_halflifepuansistem
+src.hits 100
+src.mana 100
+src.stam 100
+src.go Safe Alani
+src.sysmessage @95,,1 Half Life yarismasina katildiginiz icin tesekkür ederiz.
+return 1
+
+on=@timer
+remove
+
+[events e_hf]
+on=@click
+message @38,1,1 [Half Life]
+message <name> 
+return 1
+
+on=@skillstart
+if (<src.flags>&statf_hidden) || (<src.flags>&statf_invisible)
+src.sysmessage @95,,1 Bu yarismadayken gizlenemessiniz.
+return 1
+endif
+
+on=@spellcast
+src.sysmessage Topukta Buyu Yasaktir..
+f_fizzle
+return 1
+
+on=@ItemDclick
+if (<act.baseid> == i_ethereal_llama) || (<act.baseid> == i_ethereal_ostard) || (<act.baseid> == i_ethereal_horse) || (<act.baseid> == i_runebook) || (<act.baseid> == i_shrink_deed)
+sysmessage @38,,1 Half Life Alaninda Yasaktir....
+return 1
+endif
+if (<targ.type> == t_weapon_mace_sharp) || (<targ.type> == t_shield) || (<targ.type> == t_armor_leather) || (<targ.type> == t_armor)
+sysmessage @38,,1 Half Life Alaninda Yasaktir....
+unequip
+return 1
+endif
+
+[Plevel 1]
+hfpuan
+
+[function hfpuan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag.halflife>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxhalflife]
+var.panimhalflife=<eval <src.tag0.halflife>>
+FOR X 1 10
+obj = <uid.<uid.<var.halflifetas>.tag0.sirahalflife<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnthalflife=<eval (<eval <local.x>> +1)>
+var.numperhalflife=<eval <local.x>>
+src.foryukhalflife
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag.halflife>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerleshalflife
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[function foryerleshalflife]
+for b 1 10
+obj = <uid.<uid.<var.halflifetas>.tag0.halflifesira<eval <local.b>>>>
+if (<eval <obj.tag0.halflife>> < <eval <var.panimhalflife>>)
+var.cnntqhalflife=<eval (<eval <local.b>> +1)>
+var.numperhalflife=<eval <local.b>>
+src.forfohalflife
+return 1
+endif
+endfor
+
+[FUNCTION foryukhalflife]
+for y <eval <var.cnnthalflife>> 10
+try uid.<var.halflifetas>.tag0.sira<eval <local.y> - 1> = <uid.<var.halflifetas>tag0.sirahalflife<eval <local.y>>>
+endfor
+src.foryerleshalflife
+
+[dialog errghalflife]
+0,0
+resizepic 50 0 3500 500 250//ARka Fon
+resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10 
+obj = <uid.<uid.<var.halflifetas>.tag.sirahalflife<eval <local.c>>>>
+   dtext 130 <hval <local.c>*20> 50 <obj.name>
+   dtext 500 <hval <local.c>*20> 50 <eval <obj.tag.halflife>>
+   dtext 85 260 1152 Puaniniz = <eval <src.tag.halflife>>
+   dtext 65 20 38 1.Isim:                       
+   dtext 65 40 38 2.Isim:                       
+   dtext 65 60 38 3.Isim: 
+   dtext 65 80 38 4.Isim:                         
+   dtext 65 100 38 5.Isim: 
+   dtext 65 120 38 6.Isim: 
+   dtext 65 140 38 7.Isim: 
+   dtext 65 160 38 8.Isim: 
+   dtext 65 180 38 9.Isim: 
+   dtext 65 200 38 10.Isim:
+   dtext 450 20 38 Puan:                       
+   dtext 450 40 38 Puan:                         
+   dtext 450 60 38 Puan:
+   dtext 450 80 38 Puan:                           
+   dtext 450 100 38 Puan:
+   dtext 450 120 38 Puan:
+   dtext 450 140 38 Puan:
+   dtext 450 160 38 Puan:
+   dtext 450 180 38 Puan:
+   dtext 450 200 38 Puan:
+endfor
+
+[FUNCTION forfohalflife]
+for y 10 <eval <var.cnntqhalflife>>
+try uid.<var.halflifetas>.tag0.sirahalflife<eval <local.y>> = <eval <uid.<var.halflifetas>tag0.sirahalflife<eval <local.y> - 1>>>
+endfor
+try uid.<var.halflifetas>.tag0.sirahalflife<eval <var.numperhalflife>> = <src.uid>
+
+[itemdef i_halflifetasrex]
+id i_grave_stone
+type=t_script
+name=ranking
+
+on=@create
+attr 080
+
+on=@timer
+//timer 1200
+//serv.allclients sysmessage @69,1,1 Istatistik Duyurusu :
+//serv.allclients sysmessage @0481 Istatistik yenilenmistir.[ .istatistik ] komutuyla ogrenebilirsiniz.
+//return 1
+
+on=@pickup_ground
+src.sysmessage @066d,3,1 Lutfen bu tasi silmeyin veya yerinden oynatmayin.
+return 1
+
+[function halfliferankkur]
+var.halflifetas=<args>
+src.sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.halflifetas> [SIRALAMA]
+return 1
+
+[Plevel 1]
+halflifeliste
+
+[Events e_halflifepuansistem]
+
+on=@death
+//src.hits 100
+src.newitem i_halflife_timer
+src.act.equip
+if (<src.tag0.halflife> > 0 )
+src.tag.halflife <eval <src.tag0.halflife> -1>
+src.sysmessage @0810 Oldugunuz icin 1 halflife puani kaybettiniz.
+src.xxhalflife
+elseif (<act.tag0.halflife> < 1)
+src.sysmessage @1153 0 halflife puanina sahipsin...
+endif
+
+on=@kill
+src.tag.halflife <eval <src.tag.halflife> +1>
+src.sysmessage @63,1,1 1 Puan Aldiniz...
+src.xxhalflife
+
+[itemdef i_halflife_stone]
+defname=i_halflife_stone
+id=i_grave_stone
+weight=999
+type=t_eq_script
+name=halflife Listesi
+
+on=@create
+attr=010
+color=07a1
+
+on=@click
+Message @07a1 <serv.name>
+message @50 <name>
+return 1
+
+on=@dclick
+src.dialog errghalflife
+return 1
+
+[FUNCTION tophalflife]
+var.panimhalflife=<eval <src.tag0.halflife>>
+FOR X 1 10
+obj = <uid.<uid.<var.halflifetas>.tag0.sirahalflife<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnthalflife=<eval (<eval <local.x>> +1)>
+var.numperhalflife=<eval <local.x>>
+src.foryukhalflife
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag.halflife>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errghalflife
+return 1
+endif
+endfor
+src.foryerleshalflife
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+src.sysmessage @07d4 Sadece siralamaya Bakabilirsiniz. (.siralama)
+//[function foryerles]
+//for b 1 10
+//obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+//if (<eval <obj.tag.halflife>> < <eval <var.panim>>)
+//var.cnntq=<eval (<eval <local.b>> +1)>
+//var.numper=<eval <local.b>>
+//src.forfo
+//return 1
+//endif
+//endfor
+
+[Plevel 1]
+halflife
+
+[FUNCTION halflife]
+src.dialog errghalflife
+src.sysmessage @1153,,1 Half Life Menusu
+
+[EOF]

@@ -1,0 +1,533 @@
+﻿
+
+
+
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, August 13, 2005
+
+VERSION=0.56b
+
+[REGIONTYPE r_default_sand t_sand]
+// Default sand area resources
+RESOURCES=25.0 mr_nothing
+RESOURCES=50.0 mr_sand
+
+[REGIONTYPE r_default_rock t_rock]
+// Default rock area resources
+RESOURCES=5.0 mr_nothing
+//RESOURCES=30.0 mr_iron
+//RESOURCES=11.2 mr_dull_copper
+//RESOURCES=8.8 mr_shadow
+//RESOURCES=12.4 mr_copper
+//RESOURCES=11.0 mr_bronze
+//RESOURCES=10.6 mr_gold
+//RESOURCES=9.2 mr_agapite
+//RESOURCES=4.8 mr_verite
+//RESOURCES=3.4 mr_valorite
+//RESOURCES=2.4 mr_mytheril
+//RESOURCES=0.5 mr_blackrock
+//RESOURCES=0.5 mr_bloodrock
+//RESOURCES=0.1 mr_sos_bottle
+RESOURCES=15.0 mr_iron
+RESOURCES=10.5 mr_dull_copper
+RESOURCES=7.0 mr_copper
+RESOURCES=5.0 mr_bronze
+RESOURCES=4.0 mr_gold
+RESOURCES=3.5 mr_agapite
+RESOURCES 3.0 mr_shadow
+RESOURCES=2.5 mr_verite  
+RESOURCES=1.5 mr_mytheril 
+RESOURCES=1.5 mr_silver
+RESOURCES=2.0 mr_valorite 
+RESOURCES=0.8 mr_bloodrock 
+RESOURCES=0.8 mr_blackrock 
+RESOURCES=0.8 mr_sos_bottle
+
+RESOURCES=1.0 mr_kil_Tasi
+
+[REGIONTYPE r_default_water t_water]
+// Default water area resources
+// This is not ocean. More like coastlines.
+RESOURCES=5.0 mr_nothing
+RESOURCES=20.0 mr_fish1
+RESOURCES=20.0 mr_fish2
+RESOURCES=20.0 mr_fish3
+RESOURCES=20.0 mr_fish4
+//RESOURCES=0.2 mr_footwear
+RESOURCES=0.3 mr_sos_bottle
+
+[REGIONTYPE r_water t_water]
+// Default water area resources
+// This IS ocean. Maybe can find creatures here?
+RESOURCES=5.0 mr_nothing
+RESOURCES=25.0 mr_fish1
+RESOURCES=25.0 mr_fish2
+RESOURCES=25.0 mr_fish3
+RESOURCES=25.0 mr_fish4
+//RESOURCES=1.5 mr_fish_highly_peculiar
+//RESOURCES=1.5 mr_fish_prized
+//RESOURCES=1.5 mr_fish_wondrous
+//RESOURCES=1.5 mr_fish_truly_rare
+RESOURCES=0.3 mr_sos_bottle
+
+ON=@REGPERIODIC
+	src.SFX={025,1,026,1,027,1,010,1,011,1,012,1,013,1}
+
+[REGIONTYPE r_default_tree t_tree]
+// Default tree area resources.
+// They all produce the same log anyway.
+RESOURCES=50.0 mr_tree
+//RESOURCES=8.4 mr_oak
+//RESOURCES=7.0 mr_ash
+//RESOURCES=4.2 mr_yew
+//RESOURCES=2.8 mr_heartwood
+RESOURCES=2.0 mr_plant_seed
+RESOURCES=1.4 mr_bloodwood
+RESOURCES=1.2 mr_frostwood
+
+//RESOURCES=0.2 mr_bark_fragment
+
+[REGIONTYPE r_default_grass t_grass]
+// Default grass area resources
+// Can be eaten by animals?
+RESOURCES=1.0 mr_grass
+
+
+
+
+
+[REGIONTYPE r_default]
+// Unclaimed regions.
+ON=@ENTER
+SRC.MUSIC=midi_britain1,midi_ForestA,midi_JungleA,midi_MountainA,midi_Plains,midi_Victory
+
+ON=@CLIPERIODIC
+SRC.MUSIC=midi_britain1,midi_ForestA,midi_JungleA,midi_MountainA,midi_Plains,midi_Victory
+
+[REGIONTYPE r_brit t_rock]
+// Brit
+RESOURCES=5.0 mr_nothing
+RESOURCES=30.0 mr_iron
+
+ON=@ENTER
+//SRC.MESSAGE Welcome to Britain <SRC.NAME>!
+//SRC.MESSAGE Lord British Guards are here to protect you!
+SRC.MUSIC=midi_britain1,midi_britain2
+
+
+//ON=@CLIPERIODIC
+SRC.MUSIC=midi_britain1,midi_britain2
+
+
+[REGIONTYPE r_brit_castle]
+// Lord brit castle.
+ON=@ENTER
+SRC.MUSIC=midi_LBCastle
+
+
+ON=@CLIPERIODIC
+SRC.MUSIC=midi_LBCastle
+
+
+[REGIONTYPE r_guard_tower]
+// Guard tower.
+ON=@ENTER
+SRC.MUSIC=midi_ForestA
+
+
+ON=@CLIPERIODIC
+SRC.MUSIC=midi_ForestA
+
+
+[REGIONTYPE r_black_castle]
+// Lord Blackthorne's Castle
+ON=@ENTER
+SRC.MUSIC=midi_BtCastle
+
+
+ON=@CLIPERIODIC
+SRC.MUSIC=midi_BtCastle
+
+
+[REGIONTYPE r_bucs_den]
+// Bucs den
+ON=@ENTER
+
+IF <SRC.KILLS> > 5
+//SRC.MESSAGE Welcome to Bucs Den <SRC.NAME> You are a murderer and you feel at home here
+SRC.MUSIC=midi_BucsDen
+RETURN 0
+ELSE
+SRC.MUSIC=midi_BucsDen
+ENDIF
+
+
+ON=@CLIPERIODIC
+SRC.MUSIC=midi_BucsDen
+
+[REGIONTYPE r_spooky t_rock]
+// Spooky outdoor area.
+RESOURCES=5.0 mr_nothing
+RESOURCES=30.0 mr_iron
+RESOURCES=5.0 mr_shadow
+
+ON=@ENTER
+//if <src.isplayer>
+SRC.MUSIC=midi_Approach
+//endif
+
+ON=@CLIPERIODIC
+SRC.MUSIC=midi_Approach
+
+[REGIONTYPE r_dungeon t_rock]
+// Dungeon sounds same day or night.
+// Shadow ore is only found here.
+RESOURCES=5.0 mr_nothing
+RESOURCES=30.0 mr_iron
+RESOURCES=5.0 mr_shadow
+
+ON=@REGPERIODIC
+src.SFX={021f,1,0243,1,0244,1,0245,1}
+
+[REGIONTYPE r_plains]
+// Plains night and day.
+//ON=@REGPERIODIC
+//src.SFX={0a,1,0b,1}
+
+[REGIONTYPE r_forests]
+// Forest Day and night.
+
+ON=@REGPERIODIC
+IF <src.sector.ISNIGHTTIME>
+src.SFX={00,2,01,2,02,2,07d,1}
+ELSE
+src.SFX={08,10,09,10,0219,1,07d,1}
+ENDIF
+
+[REGIONTYPE r_jungle]
+// Jungle Day and night.
+ON=@REGPERIODIC
+IF <src.sector.ISNIGHTTIME>
+src.SFX={0c,2,0d,2,0b3,1}
+ELSE
+src.SFX={03,2,04,2,05,2,0b3,1}
+ENDIF
+
+[REGIONTYPE r_swamp t_rock]
+// Swamp Day and night.
+// Never anything to mine here.
+ON=@REGPERIODIC
+src.SFX={0e,10,0f,10,022,1,023,1,024,1,0267,1}
+
+[REGIONTYPE r_graveyards]
+// Creepy sounds day or night.
+
+[REGIONTYPE r_ruins]
+// Creepy sounds day or night.
+[regiontype r_events_duello_alani]
+On=@Enter
+//if (<src.isplayer>)
+//	src.sysmessage @68,,1 Etkinlik Alanina hos geldiniz. Guvendesiniz.
+//	SRC.MUSIC=midi_tavern01,midi_tavern02,midi_tavern03,midi_tavern04,midi_samlethe
+//	SRC.SYSMESSAGE @68,,1 Bu alanda kendinizden baska kimseye buyu atamaz ve kimseye saldiramazsiniz.
+//	src.events +e_cpvp_area
+//endif
+
+On=@Exit
+//if (<src.ischar>)
+//	src.events -e_cpvp_area
+//	SRC.SYSMESSAGE @33,,1 Etkinlik alanindan ciktiniz.
+//endif
+
+[REGIONTYPE r_paragon_spawning_region]
+ON=@ENTER
+SRC.MUSIC=74
+SRC.F_CREATE_PARAGON
+
+[regiontype r_events_pk_kasaba]
+
+on=@enter
+if !(<src.npc>) && (<src.isplayer>)
+	if (<src.kills> < 8)
+	   if !<src.isgm>	
+		src.sys_error Katil degilsin sen korkak ! Buraya giremezsin. Guzel britain bir gun katillerin olacak ! 
+		return 1
+           endif
+	elseif !(<src.hits> >= <eval <src.str> - 50 >)
+		src.sys_error Katilsen olumden korkmayacaksin ! Yaraliysan kacmayacaksin seni korkak bu sehre boyle alamayiz korkak 
+		return 1
+	else
+		src.sysmessage @68,,1 Pk kasabasina hos geldin cani <src.name> !
+		SRC.MUSIC=midi_tavern01,midi_tavern02,midi_tavern03,midi_tavern04,midi_samlethe
+		SRC.SYSMESSAGE @68,,1 Bu alanda kendinizden baska kimseye buyu atamaz ve kimseye saldiramazsiniz.
+		src.events +e_cpvp_area_delucia
+	endif
+endif
+
+on=@exit
+src.events -e_cpvp_area_delucia
+
+
+[regiontype r_dummy_alani]
+ON=@CliPeriodic
+// if <src.isplayer> && !<src.isgm>
+// IF ((!(<eval <src.age>/1440> < <eval 24*7>)))
+// src.go britain
+// src.sys_error 7 gün online süreyi geçiren oyuncular bu alana giremezler.
+// src.notice  7 gün online süreyi geçiren oyuncular bu alana giremezler.
+// RETURN 1
+// ENDIF
+// endif
+
+on=@enter
+
+if <src.isplayer> && !<src.isgm>
+// IF ((!(<eval <src.age>/1440> < <eval 24*7>)))
+// src.go britain
+// src.sys_error 7 gün online süreyi geçiren oyuncular bu alana giremezler.
+// src.notice 7 gün online süreyi geçiren oyuncular bu alana giremezler.
+// RETURN 1
+// ENDIF
+// endif
+
+if !strmatch(*Dummy Alani*,<region.name>)
+	if !(<region.flags>&region_flag_safe)
+		FLAGS=region_antimagic_all|region_antimagic_gate|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+	endif
+endif
+//endif
+//src.updatex
+//IF ((!(<eval <src.ACCOUNT.TOTALCONNECTTIME>/60> < <eval 24*7>)) && (!(<SRC.ISGM>)))
+//SRC.SYSMESSAGE @946,3,1 Siz artik yeni bir oyuncu degilsiniz. 1 haftalık dummy alani hakkiniz dolmustur.
+//src.go britain
+//RETURN 1
+//ENDIF
+
+//if <src.skilltotal> > 600.0
+//	src.sys_error Skill toplaminiz 600.0 dan buyuk oldugu icin bu alana giremezsiniz.
+//	src.events -e_dummy_safe
+//	src.go britain
+//	return 1
+//endif
+
+if <src.isplayer>
+src.events +e_dummy_safe
+endif
+on=@exit
+if <src.isplayer>
+src.events -e_dummy_safe
+endif
+[regiontype r_spawn_areas]
+
+on=@enter
+
+if <src.isplayer>
+	src.sys_error Spawn Alani dikkatli olunuz...
+	if (<src.flags>&STATF_DEAD)
+		SRC.SENDPACKET 0C8 0
+		src.update
+	endif
+endif
+
+on=@exit
+if <src.isplayer>
+SRC.SENDPACKET 0C8 40
+src.update
+endif
+
+
+[events e_dummy_safe]
+
+on=@gethit
+return 1
+
+on=@attack
+if (<src.isplayer>)
+	return 1
+endif
+
+on=@hit
+if (<src.isplayer>)
+	return 1
+endif
+
+on=@hittry
+if (<src.isplayer>)
+	return 1
+endif
+
+on=@spellcast
+if (<act.isplayer>)
+if !((<ARGN>==4) || (<ARGN>==6) || (<ARGN>==7) || (<ARGN>==15) || (<ARGN>==17) || (<ARGN>==29))
+f_fizzle
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+endif
+IF (<ARGN>==24) || (<ARGN>=49) || (<ARGN>==33) || (<ARGN>==57) || (<ARGN>==43) || (<ARGN>==58) || (<ARGN>==28) || (<ARGN>==59) || (<ARGN>==39) || (<ARGN>==47) || (<ARGN>==50) || (<ARGN>==60) || (<ARGN>==61) || (<ARGN>==62) || (<ARGN>==63) || (<ARGN>==64) || (<ARGN>==45) || (<ARGN>==57) || (<ARGN>==55)
+sysmessage 
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage  
+src.sysmessage @07a1,1,1 Bu alanda bu buyuyu kullanamazsiniz.
+f_fizzle
+return 1
+endif
+
+[REGIONTYPE r_dungeon_doom]
+ON=@Enter
+if <src.isplayer>
+   src.events +e_emdoom
+   SRC.MUSIC=midi_approach
+endif
+
+on=@Exit
+src.events -e_emdoom
+
+ON=@RegPeriodic
+   SRC.SFX={ 021f 1 0243 1 0244 1 0245 1 }
+
+
+[REGIONTYPE R_DARKGUARDIAN_ROOM]
+ON=@Enter
+IF (<SRC.ISPLAYER>)
+IF !(<SRC.ISGM>)
+IF !(<VAR0.DARKGUARDIANS>) && !(<VAR0.DARKGUARDIANCONTROLER>)
+SRC.TRY UID.<VAR0.DARK_GUARDIAN_DOOR1>.TIMER
+SRC.TRY UID.<VAR0.DARK_GUARDIAN_DOOR2>.TIMER
+SRC.ADD_TIMER_ACT 2,UID.<VAR0.DARK_GUARDIAN_DOOR1>.TIMER -1
+SRC.ADD_TIMER_ACT 2,UID.<VAR0.DARK_GUARDIAN_DOOR2>.TIMER -1
+SRC.REGION.ALLCLIENTS DARK_GUARDIAN_ROOM_SET
+SERV.NEWITEM i_poison_fog_creator
+NEW.P=365,15,-1,3
+NEW.MORE1=300
+NEW.TIMER
+ENDIF
+ENDIF
+ENDIF
+
+[REGIONTYPE R_DARKGUARDIAN_ROOM_BLOCK]
+ON=@Enter
+IF (<SRC.ISPLAYER>)
+IF !(<SRC.ISGM>)
+IF (<VAR0.DARKGUARDIANCONTROLER>) || (<SRC.FLAGS>&statf_dead)
+IF !(<SRC.TAG0.EVENT.ID>)
+SRC.UPDATE
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+
+ON=@Exit
+IF (<SRC.ISPLAYER>)
+IF !(<SRC.ISGM>)
+IF (<SRC.TAG0.EVENT.ID>)
+IF !(<VAR0.DARKGUARDIANS>)
+SRC.SAIRDARKGUARDIAN
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+
+[REGIONTYPE r_dungeon_blightedgrove]
+// Unclaimed regions.
+ON=@ENTER
+SRC.MUSIC=55
+
+ON=@CliPeriodic
+SRC.MUSIC=55
+
+[REGIONTYPE r_palace_paroxysmus]
+ON=@Enter
+SRC.MUSIC=56
+
+ON=@CliPeriodic
+SRC.MUSIC=56
+
+[REGIONTYPE r_dungeon_bedlam]
+// Unclaimed regions.
+ON=@ENTER
+SRC.MUSIC=54
+
+ON=@CliPeriodic
+SRC.MUSIC=54
+
+[REGIONTYPE r_dungeon_twistedweald]
+// Unclaimed regions.
+ON=@ENTER
+IF (<SRC.ISPLAYER>)
+SRC.MUSIC=52
+ELSE
+SRC.F_CREATE_PARAGON
+ENDIF
+
+ON=@CliPeriodic
+SRC.MUSIC=52
+
+[REGIONTYPE r_dungeon_travesty]
+// Unclaimed regions.
+ON=@ENTER
+IF (<SRC.ISPLAYER>)
+SRC.MUSIC=50
+ENDIF
+
+ON=@CliPeriodic
+SRC.MUSIC=50
+
+[REGIONTYPE r_koy_alani]
+ON=@ENTER
+// if <region.tag.safe_alan>
+	// //if !(<region.flags>&region_flag_safe)
+		// FLAGS=region_antimagic_all|region_antimagic_gate|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+	// //endif
+// endif
+if (<src.hits> < 50 )
+	src.sys_error Canınız azken giremezsiniz.
+	return 1
+endif
+
+if (<src.ISPLAYER>)
+	src.DSPEECH +spk_player_house
+endif
+
+ON=@Exit
+if <src.isplayer>
+SRC.DSPEECH -spk_player_house
+endif
+
+[REGIONTYPE r_allregions]
+
+
+[EOF]
+
+on=@enter
+if !<uid.<src.region.tag.koyuid>.tag.ucret_odendi>
+	src.sys_error Köyün ücreti ödenmediği için şuan kullanamazsınız.
+	return 1
+endif
+
+on=@login
+if !<uid.<src.region.tag.koyuid>.tag.ucret_odendi>
+	src.sys_error Köyün ücreti ödenmediği için şuan kullanamazsınız.
+	src.go <src.region.tag.koydenat>
+	return 1
+endif
+

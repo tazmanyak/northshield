@@ -1,0 +1,91 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+[FUNCTION f_guildsys_sendsmsg]
+ref1=<argv[0]>
+local.message=<StrEat <args>>
+
+If (<ref1.type>!=t_stone_guild)
+  return 0
+endif
+
+If (!strlen(<local.message>))
+  return 0
+endif
+
+src.sysmessage @0810 <local.message>
+
+[EVENTS e_guild]
+
+ON=@Death
+gc ( Guild Olum ) : <name> <qval <isempty <tag.name.suffix>> ?: <tag.name.suffix>>, <act.name> <qval <isempty <act.tag.name.suffix>> ?: <act.tag.name.suffix>> tarafından <region.name> civarında öldürüldü.
+FOR 0 <EVAL <ATTACKER>-1>
+	IF (<ATTACKER.<dLOCAL._FOR>.DAM>)
+	REF1=<ATTACKER.<dLOCAL._FOR>> //killer
+		IF (<REF1.FLAGS>&STATF_PET)
+		REF1=<REF1.MEMORYFINDTYPE.MEMORY_IPET.LINK>
+		ENDIF
+		IF (<REF1.ISPLAYER>)
+			IF (<REF1.GUILD>)
+				IF (<REF1.GUILD.ALIGN> != <GUILD.ALIGN>)
+				REF2=<REF1.GUILD> //killer's guild
+				//LOCAL.ALLYPOINTS= 1
+				REF2.guildverpuan //tag0.gpuan += <LOCAL.ALLYPOINTS>
+				REF2.f_guildsys_sendsmsg <REF2>,<REF1.NAME> 1 guild puanini guildine kazandirdi!
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+ENDFOR
+
+
+
+ON=@Login
+IF (<ACCOUNT.PLEVEL>==1)
+ UID.<GUILD>.Guild_SendMessage <NAME> oyuna girdi.
+ENDIF
+
+ON=@Logout
+IF (<ACCOUNT.PLEVEL>==1)
+ UID.<GUILD>.Guild_SendMessage <NAME> oyundan cikti.
+ENDIF
+
+/////////////////////////////////////////
+
+[SPEECH spk_guild]
+ON=*
+IF (<ARGN1> == <DEF.TALKMODE_GUILD>)
+ GC <ARGS>
+ENDIF
+
+[EOF]
+
+ON=@Death
+IF !(<ATTACKER>) || (<FINDID.i_evento_memoria>)
+ return 0
+ENDIF
+FOR 0 <eval <ATTACKER>-1>
+ REF1=<ATTACKER.<LOCAL._FOR>>
+ IF (<REF1.ISPLAYER>)
+   IF (<REF1.GUILD>)
+     IF (<UID.<GUILD>.IsWarRing <REF1.GUILD>>) 
+       UID.<REF1.GUILD>.TAG0.War.<GUILD>.Kills ++
+       IF (<STREAT <UID.<REF1.GUILD>.TAG0.War.<GUILD>>>)
+         IF (<UID.<REF1.GUILD>.TAG0.War.<GUILD>.Kills> >= <STREAT <UID.<REF1.GUILD>.TAG0.War.<GUILD>>>)
+           UID.<GUILD>.Guild_SendMessage <REF1.GUILD.NAME> ile olan savasi kaybettiniz.
+           UID.<REF1.GUILD>.Guild_SendMessage <GUILD.NAME> ile olan savasi kazandiniz!
+           UID.<GUILD>.DeclarePeace <REF1.GUILD>
+           UID.<REF1.GUILD>.DeclarePeace <GUILD>
+           TRY UID.<GUILD>.TAG.War.<REF1.GUILD>=
+           TRY UID.<GUILD>.TAG.War.<REF1.GUILD>.Kills=
+           TRY UID.<REF1.GUILD>.TAG.War.<GUILD>=
+           TRY UID.<REF1.GUILD>.TAG.War.<GUILD>.Kills=
+         ENDIF
+       ENDIF
+     ENDIF
+   ENDIF
+ ENDIF
+ENDFOR
+IF (<ACCOUNT.PLEVEL>==1)
+ UID.<GUILD>.Guild_SendMessage <NAME> <REGION.NAME> bolgesinde oldu.
+ENDIF

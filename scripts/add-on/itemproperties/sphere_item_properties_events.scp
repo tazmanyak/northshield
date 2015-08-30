@@ -1,0 +1,457 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Typedef for Item Properties.
+// Based on EA.
+//
+// FORMULAS USED
+// -------------
+// Mana Regeneration:
+// - Total = MRe + MRf + MRmi
+// -- MRmi = 2+(Meditation * 3 + Intelligence)/40
+// --- If GM Medit, MRmi = 2+(1.1*(Meditation * 3 + Intelligence)/40
+// --- If GM Medit and Medit is Active, MRmi=2+(2*(1.1*(Meditation * 3 + Intelligence)/40))
+// --- If Medit is Active, MRmi=2+(2*(Meditation * 3 + Intelligence)/40)
+// -- MRf = Focus/20
+// -- MRe = tag0.ManaRegeneration
+// Hit Points Regeneration:
+// - Total = 0.1 * tag0.HitPointRegeneration
+//
+// PROPERTIES LIST
+// ---------------
+// *DONE* scp.ItemProp_BestWeaponSkill
+// *DONE* scp.ItemProp_DamageIncrease
+// *DONE* scp.ItemProp_DefenseChanceIncrease
+// *DONE* scp.ItemProp_DexterityBonus
+// scp.ItemProp_EnhancePotion			// ATTACH TO CRAFTING SYS
+// *DONE* scp.ItemProp_FasterCastRecovery
+// *DONE* scp.ItemProp_FasterCasting
+// *DONE* scp.ItemProp_HitChanceIncrease
+// scp.ItemProp_HitColdArea
+// *DONE* scp.ItemProp_HitDispel
+// scp.ItemProp_HitEnergyArea
+// scp.ItemProp_HitFireArea
+// *DONE*scp.ItemProp_HitFireball
+// *DONE*scp.ItemProp_HitHarm
+// *DONE* scp.ItemProp_HitLifeLeech
+// *DONE*scp.ItemProp_HitLightning
+// *DONE* scp.ItemProp_HitLowerAttack
+// *DONE* scp.ItemProp_HitLowerDefense
+// *DONE*scp.ItemProp_HitMagicArrow
+// *DONE* scp.ItemProp_HitManaLeech
+// scp.ItemProp_HitPhysicalArea
+// scp.ItemProp_HitPoisonArea
+// *DONE* scp.ItemProp_HitStaminaLeech
+// *DONE* scp.ItemProp_HitPointIncrease
+// *DONE* scp.ItemProp_IntelligenceBonus
+// *DONE* scp.ItemProp_LowerManaCost
+// *DONE* scp.ItemProp_LowerReagentCost
+// *DONE* scp.ItemProp_Luck
+// *DONE* scp.ItemProp_MageArmor
+// *DONE* scp.ItemProp_MageWeapon
+// *DONE* scp.ItemProp_ManaIncrease
+// *DONE* scp.ItemProp_ManaRegeneration
+// *DONE* scp.ItemProp_NightSight
+// *DONE* scp.ItemProp_ReflectPhysicalDamage
+// *DONE* scp.ItemProp_StaminaRegeneration
+// *DONE* scp.ItemProp_HitPointRegeneracion
+// *DONE* scp.ItemProp_SelfRepair
+// *DONE* scp.ItemProp_SkillBonus
+// *DONE* scp.ItemProp_Slayer
+// *DONE* scp.ItemProp_SpellChanneling
+// *DONE* scp.ItemProp_SpellDamageIncrease
+// *DONE* scp.ItemProp_StaminaIncrease
+// *DONE* scp.ItemProp_StrengthBonus
+// *DONE* scp.ItemProp_SwingSpeedIncrease
+// scp.ItemProp_CraftingBonus
+// scp.ItemProp_CraftingExceptionalBonus
+// *DONE* scp.ItemProp_UsesRemaining
+
+
+[events e_NpcPropertiesEvent]
+on=@deathcorpse
+local.corpse = <argo.uid>
+if <def.scp.ItemProp_Luck> == 0
+return 0
+endif
+ref8 = <attacker.max>
+if <ref8.memoryfindtype.memory_ipet>
+ref8 = <ref8.memoryfindtype.memory_ipet.link.uid>
+endif
+if <tag0.luck> > 0
+	if <def.scp.ItemProp_LuckLoot> == 1
+	local.chanceinc = <feval <floatval <ref8.luck> @ <def.scp.ItemProp_LuckScaleFactor>>
+		if <r100> < <local.chanceinc>
+		serv.newitem <tag0.luck.loot>
+		new.cont = <local.corpse>
+		endif
+		if !<tag0.luck.randloot>
+		return 0
+		endif
+	elif <def.scp.ItemProp_LuckLoot> == 2
+		if <r<ref8.luck>> > <r<tag0.luck>>
+		serv.newitem <tag0.luck.loot>
+		new.cont = <local.corpse>
+		endif
+	return 0
+	endif
+endif
+if ((<tag0.luck.loot>) && (<def.scp.ItemProp_LuckLoot> == 3)) || (<tag0.luck.randloot>)
+args = <qval <tag0.luck.randloot>?<tag0.luck.randloot>:<tag.luck.loot>>
+local.chanceinc = <feval <floatval <ref8.luck> @ <def.scp.ItemProp_LuckScaleFactor>>
+local.items = <r<argv[0]>>
+	if <r100> < <local.chanceinc>
+	local.items ++
+	endif
+	if <argv[1]>
+	local.props = <r<argv[1]>>
+		if <r100> < <local.chanceinc>
+		local.props ++
+		endif
+	else
+	local.props = <r<argv[0]>>
+	endif
+	for 1 <local.items>
+		if <r2>
+		serv.newitem random_weapon
+		else
+		serv.newitem {random_armor 1 {i_bracelet_gold 1 i_ring_gold 1} 1}
+		endif
+	local.type = <new.f_GetBaseType>
+	new.events +t_iprop
+		for x 1 <local.props>
+		local.proptemp = <f_GetRandomProperty <local.type>>
+			while <new.f_IsProperty <local.proptemp>>
+			local.proptemp = <f_GetRandomProperty <local.type>>
+			endwhile
+		local.intensity = <eval <r<getargv 2 <def.itemprop_<local.proptemp>>>>>
+		args = <def.itemprop_<local.proptemp>>
+			doswitch <argv[4]>
+			local.blank
+			new.tag0.<argv[5]> = <local.intensity>
+			new.<argv[5]> <local.intensity>
+			enddo
+		endfor
+	new.cont = <local.corpse>
+	endfor
+endif
+
+[FUNCTION f_PlayerCheckStats]
+// Hit Point Increase, just add the TAG or Cap (whichever is smaller) to the maxhits
+// Safe zone since EVENTS on EventsPlayer are called last.
+// Same goes for ManaIncrease, StaminaIncrease
+if <def.scp.OSIStats> == 1
+maxhits = <eval (<str>/2) + <modstr> + 50>
+	if <hits> > <maxhits>
+	hits = <maxhits>
+	endif
+maxmana = <eval <int> + <modint>>
+maxstam = <eval <dex> + <moddex>>
+endif
+if <def.scp.ItemProp_HitPointIncrease> == 1
+maxhits += <min <tag0.HitPointIncrease>,<getargv 3 <def.itemprop_010>>>
+endif
+if <def.scp.ItemProp_ManaIncrease> == 1
+maxmana += <min <tag0.ManaIncrease>,<getargv 3 <def.itemprop_017>>>
+endif
+if <def.scp.ItemProp_StaminaIncrease> == 1
+maxstam += <min <tag0.StaminaIncrease>,<getargv 3 <def.itemprop_01f>>>
+endif
+// Hit Point Generation increases value in the regeneration
+// Formula: (0.1 * intensity)
+if <def.scp.ItemProp_HitPointRegeneration> == 1
+tag0.override.regenval_0 = <eval 1 + <tag0.HitPointRegeneration>>
+endif
+if <def.scp.ItemProp_StaminaRegeneration> == 1
+tag0.override.regenval_2 = <eval 1 + <tag0.StaminaRegeneration>>
+endif
+// Mana Regeneration is more complicated, since we have to look at:
+// Passive/Active Meditation, Intelligence, Battle Focus, Equipment
+// If you wonder why Medit / 10 and Focus / 200. Because in Sphere, GM Medit = 1000 and not 100.0
+if <def.scp.NewSkills_Meditation> == 1
+	if <meditation> > 99.9 // GM Meditation or better gets 10% bonus.
+	local.MRmi = <feval <floatval (1.1 * ((<meditation> * 3) + <int>)) / 40)>>
+	else
+	local.MRmi = <feval <floatval ((<meditation> * 3) + <int>) / 40>>
+	endif
+	if <tag0.meditation.active>
+	local.MRmi *= 2 // Active Meditation gets regen * 2
+	endif
+else
+local.MRmi = 0
+endif
+if <def.scp.NewSkills_Focus> == 1
+local.MRf = <eval <focus> / 200>
+else
+local.MRf = 0
+endif
+if <def.scp.ItemProp_ManaRegeneration> == 1
+local.MRe = <tag0.ManaRegeneration>
+	if <local.MRe> > <getargv 3 <def.itemprop_018>>
+	local.MRe = <getargv 3 <def.itemprop_018>>
+	endif
+else
+endif
+local.MRt = <eval 2 + <local.MRmi> + <local.MRf> + <local.MRe>> // This is the amount of points in 10 seconds
+if <tag0.meditation.active>
+tag0.override.regenval_1 = <eval <local.MRt> / 10>
+tag0.override.regen_1 = 10.0
+else
+tag0.override.regenval_1 = <local.MRt>
+tag.override.regen_1 =
+endif
+
+
+[EVENTS e_PlayerPropertiesEvent]
+on=@userstats
+// Hit Point Increase, just add the TAG or Cap (whichever is smaller) to the maxhits
+// Safe zone since EVENTS on EventsPlayer are called last.
+// Same goes for ManaIncrease, StaminaIncrease
+f_PlayerCheckStats
+
+on=@skillsuccess
+if <argn1> == 45 // Mining, which other works like this?
+	if <def.scp.ItemProp_UsesRemaining> == 1
+	uid.<actprv>.tag0.UsesRemaining -- // ActPRV is the tool used.
+		if <uid.<actprv>.tag0.UsesRemaining> == 0
+		sysmessage <def.scp.mining_tooldestroy>
+		uid.<actprv>.remove
+		endif
+	endif
+endif
+
+on=@spellselect
+// A small check for Faster Cast Recovery. No need for checking if it is activated.
+// Since if the property is not active, the tag will not be set.
+if <dtag0.spellrecovery> > <serv.time>
+src.sysmessage @03c1,6,2 502644 // You have not yet recovered from casting a spell
+return 1
+endif
+// Lower Mana Cost
+if <def.scp.ItemProp_LowerManaCost> == 1
+argn2 -= <eval (<argn2> * (<tag0.LowerManaCost> + 1)) / 100>
+endif
+// Lower Reagent Cost
+if <def.scp.ItemProp_LowerReagentCost> == 1
+	if <argn3> == 2
+		if <argn1> < 200
+		f_LowerReagentCost_Reagents <argn1>
+		elif <argn1> > 600
+		return 2
+		else
+		f_LowerReagentCost_Tithing <argn1>
+		endif
+	return 6
+	endif
+endif
+
+on=@spellcast
+// Spell Channeling is the right property. Was wrong with Mage Weapon, sorry.
+// It allows the caster to cast with items equipped in Hand1 or Hand2
+if <def.scp.ItemProp_SpellChanneling> == 1
+	if <argn1> != 104 // exception for Curse Weapon
+		if <argn1> != 203 // exception for Consecrate Weapon
+			if <findlayer.1.uid>
+				if <findlayer.1.type> != t_wand
+					if !<findlayer.1.tag0.SpellChanneling>
+					findlayer.1.unequip
+					endif
+				endif
+			endif
+			if <findlayer.2.uid>
+				if !<findlayer.2.tag0.SpellChanneling>
+				findlayer.2.unequip
+				endif
+			endif
+		endif
+	endif
+endif
+// A weird property actually. For Mages and Necromancers > 70.0 this is capped at 2.
+// But for Chivalry, Ninjitsu, Bushido and Spellweaving this is capped at 4.
+// So just do (cap * 2) in the last case.
+if <def.scp.ItemProp_FasterCasting> == 1
+local.fcast = <src.tag0.FasterCasting>
+	if <tag0.FasterCasting> > <getargv 3 <def.itemprop_07>>
+		if <src.magery> < 70.0
+		local.fcast = <min <tag0.FasterCasting>,4>
+		else
+		local.fcast = <getargv 3 <def.itemprop_07>>
+		endif
+	endif
+argn3 -= <local.fcast>
+	if <argn3> < 0
+	argn3 = 0.1
+	endif
+endif
+
+on=@spelleffect
+if <def.scp.ItemProp_FasterCastRecovery> == 1
+src.tag0.spellrecovery = <eval <serv.time>+(12-(<min <eval <src.tag0.FasterCastRecovery>*2>,12>))>
+endif
+
+on=@hit
+// Hit Dispel helps you to dispel a target when you hit it.
+// The % of this being activated is the intensity on the player (0-100).
+if <def.scp.ItemProp_HitDispel> == 1
+	if <src.brain>
+		if <src.flags>&statf_conjured
+			if <r100> < <tag0.HitDispel>
+			src.hits = 0
+			endif
+		endif
+	endif
+endif
+if <def.scp.ItemProp_HitFireball> == 1
+	if <r100> < <tag0.HitFireball>
+	src.spelleffect s_fireball,1000,<uid>
+	endif
+endif
+if <def.scp.ItemProp_HitHarm> == 1
+	if <r100> < <tag0.HitHarm>
+	src.spelleffect s_harm,1000,<uid>
+	endif
+endif
+if <def.scp.ItemProp_HitLightning> == 1
+	if <r100> < <tag0.HitLightning>
+	src.spelleffect s_lightning,1000,<uid>
+	endif
+endif
+if <def.scp.ItemProp_HitMagicArrow> == 1
+	if <r100> < <tag0.HitMagicArrow>
+	src.spelleffect s_magic_arrow,1000,<uid>
+	endif
+endif
+// Hit Lower Attack and Hit Lower Defense applies directly to the target HCI/HDI
+// It lasts for 8 seconds and only a 25 percent, though the intensity is used for calculations.
+if <def.scp.ItemProp_HitLowerAttack> == 1
+	if <weapon>
+		if <r100> < <weapon.tag0.HitLowerAttack>
+			if <src.restest i_hit_lower_attack>
+			src.findid.i_hit_lower_attack.timer = 8
+			else
+			serv.newitem i_hit_lower_attack
+			src.equip <new.uid>
+			endif
+		endif
+	endif
+endif
+if <def.scp.ItemProp_HitLowerDefense> == 1
+	if <weapon>
+		if <r100> < <weapon.tag0.HitLowerDefense>
+			if <src.restest i_hit_lower_defense>
+			src.findid.i_hit_lower_defense.timer = 8
+			else
+			serv.newitem i_hit_lower_defense
+			src.equip <new.uid>
+			endif
+		endif
+	endif
+endif
+
+on=@hitdamagebonus
+// Slayer groups are just like flags, only need to see if the weapon exist
+// check if the weapon got a slayer tag and if the target got a slayer tag.
+// Lesser Slayers do x3 damage while Super Slayers do x2.
+if <def.scp.ItemProp_Slayer> == 1
+	if !<isempty <argo.uid>>
+		if <src.tag0.slayer.less>
+			if <argo.tag0.slayer.less> == <src.tag0.slayer>
+			var0.<uid>_damagebonus += 200
+			endif
+		elif <src.tag0.slayer.super>
+			if <argo.tag0.slayer.super>&<src.tag0.slayer>
+			var0.<uid>_damagebonus += 100
+			endif
+		endif
+	endif
+endif
+if <def.scp.ItemProp_DamageIncrease> == 1
+	if <tag0.DamageIncrease>
+	local.tempbonus = <tag0.DamageIncrease>
+	local.dicap = <getargv 3 <def.itemprop_02>>
+		if <tag0.DamageIncrease> > <local.dicap>
+		local.tempbonus = <local.dicap>
+		endif
+	var0.<uid>_damagebonus += <dlocal.tempbonus>
+	endif
+endif
+
+on=@gethit
+// This three leech properties should be at the end of the trigger
+// AFTER the damage calcs are done. Since they work according to damage dealt.
+// Formula (for both) is: (damage * 0.4) - intensity
+if <def.scp.ItemProp_HitManaLeech> == 1
+	if <src.tag0.HitManaLeech>
+	float.mtoleech = <floatval (<argn1> * 0.4) - <src.tag0.HitManaLeech>>
+	mana -= <feval <float.mtoleech>>
+	src.mana += <feval <float.mtoleech>>
+		if <src.mana> > <src.maxmana>
+		src.mana = <src.maxmana>
+		endif
+	endif
+endif
+if <def.scp.ItemProp_HitLifeLeech> == 1
+	if <src.tag0.HitLifeLeech>
+	float.htoleech = <floatval (<argn1> * 0.4) - <src.tag0.HitLifeLeech>>
+	hits -= <feval <float.htoleech>>
+	src.hits += <feval <float.htoleech>>
+		if <src.hits> > <src.maxhits>
+		src.hits = <src.maxhits>
+		endif
+	endif
+endif
+// This one works a little different to the rest of the leech properties
+// It uses the % of the player to calc success and gains the damage amount in stamina
+// Still, it doesn't "leech" stamina from the target
+if <def.scp.ItemProp_HitStaminaLeech> == 1
+	if <r100> < <src.tag0.HitStaminaLeech>
+	src.stam += <argn1>
+	endif
+endif
+
+
+
+[Itemdef i_hit_lower_attack]
+ID=i_memory
+TYPE=t_eq_script
+Name=Hit Lower Attack
+
+on=@equip
+timer = 8
+src.tag.HitChanceIncrease -= 25
+
+on=@unequip
+src.tag.HitChanceIncrease += 25
+
+on=@timer
+remove
+return 1
+
+[Itemdef i_hit_lower_defense]
+ID=i_memory
+TYPE=t_eq_script
+Name=Hit Lower Defense
+
+on=@equip
+timer = 8
+src.tag.DefenseChanceIncrease -= 25
+
+on=@unequip
+src.tag.DefenseChanceIncrease += 25
+
+on=@timer
+remove
+return 1
+
+[eof]

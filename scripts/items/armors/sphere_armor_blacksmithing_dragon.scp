@@ -1,0 +1,135 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 02641]
+DEFNAME=i_dragon_chest
+NAME=Dragon Breastplate
+TYPE=t_armor
+RESOURCES=36 i_reag_dragon_scale
+SKILLMAKE=BLACKSMITHING 85.0
+WEIGHT=10.0
+REQSTR=75
+DUPELIST=02642
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Dragon Scale Armor
+DESCRIPTION=Dragon Breastplate
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 02642]
+DUPEITEM=02641
+
+[ITEMDEF 02643]
+DEFNAME=i_dragon_gloves
+NAME=Dragon Gloves
+TYPE=t_armor
+RESOURCES=16 i_reag_dragon_scale
+SKILLMAKE=BLACKSMITHING 68.9
+WEIGHT=2.0
+REQSTR=75
+DUPELIST=02644
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Dragon Scale Armor
+DESCRIPTION=Dragon Gloves
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 02644]
+DUPEITEM=02643
+
+[ITEMDEF 02645]
+DEFNAME=i_dragon_helm
+NAME=Dragon Helm
+TYPE=t_armor
+RESOURCES=20 i_reag_dragon_scale
+SKILLMAKE=BLACKSMITHING 72.6
+WEIGHT=5.0
+REQSTR=75
+DUPELIST=02646
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Dragon Scale Armor
+DESCRIPTION=Dragon Helm
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 02646]
+DUPEITEM=02645
+
+[ITEMDEF 02647]
+DEFNAME=i_dragon_leggings
+NAME=Dragon Leggings
+TYPE=t_armor
+RESOURCES=28 i_reag_dragon_scale
+SKILLMAKE=BLACKSMITHING 78.8
+WEIGHT=6.0
+REQSTR=75
+DUPELIST=02648
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Dragon Scale Armor
+DESCRIPTION=Dragon Leggings
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 02648]
+DUPEITEM=02647
+
+[ITEMDEF 02657]
+DEFNAME=i_dragon_sleeves
+NAME=Dragon Sleeves
+TYPE=t_armor
+RESOURCES=24 i_reag_dragon_scale
+SKILLMAKE=BLACKSMITHING 76.3
+WEIGHT=2.0
+REQSTR=75
+DUPELIST=02658
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Dragon Scale Armor
+DESCRIPTION=Dragon Sleeves
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 02658]
+DUPEITEM=02657
+
+
+[eof]

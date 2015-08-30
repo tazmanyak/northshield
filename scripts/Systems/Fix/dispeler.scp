@@ -1,0 +1,209 @@
+/////Duvar Dispeler ////
+
+
+[ITEMDEF i_anti_mark_koy]
+NAME=Anti Mark
+ID=i_deed
+WEIGHT=5.0
+TYPE=t_script
+
+On=@Create
+color 0ba8
+attr 080
+
+on=@dclick
+return 1
+
+on=@pickup_ground
+src.sysmessage @32,,1 Bu islem loglara gecti.
+return 1
+
+
+[itemdef i_reflesh_healer_npc]
+name=Healer Reflesh
+id=i_crystal_red
+type=t_script
+ON=@create
+attr=attr_move_never
+
+
+on=@timer
+forchars 25
+	if strmatch("c_healelem","<id>")
+		hits 1
+	endif
+enddo
+timer 300
+return 1
+
+[ITEMDEF i_adam_death]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Ticaret Suresi
+
+ON=@Create
+attr=attr_move_never|attr_can_decay|attr_invis
+
+
+ON=@Timer
+cont.sysmessage @,,1 Artik canlilari gorebilirsiniz.
+cont.SENDPACKET 0C8 40
+cont.update
+REMOVE
+return 1
+
+[itemdef i_spawn_koruma]
+name=Spawn Koruma
+id=i_crystal_red
+type=t_script
+ON=@create
+attr=attr_move_never
+
+
+on=@timer
+ref1=<uid>
+
+forplayers 100
+	if (<account.plevel> > 1) && (<account.plevel> < 6)
+		go occlo 
+		sys_error Bu alana giremezsin ! Israrci olursaniz ceza alicaksiniz.
+		serv.writefile2 C:\SERVER_LOGLARI\<account.name>\Yasakli_Erisim.txt <serv.rtime> - <ref1.p> - <ref1.region.name> girdi.
+	endif
+
+
+//     // if (<flags>&STATF_DEAD)
+////	if !<findid.i_adam_death>
+//		newitem i_adam_death,1,<uid>,1
+//		new.timer 120
+//		try uid.<uid>.SENDPACKET 0C8 0
+//		try uid.<uid>.sysmessage @,,1 Spawn alaninda olu halde iken varliklari goremezsiniz.
+//		try uid.<uid>.update
+// //     endif
+//endif
+
+endfor
+
+//foritems 50
+//	if strmatch(*Egg*,<name>)
+//		ATTR=<ATTR>&~attr_decay
+//		timer -1
+//	endif
+//endfor
+timer 1
+return 1
+
+
+
+[itemdef i_dispeler_5]
+name=Dispeller 5 Kare
+id=i_crystal_red
+type=t_script
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=5
+
+ON=@timer
+foritems 5
+//if (<attr>&attr_magic)
+	if (<attr> = 022)
+		if <type==t_magic> 
+			remove
+		endif
+	endif
+endfor
+timer 5
+return 1
+
+on=@Click
+message @0790,,1 <name>
+return 1
+
+
+[itemdef i_dispeler]
+name=Dispeller
+id=i_crystal_red
+type=t_script
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=5
+
+ON=@timer
+foritems 15
+//if (<attr>&attr_magic)
+	if (<attr> = 022)
+		if <type==t_magic> 
+			remove
+		endif
+	endif
+endfor
+timer 5
+return 1
+
+
+on=@Click
+message @0790,,1 Bu Alana Field Atmak Yasaktir.!!
+return 1
+
+[itemdef i_dispelerev]
+name=Dispeller
+id=i_crystal_red
+type=t_script
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=1
+
+ON=@timer
+foritems 15
+if (<attr>&attr_magic)
+if <type==t_magic>
+timer
+endif
+endif
+endfor
+timer=1
+return 1
+
+on=@Click
+message @0790,,1 Ev Field Koruyucu
+return 1
+
+
+////// Ceset Dispeler ///////
+
+[itemdef i_dispelerceset]
+name=Dispel
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=1
+
+ON=@timer
+foritems 8
+if (<type> == t_corpse)
+remove
+endif
+endfor
+timer=1
+return 1
+
+[itemdef i_dispelerkutu]
+name=Dispel
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=1
+
+ON=@timer
+foritems 8
+if (<type> == t_container)
+remove
+endif
+endfor
+timer=1
+return 1
+
+[EOF]

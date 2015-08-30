@@ -1,0 +1,558 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+///////////////////////////////////////////////////////////////
+//////// BOWS
+///////////////////////////////////////////////////////////////
+
+
+[ITEMDEF 013b2]
+DUPEITEM=013b1
+
+[ITEMDEF i_bow_juka_king]
+ID=i_bow
+NAME=Bow of the Juka King
+TEVENTS=t_iprop
+TAG.Slayer.Super=SSLAYER_REPTILE
+TAG.HitMagicArrow=25
+TAG.HitChanceIncrease=15
+TAG.DamageIncrease=40
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Bows
+DESCRIPTION=Bow of the Juka King
+
+ON=@Create
+COLOR=51
+HITPOINTS=255
+
+[ITEMDEF i_frostbringer]
+ID=i_bow
+NAME=Frostbringer
+TEVENTS=t_iprop
+TAG.Artifact=11
+TAG.Luck=30
+TAG.DamageIncrease=50
+TAG.HitDispel=50
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Bows
+DESCRIPTION=Frostbringer
+
+ON=@Create
+COLOR=012a
+HITPOINTS=255
+
+[ITEMDEF i_swiftflight]
+ID=i_bow
+NAME=Swiftflight
+TEVENTS=t_iprop
+TEVENTS=t_set_marksman
+TAG.DamageIncrease=40
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Bows
+DESCRIPTION=Swiftflight
+
+ON=@Create
+COLOR=0 // Unknown
+
+[ITEMDEF i_dryad_bow]
+ID=i_bow
+NAME=The Dryad Bow
+TEVENTS=t_iprop
+TAG.Artifact=11
+TAG.SelfRepair=5
+TAG.SwingSpeedIncrease=50
+TAG.DamageIncrease=35
+TAG.ResPoison=15
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Bows
+DESCRIPTION=The Dryad Bow
+
+ON=@Create
+COLOR=04f8
+HITPOINTS=255
+
+
+///////////////////////////////////////////////////////////////
+//////// COMPOSITE BOWS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026c2]
+DEFNAME=i_composite_bow
+NAME=Composite Bow
+DAM=13,17
+WEIGHT=5
+SPEED=4.0
+REQSTR=45
+TWOHANDS=Y
+TYPE=t_weapon_bow
+RANGE=2,15
+TDATA3=i_arrow
+TDATA4=i_arrow_x
+SKILLMAKE=BOWCRAFT 70.0
+RESOURCES=7 i_log
+VALUE=170
+DUPELIST=026cc
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Composite Bows
+DESCRIPTION=Composite Bow
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 026cc]
+DUPEITEM=026c2
+
+[ITEMDEF i_heartseeker]
+ID=i_composite_bow
+NAME=Heartseeker
+REQSTR=13
+TEVENTS=t_iprop
+TAG.HitChanceIncrease=5
+TAG.SwingSpeedIncrease=10
+TAG.DamageIncrease=25
+TAG.LowerRequeriments=70
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Composite Bows
+DESCRIPTION=Heartseeker
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+
+///////////////////////////////////////////////////////////////
+//////// ELVEN COMPOSITE BOWS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d1e]
+DEFNAME=i_elven_composite_longbow
+Name=Elven Composite Longbow
+TYPE=T_WEAPON_BOW
+DAM=12,16
+SKILL=Archery
+REQSTR=45
+RANGE=2,15
+TWOHANDS=Y
+TDATA3=i_arrow
+TDATA4=i_arrow_x
+SKILLMAKE=BOWCRAFT 95.0
+RESOURCES=20 i_log
+SPEED=4.0
+WEIGHT=8
+DUPELIST=02d2a
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Elven Composite Longbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 02d2a]
+DUPEITEM=02d1e
+
+[ITEMDEF i_barbed_longbow]
+ID=i_elven_composite_longbow
+NAME=Barbed Longbow
+SKILLMAKE=BOWCRAFT 95.0
+RESOURCES=20 i_log, 1 i_gem_fire_ruby
+TEVENTS=t_iprop
+TAG.ReflectPhysicalDamage=12
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Barbed Longbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_blight_gripped_longbow]
+ID=i_elven_composite_longbow
+NAME=Blight Gripped Longbow
+SKILLMAKE=Bowcraft 75.0
+RESOURCES=20 i_log, 10 i_ingredient_blight, 10 i_ingredient_corruption, 1 i_ingredient_paroxysmus_lard
+TEVENTS=t_iprop
+TAG.NightSight=1
+TAG.HitPoisonArea=20
+TAG.StaminaRegeneration=4
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=35
+TAG.DamPoison=100
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Blight Gripped Longbow
+
+ON=@Create
+HITPOINTS={255 255}
+COLOR=<ColorElementalType>
+
+[ITEMDEF i_faerie_fire]
+ID=i_elven_composite_longbow
+NAME=Faerie Fire
+SKILLMAKE=Bowcraft 75.0
+RESOURCES=20 i_log, 10 i_ingredient_blight, 10 i_ingredient_corruption, 1 i_ingredient_paroxysmus_lard
+TEVENTS=t_iprop
+TAG.HitFireball=25
+TAG.Balanced=1
+TAG.DexterityBonus=3
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=60
+TAG.DamFire=100
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Faerie Fire
+
+ON=@Create
+HITPOINTS={255 255}
+COLOR=<ColorElementalType>
+
+[ITEMDEF i_frozen_longbow]
+ID=i_elven_composite_longbow
+NAME=Frozen Longbow
+SKILLMAKE=BOWCRAFT 70.0
+RESOURCES=20 i_log, 1 i_gem_turquoise
+TEVENTS=t_iprop
+TAG.SwingSpeedIncrease=-5
+TAG.DamageIncrease=10
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Frozen Longbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_longbow_might]
+ID=i_elven_composite_longbow
+NAME=Longbow of Might
+SKILLMAKE=Bowcraft 70.0
+RESOURCES=20 i_log, 1 i_gem_blue_diamond
+TEVENTS=t_iprop
+TAG.DamageIncrease=5
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Longbow of Might
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_silvani_feywood_bow]
+ID=i_elven_composite_longbow
+NAME=Faerie Fire
+SKILLMAKE=Bowcraft 75.0
+RESOURCES=20 i_log, 10 i_ingredient_muculent, 10 i_ingredient_scourge, 1 i_ingredient_paroxysmus_lard
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitChanceIncrease=12
+TAG.SwingSpeedIncrease=30
+TAG.DamageIncrease=35
+TAG.DamEnergy=100
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Faerie Fire
+
+ON=@Create
+HITPOINTS={255 255}
+COLOR=<ColorElementalType>
+
+[ITEMDEF i_slayer_longbow]
+ID=i_elven_composite_longbow
+NAME=Slayer Longbow
+SKILLMAKE=Bowcraft 70.0
+RESOURCES=20 i_log, 1 i_gem_brilliant_amber
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Slayer Longbow
+
+ON=@Create
+f_slayer // Random Slayer Group
+HITPOINTS={36 48}
+
+[ITEMDEF i_wildfire_bow]
+ID=i_elven_composite_longbow
+NAME=Wildfire Bow
+TEVENTS=t_iprop
+TAG.Skill.Bonus.1=Archery,10.0
+TAG.Velocity=15
+TAG.ResFire=25
+TAG.DamFire=100
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Elven Composite Longbows
+DESCRIPTION=Wildfire Bow
+
+ON=@Create
+HITPOINTS={255 255}
+COLOR=<ColorElementalType>
+
+
+///////////////////////////////////////////////////////////////
+//////// MAGICAL SHORTBOWS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d1f]
+DEFNAME=i_magical_shortbow
+NAME=Magical Shortbow
+TYPE=T_WEAPON_BOW
+DAM=9,13
+SKILL=Archery
+REQSTR=45
+RANGE=2,15
+TWOHANDS=Y
+TDATA3=i_arrow
+TDATA4=i_arrow_x
+SKILLMAKE=BOWCRAFT 85.0
+RESOURCES=15 i_log
+SPEED=3.0
+WEIGHT=6
+DUPELIST=02d2b
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Magical Shortbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 02d2b]
+DUPEITEM=02d1f
+
+[ITEMDEF i_assassin_shortbow]
+ID=i_magical_shortbow
+NAME=Assassin's Shortbow
+SKILLMAKE=Bowcraft 70.0
+RESOURCES=15 i_log, 1 i_gem_dark_sapphire
+TEVENTS=t_iprop
+TAG.HitChanceIncrease=3
+TAG.DamageIncrease=4
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Assassin's Shortbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_lightweight_shortbow]
+ID=i_magical_shortbow
+NAME=Lightweight Shortbow
+SKILLMAKE=Bowcraft 70.0
+RESOURCES=15 i_log, 1 i_gem_white_pearl
+TEVENTS=t_iprop
+TAG.Balanced=1
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Lightweight Shortbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_mischief_maker]
+ID=i_magical_shortbow
+NAME=Mischief Maker
+SKILLMAKE=Bowcraft 75.0
+RESOURCES=15 i_log, 10 i_ingredient_corruption, 10 i_ingredient_putrefaction, 1 i_ingredient_dread_horn_mane
+TEVENTS=t_iprop
+TAG.Slayer.Super=SSLAYER_UNDEAD
+TAG.Balanced=1
+TAG.SwingSpeedIncrease=35
+TAG.DamageIncrease=45
+TAG.DamCold=100
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Mischief Maker
+
+ON=@Create
+HITPOINTS=255
+COLOR=<ColorElementalType>
+
+[ITEMDEF i_mystical_shortbow]
+ID=i_magical_shortbow
+NAME=Mystical Shortbow
+SKILLMAKE=Bowcraft 70.0
+RESOURCES=15 i_log, 1 i_gem_ecru_citrine
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.FasterCasting=-1
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Mystical Shortbows
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_ranger_shortbow]
+ID=i_magical_shortbow
+NAME=Ranger's Shortbow
+SKILLMAKE=Bowcraft 70.0
+RESOURCES=15 i_log, 1 i_gem_perfect_emerald
+TEVENTS=t_iprop
+TAG.SwingSpeedIncrease=5
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Ranger's Shortbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_windsong]
+ID=i_magical_shortbow
+NAME=Windsong
+TEVENTS=t_iprop
+TAG.Velocity=25
+TAG.SelfRepair=3
+TAG.DamageIncrease=35
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Magical Shortbows
+DESCRIPTION=Windsong
+
+ON=@Create
+HITPOINTS=255
+
+
+///////////////////////////////////////////////////////////////
+//////// YUMIS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 027a5]
+DEFNAME=i_yumi
+NAME=Yumi
+DAM=16,20
+WEIGHT=8
+SPEED=4.5
+RANGE=2,15
+REQSTR=35
+TWOHANDS=Y
+TYPE=t_weapon_bow
+TDATA3=i_arrow
+TDATA4=i_arrow_x
+SKILLMAKE=BOWCRAFT 90.0
+RESOURCES=10 i_log
+SKILL=Archery
+DUPELIST=027f0
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Yumis
+DESCRIPTION=Yumi
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027f0]
+DUPEITEM=027a5
+
+[ITEMDEF i_hanzo_bow]
+ID=i_yumi
+NAME=Hanzo's Bow
+TEVENTS=t_iprop
+TAG.Skill.Bonus.1=Ninjitsu,10.0
+TAG.HitLifeLeech=45
+TAG.SelfRepair=3
+TAG.DamageIncrease=50
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Yumis
+DESCRIPTION=Hanzo's Bow
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF i_horselord]
+ID=i_yumi
+NAME=The Horselord
+TEVENTS=t_iprop
+TAG.Slayer.Super=SSLAYER_ELEMENTAL
+TAG.DexterityBonus=5
+TAG.ManaRegeneration=1
+TAG.Luck=125
+TAG.DamageIncrease=50
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Yumis
+DESCRIPTION=The Horselord
+
+ON=@Create
+HITPOINTS=255
+
+
+///////////////////crossbows
+
+[ITEMDEF 013fd]
+DUPEITEM=013fc
+
+[ITEMDEF i_nox_ranger_heavy_crossbow]
+ID=i_crossbow_heavy
+NAME=Nox Ranger's Heavy Crossbow
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitStaminaLeech=40
+TAG.SwingSpeedIncrease=30
+TAG.DamageIncrease=20
+TAG.ResPoison=10
+TAG.DamPhysical=50
+TAG.DamPoison=50
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Crossbows
+DESCRIPTION=Nox Ranger's Heavy Crossbow
+
+ON=@Create
+HITPOINTS=255
+COLOR=<ColorElementalType>
+
+
+///////////////////////////////////////////////////////////////
+//////// REPEATING CROSSBOWS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026c3]
+DEFNAME=i_repeating_crossbow
+NAME=Repeating Crossbow
+DAM=8,12
+WEIGHT=6
+SPEED=2.2
+RANGE=2,15
+REQSTR=30
+TWOHANDS=Y
+TYPE=t_weapon_xbow
+TDATA3=i_xbolt
+TDATA4=i_xbolt_x
+SKILLMAKE=BOWCRAFT 90.0
+RESOURCES=10 i_log
+VALUE=150
+DUPELIST=026cd
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Crossbows
+DESCRIPTION=Repeating Crossbow
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 026cd]
+DUPEITEM=026c3
+
+[ITEMDEF i_shamino_best_crossbow]
+ID=i_repeating_crossbow
+NAME=Shamino's Best Crossbow
+REQSTR=0
+TEVENTS=t_iprop
+TAG.SelfRepair=10
+TAG.HitChanceIncrease=15
+TAG.LowerRequeriments=100
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Crossbows
+DESCRIPTION=Shamino's Best Crossbow
+
+ON=@Create
+HITPOINTS=255
+COLOR=0504
+
+[ITEMDEF i_night_reaper]
+ID=i_repeating_crossbow
+NAME=The Night Reaper
+SKILLMAKE=Bowcraft 75.0
+RESOURCES=10 i_log, 10 i_ingredient_blight, 10 i_ingredient_scourge, 1 i_ingredient_dread_horn_mane
+TEVENTS=t_iprop
+TAG.Slayer.Super=SSLAYER_DEMON
+TAG.NightSight=1
+TAG.SwingSpeedIncrease=25
+TAG.DamageIncrease=55
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Crossbows
+DESCRIPTION=The Night Reaper
+
+ON=@Create
+HITPOINTS=255
+COLOR=041c
+
+[eof]

@@ -1,0 +1,119 @@
+[CHARDEF C_H_MAGINCIA_COUNCIL]
+DEFNAME=C_H_MAGINCIA_COUNCIL
+NAME=#NAMES_HUMANMALE the Magincia Council Member
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMaginCouncil
+TSPEECH=jobparliament
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Magincia Town Members
+DESCRIPTION=Magincia Council Member (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={41 55}
+	DEX={41 55}
+	INT={41 55}
+
+	FENCING={15.0 38.0}
+	PARRYING={25.0 48.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	EVALUATINGINTEL={45.0 65.0}
+	MAGICRESISTANCE={25.0 48.0}
+	TACTICS={25.0 48.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_all
+	ITEM=i_pants_long
+	COLOR=colors_all
+	ITEM=i_SASH
+	COLOR=colors_red
+	ITEM=i_boots_calf
+	COLOR=colors_neutral
+	ITEM=i_sword_long
+	ITEM=backpack_loaded
+
+
+[CHARDEF C_H_MAGINCIA_COUNCIL_F]
+DEFNAME=C_H_MAGINCIA_COUNCIL_F
+NAME=#NAMES_HUMANFEMALE the Magincia Council Member
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMaginCouncil
+TSPEECH=jobparliament
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Magincia Town Members
+DESCRIPTION=Magincia Council Member (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={41 55}
+	DEX={41 55}
+	INT={41 55}
+
+	FENCING={15.0 38.0}
+	PARRYING={25.0 48.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	EVALUATINGINTEL={45.0 65.0}
+	MAGICRESISTANCE={25.0 48.0}
+	TACTICS={25.0 48.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=i_SASH
+	COLOR=colors_red
+	ITEM=i_boots_calf
+	COLOR=colors_neutral
+	ITEM=i_sword_long
+	ITEM=backpack_loaded
+[EOF]

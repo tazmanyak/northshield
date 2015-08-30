@@ -1,0 +1,1753 @@
+﻿[plevel 1]
+spawntakip
+
+[function spawntakip]
+if <src.taming> < 70.0
+	src.sys_error Spawn Takip ekranına sadece Tame yeteneği 70 ve üzerinde olan oyuncular erişebilir.
+	return 1
+endif
+	
+tag0.local.day=<rtime.day>
+tag0.local.hour=<serv.rtime.format %H>
+sDIALOG d_spawn_takip
+//src.sys_error Boyle bir komut bulunmamaktadir.
+
+[function f_aylar_gunler]
+if (<rtime.month> == 01)	//OCAK
+var.max_day 31
+var.spawn_month OCAK
+elif (<rtime.month> == 02)	//SUBAT
+var.max_day 28
+var.spawn_month ŞUBAT
+elif (<rtime.month> == 03)	//MART
+var.max_day 31
+var.spawn_month MART
+elif (<rtime.month> == 04)	//NISAN
+var.max_day 30
+var.spawn_month NİSAN
+elif (<rtime.month> == 05)	//MAYIS
+var.max_day 31
+var.spawn_month MAYIS
+elif (<rtime.month> == 06)	//HAZIRAN
+var.max_day 30
+var.spawn_month HAZİRAN
+elif (<rtime.month> == 07)	//TEMMUZ
+var.max_day 31
+var.spawn_month TEMMUZ
+elif (<rtime.month> == 08)	//AGUSTOS
+var.max_day 31
+var.spawn_month AĞUSTOS
+elif (<rtime.month> == 09)	//EYLUL
+var.max_day 30
+var.spawn_month EYLÜL
+elif (<rtime.month> == 10)	//EKIM
+var.max_day 31
+var.spawn_month EKİM
+elif (<rtime.month> == 11)	//KASIM
+var.max_day 30
+var.spawn_month KASIM
+elif (<rtime.month> == 12)	//ARALIK
+var.max_day 31
+var.spawn_month ARALIK
+endif
+
+
+[DIALOG d_spawn_takip]
+0,0
+page 0
+resizepic 160 0 9200 475 560	
+gumppictiled 170 10 455 540 2624
+
+
+
+///////////////////////////////////////////////////////// 12 Ay
+
+
+/////////////////////////////////////////////////////////
+
+//htmlgump 185 490 620 70 0 1 1
+
+//dhtmlgump 520 20 300 20 0 0 <def.bfont_lgray> Yil: <rtime.year> | Ay: <rtime.month> | Gun: <rtime.day> | Saat: <rtime.time>
+dhtmlgump 420 20 300 20 0 0 <def.bfont_white> Tarih: <serv.rtime>
+dhtmlgump 180 20 300 20 0 0 <def.bfont_white> <serv.name> Spawntakip Sistemi
+dhtmlgump 180 40 300 150 0 0 <def.bfont_lgreen> Son Spawn:<var.son_spawn_yeri> bölgesinde.
+
+/////////////////////////////////////////////////////////////////////////////////// Ogleden Once
+
+if !(<rtime.day> == <eval <src.tag0.local.day>>)
+button 590 70 015e1 015e5 1 0 2
+dhtmlgump 520 70 300 20 0 0 <def.bfont_green> <eval <tag0.local.day>+1> <var.spawn_month>
+endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>) && (<eval <src.tag0.local.day>> > 1)
+button 190 70 015e3 015e7 1 0 1
+dhtmlgump 210 70 300 20 0 0 <def.bfont_green> <eval <tag0.local.day>-1> <var.spawn_month>
+endif
+
+//dhtmlgump 470 70 300 20 0 0 <def.bfont_white> (<eval <tag0.local.day>+1>) Sonraki Gun
+dhtmlgump 370 70 300 20 0 0 <def.bfont_lgreen> <eval <src.tag0.local.day>> <var.spawn_month>
+
+dhtmlgump 180 110 300 20 0 0 <def.bfont_lgray> 00:00
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgray> 01:00
+dhtmlgump 180 170 300 20 0 0 <def.bfont_lgray> 02:00
+dhtmlgump 180 200 300 20 0 0 <def.bfont_lgray> 03:00
+dhtmlgump 180 230 300 20 0 0 <def.bfont_lgray> 04:00
+dhtmlgump 180 260 300 20 0 0 <def.bfont_lgray> 05:00
+dhtmlgump 180 290 300 20 0 0 <def.bfont_lgray> 06:00
+dhtmlgump 180 320 300 20 0 0 <def.bfont_lgray> 07:00
+dhtmlgump 180 350 300 20 0 0 <def.bfont_lgray> 08:00
+dhtmlgump 180 380 300 20 0 0 <def.bfont_lgray> 09:00
+dhtmlgump 180 410 300 20 0 0 <def.bfont_lgray> 10:00
+dhtmlgump 180 440 300 20 0 0 <def.bfont_lgray> 11:00
+
+For 12
+dhtmlgump 240 <eval (<local._for>*30)+80> 300 20 0 0 <def.bfont_lgray> :
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////// Ogleden Sonra
+
+//dhtmlgump 590 70 300 20 0 0 <def.bfont_white> Saatler (Ogleden Sonra)
+
+dhtmlgump 410 110 300 20 0 0 <def.bfont_lgray> 12:00
+dhtmlgump 410 140 300 20 0 0 <def.bfont_lgray> 13:00
+dhtmlgump 410 170 300 20 0 0 <def.bfont_lgray> 14:00
+dhtmlgump 410 200 300 20 0 0 <def.bfont_lgray> 15:00
+dhtmlgump 410 230 300 20 0 0 <def.bfont_lgray> 16:00
+dhtmlgump 410 260 300 20 0 0 <def.bfont_lgray> 17:00
+dhtmlgump 410 290 300 20 0 0 <def.bfont_lgray> 18:00
+dhtmlgump 410 320 300 20 0 0 <def.bfont_lgray> 19:00
+dhtmlgump 410 350 300 20 0 0 <def.bfont_lgray> 20:00
+dhtmlgump 410 380 300 20 0 0 <def.bfont_lgray> 21:00
+dhtmlgump 410 410 300 20 0 0 <def.bfont_lgray> 22:00
+dhtmlgump 410 440 300 20 0 0 <def.bfont_lgray> 23:00
+
+For 12
+dhtmlgump 470 <eval (<local._for>*30)+80> 300 20 0 0 <def.bfont_lgray> :
+endfor
+
+For 29
+dhtmlgump 390 <eval (<local._for>*13)+80> 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+For 61
+dhtmlgump <eval (<local._for>*7)+170> 80 300 20 0 0 <def.bfont_lgray> _
+endfor
+
+For 61
+dhtmlgump <eval (<local._for>*7)+170> 457 300 20 0 0 <def.bfont_lgray> _
+endfor
+
+//////////////////////////////////////////////////////////////////////////
+
+For 12
+dhtmlgump <eval (<local._for>*1)+180> 500 300 20 0 0 <def.bfont_lred> |
+endfor
+
+dhtmlgump 200 500 300 20 0 0 <def.bfont_lred> : Öldürüldü
+
+For 12
+dhtmlgump <eval (<local._for>*1)+280> 500 300 20 0 0 <def.bfont_lgreen> |
+endfor
+
+dhtmlgump 300 500 300 20 0 0 <def.bfont_lgreen> : Spawn Oldu
+
+For 12
+dhtmlgump <eval (<local._for>*1)+390> 500 300 20 0 0 <def.bfont_yellow> |
+endfor
+
+dhtmlgump 410 500 300 20 0 0 <def.bfont_yellow> : Evcilleştirildi
+
+For 12
+dhtmlgump <eval (<local._for>*1)+510> 500 300 20 0 0 <def.bfont_white> |
+endfor
+
+dhtmlgump 530 500 300 20 0 0 <def.bfont_white> : Aktif Değil
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////// Spawn kayitlari....
+
+//local.day=<rtime.day>//<serv.rtime.format %D>
+local.day=<eval <src.tag0.local.day>>
+
+
+local.hour=<serv.rtime.format %H>
+
+
+//////////////////////////////////////////// desert Ostard
+////////////////////////////// 00:00 | 12:00
+IF (<eval <local.day>> == 1) 
+	
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Desert Ostard // SAAT 01:00
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard // SAAT 03:00
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_white> Mustang // SAAT 17:00
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_white> Shire // SAAT 12:00
+
+	// // //
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+	// // // 
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 1)
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+	if (<eval <local.hour>> < 17)
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_white> Mustang
+	endif
+	if (<eval <local.hour>> < 12)
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_white> Shire
+	endif
+endif
+
+endif
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 2)
+
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Frenzied Ostard	// Saat 02:00
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 05:00
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 20:00
+
+	// // //
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 2)
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+	if (<eval <local.hour>> < 5)
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+	if (<eval <local.hour>> < 20)
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+endif
+
+endif
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 3)
+
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Desert Ostard	// SAAT : 03:00
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 07:00
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Silver Steed	// Saat 16:00
+
+	// // //
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.silver_akibet>","Yasiyor"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lgreen> Silver Steed
+	elseif (strmatch("<var0.silver_akibet>","Olduruldu"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lred> Silver Steed
+	elseif (strmatch("<var0.silver_akibet>","Evcillestirildi"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_yellow> Silver Steed
+	endif
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 7)
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 16)
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Silver Steed
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 4)
+
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 01:00
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Mustang // SAAT 9:00
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 16:00
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_white> Shire // SAAT 22:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 1)
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+	if (<eval <local.hour>> < 9)
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Mustang
+	endif
+	if (<eval <local.hour>> < 16)
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+	if (<eval <local.hour>> < 22)
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_white> Shire
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 5)
+
+
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Desert Ostard	// SAAT 05:00
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Frenzied Ostard	// SAAT 09:00
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 15:00
+
+	// // //
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 5)
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 9)
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 15)
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 6)
+
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 02:00
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 10:00
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Kii Rin		// SAAT 18:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.kirin_akibet>","Yasiyor"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lgreen> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Olduruldu"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lred> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Evcillestirildi"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_yellow> Kii Rin
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 2)
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+	if (<eval <local.hour>> < 10)
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+	if (<eval <local.hour>> < 18)
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Kii Rin
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 7)
+
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 07:00
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 12:00
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Mustang // SAAT 20:00
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Shire // SAAT 1:00
+	
+	// // //
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 7)
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 12)
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 20)
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+	if (<eval <local.hour>> < 1)
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Shire
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 8)
+
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Frenzied Ostard	// SAAT 06:00
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 10:00
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 15:00
+
+	// // //
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 6)
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 10)
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 15)
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 9)
+
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Desert Ostard	// SAAT 09:00
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 01:00
+
+	// // //
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 9)
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 2)
+	dhtmlgump 250 140 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 10)
+
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 03:00
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Mustang // SAAT 10:00
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 18:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 10)
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+	if (<eval <local.hour>> < 18)
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 11)
+
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT : 00:00
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Frenzied Ostard	//Saat: 15:00
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 06:00
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Shire // SAAT 23:00
+	// // //
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+	// // //
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 0)
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 15)
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 6)
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 23)
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Shire
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 12)
+
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard	// SAAT 03:00
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 23:00
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Kii Rin		// SAAT 10:00
+	
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.kirin_akibet>","Yasiyor"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lgreen> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Olduruldu"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lred> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Evcillestirildi"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_yellow> Kii Rin
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+	if (<eval <local.hour>> < 23)
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+	if (<eval <local.hour>> < 10)
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Kii Rin
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 13)
+
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_white> Desert Ostard	// SAAT 13:00
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 08:00
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Mustang // SAAT 5:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 13)
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 8)
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 5)
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 14)
+
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Frenzied Ostard	// saat 16:00
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 18:00
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 4:00
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Shire // SAAT 8:00
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 16)
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 18)
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 4)
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+	if (<eval <local.hour>> < 8)
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Shire
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 15)
+
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 15:00
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 02:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 15)
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 2)
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 16)
+
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 04:00
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Mustang // SAAT 18:00
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 11:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 4)
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 18)
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+	if (<eval <local.hour>> < 11)
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 17)
+
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 17:00
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Frenzied Ostard	//SAAT 20:00
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 07:00
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Shire // SAAT 3:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 17)
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+	if (<eval <local.hour>> < 20)
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+	if (<eval <local.hour>> < 7)
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Shire
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 18)
+
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 05:00
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 13:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 5)
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 13)
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 19)
+
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 19:00
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 03:00
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_white> Mustang // SAAT 11:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 19)
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 11)
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 20)
+
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Frenzied Ostard	//saat 23:00
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 15:00
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 5:00
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 23)
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 15)
+	dhtmlgump 480 200 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 5)
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 21)
+
+	dhtmlgump 480 380 380 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 21:00
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 4:00
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Shire // SAAT 5:00
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Kii Rin		// SAAT 9:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 480 380 380 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 480 380 380 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 480 380 380 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+	if (strmatch("<var0.kirin_akibet>","Yasiyor"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lgreen> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Olduruldu"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lred> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Evcillestirildi"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_yellow> Kii Rin
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 21)
+	dhtmlgump 480 380 380 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 4)
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 5)
+	dhtmlgump 250 260 300 20 0 0 <def.bfont_white> Shire
+	endif
+
+	if (<eval <local.hour>> < 9)
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Kii Rin
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 22)
+
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 06:00
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Mustang // SAAT 19:00
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 11:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 6)
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 19)
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+	if (<eval <local.hour>> < 11)
+	dhtmlgump 250 440 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 23)
+
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Desert Ostard	// SAAT 23:00
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_white> Frenzied Ostard	// SAAT 00:00
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 21:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 23)
+	dhtmlgump 480 440 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+	if (<eval <local.hour>> < 0)
+	dhtmlgump 250 110 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 21)
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 24)
+
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 07:00
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 12:00
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Shire // SAAT 18:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 7)
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 12)
+	dhtmlgump 480 110 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+	if (<eval <local.hour>> < 18)
+	dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Shire
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 25)
+
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Desert Ostard	//saat 02:00
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 08:00
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_white> Mustang // SAAT 21:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 2)
+	dhtmlgump 250 170 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 8)
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 21)
+	dhtmlgump 480 380 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 26)
+
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Frenzied Ostard	//SAAT 03:00
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 09:00
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 20:00
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 3)
+	dhtmlgump 250 200 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+
+	if (<eval <local.hour>> < 9)
+	dhtmlgump 250 380 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 20)
+	dhtmlgump 480 350 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 27)
+
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 04:00
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 10:00
+	//dhtmlgump 480 290 300 20 0 0 <def.bfont_white> Desert Ostard   // 18:00
+	//dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard   // 22:00
+	
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 4)
+	dhtmlgump 250 230 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 10)
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 28)
+
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 13:00
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Mustang // SAAT 6:00
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 17:00
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Shire // SAAT 19:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.Shire_akibet>","Yasiyor"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lgreen> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Olduruldu"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lred> Shire
+	elseif (strmatch("<var0.Shire_akibet>","Evcillestirildi"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_yellow> Shire
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 13)
+	dhtmlgump 480 140 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 6)
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+	if (<eval <local.hour>> < 17)
+	dhtmlgump 480 260 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+	if (<eval <local.hour>> < 19)
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Shire
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 29)
+
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Desert Ostard	//saat 06:00
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Frenzied Ostard	//SAAT 19:00
+	dhtmlgump 480 170 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 14:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.frenzied_akibet>","Yasiyor"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lgreen> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Olduruldu"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_lred> Frenzied Ostard
+	elseif (strmatch("<var0.frenzied_akibet>","Evcillestirildi"))
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_yellow> Frenzied Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 170 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 170 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 170 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 6)
+	dhtmlgump 250 290 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+	if (<eval <local.hour>> < 19)
+	dhtmlgump 480 320 300 20 0 0 <def.bfont_white> Frenzied Ostard
+	endif
+	if (<eval <local.hour>> < 14)
+	dhtmlgump 480 170 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 30)
+
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 16:00
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Mid Ostard	// SAAT 7:00
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_white> Kii Rin		// SAAT 22:00
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 480 230 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.mid_akibet>","Yasiyor"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lgreen> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Olduruldu"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_lred> Mid Ostard
+	elseif (strmatch("<var0.mid_akibet>","Evcillestirildi"))
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_yellow> Mid Ostard
+	endif
+
+	if (strmatch("<var0.kirin_akibet>","Yasiyor"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_lgreen> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Olduruldu"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_lred> Kii Rin
+	elseif (strmatch("<var0.kirin_akibet>","Evcillestirildi"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_yellow> Kii Rin
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 16)
+	dhtmlgump 470 320 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 7)
+	dhtmlgump 250 320 300 20 0 0 <def.bfont_white> Mid Ostard
+	endif
+
+	if (<eval <local.hour>> < 22)
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_white> Kii Rin
+	endif
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IF (<eval <local.day>> == 31)
+
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Desert Ostard	//SAAT 08:00
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard	// Saat 10:00
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_white> Mustang // SAAT 22:00
+
+	if (strmatch("<var0.desert_akibet>","Yasiyor"))
+	dhtmlgump 250 350 350 20 0 0 <def.bfont_lgreen> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Olduruldu"))
+	dhtmlgump 250 350 350 20 0 0 <def.bfont_lred> Desert Ostard
+	elseif (strmatch("<var0.desert_akibet>","Evcillestirildi"))
+	dhtmlgump 250 350 350 20 0 0 <def.bfont_yellow> Desert Ostard
+	endif
+
+	if (strmatch("<var0.forest_akibet>","Yasiyor"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lgreen> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Olduruldu"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_lred> Forest Ostard
+	elseif (strmatch("<var0.forest_akibet>","Evcillestirildi"))
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_yellow> Forest Ostard
+	endif
+
+	if (strmatch("<var0.Mustang_akibet>","Yasiyor"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_lgreen> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Olduruldu"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_lred> Mustang
+	elseif (strmatch("<var0.Mustang_akibet>","Evcillestirildi"))
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_yellow> Mustang
+	endif
+
+if (<rtime.day> == <eval <src.tag0.local.day>>)
+	if (<eval <local.hour>> < 8)
+	dhtmlgump 250 350 300 20 0 0 <def.bfont_white> Desert Ostard
+	endif
+
+	if (<eval <local.hour>> < 10)
+	dhtmlgump 250 410 300 20 0 0 <def.bfont_white> Forest Ostard
+	endif
+
+	if (<eval <local.hour>> < 22)
+	dhtmlgump 480 410 300 20 0 0 <def.bfont_white> Mustang
+	endif
+
+endif
+
+ENDIF
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[dialog d_spawn_takip button]
+on=0
+src.sysmessage @33,,1 Spawntakip kapatildi.
+
+on=1
+tag0.local.day=<eval <tag.local.day>-1>
+sDIALOG d_spawn_takip
+
+on=2
+tag0.local.day=<rtime.day>
+sDIALOG d_spawn_takip
+
+[EOf]

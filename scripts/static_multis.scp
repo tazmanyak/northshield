@@ -1,0 +1,37 @@
+//Yeni Mahalle Bölgesi
+
+[ITEMDEF i_custom_multi_Brit_Genel_1]
+ID=022c4
+NAME=Brit_Genel_1
+TYPE=t_multi
+CATEGORY=Multis
+SUBSECTION=Static
+DESCRIPTION=Brit_Genel_1
+MULTIREGION=-3,-5,3,5
+COMPONENT=0bd1,-1,3,0
+COMPONENT=i_door_metal,0,3,0
+[ITEMDEF i_deed_multi_Brit_Genel_1]
+ID=i_deed
+NAME=deed to Brit_Genel_1
+TYPE=t_deed
+ON=@CREATE
+MORE=i_custom_multi_Brit_Genel_1
+
+[ITEMDEF i_custom_multi_Brit_Genel_2]
+ID=022c4
+NAME=Brit_Genel_2
+TYPE=t_multi
+CATEGORY=Multis
+SUBSECTION=Static
+DESCRIPTION=Brit_Genel_2
+MULTIREGION=-2,-5,2,5
+COMPONENT=0bd1,-2,2,0
+COMPONENT=i_door_metal,-1,2,0
+[ITEMDEF i_deed_multi_Brit_Genel_2]
+ID=i_deed
+NAME=deed to Brit_Genel_2
+TYPE=t_deed
+ON=@CREATE
+MORE=i_custom_multi_Brit_Genel_2
+
+[EOF]

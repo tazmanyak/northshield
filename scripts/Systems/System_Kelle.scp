@@ -1,0 +1,55 @@
+﻿[ITEMDEF i_kelle_salla]
+Name Kafa Avcisi
+ID 01640
+
+On=@Create
+Attr 08000
+
+On=@Click
+message @0450,,1 Son kurban:
+message @1953,,1 <tag.sonsallandirilan>
+message @50,,1 Kelle Sallandırma
+return 1
+
+On=@Dclick
+If (<distance> < 3)
+Target @0790,,1 Sallandirmak istediginiz kafayi seciniz ?
+return 1
+else
+src.sysmessage @39,,1 Hata: Yeterince yakin degilsiniz.
+return 1
+endif
+
+On=@Targon_Item
+if (<src.targ.baseid> == i_flesh_head) || (<src.targ.baseid> == i_flesh_head_2) //&& !(<src.targ.link> == 04fffffff)
+If (<src.targ.link.fame> < 1501)
+src.sysmessage @39,,1 Hata : Bu kafa değersiz. Minimum Fame : 1500 olmalidir.
+return 1
+endif
+if (<src.targ.link.uid> == <src.uid>)
+src.sysmessage @38,1,1 Hata: Kendi kendiniz celladımı olmaya karar verdin :)
+src.targ.remove
+return 1
+endif
+if (<src.targ.link.fame> > 1500)
+src.sysmessage @55,,1 Cantaniza <src.targ.link.name> sayesinde <eval <src.targ.link.fame>> gp eklenmistir.
+tag.sonsallandirilan <src.targ.link.name>
+serv.allclients sysmessage @51,9,1 <src.targ.link.name> kellesi, <src.name> tarafından <src.region.name> civarlarında sallandırılmıştır.
+src.targ.link.notice Kafanız <src.name> tarafından sallandırılmıştır.
+src.newitem i_gold
+src.act.amount <eval <src.targ.link.fame>>
+src.act.bounce
+src.targ.link.fame -= 500
+src.targ.remove
+return 1
+else
+src.sysmessage @39,,1 Hata: Bu bir kafa degil.
+return 1
+endif
+
+On=@Targon_Char
+return 1
+
+On=@Targon_Ground
+return 1
+[EOF]

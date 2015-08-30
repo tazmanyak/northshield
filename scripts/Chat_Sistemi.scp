@@ -1,0 +1,180 @@
+﻿//
+// Chat Sistem - Rhodos
+//
+
+[DIALOG chat]
+0,0
+page 0
+resizepic 30 40 2620 800 370
+
+if !<src.findid.i_chat>
+	serv.newitem i_chat,1,<src>,1
+	src.dspeech +spk_chat
+endif
+
+dtext 50 60 99 Zaman
+dtext 150 60 99 Kisi - Mesaj
+dtext 450 60 99 <serv.rtime> - The North Shield
+
+dtext 150 90 1152 <list.chat.9>
+dtext 150 120 1152 <list.chat.8>
+dtext 150 150 1152 <list.chat.7>
+dtext 150 180 1152 <list.chat.6>
+dtext 150 210 1152 <list.chat.5>
+dtext 150 240 1152 <list.chat.4>
+dtext 150 270 1152 <list.chat.3>
+dtext 150 300 1152 <list.chat.2>
+dtext 150 330 1152 <list.chat.1>
+dtext 150 360 1152 <list.chat.0>
+
+dtext 50 90 33 <eval <list.chat_time.9>>
+dtext 50 120 33 <eval <list.chat_time.8>>
+dtext 50 150 33 <eval <list.chat_time.7>>
+dtext 50 180 33 <eval <list.chat_time.6>>
+dtext 50 210 33 <eval <list.chat_time.5>>
+dtext 50 240 33 <eval <list.chat_time.4>>
+dtext 50 270 33 <eval <list.chat_time.3>>
+dtext 50 300 33 <eval <list.chat_time.2>>
+dtext 50 330 33 <eval <list.chat_time.1>>
+dtext 50 360 33 <eval <list.chat_time.0>>
+
+for 10
+dtext 130 <eval (<local._for>*30)+60> 69 ->
+endfor
+
+	
+[DIALOG chat text]
+
+[DIALOG chat button]
+
+on=0
+src.sysmessage @33,,1 Chat penceresini kapattiniz.
+src.dspeech -spk_chat
+src.findid.i_chat.remove
+
+
+[SPEECH spk_chat]
+on=*
+serv.f_chat <args>
+return 1
+
+[function chat_temizle]
+serv.list.chat.clear
+serv.list.chat_time.clear
+for 10
+	serv.list.chat.add <local._for>
+	serv.list.chat_time.add <local._for>
+endfor
+
+
+[function f_chat]
+
+local.chat=<serv.list.chat.10>
+serv.list.chat.10.remove
+serv.list.chat.10.insert <serv.list.chat.9> 10
+
+local.chat=<serv.list.chat.9>
+serv.list.chat.9.remove
+serv.list.chat.9.insert <serv.list.chat.8> 9
+
+local.chat=<serv.list.chat.8>
+serv.list.chat.8.remove
+serv.list.chat.8.insert <serv.list.chat.7> 8
+
+local.chat=<serv.list.chat.7>
+serv.list.chat.7.remove
+serv.list.chat.7.insert <serv.list.chat.6> 7
+
+local.chat=<serv.list.chat.6>
+serv.list.chat.6.remove
+serv.list.chat.6.insert <serv.list.chat.5> 6
+
+local.chat=<serv.list.chat.5>
+serv.list.chat.5.remove
+serv.list.chat.5.insert <serv.list.chat.4> 5
+
+local.chat=<serv.list.chat.4>
+serv.list.chat.4.remove
+serv.list.chat.4.insert <serv.list.chat.3> 4
+
+local.chat=<serv.list.chat.3>
+serv.list.chat.3.remove
+serv.list.chat.3.insert <serv.list.chat.2> 3
+
+local.chat=<serv.list.chat.2>
+serv.list.chat.2.remove
+serv.list.chat.2.insert=<serv.list.chat.1> 2
+
+local.chat=<serv.list.chat.1>
+serv.list.chat.1.remove
+serv.list.chat.1.insert <serv.list.chat.0> 1
+
+if (<src.account.plevel> > 2)
+	serv.list.chat.0.remove
+	serv.list.chat.0.insert Admin <src.name> : <args>
+else
+	serv.list.chat.0.remove
+	serv.list.chat.0.insert <src.name>: <args>
+endif
+/////////////////////////////////////////////////////////////////////
+
+local.chat_time=<serv.list.chat_time.10>
+serv.list.chat_time.10.remove
+serv.list.chat_time.10.insert <serv.list.chat_time.9>
+
+local.chat_time=<serv.list.chat_time.9>
+serv.list.chat_time.9.remove
+serv.list.chat_time.9.insert <serv.list.chat_time.8>
+
+local.chat_time=<serv.list.chat_time.8>
+serv.list.chat_time.8.remove
+serv.list.chat_time.8.insert <serv.list.chat_time.7>
+
+local.chat_time=<serv.list.chat_time.7>
+serv.list.chat_time.7.remove
+serv.list.chat_time.7.insert <serv.list.chat_time.6>
+
+local.chat_time=<serv.list.chat_time.6>
+serv.list.chat_time.6.remove
+serv.list.chat_time.6.insert <serv.list.chat_time.5>
+
+local.chat_time=<serv.list.chat_time.5>
+serv.list.chat_time.5.remove
+serv.list.chat_time.5.insert <serv.list.chat_time.4>
+
+local.chat_time=<serv.list.chat_time.4>
+serv.list.chat_time.4.remove
+serv.list.chat_time.4.insert <serv.list.chat_time.3>
+
+local.chat_time=<serv.list.chat_time.3>
+serv.list.chat_time.3.remove
+serv.list.chat_time.3.insert <serv.list.chat_time.2>
+
+local.chat_time=<serv.list.chat_time.2>
+serv.list.chat_time.2.remove
+serv.list.chat_time.2.insert=<serv.list.chat_time.1>
+
+local.chat_time=<serv.list.chat_time.1>
+serv.list.chat_time.1.remove
+serv.list.chat_time.1.insert <serv.list.chat_time.0>
+
+serv.list.chat_time.0.remove
+serv.list.chat_time.0.insert <rtime.time>
+
+
+[itemdef i_chat]
+name=Chat Ekrani
+id=i_worldgem_bit
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer=1
+
+On=@Timer
+
+timer 1
+return 1
+
+[EOF]

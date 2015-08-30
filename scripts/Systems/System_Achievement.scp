@@ -1,0 +1,87 @@
+[defname achievement system]
+
+//MISC
+achievement_category_1_name		Miscellaneous
+achievement_category_1_pic		4030	//open book
+achievement_category_1_1		age,1	
+achievement_category_1_1_desc		Welcome to the Sserver
+achievement_category_1_2		age,1000
+achievement_category_1_2_desc		Two days on the server
+
+//Exploration
+achievement_category_2_name		Exploration
+achievement_category_2_pic		5356
+
+//Wealth
+achievement_category_3_name		Loot
+achievement_category_3_pic		3820
+
+//Crafting
+achievement_category_4_name		Crafting
+achievement_category_4_pic		7155
+
+//PvM
+achievement_category_5_name		PvM
+achievement_category_5_pic		7034
+
+//PvP
+achievement_category_6_name		PvP
+achievement_category_6_pic		5126
+
+//Skills
+achievement_category_7_name		Skills
+achievement_category_7_pic		571
+
+//Community
+achievement_category_8_name		Community
+achievement_category_8_pic		6225
+
+
+
+
+
+
+
+
+
+[DIALOG d_achievement_menu]
+0,0
+page 0
+resizepic 93 9 9270 521 514
+for x 1 13
+  if !<isempty <def.achievement_category_<dlocal.x>_name>> 
+  button 115 <eval 63+(<local.x>*30)> 2152 2153 1 0 <eval <local.x>+9000>
+  endif
+endfor
+resizepic 102 67 3500 155 446
+resizepic 102 19 3500 503 55
+resizepic 249 67 3500 356 446
+gumppic 96 14 9004
+dtext 225 37 0cc <serv.servname> Achievement System	//title
+
+for x 1 13
+  if !<isempty <def.achievement_category_<dlocal.x>_name>>
+  tilepic 110 <eval 65+(<local.x>*30)> <def0.achievement_category_<dlocal.x>_pic>
+  dtext 155 <eval 69+(<local.x>*30)> 0cc <def0.achievement_category_<dlocal.x>_name>	//categories
+  endif
+endfor
+
+
+
+Page <argn1>
+argn1 -= 9000
+gumppic 240 <eval 73+(<argn1>*30)> 2223
+for x 1 20
+  if !<isempty <def.achievement_category_<dargn1>_<dlocal.x>_desc>>
+  dtext 283  <eval 65+(<local.x>*15)> 1000 <def0.achievement_category_<dargn1>_<dlocal.x>_desc>	//achievements
+  endif
+endfor
+
+
+[DIALOG d_achievement_menu button]
+
+
+onbutton=9000,9999		//scroll right
+sdialog d_achievement_menu <argn1>
+
+[EOF]

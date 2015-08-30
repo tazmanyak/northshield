@@ -1,0 +1,154 @@
+﻿[plevel 1]
+skilldusur
+
+/////By Destroy -- Büyük Emek Harcanarak Yapildi.
+
+[defname player_skilldown]
+player_skill_1 Alchemy
+player_skill_2 Anatomy
+player_skill_3 AnimalLore
+player_skill_4 Taming
+player_skill_5 Archery
+player_skill_6 ArmsLore
+player_skill_7 Begging
+player_skill_8 Blacksmithing
+player_skill_9 Bowcraft
+player_skill_10 Camping
+player_skill_11 Carpentry
+player_skill_12 Cartography
+player_skill_13 Cooking
+player_skill_14 DetectingHidden
+player_skill_15 Enticement
+player_skill_16 EvaluatingIntel
+player_skill_17 Fencing
+player_skill_18 Fishing
+player_skill_19 Forensics
+player_skill_20 Healing
+player_skill_21 Herding
+player_skill_22 Hiding
+player_skill_23 Inscription
+player_skill_24 ItemId
+player_skill_25 Lockpicking
+player_skill_26 Lumberjacking
+player_skill_27 MaceFighting
+player_skill_28 Magery
+player_skill_29 Meditation
+player_skill_30 Mining
+player_skill_31 Musicianship
+player_skill_32 Parrying
+player_skill_33 Peacemaking
+player_skill_34 Poisoning
+player_skill_35 Provocation
+player_skill_36 RemoveTrap
+player_skill_37 MagicResistance
+player_skill_38 Snooping
+player_skill_39 SpiritSpeak
+player_skill_40 Stealing
+player_skill_41 Stealth
+player_skill_42 Swordsmanship
+player_skill_43 Tactics
+player_skill_44 Tailoring
+player_skill_45 TasteId
+player_skill_46 Tinkering
+player_skill_47 Tracking
+player_skill_48 Veterinary
+player_skill_49 Wrestling
+
+
+[function skilldusur]
+
+if (<src.account.tag.pinkabul>==0)
+src.sms Giris yapmalisiniz..[ .Pin ]
+src.dialog d_pin_giris
+return 1
+endif
+if (<src.account.tag.pinkabul>==0)
+src.syshata Suan Bir Pininiz Yok. [.pin] Yaziniz...
+src.pin
+else
+if (<src.account.tag.pinkabul>==1)
+dialog d_skilldusur
+return 1
+endif
+
+[dialog d_skilldusur]
+5,5
+
+page 0
+//resizepic 0 0 9200 530 307	
+//gumppictiled 10 10 510 287 2624
+
+resizepic 0 0 2620 700 410
+gumppictiled 10 10 680 390 2624
+
+dhtmlgump 250 15 100 20 0 0 <def.bfont_lgreen>  Skill Duşürme
+local.ox=20
+local.oy=40
+for x 0 48
+if <src.<def.player_skill_<eval <local.x> + 1>>> > 0
+radio <eval <local.ox>> <eval <local.oy>> 56 55 0 <eval 300 + <local.x>>
+
+dhtmlgump <eval <local.ox> + 40> <eval <local.oy>> 100 20 0 0 <def.bfont_lred> <def.player_skill_<eval <local.x> + 1>>
+else
+dhtmlgump <eval <local.ox> + 40> <eval <local.oy>> 100 20 0 0 <def.bfont_white> <def.player_skill_<eval <local.x> + 1>>
+endif
+
+dhtmlgump <eval <local.ox> + 140> <eval <local.oy>> 50 20 0 0 <def.bfont_white> <<def.player_skill_<eval <local.x> + 1>>>
+local.oy += 20
+if (<local.oy> > 360)
+local.ox += 200
+local.oy = 40
+endif
+endfor
+
+button 420 365 4005 4006 1 0 1
+button 480 365 4005 4006 1 0 2
+button 540 365 4005 4006 1 0 3
+button 600 365 4005 4006 1 0 4
+dhtmlgump 420 350 100 20 0 0 <def.bfont_lgreen> <def.fontgold>10.0
+dhtmlgump 480 350 100 20 0 0 <def.bfont_lgreen> <def.fontgold>1.0
+dhtmlgump 540 350 100 20 0 0 <def.bfont_lgreen> <def.fontgold>0.1
+dhtmlgump 600 350 100 20 0 0 <def.bfont_lgreen> <def.fontgold>Skill'i Sıfırla
+
+[dialog d_skilldusur text]
+
+[dialog d_skilldusur button]
+on=1
+for x 0 48
+if (<argchk[<eval 300 + <local.x>>]>)
+src.tag.skilld <def0.player_skill_<eval <local.x> + 1>>
+try <src.tag.skilld> <eval <<src.tag.skilld>> -100>
+src.tag.skilld
+  endif
+endfor
+src.skilldusur
+on=2
+for x 0 48
+if (<argchk[<eval 300 + <local.x>>]>)
+src.tag.skilld <def0.player_skill_<eval <local.x> + 1>>
+try <src.tag.skilld> <eval <<src.tag.skilld>> -10>
+src.tag.skilld
+  endif
+endfor
+src.skilldusur
+on=3
+for x 0 48
+if (<argchk[<eval 300 + <local.x>>]>)
+src.tag.skilld <def0.player_skill_<eval <local.x> + 1>>
+try <src.tag.skilld> <eval <<src.tag.skilld>> -1>
+src.tag.skilld
+  endif
+endfor
+src.skilldusur
+
+on=4
+for x 0 48
+if (<argchk[<eval 300 + <local.x>>]>)
+src.tag.skilld <def0.player_skill_<eval <local.x> + 1>>
+try <src.tag.skilld> <eval <<src.tag.skilld>> -1000>
+src.tag.skilld
+  endif
+endfor
+src.skilldusur
+
+[EOF]

@@ -1,0 +1,1604 @@
+[ITEMDEF i_young_ticket]
+NAME=odul bileti
+ID=i_deed
+DEFNAME=i_young_ticket
+TYPE=t_script
+
+ON=@Click
+message @0805 Hediye Bileti
+RETURN 1
+
+ON=@DClick
+DIALOG d_young_ticket
+RETURN 1
+
+[DIALOG d_young_ticket]
+-50,-100
+page 0
+resizepic 187 189 3000 222 232
+htmlgump 225 205 400 20 0 0 0
+htmlgump 230 235 400 20 3 0 0
+button 195 235 4005 4007 1 0 1
+htmlgump 230 255 400 20 4 0 0
+button 195 255 4005 4007 1 0 2
+htmlgump 230 275 400 20 5 0 0
+button 195 275 4005 4007 1 0 3
+htmlgump 230 295 400 20 6 0 0
+button 195 295 4005 4007 1 0 4
+htmlgump 230 315 400 20 7 0 0
+button 195 315 4005 4007 1 0 5
+htmlgump 230 335 400 20 8 0 0
+button 195 335 4005 4007 1 0 6
+
+htmlgump 230 375 400 20 9 0 0
+button 195 375 4005 4007 1 0 0
+
+[DIALOG d_young_ticket TEXT]
+Rhodos Uo Hediye Bileti
+xxxxxNOT: Bu bilet size aittir,xxxxx
+xxxxxsizden baskasinin kullanmasi mumkun degildir.xxxxxx
+1 Adet Kek
+Pelerin
+30'luk Reg Kristali
+Havaifisek wand'i
+Bandana
+Boya kupu ve boya
+iptal
+
+[DIALOG d_young_ticket BUTTON]
+ONBUTTON=0
+src.smg Bileti kullanamadiniz.
+ONBUTTON=1
+SRC.newitem i_cake
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+ONBUTTON=2
+SRC.newitem i_cape
+src.act.attr 04
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+ONBUTTON=3
+SRC.newitem i_crystal_30
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+ONBUTTON=4
+SRC.newitem i_fireworks_wand
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+ONBUTTON=5
+SRC.newitem i_bandana
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+ONBUTTON=6
+SRC.newitem i_dye_tub
+SRC.ACT.BOUNCE
+SRC.newitem i_dyes
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_kartopu]
+ID=0913
+NAME=kar parcasi
+TYPE=t_script
+
+ON=@Create
+Color=0481
+Attr=attr_newbie|attr_move_always
+TIMER=3
+
+ON=@DClick
+IF (<TIMER> >= 1)
+	SRC.SysMessage @38,,1 Kartopu henuz hazir degil!
+	RETURN 1
+ELSE
+	TARGET @38,,1 Kime atmak istiyorsun?
+	RETURN 1
+	ENDIF
+
+ON=@TargOn_Char
+IF (<SRC.TARG.SERIAL> != <SRC.SERIAL>)
+	SRC.ANIM 11
+	SRC.TARG.EFFECT=0,0f27,10
+	SRC.TARG.ANIM 20
+	DORAND 5
+		SRC.TARG.message *ahhh*
+		SRC.TARG.message *Daayyt kim lan o?*
+		SRC.TARG.message *Oneydi Bea?*
+		SRC.TARG.message *ooohaaaaa*
+		SRC.TARG.message *ooppf*
+	ENDDO
+	SOUND 0145
+	src.targ.newitem=i_fx_SMOKE3
+	src.targ.act.p=<src.targ.p>
+	SRC.TARG.SysMessage <SRC.NAME> sana kartopu atti!
+	REMOVE
+	RETURN 1
+ELSE
+	SRC.SysMessage @38,,1 Kendine kartopu atamazsin..
+	TIMER=(3)
+	RETURN 1
+ENDIF
+
+ON=@TargOn_Item
+SRC.SysMessage @38,,1 Buraya kartopu atamazsin..
+RETURN 1
+
+[ITEMDEF i_skill_stone]
+ID=i_grave_stone
+NAME=Skillstone
+TYPE=0
+
+ON=@CREATE
+COLOR=0799
+
+CATEGORY=Governor
+SUBSECTION=Stones
+DESCRIPTION=skilldir Stone
+
+ON=@Click
+message @0805 Uc Skill Seciniz.
+return 1
+
+ON=@DClick
+If <eval <src.tag.skillbitti>>==1
+src.sysmessage @0805 Skill secimini sadece bir kere yapabilirsiniz.
+return 1
+else
+SRC.ALLSKILLS=0
+SRC.DIALOG d_3_gm_skills
+src.tag.skillbitti 1
+RETURN 1
+
+[DIALOG d_3_gm_skills]
+0,0
+nomove
+resizepic 10 10 2620 500 450
+text 120 40 69 0  //Title
+//column 1
+checkbox 40 80 210 211 0 0
+text 65 80 349 1 //Anatomy
+checkbox 40 100 210 211 0 1
+text 65 100 349 2 //Alchemy
+checkbox 40 120 210 211 0 2
+text 65 120 349 3 //Archery
+checkbox 40 140 210 211 0 3
+text 65 140 349 4 //ArmsLore
+checkbox 40 160 210 211 0 4
+text 65 160 349 5 //Begging
+checkbox 40 180 210 211 0 5
+text 65 180 349 6 //Blacksmithing
+checkbox 40 200 210 211 0 6
+text 65 200 349 7 //Bowcraft
+checkbox 40 220 210 211 0 7
+text 65 220 349 8 //Camping
+checkbox 40 240 210 211 0 8
+text 65 240 349 9 //Carpentry
+checkbox 40 260 210 211 0 9
+text 65 260 349 10 //Cartography
+checkbox 40 280 210 211 0 10
+text 65 280 349 11 //Cooking
+checkbox 40 300 210 211 0 11
+text 65 300 349 12 //DetectingHidden
+checkbox 40 320 210 211 0 12
+text 65 320 349 13 //Enticement
+checkbox 40 340 210 211 0 13
+text 65 340 349 14 //EvaluatingIntel
+checkbox 40 360 210 211 0 14
+text 65 360 349 15 //Fencing
+checkbox 40 380 210 211 0 15
+text 65 380 349 16 //Fishing
+//column 2
+checkbox 190 80 210 211 0 16
+text 215 80 349 17 //Forensics
+checkbox 190 100 210 211 0 17
+text 215 100 349 18 //Healing
+checkbox 190 120 210 211 0 18
+text 215 120 349 19 //Herding
+checkbox 190 140 210 211 0 19
+text 215 140 349 20 //Hiding
+checkbox 190 160 210 211 0 20
+text 215 160 349 21 //Inscription
+checkbox 190 180 210 211 0 21
+text 215 180 349 22 //ItemID
+checkbox 190 200 210 211 0 22
+text 215 200 349 23 //LockPicking
+checkbox 190 220 210 211 0 23
+text 215 220 349 24 //Lumberjacking
+checkbox 190 240 210 211 0 24
+text 215 240 349 25 //Macefighting
+checkbox 190 260 210 211 0 25
+text 215 260 349 26 //Magery
+checkbox 190 280 210 211 0 26
+text 215 280 349 27 //MagicResistance
+checkbox 190 300 210 211 0 27
+text 215 300 349 28 //Meditation
+checkbox 190 320 210 211 0 28
+text 215 320 349 29 //Mining
+checkbox 190 340 210 211 0 29
+text 215 340 349 30 //Musicianship
+checkbox 190 360 210 211 0 30
+text 215 360 349 31 //Peacemaking
+checkbox 190 380 210 211 0 31
+text 215 380 349 32 //Parrying
+//column 3
+checkbox 340 80 210 211 0 32
+text 365 80 349 33 //Poisoning
+checkbox 340 100 210 211 0 33
+text 365 100 349 34 //RemoveTrap
+checkbox 340 120 210 211 0 34
+text 365 120 349 35 //Snooping
+checkbox 340 140 210 211 0 35
+text 365 140 349 36 //SpiritSpeak
+checkbox 340 160 210 211 0 36
+text 365 160 349 37 //Stealing
+checkbox 340 180 210 211 0 37
+text 365 180 349 38 //Stealth
+checkbox 340 200 210 211 0 38
+text 365 200 349 39 //Swordsmanship
+checkbox 340 220 210 211 0 39
+text 365 220 349 40 //Tactics
+checkbox 340 240 210 211 0 40
+text 365 240 349 41 //Tailoring
+checkbox 340 260 210 211 0 41
+text 365 260 349 42 //Taming
+checkbox 340 280 210 211 0 42
+text 365 280 349 43 //TasteID
+checkbox 340 300 210 211 0 43
+text 365 300 349 44 //Tinkering
+checkbox 340 320 210 211 0 44
+text 365 320 349 45 //Tracking
+checkbox 340 340 210 211 0 45
+text 365 340 349 46 //Veterinary
+checkbox 340 360 210 211 0 46
+text 365 360 349 47 //Wrestling
+//finish button
+text 340 390 69 48
+button 400 395 1209 1210 1 0 0
+
+[DIALOG d_3_gm_skills TEXT]
+Ayni anda 3 skill secmek zorundasiniz.
+Anatomy 
+Alchemy 
+Archery 
+Animal Lore
+Begging 
+Blacksmithing 
+Bowcraft 
+Camping 
+Carpentry 
+Cartography 
+Cooking 
+DetectingHidden 
+Enticement 
+EvaluatingIntel 
+Fencing 
+Fishing 
+Forensics 
+Healing 
+Herding 
+Hiding 
+Inscription 
+ItemID 
+LockPicking 
+Lumberjacking 
+Macefighting 
+Magery 
+MagicResistance 
+Meditation 
+Mining 
+Musicianship 
+Peacemaking 
+Parrying 
+Poisoning 
+RemoveTrap 
+Snooping 
+SpiritSpeak 
+Stealing 
+Stealth 
+Swordsmanship 
+Tactics 
+Tailoring 
+Taming 
+TasteID 
+Tinkering 
+Tracking 
+Veterinary 
+Wrestling
+Tamam:
+[DIALOG d_3_gm_skills BUTTON]
+ON=0
+IF (<argchk>==3)
+  IF (<argchk[0]>==1)
+    SRC.Anatomy 75.0
+  ENDIF
+  IF (<argchk[1]>==1)
+    SRC.Alchemy 75.0
+  ENDIF
+  IF (<argchk[2]>==1)
+    SRC.Archery 75.0
+  ENDIF
+  IF (<argchk[3]>==1)
+    SRC.ANIMALLORE 65.0
+  ENDIF
+  IF (<argchk[4]>==1)
+    SRC.Begging 75.0
+  ENDIF
+  IF (<argchk[5]>==1)
+    SRC.Blacksmithing 75.0
+  ENDIF
+  IF (<argchk[6]>==1)
+    SRC.Bowcraft 75.0
+  ENDIF
+  IF (<argchk[7]>==1)
+    SRC.Camping 75.0
+  ENDIF
+  IF (<argchk[8]>==1)
+    SRC.Carpentry 75.0
+  ENDIF
+  IF (<argchk[9]>==1)
+    SRC.Cartography 75.0
+  ENDIF
+  IF (<argchk[10]>==1)
+    SRC.Cooking 75.0
+  ENDIF
+  IF (<argchk[11]>==1)
+    SRC.DetectingHidden 75.0
+  ENDIF
+  IF (<argchk[12]>==1)
+    SRC.Enticement 65.0
+  ENDIF
+  IF (<argchk[13]>==1)
+    SRC.EvaluatingIntel 75.0
+  ENDIF
+  IF (<argchk[14]>==1)
+    SRC.Fencing 75.0
+  ENDIF
+  IF (<argchk[15]>==1)
+    SRC.Fishing 75.0
+  ENDIF
+  IF (<argchk[16]>==1)
+    SRC.Forensics 65.0
+  ENDIF
+  IF (<argchk[17]>==1)
+    SRC.Healing 75.0
+  ENDIF
+  IF (<argchk[18]>==1)
+    SRC.Herding 75.0
+  ENDIF
+  IF (<argchk[19]>==1)
+    SRC.Hiding 75.0
+  ENDIF
+  IF (<argchk[20]>==1)
+    SRC.Inscription 75.0
+  ENDIF
+  IF (<argchk[21]>==1)
+    SRC.ItemID 75.0
+  ENDIF
+  IF (<argchk[22]>==1)
+    SRC.LockPicking 75.0
+  ENDIF
+  IF (<argchk[23]>==1)
+    SRC.Lumberjacking 75.0
+  ENDIF
+  IF (<argchk[24]>==1)
+    SRC.Macefighting 75.0
+  ENDIF
+  IF (<argchk[25]>==1)
+    SRC.Magery 75.0
+  ENDIF
+  IF (<argchk[26]>==1)
+    SRC.MagicResistance 65.0
+  ENDIF
+  IF (<argchk[27]>==1)
+    SRC.Meditation 75.0
+  ENDIF
+  IF (<argchk[28]>==1)
+    SRC.Mining 75.0
+  ENDIF
+  IF (<argchk[29]>==1)
+    SRC.Musicianship 75.0
+  ENDIF
+  IF (<argchk[30]>==1)
+    SRC.Peacemaking 75.0
+  ENDIF
+  IF (<argchk[31]>==1)
+    SRC.Parrying 75.0
+  ENDIF
+  IF (<argchk[32]>==1)
+    SRC.Poisoning 75.0
+  ENDIF
+  IF (<argchk[33]>==1)
+    SRC.RemoveTrap 75.0
+  ENDIF
+  IF (<argchk[34]>==1)
+    SRC.Snooping 75.0
+  ENDIF
+  IF (<argchk[35]>==1)
+    SRC.SpiritSpeak 75.0
+  ENDIF
+  IF (<argchk[36]>==1)
+    SRC.Stealing 75.0
+  ENDIF
+  IF (<argchk[37]>==1)
+    SRC.Stealth 75.0
+  ENDIF
+  IF (<argchk[38]>==1)
+    SRC.Swordsmanship 75.0
+  ENDIF
+  IF (<argchk[39]>==1)
+    SRC.Tactics 75.0
+  ENDIF
+  IF (<argchk[40]>==1)
+    SRC.Tailoring 75.0
+  ENDIF
+  IF (<argchk[41]>==1)
+    SRC.Taming 65.0
+  ENDIF
+  IF (<argchk[42]>==1)
+    SRC.TasteID 75.0
+  ENDIF
+  IF (<argchk[43]>==1)
+    SRC.Tinkering 75.0
+  ENDIF
+  IF (<argchk[44]>==1)
+    SRC.Tracking 75.0
+  ENDIF
+  IF (<argchk[45]>==1)
+    SRC.Veterinary 65.0
+  ENDIF
+  IF (<argchk[46]>==1)
+    SRC.Wrestling 75.0
+  ENDIF
+SRC.SYSMESSAGE @043 Skilleriniz Tamamlandi.
+src.go 1905,2099
+ELSE
+  SRC.SYSMESSAGE @043 Ayni anda 3 Skill Secmek Zorundasiniz...
+  SRC.DIALOG d_3_gm_skills
+ENDIF
+
+[function cornres]
+if !(<src.hits> == 0)
+src.smg Bunu yalnizca olu iken kullanabilirsiniz.
+return 1
+elseif (<src.findid.i_c_res>)
+src.smg Tekrar reslenmek icin 15 sn beklemelisiniz.
+return 1
+else
+serv.newitem i_c_res
+new.equip
+endif
+
+[ITEMDEF i_c_res]
+Id i_handr_1
+type t_eq_script
+name res
+
+On=@create
+timer 15
+
+ON=@equip
+if (<src.tag.resurrect>==0)
+target @0481 Sizi resleyecek Unicorn'u secin.
+return 1
+else
+src.smg 15 saniye beklemelisiniz.
+return 1
+endif
+
+ON=@TARGON_CHAR
+if !(<src.targ.memoryfindtype.(memory_ipet|memory_guard).link> == <src.uid>)
+src.sysmessage <src.targ.name> size ait degil.
+return 1
+elseif !(<src.targ.id> == c_m_unicorn) // deðil (c_m_unicorn)
+src.sysmessage @0481 Bu bir Unicorn degil.
+else
+src.targ.sayua 0034,6,6,6 Kal In Vas Mani
+src.targ.anim 5
+src.EFFECT=3,0375A,6,50,
+src.sound 509
+src.resurrect
+serv.newitem i_res_unicorn
+new.equip
+src.sayua 0481,6,6,6 *Dirilir*
+return 1
+endif
+
+On=@timer
+remove
+return 1
+
+[itemdef i_res_unicorn]
+name=Corn Res
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer 30
+
+On=@UnEquip
+src.tag.resurrect=0
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+[plevel 1]
+cornres
+
+
+[ITEMDEF i_earth_robe]
+//
+NAME=mage's robe
+DEFNAME=i_robe_earth
+ID=i_deathshroud
+TYPE=T_armor_leather
+ARMOR=40
+DYE=0
+
+DESCRIPTION=Mage Robe
+SUBSECTION=Special Items
+CATEGORY=Provisions - GM Items
+
+SKILLMAKE=TAILORING 98.0, MAGERY 98.0, t_sewing_kit
+RESOURCES=24 i_cloth
+VALUE=25000
+
+On=@Click
+message [earth]
+message a <name>
+return 1
+
+ON=@Equip
+if (<src.tactics> > 0)
+	var.msgrobe 0481
+	src.msgrobe Savas becerisini unutmalisiniz.
+	unequip
+	return 1
+endif
+IF ( <SRC.MAGERY> < 97.9 )
+	var.msgrobe 0481
+	src.msgrobe En az 98 Magery'niz olmali
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ( <SRC.EVALUATINGINTEL> < 97.9 )	
+	var.msgrobe 0481
+	src.msgrobe En az 98 Evaluating Intelligence'iniz olmali.
+	UNEQUIP
+	RETURN 1
+ENDIF
+src.events +e_earthrobe
+
+ON=@unEquip
+src.events -e_earthrobe
+
+ON=@Create
+	HITPOINTS=200
+	COLOR=07ad
+
+[events e_earthrobe]
+ON=@GetHit
+if (<src.poisoning> >= 98.0) && (<src.poisoning> > <poisoning>)
+
+elseif (<findid.i_rune_poison>)
+	sayua 036,0,0,0 * poison resist *
+	FINDID.i_rune_poison.remove
+endif
+
+ON=@Spelleffect
+if !(<restest 1 i_robe_earth>)
+elseIF (<ARGN>=1)
+sayua 036,0,0,0 * etkilenmez *
+RETURN 1
+ENDIF
+
+if !(<restest 1 i_robe_earth>)
+elseIF (<ARGN>=5)
+sayua 036,0,0,0 * etkilenmez *
+RETURN 1
+ENDIF
+
+if !(<restest 1 i_robe_earth>)
+elseIF (<ARGN>=12)
+sayua 036,0,0,0 * etkilenmez *
+RETURN 1
+ENDIF
+
+[itemdef i_staff_robes]
+name=staff robe
+id=i_person_black_thorne
+armor=500
+type=t_clothing
+
+ON=@create
+color 0801
+HITPOINTS={500 505}
+
+ON=@DCLICK
+src.nightsight 1
+src.staffrobe
+
+on=@click
+message @0799,1 <name>
+return 1
+
+on=@equip
+if (<src.account.plevel> < 7)
+remove
+return 1
+src.fame=0
+src.karma=0
+src.kills=0
+src.gm=1
+src.str 100
+src.dex 100  
+src.int 32000
+src.allskills 1000
+src.body c_man_gm
+src.fix
+endif
+return 1
+
+[speech sat]
+on=sell
+src.newitem i_sat
+src.act.equip
+
+[itemdef i_sat]
+id i_gold
+type t_eq_Script
+
+on=@equip
+target @95,,1 Satmak istedigin esya nedir?
+
+on=@targon_cancel
+remove
+return 1
+
+on=@targon_char
+src.smy  @95,,1 Sadece itemlari satabilirsiniz
+remove
+return 1
+
+on=@targon_item
+IF <SRC.TARG.TOPOBJ.UID> != <SRC.UID>
+SRC.Smy  Satacaginiz item cantanizda olmali.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_shrink_deed )
+SRC.Smy Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+If !(<SRC.TARG.attr>&04) // newbieleri silmez
+SRC.Smy Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+
+If !(<SRC.TARG.attr>&010) // staticleri silmez
+SRC.Smy Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.TYPE> == t_gold )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.TYPE> == t_container )
+SRC.Smy   Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.TYPE> == t_sign_gump )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_reward_coin )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.DISPID> == i_shield_order )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.DISPID> == i_shield_chaos )
+SRC.Smy   Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.DISPID> == i_robe_gm )
+SRC.Smy   Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.DISPID> == i_bag )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_jail )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.ID> == i_kindling )
+SRC.Smy Bunu satamazsiniz
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_rune_book )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_spellbook )
+SRC.Smy Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_deed )
+SRC.Smy  Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+IF ( <SRC.TARG.BASEID> == i_hammer_dye )
+SRC.Smy Bunu satamazsiniz.
+RETURN 1
+ENDIF
+
+src.newitem i_gold
+src.act.amount (<src.targ.value>*<src.targ.amount>)
+src.act.bounce
+src.targ.remove
+target
+return 1
+
+
+
+[CHARDEF 0245]
+DEFNAME=C_H_buy
+NAME=Herseyi Alirim
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+DESIRES=i_gold,e_notoriety
+
+TSPEECH=sat
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+on=@dclick
+src.sysmessage @95,,1 Satilacak Esyaniz icin Lutfen SELL Yazin.
+return 1
+
+ON=@Create
+name Full Seller
+NPC=brain_vendor
+COLOR=colors_skin
+NEED=i_gold
+
+STR={66 80}
+DEX=90
+INT={66 80}
+
+FENCING={15.0 38.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={15.0 38.0}
+WRESTLING={15.0 38.0}
+MACEFIGHTING={15.0 38.0}
+MAGICRESISTANCE={45.0 68.0}
+TACTICS={45.0 68.0}
+
+ITEMNEWBIE=i_lantern
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+ITEM=random_coin_purse
+ITEMNEWBIE=i_tc_r
+Color=0455
+
+on=@Click
+message @0481 [ Seller ]
+return 1
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=herseyialan vendor
+
+
+[ITEMDEF i_staff_stone]
+id=i_deed
+name=Stone Deed
+type=t_script
+
+on=@equip
+if (<src.account.plevel> > 1)
+src.sysmessage @026 Staff'a Ait Esyalari Kullanamazsiniz.
+src.stone
+src.go star
+src.name <name> / Staff Esyasi Bulundu !
+endif
+
+ON=@DClick
+Target @026 Kimi Stone Edeceksiniz ?
+return 1
+
+On=@Create
+Color=0810
+attr=04
+
+On=@TargOn_Char
+src.targ.stone
+return 1
+
+[itemdef i_copkutu]
+id=i_barrel
+weight 200
+Name Cop Kutusu
+type t_container
+
+on=@create
+//color 035
+color 0
+timer 3
+attr=attr_static|attr_decay
+
+on=@click
+message @043 Cop Kutusu
+return 1
+
+on=@dclick
+empty
+timer 3
+return 0
+
+on=@timer
+timer 3
+empty
+return 1
+
+
+
+[ITEMDEF i_tele_staff] 
+NAME=Tele Staff
+ID=i_staff_black
+WEIGHT=5 
+
+ON=@CREATE 
+HITPOINTS={500 1000} 
+ATTR=attr_newbie 
+
+CATEGORY=Avanger
+SUBSECTION=Tourney
+DESCRIPTION=Tourney Staff 
+
+ON=@click
+message @01,1 <name>
+RETURN 1
+
+
+ON=@Equip
+link <src.uid>
+IF (<SRC.ACCOUNT.PLEVEL> = 2)
+	NAME Yetkili
+	color 0ba9
+ELSEIF (<SRC.ACCOUNT.PLEVEL> = 3)
+	NAME Yetkili
+	color 0ba1
+ELSEIF (<SRC.ACCOUNT.PLEVEL> = 4)
+	NAME Yetkili
+	dorand 2
+		color 07c8
+		color 07c8
+	enddo
+ELSEIF (<SRC.ACCOUNT.PLEVEL> = 5)
+	NAME Yetkili
+	dorand 2
+		color 07c8
+		color 07c8
+	enddo
+ELSEIF (<SRC.ACCOUNT.PLEVEL> = 6)
+	NAME Yetkili
+	dorand 2
+		color 07c8
+		color 07c8
+	enddo
+ELSEIF (<SRC.ACCOUNT.PLEVEL> > 6 )
+	NAME Yetkili
+	dorand 2
+		color 07c9 
+		color 07a1
+	enddo
+ELSE	
+	remove
+	return 1
+ENDIF
+
+ON=@Pickup_Pack
+IF (<SRC.ACCOUNT.PLEVEL> < 2)
+	REMOVE
+	RETURN 1
+ENDIF
+
+
+
+
+ON=@DCLICK 
+TARGET @0793 Secim Yapin
+RETURN 1 
+
+ON=@TARGON_CHAR 
+if ((<src.TARG.id>==c_ghost_man) || (<src.TARG.id>==c_ghost_woman)) 
+SRC.TARG.RESURRECT
+src.targ.HITS = <SRC.targ.STR> 
+sound=snd_SPELL_RESURRECTION 
+RETURN 1
+endif
+
+LINK=<SRC.TARG.UID> 
+TARGETG @49 <SRC.TARG.NAME>'yi Abi Nereye Atayim
+RETURN 1 
+
+ON=@TARGON_GROUND 
+LINK.GO <SRC.TARGP> 
+RETURN 1 
+
+ON=@TARGON_ITEM 
+LINK.GO <SRC.TARGP> 
+RETURN 1 
+
+[function yurut]
+if !(<src.findid(i_gmfonks)>)
+src.newitem i_gmfonks
+src.act.more1 4
+src.act.equip
+else
+src.findid(i_gmfonks).more1 4
+src.findid(i_gmfonks).target
+endif
+sysmessage Kimi yurutmek istiyorsunuz.
+
+[ITEMDEF i_dev_robe]
+NAME=Developer Robe
+ID=i_robe_gm
+ARMOR=1000
+TYPE=t_clothing
+
+
+CATEGORY=Provisions - GM Items
+SUBSECTION=DEV Robe
+DESCRIPTION=DEV Robe
+
+ON=@DCLICK
+SRC.INVISIBLE
+VAR.X=RAND(7)
+SRC.SPELLEFFECT=s_hallucination, 500
+SRC.SOUND=snd_spell_weaken
+SRC.NEWITEM=i_fx_sparkle_hallu2
+SRC.ACT.ATTR=attr_static|attr_decay 
+SRC.ACT.TIMER=1 
+SRC.ACT.P=<SRC.P> 
+SRC.ACT.MOVE n 
+SRC.NEWITEM=i_fx_sparkle_hallu2
+SRC.ACT.ATTR=attr_static|attr_decay 
+SRC.ACT.TIMER=1 
+SRC.ACT.P=<SRC.P> 
+SRC.ACT.MOVE s
+SRC.NEWITEM=i_fx_sparkle_hallu2
+SRC.ACT.ATTR=attr_static|attr_decay 
+SRC.ACT.TIMER=1 
+SRC.ACT.P=<SRC.P> 
+SRC.ACT.MOVE e 
+SRC.NEWITEM=i_fx_sparkle_hallu2
+SRC.ACT.ATTR=attr_static|attr_decay 
+SRC.ACT.TIMER=1 
+SRC.ACT.P=<SRC.P> 
+SRC.ACT.MOVE w 
+ENDIF
+
+[ITEMDEF i_fx_sparkle_hallu2]
+ID=i_fx_sparkle
+NAME=sparkle
+
+
+ON=@CREATE
+COLOR=1152
+ATTR=ATTR_STATIC
+TIMER=1
+ON=@TIMER
+ATTR=ATTR_DECAY
+
+
+
+ON=@EQUIP
+IF (<src.account.plevel> < 5)
+src.message GM olmadan giyilmez!
+remove
+return 1
+else
+return 0
+endif
+
+
+[ITEMDEF i_gm_robe]
+NAME=GM Robe
+ID=i_robe_gm
+ARMOR=500
+TYPE=t_clothing
+
+CATEGORY=Provisions -GM Items
+SUBSECTION=GM Robe
+DESCRIPTION=GM Robe
+
+ON=@DCLICK
+SRC.INVISIBLE
+//SRC.bomba
+
+ON=@Create
+Color=084
+Hits=1000
+
+ON=@EQUIP
+IF (<src.account.plevel> < 4)
+src.message GM olmadan giyilmez!
+remove
+return 1
+else
+return 0
+endif
+
+[ITEMDEF i_seer_robe]
+NAME=Seer Robe
+ID=i_robe_gm
+ARMOR=500
+TYPE=t_clothing
+
+CATEGORY=Provisions -GM Items
+SUBSECTION=Seer Robe
+DESCRIPTION=Seer Robe
+
+ON=@DCLICK
+SRC.INVISIBLE
+
+ON=@Create
+Color=042
+Hits=1000
+
+ON=@EQUIP
+IF (<src.account.plevel> < 3)
+src.message Seer olmadan giyilmez!
+remove
+return 1
+else
+return 0
+endif
+
+[ITEMDEF i_admin_robe]
+NAME=Admin Robe
+ID=i_robe_gm
+ARMOR=2000
+TYPE=t_clothing
+
+CATEGORY=Provisions -GM Items
+SUBSECTION=ADMIN Robe
+DESCRIPTION=ADMIN Robe
+
+ON=@DCLICK
+SRC.INVISIBLE
+//src.bomba
+
+ON=@Create
+Color=0481
+Hits=1000
+
+ON=@EQUIP
+IF (<src.account.plevel> < 6)
+src.message Admin olmadan giyilmez!
+remove
+return 1
+else
+return 0
+endif
+
+[ITEMDEF i_couns_robe]
+NAME=Counselor Robe
+ID=i_robe_gm
+ARMOR=500
+TYPE=t_clothing
+
+CATEGORY=Provisions -GM Items
+SUBSECTION=Couns Robe
+DESCRIPTION=Couns Robe
+
+ON=@DCLICK
+SRC.INVISIBLE
+
+ON=@Create
+Color=057
+Hits=1000
+
+ON=@EQUIP
+IF (<src.account.plevel> < 2)
+src.message Counselor olmadan giyilmez!
+remove
+return 1
+else
+return 0
+
+endif
+
+
+
+
+
+[FUNCTION staffrobe]
+src.newitem i_fx_explode
+src.act.color 0bb7
+src.sound 0203
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+//**2. tur
+
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0793
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 3
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 3
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 3
+
+//**3.tur
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 4
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 4
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 4
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 021
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0481
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 4
+
+
+
+else
+src.sysmessage <serv.name> !!
+
+
+//[ITEMDEF i_wizards]
+//DEFNAME=i_vendor_wizards
+//ID=01718
+//RESOURCES=16 i_CLOTH
+//SKILLMAKE=MAGERY 70.0, TAILORING 90.0, t_sewing_kit
+//WEIGHT=2
+//TYPE=T_CLOTHING
+//ARMOR=3
+
+//ON=@Create
+//HITPOINTS=100
+//timer=1
+
+//on=@equip
+//src.events +e_vendorr
+
+//ON=@timer
+//foritems 
+//if (<attr>&attr_magic)
+//if <type==t_magic>
+//timer
+//endif
+//endif
+//endfor
+//timer=1
+//return 1
+
+//ON=@unequip
+//src.events -e_vendorr
+
+[EVENTS e_vendorr] 
+ON=@SPELLEFFECT
+if (<argn>==1) || (<argn>==2) || (<argn>==3) || (<argn>==4) || (<argn>==5) || (<argn>==6) || (<argn>==7) || (<argn>==8) || (<argn>==9) || (<argn>==10) || (<argn>==11) || (<argn>==12) || (<argn>==13) || (<argn>==14) || (<argn>==15) || (<argn>==16) || (<argn>==17) || (<argn>==18) || (<argn>==19) || (<argn>==20) || (<argn>==21) || (<argn>==22) || (<argn>==23) || (<argn>==24) || (<argn>==25) || (<argn>==26) || (<argn>==27) || (<argn>==28) || (<argn>==29) || (<argn>==30) || (<argn>==31) || (<argn>==32) || (<argn>==33) || (<argn>==34) || (<argn>==35) || (<argn>==36) || (<argn>==37) || (<argn>==38) || (<argn>==39) || (<argn>==40) || (<argn>==41) || (<argn>==42) || (<argn>==43) || (<argn>==44) || (<argn>==45) || (<argn>==46) || (<argn>==47) || (<argn>==48) || (<argn>==49) || (<argn>==50) || (<argn>==51) || (<argn>==52) || (<argn>==53) || (<argn>==54) || (<argn>==55) || (<argn>==56) || (<argn>==57) || (<argn>==58) || (<argn>==59) || (<argn>==60) || (<argn>==61) || (<argn>==62) || (<argn>==63) || (<argn>==64)
+src.sayua 025,6,0,enu * Buyu Atmak Yasak *
+src.ja alan
+return 1
+
+[Plevel 2]
+staffgiy
+
+[function staffgiy]
+newitem i_full_spellbook
+act.bounce
+newitem i_staff_robe
+act.bounce
+newitem i_tele_staff
+act.bounce
+newitem i_staff_book
+act.bounce
+title Sacred Staff
+karma 0
+fame 0
+
+[itemdef i_giyim_stone]
+id=i_gravestone_18
+name=Staff Giyim
+type=t_eq_script
+
+on=@click
+name=@055 Tum Stafflar Burdan giyinsin!
+
+on=@create
+color=0bb7
+attr 14
+
+on=@dclick
+src.nightsight 1
+src.sysmessage @07a1 Staff Giysileriniz cantanizdadir !
+
+
+src.newitem i_pet_horse_brown_lt
+src.act.color 01
+src.act.bounce
+
+src.newitem sopa  /// BURAYA SERVERINIZDAKI TELE STAFF KOMUTUNU YAZIN
+src.act.color 00bb7
+src.act.bounce
+
+
+src.newitem i_apron_half
+src.act.color 01
+src.act.bounce
+
+src.newitem i_boots_calf
+src.act.color 01
+src.act.bounce
+
+src.newitem i_leather_gloves
+Src.act.color 01
+src.act.bounce
+
+src.newitem i_leather_gorget
+src.act.color 01
+src.act.bounce
+
+src.newitem i_tele_staff
+src.act.color 01
+src.act.bounce
+
+src.newitem i_staff_book
+src.act.bounce
+
+
+[itemdef i_staff_robess]
+name=staff robe
+id=i_deathshroud
+armor=500
+type=t_clothing
+
+ON=@create
+color 0810
+HITPOINTS={500 505}
+
+ON=@DCLICK
+src.invis
+src.nightsight 1
+
+on=@click
+message Robe Of <name>
+return 1
+
+on=@pickup_pack
+src.findlayer(11).REMOVE
+src.findlayer(16).REMOVE
+if (<src.account.plevel> < 2)
+src.targ.remove
+return 1
+endif
+
+on=@equip
+if (<src.account.plevel> > 6)
+   src.targ.dispid=i_deathshroud
+   src.targ.color=0809
+   src.targ.name=<src.name>
+   src.targ.update
+   else
+   src.targ.dispid=i_deathshroud
+   src.targ.color=0809
+   src.targ.name=<src.name>
+   src.targ.update
+   endif
+src.color=01
+src.title= Sacred PvP Yetkilisi
+src.fame=0
+src.karma=0
+src.kills=0
+src.gm=1
+src.str 999
+src.dex 999   
+src.int 999
+src.allskills 1000
+src.body c_man_gm
+src.fix
+
+
+elseif (<src.account.plevel> > 5)
+   src.targ.dispid=i_deathshroud
+   src.targ.color=07a1
+   src.targ.name=<src.name>
+   else
+   src.targ.dispid=i_deathshroud
+   src.targ.color=0455
+   src.targ.name=<src.name>
+   endif
+src.color=01
+src.title= Rhodos Uo Yetkilisi
+src.fame=0
+src.karma=0
+src.kills=0
+src.gm=1
+src.str 100
+src.dex 100
+src.int 100
+src.allskills 1000
+src.body c_man_gm
+src.fix
+
+elseif (<src.account.plevel> > 4)
+src.targ.dispid=i_deathshroud
+src.targ.color=07a1
+src.targ.name=<src.name>
+src.color=01
+src.title= Rhodos Uo Yetkilisi
+src.fame=0
+src.karma=0
+src.kills=0
+src.gm=1
+src.str 100
+src.dex 100
+src.int 100
+src.allskills 1000
+src.body c_man_gm
+src.fix
+
+elseif (<src.account.plevel> > 3)
+src.targ.dispid=i_deathshroud
+src.targ.color=07a1
+src.targ.name=<src.name>
+src.color=01
+src.title=Rhodos Uo Yetkilisi
+src.fame=0
+src.karma=0
+src.kills=0
+src.str 100
+src.dex 100
+src.int 100
+src.allskills 1000
+src.body c_man_gm
+src.fix
+
+elseif (<src.account.plevel> > 2)
+src.targ.dispid=i_deathshroud
+src.targ.color=07a1
+src.targ.name=<src.name>
+src.color=01
+src.title= Rhodos Uo Yetkilisi
+src.fame=0
+src.karma=0
+src.kills=0
+src.str 100
+src.dex 100
+src.int 100
+src.allskills 1000
+src.body c_man_gm
+src.fix
+
+elseif (<src.account.plevel> > 1)
+src.targ.dispid=i_deathshroud
+src.targ.color=07a1
+src.targ.name=<src.name>
+src.color=01
+src.title= Rhodos Uo Yetkilisi
+src.fame=0
+src.karma=0
+src.kills=0
+src.str 100
+src.dex 100
+src.int 100
+src.allskills 1000
+src.body c_man_gm
+src.fix
+
+
+elseif (<src.account.plevel> < 2)
+src.sysmessage Staff'a ait esyalar kullanilmaz
+src.jail
+src.stone
+src.name <src.name>
+src.title
+src.targ.remove
+
+endif
+return 0
+
+[eof]

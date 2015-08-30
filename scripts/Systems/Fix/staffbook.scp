@@ -1,0 +1,316 @@
+
+[itemdef i_Faction_Anons]
+name Faction Anons \ Tin tin tinimini hanim
+id i_grave_stone
+type t_eq_script
+weight 0
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@dclick
+if (<src.account.plevel> > 4)
+dialog d_announce
+return 1
+else
+src.sms High Council icindir...
+return 1
+endif
+
+on=@create
+attr=08010
+timer 500 // 20 dk da bir
+color 0542
+
+
+on=@timer
+serv.allclients sysmessage @,,1 ......Faction Uye Sayilari :
+serv.allclients sysmessage @39,,1 ...Blackthorne  : <eval <uid.040007971.member.count>>
+serv.allclients sysmessage @99,,1 ...British      : <eval <uid.0400074f5.member.count>>
+timer 1000 // 40 dk
+return 1
+
+[function announce3] 
+var.smg 066d
+sysmessage @69,1,1 <args>
+endif 
+
+[dialog d_announce3] 
+200,200 
+resizepic 0 0 83 330 140 
+resizepic 7 9 3000 328 122
+page 0 
+text 20 20 1152 0 
+gumppic 30 50 1143 
+textentry  40 52 250 20 0481 0 1 
+button 120 90 249 248 1 0 1 //okay 
+button 210 90 243 241 1 0 2 //cancel 
+
+[dialog D_ANNOUNCE3 text] 
+Neyi Anons Edelim? 
+<src.act.name>
+
+[dialog D_ANNOUNCE3 button] 
+on=1 
+src.act.name=<argtxt[0]> 
+src.sysmessage Anons Degisti. Su an: '' <argtxt[0]> '' oldu
+return 1 
+on=2 
+return 1 
+
+
+
+[itemdef i_staff_book] 
+Name=Staff Kitabi 
+ID=i_spellbook
+  
+ON=@create 
+ATTR=0004 
+COLOR=0493
+
+CATEGORY=staff 
+SUBSECTION=book
+DESCRIPTION=Komut Kitabi 
+
+ON=@CLICK 
+message @01,1 Staff Kitabi
+RETURN 1
+
+ON=@DCLICK 
+DIALOG d_stfkontrol
+RETURN 1 
+
+[DIALOG d_stfkontrol]
+100, 100
+
+gumppic 100 10 2203
+button 393 14 2206 2206 0 2 0
+
+tilepic 168 109 4622
+tilepic 190 110 4623
+tilepic 212 126 4624
+tilepic 191 142 4625
+tilepic 170 164 4626
+tilepic 150 143 4627
+tilepic 128 125 4628
+tilepic 150 110 4629
+tilepic 171 120 4630
+
+tilepic 155 20 14107
+
+text 290 15 95 0
+text 305 30 455 1
+text 305 45 455 2
+text 305 60 455 3
+text 290 75 95 4
+text 305 90 455 5
+text 305 105 455 6
+text 305 120 455 7
+text 290 135 95 8
+text 305 150 455 9
+text 305 165 455 10
+text 305 180 455 11
+text 305 195 455 12
+text 145 43 455 13
+text 170 63 455 14
+
+button 285 35 2103 57 1 0 1
+button 285 50 2103 57 1 0 2
+button 285 65 2103 57 1 0 3
+button 285 95 2103 57 1 0 4
+button 285 110 2103 57 1 0 5
+button 285 125 2103 57 1 0 6
+button 285 155 2103 57 1 0 7
+button 285 170 2103 57 1 0 8
+button 285 185 2103 57 1 0 9
+button 285 200 2103 57 1 0 10
+
+[DIALOG d_stfkontrol text]
+Staff Menusu
+Admin Menu
+Jail Menu
+Page Menu
+Etkinlikler
+Gmtopuk Alani
+Pvp Alani
+Gm Room
+Staff Itemleri
+Pazar Alani
+Tele Staff
+Staff Robe
+Staff Horse
+Staff Kontrol 
+Paneli
+
+
+[dialog d_stfkontrol BUTTON]
+
+ON=1
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 2)
+	src.admin
+return 1
+
+endif
+
+ON=2
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 2)
+	src.ja menu
+        src.sysmessage @0481 Jailden Cikarmak icin *.ja af* yazarak cikarabilirsiniz..
+return 1
+
+endif
+
+ON=3
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 3)
+	src.pg
+return 1
+
+endif
+
+ON=4
+if
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 5)
+	src.topukalan
+src.sysmessage @021 Topuk Baslatmak istiyorsan .topukyap komutunu kullanin..!!
+return 1
+
+ON=5
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 5)
+	src.go 5564,1453,75
+        src.sysmessage @0481 Counselor ve Seer Sizden Ustun Birinden Ole izin Alin Ve Pvp Yaptirin.!!
+return 1
+
+ON=6
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 2)
+//        src.go 5370,24344
+        src.sysmessage @0481 Burada Gitmek istedikleriniz Yerler Vardir..
+return 1
+
+on=7
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 3)
+	src.go pazar alani
+        src.sysmessage @0481 Counselor ve Seer ve diger Gmler Playerla Muhabbet esnasinda baska bir yere cekiniz..
+return 1
+
+on=8
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 2)
+	src.newitem i_tele_staff
+	src.act.bounce
+return 1
+
+on=9
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 2)
+	src.newitem i_staff_robe
+	src.act.bounce
+return 1
+
+on=10
+if 
+	src.sysmessage <serv.name>!!
+return 1
+
+else (<account.plevel> == 2)
+	src.newitem i_deed_staff
+	src.act.bounce
+return 1
+
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+					staff Robe
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[itemdef i_staff_robe]
+name=Yetkili Robe
+id=i_hooded_shroud
+armor=500
+type=t_clothing
+
+on=@create
+name Yetkili Robe
+color 0810
+attr 04
+hitpoints -1
+
+on=@click
+message @38,,1 <name>
+return 1
+
+on=@dclick
+src.invis
+src.gm 1
+
+on=@equip
+if (<src.account.plevel> == 1) 
+src.smg Staff'a ait olan esyalari kullanamazsiniz.
+src.targ.remove
+elseif (<src.account.plevel> == 2) 
+color 07a1
+name Yetkili Robe
+elseif (<src.account.plevel> == 3) 
+color 0ba8
+name Yetkili Robe
+elseif (<src.account.plevel> == 4) 
+color 0bb3
+name Yetkili Robe
+elseif (<src.account.plevel> == 5) 
+color 0bb4
+name Yetkili Robe
+elseif (<src.account.plevel> == 6) 
+color 0863
+name Yetkili Robe
+elseif (<src.account.plevel> == 7)
+dorand 3
+color 0bb7
+color 0810
+color 0882
+enddo
+name Yetkili Robe
+endif
+src.fame 0
+src.karma 0
+src.str 100
+src.dex 100
+src.int 100
+src.privshow=1
+return 0
+
+[EOF]

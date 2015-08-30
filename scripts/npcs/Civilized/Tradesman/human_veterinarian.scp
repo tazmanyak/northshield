@@ -1,0 +1,108 @@
+[CHARDEF c_h_vet]
+DEFNAME=C_H_VET
+NAME=#NAMES_HUMANMALE the Veterinarian
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobVet
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Veterinarian (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={56 70}
+	DEX={56 70}
+	INT={56 70}
+
+	ANIMALLORE={55.0 78.0}
+	VETERINARY={55.0 78.0}
+	WRESTLING={15.0 38.0}
+	TACTICS={35.0 58.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_green
+	ITEM=random_pants
+	COLOR=colors_blue
+	ITEM=random_shoes
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_VET
+	BUY=VENDOR_B_VET
+
+
+[CHARDEF c_h_vet_f]
+DEFNAME=C_H_VET_F
+NAME=#NAMES_HUMANFEMALE the Veterinarian
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobVet
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Veterinarian (female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={56 70}
+	DEX={56 70}
+	INT={56 70}
+
+	ANIMALLORE={55.0 78.0}
+	VETERINARY={55.0 78.0}
+	WRESTLING={15.0 38.0}
+	TACTICS={35.0 58.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_green
+	ITEM=random_pants
+	COLOR=colors_blue
+	ITEM=random_boots
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_VET
+	BUY=VENDOR_B_VET
+
+[EOF]

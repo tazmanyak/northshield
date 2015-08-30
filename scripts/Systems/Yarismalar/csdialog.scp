@@ -1,0 +1,78 @@
+/////////////////Counter-Stiker Cikis//////////
+
+[DIALOG d_turnuvacs]
+50, 50
+PAGE 0
+noclose
+nomove
+resizepic 0 0 3500 300 230
+resizepic 10 10 3000 280 210
+nomove
+text 32 36 0 0
+text 32 61 0 1
+text 32 84 0 2
+
+button 40 115 2151 2152 1 0 1
+
+text 79 116 0 3
+
+button 40 152 2151 2152 1 0 2
+
+text 79 156 0 4
+
+[DIALOG d_turnuvacs TEXT]
+Counter-Strike
+Turnuvadan Cikmak 
+istiyormusunuz?
+Evet!
+Hayir!
+
+[DIALOG d_turnuvacs BUTTON]
+on=1
+if (<src.isevent.e_kirmizi>)
+var.katilanlarkirmizi (<eval <var.katilanlarkirmizi>> - 1)
+src.findid.i_backpack.remove
+src.findid.i_bag.remove
+src.findid.i_spear.remove
+src.findid.i_katana.remove
+src.findid.i_bow_elven.remove
+src.findid.i_studded_tunic.remove
+src.findid.i_studded_leggings.remove
+src.findid.i_studded_sleeves.remove
+src.findid.i_studded_gloves.remove
+src.findid.i_studded_gorget.remove
+src.findid.i_robe.remove
+src.tag.yarismacs 0
+src.events -e_kirmizi
+src.events -e_mavi
+src.go Hazirlanma Odasi
+src.stone 0
+return 1
+endif
+if (<src.isevent.e_mavi>)
+var.katilanlarmavi (<eval <var.katilanlarmavi>> - 1)
+src.findid.i_backpack.remove
+src.findid.i_bag.remove
+src.findid.i_spear.remove
+src.findid.i_katana.remove
+src.findid.i_bow_elven.remove
+src.findid.i_studded_tunic.remove
+src.findid.i_studded_leggings.remove
+src.findid.i_studded_sleeves.remove
+src.findid.i_studded_gloves.remove
+src.findid.i_studded_gorget.remove
+src.findid.i_robe.remove
+src.tag.yarismacs 0
+src.events -e_kirmizi
+src.events -e_mavi
+src.go Hazirlanma Odasi
+src.stone 0
+return 1
+endif
+
+
+on=2
+src.sysmessage @0799,1,1 Guzel!.Bende oyle tahmin etmistim <src.name>!
+src.dialogclose d_turnuvacs
+
+[EOF]

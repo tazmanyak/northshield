@@ -1,0 +1,44 @@
+[defname def_black_dcopper_items]
+// total page
+blacksmith_dcopper_pagesum	4
+// platemail
+blacksmith_dcopper_0_1		i_platemail_leggings_dullcopper
+blacksmith_dcopper_1_1		i_platemail_chest_dullcopper
+blacksmith_dcopper_2_1		i_platemail_arms_dullcopper
+blacksmith_dcopper_3_1		i_PLATEMAIL_HELM_DULLCOPPER
+blacksmith_dcopper_4_1		i_platemail_gorget_dullcopper
+blacksmith_dcopper_5_1		i_platemail_gloves_dullcopper
+blacksmith_dcopper_6_1		i_shield_heater_dullcopper
+blacksmith_dcopper_7_1		i_ringmail_gloves_dullcopper
+blacksmith_dcopper_8_1		i_ringmail_leggings_dullcopper
+blacksmith_dcopper_9_1		i_ringmail_sleeves_dullcopper
+blacksmith_dcopper_10_1		i_ringmail_tunic_dullcopper
+
+blacksmith_dcopper_11_1		i_chainmail_coif_dullcopper
+blacksmith_dcopper_12_1		i_chainmail_leggings_dullcopper
+blacksmith_dcopper_13_1		i_chainmail_tunic_dullcopper
+// swords
+blacksmith_dcopper_0_2		i_katana_dullcopper
+blacksmith_dcopper_1_2		i_scimitar_dullcopper
+blacksmith_dcopper_2_2		i_cutlass_dullcopper
+blacksmith_dcopper_3_2		i_bardiche_dullcopper
+blacksmith_dcopper_4_2		i_halberd_dullcopper
+blacksmith_dcopper_5_2		i_sword_long_dullcopper
+blacksmith_dcopper_6_2		i_sword_viking_dullcopper
+blacksmith_dcopper_7_2		i_sword_broad_dullcopper
+// fence
+blacksmith_dcopper_0_3		i_dagger_dullcopper
+blacksmith_dcopper_1_3		i_kryss_dullcopper
+blacksmith_dcopper_2_3		i_pitchfork_dullcopper
+blacksmith_dcopper_3_3		i_spear_dullcopper
+blacksmith_dcopper_4_3		i_spear_short_dullcopper
+blacksmith_dcopper_5_3		i_war_fork_dullcopper
+// mace
+blacksmith_dcopper_0_4		i_axe_war_dullcopper
+blacksmith_dcopper_1_4		i_hammer_pick_dullcopper
+//blacksmith_dcopper_2_4		i_hammer_war_dullcopper
+blacksmith_dcopper_2_4		i_maul_dullcopper
+blacksmith_dcopper_3_4		i_mace_dullcopper
+blacksmith_dcopper_4_4		i_mace_war_dullcopper
+blacksmith_dcopper_5_4		i_helm_closed_dullcopper
+[EOF]

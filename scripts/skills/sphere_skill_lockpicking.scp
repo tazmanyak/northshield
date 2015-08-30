@@ -1,0 +1,31 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 24]
+DEFNAME=Skill_LockPick
+KEY=LockPicking
+TITLE=Locksmith
+PROMPT_MSG=@,,2 502068
+DELAY=3.0
+STAT_STR=20
+STAT_INT=60
+STAT_DEX=90
+BONUS_STR=0
+BONUS_DEX=80
+BONUS_INT=20
+BONUS_STATS=25
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=0,0,0
+
+ON=@Fail
+	SRC.SYSMESSAGE You are unable to pick the lock.
+
+ON=@Abort
+	SRC.SYSMESSAGE You stop trying to pick the lock.
+
+[eof]

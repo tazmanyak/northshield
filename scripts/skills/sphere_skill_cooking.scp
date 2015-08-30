@@ -1,0 +1,42 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 13]
+DEFNAME=Skill_Cooking
+KEY=Cooking
+TITLE=Chef
+PROMPT_MSG=What would you like to cook?
+DELAY=0//2.0
+STAT_STR=25
+STAT_INT=45
+STAT_DEX=20
+BONUS_STR=0
+BONUS_DEX=40
+BONUS_INT=60
+BONUS_STATS=50
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=0,0,0
+VALUES=1,20,80
+
+ON=@Fail
+SRC.MESSAGE @,,2 500686
+
+ON=@Abort
+	SRC.SYSMESSAGE You stop cooking the food.
+
+[FUNCTION f_craft_cooking_checkfire]
+if <serv.itemdef.<args>.type> == t_food_raw
+	if <isneartype t_fire 2> || <isneartype t_campfire 2>
+	return 0
+	endif
+ctag.craftmessage = You need to be near a heat source to cook this.
+return 1
+endif
+
+[eof]

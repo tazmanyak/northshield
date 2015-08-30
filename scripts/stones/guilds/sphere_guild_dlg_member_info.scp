@@ -1,0 +1,126 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_member_info]
+10,40
+
+resizepic 0 0 0242C 350 255
+dhtmlgump 20 15 310 26 0 0 <DEF.CENTER><DEF.I>Guild Uye Bilgileri
+gumppictiled 20 40 310 2 02711
+
+dhtmlgump 20 50 150 26 1 0 <DEF.I>Isim
+dhtmlgump 180 53 150 26 0 0 <NAME>
+
+dhtmlgump 20 80 150 26 1 0 <DEF.I>Derece
+dhtmlgump 180 83 150 26 0 0 <DEF.Guild.RankName.<dGUILD.MemberFromUID.<UID>.PRIV>>
+
+dhtmlgump 20 110 150 26 1 0 <DEF.I>Guild Unvani
+dhtmlgump 180 113 150 26 0 0 <GUILD.MemberFromUID.<UID>.GuildTitle>
+gumppictiled 20 142 310 2 02711
+
+IF (<DEF0.Guild.EnableVoteForGuildMaster>)
+ resizepic 20 150 02486 310 26
+ button 25 155 0845 0846 1 0 1
+ dhtmlgump 50 153 270 26 0 0 <QVAL (<SRC.GUILD.MemberFromUID.<SRC>.LoyalTo>==<UID>)? Clear:Cast> Vote For This Member
+ENDIF
+
+resizepic 20 180 02486 150 26
+button 25 185 0845 0846 1 0 2
+dhtmlgump 50 183 110 26 0 0 <QVAL (<SRC.TAG0.Guild.ToLeader>)? <DEF.BFONT_RED>>Rutbe Ver
+
+resizepic 20 210 02486 150 26
+button 25 215 0845 0846 1 0 3
+dhtmlgump 50 213 110 26 0 0 Rutbe Dusur
+
+resizepic 180 180 02486 150 26
+button 185 185 0845 0846 1 0 4
+dhtmlgump 210 183 110 26 0 0 Guild Unvani Ver
+
+resizepic 180 210 02486 150 26
+button 185 215 0845 0846 1 0 5
+dhtmlgump 210 213 110 26 0 0 <QVAL (<SRC.TAG0.Guild.ToKick>)? <DEF.BFONT_RED>>Guildden At
+
+
+[DIALOG d_guild_member_info BUTTON]
+ON=0
+SRC.TAG0.Guild.ToLeader=
+SRC.TAG0.Guild.ToKick=
+
+ON=1
+IF !(<DEF0.Guild.EnableVoteForGuildMaster>)
+ return 1
+ELIF (<GUILD.MemberFromUID.<SRC>.LoyalTo>==<UID>) && (<GUILD.MasterUID> != <UID>)
+ SRC.SYSMESSAGE @,,1 Guild liderine olan oyunuzu kaldirdiniz.
+ UID.<GUILD>.MemberFromUID.<SRC>.LoyalTo=<SRC>
+ELIF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanVoteForGuildMaster>)
+ SRC.SYSMESSAGE @,,1 Oylamak icin yeterli izniniz yok.
+ELIF (<GUILD.MasterUID>==<SRC>)
+ SRC.SYSMESSAGE @,,1 Suanki lider icin oynama yapamazsiniz.
+ELIF (<GUILD.MemberFromUID.<UID>.PRIV>==0)
+ SRC.SYSMESSAGE @,,1 <STRTOLOWER <DEF0.Guild.RankName.0>> icin oylama yapamazsiniz guild member.
+//ELIF (<Guild_CanBeVotedFor>)
+// SRC.SYSMESSAGE @,,1 You can't vote for an inactive guild member.
+ELSE
+ REF1=<GUILD.MasterUID>
+ UID.<GUILD>.MemberFromUID.<SRC>.LoyalTo=<UID>
+ UID.<GUILD>.ElectMaster	//Internal function
+ SRC.SYSMESSAGE @,,1  Guild liderligi oylamasinda, <NAME> icin oy kullandiniz.
+ IF (<GUILD.MasterUID> != <REF1>)
+  UID.<GUILD>.Guild_SendMessage Guildmaster <UID.<GUILD.MasterUID>.NAME> olarak degismistir duyurulur.
+ ENDIF
+ENDIF
+
+ON=2
+IF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanPromoteDemote>) || (<GUILD.MemberFromUID.<UID>.PRIV> >= <GUILD.MemberFromUID.<SRC>.PRIV>)
+ SRC.SYSMESSAGE @,,1 Bu uyenin rutbesini artirmak icin izniniz bulunmuyor.
+ELIF (<GUILD.MemberFromUID.<UID>.PRIV>==0)
+ UID.<GUILD>.JoinAsMember <UID>
+ SRC.SYSMESSAGE @,,1 <NAME> icin guild bilgileri guncellenmistir.
+ELIF (<GUILD.MemberFromUID.<UID>.PRIV>==1)
+ IF (<SRC.TAG0.Guild.ToLeader>)
+  UID.<GUILD>.MasterUID=<UID>
+  SRC.SYSMESSAGE @,,1 <NAME> icin guild bilgileri guncellenmistir.
+  SRC.SYSMESSAGE @,,1 <SRC.NAME> icin guild bilgileri guncellenmistir.
+  SRC.TAG0.Guild.ToLeader=
+ ELSE
+  SRC.SYSMESSAGE @,,1 Bu kisiyi yeni guild lideri yapmak istediginizden emin misiniz?
+  SRC.TAG0.Guild.ToLeader=1
+  SDIALOG d_guild_member_info
+ ENDIF
+ENDIF
+
+ON=3
+IF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanPromoteDemote>) || (<GUILD.MemberFromUID.<UID>.PRIV> >= <GUILD.MemberFromUID.<SRC>.PRIV>)
+ SRC.SYSMESSAGE @,,1 Bu uyenin rutbesini dusurmek icin yeterli izniniz bulunmamaktadir.
+ELIF (<GUILD.MemberFromUID.<UID>.PRIV>==1)
+ UID.<SRC.GUILD>.Resign <UID>
+ UID.<SRC.GUILD>.ApplyToJoin <UID>
+ SRC.SYSMESSAGE @,,1 <NAME> icin guild bilgileri guncellenmistir.
+ELSE
+ SRC.SYSMESSAGE @,,1 <DEF.Guild.RankName.<dGUILD.MemberFromUID.<UID>.PRIV>> icin rutbe dusurme islemini izniniz olmadigi icin gerceklestiremiyorsunuz.
+ENDIF
+
+ON=4
+IF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanSetMemberTitle>) || ((<GUILD.MemberFromUID.<UID>.PRIV> >= <GUILD.MemberFromUID.<SRC>.PRIV>) && (<SRC> != <UID>))
+ SRC.SYSMESSAGE @,,1 You don't have <QVAL (<isempty <GUILD.MemberFromUID.<UID>.GuildTitle>>)? the permission to set that:permission to change this> member's guild title.
+ELSE
+ SRC.SYSMESSAGE @,,1 Guild uyesi icin yeni bir unvan yaziniz yada 'none' yazarak unvanini silebilirsiniz:
+ SRC.CTAG.Guild.Temp.SetTitle=<UID>
+ PROMPTCONSOLE Guild_SetTitle_CallBack
+ENDIF
+
+ON=5
+IF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanKickPlayers>) || (<GUILD.MemberFromUID.<UID>.PRIV> >= <GUILD.MemberFromUID.<SRC>.PRIV>)
+ SRC.SYSMESSAGE @,,1 Bu uyeyi guildden silmek icin izniniz bulunmuyor.
+ELIF (<SRC.TAG0.Guild.ToKick>)
+ UID.<GUILD>.Guild_RemoveMember <UID>
+ SRC.SYSMESSAGE @,,1 Uye guildden silinmistir.
+ SRC.TAG0.Guild.ToKick=
+ELSE
+ SRC.SYSMESSAGE @,,1 Uyeyi guildden atmak istediginize emin misiniz?
+ SRC.TAG0.Guild.ToKick=1
+ SDIALOG d_guild_member_info
+ENDIF
+
+[EOF]

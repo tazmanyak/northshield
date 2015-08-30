@@ -1,0 +1,299 @@
+//i_hide_spined
+//i_hide_barbed
+//i_hide_horned
+//
+//i_leather_spined
+//i_leather_barbed
+//i_leather_horned
+//
+//COLOR=color_o_spined
+//COLOR=color_o_barbed
+//COLOR=color_o_horned
+//
+//ARMOR
+//
+//
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+[ITEMDEF i_spined_sleeves]
+id=i_studded_sleeves
+name=spined sleeves
+TYPE=t_armor_leather
+RESOURCES=10 i_leather_spined
+SKILLMAKE=TAILORING 87.1, t_sewing_kit
+WEIGHT=4
+FLIP=1
+REQSTR=25
+armor 30
+CATEGORY=Provisions - Armor - Tailoring
+
+
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_spined
+
+[ITEMDEF i_spined_gloves]
+id=i_studded_gloves
+name=spined gloves
+TYPE=t_armor_leather
+RESOURCES=8 i_leather_spined
+SKILLMAKE=TAILORING 82.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=25
+armor 30
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Gloves
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_spined
+
+[ITEMDEF i_spined_gorget]
+id=i_studded_gorget
+name=spined gorget
+TYPE=t_armor_leather
+RESOURCES=6 i_leather_spined
+SKILLMAKE=TAILORING 78.8, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 30
+REQSTR=25
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Gorget
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_spined
+
+[ITEMDEF i_spined_leggings]
+id=i_studded_leggings
+name=spined leggings
+TYPE=t_armor_leather
+RESOURCES=12 i_leather_spined
+SKILLMAKE=TAILORING 91.2, t_sewing_kit
+WEIGHT=5
+FLIP=1
+armor 31
+REQSTR=30
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Leggings
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_spined
+
+[ITEMDEF i_spined_tunic]
+id=i_studded_tunic
+name=spined tunic
+TYPE=t_armor_leather
+RESOURCES=14 i_leather_spined
+SKILLMAKE=TAILORING 94.0, t_sewing_kit
+WEIGHT=8
+FLIP=1
+armor 31
+REQSTR=35
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Tunic
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_spined
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+[ITEMDEF i_horned_sleeves]
+id=i_studded_sleeves
+name=horned sleeves
+TYPE=t_armor_leather
+RESOURCES=10 i_leather_horned
+SKILLMAKE=TAILORING 87.1, t_sewing_kit
+WEIGHT=4
+FLIP=1
+REQSTR=25
+armor 36
+CATEGORY=Provisions - Armor - Tailoring
+
+
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_horned
+
+[ITEMDEF i_horned_gloves]
+id=i_studded_gloves
+name=horned gloves
+TYPE=t_armor_leather
+RESOURCES=8 i_leather_horned
+SKILLMAKE=TAILORING 82.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=25
+armor 36
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Gloves
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_horned
+
+[ITEMDEF i_horned_gorget]
+id=i_studded_gorget
+name=horned gorget
+TYPE=t_armor_leather
+RESOURCES=6 i_leather_horned
+SKILLMAKE=TAILORING 78.8, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 36
+REQSTR=25
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Gorget
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_horned
+
+[ITEMDEF i_horned_leggings]
+id=i_studded_leggings
+name=horned leggings
+TYPE=t_armor_leather
+RESOURCES=12 i_leather_horned
+SKILLMAKE=TAILORING 91.2, t_sewing_kit
+WEIGHT=5
+FLIP=1
+armor 36
+REQSTR=30
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Leggings
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_horned
+
+[ITEMDEF i_horned_tunic]
+id=i_studded_tunic
+name=horned tunic
+TYPE=t_armor_leather
+RESOURCES=14 i_leather_horned
+SKILLMAKE=TAILORING 94.0, t_sewing_kit
+WEIGHT=8
+FLIP=1
+armor 37
+REQSTR=35
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Tunic
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_horned
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_barbed_sleeves]
+id=i_studded_sleeves
+name=barbed sleeves
+TYPE=t_armor_leather
+RESOURCES=10 i_leather_barbed
+SKILLMAKE=TAILORING 87.1, t_sewing_kit
+WEIGHT=4
+FLIP=1
+REQSTR=25
+armor 42
+CATEGORY=Provisions - Armor - Tailoring
+
+
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_barbed
+
+[ITEMDEF i_barbed_gloves]
+id=i_studded_gloves
+name=barbed gloves
+TYPE=t_armor_leather
+RESOURCES=8 i_leather_barbed
+SKILLMAKE=TAILORING 82.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=25
+armor 42
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Gloves
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_barbed
+
+[ITEMDEF i_barbed_gorget]
+id=i_studded_gorget
+name=barbed gorget
+TYPE=t_armor_leather
+RESOURCES=6 i_leather_barbed
+SKILLMAKE=TAILORING 78.8, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 42
+REQSTR=25
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Gorget
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_barbed
+
+[ITEMDEF i_barbed_leggings]
+id=i_studded_leggings
+name=barbed leggings
+TYPE=t_armor_leather
+RESOURCES=12 i_leather_barbed
+SKILLMAKE=TAILORING 91.2, t_sewing_kit
+WEIGHT=5
+FLIP=1
+armor 42
+REQSTR=30
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Leggings
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_barbed
+
+[ITEMDEF i_barbed_tunic]
+id=i_studded_tunic
+name=barbed tunic
+TYPE=t_armor_leather
+RESOURCES=14 i_leather_barbed
+SKILLMAKE=TAILORING 94.0, t_sewing_kit
+WEIGHT=8
+FLIP=1
+armor 43
+REQSTR=35
+CATEGORY=Provisions - Armor - Tailoring
+
+DESCRIPTION=Studded Tunic
+
+ON=@Create
+HITPOINTS=50
+COLOR=color_o_barbed
+
+
+[eof]

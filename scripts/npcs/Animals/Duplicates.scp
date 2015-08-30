@@ -1,0 +1,85 @@
+[CHARDEF 022]
+//DEFNAME=
+NAME=unknown wolf
+ICON=i_pet_wolf_timber
+SOUND=snd_animals_wolf1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,10
+ARMOR=15
+DESIRES=r_jungle
+AVERSIONS=r_civilization
+FOODTYPE=15 t_meat_raw
+RESOURCES=1 i_ribs_raw,2 i_fur_light,4 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=32.3
+TAG.Control.Slots=1
+TAG.Slayer=SLAYER_WOLF
+TEVENTS=e_carnivores
+CATEGORY=Animals
+SUBSECTION=Duplicates
+DESCRIPTION=Unknown Wolf
+ON=@Create
+   NPC=brain_animal
+   FAME=450
+   KARMA=0
+   STR={56 80}
+   MAXHITS={34 48}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={31 55}
+   MAXMANA={31 55}
+   MAGICRESISTANCE={20.0 35.0}
+   TACTICS={45.0 60.0}
+   TAMING={65.0 70.0}
+   WRESTLING={45.0 60.0}
+   MODAR={0 5}
+   RESCOLD={20 25}
+   RESENERGY={10 15}
+   RESFIRE={10 15}
+   RESPOISON={10 15}
+
+[CHARDEF 05f]
+//On very old clients this was a sea monster
+//On somewhat old clients, this creature crashed the client
+//On very new clients this is a turkey...
+//FIXME: No Stratics data yet
+//DEFNAME=
+NAME=Turkey
+//ICON=i_pet_fixme
+//SOUND=snd_animal_fixme
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=3,5
+ARMOR=10
+DESIRES=r_civilization,t_dirt
+AVERSIONS=e_carnivores,e_carnivores2,e_carnivores3
+FOODTYPE=15 t_seed
+RESOURCES=30 i_feather,2 i_bird_raw
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=22.0
+TAG.Control.Slots=1
+CATEGORY=Animals
+SUBSECTION=Duplicates
+DESCRIPTION=Turkey
+ON=@Create
+   NPC=brain_monster
+   FAME=150
+   KARMA=0
+   STR={16 22}
+   MAXHITS={18 28}
+   DEX={36 45}
+   MAXSTAM={36 45}
+   INT={16 22}
+   MAXMANA={16 22}
+   MAGICRESISTANCE={5.0 10.0}
+   TACTICS={15.0 20.0}
+   TAMING={10.0 15.0}
+   WRESTLING={10.0 15.0}
+   MODAR={0 10}
+   RESCOLD={5 10}
+   RESENERGY={0 5}
+   RESFIRE={0 5}
+   RESPOISON={5 10}
+
+[EOF]

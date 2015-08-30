@@ -1,0 +1,164 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+// gargish wooden shield = 0x4200, 0x4207
+// gargish kite shield = 0x4201, 0x4206
+// small plate shield = 0x4202, 0x420a
+// medium plate shield = 0x4203, 0x4209
+// large plate shield = 0x4204, 0x4208
+// gargish chaos shield = 0x4228, 0x4229
+// gargish order shield = 0x422a, 0x422b
+
+[ITEMDEF 04200]
+DEFNAME=i_shield_wooden_gargish
+TYPE=t_shield
+FLIP=1
+WEIGHT=5
+REQSTR=20
+SKILLMAKE=Carpentry 52.6, t_carpentry
+RESOURCES=9 i_log
+DUPELIST=04207
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Gargish Wooden Shield
+TAG.Item.Gargoyle=1
+TAG.ResEnergy=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04207]
+DUPEITEM=04200
+
+[ITEMDEF 04201]
+DEFNAME=i_shield_kite_gargish
+TYPE=t_shield
+FLIP=1
+WEIGHT=7
+REQSTR=45
+SKILLMAKE=Blacksmithing 4.6
+RESOURCES=16 i_ingot_iron
+DUPELIST=04206
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Gargish Kite Shield
+TAG.Item.Gargoyle=1
+TAG.ResEnergy=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04206]
+DUPEITEM=04201
+
+[ITEMDEF 04202]
+DEFNAME=i_shield_plate_small
+TYPE=t_shield
+FLIP=1
+WEIGHT=6
+REQSTR=20
+SKILLMAKE=Blacksmithing 0.0
+RESOURCES=12 i_ingot_iron
+DUPELIST=0420a
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Small Plate Shield
+TAG.Item.Gargoyle=1
+TAG.ResCold=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 0420a]
+DUPEITEM=04202
+
+[ITEMDEF 04203]
+DEFNAME=i_shield_plate_medium
+TYPE=t_shield
+FLIP=1
+WEIGHT=6
+REQSTR=45
+SKILLMAKE=Blacksmithing 0.0
+RESOURCES=14 i_ingot_iron
+DUPELIST=04209
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Medium Plate Shield
+TAG.Item.Gargoyle=1
+TAG.ResFire=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04209]
+DUPEITEM=04203
+
+[ITEMDEF 04204]
+DEFNAME=i_shield_plate_large
+TYPE=t_shield
+FLIP=1
+WEIGHT=8
+REQSTR=90
+SKILLMAKE=Blacksmithing 24.3
+RESOURCES=18 i_ingot_iron
+DUPELIST=04208
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Large Plate Shield
+TAG.Item.Gargoyle=1
+TAG.ResFire=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04208]
+DUPEITEM=04204
+
+[ITEMDEF 04228]
+DEFNAME=i_shield_chaos_gargish
+TYPE=t_shield
+FLIP=1
+WEIGHT=5
+REQSTR=95
+SKILLMAKE=Blacksmithing 85.0
+RESOURCES=25 i_ingot_iron
+DUPELIST=04229
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Gargish Chaos Shield
+TAG.Item.Gargoyle=1
+TAG.ResPhysical=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04229]
+DUPEITEM=04228
+
+[ITEMDEF 0422a]
+DEFNAME=i_shield_order_gargish
+TYPE=t_shield
+FLIP=1
+WEIGHT=7
+REQSTR=95
+SKILLMAKE=Blacksmithing 85.0
+RESOURCES=25 i_ingot_iron
+DUPELIST=0422b
+CATEGORY=Provisions - Armor - Gargish
+SUBSECTION=Shields
+DESCRIPTION=Gargish Order Shield
+TAG.Item.Gargoyle=1
+TAG.ResPhysical=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 0422b]
+DUPEITEM=0422a
+
+[eof]

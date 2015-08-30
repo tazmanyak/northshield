@@ -1,0 +1,386 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 05-07-2010
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// jeem - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// EA Special Moves
+
+[events e_special_moves]
+on=@userspecialmove
+if <argn1> == 0
+	clearspecialmove
+	return 1
+endif
+
+local.move = <qval (<getargv 0 <def.scp.special_move_weap_<weapon.id>>> == <argn1>) ? 1:2>
+local.tacticsnoreq = <getargv 1 <def.scp.special_move_<argn1>>>
+
+if <<combat.skill>> >= <qval (<local.move> == 1) ? 70.0:90.0>
+	if ((<local.tacticsnoreq> == 1) || ((<local.tacticsnoreq> == 2) && ((<tactics> >= <qval (<local.move> == 1) ? 70.0:90.0>) || !(<weapon>))) || ((<local.tacticsnoreq> == 0) && (<tactics> >= <qval (<local.move> == 1) ? 70.0:90.0>)))
+		tag0.SpecialMoveInUse = <argn1>
+	else
+		if (<local.tacticsnoreq> == 0) || (<local.tacticsnoreq> == 2)
+			sysmessage @,,2 1079308,<qval (<local.move> == 1) ? 70.0:90.0> // You need ~1_SKILL_REQUIREMENT~ weapon and tactics skill to perform that attack
+		else
+			sysmessage @,,2 1060182,<qval (<local.move> == 1) ? 70.0:90.0> // You need ~1_SKILL_REQUIREMENT~ weapon skill to perform that attack
+		endif
+		clearspecialmove
+	endif
+else
+	sysmessage @,,2 1079308,<qval (<local.move> == 1) ? 70.0:90.0> // You need ~1_SKILL_REQUIREMENT~ weapon and tactics skill to perform that attack
+	clearspecialmove
+endif
+
+on=@itemequip
+if ((<act.layer> == 1) || (<act.layer> == 2)) && !(<act.isarmor>)
+	clearspecialmove
+endif
+
+on=@itemunequip
+if ((<act.layer> == 1) || (<act.layer> == 2)) && !(<act.isarmor>)
+	clearspecialmove
+endif
+
+on=@hittry
+if <tag0.SpecialMoveInUse> == 10
+	// Moving Shot - This special move allows archers or throwers to fire while on the move. This shot is somewhat less accurate than
+	// normal, but the ability to fire while running is a clear advantage.
+	if <mana> >= <f_special_move_mana 15>
+		flags |= statf_archercanmove
+		mana -= <f_special_move_mana 15>
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+endif
+
+on=@hitdamagebonus
+if <tag0.SpecialMoveInUse> == 1
+	// Armor Ignore - This special move allows the skilled warrior to bypass his target's physical resistance, for one shot only.
+	// The Armor Ignore shot does slightly less damage than normal. Against a heavily armored opponent, this ability is a big win,
+	// but when used against a very lightly armored foe, it might be better to use a standard strike. For this attack, the defender
+	// has 0 Physical Resistance, but the attack only does 90% normal damage.
+	if <mana> >= <f_special_move_mana 30>
+		var0.<uid>_damagebonus -= 10
+		tag.ignore.combat = 1
+		sysmessage @,,2 1060076 // Your attack penetrates their armor!
+		src.sysmessage @03b2,,2 1060077 // The blow penetrated your armor!
+		mana -= <f_special_move_mana 30>
+		clearspecialmove
+		tag.LastSpecialMoveUse = <serv.time>
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 4
+	// Crushing Blow - Also known as the Haymaker, this attack increases the damage done by a weapon reaching its mark by 50%.
+	// Additional damage is applied as physical damage.
+	if <mana> >= <f_special_move_mana 25>
+		sysmessage @,,2 1060090 // You have delivered a crushing blow!
+		src.sysmessage @,,2 1060091 // You take extra damage from the crushing attack!
+		var0.<uid>_damagebonus += 50
+		
+		src.sfx 01e1
+		src.effect 0,0fb4,1,0,0,0,3
+		
+		mana -= <f_special_move_mana 30>
+		clearspecialmove
+		tag.LastSpecialMoveUse = <serv.time>
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 25> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 12
+	// Shadow Strike - This powerful ability requires a complementary skill to activate. Successful use of Shadowstrike deals extra damage to the
+	// target and renders the attacker invisible. Only those who are Adept (80) at the art of stealth will be able to use this ability. Weapon hit
+	// does an extra 25% damage, and hides the attacker.
+	if <stealth> < 80.0
+		sysmessage @,,2 1060183 // You lack the required stealth to perform that attack
+		clearspecialmove
+	elif <mana> >= <f_special_move_mana 20>
+		sysmessage @,,2 1060078 // You strike and hide in the shadows!
+		src.sysmessage @,,2 1060079 // You are dazed by the attack and your attacker vanishes!
+		sfx 0482
+		effect 3,0376a,8,12
+		src.effect 3,037be,20,25
+		var0.<uid>_damagebonus += 25
+		f_stealth
+		mana -= <f_special_move_mana 20>
+		clearspecialmove
+		tag.LastSpecialMoveUse = <serv.time>
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 20> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+endif
+
+on=@hit
+if <tag0.SpecialMoveInUse> == 2
+	// Bleed Attack - Make your opponent bleed profusely with this wicked use of your weapon. When successful, the target will bleed
+	// for several seconds, taking damage as time passes for up to ten seconds. The rate of damage slows down as time passes, and the
+	// blood loss can be completely staunched with the use of bandages. Applies a total of 15-31 physical damage to the target over the
+	// next 10 seconds. This damage is not reduced by armor and can only be avoided through healing with bandages.
+	if <mana> >= <f_special_move_mana 30>
+		if <src.findid(i_wraith_form)> || <src.findid(i_lich_form)> || <src.tag0.BleedImmunity>
+			sysmessage @,,2 1062052 // Your target is not affected by the bleed attack!
+		else
+			sysmessage @,,2 1060159 // Your target is bleeding!
+			src.sysmessage @,,2 1060160 // You are bleeding!
+			
+			src.sfx 0133
+			src.effect 2,0377a,244,25,0,31,0
+			
+			if <isplayer>
+				src.emoteloc 1060757,1060758,021,0,<src.name> // You are bleeding profusely - ~1_NAME~ is bleeding profusely
+			endif
+			
+			serv.newitem i_bleed_timer,1,<src>,1
+			new.link = <uid>
+		endif
+		mana -= <f_special_move_mana 30>
+		clearspecialmove
+		tag.LastSpecialMoveUse = <serv.time>
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 3
+	// Concussion Blow - This devastating strike is most effective against those who are in good health and whose reserves of mana are low,
+	// or vice versa. Applies 10-30 additional physical damage that cannot be reduced by physical resistance or other defenses.
+	if <mana> >= <f_special_move_mana 25>
+		sysmessage @,,2 1060165 // You have delivered a concussion!
+		src.sysmessage @,,2 1060166 // You feel disoriented!
+		
+		src.sfx 0213
+		src.effect 2,0377a,1,32,0,1153,0
+		
+		src.effect 0,036fe,1,0,0,1133,3
+		
+		local.hitspercent = <eval ((<src.hits> * 100) / <src.maxhits>)>
+		local.manapercent = <eval ((<src.mana> * 100) / <src.maxmana>)>
+		local.damage = <min 20,<abs <eval ((<local.manapercent> - <local.hitspercent>) / 4)>>>
+		local.damage += 10
+		
+		src.damage <local.damage> dam_physical|dam_god <uid>
+		mana -= <f_special_move_mana 30>
+		clearspecialmove
+		tag.LastSpecialMoveUse = <serv.time>
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 25> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 5
+	// Disarm - This attack allows you to disarm your foe. A successful Disarm leaves the victim unable to re-arm another weapon for 5 seconds.
+	// This move is exempt from the Tactics requirement when used as an Unarmed (wrestling) special move.
+	if !<src.weapon>
+		sysmessage @,,2 1060849 // Your target is already unarmed!
+	elif <src.weapon.flags>&attr_move_never
+		sysmessage @,,2 1004001 // You cannot disarm your opponent.
+	elif <mana> >= <f_special_move_mana 20>
+		sysmessage @,,2 1060092 // You disarm their weapon!
+		src.sysmessage @,,2 1060093 // Your weapon has been disarmed!
+		
+		src.sfx 03b9
+		src.effect 3,037be,232,25
+		
+		src.weapon.cont = <src.findlayer(layer_pack)>
+		src.tag0.noequiptill = <eval (<serv.time> + 50)>
+		mana -= <f_special_move_mana 20>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 20> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 6
+	// Dismount - Perfect for the foot-soldier, the Dismount special attack can unseat a mounted opponent. The fighter using this ability must be on
+	// his own two feet and not in the saddle of a steed (with one exception: players may use a lance to dismount other players while mounted). If it
+	// works, the target will be knocked off his own mount and will take some extra damage from the fall. Dismounts the target. Inflicts 15-25
+	// additional physical damage. Cannot use this while mounted, unless both protagonists are using a lance.
+	if !<src.flags>&statf_onhorse
+		sysmessage @,,2 1060848 // This attack only works on mounted targets
+	elif (<flags>&statf_onhorse>) && (<weapon.id> != i_lance) && (<src.weapon.id> != i_lance)
+		sysmessage @,,2 1040016 // You cannot use this while riding a mount
+	elif <mana> >= <f_special_move_mana 20>
+		sysmessage @,,2 1060082 // The force of your attack has dislodged them from their mount!
+		if <flags>&statf_onhorse
+			src.sysmessage @,,2 1062315 // You fall off your mount!
+		else
+			local.damage = <r15,25>
+			local.damage = <muldiv <local.damage>,<eval (100 - (<src.armor>+<src.modar>))>,100>
+			src.damage <local.damage> dam_physical|dam_god <uid>
+			src.sysmessage @,,2 1060083 // You fall off of your mount and take damage!
+		endif
+		src.sfx 0140
+		src.effect 3,03728,10,15
+		src.dismount
+		src.tag.nomounttill = <eval (<serv.time> + 100)>
+		mana -= <f_special_move_mana 20>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 20> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 7
+	// Double Strike - The highly skilled warrior can use this special attack to make two quick swings in succession. Landing both blows would be devastating! 
+	if <mana> >= <f_special_move_mana 30>
+		sysmessage @,,2 1060084 // You attack with lightning speed!
+		src.sysmessage @,,2 1060085 // Your attacker strikes with lightning speed!
+		src.sfx 03bb
+		src.effect 3,037b9,244,25
+		tag.override.hitspeed = 0 // instant next hit
+		mana -= <f_special_move_mana 30>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 8
+	// Infecting - Infecting requires a weapon with poison charges on it Only weapon types that have Infectious Strike as an available
+	// special move will be able to be poisoned.. While no skill in Poisoning is absolutely required to use this ability, being knowledgeable in the
+	// application and use of toxins will allow a character to use Infectious Strike at reduced mana cost and to inflict more deadly poison on his victim.
+	// Level 5 poison will be possible when using this special move. Poisoning skill is not required, but without it you will only be able to inflict level 1
+	// poisons on your victim. This move is exempt from the Tactics skill requirement.
+	// The Poisoning skill will give a (Poisoning Skill)% chance to increase the level of poison delivered by 1. The blade must have poison applied to it.
+	// The power of the poison depends on the type of poison used and your poisoning skill.
+	// With Poisoning skill 0.0 - 19.9 you can inflict Level 1 (with a chance of level 0)
+	// With Poisoning skill 20.0 - 39.9 you can inflict level 2 (with a chance of level 3)
+	// With Poisoning skill 40.0 - 59.9 you can inflict level 3 (with a chance of level 4)
+	// With Poisoning skill 60.0 - 100.0 you can inflict level 4 (with a chance of level 5)
+	if !<def.scp.NewSkills_Poison>
+		return 0
+	elif !<weapon.tag0.poison.charges>
+		sysmessage @,,2 1061141 // Your weapon must have a dose of poison to perform an infectious strike!
+	elif <mana> >= <f_special_move_mana 15>
+		local.maxlevel = <eval (<poisoning> / 200.0)>
+		local.level = <weapon.tag0.poison.level>
+		if <local.level> > <local.maxlevel>
+			local.level = <local.maxlevel>
+		endif
+		if <poisoning> > <r1000>
+			local.level ++
+			sysmessage @,,2 1060080 // Your precise strike has increased the level of the poison by 1
+			src.sysmessage @,,2 1060081 // The poison seems extra effective!
+		endif
+		src.new_poison <local.level>,<uid>
+		sysmessage @,,3 1008096,0,<src.name> // You have poisoned your target :
+		src.sysmessage @,,3 1008097,1,<name> //  : poisoned you!
+		mana -= <f_special_move_mana 15>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 15> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 9
+	// Mortal Strike - The assassin's friend. A successful Mortal Strike will render its victim unable to heal any damage for several seconds. Use a gruesome
+	// follow-up to finish off your foe. Lasts for 6 seconds (player) or 12 seconds (NPC). Does not prevent curing poison or stopping bleeding.
+	if <mana> >= <f_special_move_mana 30>
+		sysmessage @,,2 1060086 // You deliver a mortal wound!
+		src.sysmessage @,,2 1060087 // You have been mortally wounded!
+		src.sfx 01e1
+		src.effect 3,037b9,244,25,0,31,0
+		if !<src.tag0.noheal>
+			src.tag.noheal = 1
+			src.timerf <qval (<src.isplayer>) ? 6:12>,tag.noheal =
+			src.timerf <qval (<src.isplayer>) ? 6:12>,sysmessage @,,2 1060208 // You are no longer mortally wounded.
+		endif
+		mana -= <f_special_move_mana 30>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 10
+	// Moving Shot - This special move allows archers or throwers to fire while on the move. This shot is somewhat less accurate than
+	// normal, but the ability to fire while running is a clear advantage.
+	flags &= ~statf_archercanmove
+	sysmessage @,,2 1060216 // Your shot was successful
+	tag.LastSpecialMoveUse = <serv.time>
+	clearspecialmove
+elif <tag0.SpecialMoveInUse> == 11
+	// Paralyzing Blow - A successful Paralyzing Blow will leave the target stunned, unable to move, attack, or cast spells, for a few seconds.
+	// Duration is 3 seconds (player), 6 seconds (NPC). The duration is broken by combat damage in the same way as paralyze spell. This move
+	// is exempt from the Tactics requirement when used as an Unarmed (wrestling) special move.
+	if <mana> >= <f_special_move_mana 30>
+		if <src.tag0.immune_to_parablow>
+			sysmessage @,,2 1070804 // Your target resists paralysis.
+			src.sysmessage @,,2 1070813 // You resist paralysis.
+		else
+			src.sfx 0204
+			src.effect 3,0376a,9,32
+			
+			sysmessage @,,2 1060163 // You deliver a paralyzing blow!
+			src.sysmessage @,,2 1060164 // The attack has temporarily paralyzed you!
+			
+			src.flags |= statf_freeze
+			src.timerf <qval (<src.isplayer>) ? 3:6>,flags &= ~statf_freeze // 3 sec for players, 6 for npcs
+			src.tag.immune_to_parablow = 1
+			src.timerf 8,tag.immune_to_parablow =
+		endif
+		mana -= <f_special_move_mana 30>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+elif <tag0.SpecialMoveInUse> == 12
+	// Whirlwind Attack - A godsend to a warrior surrounded, the Whirlwind Attack allows the fighter to strike at all nearby targets in one mighty
+	// spinning swing. Will not accidentally strike innocents, allies, or party members.
+	if <mana> >= <f_special_move_mana 15>
+		effect 3,03728,10,15
+		sfx 02a1
+		ref1=<uid>
+		forchars 1
+			if (<isinparty>) && (<ref1.isinparty>) && (<party.master> == <ref1.party.master>)
+			elif ((<notogetflag <ref1>> == noto_good) || (<notogetflag <ref1>> == noto_guild_same))
+			elif (<src> == <uid>)
+			else
+				ref1.sysmessage @,,2 1060161 // The whirling attack strikes a target!
+				sysmessage @,,2 1060162 // You are struck by the whirling attack and take damage!
+				tag.hbcs = 1
+				damage <argn1> <argn2> <ref1>
+			endif
+		endfor
+		mana -= <f_special_move_mana 15>
+		tag.LastSpecialMoveUse = <serv.time>
+		clearspecialmove
+	else
+		sysmessage @,,2 1060181,<f_special_move_mana 30> // You need ~1_MANA_REQUIREMENT~ mana to perform that attack
+	endif
+endif
+
+on=@hitmiss
+if <tag0.SpecialMoveInUse> == 10
+	// Moving Shot - This special move allows archers or throwers to fire while on the move. This shot is somewhat less accurate than
+	// normal, but the ability to fire while running is a clear advantage.
+	flags &= ~statf_archercanmove
+	sysmessage @,,2 1060089 // You fail to execute your special move
+	tag.LastSpecialMoveUse = <serv.time>
+	clearspecialmove
+endif
+
+on=@itemequiptest
+if <act.isweapon>
+	if <serv.time> < <tag0.noequiptill>
+		return 1
+	endif
+endif
+tag.noequiptill =
+
+on=@mount
+if <serv.time> < <tag0.nomounttill>
+	return 1
+endif
+tag.nomounttill =
+
+on=@spelleffect
+if (<argn1> == id(s_heal)) || (<argn1> == id(s_greater_heal)) || (<argn1> == id(s_close_wounds))
+	if <tag0.noheal>
+		src.sysmessage @,,2 <qval (<src> == <uid>) ? 1005000:1010398>
+		return 1
+	endif
+endif
+
+[eof]

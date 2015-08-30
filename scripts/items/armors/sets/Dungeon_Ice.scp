@@ -1,0 +1,319 @@
+[events e_Cold_Damage]
+
+on=@hit
+IF (RAND(4)==1) && <src.isplayer>
+	src.damage {5 10}
+	src.sysmessage @0800,,1 <name> size cold damage vurdu.
+	src.sysmessage @0800,,1 1 Saniyeligine dondunuz...
+	sayua 095f,0,0,0 * Cold damage *
+        src.sd 1
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_m_dragon_ice]
+ID=c_dragon_red
+NAME=ice dragon
+SOUND=snd_MONSTER_DRAGON1
+ICON=i_pet_dragon
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_USEHANDS
+DAM=9,33
+ARMOR=30
+FOODTYPE=80 t_meat_raw
+DESIRES=i_gold
+RESOURCES=99 i_ribs_raw,8 i_reag_dragon_blood,20 i_hide
+AVERSIONS=r_civilization,r_water
+CATEGORY=Monsters
+SUBSECTION=Dragons and Drakes
+DESCRIPTION=Ice Dragon
+ON=@Create
+	NPC=brain_dragon
+	COLOR=color_ice
+	STR={795 825}
+	DEX={86 105}
+	INT={385 425}
+	//MAGERY={250.0 260.0}
+	MAGICRESISTANCE={99.0 100.0}
+	TACTICS={99.0 100.0}
+	WRESTLING={90.0 93.0}
+	FAME={3000 9000}
+	KARMA={-4999 -5999}
+
+ON=@NPCRestock
+item=i_gold,{5000 6000}
+item=might_silah
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[CHARDEF c_m_frost_ettin]
+ID=c_ettin
+NAME=a Frost Ettin
+SOUND=snd_MONSTER_ETTIN1
+ICON=i_pet_ETTIN
+CAN=MT_USEHANDS|MT_WALK
+DAM=3,15
+ARMOR=17,17
+FOODTYPE=5 t_meat_raw
+RESOURCES={5 10} i_ribs_raw
+CATEGORY=Monsters
+SUBSECTION=Ettins, Ogres, Trolls, Cyclops, and Titans
+DESCRIPTION=Frost Ettin
+TEVENTS=e_Cold_Damage
+ON=@Create
+	COLOR=color_snow
+	STR={600 900}
+	INT={31 55}
+	DEX={50 70}
+	PARRYING={56.6 65.8}
+	MAGICRESISTANCE={46.9 55.8}
+	TACTICS={52.1 78.8}
+	WRESTLING={58.4 67.6}
+	NPC=BRAIN_MONSTER
+	FAME={4000 4000}
+	KARMA={-2000 -2999}
+ON=@NPCRestock
+ITEM=i_gold,{500 1000}
+//ITEM=force_silah,R4
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 0a1]
+DEFNAME=c_elemental_ice
+NAME=ice elemental
+ICON=i_pet_elem_ice
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=22,45
+ARMOR=35
+DESIRES=r_snow,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=color_ice
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Elemental (ice)
+TEVENTS=e_Cold_Damage
+ON=@Create
+   NPC=brain_monster
+   FAME=4000
+   KARMA=-4000
+   STR={156 185}
+   MAXHITS={94 111}
+   DEX={96 115}
+   MAXSTAM={96 115}
+   INT={171 192}
+   MAXMANA={171 192}
+   EVALUATINGINTEL={10.0 60.0}
+   MAGERY={10.0 60.0}
+   MAGICRESISTANCE={30.0 80.0}
+   TACTICS={70.0 100.0}
+   WRESTLING={60.0 100.0}
+ON=@NPCRestock
+   ITEM=loot_elemental_ice
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 0a3]
+DEFNAME=c_elemental_snow
+NAME=snow elemental
+ICON=i_pet_elem_snow
+SOUND=snd_elementl_airelem1
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=31,45
+ARMOR=45
+DESIRES=r_snow,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_white
+MOVERATE=150
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Elemental (snow)
+TEVENTS=e_Cold_Damage
+ON=@Create
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-5000
+   STR={326 355}
+   MAXHITS={196 213}
+   DEX={166 185}
+   MAXSTAM={166 185}
+   INT={71 95}
+   MAXMANA={71 95}
+   MAGICRESISTANCE={50.0 65.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={80.0 100.0}
+ON=@NPCRestock
+   ITEM=loot_elemental_snow
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 059]
+DEFNAME=c_serpent_ice
+NAME=ice serpent
+ICON=i_pet_serpent_ice
+SOUND=snd_animals_snake1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=17,41
+ARMOR=30
+DESIRES=r_snow,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=4 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Reptiles
+DESCRIPTION=Giant Serpent (ice)
+TEVENTS=e_Cold_Damage
+ON=@Create
+   NPC=brain_animal
+   FAME=3500
+   KARMA=-3500
+   STR={216 245}
+   MAXHITS={130 147}
+   DEX={26 50}
+   MAXSTAM={26 50}
+   INT={66 85}
+   MAXMANA={66 85}
+   ANATOMY={27.0 50.0}
+   MAGICRESISTANCE={25.0 40.0}
+   TACTICS={75.0 80.0}
+   WRESTLING={60.0 80.0}
+ON=@NPCRestock
+   ITEM=loot_serpent_ice
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 014]
+DEFNAME=c_spider_frost
+NAME=frost spider
+ICON=i_pet_spider_dread
+SOUND=snd_monster_gispidr1
+CAN=MT_WALK
+DAM=9,28
+ARMOR=25
+DESIRES=r_snow,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=2 i_ribs_raw
+BLOODCOLOR=colors_white
+MOVERATE=120
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Spiders
+DESCRIPTION=Spider (frost)
+TEVENTS=e_Cold_Damage
+ON=@Create
+   NPC=brain_monster
+   FAME=775
+   KARMA=-775
+   STR={75 100}
+   MAXHITS={45 60}
+   DEX={126 145}
+   MAXSTAM={126 145}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={25.0 40.0}
+   TACTICS={35.0 50.0}
+   TAMING={70.0 75.0}
+   WRESTLING={50.0 65.0}
+
+ON=@NpcRestock
+   ITEM=loot_spider_frost
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_frost_troll]
+ID=c_troll_w_mace
+NAME=Frost Troll
+SOUND=snd_MONSTER_TROLL1
+ICON=i_pet_TROLL
+CAN=MT_WALK|MT_USEHANDS
+DAM=34,49
+TAG.DamCold=25
+TAG.Slayer=SLAYER_TROLL
+TAG.Luck.Loot=loot_frost_troll_luck
+TAG.Barding.Diff=67.7
+ARMOR={45 55}
+RESOURCES=2 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+CATEGORY=Monsters
+SUBSECTION=Ettins, Ogres & Trolls
+DESCRIPTION=Frost Troll
+TEVENTS=e_Cold_Damage
+ON=@Create
+   NPC=brain_monster
+   FAME=4000
+   KARMA=-4000
+   STR={327 565}
+   DEX={66 85}
+   INT={46 70}
+   MAXHITS={140 156}
+   MAGICRESISTANCE={65.1 80.0}
+   TACTICS={80.1 100.0}
+   WRESTLING={80.1 100.0}
+ON=@NPCRestock
+   ITEM=loot_frost_troll
+ITEM=might_silah,R4
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_ice_snake]
+ID=c_snake
+NAME=ice snake
+SOUND=snd_ANIMALS_SNAKE1
+DAM=2,14
+ARMOR=15
+RESOURCES=1 i_ribs_raw
+CAN=MT_WALK
+DESIRES=i_gold
+CATEGORY=Animals
+SUBSECTION=Land (Wild)
+DESCRIPTION=Ice Snake
+TEVENTS=e_Cold_Damage
+ON=@Create
+	NPC=brain_monster
+	COLOR=color_ice
+	STR={42 54}
+	DEX={36 45}
+	INT={26 30}
+	//ALIGNMENT=EVIL
+        karma -5000
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={39.0 54.0}
+	WRESTLING={39.0 54.0}
+ON=@NPCRestock
+	ITEM=loot_ICE_SNAKE
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[eof]

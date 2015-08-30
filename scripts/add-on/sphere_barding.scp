@@ -1,0 +1,81 @@
+
+// argv[0] = the npc
+// argv[1] = the instrument
+// argv[2] = the skill
+// i = character
+[function f_barding_calculation]
+// to-do: first thing here is ask if got bard difficulty or not
+// calculations are really different.
+// and takes another things in count.
+ref9 = <argv[0]>
+ref5 = <argv[1]>
+local.bardiff = <ref9.tag0.barding.diff>
+if <ref5.tag0.exceptional> == 1
+local.excepmod = 5.0
+endif
+// to-do: add the slayer code in here
+// check for multiple slayers
+// and the superslayer stuff, all that shit.
+if <musicianship> > 100.0
+local.musicmod += <eval (<musicianship> - 100.0) / 2>
+endif
+if <argv[2]> == 22 // provocation
+local.skillmod = 5.0
+elif (<argv[2]> == 15) || <ref9.isevent.e_peacemaked>
+local.skillmod += 10.0
+endif
+local.formula = <eval 50 + (2 * (<<argv[2]>> - (<local.bardiff> - (<local.excepmod> + <local.musicmod> + <local.skillmod>))))>
+return <local.formula>
+
+// i = character
+// args = the skill
+[function f_onbarding_start]
+if !<restest 1 t_musical>
+sysmessage <def.scp.bard_noinstrument>
+return 1
+endif
+if <tag0.instrument>
+	if <uid.<tag0.instrument>.topobj.uid> == <uid>
+	targetf f_onbarding_start_targ <args>
+	sysmessage <def.scp.bard_<serv.skill.<args>.key>_targ>
+	return 1
+	else
+	targetf f_onbarding_instrument <args>
+	sysmessage <def.scp.bard_instrument_targ>
+	endif
+else
+targetf f_onbarding_instrument <args>
+sysmessage <def.scp.bard_instrument_targ>
+endif
+
+// i = character
+// argo = instrument
+// args = the skill
+[function f_onbarding_instrument]
+if <argo.type> != t_musical
+sysmessage <def.scp.bard_instrument_wrong>
+return 1
+endif
+tag.instrument = <argo.uid>
+targetf f_onbarding_start_targ <args>
+sysmessage <def.scp.bard_<serv.skill.<args>.key>_targ>
+
+// i = character
+// argo = target
+// args = the skill
+[function f_onbarding_start_targ]
+if <args> = 9
+	if <argo.uid> == <uid>
+	f_start_peacemaking <argo.uid>
+	return 1
+	endif
+endif
+if (<distance <argo.uid>> > <eval 8 + (<<args>> / 150)>)
+sysmessage <def.scp.bard_toofaraway>
+return 1
+endif
+f_start_<serv.skill.<args>.key> <argo.uid>
+
+[function f_barding_nonbardeable]
+
+[eof]

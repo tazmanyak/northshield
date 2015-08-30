@@ -1,0 +1,268 @@
+[events e_dragon] //// şldskfgşldfkgşlkdfg
+
+on=@hunger
+return 1
+
+ON=@Gethit
+//if (<hits> < 5)
+//message @,,1 * Kendini Iyilestirir *
+//effect=3,i_fx_heal_effect,6,35,1
+//sound snd_spell_greater_heal
+//hits=(<hits> + 5)
+//endif
+
+if <act.findid.i_rune_summon_creature>
+//sayua 0481,2,0,eng,* Buyu Etkisini Kaldirir *
+act.remove
+endif
+
+
+if (<act.baseid>=c_bear_polar)
+//message @,,1 * Buyu Etkisini Kaldirir *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+
+if (<flags> &statf_poisoned)
+//message @,,1 * Zehiri Iyilestirir *
+sound snd_spell_cure
+findid.i_rune_poison.remove
+endif
+
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==20) || (<argn>==28) || (<argn>==39) || (<argn>==47) || (<argn>==57) || (<argn>==49) || (<argn>==55)
+
+return 1
+
+IF (<src.findid.i_rune_clumsy>) || (<src.findid.i_rune_feeblemind>) || (<src.findid.i_rune_magic_arrow>) || (<src.findid.i_rune_weaken>) || (<src.findid.i_rune_flamestrike>) || (<ssrc.findid.i_rune_poison>)) || (<ssrc.findid.c_fx_poison_field>)) || (<src.findid.i_fx_field_fire_ns>)) || (<src.findid.i_fx_field_paralyze>))
+src.findid.i_rune_clumsy.remove
+src.findid.i_rune_feeblemind.remove
+src.findid.i_rune_magic_arrow.remove
+src.findid.i_rune_weaken.remove
+//src.findid.i_rune_poison.remove
+//src.findid.c_fx_poison_field.remove
+//src.findid.i_fx_poison_field_fire_ns.remove
+src.findid.i_fx_field_paralyze.remove
+src.findid.i_rune_earthquake.remove
+src.findid.i_rude_chain_lightning.remove
+src.findid.i_rune_meteor_swarm.remove
+SPELLEFFECT=s_cure,150.0,1
+message @,,1 * Etkilenmez *
+endif
+endif
+
+
+[EVENTS e_npcs]
+
+on=@gethit
+if !(<NPC> == brain_animal)
+	if rand(5)==1
+		binekstabil
+	endif
+endif
+
+on=@spellcast
+if (<eval <argn1>> == 70)
+	return 1
+endif
+if <src.id> == c_dark_father
+	return 1
+endif
+if <src.id> == c_Barracoon
+	return 1
+endif
+
+on=@attack
+if <src.id> == c_vendor_player_burak
+	return 1
+endif
+if <src.id> == c_dark_father
+	return 1
+endif
+if <src.id> == c_Barracoon
+	return 1
+endif
+
+on=@hittry
+if <src.id> == c_vendor_player_burak
+	return 1
+endif
+if <src.id> == c_dark_father
+	return 1
+endif
+if <src.id> == c_Barracoon
+	return 1
+endif
+on=@hit
+if <src.id> == c_vendor_player_burak
+	return 1
+endif
+if <src.id> == c_dark_father
+	return 1
+endif
+if <src.id> == c_Barracoon
+	return 1
+endif
+on=@NPCActFollow
+IF !(<CANSEELOS <src>>)
+//olumsuz1 * Takip Edecegi Hedefi Goremez *
+action -1
+endif
+
+on=@hunger
+if <id> == c_vendor_player_burak
+	return 1
+endif
+//if ((<body> == c_horse_brown_dk) || (<body> == c_ostard_forest) || (<body> == c_ostard_desert) || (<body> == 	c_ostard_zostrich) || (<body> == c_llama))  
+if (<taming> > 0.1)
+	return 0
+else
+	return 1
+endif
+
+
+
+ON=@Click
+//if !(<body> == c_man) && !(<body> == c_woman) && !(<body> == c_elf_male) && !(<body> == c_elf_female)
+//   if <src.account.plevel> > 2
+//      if <maxhits> == <hits>
+//      message @69,,1 Hits: [<maxhits>/<hits>]
+//      else
+//      message @33,,1 Hits: [<maxhits>/<hits>]
+//      endif
+//  endif
+//endif
+
+if <isevent.e_paragon>
+	message @035,,1 <name>
+	return 1
+endif
+	
+
+
+
+IF (<TAG0.NAME.HUE>)
+LOCAL.COLOR=<TAG0.NAME.HUE>
+ELIF ((((<REGION.FLAGS>&region_flag_guarded) || (<REGION.FLAGS>&region_flag_safe)) && ((<BODY>==c_man) || (<BODY>==c_woman) || (<ISVENDOR>))) || (<FLAGS>&statf_invul))
+LOCAL.COLOR=946
+ELIF ((<NOTOGETFLAG <SRC>,0> == 4) //|| (<NOTOGETFLAG <SRC>,0> == 3) //|| (<NOTOGETFLAG <SRC>,0> == 6))  //criminal
+LOCAL.COLOR=946
+ELIF (<NOTOGETFLAG <SRC>,0> == 3)
+LOCAL.COLOR=03cf
+ELIF (<NOTOGETFLAG <SRC>,0> == 6)
+LOCAL.COLOR 32
+ELIF (<NOTOGETFLAG <SRC>,0> == 1)
+LOCAL.COLOR=88
+ELIF (<NOTOGETFLAG <SRC>,0> == 2)
+LOCAL.COLOR=044
+ELIF (<NOTOGETFLAG <SRC>,0> == 5)
+LOCAL.COLOR=02b
+ENDIF
+LOCAL.REALNAME=<NAME>
+IF (STRMATCH(* the*,<SERV.CHARDEF.<BASEID>.NAME>)) && !(STRMATCH(* the*,<NAME>))
+LOCAL.REALNAME .= , <STRSUB <HVAL (StrIndexOf(<SERV.CHARDEF.<BASEID>.NAME>,the,0))> 99 <SERV.CHARDEF.<BASEID>.NAME>>
+ENDIF
+MESSAGE @<LOCAL.COLOR>,3,1 <LOCAL.REALNAME>
+RETURN 1
+
+ON=@CallGuards
+if !<region.guarded>
+	return 1
+endif
+
+ON=@DeathCorpse
+if <NPC> == brain_monster
+	if <r25>==1
+		serv.newitem RANDOM_WEAPON_
+		new.cont <argo.uid>
+	endif
+	
+	if <r15>==1
+		serv.newitem RANDOM_TAKI
+		new.tag.fastercasting 1
+		//new.hitpoints 10
+		if <r30>
+			new.tag0.magicweapon Ruin
+		endif
+		if <r35>==1
+			new.tag0.magicweapon Might
+		endif
+		if <r45>==1
+			new.tag0.magicweapon Force
+		endif
+		if <r55>==1
+			new.tag0.magicweapon Power
+		endif
+		if <r70>==1
+			new.tag0.magicweapon Vanquishing
+		endif
+		new.cont <argo.uid>
+	endif	
+	
+	call f_general_drops // general drops
+endif
+
+if <NPC> == brain_undead
+	call f_general_drops
+endif
+
+if <NPC> == brain_dragon
+	call f_general_drops
+endif
+//TAG.LASTCASTING=
+//IF (STRMATCH(*<BASEID>*,<DEF.UNDEAD_SLAYER>))
+//ARGO.TAG.UNDEADREMAINS=1
+//ENDIF
+//ARGO.TAG.OWNER.FAME=<FAME>
+LOCAL.OLDNEW=<NEW>
+IF (<ATTACKER>)
+REF400=<ATTACKER.MAX>
+	IF (!(<FLAGS>&STATF_CONJURED))
+		IF (<REF400.UID>)
+			IF (<REF400.ISPLAYER>)
+				IF (<REF400.TAG0.QUESTS>)
+					FOR <REF400.TAG0.QUESTS>
+						FOR x 1 <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.ID>>_OBJECTIVEAMOUNT>
+							IF (<DEF.QUEST_<EVAL <REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.ID>>_OBJECTIVE<EVAL <LOCAL.X>>_TYPE>==2)
+								IF (<BASEID> == <STREAT <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.ID>>_OBJECTIVE<EVAL <LOCAL.X>>>>)
+									LOCAL.SLAY=<REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.SLAY<STREAT <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.ID>>_OBJECTIVE<EVAL <LOCAL.X>>>>>
+									IF (<LOCAL.SLAY>)
+										IF (!(STRMATCH(*<REF400>;*,<LOCAL.UIDSGIVENKILLCOUNT>)))
+											IF !(<ISEMPTY <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.ID>>_OBJECTIVE<EVAL <LOCAL.X>>_LOCATION>>)
+												IF (STRMATCH(*<DEF.QUEST_<EVAL <REF400.TAG0.QUEST<EVAL <LOCAL._FOR>>.ID>>_OBJECTIVE<EVAL <LOCAL.X>>_LOCATION>*,<REGION.NAME>))
+													TRY REF400.TAG.QUEST<dLOCAL._FOR>.SLAY<STREAT <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<dLOCAL._FOR>.ID>>_OBJECTIVE<dLOCAL.X>>> <HVAL <LOCAL.SLAY>-1>
+												ENDIF
+											ELSE
+												TRY REF400.TAG.QUEST<dLOCAL._FOR>.SLAY<STREAT <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<dLOCAL._FOR>.ID>>_OBJECTIVE<dLOCAL.X>>> <HVAL <LOCAL.SLAY>-1>
+											ENDIF
+											LOCAL.UIDSGIVENKILLCOUNT .= <REF400>;
+											IF (<EVAL <LOCAL.SLAY> -1> <= 0)
+												TRY REF400.TAG.QUEST<dLOCAL._FOR>.SLAY<STREAT <DEF.QUEST_<EVAL <REF400.TAG0.QUEST<dLOCAL._FOR>.ID>>_OBJECTIVE<EVAL <LOCAL.X>>>>
+												REF400.sysmessage @,,1 Goreviniz icin gereken tum yaratiklari oldurdunuz.Gorevi tamamladiniz.
+											ELSE
+												REF400.sysmessage @,,1 Quest yaratığına en çok siz damage verdiniz,Geriye <DLOCAL.SLAY> adet kaldi.
+											ENDIF
+										ENDIF
+									ENDIF
+								ENDIF
+							ENDIF
+						ENDFOR
+					ENDFOR
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+NEW=<LOCAL.OLDNEW>
+TIMERF CLEAR
+
+
+[EVENTS e_NpcGenericEvent]
+on=@attack
+return <src.trigger @Attacked,<def.tat_as_argo>,<uid>>
+
+
+[eof]
+

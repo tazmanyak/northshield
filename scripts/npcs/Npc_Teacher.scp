@@ -1,0 +1,1312 @@
+﻿[chardef c_ev_genel]
+defname c_ev_genel
+Name Cengo
+id c_man
+can mt_equip|mt_nonmover
+//hiredaywage 52
+
+On=@Create
+str 9500
+dex 25
+int 25
+color colors_skin
+speechcolor 0793
+food 990
+npc 1
+
+itemnewbie random_male_hair
+color colors_hair
+itemnewbie random_facial_hair
+color match_hair
+itemnewbie i_robe
+color=0796
+itemnewbie random_shoes
+color=0796
+
+on=@Click
+message @0481 Cengo, the Wanderer
+return 1
+
+on=@dclick
+src.closealldialogs
+src.dialog d_mysql_item_list 1
+src.ctag0.sayfa_limit=0
+src.sysmessage @,,1 Bu vendor aracılığı ile dünya üzerindeki tüm vendorlara ait eşyaları görebilir ve satın alabilirsiniz.
+//src.tag.ellesme 1
+return 1
+
+
+
+
+[CHARDEF c_towncrier]
+NAME=#NAMES_HUMANMALE the Town Crier
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff,e_carnivores3
+
+ON=@Create
+COLOR=colors_skin
+STR={26 40}
+DEX={21 35}
+INT={16 30}
+
+WRESTLING={15.0 38.0}
+TACTICS={15.0 38.0}
+
+NPC=brain_human
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEMNEWBIE=i_hat_wizards
+COLOR=colors_all
+
+ON=@NPCRestock
+ITEM=RANDOM_LIGHT
+ITEM=i_robe
+COLOR=colors_all
+
+ON=@NpcSeeNewPlayer
+SAY @88,3,1 Lütfen sitemizi ve forumlarımızı takip ediniz. Problemlerinizi forumda dile getiriniz.
+
+
+[chardef c_teacher_vendor]
+defname c_teacher_vendor
+Name Kevin The Teacher
+id c_man
+can mt_equip|mt_nonmover
+//hiredaywage 52
+desires i_gold
+
+On=@Create
+str 9500
+dex 25
+int 25
+color colors_skin
+speechcolor 0793
+food 990
+npc 1
+
+itemnewbie random_male_hair
+color colors_hair
+itemnewbie random_facial_hair
+color match_hair
+itemnewbie i_robe
+color=0796
+itemnewbie random_shoes
+color=0796
+
+on=@Click
+message @0481 Kevin The Teacher
+return 1
+
+on=@dclick
+dialog d_teach_menu
+return 1
+
+
+[dialog d_teach_menu]
+50,50
+nomove
+
+resizepic 240 20 2620 240 350	
+//checkertrans 245 25 230 340
+
+text 270 30 152 0
+
+page 1
+
+
+text 290 60 95 1
+text 290 80 95 2
+text 290 100 95 3
+text 290 120 95 4
+text 290 140 95 5
+text 290 160 95 6
+text 290 180 95 7
+text 290 200 95 8
+text 290 220 95 9
+text 290 240 95 10
+text 290 260 95 11
+text 290 280 95 12
+text 290 300 95 13
+
+text 400 320 152 50
+
+button 270 65 2224 2117 1 0 1
+button 270 85 2224 2117 1 0 2
+button 270 105 2224 2117 1 0 3
+button 270 125 2224 2117 1 0 4
+button 270 145 2224 2117 1 0 5
+button 270 165 2224 2117 1 0 6
+button 270 185 2224 2117 1 0 7
+button 270 205 2224 2117 1 0 8
+button 270 225 2224 2117 1 0 9
+button 270 245 2224 2117 1 0 10
+button 270 265 2224 2117 1 0 11
+button 270 285 2224 2117 1 0 12
+button 270 305 2224 2117 1 0 13
+
+button 435 325 2224 2117 0 2 100
+
+page 2
+
+
+text 290 60 95 14
+text 290 80 95 15
+text 290 100 95 16
+text 290 120 95 17
+text 290 140 95 18
+text 290 160 95 19
+text 290 180 95 20
+text 290 200 95 21
+text 290 220 95 22
+text 290 240 95 23
+text 290 260 95 24
+text 290 280 95 25
+text 290 300 95 26
+
+
+text 400 320 152 50
+text 310 320 152 51
+
+button 270 65 2224 2117 1 0 14
+button 270 85 2224 2117 1 0 15
+button 270 105 2224 2117 1 0 16
+button 270 125 2224 2117 1 0 17
+button 270 145 2224 2117 1 0 18
+button 270 165 2224 2117 1 0 19
+button 270 185 2224 2117 1 0 20
+button 270 205 2224 2117 1 0 21
+button 270 225 2224 2117 1 0 22
+button 270 245 2224 2117 1 0 23
+button 270 265 2224 2117 1 0 24
+button 270 285 2224 2117 1 0 25
+button 270 305 2224 2117 1 0 26
+
+button 435 325 2224 2117 0 3 100
+button 290 325 2223 2117 0 1 100
+
+page 3
+
+
+text 290 60 95 27
+text 290 80 95 28
+text 290 100 95 29
+text 290 120 95 30
+text 290 140 95 31
+text 290 160 95 32
+text 290 180 95 33
+text 290 200 95 34
+text 290 220 95 35
+text 290 240 95 36
+text 290 260 95 37
+text 290 280 95 38
+text 290 300 95 39
+
+
+text 400 320 152 50
+text 310 320 152 51
+
+button 270 65 2224 2117 1 0 27
+button 270 85 2224 2117 1 0 28
+button 270 105 2224 2117 1 0 29
+button 270 125 2224 2117 1 0 30
+button 270 145 2224 2117 1 0 31
+button 270 165 2224 2117 1 0 32
+button 270 185 2224 2117 1 0 33
+button 270 205 2224 2117 1 0 34
+button 270 225 2224 2117 1 0 35
+button 270 245 2224 2117 1 0 36
+button 270 265 2224 2117 1 0 37
+button 270 285 2224 2117 1 0 38
+button 270 305 2224 2117 1 0 39
+
+button 435 325 2224 2117 0 4 100
+button 290 325 2223 2117 0 2 100
+
+page 4
+
+text 290 60 95 40
+text 290 80 95 41
+text 290 100 95 42
+text 290 120 95 43
+text 290 140 95 44
+text 290 160 95 45
+text 290 180 95 46
+text 290 200 95 47
+text 290 220 95 48
+text 290 240 95 49
+
+
+text 310 320 152 51
+
+button 270 65 2224 2117 1 0 40
+button 270 85 2224 2117 1 0 41
+button 270 105 2224 2117 1 0 42
+button 270 125 2224 2117 1 0 43
+button 270 145 2224 2117 1 0 44
+button 270 165 2224 2117 1 0 45
+button 270 185 2224 2117 1 0 46
+button 270 205 2224 2117 1 0 47
+button 270 225 2224 2117 1 0 48
+button 270 245 2224 2117 1 0 49
+
+button 290 325 2223 2117 0 3 100
+
+[dialog d_teach_menu text]
+North Shield Uo Teach Menu
+Alchemy 
+Anatomy
+Animal Lore 
+Animal Taming 
+Archery //5
+Arms Lore 
+Begging 
+Black Smithing 
+Bowcraft 
+Camping //10
+Carpentry 
+Cartography 
+Cooking 
+Detect Hidden 
+Enticement //15 
+Eval Intelligence
+Fencing 
+Fishing 
+Forensics 
+Healing //20
+Herding 
+Hiding 
+Inscription 
+Item ID 
+Lock Picking //25
+Lumberjacking 
+Mace Fighting 
+Magery 
+Meditation 
+Mining //30
+Musicianship 
+Parrying 
+Peacemaking 
+Poisoning 
+Provocation //35 
+Magic Resist 
+Remove Trap 
+Snooping 
+Spirit Speak
+Stealing //40
+Stealth 
+Swordsmanship
+Tactics 
+Tailoring 
+Taste ID //45 
+Tinkering 
+Tracking 
+Veterinary 
+Wrestling 
+ileri //50
+geri
+
+[dialog d_teach_menu button]
+
+onbutton 1
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+
+if (<src.alchemy> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.alchemy 30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 2
+
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+
+if (<src.anatomy> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.anatomy  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin bulunamamaktadir.
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+
+onbutton 3
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+if (<src.animallore> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.animallore  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+
+onbutton 4
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+if (<src.taming> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.taming  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 5
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+if (<src.archery> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.archery  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 6
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+if (<src.armslore> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.armslore  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 7
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+if (<src.begging> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.begging  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 8
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap belir bir sinira ulasmis durumdadir.Daha fazla teach yapamazsiniz.
+return 1
+endif
+if (<src.blacksmithing> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.blacksmithing  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 9
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmaktadir.
+return 1
+endif
+if (<src.bowcraft> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.bowcraft  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 10
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.camping> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.camping  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 11
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.carpentry> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.carpentry  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 12
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.cartography> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.cartography  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 13
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.cooking> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.cooking  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 14
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.detectinghidden> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.detectinghidden  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 15
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.enticement> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.enticement  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 16
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.evaluatingintel> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.evaluatingintel  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 17
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.fencing> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.fencing  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 18
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.fishing> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.fishing  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 19
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.forensics> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.forensics  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 20
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.healing> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.healing  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 21
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.herding> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.herding  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 22
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.hiding> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.hiding  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 23
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.inscription> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.inscription  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 24
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.itemid> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.itemid  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+
+onbutton 25
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.lockpicking> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.lockpicking  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 26
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.lumberjacking> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.lumberjacking  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 27
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.macefighting> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.macefighting  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 28
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.magery> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.magery  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 29
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.meditation> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.meditation  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 30
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.mining> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.mining  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 31
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.musicianship> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.musicianship  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 32
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.parrying> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.parrying  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 33
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.peacemaking> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.peacemaking  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 34
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.poisoning> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.poisoning  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 35
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.provocation> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.provocation  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 36
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.magicresistance> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.magicresistance  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 37
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.removetrap> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.removetrap  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 38
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.snooping> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.snooping  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 39
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.spiritspeak> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.spiritspeak  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 40
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.stealing> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.stealing  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 41
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.stealth> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.stealth  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 42
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.swordsmanship> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.swordsmanship  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 43
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.tactics> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.tactics  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 44
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.tailoring> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.tailoring  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 45
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.tasteid> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.tasteid  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 46
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.tinkering> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.tinkering  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 47
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.tracking> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.tracking  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 48
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.veterinary> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.veterinary  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+onbutton 49
+if (<src.skilltotal> > 670.0)
+src.sysmessage @035 Skillcap 700 u asmis durumdadir.
+return 1
+endif
+if (<src.wrestling> <30.0)
+if (<src.restest 300 i_gold>)
+src.consume 300 i_gold
+src.wrestling  30.0
+src.sysmessage @035 Teach islemi basariyla tamamlandi
+return 1
+else
+src.sysmessage @035 Yaninizda 300 altin yok
+return 1
+endif
+else
+src.sysmessage @035 Zaten skilliniz 30 un uzerinde
+return 1
+endif
+
+
+
+
+
+
+
+
+[SPEECH spk_steacher]
+On=*teach*
+src.dialog d_skill_teach
+return 1
+
+[EOF]

@@ -1,0 +1,53 @@
+[CHARDEF c_dark_elf_elite_swordsman]
+ID=c_elf_male
+NAME=#NAMES_ELF_MALE the Dark-Elf Warrior
+SOUND=snd_HUMAN_M_DIE_01
+DAM=15,30
+ARMOR=19,19
+CAN=MT_EQUIP|MT_RUN|MT_USEHANDS|MT_WALK
+
+TSPEECH=jobFighter
+
+RESDISP=5
+RESDISPDNID=C_MAN
+RESDISPDNHUE=0597
+
+CATEGORY=Civilized
+SUBSECTION=Dark Elves
+DESCRIPTION=Dark-Elf Swordsman (Viking Sword)
+
+ON=@Create
+	COLOR=0597
+	NPC=BRAIN_HUMAN
+	KARMA={-3000 -5000}
+	FAME={1000 3000}
+
+	STR={70 90}
+	DEX={81 95}
+	INT={70 100}
+
+	MAGICRESISTANCE={15.0 38.0}
+	SWORDSMANSHIP={60.0 100.0}
+	TACTICS={50.0 100.0}
+	WRESTLING={25.0 40.0}
+
+//	ITEMNEWBIE=i_beard_goatee
+	ITEMNEWBIE=i_hair_long
+
+ON=@NPCRestock
+	ITEM=i_sword_viking
+	ITEM=I_BONE_CHEST
+	COLOR=0455
+	ITEM=I_BONE_GLOVES
+	COLOR=0455
+	ITEM=I_BONE_HELMET
+	COLOR=0455
+	ITEM=i_chainmail_leggings
+	COLOR=0455
+	ITEM=i_boots_calf
+	COLOR=0455
+	ITEM=i_CAPE
+	COLOR=0455
+	ITEM=i_shield_round_metal
+	ITEM=i_gold,{100 300}
+[EOF]

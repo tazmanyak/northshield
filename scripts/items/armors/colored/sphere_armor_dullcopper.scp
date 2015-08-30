@@ -1,0 +1,340 @@
+[ITEMDEF i_PLATEMAIL_CHEST_DULLCOPPER]
+NAME=Dull Copper Platemail
+ID=i_platemail_chest
+ARMOR= 25
+REQSTR=60
+WEIGHT=10
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 75.0
+
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_ARMS_DULLCOPPER]
+NAME=Dull Copper Platemail Arms
+ID=i_platemail_arms
+ARMOR= 25
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 63.5
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100 
+
+[ITEMDEF i_PLATEMAIL_leggings_DULLCOPPER]
+NAME=Dull Copper Platemail Legs
+ID=i_platemail_leggings
+ARMOR= 25
+REQSTR=60
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 66.8
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_HELM_DULLCOPPER]
+NAME=Dull Copper Plate Helm
+ID=i_platemail_helm
+ARMOR= 25
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_GORGET_DULLCOPPER]
+NAME=Dull Copper Platemail Gorget
+ID=i_platemail_gorget
+ARMOR= 29
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 50.4
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_GLOVES_DULLCOPPER]
+NAME=Dull Copper Platemail Gauntlets
+ID=i_platemail_gloves
+ARMOR=25
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 53.7
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_armor_female_plate_DULLCOPPER]
+NAME=Dull Copper Female Platemail
+ID=i_armor_female_plate
+ARMOR= 25
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 70.0
+
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_CHAINMAIL_COIF_DULLCOPPER]
+NAME=Dull Copper Chainmail Coif
+ID=i_chainmail_coif
+ARMOR= 20
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 27.6
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=36
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_DULLCOPPER]
+NAME=Dull Copper Chainmail Leggings
+ID=i_chainmail_leggings
+ARMOR= 20
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 31.1
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_CHAINMAIL_TUNIC_DULLCOPPER]
+NAME=Dull Copper Chainmail Tunic
+ID=i_chainmail_tunic
+ARMOR= 20
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Chainmail Tunic
+RESOURCES=20 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 43.8
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_LEGGINGS_DULLCOPPER]
+NAME=Dull Copper Ringmail Leggings
+ID=i_ringmail_leggings
+ARMOR= 18
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 27.6
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_SLEEVES_DULLCOPPER]
+NAME=Dull Copper Ringmail Sleeves
+ID=i_ringmail_sleeves
+ARMOR= 18
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 24.3
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_GLOVES_DULLCOPPER]
+NAME=Dull Copper Ringmail Gloves
+ID=i_ringmail_gloves
+ARMOR= 18
+REQSTR=20
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 17.8
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_TUNIC_DULLCOPPER]
+NAME=Dull Copper Ringmail Tunic
+ID=i_ringmail_tunic
+ARMOR= 18
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 31.1
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_shield_BUCKLER_DULLCOPPER]
+NAME=Dull Copper Buckler
+ID=i_shield_buckler
+ARMOR= 2
+REQSTR=15
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 5.0
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_SHIELD_HEATER_DULLCOPPER]
+NAME=Dull Copper Heater Shield
+ID=I_SHIELD_HEATER
+ARMOR= 18
+REQSTR=30
+WEIGHT=8
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 40.6
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=31
+
+[ITEMDEF i_SHIELD_ROUND_METAL_DULLCOPPER]
+NAME=Dull Copper Metal Shield
+ID=i_shield_round_metal
+ARMOR= 7
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 15.0
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_HELM_CLOSED_DULLCOPPER]
+NAME=Dull Copper Closed Helm
+ID=i_helm_closed
+ARMOR= 25
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_HELM_OPEN_DULLCOPPER]
+NAME=Dull Copper Helmet
+ID=i_helm_open
+ARMOR= 20
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_BASCINET_DULLCOPPER]
+NAME=Dull Copper Bascinet
+ID=i_bascinet
+ARMOR= 25
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 19.2
+
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+
+[ITEMDEF i_HELM_NOSE_DULLCOPPER]
+NAME=Dull Copper Nose Helm
+ID=i_helm_nose
+ARMOR= 20
+REQSTR=0
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Dull Copper
+DESCRIPTION=Nose Helm
+RESOURCES=15 i_ingot_dull_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_dull_copper
+	HITPOINTS=100
+[EOF]

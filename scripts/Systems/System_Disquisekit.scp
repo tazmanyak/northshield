@@ -1,0 +1,418 @@
+﻿////////////////
+VERSION=0.56
+
+[Plevel 1]
+disguise
+
+[function disguise]
+if <src.findid.i_isimduzelt>
+	src.sysmessage @,,1 Disguise geri kalan süre : <ftime <src.findid.i_isimduzelt.timer>>
+	return 1
+else
+	src.sys_error Herhangi bir gizlenme aşamasında değilsiniz.
+	return 1
+endif
+[itemdef i_disguisekit]
+id i_sewing_kit
+type t_normal
+name Disguise kit
+value = 17000
+
+on=@create
+ATTR=ATTR_NEWBIE
+color 1452
+more1 10 // şarj
+
+on=@click
+message @0 <eval <more1>> kullanimlik
+message @0 <name>
+return 1
+
+on=@dclick
+if (<eval <more1>> < 1)
+	remove
+	return 1
+endif
+if (<src.stealing> > 900)  
+	if (<src.findid.i_rune_incognito>)
+		src.sysmessage @38,3,1 Üzerinizde incognito büyüsü varken kullanamazsınız.
+		return 1
+	endif
+	if !(<src.findid(i_isimduzelt)>)
+		src.dialog d_disguise
+		src.tag.titlesuan <src.title>
+		src.findid.i_rune_incognito.remove
+		src.tag.namesuan <src.name>
+		src.name #NAMES_HUMANMALE
+		src.smsgx 
+		src.newitem i_isimduzelt
+		src.new.equip
+		src.tag.named 01
+		more1 -= 1
+			dorand 26
+				src.title Grandmaster Disarmer
+				src.title Grandmaster Stoic
+				src.title Grandmaster Miner
+				src.title Grandmaster Lumberjack
+				src.title Grandmaster Wrestler
+				src.title Grandmaster Fencer
+				src.title Grandmaster Macefighter
+				src.title Grandmaster Swordsman
+				src.title Grandmaster Tinker
+				src.title Grandmaster Tailor
+				src.title Grandmaster Archer
+				src.title Grandmaster Assassin	
+				src.title Grandmaster Warrior
+				src.title Grandmaster Mage
+				src.title Grandmaster Locksmith
+				src.title Grandmaster Scribe
+				src.title Grandmaster Scholar
+				src.title Grandmaster Healer
+				src.title Grandmaster Chef
+				src.title Grandmaster Carpenter
+				src.title Grandmaster Bowyer
+				src.title Grandmaster Blacksmith
+				src.title Grandmaster Sheildfighter
+				src.title Grandmaster Armsman
+				src.title Grandmaster Scholar
+				src.title Grandmaster Alchemist
+			enddo
+		src.smsgx Isminiz <src.name> olarak degistirildi. Bes dakika sonra sifat ve isminiz duzelecektir.
+		src.smsgx Unvaniniz <src.title> olarak degistirildi.
+	else
+		src.smsgx Su an zaten isminiz gizlesmis durumda.
+	endif
+else
+	src.smsgx Bunu kullanabilmek icin en az 90.1 stealing yetenegi gerekmektedir.
+endif
+
+return 1
+
+[dialog d_disguise]
+100,100
+nomove
+page 0
+resizepic 0 0 5054 500 360
+resizepic 10 10 3000 480 340
+button 140 320 4005 4006 0 1 0
+text 170 320 0 1
+button 270 320 4005 4006 0 3 0
+text 300 320 0 2
+//button 250 320 4005 4006 1 0 1
+//text 280 320 0 3
+//button 370 320 4005 4006 1 0 2
+//text 400 320 0 4
+
+page 1
+text 220 20 0 1
+
+button 40 75 4005 4006 1 0 3
+text 75 75 0 5
+resizepic 170 60 2620 50 50
+
+button 40 130 4005 4006 1 0 4
+text 75 130 0 6
+resizepic 170 115 2620 50 50
+
+button 40 185 4005 4006 1 0 5
+text 75 185 0 7
+resizepic 170 170 2620 50 50
+
+button 40 240 4005 4006 1 0 6
+text 75 240 0 8
+resizepic 170 225 2620 50 50
+
+button 260 75 4005 4006 1 0 7
+text 295 75 0 9
+resizepic 390 60 2620 50 50
+
+button 260 130 4005 4006 1 0 8
+text 295 130 0 10
+resizepic 390 115 2620 50 50
+
+button 260 185 4005 4006 1 0 9
+text 295 185 0 11
+resizepic 390 170 2620 50 50
+
+button 260 240 4005 4006 1 0 10
+text 295 240 0 12
+resizepic 390 225 2620 50 50
+
+button 40 280 4005 4006 1 0 990
+text 75 280 0 14
+
+gumppic 105 20 <eval 0000C60C>
+gumppic 105 70 <eval 0000C60D>
+gumppic 105 125 <eval 0000C60E>
+gumppic 105 185 <eval 0000C60F>
+gumppic 325 20 <eval 0000C616>
+gumppic 325 75 <eval 0000C618>
+gumppic 325 130 <eval 0000C61A>
+gumppic 325 180 <eval 0000C612>
+
+
+page 3
+
+button 40 75 4005 4006 1 0 12
+text 75 75 0 15
+resizepic 170 60 2620 50 50
+
+button 40 130 4005 4006 1 0 13
+text 75 130 0 16
+resizepic 170 115 2620 50 50
+
+button 40 185 4005 4006 1 0 14
+text 75 185 0 17
+resizepic 170 170 2620 50 50
+
+button 40 240 4005 4006 1 0 15
+text 75 240 0 18
+resizepic 170 225 2620 50 50
+
+button 260 75 4005 4006 1 0 16
+text 295 75 0 19
+resizepic 390 60 2620 50 50
+
+gumppic 105 5 <eval 0000C671>
+gumppic 105 75 <eval 0000C672>
+gumppic 105 125 <eval 0000C674>
+gumppic 105 185 <eval 0000C678>
+gumppic 325 20 <eval 0000C676>
+text 200 20 0 2
+button 40 280 4005 4006 1 0 991
+text 75 280 0 20
+
+[dialog d_disguise text]
+TNS Disguise Kit
+Peruk
+Takma sakal
+Isim gizle
+Sifat gizle
+Kisa sac
+Uzun sac
+At kuyrugu
+Mohavk sac
+Pageboy sac
+Topuz sac
+Dokulmus sac
+Cift orgulu
+xx
+Perugu cikar
+Uzun sakal
+Kisa sakal
+Keci sakali
+Biyik
+Sakal
+Takma sakali cikar
+
+[dialog d_disguise button]
+on=990
+if (strmatch('<src.tag.haired>','01'))
+	if (strmatch('<src.tag.hair1>','00')
+		src.findtype.t_hair.remove
+		src.tag.hair1 
+		src.tag.haired 
+	elseif !(strmatch('<src.tag.hair1>','')
+		src.newitem <src.tag.hair1>
+		src.new.equip
+		src.tag.hair1 
+		src.tag.haired 
+	endif
+else
+	src.smsgx Zaten bir peruk giymiyorsunuz.
+endif
+
+on=991
+if (strmatch('<src.tag.bearded>','01'))
+	if (strmatch('<src.tag.beard1>','00')
+		src.findtype.t_beard.remove
+		src.tag.beard1 
+		src.tag.bearded 
+	elseif !(strmatch('<src.tag.beard1>','')
+		src.newitem <src.tag.beard1>
+		src.new.equip
+		src.tag.beard1 
+		src.tag.bearded
+	endif
+else
+	src.smsgx Zaten bir takma sakaliniz yok.
+endif
+
+on=3
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_short
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=4
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_long
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=5
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_ponytail
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=6
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_mohawk
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=7
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_pageboy
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=8
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_buns
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=9
+if ((strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_receding
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=10
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_2_pigtails
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=11
+if (strmatch('<src.tag.hair1>','')) && !(strmatch('<src.tag.haired>','01'))
+	src.tag.hair1 <src.findtype.t_hair.baseid>
+	src.tag.haired 1
+	src.newitem i_hair_krisna
+	src.new.equip
+else
+	src.smsgx Ilk once perugu cikarmalisiniz.
+endif
+on=12
+if (strmatch('<src.tag.beard1>','')) && !(strmatch('<src.tag.bearded>','01'))
+	src.tag.beard1 <src.findtype.t_beard.baseid>
+	src.tag.bearded 1
+	src.newitem i_beard_long
+	src.new.equip
+else
+	src.smsgx Ilk once takma sakali cikarmalisiniz.
+endif
+on=13
+if (strmatch('<src.tag.beard1>','')) && !(strmatch('<src.tag.bearded>','01'))
+	src.tag.beard1 <src.findtype.t_beard.baseid>
+	src.tag.bearded 1
+	src.newitem i_beard_short
+	src.new.equip
+else
+	src.smsgx Ilk once takma sakali cikarmalisiniz.
+endif
+on=14
+if (strmatch('<src.tag.beard1>','')) && !(strmatch('<src.tag.bearded>','01'))
+	src.tag.beard1 <src.findtype.t_beard.baseid>
+	src.tag.bearded 1
+	src.newitem i_beard_goatee
+	src.new.equip
+else
+	src.smsgx Ilk once takma sakali cikarmalisiniz.
+endif
+on=15
+if (strmatch('<src.tag.beard1>','')) && !(strmatch('<src.tag.bearded>','01'))
+	src.tag.beard1 <src.findtype.t_beard.baseid>
+	src.tag.bearded 1
+	src.newitem i_beard_mustache
+	src.new.equip
+else
+	src.smsgx Ilk once takma sakali cikarmalisiniz.
+endif
+on=16
+if (strmatch('<src.tag.beard1>','')) && !(strmatch('<src.tag.bearded>','01'))
+	src.tag.beard1 <src.findtype.t_beard.baseid>
+	src.tag.bearded 1
+	src.newitem i_beard_short_med
+	src.new.equip
+else
+	src.smsgx Ilk once takma sakali cikarmalisiniz.
+endif
+
+/////////////////////////////////////////////////////////////////////
+[itemdef i_isimduzelt]
+name isimi gizleniyor
+id i_gold
+type t_eq_script
+
+on=@create
+timer 600
+
+on=@timer
+remove
+return 1
+
+on=@unequip
+src.title <src.tag.titlesuan>
+src.smsgx Unvaniniz eski haline dondu.
+src.name <src.tag.namesuan>
+src.smsgx Isminiz eski haline dondu.
+src.tag.namesuan
+src.tag.titlesuan
+if (strmatch('<src.tag.bearded>','01'))
+	if (strmatch('<src.tag.beard1>','00')
+		src.findtype.t_beard.remove
+		src.newitem i_beard_NONE
+		src.new.equip
+		src.tag.beard1 
+		src.tag.bearded 
+	elseif !(strmatch('<src.tag.beard1>','')
+		src.newitem <src.tag.beard1>
+		src.new.equip
+		src.tag.beard1 
+		src.tag.bearded
+	endif
+endif
+
+if (strmatch('<src.tag.haired>','01'))
+	if (strmatch('<src.tag.hair1>','00')
+		src.findtype.t_hair.remove
+		src.newitem i_hair_NONE
+		src.new.equip		
+		src.tag.hair1 
+		src.tag.haired 
+	elseif !(strmatch('<src.tag.hair1>','')
+		src.newitem <src.tag.hair1>
+		src.new.equip
+		src.tag.hair1 
+		src.tag.haired 
+	endif
+endif
+
+[eof]

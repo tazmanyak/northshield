@@ -1,0 +1,70 @@
+[function f_KosucuTopList_BritainYew]
+
+ref1 <uid>
+
+if (<ref1.tag.KosuSuresi> < <var.BY_Champ_Time>)
+	var0.BY_Champ 		<ref1>
+	var0.BY_Champ_Time 	<ref1.tag.KosuSuresi>
+endif
+
+if !strregex(^[0-9]+$, <list.Kosucu_BYSure.findelem <ref1.tag.KosuSuresi>>)
+	list.Kosucu_BY.ADD <ref1>
+	list.Kosucu_BYSure.ADD <ref1.tag.KosuSuresi>
+endif
+
+FOR 3
+	ref1 <uid>
+	local.r1 <ref1.tag.KosuSuresi>
+	local.r2 <list.Kosucu_BYSure.<dlocal._for>>
+		if (<local.r1> < <local.r2>)
+			if (<eval <local._for>> == 2)
+				list.Kosucu_BYSure.3.REMOVE
+				list.Kosucu_BYSure.3.INSERT <list.Kosucu_BYSure.2>
+				list.Kosucu_BY.3.REMOVE
+				list.Kosucu_BY.3.INSERT <list.Kosucu_BY.2>
+
+				list.Kosucu_BYSure.2.REMOVE
+				list.Kosucu_BYSure.2.INSERT <ref1.tag.KosuSuresi>
+				list.Kosucu_BY.2.REMOVE
+				list.Kosucu_BY.2.INSERT <ref1>
+
+ref1.message @33,,1 Tebrikler 2. siraya yerlestiniz !!!
+				return 1
+			endif
+			if (<eval <local._for>> == 1)
+				list.Kosucu_BYSure.3.REMOVE
+				list.Kosucu_BYSure.3.INSERT <list.Kosucu_BYSure.2>
+				list.Kosucu_BY.3.REMOVE
+				list.Kosucu_BY.3.INSERT <list.Kosucu_BY.2>
+
+				list.Kosucu_BYSure.2.REMOVE
+				list.Kosucu_BYSure.2.INSERT <list.Kosucu_BYSure.1>
+				list.Kosucu_BY.2.REMOVE
+				list.Kosucu_BY.2.INSERT <list.Kosucu_BY.1>
+
+				list.Kosucu_BYSure.1.REMOVE
+				list.Kosucu_BYSure.1.INSERT <ref1.tag.KosuSuresi>
+				list.Kosucu_BY.1.REMOVE
+				list.Kosucu_BY.1.INSERT <ref1>
+ref1.message @33,,1 Tebrikler 1. siraya yerlestiniz !!!
+				return 1
+			endif
+			if (<eval <local._for>> == 3)
+				list.Kosucu_BYSure.<local._for>.REMOVE
+				list.Kosucu_BYSure.<local._for>.INSERT <ref1.tag.KosuSuresi>
+				list.Kosucu_BY.<local._for>.REMOVE
+				list.Kosucu_BY.<local._for>.INSERT <ref1>
+ref1.message @33,,1 Tebrikler 3. siraya yerlestiniz !!!
+				return 1
+			endif
+		endif
+
+ENDFOR
+
+src.dialog d_kosucu
+
+
+
+
+
+[EOF]

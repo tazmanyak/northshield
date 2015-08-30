@@ -1,0 +1,56 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF i_bramble_coat]
+ID=i_woodland_chest
+NAME=Bramble Coat
+SKILLMAKE=Carpentry 85.0, t_carpentry
+RESOURCES=10 i_log, 10 i_ingredient_scourge, 10 i_ingredient_taint, 1 i_ingredient_diseased_bark
+TEVENTS=t_iprop
+TAG.SelfRepair=3
+TAG.HitPointIncrease=4
+TAG.Luck=150
+TAG.ReflectPhysicalDamage=25
+TAG.DefenseChanceIncrease=15
+CATEGORY=Provisions - Craftable Artifacts
+SUBSECTION=Armors
+DESCRIPTION=Bramble Coat
+TAG.ResPhysical=10
+TAG.ResFire=8
+TAG.ResCold=7
+TAG.ResPoison=8
+TAG.ResEnergy=7
+
+ON=@Create
+HITPOINTS=255
+COLOR=01
+
+[ITEMDEF i_ironwood_crown]
+ID=i_helm_raven
+NAME=Ironwood Crown
+SKILLMAKE=Carpentry 85.0, t_carpentry
+RESOURCES=10 i_log, 10 i_ingredient_corruption, 10 i_ingredient_putrefaction, 1 i_ingredient_diseased_bark
+TEVENTS=t_iprop
+TAG.SelfRepair=3
+TAG.StrengthBonus=5
+TAG.DexterityBonus=5
+TAG.IntelligenceBonus=5
+CATEGORY=Provisions - Craftable Artifacts
+SUBSECTION=Armors
+DESCRIPTION=Ironwood Crown
+TAG.ResPhysical=10
+TAG.ResFire=6
+TAG.ResCold=7
+TAG.ResPoison=7
+TAG.ResEnergy=10
+
+ON=@Create
+HITPOINTS=255
+COLOR=01
+
+[eof]

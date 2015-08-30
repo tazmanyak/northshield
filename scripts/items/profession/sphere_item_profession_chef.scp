@@ -1,0 +1,580 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+///////////////////////////////////////////////////////////////
+//////// TOOLS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01043]
+DEFNAME=i_rolling_pin
+TYPE=t_cooking_tool
+SKILLMAKE=TINKERING 0.0, t_tinker_tools
+RESOURCES=5 i_log
+WEIGHT=2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Rolling Pin
+
+[ITEMDEF 0103e]
+DEFNAME=i_flour_sifter
+TYPE=t_cooking_tool
+SKILLMAKE=TINKERING 50.0, t_tinker_tools
+RESOURCES=3 i_ingot_iron
+WEIGHT=2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Flour Sifter
+
+[ITEMDEF 097f]
+DEFNAME=i_skillet
+TYPE=t_cooking_tool
+SKILLMAKE=TINKERING 30.0, t_tinker_tools
+RESOURCES=4 i_ingot_iron
+WEIGHT=2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Skillet
+
+
+///////////////////////////////////////////////////////////////
+//////// RESOURCES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01ebd]
+DEFNAME=i_wheat_sheaf
+TYPE=t_grain
+VALUE=5
+WEIGHT=10
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Wheat
+
+[ITEMDEF 0ff8]
+DEFNAME=i_pitcher_water
+RESOURCES=1 i_water, 1 i_pitcher_glass
+TYPE=t_drink
+TDATA1=i_pitcher_glass
+FLIP=1
+WEIGHT=2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Pitcher of Water
+DUPELIST=0ff9,01f9d,01f9e
+
+[ITEMDEF 0ff9]
+DUPEITEM=0ff8
+
+[ITEMDEF 01f9d]
+DUPEITEM=0ff8
+
+[ITEMDEF 01f9e]
+DUPEITEM=0ff8
+
+[ITEMDEF 09ec]
+DEFNAME=i_jar_honey
+TYPE=t_food
+VALUE={2 4}
+WEIGHT=0.5
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Jar of Honey
+
+[ITEMDEF 09b5]
+DEFNAME=i_eggs_fresh
+VALUE=1
+WEIGHT=0.1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Eggs
+
+[ITEMDEF 09b9]
+DEFNAME=i_bird_raw
+TYPE=t_food_raw
+TDATA1=i_bird_cooked
+VALUE=1
+WEIGHT=0.5
+DUPELIST=09ba
+CATEGORY=Items by Professions
+SUBSECTION=Cook
+DESCRIPTION=Raw Bird
+
+[ITEMDEF 09ba]
+DUPEITEM=09b9
+
+[ITEMDEF 09f1]
+DEFNAME=i_ribs_raw
+TYPE=t_food_raw
+TDATA1=i_ribs_cooked
+VALUE=2
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Ribs (Raw)
+
+[ITEMDEF 01607]
+DEFNAME=i_chicken_leg_raw
+TYPE=t_food_raw
+TDATA1=i_chicken_leg
+VALUE=2
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Chicken Leg (Raw)
+
+[ITEMDEF 097a]
+DEFNAME=i_fish_cut_raw
+TYPE=t_food_raw
+TDATA1=i_fish_cut_cooked
+VALUE=3
+WEIGHT=0.1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Fish Steak (Raw)
+
+[ITEMDEF 01609]
+DEFNAME=i_lamb_leg_raw
+TYPE=t_food_raw
+TDATA1=i_lamb_leg
+WEIGHT=2
+VALUE=2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Leg of Lamb (Raw)
+
+[ITEMDEF 09c0]
+DEFNAME=i_sausages
+TYPE=t_food
+VALUE={12 16}
+WEIGHT=0.1
+DUPELIST=09c1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Sausages
+
+[ITEMDEF 09c1]
+DUPEITEM=09c0
+
+[ITEMDEF 097e]
+DEFNAME=i_cheese_wheel
+TYPE=t_food
+VALUE={22 28}
+WEIGHT=0.2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Wheel of Cheese
+
+[ITEMDEF 0994]
+DEFNAME=i_fruit_pear
+VALUE=1
+TYPE=t_fruit
+WEIGHT=0.1
+DUPELIST=0172d
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Pear
+
+[ITEMDEF 0172d]
+DUPEITEM=0994
+
+[ITEMDEF 09d2]
+DEFNAME=i_fruit_peach
+VALUE=1
+TYPE=T_FRUIT
+WEIGHT=0.1
+DUPELIST=0172c
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Peach
+
+[ITEMDEF 0172c]
+DUPEITEM=09d2
+
+[ITEMDEF 09D0]
+DEFNAME=i_fruit_apple
+VALUE=1
+TYPE=T_FRUIT
+WEIGHT=0.1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Apple
+
+[ITEMDEF 0c6a]
+DEFNAME=i_fruit_pumpkin
+VALUE=2
+TYPE=T_FRUIT
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Pumpkin
+DUPELIST=0c6b
+
+[ITEMDEF 0c6b]
+DUPEITEM=0c6a
+
+
+///////////////////////////////////////////////////////////////
+//////// INGREDIENTS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01039]
+DEFNAME=i_flour_sack
+NAME=Sack of Flour
+SKILLMAKE=COOKING 0.1
+RESOURCES=4 i_wheat_sheaf
+WEIGHT=5
+DUPELIST=01045
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Sack of Flour
+
+[ITEMDEF 01045]
+DUPEITEM=01039
+
+[ITEMDEF 0103d]
+DEFNAME=i_dough
+NAME=Dough
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_pitcher_water, 1 i_flour_sack
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Dough
+
+[ITEMDEF i_dough_sweet]
+NAME=Sweet Dough
+ID=i_dough
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_jar_honey
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Sweet Dough
+
+ON=@Create
+COLOR=colors_yellow
+
+[ITEMDEF 0103f]
+DEFNAME=i_cookie_mix
+NAME=Cookie Mix
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough_sweet, 1 i_jar_honey
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Cookie Mix
+
+[ITEMDEF i_cake_mix]
+NAME=Cake Mix
+ID=i_cookie_mix
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough_sweet, 1 i_flour_sack
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Cake Mix
+
+
+///////////////////////////////////////////////////////////////
+//////// PREPARATIONS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01042]
+NAME=Unbaked Quiche
+DEFNAME=i_unbaked_quiche
+TYPE=t_food_raw
+TDATA1=i_baked_quiche
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_eggs_fresh
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Unbaked Quiche
+
+[ITEMDEF i_unbaked_pie_meat]
+NAME=Unbaked Meat Pie
+ID=i_unbaked_quiche
+TYPE=t_food_raw
+TDATA1=i_baked_pie_meat
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_ribs_raw
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Unbaked Meat Pie
+
+[ITEMDEF i_unbaked_pie_fruit]
+NAME=Unbaked Fruit Pie
+ID=i_unbaked_quiche
+TYPE=t_food_raw
+TDATA1=i_baked_pie_fruit
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_fruit_pear
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Unbaked Fruit Pie
+
+[ITEMDEF i_unbaked_peach_cobbler]
+NAME=Unbaked Peach Cobbler
+ID=i_unbaked_quiche
+TYPE=t_food_raw
+TDATA1=i_baked_peach_cobbler
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_fruit_peach
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Unbaked Peach Cobbler
+
+[ITEMDEF i_unbaked_pie_apple]
+NAME=Unbaked Apple Pie
+ID=i_unbaked_quiche
+TYPE=t_food_raw
+TDATA1=i_baked_pie_apple
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_fruit_apple
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Unbaked Apple Pie
+
+[ITEMDEF i_unbaked_pie_pumpkin]
+NAME=Unbaked Pumpkin Pie
+ID=i_unbaked_quiche
+TYPE=t_food_raw
+TDATA1=i_baked_pie_pumpkin
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_fruit_pumpkin
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Unbaked Pumpkin Pie
+
+[ITEMDEF 01083]
+NAME=Uncooked Sausage Pizza
+DEFNAME=i_uncooked_pizza_sausage
+TYPE=t_food_raw
+TDATA1=i_pizza_sausage
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_sausages
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Cheef
+DESCRIPTION=Uncooked Sausage Pizza
+
+[ITEMDEF i_uncooked_pizza_cheese]
+NAME=Uncooked Cheese Pizza
+ID=i_uncooked_pizza_sausage
+TYPE=t_food_raw
+TDATA1=i_pizza
+SKILLMAKE=COOKING 0.1, t_cooking_tool
+RESOURCES=1 i_dough, 1 i_cheese_wheel
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Cheef
+DESCRIPTION=Uncooked Cheese Pizza
+
+
+///////////////////////////////////////////////////////////////
+//////// BAKED FOOD
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0103b]
+DEFNAME=i_bread_loaf
+NAME=Bread Loaf
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_dough
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Bread Loaf
+
+[ITEMDEF 0160b]
+DEFNAME=i_pan_cookies
+NAME=Pan of Cookies
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_cookie_mix
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Pan of Cookies
+
+[ITEMDEF 09e9]
+DEFNAME=i_cake
+NAME=Cake
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_cake_mix
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Cake
+
+[ITEMDEF 09eb]
+DEFNAME=i_muffins
+NAME=Muffins
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_dough_sweet
+WEIGHT=0.5
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Muffins
+
+[ITEMDEF i_baked_quiche]
+NAME=Baked Quiche
+ID=i_pie_baked
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_unbaked_quiche
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Baked Quiche
+
+[ITEMDEF i_baked_pie_meat]
+NAME=Baked Meat Pie
+ID=i_pie_baked
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_unbaked_pie_meat
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Baked Meat Pie
+
+[ITEMDEF i_baked_pie_fruit]
+NAME=Baked Fruit Pie
+ID=i_pie_baked
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_unbaked_pie_fruit
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Baked Fruit Pie
+
+[ITEMDEF i_baked_peach_cobbler]
+NAME=Baked Peach Cobbler
+ID=i_pie_baked
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_unbaked_peach_cobbler
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Baked Peach Cobbler
+
+[ITEMDEF i_baked_pie_apple]
+NAME=Baked Apple Pie
+ID=i_pie_baked
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_unbaked_pie_apple
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Baked Apple Pie
+
+[ITEMDEF i_baked_pie_pumpkin]
+NAME=Baked Pumpkin Pie
+ID=i_pie_baked
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_unbaked_pie_pumpkin
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Baked Pumpkin Pie
+
+[ITEMDEF 01040]
+DEFNAME=i_pizza
+NAME=Cheese Pizza
+TYPE=T_FOOD
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_uncooked_pizza_cheese
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Cheese Pizza
+
+[ITEMDEF i_pizza_sausage]
+NAME=Sausage Pizza
+ID=i_pizza
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_uncooked_pizza_sausage
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Sausage Pizza
+
+[ITEMDEF 09b7]
+DEFNAME=i_bird_cooked
+NAME=Cooked Bird
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_bird_raw
+WEIGHT=0.5
+DUPELIST=09b8
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Cooked Bird
+
+[ITEMDEF 09b8]
+DUPEITEM=09b7
+
+[ITEMDEF 01608]
+DEFNAME=i_chicken_leg
+NAME=Chicken Leg
+TYPE=T_FOOD
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_chicken_leg_raw
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Cook
+DESCRIPTION=Chicken Leg (Cooked)
+
+[ITEMDEF 097b]
+DEFNAME=i_fish_cut_cooked
+NAME=Fish Steak
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_fish_cut_raw
+VALUE=7
+WEIGHT=0.1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Fish Steak (Cooked)
+
+[ITEMDEF 09b6]
+DEFNAME=i_eggs_fried
+NAME=Fried Eggs
+TYPE=T_FOOD
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_eggs_fresh
+VALUE=5
+WEIGHT=0.1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Fried Eggs
+
+[ITEMDEF 0160a]
+DEFNAME=i_lamb_leg
+NAME=Leg of Lamb
+TYPE=T_FOOD
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_lamb_leg_raw
+WEIGHT=2
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Leg of Lamb (Cooked)
+
+[ITEMDEF 09f2]
+DEFNAME=i_ribs_cooked
+NAME=Cut of Ribs
+TYPE=t_food
+SKILLMAKE=COOKING 0.1
+RESOURCES=1 i_ribs_raw
+VALUE=3
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Chef
+DESCRIPTION=Ribs (Cooked)
+
+
+[EOF]

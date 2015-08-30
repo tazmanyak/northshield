@@ -1,0 +1,49 @@
+[CHARDEF c_h_barbarian_shaman]
+DEFNAME=c_h_barbarian_shaman
+NAME=#NAMES_HUMANMALE the Barbarian Shaman
+ID=C_MAN
+DAM=20,25
+ARMOR=20
+//ALIGNMENT=EVIL
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_MALE
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+CATEGORY=Civilized
+SUBSECTION=Barbarians (Evil)
+DESCRIPTION=Barbarian Shaman
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-4000 -6000}
+	FAME={3500 5000}
+
+	STR={100 150}
+	DEX={81 95}
+	INT={20 30}
+
+	MAGICRESISTANCE={40.0 55.0}
+	MAGERY={60.0 75.0}
+	TACTICS={80.0 95.0}
+	WRESTLING={80.0 95.0}
+	MACEFIGHTING=100.0
+	PARRYING={75.0 100.0}
+
+	ITEMNEWBIE=i_hair_long
+	COLOR=colors_red
+	ITEMNEWBIE=i_beard_short_med
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_boots_calf
+	COLOR=01bb
+	ITEM=i_staff_gnarled
+	ITEM=i_SASH
+	COLOR=01bb
+	ITEM=i_kilt
+	COLOR=01bb
+	ITEM=backpack_rich
+	ITEM=i_mask_tribal_red
+	//ITEM=random_average_magic_loot
+[EOF]

@@ -1,0 +1,65 @@
+// SCRIPT DOCUMENTATION
+// --------------------
+// This functions adds a buff and remove it after a time.
+// [uid.]f_AddBuff SpellName,Delay[,Arguments]
+// - Spellname = The name of the buff, look at the list below for names.
+// - Delay = The duration of the buff (and spell, of course)
+// - Arguments = The arguments to fill the cliloc, if is another cliloc number put # in front of it.
+// - for text just put it raw, same for numbers.
+
+// [uid.]f_AddBuff SpellName,Delay[,Arguments]
+[function f_AddBuff]
+if <brain>
+return 0
+endif
+local.iconid = <def.bufficon_<argv[0]>>
+local.cliloc1 = <def.buffcliloc_<argv[0]>_1>
+local.cliloc2 = <def.buffcliloc_<argv[0]>_2>
+local.delay = <argv[1]>
+local.length = 44
+if <argv> > 2
+	for 2 <eval <argv>-1>
+	call f_asc_to_ucs <argv[<dlocal._for>]>
+	local.uniargs .= " <streat <local.ucs>>"
+	local.unilength += <local.ucslength>
+		if <eval <argv>-1> == <dlocal._for>
+		local.uniargs .= " 00 00 00 01"
+		local.length += 4
+		else
+		local.uniargs .= " 09 00"
+		local.length += 2
+		endif
+	endfor
+local.length += 4
+local.length += <eval <local.unilength>*2>
+local.unilength += 4
+local.uniargs .= " 00 00"
+endif
+SendPacket 0df w<local.length> d<uid> w<local.iconid> 00 01 00 00 00 00 w<local.iconid> 00 01 00 00 00 00 w<local.delay> 00 00 00 d<local.cliloc1> d<local.cliloc2> 00 00 00 00 00 01 d<local.unilength> <streat <local.uniargs>>
+if <argv[1]> > 0
+TimerF <argv[1]>,RemoveBuff <def.bufficon_<argv[0]>>
+endif
+
+[function f_asc_to_ucs] //transforms ASCii to UniCodeStream
+local.ucs=" "
+local.ucslength=0
+for X 0 <eval (strlen(<args>))-1>
+	if (<asc <strsub <local.x> 1 <args>>> < 0)
+		if (<asc <strsub <eval <local.x>+-1> 1 <args>>> == 0ffffffc3)
+			local.ucs .= " <eval (<asc <strsub <local.x> 1 <args>>>&0ff)+040> 00"
+			local.ucslength ++
+		elseif (<asc <strsub <local.x> 1 <args>>> != 0ffffffc3)
+			local.ucs .= " <eval <asc <strsub <local.x> 1 <args>>>&0ff> 00" 
+			local.ucslength ++
+		endif
+	else
+		if (<asc <strsub <eval <local.x>+-1> 1 <args>>> == 0ffffffc3)
+			local.ucs .= " <eval (<asc <strsub <local.x> 1 <args>>>&0ff)+040> 00"
+		else
+			local.ucs .= " <asc <strsub <local.x> 1 <args>>> 00"
+		endif
+		local.ucslength ++
+	endif
+endfor
+
+[eof]

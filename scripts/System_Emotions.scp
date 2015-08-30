@@ -1,0 +1,205 @@
+[defname emotion_settings]
+emotion_flood		2	//seconds between being allowed to use a second emotion
+
+
+[plevel 1]
+emotions
+emo
+
+[function emo]
+emotions
+
+[function emotions]
+sdialog d_emotions
+return 1
+
+[dialog d_emotions]
+50,50
+resizepic 7 7 3600 235 350
+resizepic 15 15 5054 220 335
+if (<obody>==c_woman)
+local.sex=F
+elseif (<obody>==c_man)
+local.sex=M
+endif
+dtext 80 17 1000 Emotion Menü
+for 1 19
+button 40 <eval (25+(15*<local._for>))> 1209 1210 1 0 <eval (<local._for>+1)>
+dtext 60 <eval (21+(15*<local._for>))> 1000 <streat <def0.<local.sex>_<eval <local._for>>>>
+endfor
+for 20 37 
+button 140 <eval (25+(15*<eval <local._for>-19>))> 1209 1210 1 0 <eval (<local._for>+1)>
+dtext 160 <eval (21+(15*<eval <local._for>-19>))> 1000 <streat <def0.<local.sex>_<eval <local._for>>>>
+endfor
+
+dtext 130 320 1000 Açık Tut
+radio 200 320 210 211 <qval <src.tag0.keep_emotionbox_open>?1:0> 1
+
+[dialog d_emotions button]
+
+onbutton=0
+src.tag0.keep_emotionbox_open=
+
+onbutton=2,38
+if (<argchk[1]>==1)
+src.tag0.keep_emotionbox_open=1
+src.sdialog d_emotions
+else
+src.tag0.keep_emotionbox_open=
+endif
+src.e <eval (<argn>-1)>
+
+
+[plevel 1]
+e
+
+[defname EmoteFemale]
+F_1 778,ah
+F_2 779,ahha
+F_3 780,alkışlar
+F_4 781,sümkürür
+F_5 782,geğirir
+F_6 783,cheer
+F_7 784,clear throat
+F_8 785,cough
+F_9 786,coughbs
+F_10 787,cry
+F_11 792,fart
+F_12 793,gasp
+F_13 794,giggle
+F_14 798,groan
+F_15 796,growl
+F_16 797,hey
+F_17 798,hic cup
+F_18 799,huh
+F_19 800,kiss
+F_20 801,laugh
+F_21 802,no
+F_22 803,oh
+F_23 {(804)(810)},oomph
+F_24 811,oooh
+F_25 812,oops
+F_26 813,puke
+F_27 814,scream
+F_28 815,shush
+F_29 816,sigh
+F_30 817,sneeze
+F_31 818,sniff
+F_32 819,snore
+F_33 820,spit
+F_34 821,whistle
+F_35 822,yawn
+F_36 823,yea
+F_37 824,yell
+
+[defname EmoteMale]
+M_1 1049,ah
+M_2 1050,ahha
+M_3 1051,applaud
+M_4 1052,blow nose
+M_5 1053,burp
+M_6 1054,cheer
+M_7 1055,clear throat
+M_8 1056,cough
+M_9 1057,coughbs
+M_10 1058,cry
+M_11 1064,fart
+M_12 1065,gasp
+M_13 1066,giggle
+M_14 1067,groan
+M_15 1068,growl
+M_16 1069,hey
+M_17 1070,hic cup
+M_18 1071,huh
+M_19 1072,kiss
+M_20 1073,laugh
+M_21 1074,no
+M_22 1075,oh
+M_23 {(1077)(1084)},oomph
+M_24 1085,oooh
+M_25 1086,oops
+M_26 1087,puke
+M_27 1088,scream
+M_28 1089,shush
+M_29 1090,sigh
+M_30 1091,sneeze
+M_31 1092,sniff
+M_32 1093,snore
+M_33 1094,spit
+M_34 1095,whistle
+M_35 1096,yawn
+M_36 1097,yea
+M_37 1098,yell
+
+[defname EmoteString]
+S_ah 1
+S_ahha 2
+S_applaud 3
+S_blow_nose 4
+S_burp 5
+S_cheer 6
+S_clear_throat 7
+S_cough 8
+S_coughbs 9
+S_cry 10
+S_fart 11
+S_gasp 12
+S_giggle 13
+S_groan 14
+S_growl 15
+S_hey 16
+S_hic_cup 17
+S_huh 18
+S_kiss 19
+S_laugh 20
+S_no 21
+S_oh 22
+S_oomph 23
+S_oooh 24
+S_oops 25
+S_puke 26
+S_scream 27
+S_shush 28
+S_sigh 29
+S_sneeze 30
+S_sniff 31
+S_snore 32
+S_spit 33
+S_whistle 34
+S_yawn 35
+S_yea 36
+S_yell 37
+
+[function e]
+if <tag0.emotionflood>
+sysmessage @,,1 Tekrar kullanmak için beklemelisiniz.
+return 1
+endif
+if (<isempty <args>>)
+ src.sysmessage @,,1 Kullanım şekli : ".e #" ya da ".e yea"
+ return 1
+elseif (!<isnum <args>>)
+ src.e <eval <def.S_<args>>>
+ return 1
+elseif ((<src.timer> > 0) && (!<src.isgm>))
+ return 1
+elseif (<obody>==c_woman)
+local.sex=F
+elseif (<obody>==c_man)
+local.sex=M
+endif
+ src.timer=1
+ if (<isnum <local.sex>>)
+   bark 1
+   return 1
+ endif
+    local.e=<strarg <DEF.<local.sex>_<args>>>
+   if (<local.e>=0)
+     bark 1
+    return 1
+  endif
+   tag.emotionflood=1
+   timerf <def0.emotion_flood>,tag.emotionflood=0
+   sound <local.e>
+   sayu *<streat <def.<local.sex>_<ArgS>>>*
+   return 1

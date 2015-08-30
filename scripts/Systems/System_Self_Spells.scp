@@ -1,0 +1,564 @@
+﻿[DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF][DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF]
+[DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF][DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF]
+[DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF][DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF]
+[DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF][DIALOG d_Flam]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 0 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+//button 0 485 <serv.itemdef.i_rune_REACTIVE_ARMOR.id>
+
+[DIALOG d_Flam button]
+onbutton 0
+if (<src.findid.i_rune_REACTIVE_ARMOR>)
+src.hata Büyünün silinmesine <src.findid.i_rune_REACTIVE_ARMOR.timer> saniye var.
+src.sdialog d_flam
+else
+src.dialogclose d_flam
+endif
+
+
+
+[DIALOG d_uss]
+0,0
+PAGE 0
+//noclose
+nomove
+tilepic 0 38 <serv.itemdef.i_rune_PROTECTION.id>
+
+[DIALOG d_uss button]
+onbutton 0
+if (<src.findid.i_rune_PROTECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_PROTECTION.timer> saniye var.
+src.sdialog d_uss
+else
+src.dialogclose d_uss
+endif
+
+
+[DIALOG d_rel]
+0,0
+PAGE 0
+//noclose
+nomove
+//button 70 485 9997 9997 1 0 1
+tilepic 0 79 <serv.itemdef.i_rune_BLESS.id>
+
+[DIALOG d_rel button]
+onbutton 0
+if (<src.findid.i_rune_BLESS>)
+src.hata Büyünün silinmesine <src.findid.i_rune_BLESS.timer> saniye var.
+src.sdialog d_rel
+else
+src.dialogclose d_rel
+endif
+
+[DIALOG d_in_jux]
+0,0
+PAGE 0
+nomove
+//noclose
+tilepic 0 121 <serv.itemdef.i_rune_MAGIC_REFLECTION.id>
+
+[DIALOG d_in_jux button]
+onbutton 0
+if (<src.findid.i_rune_MAGIC_REFLECTION>)
+src.hata Büyünün silinmesine <src.findid.i_rune_MAGIC_REFLECTION.timer> saniye var.
+src.sdialog d_in_jux
+else
+src.dialogclose d_in_jux
+endif
+
+
+[EOF]

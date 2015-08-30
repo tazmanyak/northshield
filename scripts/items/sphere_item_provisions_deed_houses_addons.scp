@@ -1,0 +1,721 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: Viernes, 12 de Marzo de 2010
+VERSION=0.56b
+
+//****************************************************************************
+[TYPEDEF t_deed_house_addon]
+ON=@dclick
+if (<baseid> == i_deed_long_table_south) || (<baseid> == i_deed_long_table_east)
+src.sysmessage @,,1 Kapatildi.
+return 1
+endif
+
+if <cont> != <src.findlayer.21>
+src.sysmessage @,,1 Esya cantanizda olmalidir.
+return 1
+endif
+if strmatch("t_multi*","<uid.<region.uid>.type>")
+ref1 = <uid.<src.region.uid>.more2>
+	if (<ref1.HousePlayerAccess <src.uid>> >= 2)
+	src.sysmessage @,,1 Esyayi nereye koymak istersiniz?
+	targetf f_place_house_addon
+	endif
+else
+src.sysmessage @,,1 Sadece evde kullanabilirsiniz.
+return 1
+endif
+return 1
+
+[function f_place_house_addon]
+serv.newnpc c_pig
+new.flags = statf_invul|statf_insubstantial
+new.p = <src.targp>
+ref1 = <uid.<new.region.uid>.more2>
+new.remove
+if (<ref1.HousePlayerAccess <src.uid>> < 2)
+src.sysmessage @,,1 Kendi evinizde degilsiniz.
+return 1
+endif
+if <serv.itemdef.<src.targ.more>.type> == t_multi
+local.itemcomps = <strarg <serv.itemdef.<src.targ.more>.component>>
+serv.newitem <src.targ.more>
+new.p = <src.targp>
+	if !<new.AddonCanBePlaced>
+	new.remove
+	src.sysmessage @,,1 Bunu buraya yerlestiremezsiniz.
+	return 1
+	endif
+new.tag.deed = <src.targ.baseid>
+new.more2 = <uid.<src.region.uid>.more2> // zaten taglari aliyormus evin !
+new.region.events +r_house_system // bitek r_house_system ekledik okadar.
+new.region.uid <src.region.uid>
+new.region.name <src.region.name>
+new.attr = <new.attr>&~attr_decay
+new.attr = <new.attr>|attr_move_never
+local.comp<dlocal.itemcomps> = <new.uid>
+	for 0 <eval <local.itemcomps>-1>
+	args = <serv.itemdef.<src.targ.more>.component.<local._for>>
+	serv.newitem <argv[0]>
+	new.p = <src.targp>
+	new.move <argv[1]>,<argv[2]>,<argv[3]>
+	new.link = <local.comp<dlocal.itemcomps>>
+	new.attr = <new.attr>&~attr_decay
+	new.attr = <new.attr>|attr_move_never
+	local.comp<dlocal._for> = <new.uid>
+	src.update
+		if !<new.AddonCanBePlaced>
+		local.removeit = 1
+		endif
+	endfor
+	if <local.removeit>
+		for 0 <local.itemcomps>
+		uid.<local.comp<dlocal._for>>.remove
+		endfor
+	src.sysmessage @,,1 Bunu buraya yerlestiremezsiniz.
+	return 1
+	endif
+src.targ.remove
+else
+serv.newitem <src.targ.more>
+new.p <src.targp>
+	//if !<new.AddonCanBePlaced>
+	//new.remove
+	//src.sysmessage @,,1 Bunu buraya yerlestiremezsiniz.
+	//return 1
+	//endif
+new.tag.deed = <src.targ.baseid>
+new.HouseSetLockedProps 1
+new.attr = <new.attr>&~attr_decay
+new.attr = <new.attr>|attr_move_never
+src.update
+src.targ.remove
+endif
+
+[function addoncanbeplaced]
+local.items = 0
+local.me = <uid>
+foritems 0
+	if <local.me> != <uid>
+		if <type> != t_floor
+		local.items ++
+		endif
+	endif
+endfor
+if <local.items> != 0
+return 1
+endif
+//if <isneartype t_wall 0 1>
+//return 0
+//endif
+return 1
+//****************************************************************************
+
+
+[ITEMDEF i_deed_anvil_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an anvil (east)
+RESOURCES=150 i_ingot_iron, 5 i_log
+SKILLMAKE=CARPENTRY 73.6, BLACKSMITHING 75.0
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an anvil (east)
+
+ON=@Create
+MORE=0fb0
+
+[ITEMDEF i_deed_anvil_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an anvil (south)
+RESOURCES=150 i_ingot_iron, 5 i_log
+SKILLMAKE=CARPENTRY 73.6, BLACKSMITHING 75.0
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an anvil (south)
+
+ON=@Create
+MORE=0faf
+
+[ITEMDEF i_deed_forge_elven]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven forge
+RESOURCES=200 i_log
+SKILLMAKE=CARPENTRY 94.7
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an elven forge
+
+[ITEMDEF i_deed_carpet_magic_n]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for magic carpet
+RESOURCES=100 i_cloth, 20 i_hides_cut
+SKILLMAKE=TAILORING 84.2, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a magic carpet
+
+
+ON=@Create
+MORE=i_multi_carpet_magic_n
+
+[ITEMDEF i_deed_forge_large_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a large forge (east)
+RESOURCES=100 i_ingot_iron, 5 i_log
+SKILLMAKE=CARPENTRY 78.9, BLACKSMITHING 80.0
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Large Forge (east)
+
+ON=@Create
+MORE=i_multi_forge_large_east
+
+[ITEMDEF i_deed_forge_large_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a large forge (south)
+RESOURCES=100 i_ingot_iron, 5 i_log
+SKILLMAKE=CARPENTRY 78.9, BLACKSMITHING 80.0
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Large Forge (south)
+
+ON=@Create
+MORE=i_multi_forge_large_south
+
+[ITEMDEF i_deed_forge_small]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a forge
+RESOURCES=75 i_ingot_iron, 5 i_log
+SKILLMAKE=CARPENTRY 73.6, BLACKSMITHING 75.0
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a forge
+
+ON=@Create
+MORE=i_forge
+
+[ITEMDEF i_deed_abbatoir]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an abbatoir
+RESOURCES=100 i_log, 40 i_ingot_iron
+SKILLMAKE=CARPENTRY 100.0, MAGERY 50.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an abbatoir
+
+ON=@Create
+MORE=i_multi_abbatoir
+
+[ITEMDEF i_deed_hardwood_table_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a hardwood table (east)
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Hardwood Table (east)
+
+ON=@Create
+MORE=i_multi_hardwood_table_east
+
+[ITEMDEF i_deed_hardwood_table_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a hardwood table (south)
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Hardwood Table (south)
+
+ON=@Create
+MORE=i_multi_hardwood_table_south
+
+[ITEMDEF i_deed_alchemist_table_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a alchemist table (east)
+RESOURCES=70 i_log
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Alchemist Table (east)
+
+ON=@Create
+MORE=i_multi_alchemist_table_east
+
+[ITEMDEF i_deed_alchemist_table_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a alchemist table (south)
+RESOURCES=70 i_log
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Alchemist Table (south)
+
+ON=@Create
+MORE=i_multi_alchemist_table_south
+
+[ITEMDEF i_deed_arcane_circle]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an arcane circle
+RESOURCES=100 i_log, 2 i_gem_blue_diamond, 2 i_gem_fire_ruby, 2 i_gem_perfect_emerald
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Arcane Circle
+
+ON=@Create
+MORE=i_multi_arcane_circle
+
+[ITEMDEF i_deed_elven_bed_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven bed (east)
+RESOURCES=100 i_log, 100 i_cloth
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Bed (East)
+
+ON=@Create
+MORE=i_multi_elven_bed_east
+
+[ITEMDEF i_deed_elven_bed_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven bed (south)
+RESOURCES=100 i_log, 100 i_cloth
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Bed (South)
+
+ON=@Create
+MORE=i_multi_elven_bed_south
+
+[ITEMDEF i_deed_long_table_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a long table (east)
+RESOURCES=80 i_log
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Long Table (East)
+
+ON=@Create
+MORE=i_multi_long_table_east
+
+on=@dclick
+return 1
+
+[ITEMDEF i_deed_long_table_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a long table (south)
+RESOURCES=80 i_log
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Long Table (South)
+
+ON=@Create
+MORE=i_multi_long_table_south
+
+on=@dclick
+return 1
+
+[ITEMDEF i_deed_elven_loveseat_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven loveseat (east)
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Loveseat (East)
+
+ON=@Create
+MORE=02ddf
+
+[ITEMDEF i_deed_elven_loveseat_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven loveseat (south)
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Loveseat (South)
+
+ON=@Create
+MORE=02de0
+
+[ITEMDEF i_deed_gargish_couch_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a gargish couch (east)
+RESOURCES=75 i_log
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Gargish Couch (East)
+
+ON=@Create
+MORE=i_multi_gargish_couch_east
+
+[ITEMDEF i_deed_gargish_couch_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a gargish couch (south)
+RESOURCES=75 i_log
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Gargish Couch (South)
+
+ON=@Create
+MORE=i_multi_gargish_couch_south
+
+[ITEMDEF i_deed_elven_dresser_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven dresser (east)
+RESOURCES=45 i_log
+SKILLMAKE=CARPENTRY 75.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Dresser (East)
+
+ON=@Create
+MORE=02d0a
+
+[ITEMDEF i_deed_elven_dresser_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven dresser (south)
+RESOURCES=45 i_log
+SKILLMAKE=CARPENTRY 75.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Dresser (South)
+
+ON=@Create
+MORE=02d0b
+
+[ITEMDEF i_deed_elven_washbasin_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven washbasin (east)
+RESOURCES=40 i_log
+SKILLMAKE=CARPENTRY 70.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Washbasin (East)
+
+ON=@Create
+MORE=02d0c
+
+[ITEMDEF i_deed_elven_washbasin_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an elven washbasin (south)
+RESOURCES=40 i_log
+SKILLMAKE=CARPENTRY 70.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Elven Washbasin (South)
+
+ON=@Create
+MORE=02d0d
+
+[ITEMDEF i_deed_ornate_elven_chest_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an ornate elven chest (east)
+RESOURCES=40 i_log
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Ornate Elven Chest (East)
+
+ON=@Create
+MORE=02de9
+
+[ITEMDEF i_deed_ornate_elven_chest_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for an ornate elven chest (south)
+RESOURCES=40 i_log
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an Ornate Elven Chest (South)
+
+ON=@Create
+MORE=02dea
+
+[ITEMDEF i_deed_large_bed_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a large bed (east)
+RESOURCES=150 i_log, 150 i_cloth
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Large Bed (East)
+
+ON=@Create
+MORE=i_multi_large_bed_east
+
+[ITEMDEF i_deed_large_bed_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a large bed (south)
+RESOURCES=150 i_log, 150 i_cloth
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a Large Bed (South)
+
+ON=@Create
+MORE=i_multi_large_bed_south
+
+
+[ITEMDEF i_deed_short_table]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a short table
+RESOURCES=60 i_log
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a short table
+
+ON=@Create
+MORE=i_multi_short_table
+
+[ITEMDEF i_deed_small_bed_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a small bed (east)
+RESOURCES=100 i_log, 100 i_cloth
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a small bed (east)
+
+ON=@Create
+MORE=i_multi_small_bed_east
+
+[ITEMDEF i_deed_small_bed_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a small bed (south)
+RESOURCES=100 i_log, 100 i_cloth
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a small bed (south)
+
+ON=@Create
+MORE=i_multi_small_bed_south
+
+[ITEMDEF i_deed_tall_elven_bed_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a tall elven bed (east)
+RESOURCES=200 i_log, 100 i_cloth
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a tall elven bed (east)
+
+ON=@Create
+MORE=i_multi_tall_elven_bed_east
+
+[ITEMDEF i_deed_tall_elven_bed_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a tall elven bed (south)
+RESOURCES=200 i_log, 100 i_cloth
+SKILLMAKE=CARPENTRY 94.7, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a tall elven bed (south)
+
+ON=@Create
+MORE=i_multi_tall_elven_bed_south
+
+[ITEMDEF i_deed_parrot_perch_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a parrot perch (east)
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 50.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a parrot perch (east)
+
+ON=@Create
+MORE=02ff4
+
+[ITEMDEF i_deed_parrot_perch_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a parrot perch (south)
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 50.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a parrot perch (south)
+
+ON=@Create
+MORE=02ff5
+
+[ITEMDEF i_deed_arcanist_statue_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a arcanist statue (east)
+RESOURCES=250 i_log
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an arcanist statue (east)
+
+ON=@Create
+MORE=02d0e
+
+[ITEMDEF i_deed_arcanist_statue_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a arcanist statue (south)
+RESOURCES=250 i_log
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for an arcanist statue (south)
+
+ON=@Create
+MORE=02d0f
+
+[ITEMDEF i_deed_squirrel_statue_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a squirrel statue (east)
+RESOURCES=250 i_log
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a squirrel statue (east)
+
+ON=@Create
+MORE=02d10
+
+[ITEMDEF i_deed_squirrel_statue_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a squirrel statue (south)
+RESOURCES=250 i_log
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a squirrel statue (south)
+
+ON=@Create
+MORE=02d11
+
+[ITEMDEF i_deed_warrior_statue_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a warrior statue (east)
+RESOURCES=250 i_log
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a warrior statue (east)
+
+ON=@Create
+MORE=02d12
+
+[ITEMDEF i_deed_warrior_statue_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a warrior statue (south)
+RESOURCES=250 i_log
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a warrior statue (south)
+
+ON=@Create
+MORE=02d13
+
+[ITEMDEF i_deed_elven_oven_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a elven oven (east)
+RESOURCES=80 i_log
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a warrior statue (east)
+
+ON=@Create
+MORE=02ddb
+
+[ITEMDEF i_deed_elven_oven_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a elven oven (south)
+RESOURCES=80 i_log
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a elven oven (south)
+
+ON=@Create
+MORE=02ddc
+
+[ITEMDEF i_deed_elven_spinning_wheel_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a elven spinning wheel (east)
+RESOURCES=60 i_log, 40 i_cloth
+SKILLMAKE=CARPENTRY 75.0, TAILORING 65.0, t_carpentry, t_sewing_kit
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a elven spinning wheel (east)
+
+ON=@Create
+MORE=02dda
+
+[ITEMDEF i_deed_elven_spinning_wheel_south]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Deed for a elven spinning wheel (south)
+RESOURCES=60 i_log, 40 i_cloth
+SKILLMAKE=CARPENTRY 75.0, TAILORING 65.0, t_carpentry, t_sewing_kit
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Deed for a elven spinning wheel (south)
+
+ON=@Create
+MORE=02dd9
+
+[EOF]

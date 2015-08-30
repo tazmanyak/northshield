@@ -1,0 +1,48 @@
+[CHARDEF c_wood_elf_fighter]
+DEFNAME=c_wood_elf_fighter
+NAME=#NAMES_ELF_MALE the Wood-Elf Fighter
+SOUND=snd_HUMAN_M_DIE_01
+ID=C_ELF_MALE
+DAM=5,10
+ARMOR=5,10
+CAN=MT_EQUIP|MT_RUN|MT_USEHANDS|MT_WALK
+
+TSPEECH=jobFighter
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=0597
+
+CATEGORY=Civilized
+SUBSECTION=Wood Elves
+DESCRIPTION=Wood-Elf Fighter
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={ -2000 -4000 }
+	COLOR=0597
+
+	STR={ 45 65 }
+	DEX={ 55 70 }
+	INT={ 70 100 }
+
+	MAGICRESISTANCE={ 15.0 38.0 }
+	SWORDSMANSHIP={ 60.0 80.0 }
+	TACTICS={ 50.0 80.0 }
+	WRESTLING={ 25.0 40.0 }
+
+	ITEMNEWBIE=i_hair_long
+
+ON=@NPCRestock
+	ITEM=i_sandals
+	ITEM=i_gold,{ 40 110 }
+	ITEM=i_shield_wood
+	ITEM=i_sword_long
+	ITEM=i_studded_tunic
+	COLOR=0599
+	ITEM=i_studded_gloves
+	COLOR=0599
+	ITEM=i_studded_leggings
+	COLOR=0599
+
+[EOF]

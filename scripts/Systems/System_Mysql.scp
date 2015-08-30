@@ -1,0 +1,869 @@
+﻿
+
+[dialog d_mysql_item_list]
+0,0
+
+//resizepic 50 100 2600 590 400
+resizepic 50 100 2620 620 400
+checkertrans 50 100 620 400
+PAGE 0
+button 110 120 2117 2118 1 0 20001
+dtext 125 120 48 Genel
+button 165 120 2117 2118 1 0 20002
+dtext 180 120 48 Silahlar
+button 230 120 2117 2118 1 0 20003
+resizepic 340 106 2620 130 35
+dtextentry 350 116 90 20 990 2 <qval <isempty <src.ctag.mysql_keyword>>?Arama:<src.ctag.mysql_keyword>>
+button 310 113 4005 4006 1 0 20004
+
+dtext 245 120 48 NPC
+dtext 480 120 48 Adet
+dtext 540 120 48 Fiyat
+
+//dtext 440 120 48 Vendor
+//dtext 600 120 48 Hepsini Sil
+gumppictiled 100 140 560 5 3000
+
+
+PAGE 1
+src.ctag.selection general
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from vendor_list_items limit <src.dctag0.sayfa_limit>,15"
+	//local.sira 0
+	while <db.row.<dlocal._while>.id>
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		
+		ref1=<db.row.<dlocal._while>.item_id>
+		if <ref1.dtag.fiyat> > 0
+			if <ref1.type> == t_container
+				local.container 1
+				forcont <ref1> 1
+					local.container_name <name>
+				endfor
+			else
+				local.container 0
+			endif
+			button 80 <eval(<local._while>*20)+152> 2117 2118 1 0 <db.row.<dlocal._while>.id>
+			dtext 100 <eval(<local._while>*20)+150> <local.color> <qval <isempty <ref1.tag.magicweapon>> ? <ref1.name>:<ref1.tag0.magicweapon> <ref1.name>><qval <dlocal.container> ?  - (<local.container_name>):>
+			dtext 480 <eval(<local._while>*20)+150> <local.color> <ref1.amount>
+			dtext 540 <eval(<local._while>*20)+150> <local.color> <bolukayir <ref1.dtag.fiyat>> gp
+			//dtext 440 <eval(<local._while>*20)+150> <local.color> <ref1.cont.name>
+			//local.sira ++
+		  //endif	
+		 //endif	
+		 else
+			db.execute delete from vendor_list_items where id='<db.row.<dlocal._while>.id>'
+		 endif
+	endwhile
+endif
+db.close
+
+PAGE 2
+src.ctag.selection weapon
+button 600 460 015a4 015a6 1 0 10002
+button 70 460 015a1 015a3 1 0 10003
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from vendor_list_items where item_type like '%t_weapon%' limit <src.dctag0.sayfa_limit>,15"
+	//local.sira 0
+	while <db.row.<dlocal._while>.id>
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		ref1=<db.row.<dlocal._while>.item_id>
+		if <ref1.dtag.fiyat> > 0
+			button 80 <eval(<local._while>*20)+152> 2117 2118 1 0 <db.row.<dlocal._while>.id>
+			dtext 100 <eval(<local._while>*20)+150> <local.color> <qval <isempty <ref1.tag.magicweapon>> ? <ref1.name>:<ref1.tag0.magicweapon> <ref1.name>> 
+			dtext 480 <eval(<local._while>*20)+150> <local.color> <ref1.amount>
+			dtext 540 <eval(<local._while>*20)+150> <local.color> <bolukayir <ref1.dtag.fiyat>> gp
+			//dtext 440 <eval(<local._while>*20)+150> <local.color> <ref1.cont.name>
+			//local.sira ++
+		  //endif	
+		 //endif	
+		else
+			db.execute delete from vendor_list_items where id='<db.row.<dlocal._while>.id>'
+		endif
+	endwhile
+endif
+db.close
+
+PAGE 3
+src.ctag.selection npc
+button 600 460 015a4 015a6 1 0 10004
+button 70 460 015a1 015a3 1 0 10005
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from vendor_list_items where item_type like '%t_figurine%' limit <src.dctag0.sayfa_limit>,15"
+	//local.sira 0
+	while <db.row.<dlocal._while>.id>
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		ref1=<db.row.<dlocal._while>.item_id>
+		if <ref1.dtag.fiyat> > 0
+			button 80 <eval(<local._while>*20)+152> 2117 2118 1 0  <db.row.<dlocal._while>.id>
+			dtext 100 <eval(<local._while>*20)+150> <local.color> <qval <isempty <ref1.tag.magicweapon>> ? <ref1.name>:<ref1.tag0.magicweapon> <ref1.name>> 
+			dtext 480 <eval(<local._while>*20)+150> <local.color> <ref1.amount>
+			dtext 540 <eval(<local._while>*20)+150> <local.color> <bolukayir <ref1.dtag.fiyat>> gp
+			//dtext 440 <eval(<local._while>*20)+150> <local.color> <ref1.cont.name>
+			//local.sira ++
+		  //endif	
+		 //endif	
+		else
+			db.execute delete from vendor_list_items where id='<db.row.<dlocal._while>.id>'
+		endif
+	endwhile
+endif
+db.close
+
+PAGE 4
+src.ctag.selection general
+button 600 460 015a4 015a6 1 0 10006
+button 70 460 015a1 015a3 1 0 10007
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from vendor_list_items where item_name like '%<src.ctag.mysql_keyword>%' limit <src.dctag0.sayfa_limit>,15"
+	//local.sira 0
+	while <db.row.<dlocal._while>.id>
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		
+		
+		ref1=<db.row.<dlocal._while>.item_id>
+		if <ref1.dtag.fiyat> > 0
+			
+			if <ref1.type> == t_container
+				local.container 1
+				forcont <ref1> 1
+					local.container_name <name>
+				endfor
+			else
+				local.container 0
+			endif	
+			button 80 <eval(<dlocal._while>*20)+152> 2117 2118 1 0 <db.row.<dlocal._while>.id>
+			dtext 100 <eval(<dlocal._while>*20)+150> <local.color> <qval <isempty <ref1.tag.magicweapon>> ? <ref1.name>:<ref1.tag0.magicweapon> <ref1.name>><qval <dlocal.container> ?  - (<local.container_name>):>
+			dtext 480 <eval(<dlocal._while>*20)+150> <local.color> <ref1.amount>
+			dtext 540 <eval(<dlocal._while>*20)+150> <local.color> <bolukayir <ref1.dtag.fiyat>> gp
+		else
+			db.execute delete from vendor_list_items where id='<db.row.<dlocal._while>.id>'
+		endif
+	endwhile
+endif
+db.close
+
+[dialog d_mysql_item_list button]
+on=1 9999
+if strmatch("general","<src.ctag.selection>")
+	serv.f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select * from vendor_list_items where id='<eval <argn>>'";
+		src.ctag0.buyingitem  <db.row.0.item_id>
+		sdialog d_evvendorlistesi 2
+	endif
+	db.close	
+	return 1
+endif
+
+
+if strmatch("weapon","<src.ctag.selection>")
+	serv.f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select * from vendor_list_items where id='<eval <argn>>'";
+		src.ctag0.buyingitem  <db.row.0.item_id>
+		sdialog d_evvendorlistesi 2
+	endif
+	db.close	
+	return 1
+endif
+
+if strmatch("npc","<src.ctag.selection>")
+	serv.f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select * from vendor_list_items where id='<eval <argn>>'";
+		src.ctag0.buyingitem  <db.row.0.item_id>
+		sdialog d_evvendorlistesi 2
+	endif
+	db.close	
+	return 1
+endif
+
+on=20001
+src.ctag.mysql_keyword
+src.ctag0.sayfa_limit 0
+sdialog d_mysql_item_list 1
+
+on=20002
+src.ctag.mysql_keyword
+src.ctag0.sayfa_limit 0
+sdialog d_mysql_item_list 2
+
+on=20003
+src.ctag.mysql_keyword
+src.ctag0.sayfa_limit 0
+sdialog d_mysql_item_list 3
+
+
+on=20004
+IF (<EVAL STRLEN(<argtxt[2]>)> < 3)
+	src.sys_error En az 3 karakter ile sorgulama yapabilirsiniz.
+	src.ctag0.sayfa_limit 0
+	sdialog d_mysql_item_list 1
+elseif !<isalfanum <argtxt[2]>>
+	src.sys_error Sadece sayı ve rakam aramada kullanılabilir.
+	return 1
+else
+	src.ctag.mysql_keyword <argtxt[2]>
+	src.ctag0.sayfa_limit 0
+	sdialog d_mysql_item_list 4
+endif
+
+on=10000 // Global
+src.ctag0.sayfa_limit +=15
+sdialog d_mysql_item_list 1
+
+on=10001 // Global
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+sdialog d_mysql_item_list 1
+
+on=10002 // Weapon
+src.ctag0.sayfa_limit +=15
+sdialog d_mysql_item_list 2
+
+on=10003 // Weapon
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+sdialog d_mysql_item_list 2
+
+
+on=10004 // NPC
+src.ctag0.sayfa_limit +=15
+sdialog d_mysql_item_list 3
+
+on=10005 // NPC
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+sdialog d_mysql_item_list 3
+
+on=10006 // ARAMA
+src.ctag0.sayfa_limit +=15
+sdialog d_mysql_item_list 4
+
+on=10007 // ARAMA
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+sdialog d_mysql_item_list 4
+
+
+
+
+
+// Faction database transfer //
+
+
+
+// saçma --- 
+
+[function vendor_item_listele2]
+serv.f_option_mysql 0
+db.connect 
+db.query truncate table vendor_list_items
+if <db.connected>
+	db.query "select * from vendor_list_genel";
+	while <db.row.<dlocal._while>.id>	
+		ref1=<db.row.<dlocal._while>.vendor_uid>
+			//serv.log <ref1.name> - <ref1.memoryfindtype.memory_ipet.link.name> 
+		ref2=<ref1.findlayer.layer_pack.uid>
+		forcont <ref2> 0
+			if (<dtag.fiyat> > 0)
+				db.execute insert vendor_list_items (item_id,item_type,item_name) values ('<uid>','<type>','<addslashes <qval <isempty <tag.magicweapon>> ? <name>:<tag0.magicweapon> <name>>>')
+			endif
+			if <type> == t_container //1 
+				ref2=<uid>
+				forcont <ref2> 0
+					if (<dtag.fiyat> > 0)
+						db.execute insert vendor_list_items (item_id,item_type,item_name) values ('<uid>','<type>','<addslashes <qval <isempty <tag.magicweapon>> ? <name>:<tag0.magicweapon> <name>>>')
+					endif
+					if <type> == t_container //2 
+						ref3=<uid>
+						forcont <ref3> 0
+							if (<dtag.fiyat> > 0)
+								db.execute insert vendor_list_items (item_id,item_type,item_name) values ('<uid>','<type>','<addslashes <qval <isempty <tag.magicweapon>> ? <name>:<tag0.magicweapon> <name>>>')
+							endif
+							if <type> == t_container //3 
+								ref4=<uid>
+								forcont <ref4> 0
+									if (<dtag.fiyat> > 0)
+										db.execute insert vendor_list_items (item_id,item_type,item_name) values ('<uid>','<type>','<addslashes <qval <isempty <tag.magicweapon>> ? <name>:<tag0.magicweapon> <name>>>')
+									endif
+								endfor
+							endif
+						endfor
+					endif
+				endfor
+			endif
+		endfor													
+	endwhile
+endif
+db.close
+
+[function f_aktar_faction_db]
+serv.f_option_mysql 0
+db.connect
+forplayers 8000
+		db.execute "insert faction VALUES (NULL, '<addslashes <uid>>','<addslashes <name>>','<addslashes <memoryfindtype.memory_guild.link.name>>','<dtag0.puan>');"
+endfor
+db.close
+
+// Genel vendor sistemi //
+
+[function f_aktar_vendor_db2]
+db.connect
+db.query truncate table vendor_list_genel
+forchars 7168
+	if (<baseid> == c_vendor_player_burak)
+			db.execute insert vendor_list_genel (vendor_uid, vendor_name) values ('<uid>','<name>')
+	endif
+endfor
+db.close		
+uid.0e439.f_aktar_vendor_db_malas2
+////////////////////
+
+[function f_aktar_vendor_db_malas2]
+serv.f_option_mysql 0
+db.connect
+forchars 7168
+	if (<baseid> == c_vendor_player_burak)
+			db.execute insert vendor_list_genel (vendor_uid, vendor_name) values ('<uid>','<name>')
+	endif
+endfor
+db.close
+///// EV VENDOR SATIŞ LİSTESİ ////////////////
+
+
+[dialog d_mysql_genel_satis]
+0,0
+
+//resizepic 50 100 2600 590 400
+resizepic 50 100 2620 620 400
+checkertrans 50 100 620 400
+
+dtext 100 120 48 Eşya
+dtext 240 120 48 Fiyat
+dtext 340 120 48 Satın Alan
+dtext 440 120 48 Tarih
+dtext 600 120 48 Hepsini Sil
+gumppictiled 100 140 560 5 3000
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+button 580 120 2117 2118 1 0 9999
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from vendor_satilan_itemlar where vendorismi='<name>' order by zaman desc limit <src.dctag0.sayfa_limit>,15"
+	//local.sira 0
+	while <db.row.<dlocal._while>.id>
+	 //if (<dlocal.sira> != <eval <src.ctag0.sayfa_limit> + 15>)
+	   //if strmatch("Dillon","<db.row.<dlocal._while>.vendorismi>")
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		
+		//button 80 <eval(<local._while>*20)+152> 2117 2118 1 0 <eval <dlocal._while>+1>
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <strsub 0 20 <db.row.<dlocal._while>.name>>
+		dtext 240 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.fiyat>
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.satinalan>
+		dtext 440 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.zaman>
+		//local.sira ++
+	  //endif	
+	 //endif	
+	endwhile
+endif
+db.close
+
+[dialog d_mysql_genel_satis button]
+on=9999
+serv.f_option_mysql 0
+db.connect
+db.execute delete from vendor_satilan_itemlar where vendorismi='<name>'
+sdialog d_mysql_genel_satis
+src.sys_error Veritabanından büyün satış listeniz kaldırıldı.
+db.close
+
+on=10000
+src.ctag0.sayfa_limit +=15
+sdialog d_mysql_genel_satis
+
+on=10001
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+sdialog d_mysql_genel_satis
+/////////////////////////////////
+[dialog d_mysql_genel_vendor]
+0,0
+
+//resizepic 50 100 2600 590 400
+resizepic 50 100 2620 620 400
+checkertrans 50 100 620 400
+
+dtext 100 120 48 Vendor
+dtext 220 120 48 Sahibi
+dtext 340 120 48 Kordinat
+dtext 480 120 48 T.Eşya
+dtext 560 120 48 T.Hasılat
+gumppictiled 100 140 520 5 3000
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from vendor_list_genel limit <eval <dctag0.sayfa_limit>>,<eval <dctag0.sayfa_limit> + 15>";
+	while <db.row.<dlocal._while>.id>
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		
+		ref1=<db.row.<dlocal._while>.vendor_uid>
+		ref2=<ref1.tag0.owner>
+		button 80 <eval(<local._while>*20)+152> 2117 2118 1 0 <eval <dlocal._while>+1>
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <ref1.name>
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <ref2.name>
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <ref1.p> ///<ref1.region.name>
+		dtext 480 <eval(<local._while>*20)+150> <local.color> <ref1.findlayer.layer_pack.count>
+		dtext 560 <eval(<local._while>*20)+150> <local.color> <bolukayir <eval <ref1.tag0.hasilat>>> gp
+	endwhile
+endif
+db.close
+
+[DIALOG d_mysql_genel_vendor button]
+on=0
+ctag0.sayfa_limit 0
+src.ctag0.alisveris
+on=10000
+ctag0.sayfa_limit +=15
+src.dialog d_mysql_genel_vendor
+
+on=10001
+if <ctag0.sayfa_limit> > 0
+	ctag0.sayfa_limit -=15
+endif
+src.dialog d_mysql_genel_vendor
+
+on=1 9999
+	serv.f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select * from vendor_list_genel where id='<eval <argn>>'";
+		ref1 = <db.row.0.vendor_uid>
+		
+		if (<src.flags>&statf_dead)
+			src.sys_error Şuanki durumunuda bu işlemi gerçekleştiremezsiniz.
+		elif !(<ref1.findlayer(21).count> > 0)
+			src.say_error Şuan bu vendorun satılık malı yok.
+		else
+			src.sys_error İyi alışverişler.
+			src.ctag0.pack <ref1.findlayer.21.uid>
+			src.ctag0.dialogindex 1
+			ref1.trysrc <src> sdialog d_evvendorlistesi
+			src.ctag0.alisveris 1
+			//face <src.uid>
+		endif
+		//src.sys_error <ref1.findplayer.layer_pack.name>
+		//serv.newdupe <ref1.findlayer.layer_pack.uid>
+		//new.attr=attr_move_never
+		//new.cont=<src.findlayer.layer_bankbox.uid>
+		//FORCONT <new> 0
+		//attr=attr_move_never
+		//endfor
+		//bank
+		//new.open
+		
+		
+		//src.sys_error 2 dakika boyunca vendor içeriğini inceleyebilirsiniz.
+		
+		//timerf 120,try uid.<new.uid>.remove
+    endif
+	db.close
+
+// SON YARISMALAR //
+
+[dialog d_mysql_son_yarismalar]
+0,0
+
+//resizepic 50 100 2600 590 400
+resizepic 50 100 2620 590 400
+checkertrans 50 100 590 400
+
+dtext 100 120 48 Yarışma
+dtext 280 120 48 Kazanan
+dtext 400 120 48 Zaman
+
+gumppictiled 100 140 500 5 3000
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from son_etkinlikler order by tarih desc limit <src.dctag0.sayfa_limit>,15";
+	while <db.row.<dlocal._while>.id>
+		
+		
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		
+		if strmatch("*Pvp*","<db.row.<dlocal._while>.yarisma>")
+			local.color 38
+		endif
+		
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.yarisma>
+		dtext 280 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.kazanan>
+		dtext 400 <eval(<local._while>*20)+150> <local.color> <STRSUB 5 20 <db.row.<dlocal._while>.tarih>>
+		//dtext 480 <eval(<local._while>*20)+150> <local.color> <STRSUB 5 20 <db.row.<dlocal._while>.when_time>>
+	endwhile
+endif
+db.close
+
+[dialog d_mysql_son_yarismalar button]
+on=10000
+src.ctag0.sayfa_limit +=15
+src.dialog d_mysql_son_yarismalar
+
+on=10001
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+src.dialog d_mysql_son_yarismalar
+
+// SON OLUMLER //
+
+[dialog d_mysql_son_olenler]
+0,0
+
+//resizepic 50 100 2600 590 400
+resizepic 50 100 2620 590 400
+checkertrans 50 100 590 400
+
+dtext 100 120 48 Ölen
+dtext 220 120 48 Öldüren
+dtext 340 120 48 Yer
+dtext 480 120 48 Zaman
+gumppictiled 100 140 500 5 3000
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from son_olumler order by when_time desc limit <src.dctag0.sayfa_limit>,15";
+	while <db.row.<dlocal._while>.id>
+		
+		if (<eval <dlocal._while>%2> == 1)
+		local.color=69
+		else
+		local.color 0455
+		endif
+		
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.killer>
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.killed>
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <strsub 0 19 <db.row.<dlocal._while>.where_die>>
+		dtext 480 <eval(<local._while>*20)+150> <local.color> <STRSUB 5 20 <db.row.<dlocal._while>.when_time>>
+	endwhile
+endif
+db.close
+
+[dialog d_mysql_son_olenler button]
+
+on=10000
+src.ctag0.sayfa_limit +=15
+src.dialog d_mysql_son_olenler
+
+on=10001
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+src.dialog d_mysql_son_olenler
+
+// TOP 10 - Player//
+
+[dialog d_mysql_top_10]
+0,0
+
+//resizepic 50 100 2600 490 400
+resizepic 50 100 2620 490 400
+checkertrans 50 100 490 400
+
+dtext 100 120 48 İsim
+dtext 220 120 48 Guild
+dtext 370 120 48 Puan
+dtext 460 120 48 Kill
+gumppictiled 100 140 400 5 3000
+//button 600 460 015a4 015a6 1 0 10000
+//button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from faction order by puan desc limit  15";
+	while <db.row.<dlocal._while>.id>
+		
+	    if <eval <dlocal._while>+1> == 1)
+		local.color=38
+	    else
+		local.color=69
+	    endif
+
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <eval <dlocal._while>+1>- <db.row.<dlocal._while>.isim>
+		
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.destek>
+		dtext 370 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.puan>
+		dtext 460 <eval(<local._while>*20)+150> <local.color> <uid.<db.row.<dlocal._while>.uid>.kills>
+	endwhile
+endif
+db.close
+
+// Top 10 - Guild //
+
+[dialog d_mysql_top_guild]
+0,0
+
+resizepic 50 100 2620 550 400
+checkertrans 50 100 550 400
+
+dtext 100 120 48 İsim
+dtext 250 120 48 Puan
+dtext 340 120 48 Master
+dtext 460 120 48 Kısaltma
+gumppictiled 100 140 450 5 3000
+//button 600 460 015a4 015a6 1 0 10000
+//button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from guild_list order by guild_puan desc limit  15";
+	while <db.row.<dlocal._while>.id>
+		if <eval <dlocal._while>+1> == 1)
+		local.color=38
+	    else
+		local.color=69
+	    endif
+		
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <eval <dlocal._while>+1>- <db.row.<dlocal._while>.guild_name>
+		dtext 250 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.guild_puan>
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.guild_master>
+		dtext 460 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.guild_abrv>
+	endwhile
+endif
+db.close
+
+
+/// EN ZENGINLER //
+
+[dialog d_mysql_en_zenginler]
+0,0
+
+resizepic 50 100 2620 590 400
+checkertrans 50 100 590 400
+dtext 100 120 48 İsim
+dtext 220 120 48 Toplam Bakiye
+dtext 340 120 48 Aktif Süre
+//dtext 520 120 48 Zaman
+gumppictiled 100 140 500 5 3000
+//button 600 460 015a4 015a6 1 0 10000
+//button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from en_zenginler order by para desc limit 15";
+	while <db.row.<dlocal._while>.id>
+		if <eval <dlocal._while>+1> == 1)
+			local.color=38
+	    	else
+			local.color=69
+	    	endif
+		
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <eval <dlocal._while>+1>- <db.row.<dlocal._while>.isim>
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <bolukayir <db.row.<dlocal._while>.para>> gp
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <ftime <eval <db.row.<dlocal._while>.aktifsure>*3600>>
+		//dtext 520 <eval(<local._while>*20)+150> <local.color> <STRSUB 5 20 <db.row.<dlocal._while>.when_time>>
+	endwhile
+endif
+db.close
+
+// Spawn List //
+
+[dialog d_mysql_spawn_list]
+0,0
+
+resizepic 50 100 2620 590 400
+checkertrans 50 100 590 400
+dtext 100 120 48 Binek
+dtext 220 120 48 Bölge
+dtext 340 120 48 
+//dtext 520 120 48 Zaman
+gumppictiled 100 140 500 5 3000
+//button 600 460 015a4 015a6 1 0 10000
+//button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from en_zenginler order by para desc limit 15";
+	while <db.row.<dlocal._while>.id>
+		if <eval <dlocal._while>+1> == 1
+			local.color=38
+	    	else
+			local.color=69
+	    endif
+		
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <eval <dlocal._while>+1>- <db.row.<dlocal._while>.isim>
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <bolukayir <db.row.<dlocal._while>.para>> gp
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <ftime <eval <db.row.<dlocal._while>.aktifsure>*3600>>
+		//dtext 520 <eval(<local._while>*20)+150> <local.color> <STRSUB 5 20 <db.row.<dlocal._while>.when_time>>
+	endwhile
+endif
+db.close
+
+
+
+//////////////// MYSQL STATISTICS ///
+
+[DIALOG d_mysql_statistics]
+0,0
+page 0
+resizepic 21 64 2620 452 64
+checkertrans 21 64 452 64
+button 42 75 2117 2118 1 0 1
+//text 62 74 121 18 367 0 0
+dtext 62 74 69 Son Ölümler
+button 192 76 2117 2118 1 0 2
+//text 213 74 121 18 367 0 1
+dtext 213 74 69 En Zenginler
+button 42 101 2117 2118 1 0 3
+//text 62 100 121 18 367 0 2
+dtext 62 100 69 Son Yarışmalar
+button 192 102 2117 2118 1 0 4
+//text 213 101 121 18 367 0 3
+dtext 213 101 69 Aileler
+button 341 77 2117 2118 1 0 5
+//text 361 74 121 18 367 0 4
+dtext 361 74 69 Top List (Guild)
+button 341 103 2117 2118 1 0 6
+//text 362 100 121 18 367 0 5
+dtext 362 100 69 Top List (Player)
+
+
+[DIALOG d_mysql_statistics button]
+ON=1
+src.ctag0.sayfa_limit 0
+src.dialog d_mysql_son_olenler
+// Button 1
+// 
+
+ON=2
+src.dialog d_mysql_en_zenginler
+// Button 2
+// 
+
+ON=3
+src.ctag0.sayfa_limit 0
+src.dialog d_mysql_son_yarismalar
+// Button 3
+// 
+
+ON=4
+src.sys_error Yapim asamasindadir.
+// Button 4
+// 
+
+ON=5
+src.dialog d_mysql_top_guild
+// Button 5
+// 
+
+ON=6
+src.dialog d_mysql_top_10
+// Button 6
+// 
+
+
+/////CRAFT PUAN LIST ////
+
+
+
+[dialog d_mysql_best_crafts]
+0,0
+
+//resizepic 50 100 2600 590 400
+resizepic 50 100 2620 590 400
+checkertrans 50 100 590 400
+
+dtext 100 120 48 İsim
+dtext 220 120 48 Zanaat
+dtext 340 120 48 Craft Puan
+//dtext 480 120 48 
+gumppictiled 100 140 500 5 3000
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select * from best_crafters order by puan desc limit <src.dctag0.sayfa_limit>,15";
+	while <db.row.<dlocal._while>.id>
+		
+		if <eval <dlocal._while>+1> == 1
+			local.color=38
+	    else
+			local.color=69
+	    endif
+		
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.name>
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.title>
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <strsub 0 19 <db.row.<dlocal._while>.puan>>
+		//dtext 480 <eval(<local._while>*20)+150> <local.color> <STRSUB 5 20 <db.row.<dlocal._while>.when_time>>
+	endwhile
+endif
+db.close
+
+[dialog d_mysql_best_crafts button]
+
+on=10000
+src.ctag0.sayfa_limit +=15
+src.dialog d_mysql_best_crafts
+
+on=10001
+if <src.ctag0.sayfa_limit> > 0
+	src.ctag0.sayfa_limit -=15
+endif
+src.dialog d_mysql_best_crafts
+
+[EOF]

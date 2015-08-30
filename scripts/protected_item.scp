@@ -1,0 +1,27 @@
+[typedef t_protected_item]
+
+on=@pickup_ground
+message @0482 This item is protected, it can not be picked up.
+return 1
+
+on=@destroy
+//message @0482 This item is protected, it can not be removed.
+//return 1
+
+
+[ITEMDEF i_logout_suresi]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Logout Suresi
+
+ON=@Create
+attr=attr_move_never|attr_can_decay|attr_invis
+
+
+ON=@Timer
+try uid.<cont.uid>.disconnect
+//cont.sendpacket 082 04
+REMOVE
+return 1
+
+[eof]

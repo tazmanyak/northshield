@@ -1,0 +1,269 @@
+[function f_general_information]
+forinstances i_backpack
+		if <attr> == 014
+		  if !(<layer> == 21)
+			//if <cont.isplayer>
+				serv.writefile2 C:\bugcular.txt <cont.name>
+			//endif
+		  endif
+		endif
+endfor
+[function f_check_bilet_system]
+
+for 0 <eval <serv.accounts> -1>
+	serv.log Online Sure : <EVAL <eval <serv.account.<dlocal._for>.totalconnecttime>/60>-<eval <serv.account.<dlocal._for>.tag0.connecttimeused>>>
+endfor
+
+[function f_status_money]
+local.total_gold = 0
+forinstances i_gold
+	local.total_gold += <amount>
+endfor
+
+serv.log Toplam para : <eval <local.total_gold>>
+	
+
+[function f_duzelt_aglar]
+forinstances i_potion_curegreat
+	MORE2=150.0
+endfor
+
+
+[function f_sil_evler]
+forinstances i_sign_brass
+	if <timer> !=-1
+		timer 1
+	endif
+endfor
+
+[function f_sil_locked_down]
+foritems 65000
+	if <isevent.t_locked_down>
+		serv.log ## <name>
+		remove
+	endif
+endfor
+
+[function gospawn]  // spawnlara gitmek için  örn: gospawn c_llama
+if !(<isempty <args>>)
+	if (<serv.chardef.<args>>)
+		ctag0.spawn<args>
+		foritems 65000
+			if (<baseid>==i_worldgem_bit)
+				if (<more>==<args>)
+					src.sys_normal Spawn Bulundu-> UID: <uid>
+					src.ctag0.spawn<args> += 1
+					src.ctag.<args><eval <src.ctag0.spawn<args>>> <uid>
+				endif
+			endif
+		endfor
+	else
+		sys_normal Sunucuda <args> olarak bir karakter tanimli degil
+		return 1
+	endif
+else
+	sys_normal Kullanimi -> .gospawn c_llama
+	return 1
+endif
+if !(<ctag0.spawngo>)
+	sys_normal Bulunan 1. spawna gidiyorsunuz.
+	ctag.spawngo 1
+	gouid <ctag0.<args>1>
+else
+	if !(<eval <ctag0.spawngo>+1> > <eval <ctag0.spawn<args>>>)
+		sys_normal Bulunan <eval <ctag0.spawngo>+1>. spawna gidiyorsunuz.
+		gouid <ctag.<args><eval <ctag0.spawngo>+1>>
+		ctag.spawngo += 1
+	else
+		sys_normal Spawnlarin sonuna ulastiniz.
+		ctag.spawngo
+		ctag.spawn<args>
+	endif
+endif
+
+
+
+[comments bug_ring_1]
+local.counter_1 = 0
+local.counter_2 = 0	
+local.itemlist=
+forinstances i_ibranice_ring
+	IF <ATTR>&04
+		local.counter_1 ++
+		remove
+	endif
+endfor
+
+forinstances i_ibranice_earrings
+	IF <ATTR>&04
+		local.counter_2 ++
+		remove
+	endif
+endfor
+
+serv.log Ring Abused : <dlocal.counter_1> , Earrings Abused : <dlocal.counter_2>
+
+[function f_bul_siyah_rare]
+forinstances i_dye_black_5
+	ref1 = <uid>
+	ref2 = <ref1.cont.uid>
+	ref3 = <ref2.cont.uid>
+	ref4 = <ref3.cont.uid>
+	serv.writefile2 C:\BUG_ABUSE\RARE.txt Konum : | <ref1.name> - <ref1.cont> | <ref2.uid> - <ref2.name> | <ref3.uid> - <ref3.name> | <ref4.uid> - <ref4.name> |
+endfor
+
+[function f_bug_abuse_remove]
+local.counter_1 = 0
+local.counter_2 = 0
+local.counter_3 = 0
+
+forinstances i_robe_warlock
+	local.counter_1 ++
+endif
+
+forinstances i_protective_magerobe
+	local.counter_2 ++
+endif
+	
+forinstances i_robe_warrior
+	local.counter_3 ++
+endif
+
+//src.sys_normal Warlock : <dlocal.counter_1>, Pm : <dlocal.counter_2>, Warrior : <dlocal.counter_3>
+
+local.total = Ilk Sayim : WArlock : <dlocal.counter_1>, Pm : <dlocal.counter_2>, Warrior : <dlocal.counter_3>
+
+
+local.counter_11 = 0
+local.counter_22 = 0
+local.counter_33 = 0
+
+forinstances i_robe_warlock
+  if strmatch(<name>,Warlock Robe)
+	ref1 = <uid>
+	ref2 = <ref1.cont.uid>
+	ref3 = <ref2.cont.uid>
+	ref4 = <ref3.cont.uid>
+	serv.writefile2 C:\BUG_ABUSE\warlock.txt Konum : | <ref1.name> - <ref1.cont> | <ref2.uid> - <ref2.name> | <ref3.uid> - <ref3.name> | <ref4.uid> - <ref4.name> |
+	local.counter_11 ++
+  endif
+endif
+
+forinstances i_protective_magerobe
+  if strmatch(<name>,Protective Pure Mage Robe)
+	ref1 = <uid>
+	ref2 = <ref1.cont.uid>
+	ref3 = <ref2.cont.uid>
+	ref4 = <ref3.cont.uid>
+	serv.writefile2 C:\BUG_ABUSE\pm.txt Konum : | <ref1.name> - <ref1.cont> | <ref2.uid> - <ref2.name> | <ref3.uid> - <ref3.name> | <ref4.uid> - <ref4.name> |
+	local.counter_22 ++
+  endif
+endif
+	
+forinstances i_robe_warrior
+  if strmatch(<name>,Warrior Robe)
+	ref1 = <uid>
+	ref2 = <ref1.cont.uid>
+	ref3 = <ref2.cont.uid>
+	ref4 = <ref3.cont.uid>
+	serv.writefile2 C:\BUG_ABUSE\warrior.txt Konum : | <ref1.name> - <ref1.cont> | <ref2.uid> - <ref2.name> | <ref3.uid> - <ref3.name> | <ref4.uid> - <ref4.name> |
+  	local.counter_33 ++
+  endif
+endif
+	
+src.sys_normal <local.total>
+src.sys_normal Son Sayim : Warlock : <dlocal.counter_11>, Pm : <dlocal.counter_22>, Warrior : <dlocal.counter_33>
+
+
+[function f_slime_control]
+local.spawn_count = 0
+forinstances i_spawn_koruma
+	timer 5
+endfor
+
+
+
+[function f_spawn_check_exist]
+if !(strmatch(*Wind*,<region.name>))
+local.spawn = 0
+foritems 50
+	if (<baseid> == i_anti_mark_koy)
+		local.spawn = 1
+		return 1
+	endif		
+endfor
+return 0
+endif
+
+
+[function f_count_spawn]
+local.count_wyrm = 0
+local.count_ancient_wyrm = 0
+local.count_balron = 0
+local.count_dragon = 0
+local.count_golem = 0
+
+
+forchars 6144
+	if strmatch(*Golem*,"<name>")
+		local.count_golem ++
+		SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Golem.txt <region.name> - <p> - <name>
+	endif
+endfor
+
+forchars 6144
+	if !(strmatch("<name>","Ancient Wyrm"))
+		if strmatch(*wyrm*,"<name>")
+			local.count_wyrm ++
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Wyrm.txt <region.name> - <p> - <name>
+		endif
+	endif
+endfor
+
+forchars 6144
+	if strmatch(*Ancient Wyrm*,"<name>")
+		local.count_ancient_wyrm ++
+		SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Ancient_Wyrm.txt <region.name> - <p> - <name>
+	endif
+endfor
+
+
+forchars 6144
+	if strmatch(*Dragon*,"<name>")
+		local.count_dragon ++
+		SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Dragon.txt <region.name> - <p> - <name>
+	endif
+endfor
+
+forchars 6144
+	if strmatch(*Balron*,"<name>")
+		local.count_balron ++
+		SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Balron.txt <region.name> - <p> - <name>
+	endif
+endfor
+
+
+
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Report_Npc.txt Toplam Ancient Wyrm : <dlocal.count_ancient_wyrm> adet
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Report_Npc.txt Toplam Wyrm : <dlocal.count_wyrm> adet
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Report_Npc.txt Toplam Balron : <dlocal.count_balron> adet
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Report_Npc.txt Toplam Dragon : <dlocal.count_dragon> adet
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\Spawn_Count\Report_Npc.txt Toplam Golem : <dlocal.count_golem> adet		
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+[EOF]

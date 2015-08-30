@@ -1,0 +1,58 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Soulless - Original Script
+// ShiryuX - Updated a little for SCP
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Ethereal Mounts
+
+[TYPEDEF t_figurine_ethereal]
+on=@dclick
+if <f_cannot_mount>
+return 1
+else
+SRC.nomoves <EVAL (<def.scp.EtherealMount_Delay> * 10)>,0,<DEF.nv_t_EtherealMount>
+src.f_LoopAnim 16,<eval (<def.scp.EtherealMount_Delay> / 2)>,2
+timerf <def.scp.EtherealMount_Delay>,f_mount_ethereal <tdata1>
+endif
+
+[FUNCTION f_mount_ethereal]
+serv.newnpc <args>
+new.f_MakePetOf <src.uid>
+new.tag.EthMount = <baseid>
+new.mount <src>
+consume
+
+[FUNCTION f_cannot_mount]
+if !(<topobj.isplayer>)
+src.sysmessage You cannot use this where it is.
+return 1
+else
+	if (<topobj.uid>!=<src.uid>)
+	src.sysmessage This is not yours to use.
+	return 1
+	elseif (<src.flags>&statf_dead)
+	src.sysmessage You can't use that right now.
+	return 1
+	elseif (<src.flags>&statf_polymorph)
+	src.sysmessage You can't use that while polymorphed.
+	return 1
+	elseif (<src.findlayer.25.uid>)
+	src.sysmessage You are already on a mount.
+	return 1
+	else
+	return 0
+	endif
+endif
+
+
+[eof]

@@ -1,0 +1,52 @@
+[CHARDEF c_wood_elf_archer]
+DEFNAME=c_wood_elf_archer
+ID=C_elf_male
+NAME=#NAMES_ELF_MALE the Wood-Elf Archer
+SOUND=snd_HUMAN_M_DIE_01
+DAM=5,15
+ARMOR=9
+CAN=MT_EQUIP|MT_RUN|MT_USEHANDS|MT_WALK
+
+TSPEECH=jobFighter
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=0597
+
+CATEGORY=Civilized
+SUBSECTION=Wood Elves
+DESCRIPTION=Wood-Elf Archer
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	COLOR=0597
+
+	KARMA={-2000 -4000}
+
+	STR={ 40 50 }
+	DEX={ 45 60 }
+	INT={ 30 50 }
+
+	ARCHERY={ 50.0 70.0 }
+	BOWCRAFT={ 60.0 80.0 }
+	MAGICRESISTANCE={ 15.0 38.0 }
+	SPIRITSPEAK={ 30.0 100.0 }
+	SWORDSMANSHIP={ 30.0 50.0 }
+	TACTICS={ 40.0 60.0 }
+	WRESTLING={ 25.0 40.0 }
+
+	ITEMNEWBIE=i_hair_long
+
+ON=@NPCRestock
+	ITEM=i_arrow,{ 20 40 }
+	ITEM=I_LEATHER_TUNIC
+	COLOR=0599
+	ITEM=i_leather_gloves
+	COLOR=0599
+	ITEM=i_leather_leggings
+	COLOR=0599
+	ITEM=i_bow
+	ITEM=i_sandals
+	ITEM=i_gold,{ 50 110 }
+
+[EOF]

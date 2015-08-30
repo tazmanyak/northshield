@@ -1,0 +1,126 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF i_granite]
+ID=01779
+NAME=High quality granite
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Granite
+
+ON=@Create
+COLOR=color_o_granite
+
+[ITEMDEF i_granite_dull_copper]
+ID=01779
+NAME=high quality granite (dull copper)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Dull Copper Granite
+
+ON=@Create
+COLOR=color_o_dull_copper
+
+[ITEMDEF i_granite_shadow]
+ID=01779
+NAME=high quality granite (shadow)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Shadow Granite
+
+ON=@Create
+COLOR=color_o_shadow
+
+[ITEMDEF i_granite_copper]
+ID=01779
+NAME=high quality granite (copper)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Copper Granite
+
+ON=@Create
+COLOR=color_o_copper
+
+[ITEMDEF i_granite_bronze]
+ID=01779
+NAME=high quality granite (bronze)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Bronze Granite
+
+ON=@Create
+COLOR=color_o_bronze
+
+[ITEMDEF i_granite_gold]
+ID=01779
+NAME=high quality granite (gold)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Gold Granite
+
+ON=@Create
+COLOR=color_o_gold
+
+[ITEMDEF i_granite_agapite]
+ID=01779
+NAME=high quality granite (agapite)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Agapite Granite
+
+ON=@Create
+COLOR=color_o_agapite
+
+[ITEMDEF i_granite_verite]
+ID=01779
+NAME=high quality granite (verite)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Verite Granite
+
+ON=@Create
+COLOR=color_o_verite
+
+[ITEMDEF i_granite_valorite]
+ID=01779
+NAME=high quality granite (valorite)
+TYPE=t_normal
+SKILLMAKE=MINING 100.0
+WEIGHT=1.0
+CATEGORY=Resources - Mining
+SUBSECTION=Granite
+DESCRIPTION=Valorite Granite
+
+ON=@Create
+COLOR=color_o_valorite
+
+[eof]

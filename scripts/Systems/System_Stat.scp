@@ -1,0 +1,417 @@
+﻿[function f_stat_lock]
+//serv.log <local.4>
+//serv.lo <args>
+if (<local.4> == 01a)
+//serv.log asds
+ref1 <local.char>
+  ref1.message @,,1 Lütfen statlarınızı .stat ile kilitleyiniz.
+endif
+if (<local.5> == 01a)
+ref1 <local.char>
+  ref1.message @,,1 Lütfen statlarınızı .stat ile kilitleyiniz.
+endif
+
+if (<local.6> == 01a)
+ref1 <local.char>
+  ref1.message @,,1 Lütfen statlarınızı .stat ile kilitleyiniz.
+endif
+
+[function stat]
+IF (<src.MEMORYFINDTYPE.memory_fight>)
+	src.sysmessage @69,1,1 Savas Halindeyken bu menuyu kullanamassiniz.
+	return 1
+elseif (<src.flags>&statf_war)
+		src.sys_error Savas modundayken etkinlige katilamazsiniz.
+		return 1
+endif
+
+sdialog d_stat_new
+
+[DIALOG d_stat_new]
+0,0
+//nomove
+
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 330
+//alphablack 60 160 490 310
+dtext 75 170 048 Stat puanı dağıtımı.
+dhtmlgump 75 190 470 55 0 0 <def.bfont_white>Bu bölüm aracılığı ile karakterinizin stat puanlarını düzenleyebilirsiniz.<def.br><def.br>Maksimum stat toplam değeri 225'den fazla olamaz.//- En fazla 100'e kadar yükseltebilir, 25'e kadar düşürebilirsiniz.
+dtext 470 450 048 Kilitle
+button 510 450 4006 4007 1 0 1
+//button 65 450 09a2 09a3 1 0 2
+//dtext 250 295 1152 +1
+//dtext 280 295 1152 +5
+//dtext 310 295 1152 +10
+dtext 270 295 1152 -1
+dtext 300 295 1152 -5
+dtext 330 295 1152 -10
+dtext 180 320 048 Str (<str>):
+//button 250 320 0fa 0fb 1 0 3
+//button 280 320 0fa 0fb 1 0 4
+//button 310 320 0fa 0fb 1 0 5
+button 270 320 0fc 0fd 1 0 6
+button 300 320 0fc 0fd 1 0 7
+button 330 320 0fc 0fd 1 0 8
+dtext 180 340 048 Dex (<dex>):
+//button 250 340 0fa 0fb 1 0 9
+//button 280 340 0fa 0fb 1 0 10
+//button 310 340 0fa 0fb 1 0 11
+button 270 340 0fc 0fd 1 0 12
+button 300 340 0fc 0fd 1 0 13
+button 330 340 0fc 0fd 1 0 14
+dtext 180 360 048 Int (<int>):
+//button 250 360 0fa 0fb 1 0 15
+//button 280 360 0fa 0fb 1 0 16
+//button 310 360 0fa 0fb 1 0 17
+button 270 360 0fc 0fd 1 0 18
+button 300 360 0fc 0fd 1 0 19
+button 330 360 0fc 0fd 1 0 20
+
+
+//resizepic 160 0 2620 140 210
+//checkertrans 165 5 130 200
+
+
+//resizepic 120 210 2620 220 120
+//checkertrans 125 215 210 110
+
+//dhtmlgump 180 20 300 20 0 0 <def.bfont_white> Stat Sistemi
+
+//htmlgump 130 220 200 100 0 1 0
+
+//dhtmlgump 180 60 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7> Str
+//dhtmlgump 180 90 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7> Dex
+//dhtmlgump 180 120 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7> Int
+
+//dhtmlgump 210 60 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7> =
+//dhtmlgump 210 90 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7> =
+//dhtmlgump 210 120 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7> =
+
+//dtextentrylimited 250 60 90 60 32 1 3 <src.str>
+//dtextentrylimited 250 90 90 60 32 2 3 <src.dex>
+//dtextentrylimited 250 120 90 60 32 3 3 <src.int>
+
+//button 200 160 239 240 1 0 1
+
+
+[DIALOG d_stat_new text]
+//Statcap 225'tir. Statlarinizi, toplami 225 olacak sekilde ayarlayip APPLY butonuna bastiginizda otomatik korumaya alacaktir.
+
+[dialog d_stat_new button]
+on=3 5
+if <dargn>==3
+local.addstat=1
+elif <dargn>==4
+local.addstat=5
+elif <dargn>==5
+local.addstat=10
+endif
+if <local.addstat>
+if <eval(<str>+<dlocal.addstat>)> > 100
+sys_error Daha fazla arttıramazsınız.
+elif <eval(<stattotal>+<dlocal.addstat>)> > 225
+sys_error Stat toplamınız en fazla 225 olabilir
+else
+str=<eval(<str>+<dlocal.addstat>)>
+endif
+src.stat
+on=6 8
+if <dargn>==6
+local.removestat=1
+elif <dargn>==7
+local.removestat=5
+elif <dargn>==8
+local.removestat=10
+endif
+if <local.removestat>
+if <eval(<str>-<dlocal.removestat>)> < 25
+sys_error Daha fazla azaltamazsınız.
+else
+str=<eval(<str>-<dlocal.removestat>)>
+endif
+endif
+src.stat
+
+on=9 11
+if <dargn>==9
+local.addstat=1
+elif <dargn>==10
+local.addstat=5
+elif <dargn>==11
+local.addstat=10
+endif
+if <local.addstat>
+if <eval(<dex>+<dlocal.addstat>)> > 100
+sys_error Daha fazla arttıramazsınız.
+elif <eval(<stattotal>+<dlocal.addstat>)> > 225
+sys_error Stat toplamınız en fazla 255 olabilir
+else
+dex=<eval(<dex>+<dlocal.addstat>)>
+endif
+src.stat
+
+on=12 14
+if <dargn>==12
+local.removestat=1
+elif <dargn>==13
+local.removestat=5
+elif <dargn>==14
+local.removestat=10
+endif
+if <local.removestat>
+if <eval(<dex>-<dlocal.removestat>)> < 25
+sys_error Daha fazla azaltamazsınız.
+else
+dex=<eval(<dex>-<dlocal.removestat>)>
+endif
+endif
+src.stat
+
+on=15 17
+if <dargn>==15
+local.addstat=1
+elif <dargn>==16
+local.addstat=5
+elif <dargn>==17
+local.addstat=10
+endif
+if <local.addstat>
+if <eval(<int>+<dlocal.addstat>)> > 100
+sys_error Daha fazla arttıramazsınız.
+elif <eval(<stattotal>+<dlocal.addstat>)> > 225
+sys_error Stat toplamınız en fazla 255 olabilir
+else
+int=<eval(<int>+<dlocal.addstat>)>
+endif
+src.stat
+
+on=18 20
+if <dargn>==18
+local.removestat=1
+elif <dargn>==19
+local.removestat=5
+elif <dargn>==20
+local.removestat=10
+endif
+if <local.removestat>
+if <eval(<int>-<dlocal.removestat>)> < 25
+sys_error Daha fazla azaltamazsınız.
+else
+int=<eval(<int>-<dlocal.removestat>)>
+endif
+endif
+src.stat
+
+on=1
+src.SPELLEFFECT s_dispel,100.0
+
+src.findlayer(1).bounce
+src.findlayer(2).bounce
+src.findlayer(3).bounce
+src.findlayer(4).bounce
+src.findlayer(5).bounce
+src.findlayer(6).bounce
+src.findlayer(7).bounce
+src.findlayer(8).bounce
+src.findlayer(10).bounce
+src.findlayer(12).bounce
+src.findlayer(13).bounce
+src.findlayer(14).bounce
+src.findlayer(17).bounce
+src.findlayer(18).bounce
+src.findlayer(19).bounce
+src.findlayer(20).bounce
+src.findlayer(22).bounce
+src.findlayer(23).bounce
+src.findlayer(24).bounce
+local.stats <eval(<src.str>+<src.int>+<src.dex>)>
+if (<eval <local.stats>> == 225)
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1
+	src.sysmessage @077a,,1 Stat'lariniz korumaya alindi.
+	src.tag.ostr <src.str>
+	src.tag.odex <src.dex>
+	src.tag.oint <src.int>
+	src.maxhits
+	src.maxmana
+	src.maxstam
+	src.events -e_str
+	src.events -e_dex
+	src.events -e_int
+	src.events +e_spr
+	//src.sys_error Statlarınız korumaya alındı.
+	return 1
+
+else
+	src.sys_error Statlarınız düzgün olmadığı için korumaya alınmadı.
+	return 1
+endif
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[events e_spr]
+On=@SkillStart
+//if <src.findid.i_rune_polymorph>
+//	 if (<src.id> == c_bird) || (<src.id> == c_chicken)
+//		if !<ctag.poly_effect>
+//			//modstr
+//			//moddex
+//			//modint
+//			//ctag.poly_effect 1
+//		endif
+//	endif
+//endif
+	
+
+//local.stats <eval(<src.tag.ostr>+<src.tag.oint>+<src.tag.odex>)>
+if (<eval(<str>+<int>+<dex>)> > 225)//if !(<eval <local.stats>> == 225)
+	//local.doom 0
+	//for 24
+	//	if <src.findlayer.<dlocal._for>>
+	//		if <src.findlayer(<dlocal._for>).isevent.t_luck_item>//t_luck_item strmatch(*doom*,<src.findlayer(<dlocal._for>).baseid>)//(strmatch(*doom*,<src.findlayer(<dlocal._for>).baseid>) || strmatch(*slayer*,<src.findlayer(<dlocal._for>).baseid>))
+	//			local.doom 1
+	//			serv.log xxxxx
+	//		endif
+	//	endif
+	//endfor
+	if <src.isevent.e_luck_item>
+		local.doom 1
+	endif
+	
+	if <src.findid.i_rune_polymorph>
+		local.doom 1
+	endif
+  if (<src.findlayer(32)> || <src.findlayer(44)> || <src.findlayer(47)> || <dlocal.doom>)//|| strmatch(*doom*,<src.findlayer(1).baseid>) || strmatch(*doom*,<src.findlayer(2).baseid>) || strmatch(*doom*,<src.findlayer(7).baseid>) || strmatch(*doom*,<src.findlayer(6).baseid>))
+	return 0
+  else
+	src.str <src.tag.ostr>
+	src.int <src.tag.oint>
+	src.dex <src.tag.odex>
+	src.maxhits //<tag.str>
+	src.maxmana //<tag.int>
+	src.maxstam //<tag.dex>
+  endif
+endif
+
+On=@EnvironChange
+if <eval <ostr> + <modstr>> < 95
+	if (<findlayer.2.baseid> == i_halberd)
+		src.findlayer.2.unequip
+	endif
+endif
+
+//local.stats <eval(<src.tag.ostr>+<src.tag.oint>+<src.tag.odex>)>
+if (<eval(<str>+<int>+<dex>)> > 225)//if !(<eval <local.stats>> == 225)
+	//local.doom 0
+	if <src.isevent.e_luck_item>
+		local.doom 1
+	endif
+	
+	if <src.findid.i_rune_polymorph>
+		local.doom 1
+	endif
+	
+  if (<src.findlayer(32)> || <src.findlayer(44)> || <src.findlayer(47)> || <dlocal.doom>)//|| strmatch(*doom*,<src.findlayer(1).baseid>) || strmatch(*doom*,<src.findlayer(2).baseid>) || strmatch(*doom*,<src.findlayer(7).baseid>) || strmatch(*doom*,<src.findlayer(6).baseid>))
+	return 0
+  else
+	src.str <src.tag.ostr>
+	src.int <src.tag.oint>
+	src.dex <src.tag.odex>
+	src.maxhits //<tag.str>
+	src.maxmana //<tag.int>
+	src.maxstam //<tag.dex>
+  endif
+endif
+
+[events e_str]
+On=@SkillStart
+if (<src.findlayer(32)> || <src.findlayer(44)> || <src.findlayer(47)>)
+	return 0
+endif
+
+local.stats <eval (<src.str> + <src.int> + <src.dex>)>
+if (<eval <local.stats>> > 225)
+	src.statcapstr
+endif
+
+[events e_dex]
+On=@SkillStart
+if (<src.findlayer(32)> || <src.findlayer(44)> || <src.findlayer(47)>)
+	return 0
+endif
+
+local.stats <eval (<src.str> + <src.int> + <src.dex>)>
+if (<eval <local.stats>> > 225)
+	src.statcapdex
+endif
+
+[events e_int]
+On=@SkillStart
+if (<src.findlayer(32)> || <src.findlayer(44)> || <src.findlayer(47)>)
+	return 0
+endif
+
+local.stats <eval (<src.str> + <src.int> + <src.dex>)>
+if (<eval <local.stats>> > 225)
+	src.statcapint
+endif
+
+// Functionz
+
+[function statcapstr]
+if (<str> > 25)
+	src.str (<src.str> - 1)
+	local.stats <eval (<src.str>+<src.int>+<src.dex>)>
+	if (<eval <local.stats>> > 225)
+		src.statcapstr
+	endif
+endif
+
+[function statcapdex]
+if (<src.dex> > 25)
+	src.dex (<src.dex> - 1)
+	local.stats <eval (<src.str>+<src.int>+<src.dex>)>
+	if (<eval <local.stats>> > 225)
+		src.statcapdex
+	endif
+endif
+
+[function statcapint]
+if (<int> > 25)
+	src.int (<src.int> - 1)
+	local.stats <eval (<src.str>+<src.int>+<src.dex>)>
+	if (<eval <local.stats>> > 225)
+		src.statcapint
+	endif
+endif
+
+[EOF]

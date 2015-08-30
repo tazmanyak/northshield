@@ -1,0 +1,155 @@
+[CHARDEF 02e]
+DEFNAME=c_wyrm_ancient
+NAME=Ancient Wyrm
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=186,242
+ARMOR=65
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_reag_dragon_blood,2 i_hide_barbed
+//BLOODCOLOR=colors_blood
+BLOODCOLOR=0932
+MOVERATE=100
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Wyrm (ancient)
+
+ON=@Create
+   color 0
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-10000
+   STR=3000
+   DEX=650
+   INT=1000
+   MAGERY 2000.0
+   ANATOMY={75.0 100.0}
+   MAGICRESISTANCE=400.0
+   MEDITATION={52.0 75.0}
+   TACTICS={98.0 100.0}
+   WRESTLING={98.0 100.0}
+
+
+itemnewbie=i_spellbook
+addspell=s_explosion
+
+ON=@NpcRestock
+ITEM=i_gold,{10600 15800}
+ITEM=random_jewelry
+ITEM=random_potion,{1 2}
+ITEM=random_wands
+ITEM=i_reag_wyrm_Heart
+ITEM=i_treasure_map_lvl_5,R5
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////Fire Dragon
+[CHARDEF c_serpentine_fire_dragon]
+id=c_serpentine_dragon
+NAME=Fire Dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_FLY|MT_NONHUM|MT_FIRE_IMMUNE
+DAM=146,182
+ARMOR=80
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_hide_fire,2 i_reag_dragon_blood
+//BLOODCOLOR=colors_blood
+BLOODCOLOR=0932
+MOVERATE=100
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Wyrm (ancient)
+
+ON=@Create
+   color 0932
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-10000
+   STR=6000
+   DEX=650
+   INT=1000
+   MAGERY 5000.0
+   ANATOMY={75.0 100.0}
+   MAGICRESISTANCE=400.0
+   MEDITATION={52.0 75.0}
+   TACTICS={98.0 100.0}
+   WRESTLING={98.0 100.0}
+
+
+itemnewbie=i_spellbook
+addspell=s_explosion
+
+ON=@NpcRestock
+ITEM=i_gold,{15600 22800}
+ITEM=random_potion,{1 2}
+ITEM=random_scroll_medium,{2 3}
+ITEM=i_treasure_map_lvl_5,R12
+ITEM=i_upgrade_scroll15,R10
+ITEM=power_silah,R15
+
+
+
+///////////////////////////////////////////////////Ice Dragon
+[CHARDEF c_serpentine_ice_dragon]
+id=c_serpentine_dragon
+NAME=Ice Dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_FLY|MT_NONHUM|MT_FIRE_IMMUNE
+DAM=146,182
+ARMOR=80
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_hide_ice,2 i_reag_dragon_blood
+//BLOODCOLOR=colors_blood
+BLOODCOLOR=0957
+MOVERATE=100
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Wyrm (ancient)
+
+ON=@Create
+   color 0957
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-10000
+   STR=6000
+   DEX=650
+   INT=1000
+   MAGERY 5000.0
+   ANATOMY={75.0 100.0}
+   MAGICRESISTANCE=400.0
+   MEDITATION={52.0 75.0}
+   TACTICS={98.0 100.0}
+   WRESTLING={98.0 100.0}
+
+
+itemnewbie=i_spellbook
+addspell=s_explosion
+
+ON=@NpcRestock
+ITEM=i_gold,{15600 22800}
+ITEM=random_potion,{1 2}
+ITEM=random_scroll_medium,{2 3}
+ITEM=i_treasure_map_lvl_5,R12
+ITEM=power_silah,R15
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[EOF]
+

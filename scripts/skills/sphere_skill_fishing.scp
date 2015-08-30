@@ -1,0 +1,48 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 18]
+DEFNAME=Skill_Fishing
+KEY=Fishing
+TITLE=Fisher%s
+PROMPT_MSG=@,,2 500974
+DELAY=1.3//DELAY=1.3
+STAT_STR=40
+STAT_INT=30
+STAT_DEX=40
+BONUS_STR=10
+BONUS_DEX=90
+BONUS_INT=0
+BONUS_STATS=25
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=0.1,0,1,0,1
+VALUES=1,30,200
+
+
+
+on=@fail
+src.message @,,1 Balik tutmayi basaramadiniz. //<def.scp.fishing_fail>
+//if <src.fishing> >= <def.scp.Fishing_MinToDisturbSerpent>
+//	if <r100> <= <def.scp.Fishing_ChanceSeaSerpent>
+//	src.f_disturb_seamonster <targp>
+//	endif
+//endif
+
+[FUNCTION f_water_mob_spawn]
+IF (<eval RAND(250)> == 1)
+	DORAND 2
+		SERV.NEWNPC c_sea_serpent 
+		SERV.NEWNPC c_elemental_water
+	ENDDO
+	NEW.REMOVETIMER 300
+	NEW.UPDATEX
+ENDIF
+
+
+[eof]

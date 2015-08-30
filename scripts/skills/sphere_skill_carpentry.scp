@@ -1,0 +1,47 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 11]
+DEFNAME=Skill_Carpentry
+KEY=Carpentry
+TITLE=Carpenter
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=60
+STAT_INT=40
+STAT_DEX=30
+BONUS_STR=50
+BONUS_DEX=30
+BONUS_INT=20
+BONUS_STATS=25
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+VALUES=1,20,80
+ADV_RATE=0,0,0
+
+
+ON=@Fail
+src.sysmessage @,,1 Hatali yaptiniz.
+//src.ctag.craft.message = "Hatali bir esya urettiniz."
+//src.dialog d_craft_menu
+
+
+ON=@Abort
+src.sysmessage @,,1 Iptal ettiniz.
+
+
+[function f_craft_carpentry_checkboard]
+if <args> == i_board
+serv.newitem i_board
+new.amount = <findid.i_log.amount>
+findid.i_log.remove
+ctag.craft.message = You've created the boards succesfully.
+return 1
+endif
+
+[eof]

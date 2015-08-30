@@ -1,0 +1,33 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 12]
+DEFNAME=SKILL_CARTOGRAPHY
+KEY=Cartography
+TITLE=Cartographer
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=15
+STAT_INT=70
+STAT_DEX=20
+BONUS_STR=0
+BONUS_DEX=20
+BONUS_INT=80
+BONUS_STATS=15
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=0.1,0.1,0.1
+//ADV_RATE=0,0,0
+VALUES=1,20,80
+
+ON=@Fail
+	SRC.MESSAGE @,,2 501793
+
+ON=@Abort
+	SRC.SYSMESSAGE You fail to complete the map.
+
+[eof]

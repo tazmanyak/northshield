@@ -1,0 +1,2062 @@
+
+//////////////////
+// Meteor Swarm //
+//////////////////
+[ITEMDEF 01b70]
+DEFNAME=i_target_tile
+CATEGORY=Ground Tiles
+SUBSECTION=Target Tile
+DESCRIPTION=Target Tile
+
+[DEFNAME meteor_swarm_settings]
+MeteorType0_Name=Rock
+MeteorType0_Radius=10
+MeteorType0_FallingID=01363//i_trap_boulder
+MeteorType0_FallingAmount=30
+MeteorType0_FallenID=random_rock
+MeteorType0_DamageType=dam_general|dam_magic
+MeteorType0_DamageAmount=6,25
+
+MeteorType1_Name=Fire
+MeteorType1_Radius=20
+MeteorType1_FallingID=i_fx_fireball
+MeteorType1_FallingAmount=30
+MeteorType1_FallenID={ 0398c 1 03996 1 }
+MeteorType1_DamageType=dam_fire|dam_magic
+MeteorType1_DamageAmount=6,25
+
+MeteorType2_Name=Poison
+MeteorType2_Radius=10
+MeteorType2_FallingID=fx_fireball_yellow
+MeteorType2_FallingAmount=30
+MeteorType2_FallenID={ 03915 1 03920 1 }
+MeteorType2_DamageType=dam_poison|dam_magic
+MeteorType2_DamageAmount=6,25
+
+MeteorType3_Name=Energy
+MeteorType3_Radius=10
+MeteorType3_FallingID=fx_fireball_blue
+MeteorType3_FallingAmount=30
+MeteorType3_FallenID={ 03946 1 03956 1 03967 1 03979 1 }
+MeteorType3_DamageType=dam_energy|dam_magic
+MeteorType3_DamageAmount=6,25
+
+MeteorType4_Name=Blades
+MeteorType4_Radius=10
+MeteorType4_FallingID=037c4
+MeteorType4_FallingAmount=30
+MeteorType4_FallenID={ 08fe 1 08ff 1 0900 1 0901 1 0902 1 0904 1 0907 1 0908 1 090a 1 090b 1 090c 1 0f43 1 0f44 1 0f45 1 0f46 1 0f47 1 0f48 1 0f49 1 0f4a 1 0f4b 1 0f4c 1 0f4d 1 0f4e 1 0f51 1 0f52 1 0f5e 1 0f5f 1 0f60 1 0f61 1 0f62 1 0f63 1 013fa 1 013fb 1 013fe 1 013ff 1 01400 1 01401 1 01402 1 01403 1 01404 1 01405 1 02554 1 02558 1 0255b 1 0255d 1 0255e 1 0255f 1 02560 1 02564 1 02567 1 02570 1 02572 1 02573 1 02574 1 02575 1 02576 1 02577 1 02578 1 02579 1 0257a 1 0257b 1 0257c 1 0257d 1 0257e 1 0257f 1 026ba 1 026bb 1 026bc 1 026bd 1 026be 1 026bf 1 026c0 1 026c1 1 026c4 1 026c5 1 026c6 1 026c7 1 026c8 1 026c9 1 026ca 1 026cb 1 026ce 1 026cf 1 027a2 1 027a4 1 027a7 1 027ed 1 027ef 1 027f2 1 02d20 1 02d21 1 02d22 1 02d23 1 02d27 1 02d28 1 02d29 1 02d2c 1 02d2d 1 02d2e 1 02d2f 1 02d32 1 02d33 1 02d34 1 02d35 1 0406a 1 0406b 1 0406c 1 0406d 1 04071 1 04072 1 04073 1 04074 1 04075 1 04076 1 }
+MeteorType4_DamageType=dam_physical|dam_magic
+MeteorType4_DamageAmount=6,25
+
+MeteorType5_Name=Blood
+MeteorType5_Radius=10
+MeteorType5_FallingID=0122a
+MeteorType5_FallingAmount=30
+MeteorType5_FallenID={ 0122a 1 0122b 1 0122c 1 0122d 1 0122e 1 01cf1 1 01cf2 1 01cf3 1 01cf4 1 01cf5 1 01cf6 1 01cf7 1 01cf8 1 01cf9 1 01cfa 1 01cfb 1 01cfc 1 01cfd 1 01cfe 1 01cff 1 01d00 1 01d01 1 01d02 1 01d03 1 01d04 1 01d05 1 01d06 1 01d07 1 01d08 1 01d09 1 01d0a 1 01d0b 1 01d0c 1 01d0d 1 01d0e 1 01d0f 1 01d10 1 01d11 1 01d12 1 }
+MeteorType5_DamageType=dam_cold|dam_magic
+MeteorType5_DamageAmount=1,5
+
+MeteorType6_Name=Candy
+MeteorType6_Radius=10
+MeteorType6_FallingID=036f4
+MeteorType6_FallingAmount=30
+MeteorType6_FallenID={ i_cake 1 i_candycane_red 1 i_candycane_green 1 i_gingerbreadman 1 i_jellybeans 1 i_lollypop_red 1 i_lollypop_yellow 1 i_lollypop_green 1 i_candy_nougat 1 i_candy_taffy 1 i_candy_wrapped 1 i_cake_2 1 }
+MeteorType6_DamageType=dam_cold|dam_magic
+MeteorType6_DamageAmount=1,5
+
+MeteorType7_Name=Crystal
+MeteorType7_Radius=10
+MeteorType7_FallingID=03660
+MeteorType7_FallingAmount=30
+MeteorType7_FallenID={ 0223b 1 0223c 1 0223d 1 0223e 1 0223f 1 02240 1 02241 1 02242 1 02243 1 02244 1 02245 1 02246 1 02247 1 02248 1 02249 1 }
+MeteorType7_FallenID2={ 02206 1 02207 1 02208 1 02209 1 0220a 1 0220b 1 0220c 1 0220d 1 0220e 1 02210 1 02211 1 02212 1 02213 1 02214 1 02215 1 02216 1 02217 1 02218 1 0221a 1 0221b 1 0221c 1 0221d 1 0221e 1 0221f 1 02220 1 02221 1 02222 1 02224 1 02225 1 02226 1 02227 1 02228 1 02229 1 0222a 1 0222b 1 0222c 1 }
+MeteorType7_DamageType=dam_cold|dam_magic
+MeteorType7_DamageAmount=6,25
+
+MeteorType8_Name=Runes
+MeteorType8_Radius=10
+MeteorType8_FallingID=03789
+MeteorType8_FallingAmount=30
+MeteorType8_FallenID={ 0483b 1 0483e 1 04841 1 04844 1 04847 1 0484a 1 0484d 1 04850 1 04853 1 04856 1 04859 1 0485c 1 0485f 1 04862 1 04865 1 04868 1 0486b 1 0486e 1 04871 1 04871 1 04874 1 04877 1 0487a 1 0487d 1 04880 1 04883 1 }
+MeteorType8_DamageType=dam_magic
+MeteorType8_DamageAmount=10,25
+
+
+[FUNCTION f_meteor_swarm]
+SERV.NEWITEM=i_meteor_swarm_timer
+NEW.P=<P>
+NEW.LINK=<UID>
+NEW.TAG.MeteorType=<ARGV[0]>
+IF !(<ISITEM>)
+   ANIM=16
+   NEW.MORE=<DEF.MeteorType<dARGV[0]>_FallingAmount>
+ENDIF
+NEW.TRIGGER @Timer
+
+[ITEMDEF i_meteor_swarm_timer]
+ID=i_rune_meteor_swarm
+NAME=Meteor Swarm Timer
+TYPE=t_eq_script
+ON=@Create
+   COLOR=021
+   ATTR=attr_invis|attr_move_never
+ON=@Click
+   RETURN 1
+ON=@Timer
+   IF !(<MORE>)
+      REMOVE
+      RETURN 1
+   ENDIF
+   f_meteor_fall <LINK>,<TAG0.MeteorType>
+   MORE -= 1
+   TIMERD=4
+   RETURN 1
+
+[FUNCTION f_meteor_fall]
+LOCAL.FireballID=<DEF.MeteorType<dARGV[1]>_FallingID>
+SERV.NEWITEM=i_target_tile
+NEW.MOVENEAR <UID>,<DEF.MeteorType<dARGV[1]>_Radius>
+NEW.TAG.MeteorType=<ARGV[1]>
+NEW.TYPE=t_meteor_target
+NEW.ATTR=attr_invis|attr_decay|attr_can_decay
+NEW.LINK=<ARGV[0]>
+NEW.TIMERD=6
+
+LOCAL.FromX=<EVAL <NEW.P.X>-4>
+LOCAL.FromY=<EVAL <NEW.P.Y>-7>
+LOCAL.FromZ=<EVAL <NEW.P.Z>+50>
+LOCAL.ToX=<NEW.P.X>
+LOCAL.ToY=<NEW.P.Y>
+LOCAL.ToZ=<NEW.P.Z>
+
+FLEXEFFECT 0,<LOCAL.FireballID>,9,16,0,0,0,4,<dLOCAL.FromX>,<dLOCAL.FromY>,<dLOCAL.FromZ>,<dLOCAL.ToX>,<dLOCAL.ToY>,<dLOCAL.ToZ>,10
+RETURN 1
+
+[TYPEDEF t_meteor_target]
+ON=@Timer
+   SERV.NEWITEM=i_target_tile
+   NEW.TAG.MeteorType=<TAG0.MeteorType>
+   NEW.TYPE=t_meteor_object
+   NEW.ATTR=attr_move_never|attr_decay|attr_can_decay
+   NEW.P=<P>
+   NEW.LINK=<LINK>
+   NEW.MORE1=1
+   NEW.TIMERD=1
+   NEW.f_meteor_swarm <TAG0.MeteorType>
+
+   SERV.NEWITEM=<DEF.MeteorType<dTAG0.MeteorType>_fallenID>
+   NEW.TYPE=t_normal
+   NEW.P=<P>
+   NEW.ATTR=attr_decay|attr_can_decay
+   NEW.LINK=<LINK>
+   NEW.TIMER=4
+   NEW.TAG.MeteorType=<LOCAL.MeteorType>
+
+   REMOVE
+   RETURN 1
+
+[TYPEDEF t_meteor_object]
+ON=@Step
+   IF !(<LINK>==<SRC.UID>)
+      LOCAL.DamageFlags=<EVAL <DEF.MeteorType<dTAG0.MeteorType>_DamageType>>
+      LOCAL.DamageAmount=<R<DEF.MeteorType<dTAG0.MeteorType>_DamageAmount>>
+      SERV.LOG Step Damage Amount=<dLOCAL.DamageAmount>
+      SRC.DAMAGE <dLOCAL.DamageAmount> <LOCAL.DamageFlags> <LINK>
+   ENDIF
+ON=@Timer
+   IF (<MORE1>)
+      DORAND 11
+         SOUND=284
+         SOUND=285
+         SOUND=286
+         SOUND=287
+         SOUND=774
+         SOUND=775
+         SOUND=776
+         SOUND=777
+      ENDDO
+      TIMER=2
+      MORE1=0
+      LOCAL.DamageSource=<LINK>
+      FORCHARS 2
+         f_meteor_damage <LOCAL.DamageSource> <TAG0.MeteorType>
+      ENDFOR
+      RETURN 1
+   ENDIF
+   REMOVE
+   RETURN 1
+
+[FUNCTION f_meteor_damage]
+IF !(<ARGV[0]>==<UID>)
+   LOCAL.DamageFlags=<EVAL <DEF.MeteorType<dARGV[1]>_DamageType>>
+   LOCAL.DamageAmount=<R<DEF.MeteorType<dARGV[1]>_DamageAmount>>
+   SERV.LOG Hit Damage Amount=<dLOCAL.DamageAmount>
+   SRC.DAMAGE <LOCAL.DamageAmount> <LOCAL.DamageFlags> <ARGV[0]>
+ENDIF
+
+[function flexeffect]
+forclients <argv[14]>
+       sendpacket 0c0 <argv[0]> d0 d0 w<argv[1]> w<argv[8]> w<argv[9]> <dargv[10]> w<argv[11]> w<argv[12]> <dargv[13]> <argv[2]> <argv[3]> w0 <argv[6]> <argv[4]> d<argv[5]> d<argv[7]>
+endfor
+
+
+[FUNCTION fxt]
+var.target=0
+var.effect=<hval <argv[0]>>
+var.speed=0
+var.duration=016
+var.hue=<hval <argv[1]>>
+var.rendermode=<hval <argv[2]>>
+var.src=0
+var.explode=0
+local.diff=4
+for x 0 4
+  for y 0 4
+// var.speed += 1 // uncomment for 'X' effect
+    effecttest <eval <p.x> + <local.x> +- <local.diff>> <eval <p.y> + <local.y> +- <local.diff>> <eval <p.z> +5>
+    effecttest <eval <p.x> +- <local.x> + <local.diff>> <eval <p.y> + <local.y> +- <local.diff>> <eval <p.z> +5>
+    effecttest <eval <p.x> + <local.x> +- <local.diff>> <eval <p.y> +- <local.y> + <local.diff>> <eval <p.z> +5>
+    effecttest <eval <p.x> +- <local.x> + <local.diff>> <eval <p.y> +- <local.y> + <local.diff>> <eval <p.z> +5>
+  endfor
+endfor
+effecttest_clean
+
+[FUNCTION effecttest]
+local.t_x=<argn1>
+local.t_y=<argn2>
+sector.allclients sendpacket 0c0 00 D<var.src> D<var.target> W<var.effect> W<p.x> W<eval <p.y>> B<qval <argn3>?<argn3>:<p.z>> W<local.t_x> W<local.t_y> B<qval <argn3>?<argn3>:<p.z>> B<var.speed> B<var0.duration> 00 00 00 B<qval <var0.explode>?<var.explode>:0> D<hval <var.hue> - 1> D<var.rendermode>
+
+[FUNCTION effecttest_clean]
+var.target
+var.effect
+var.speed
+var.hue
+var.rendermode
+var.src
+var.explode
+
+//.fxt 036b0, 025, 2 // <<--- test, 036b0 is the explosion anim
+
+[function ef_ice_winds]
+effect 3,i_fx_sparkle,0,16,0,07a1,5
+src.sendpacket 0c0 00 D0 D0 W0375a W<src.p.x> W<src.p.y> B<eval(<src.p.z>+2)> W<eval(<src.p.x>+4)> W<eval(<src.p.y>)> B<eval(<src.p.z>+10+{1 15})> B0 B16 00 00 00 B0 D07a1 D5
+src.sendpacket 0c0 00 D0 D0 W0375a W<src.p.x> W<src.p.y> B<eval(<src.p.z>+2)> W<eval(<src.p.x>)> W<eval(<src.p.y>+4)> B<eval(<src.p.z>+10+{1 15})> B0 B16 00 00 00 B0 D07a1 D5
+src.sendpacket 0c0 00 D0 D0 W0375a W<src.p.x> W<src.p.y> B<eval(<src.p.z>+2)> W<eval(<src.p.x>-2)> W<eval(<src.p.y>)> B<eval(<src.p.z>+10+{1 15})> B0 B16 00 00 00 B0 D07a1 D5
+src.sendpacket 0c0 00 D0 D0 W0375a W<src.p.x> W<src.p.y> B<eval(<src.p.z>+2)> W<eval(<src.p.x>)> W<eval(<src.p.y>-2)> B<eval(<src.p.z>+10+{1 15})> B0 B16 00 00 00 B0 D07a1 D5
+
+
+[function ef_spirits]
+src.sendpacket 0c0 00 D0 D0 W036d4 W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<src.p.x>+4)> W<eval(<src.p.y>)> B<eval(<src.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D1152 D5
+src.sendpacket 0c0 00 D0 D0 W036d4 W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<src.p.x>)> W<eval(<src.p.y>+4)> B<eval(<src.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D1152 D5
+src.sendpacket 0c0 00 D0 D0 W036d4 W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<src.p.x>-2)> W<eval(<src.p.y>)> B<eval(<src.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D1152 D5
+src.sendpacket 0c0 00 D0 D0 W036d4 W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<src.p.x>)> W<eval(<src.p.y>-2)> B<eval(<src.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D1152 D5
+
+[function miz]
+targetfg ef_try <args> // need an item object, suggested: 03709 which is the flamestrike effect.
+
+[function ef_try]
+src.sendpacket 0c0 00 D0 D0 W<args> W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<targp.x>+2)> W<eval(<targp.y>+6)> B<eval(<targp.z>+10+{1 15})> B0 B13 00 00 00 B0 D05c0 D5
+src.sendpacket 0c0 00 D0 D0 W<args>  W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<argo.p.x>-2)> W<eval(<argo.p.y>-6)> B<eval(<argo.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D05c0 D5
+src.sendpacket 0c0 00 D0 D0 W<args>  W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<argo.p.x>+4)> W<eval(<argo.p.y>-3)> B<eval(<argo.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D05c0 D0
+src.sendpacket 0c0 00 D0 D0 W<args>  W<src.p.x> W<src.p.y> B<eval(<src.p.z>+9)> W<eval(<argo.p.x>-4)> W<eval(<argo.p.y>+3)> B<eval(<argo.p.z>+10+{1 15})> B0 B13 00 00 00 B0 D05c0 D0
+
+[PLEVEL 2]
+bomba1
+
+[function bomba1]
+if !(<src.flags>&statf_insubstantial)
+//src.invis 1
+src.newitem 03709
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 1
+
+else
+src.invis 0
+src.newitem 03709
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 1
+endif
+
+
+[function bomba2]
+if !(<src.flags>&statf_insubstantial)
+src.invis 1
+src.newitem 03709
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 1
+src.newitem i_fx_explode
+src.act.color 0bb7
+src.sound 0203
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+//**2. tur
+
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 3
+
+//**3.tur
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 4
+
+else
+src.invis 0
+src.newitem 03709
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 1
+src.newitem 03709
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 1
+src.newitem i_fx_explode
+src.act.color 0bb7
+src.sound 0203
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+//**2. tur
+
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 3
+
+//**3.tur
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 4
+endif
+
+[PLEVEL 6]        
+fixmix
+
+[function bomba3]
+if !(<src.flags>&statf_insubstantial)
+src.invis 1
+
+src.newitem i_fx_explode
+src.act.color 0bb7
+src.sound 0203
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+//**2. tur
+
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 3
+
+//**3.tur
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 4
+
+
+else
+src.invis 0
+
+src.newitem i_fx_explode
+src.act.color 0bb7
+src.sound 0203
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+//**2. tur
+
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 3
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 3
+
+//**3.tur
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.sound 0207
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 4
+
+src.newitem i_fx_glow_spike
+src.act.color 0bb7
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 4
+
+endif
+
+
+[Plevel 2]
+zoo
+
+[Function zoo]
+src.p <args>
+src.fix
+src.invis
+IF (<src.account.plevel>==7)
+f_owner
+Elseif (<src.account.plevel>==6)
+f_admin
+Elseif (<src.account.plevel>==5)
+f_developer
+Elseif (<src.account.plevel>==4)
+f_gm
+Elseif (<src.account.plevel>==3)
+f_seer
+Elseif (<src.account.plevel>==2)
+f_counselor
+endif
+
+[Function f_owner]
+newitem i_fire_column
+act.color 09a4
+act.type t_normal
+act.p <src.p>
+//act.MOVE 1,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0bb7
+act.type t_normal
+act.p <src.p>
+act.MOVE -1,-1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0983
+act.type t_normal
+act.p <src.p>
+act.MOVE -1,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0805
+act.type t_normal
+act.p <src.p>
+act.MOVE 1,-1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 07b2
+act.type t_normal
+act.p <src.p>
+act.MOVE 1,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0bb2
+act.type t_normal
+act.p <src.p>
+act.move 1,2
+act.attr attr_decay
+act.timer 2
+
+
+newitem i_fire
+act.color 10
+act.type t_normal
+act.p <src.p>
+act.move 1,-2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 08a1
+act.type t_normal
+act.p <src.p>
+act.move 2,-1
+act.attr attr_decay
+act.timer 2
+
+
+newitem i_fire
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.move 2,1
+act.attr attr_decay
+act.timer 2
+
+
+///////Tersi//////
+newitem i_fire
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.move -1,-2
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0812
+act.type t_normal
+act.p <src.p>
+act.move -1,2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0813
+act.type t_normal
+act.p <src.p>
+act.move -2,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire
+act.color 0816
+act.type t_normal
+act.p <src.p>
+act.move -2,-1
+act.attr attr_decay
+act.timer 2
+
+
+[function f_admin]
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.MOVE -1,-1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.MOVE 1,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.MOVE 1,-2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.move -1,2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.move 1,-2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.move -2,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.color 0819
+act.type t_normal
+act.p <src.p>
+act.move 2,-1
+act.attr attr_decay
+act.timer 2
+
+
+
+
+[function f_Developer]
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.MOVE 1,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.MOVE -1,-2
+act.attr attr_decay
+act.timer 2
+
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.move 1,-2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.move -1,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.move 2,-1 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.move -2,0 
+act.attr attr_decay
+act.timer 2
+
+
+
+
+
+[function f_gm]
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.MOVE 2,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.MOVE -2,-1
+act.attr attr_decay
+act.timer 2
+
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.move 1,-2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.move -1,2
+act.attr attr_decay
+act.timer 2
+
+
+
+
+[function f_seer]
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.MOVE 2,0
+act.attr attr_decay
+act.timer 2
+
+newitem i_fire_column
+act.type t_normal
+act.p <src.p>
+act.MOVE -2,0
+act.attr attr_decay
+act.timer 2
+
+[function f_counselor]
+SRC.EFFECT=3,i_FIRE_COLUMN,20,25,1
+
+/////////////////////////////Robellious Özel :D/////////////////
+
+// Staff efekler!
+
+[itemdef i_ates]
+name ates
+id i_Fire_column
+type t_script
+
+on=@step
+return 1
+
+on=@click
+return 1
+
+[FUNCTION pacotti]
+if (strmatch('<src.account>','rhodos')) /// Account Nameni Yaz
+src.newitem i_fire_column
+src.sound 0207 
+src.act.p=<src.p> 
+src.act.timer 5
+src.act.attr=attr_decay 
+src.act.move n 1
+src.act.color 098e
+
+src.newitem i_fire_column
+src.sound 0207 
+src.act.p=<src.p> 
+src.act.timer 3
+src.act.attr=attr_decay 
+src.act.move n 4
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 5 
+src.act.attr=attr_decay 
+src.act.move s 1 
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3 
+src.act.attr=attr_decay 
+src.act.move s 5
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3 
+src.act.attr=attr_decay 
+src.act.move e 1 
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3 
+src.act.attr=attr_decay 
+src.act.move e 4
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 5 
+src.act.attr=attr_decay 
+src.act.move w 1 
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3 
+src.act.attr=attr_decay 
+src.act.move w 4
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 5
+src.act.attr=attr_decay 
+src.act.move near 2 
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3
+src.act.attr=attr_decay 
+src.act.move near 4
+src.act.color 098e
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 5 
+src.act.attr=attr_decay 
+src.act.move sw 2 
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3 
+src.act.attr=attr_decay 
+src.act.move sw 4
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 5 
+src.act.attr=attr_decay 
+src.act.move nw 2
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3 
+src.act.attr=attr_decay 
+src.act.move nw 4
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 5 
+src.act.attr=attr_decay 
+src.act.move se 2
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 3
+src.act.attr=attr_decay 
+src.act.move se 4
+src.act.color 098e
+
+src.newitem i_fire_column
+src.sound 0207 
+src.act.p=<src.p> 
+src.act.timer 7 
+src.act.attr=attr_decay 
+src.act.move n 1
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 7 
+src.act.attr=attr_decay 
+src.act.move s 1
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 7 
+src.act.attr=attr_decay 
+src.act.move e 1 
+src.act.color 098e
+
+src.newitem i_fire_column
+src.act.p=<src.p> 
+src.act.timer 7
+src.act.attr=attr_decay 
+src.act.move w 1
+src.act.color 098e
+src.invis
+endif
+
+
+/////////////////////////////////Adminlere Özel//////////////////
+
+[itemdef i_efek_timercisi]
+name=Efek Timeri
+ID=i_memory
+WEIGHT=0
+TYPE=t_eq_script
+
+on=@create
+attr=attr_decay
+
+on=@equip
+TIMER=4
+
+on=@timer
+
+remove
+
+
+[PLEVEL 6] 
+narcos
+
+
+[function sky]
+
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.SOUND=41
+
+[PLEVEL 6] 
+sky
+
+[function effect_blind]
+src.effect=4,0,1,1,1
+[function sky]
+
+src.invis
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.EFFECT=1,03715,4,15,1
+SRC.SOUND=41
+src.sound 0203
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move n 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move s 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move e 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move w 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move near 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move sw 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move nw 1
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p=<src.p>
+src.act.timer 2
+src.act.attr=attr_decay
+src.act.move se 1
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+
+src.newitem i_fx_glow_spike
+src.act.color 07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+//**2. sira
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 3
+
+
+src.newitem i_fx_energy_ray
+src.act.color 0
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 3
+
+
+//**3.sira
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move n 4
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move s 4
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move e 4
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move w 4
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move near 4
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move sw 4
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move nw 4
+
+
+src.newitem i_fx_smoke
+src.act.color=07ec
+src.sound 0207
+src.act.p=<src.p>
+src.act.timer 3
+src.act.attr=attr_decay
+src.act.move se 4
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move n 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move s 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move e 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move w 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move near 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move sw 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move nw 2
+
+
+src.newitem i_fx_vortex
+src.act.color=07ec
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.act.move se 2
+
+/////////////////////Supeeer Effect Herkez Kullanabilir/////////////////////////
+
+
+[FUNCTION effecttest] 
+local.t_x=<argn1> 
+local.t_y=<argn2> 
+src. sendpacket 0c0 00 D<var.src> D<var.target> W<var.effect> W<p.x> W<eval <p.y>> B<qval <argn3>?<argn3>:<p.z>> W<local.t_x> W<local.t_y> B<qval <argn3>?<argn3>:<p.z>> B<var.speed> B<var0.duration> 00 00 00 B<qval <var0.explode>?<var.explode>:0> D<hval <var.hue> - 1> D<var.rendermode> 
+
+[FUNCTION fxt] 
+SRC.INVISIBLE
+var.target=0 
+var.effect=<hval <argv[0]>> 
+var.speed=0 
+var.duration=016 
+var.hue=<hval <argv[1]>> 
+var.rendermode=<hval <argv[2]>> 
+var.src=0 
+var.explode=0 
+local.diff=4 
+for x 0 4 
+  for y 0 4 
+    //var.speed += 1 // Enable this if you want the 'X' effect 
+    effecttest <eval <p.x> + <local.x> +- <local.diff>> <eval <p.y> + <local.y> +- <local.diff>> <eval <p.z> + 10> 
+    effecttest <eval <p.x> +- <local.x> + <local.diff>> <eval <p.y> + <local.y> +- <local.diff>> <eval <p.z> + 10> 
+    effecttest <eval <p.x> + <local.x> +- <local.diff>> <eval <p.y> +- <local.y> + <local.diff>> <eval <p.z> + 10> 
+    effecttest <eval <p.x> +- <local.x> + <local.diff>> <eval <p.y> +- <local.y> + <local.diff>> <eval <p.z> + 10> 
+  endfor 
+endfor 
+effecttest_clean 
+
+[FUNCTION effecttest_clean] 
+var.target 
+var.effect 
+var.speed 
+var.hue 
+var.rendermode 
+var.src 
+var.explode 
+var.invis
+
+
+[eof]

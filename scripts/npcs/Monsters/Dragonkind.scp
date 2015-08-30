@@ -1,0 +1,642 @@
+
+
+
+[COMMENT monsters_dragons]
+The Skeletal Dragon is in the Undeads.scp file.
+
+[CHARDEF 0c]
+DEFNAME=c_dragon
+NAME=Dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=65,90
+ARMOR=55
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,7 i_scale_yellow
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=105.0
+TAG.Control.Slots=3
+TAG.Luck.Loot=loot_dragon_luck
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Dragon
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=the dragon
+   NPC=brain_dragon
+   FAME=15000
+   KARMA=-15000
+   STR={795 825}
+   MAXHITS={475 495}
+   DEX={85 105}
+   MAXSTAM={85 105}
+   INT={435 475}
+   MAXMANA={435 475}
+   EVALUATINGINTEL={30.0 40.0}
+   MAGERY={30.0 40.0}
+   MAGICRESISTANCE={99.0 100.0}
+   TACTICS={97.0 100.0}
+   TAMING={90.0 95.0}
+   WRESTLING={90.0 92.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={35 45}
+   RESFIRE={60 70}
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=loot_dragon
+   //1000 - 1200 Gold. 8 Gems, Magic Items
+   //Special: Level 4 Treasure Map
+
+[chardef c_dragon_poly]
+id 03b
+NAME=Red Dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=10
+
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=the red dragon
+   NPC=brain_dragon
+   
+[CHARDEF 03b]
+DEFNAME=c_dragon_red
+NAME=Red Dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+//DAM=21,90
+ARMOR=55
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_reag_dragon_blood,7 i_scale_red
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=105.0
+TAG.Control.Slots=3
+TAG.Luck.Loot=loot_dragon_luck
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Dragon (red)
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=the red dragon
+   NPC=brain_dragon
+   FAME=15000
+   KARMA=-15000
+   STR={795 825}
+   MAXHITS={475 495}
+   DEX={85 105}
+   MAXSTAM={85 105}
+   INT={435 475}
+   MAXMANA={435 475}
+   EVALUATINGINTEL={30.0 40.0}
+   MAGERY={30.0 40.0}
+   MAGICRESISTANCE={99.0 100.0}
+   TACTICS={97.0 100.0}
+   TAMING={120.0 130.0}
+   WRESTLING={90.0 92.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={35 45}
+   RESFIRE={60 70}
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=loot_dragon
+   // 1000 - 1200 Gold. 8 Gems, Magic Items
+   //Carved: 7 Red or Yellow Dragon Scales, 20 Barbed Hides, 19 Raw Ribs
+   //Special: Level 4 Treasure Map
+
+[CHARDEF 03c]
+//FIXME: damage is health dependant
+DEFNAME=c_drake
+NAME=drake
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=30,46
+ARMOR=45
+DESIRES=r_mountains,r_dungeon,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=60 t_meat_raw
+RESOURCES=10 i_ribs_raw,4 i_reag_dragon_blood,2 i_scale_yellow
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=80.6
+TAG.Control.Slots=2
+TAG.DamFire=20
+TAG.Luck.Loot=loot_drake_luck
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Drake
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=the brown drake
+   NPC=brain_dragon
+   FAME=5500
+   KARMA=-5500
+   STR={401 430}
+   MAXHITS={241 248}
+   DEX={133 152}
+   MAXSTAM={133 152}
+   INT={101 140}
+   MAXMANA={101 140}
+   MAGICRESISTANCE={65.0 80.0}
+   TACTICS={65.0 90.0}
+   TAMING={80.0 85.0}
+   WRESTLING={65.0 80.0}
+   MODAR={0 5}
+   RESCOLD={40 50}
+   RESENERGY={30 40}
+   RESFIRE={50 60}
+   RESPOISON={20 30}
+ON=@NPCRestock
+   ITEM=loot_drake
+
+
+[CHARDEF 03d]
+//FIXME: damage is health dependant
+DEFNAME=c_drake_red
+NAME=red drake
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=30,46
+ARMOR=45
+DESIRES=r_mountains,r_dungeon,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=60 t_meat_raw
+RESOURCES=10 i_ribs_raw,4 i_reag_dragon_blood,2 i_scale_red
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=80.6
+TAG.Control.Slots=2
+TAG.DamFire=20
+TAG.Luck.Loot=loot_drake_luck
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Drake (red)
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=the red drake
+   NPC=brain_dragon
+   FAME=5500
+   KARMA=-5500
+   STR={401 430}
+   MAXHITS={241 248}
+   DEX={133 152}
+   MAXSTAM={133 152}
+   INT={101 140}
+   MAXMANA={101 140}
+   MAGICRESISTANCE={65.0 80.0}
+   TACTICS={65.0 90.0}
+   TAMING={80.0 85.0}
+   WRESTLING={65.0 80.0}
+   MODAR={0 5}
+   RESCOLD={40 50}
+   RESENERGY={30 40}
+   RESFIRE={50 60}
+   RESPOISON={20 30}
+ON=@NPCRestock
+   ITEM=loot_drake
+   //275 - 325 Gold. 3 Reagents, 2 Medium Level Scrolls, Magic Items
+   //Special: Level 2 Treasure Map
+
+[CHARDEF 03e]
+DEFNAME=c_dragon_wyvern
+NAME=wyvern
+ICON=i_pet_wyvern
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=20,43
+ARMOR=35
+DESIRES=r_caves,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=50 t_meat_raw
+RESOURCES=10 i_ribs_raw
+MOVERATE=150
+TAG.Barding.Diff=78.2
+TAG.DamPoison=50
+TAG.HitPoison=3//Greater
+TAG.Luck.Loot=loot_wyvern_luck
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Wyvern
+ON=@Create
+   NPC=brain_monster
+   FAME=4000
+   KARMA=-4000
+   STR={202 240}
+   MAXHITS={125 141}
+   DEX={153 172}
+   MAXSTAM={153 172}
+   INT={51 90}
+   MAXMANA={51 90}
+   MAGICRESISTANCE={65.0 80.0}
+   //POISONING={50.0 75.0}
+   TACTICS={65.0 90.0}
+   WRESTLING={65.0 80.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={30 40}
+   RESFIRE={30 40}
+   RESPOISON={90 100}
+ON=@NpcRestock
+   ITEM=loot_wyvern
+   //175 - 225 Gold. 1 Lesser Poison Potion, 1 Medium Level Scroll
+   //Special: Level 2 Treasure Map
+
+on=@death
+if (<act.tag0.8questvar>==1)
+src.newitem=i_wwyrm_eye
+new.bounce
+ELSE
+if !(<act.tag0.8questvar>==1)
+return 0
+endif
+endif
+
+[CHARDEF 067]
+DEFNAME=c_serpentine_dragon
+NAME=serpentine dragon
+ICON=i_pet_dragon
+SOUND=snd_dragon_serpentine1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=9,20
+ARMOR=35
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=50 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_scale_white
+BLOODCOLOR=colors_blood
+MOVERATE=200
+TAG.Barding.Diff=128.8
+TAG.DamPoison=25
+TAG.Luck.Loot=loot_serpentine_dragon_luck
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Serpentine Dragon
+ON=@Create
+   NPC=brain_dragon
+   FAME=15000
+   KARMA=-15000
+   STR={111 140}
+   MAXHITS={470 490}
+   DEX={201 220}
+   MAXSTAM={201 220}
+   INT={1000 1040}
+   MAXMANA={1000 1040}
+   EVALUATINGINTEL={100.0 110.0}
+   MAGERY={110.0 120.0}
+   MAGICRESISTANCE={95.0 105.0}
+   MEDITATION={95.0 105.0}
+   //POISONING={85.0 95.0}
+   TACTICS={50.0 60.0}
+   WRESTLING={30.0 100.0}
+   MODAR={0 5}
+   RESCOLD={25 35}
+   RESENERGY={25 35}
+   RESFIRE={25 35}
+   RESPOISON={25 35}
+ON=@NpcRestock
+   ITEM=loot_dragon_serpentine
+   //900 - 1100 Gold. 2 Gems, Magic Items
+   //Special: Level 4 Treasure Map, Fragrant Seed, Peculiar Seed.
+ON=@Hit
+   //Triple Damage Attack vs pets
+   IF (<FLAGS>&statf_pet)
+      ARGN1=<ARGN1> * 3
+      ARGN2=<DEF.dam_physical>
+   ENDIF
+
+
+
+
+[CHARDEF 0c5]
+//FIXME: No Stratics data
+DEFNAME=c_dragon_stygian_red
+NAME=crimson dragon
+ICON=i_pet_dragon_stygian_red
+SOUND=snd_monster_stygian_dragon
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=30,50
+ARMOR=75
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=90 t_meat_raw
+RESOURCES=20 i_ribs_raw,60 i_hide,15 i_reag_dragon_blood
+MOVERATE=100
+TAG.Barding.Diff=130.0
+TAG.DamEnergy=25
+TAG.DamFire=50
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Crimson Dragon
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=crimson dragon
+   NPC=brain_dragon
+   FAME=18000
+   KARMA=-18000
+   STR={675 725}
+   MAXHITS={1000 1500}
+   DEX={125 150}
+   MAXSTAM={225 250}
+   INT={175 185}
+   MAXMANA={175 200}
+   ANATOMY={95.0 105.0}
+   MAGICRESISTANCE={145.0 155.0}
+   TACTICS={115.0 125.0}
+   WRESTLING={115.0 125.0}
+   MODAR={0 10}
+   RESCOLD={55 65}
+   RESENERGY={65 75}
+   RESFIRE={65 75}
+   RESPOISON={55 65}
+ON=@NPCRestock
+   ITEM=loot_dragon_stygian
+
+[function sil_plat]
+forchars 6411
+	if <baseid> == c_dragon_stygian_blue
+		remove
+	endif
+endfor
+[CHARDEF 0c6]
+//FIXME: No Stratics data
+DEFNAME=c_dragon_stygian_blue
+NAME=platinum dragon
+ICON=i_pet_dragon_stygian_blue
+SOUND=snd_monster_stygian_dragon
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=30,50
+ARMOR=75
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=90 t_meat_raw
+RESOURCES=20 i_ribs_raw,60 i_hide,15 i_reag_dragon_blood
+MOVERATE=100
+TAG.Barding.Diff=130.0
+TAG.DamCold=50
+TAG.DamEnergy=25
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Platinum Dragon
+ON=@Create
+   NAME=#NAMES_DRAGON
+   TITLE=platinum dragon
+   NPC=brain_dragon
+   FAME=18000
+   KARMA=-18000
+   STR={675 725}
+   MAXHITS={1000 1500}
+   DEX={125 150}
+   MAXSTAM={225 250}
+   INT={175 185}
+   MAXMANA={175 200}
+   ANATOMY={95.0 105.0}
+   MAGICRESISTANCE={145.0 155.0}
+   TACTICS={115.0 125.0}
+   WRESTLING={115.0 125.0}
+   MODAR={0 10}
+   RESCOLD={65 75}
+   RESENERGY={65 75}
+   RESFIRE={55 65}
+   RESPOISON={55 65}
+ON=@NPCRestock
+   ITEM=loot_dragon_stygian
+
+[CHARDEF 0109]
+//FIXME: Needs some ability to counter archers and mages
+DEFNAME=c_hydra
+NAME=hydra
+ICON=i_pet_hydra
+SOUND=snd_monster_hydra
+CAN=MT_WALK|MT_NONHUM
+DAM=21,26
+ARMOR=70
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=55 t_meat_raw
+RESOURCES=40 i_hide,19 i_ribs_raw,8 i_reag_dragon_blood
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=139.5
+TAG.DamCold=10
+TAG.DamEnergy=10
+TAG.DamFire=10
+TAG.DamPoison=10
+TAG.HitPoison=3//Greater
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Hydra
+ON=@Create
+   NPC=brain_dragon
+   FAME=22000
+   KARMA=-22000
+   STR={800 850}
+   MAXHITS={1450 1500}
+   DEX={105 115}
+   MAXSTAM={105 115}
+   INT={110 115}
+   MAXMANA={110 115}
+   ANATOMY={75.0 100.0}
+   DETECTINGHIDDEN={99.0 100.0}
+   MAGICRESISTANCE={85.0 100.0}
+   //POISONING={99.0 100.0}
+   TACTICS={100.0 120.0}
+   WRESTLING={105.0 110.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={40 50}
+   RESFIRE={70 80}
+   RESPOISON={30 40}
+ON=@NpcRestock
+   ITEM=loot_hydra
+   //1600-1800 Gold, 4-8 Magic Items (Elf and Human)
+   //Special: Hydra Scales (100%), Thorvalds Medallion (rare), Pet Parrot (rare)
+
+[CHARDEF 02ce]
+//"Diminutive guardian of the Stygian Dragons Lair, these are the first
+// level of the mini-champ at the entrance and source of the Draconian
+// Orbs, keys to enter the dragons lair.  These creatures have no magery,
+// however they do have mysticism.  Loot includes the imbuing ingredient
+// fairy dust and the quest item fairy dragon wings."
+//FIXME: Draconian Orb (Peerless Key)
+DEFNAME=c_dragon_fairy
+NAME=fairy dragon
+ICON=i_pet_dragon_fairy
+SOUND=snd_monster_dragon_faerie
+CAN=MT_WALK|MT_NONHUM
+DAM=15,20
+ARMOR=15
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=r_civilization
+FOODTYPE=15 t_meat_raw
+//RESOURCES=1 i_fairy_dragon_wings
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=104.0
+TAG.DamCold=25
+TAG.DamEnergy=25
+TAG.DamFire=25
+TAG.DamPoison=25
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Fairy Dragon
+ON=@Create
+   NPC=brain_animal
+   FAME=15000
+   KARMA=15000
+   STR={510 560}
+   MAXHITS={395 405}
+   DEX={95 105}
+   MAXSTAM={95 105}
+   INT={455 505}
+   MAXMANA={455 505}
+   ANATOMY={40.0 60.0}
+   EVALUATINGINTEL={40.0 60.0}
+   MAGICRESISTANCE={40.0 60.0}
+   MEDITATION={65.0 75.0}
+   MYSTICISM={75.0 95.0}
+   TACTICS={60.0 75.0}
+   WRESTLING={50.0 65.0}
+   MODAR={0 15}
+   RESCOLD={40 50}
+   RESENERGY={45 50}
+   RESFIRE={40 45}
+   RESPOISON={40 50}
+ON=@NPCRestock
+   //1500 - 1600 Gold.
+   //Special: Draconian Orb (Peerless Key), Fey Wings (Quest Item), Fairy Dragon Wings, Fairy Dust (Ingredient), Level 3 Treasure Map
+   ITEM=i_fairy_dust,{1 3},R5
+   ITEM=i_gold,{1500 1600}
+   ITEM=i_treasure_map_lvl_1,R3
+   ITEM=i_fey_wings,R20
+   ITEM=random_essence_virtue,{2 3},R5
+
+[CHARDEF 02cf]
+//FIXME: No Stratics data yet
+DEFNAME=c_dragon_wolf
+NAME=dragon wolf
+ICON=i_pet_dragon_wolf
+SOUND=snd_monster_dragon_wolf
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=20,32
+ARMOR=30
+DESIRES=r_jungle,r_forests,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw,2 i_fur_dark
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=95.1
+TAG.DamFire=20
+TAG.Slayer=SLAYER_DRAGON//FIXME: needs SLAYER_WOLF as well
+TAG.SlayerGroup=DRAGON,WOLF
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Dragon Wolf
+ON=@Create
+   NPC=brain_dragon
+   FAME=5500
+   KARMA=-5500
+   STR={390 420}
+   MAXHITS={250 300}
+   DEX={90 110}
+   MAXSTAM={140 175}
+   INT={100 140}
+   MAXMANA={100 140}
+   MAGICRESISTANCE={75.0 85.0}
+   TACTICS={75.0 90.0}
+   WRESTLING={65.0 80.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={30 40}
+   RESFIRE={50 60}
+   RESPOISON={20 30}
+ON=@NPCRestock
+   ITEM=i_reflective_wolf_eye,{2 3},R5
+   ITEM=loot_drake
+
+[CHARDEF 031d]
+//FIXME: No Stratics entry
+DEFNAME=c_reptile_lord
+NAME=reptile lord
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+DAM=150,163
+ARMOR=75
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,40 i_hide,6 i_reag_dragon_blood
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=128.4
+TAG.DamFire=50
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Reptile Lord
+RESLEVEL=2
+RESDISPDNID=c_dragon_red
+RESDISPDNHUE=38
+ON=@Create
+   NPC=brain_dragon
+   FAME=16000
+   KARMA=-16000
+   STR={900 1000}
+   MAXHITS={550 750}
+   DEX={90 120}
+   MAXSTAM={90 120}
+   INT={500 600}
+   MAXMANA={500 600}
+   ANATOMY={75.0 100.0}
+   EVALUATINGINTEL={80.0 100.0}
+   MAGERY={80.0 100.0}
+   MAGICRESISTANCE={110.0 125.0}
+   MEDITATION={52.0 75.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={80.0 100.0}
+   MODAR={0 10}
+   RESCOLD={60 70}
+   RESENERGY={50 60}
+   RESFIRE={80 90}
+   RESPOISON={70 80}
+ON=@NpcRestock
+   ITEM=loot_wyrm_white
+
+[EOF]

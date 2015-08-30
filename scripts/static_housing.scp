@@ -1,0 +1,301 @@
+//	By Admin Iluvatar of Middle Earth Shard, http://me.uozone.net (aka GM Crius of Legends of Albion, http://shard.puregamers.net)
+//	Special thanks to Mordaunt for nagging me into finishing this.
+
+//	VERSION 2.0 FIXED FOR USE WITH SPHERE .56b by Mordaunt (7/2/2012)
+
+//	Another special thanks to Dark/Theol for finding a crucial bug.
+//	Post any bugs or improvements you would like on the scriptsharing.org forums.
+
+//	What this does:
+//	It allows you to use a housing system (only tested with Cloud_Br's housing system so far) on static buildings.
+
+//	Modifications needed to existing scripts:
+//	If the house system you use allows you to redeed the house, you will need to edit it so that it DOESN'T redeed
+//	a static house. To do this add TAG.STATICHOUSE=1 to the region of the house (type in .region.tag.statichouse=1 ingame).
+//	Then you will have to modify your house system gump to not show the redeed option if the house region has this tag.
+
+//	How this works:
+//	- type in .msh name_of_your_house
+//	- select the place you want to put your sign *
+//	- if there are any existing doors, select them and then select yourself when you have selected them all
+//	- if there are no doors, select the location you want the door to be placed *, then select yourself when you are done
+//	- select the north-western corner of the property
+//	- select the south-eastern corner of the property
+//	- a deed will be created in the middle of the property
+//	- dclick the deed and then target the deed itself or the area just under it
+
+//	- After placing it, you can nudgedown the i_multi_treasure by 5 so it remains invisible to players.
+
+//	- The script then writes into a file called static_multis.scp in your items directory. Don't worry if this file doesn't exist,
+//	  it will be created automatically. The script then writes a fake multi in this file and the deed to this multi. This is why it
+//	  is VERY IMPORTANT that all houses have a UNIQUE name. If you make a new static multi with the same name, Sphere will ignore
+//	  the previous multi. If you create an area and need it deleted, delete the corresponding multi and deed in the static_multi.scp file.
+
+//	* Remember that the sign or door has to be where a wall would normally be. If you select the block infront of a wall, the sign or door
+//	  will be one block too far. The easiest is to target a wall when placing the sign and target the floor between the walls when placing 
+//	  the doors. You can also change the look of the door by changing its DISPID. Do not delete the door and place another one or the house
+//	  system you are using will most likely fail to work.
+
+//	Notes if using with Mordaunt's housing system
+//	- Because this system reverts static houses to a "For Sale" status rather than having them decay, 
+//	  the house sign should be used by the staff member setting up the house to set the value of the house.
+//	  	Ownership Tab > Admintrative options > set property value & place on market
+//	  when the timer expires the house will automatically be placed "For Sale" at this price.
+//	  Footprint is displayed to allow consistant pricing.	
+
+//	Version history:
+//	2-11-05 version 1.0.0
+//		- public release
+//	6-11-05: version 1.0.1
+//		- Fixed but with keys, thanks to Dark for spotting it
+//	2-7-12: version 2.0
+		- Reworked for compatibility with current sphereserver .56b	
+
+[DEFNAME def_msh]
+use_msh_debug	1	// turns debug serv logs on or off
+
+[FUNCTION msh_debug]
+IF <def.use_msh_debug>
+	SRC.SYSMESSAGE @550,3 <args>
+ENDIF
+
+[FUNCTION msh]
+IF <ISEMPTY <ARGS>>
+	SYSMESSAGE @38,3 You need to give a name for the property.
+	RETURN 1
+ENDIF
+CTAG.MSHNAME=<args>
+CTAG.MSHDOORS=0
+msh_debug House name: <CTAG0.MSHNAME>
+NEWITEM i_msh_target_sign
+NEW.EQUIP
+
+[ITEMDEF i_msh_target_sign]
+ID=i_target
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@EQUIP
+	TARGETG Where would you like to place the sign?
+	RETURN 1
+
+ON=@TARGON_CHAR
+	SRC.CTAG.MSH_SIGN.X=<SRC.TARG.P.X>
+	SRC.CTAG.MSH_SIGN.Y=<SRC.TARG.P.Y>
+	SRC.CTAG.MSH_SIGN.Z=<SRC.TARG.P.Z>
+	msh_debug Sign P=<eval <SRC.CTAG0.MSH_SIGN.X>> <eval <SRC.CTAG0.MSH_SIGN.Y>> <eval <SRC.CTAG0.MSH_SIGN.Z>>
+	SRC.NEWITEM i_msh_target_door
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_GROUND
+	SRC.CTAG.MSH_SIGN.X=<SRC.TARGP.X>
+	SRC.CTAG.MSH_SIGN.Y=<SRC.TARGP.Y>
+	SRC.CTAG.MSH_SIGN.Z=<SRC.TARGP.Z>
+	msh_debug Sign P=<eval <SRC.CTAG0.MSH_SIGN.X>> <eval <SRC.CTAG0.MSH_SIGN.Y>> <eval <SRC.CTAG0.MSH_SIGN.Z>>
+	SRC.NEWITEM i_msh_target_door
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_ITEM
+	SRC.CTAG.MSH_SIGN.X=<SRC.TARG.P.X>
+	SRC.CTAG.MSH_SIGN.Y=<SRC.TARG.P.Y>
+	SRC.CTAG.MSH_SIGN.Z=<SRC.TARG.P.Z>
+	msh_debug Sign P=<eval <SRC.CTAG0.MSH_SIGN.X>> <eval <SRC.CTAG0.MSH_SIGN.Y>> <eval <SRC.CTAG0.MSH_SIGN.Z>>
+	SRC.NEWITEM i_msh_target_door
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_CANCEL
+	SRC.SYSMESSAGE Canceled.
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_msh_target_door]
+ID=i_target
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@EQUIP
+	TARGETG Where would you like to place a door? (Target door if there is one)
+	SRC.SYSMESSAGE @38 (Target yourself after placing all doors)
+	RETURN 1
+
+ON=@TARGON_CHAR
+	IF <SRC.UID>==<SRC.TARG.UID>
+		msh_debug Number of doors: <eval <SRC.CTAG.MSHDOORS>>
+		SRC.NEWITEM i_msh_target_1
+		NEW.EQUIP
+		REMOVE
+		RETURN 1
+	ENDIF
+	SRC.CTAG.MSHDOORS += 1
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.X=<SRC.TARG.P.X>
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Y=<SRC.TARG.P.Y>
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Z=<SRC.TARG.P.Z>
+	msh_debug Door <eval <SRC.CTAG0.MSHDOORS>> P=<eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.X>> <eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Y>> <eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Z>>
+	SRC.NEWITEM i_msh_target_door
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_GROUND
+	SRC.CTAG.MSHDOORS += 1
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.X=<SRC.TARGP.X>
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Y=<SRC.TARGP.Y>
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Z=<SRC.TARGP.Z>
+	msh_debug Door <eval <SRC.CTAG0.MSHDOORS>> P=<eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.X>> <eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Y>> <eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Z>>
+	SRC.NEWITEM i_msh_target_door
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_ITEM
+	SRC.CTAG.MSHDOORS += 1
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.X=<SRC.TARG.P.X>
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Y=<SRC.TARG.P.Y>
+	TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Z=<SRC.TARG.P.Z>
+	IF (<SRC.TARG.TYPE>==t_door) || (<SRC.TARG.TYPE>==t_door_open)
+		TRY SRC.CTAG.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.ID=<SRC.TARG.ID>
+		SRC.TARG.REMOVE
+	ENDIF
+	msh_debug Door <eval <SRC.CTAG0.MSHDOORS>> P=<eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.X>> <eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Y>> <eval <SRC.CTAG0.MSH_DOOR.<SRC.CTAG0.MSHDOORS>.Z>>
+	SRC.NEWITEM i_msh_target_door
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_CANCEL
+	msh_debug Number of doors: <eval <SRC.CTAG0.MSHDOORS>>
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_msh_target_1]
+ID=i_target
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@EQUIP
+	TARGETG Select the North-Western corner of the property.
+	RETURN 1
+
+ON=@TARGON_GROUND
+	SRC.CTAG.MSHNW.X=<SRC.TARGP.X>
+	SRC.CTAG.MSHNW.Y=<SRC.TARGP.Y>
+	NEWITEM i_msh_target_2
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_CHAR
+	SRC.CTAG.MSHNW.X=<SRC.TARG.P.X>
+	SRC.CTAG.MSHNW.Y=<SRC.TARG.P.Y>
+	NEWITEM i_msh_target_2
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_ITEM
+	SRC.CTAG.MSHNW.X=<SRC.TARG.P.X>
+	SRC.CTAG.MSHNW.Y=<SRC.TARG.P.Y>
+	NEWITEM i_msh_target_2
+	NEW.EQUIP
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_CANCEL
+	SRC.SYSMESSAGE @100,3 Canceled
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_msh_target_2]
+ID=i_target
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@EQUIP
+	TARGETG Select the South-Eastern corner of the property.
+	RETURN 1
+
+ON=@TARGON_GROUND
+	SRC.CTAG.MSHSE.X=<SRC.TARGP.X>
+	SRC.CTAG.MSHSE.Y=<SRC.TARGP.Y>
+	msh_debug NW Corner: (<eval <SRC.CTAG0.MSHNW.X>>,<eval <SRC.CTAG0.MSHNW.Y>>)
+	msh_debug SE Corner: (<eval <SRC.CTAG0.MSHSE.X>>,<eval <SRC.CTAG0.MSHSE.Y>>)
+	LOCAL.dX=<eval (<SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSHNW.X>)/2>
+	LOCAL.dY=<eval (<SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSHNW.Y>)/2>
+	LOCAL.ODDX=<QVAL <eval <SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSHNW.X>>%2 ? 1:0>
+	LOCAL.ODDY=<QVAL <eval <SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSHNW.Y>>%2 ? 1:0>
+	msh_debug Center P: <eval <SRC.CTAG0.MSHNW.X>+<LOCAL.dX>+<LOCAL.ODDX>> <eval <SRC.CTAG0.MSHNW.Y>+<LOCAL.dY>+<LOCAL.ODDY>>
+	msh_debug MULTIREGION=-<eval <LOCAL.dX>+<LOCAL.ODDX>>,-<eval <LOCAL.dY>+<LOCAL.ODDY>>,<eval <LOCAL.dX>>,<eval <LOCAL.dY>>
+	msh_debug dX=<eval <LOCAL.dx>> dY=<eval <LOCAL.dy>>
+	msh_debug Odd? X:<eval <LOCAL.ODDX>> Y:<eval <LOCAL.ODDY>>
+	msh_debug X2: <eval <SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSHNW.X>> Y2: <eval <SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSHNW.Y>>
+	IF (<file.open scripts/static_multis.scp>)
+		FILE.WRITELINE [ITEMDEF i_custom_multi_<SRC.CTAG0.MSHNAME>]
+		FILE.WRITELINE ID=022c4
+		FILE.WRITELINE NAME=<SRC.CTAG0.MSHNAME>
+		FILE.WRITELINE TYPE=t_multi
+		FILE.WRITELINE CATEGORY=Multis
+		FILE.WRITELINE SUBSECTION=Static
+		FILE.WRITELINE DESCRIPTION=<SRC.CTAG0.MSHNAME>
+		FILE.WRITELINE MULTIREGION=-<eval <LOCAL.dX>>,-<eval <LOCAL.dY>>,<eval <LOCAL.dX>>,<eval <LOCAL.dY>>
+		FILE.WRITELINE COMPONENT=0bd1,<eval <LOCAL.dX> - (<SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSH_SIGN.X>)>,<eval <LOCAL.dY> - (<SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSH_SIGN.Y>)>,<eval <SRC.CTAG0.MSH_SIGN.Z>>
+	ENDIF
+	FILE.CLOSE
+	msh_debug Sign: <eval <LOCAL.dX> - (<SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSH_SIGN.X>)>,<eval <LOCAL.dY> - (<SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSH_SIGN.Y>)>,<eval <SRC.CTAG0.MSH_SIGN.Z>>
+	IF <SRC.CTAG0.MSHDOORS>
+		FOR 1 <SRC.CTAG0.MSHDOORS>
+			IF !<SRC.CTAG0.MSH_DOOR.<LOCAL._for>.ID>
+				IF (<file.open scripts/static_multis.scp>)
+					FILE.WRITELINE COMPONENT=i_door_metal,<eval <LOCAL.dX> - (<SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.X>)>,<eval <LOCAL.dY> - (<SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.Y>)>,<eval <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.Z>>
+				ENDIF
+				FILE.CLOSE
+			ELSE
+				IF (<file.open scripts/static_multis.scp>)
+					FILE.WRITELINE COMPONENT=<SRC.CTAG0.MSH_DOOR.<LOCAL._for>.ID>,<eval <LOCAL.dX> - (<SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.X>)>,<eval <LOCAL.dY> - (<SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.Y>)>,<eval <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.Z>>
+				ENDIF
+				FILE.CLOSE
+			ENDIF
+			msh_debug Door <eval <LOCAL._for>>: <eval <LOCAL.dX> - (<SRC.CTAG0.MSHSE.X> - <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.X>)>,<eval <LOCAL.dY> - (<SRC.CTAG0.MSHSE.Y> - <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.Y>)>,<eval <SRC.CTAG0.MSH_DOOR.<LOCAL._for>.Z>>
+		ENDFOR
+	ENDIF
+	IF (<file.open scripts/static_multis.scp>)
+		FILE.WRITELINE [ITEMDEF i_deed_multi_<SRC.CTAG0.MSHNAME>]
+		FILE.WRITELINE ID=i_deed
+		FILE.WRITELINE NAME=deed to <SRC.CTAG0.MSHNAME>
+		FILE.WRITELINE TYPE=t_deed
+		FILE.WRITELINE ON=@CREATE
+		FILE.WRITELINE MORE=i_custom_multi_<SRC.CTAG0.MSHNAME>
+	ENDIF
+	FILE.CLOSE
+	SERV.LOAD static_multis.scp
+	msh_debug Reloading script
+	NEWITEM i_deed_multi_<SRC.CTAG0.MSHNAME>
+	NEW.P=<eval <SRC.CTAG0.MSHNW.X>+<LOCAL.dX>+<LOCAL.ODDX>> <eval <SRC.CTAG0.MSHNW.Y>+<LOCAL.dY>+<LOCAL.ODDY>> <SRC.Z>
+	SRC.UPDATE
+	msh_debug Deed: <eval <SRC.CTAG0.MSHNW.X>+<LOCAL.dX>+<LOCAL.ODDX>> <eval <SRC.CTAG0.MSHNW.Y>+<LOCAL.dY>+<LOCAL.ODDY>> <SRC.Z>
+	SRC.SYSMESSAGE @100,3 Double click on the deed and target the deed.
+	SRC.SYSMESSAGE @100,3 You can change the doors by changing their ID's or DISPID's.
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_CHAR
+	SRC.SYSMESSAGE @100,3 Canceled.
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_ITEM
+	SRC.SYSMESSAGE @100,3 Canceled.
+	REMOVE
+	RETURN 1
+
+ON=@TARGON_CANCEL
+	SRC.SYSMESSAGE @100,3 Canceled.
+	REMOVE
+	RETURN 1
+
+[EOF]

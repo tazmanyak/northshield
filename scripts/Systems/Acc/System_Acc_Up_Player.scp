@@ -1,0 +1,57 @@
+// Player Kontrol // sifreler tertemiz ediliyor.
+
+
+[function f_connector_baglanti]
+//if !<src.account.tag.sifresinigirdi>
+//	src.dialog d_yenisifreaq
+//	//src.sysmessage @,,1 Son bir kez daha sifre degisimi gerekmektedir.Kusra bakmayiniz.
+//endif
+
+if ( <DB.connected> )
+	local.id = <account.tag0.memberid>
+	DB.QUERY SELECT * FROM smf_members WHERE id_member='<eval <local.id>>'
+		if <ddb.row.numrows>
+			while (!<isempty <db.row.<dlocal._while>.connstatus>>)
+				local.status = <DB.ROW.<eval <LOCAL.R>>.connstatus>
+			endwhile
+		endif
+	if <local.status>
+		serv.log @Acc: <account.name> -- Chr : <name> -- mysql verisi alindi !
+		tag0.conkullaniyor 1
+		closealldialogs
+		flags &= ~statf_invisible
+		sysmessage @,,1 Baglantiniz Onaylandi.
+		//DB.QUERY UPDATE smf_members SET connstatus='0' WHERE id_member='<eval <local.id>>'
+		DB.QUERY SELECT * FROM smf_members WHERE id_member='<eval <local.id>>'
+		if <ddb.row.numrows>
+			while (!<isempty <db.row.<dlocal._while>.member_name>>)
+				account.tag.last_mac "<DB.ROW.<eval <LOCAL.R>>.HDDID>"
+				account.tag.last_computer "<DB.ROW.<eval <LOCAL.R>>.PCNAME>"
+				account.tag.last_cpuid "<DB.ROW.<eval <LOCAL.R>>.CPUID>"
+				account.tag.last_platform <DB.ROW.<eval <LOCAL.R>>.MAVIKIRMIZI>
+			endwhile
+		endif
+
+		DB.QUERY UPDATE smf_themes SET value='' WHERE id_member='<eval <account.TAG.memberid>>' AND variable='cust_oyun'
+		//account.TAG.sifresi "xxxxx"
+		DB.QUERY UPDATE smf_themes SET value='' WHERE id_member='<eval <account.TAG.memberid>>' AND variable='cust_oyunku'
+		DB.QUERY UPDATE smf_members SET acc_sifre='' WHERE member_name='<account.name>'
+		DB.QUERY UPDATE smf_members SET STAFFPIN='' WHERE member_name='<account.name>'
+		DB.QUERY UPDATE smf_members SET HDDID='' WHERE id_member='<eval <local.id>>'
+		DB.QUERY UPDATE smf_members SET PCNAME='' WHERE id_member='<eval <local.id>>'
+		DB.QUERY UPDATE smf_members SET CPUID='' WHERE id_member='<eval <local.id>>'
+		DB.QUERY UPDATE smf_themes SET value='' WHERE id_member='<eval <account.TAG.memberid>>' AND variable='cust_pinkod'
+		//DB.QUERY UPDATE smf_members SET MAVIKIRMIZI='' WHERE id_member='<eval <local.id>>'
+
+		SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt  
+		SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt ____________________________________________LOGIN_____________________________________________
+		SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Bankadaki bakiye <eval <src.gold>>
+		SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC Name: <src.account.tag.last_computer>
+		SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt ______________________________________________________________________________________________
+	else
+		tag0.conkullaniyor 0
+		sysmessage @,,1 Baglanti onayi alinamiyor....
+	endif
+endif
+
+[EOF]

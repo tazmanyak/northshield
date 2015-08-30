@@ -1,0 +1,172 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 02b67]
+DEFNAME=i_woodland_chest
+NAME=Woodland Chest
+TYPE=t_armor
+RESOURCES=20 i_log
+SKILLMAKE=CARPENTRY 90.0
+REQSTR=95
+ARMOR=0 // 35
+DUPELIST=0315e
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Chest
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0315e]
+DUPEITEM=02b67
+
+[ITEMDEF 02b68]
+DEFNAME=i_woodland_belt
+NAME=Woodland Belt
+TYPE=t_armor
+RESOURCES=10 i_hides_cut
+SKILLMAKE=TAILORING 80.0
+REQSTR=10
+ARMOR=0 // 35
+DUPELIST=0315f
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Belt
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0315f]
+DUPEITEM=02b68
+
+[ITEMDEF 02b69]
+DEFNAME=i_woodland_gorget
+NAME=Woodland Gorget
+TYPE=t_armor
+RESOURCES=15 i_log
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=45
+ARMOR=0 // 35
+DUPELIST=03160
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Gorget
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 03160]
+DUPEITEM=02b69
+
+[ITEMDEF 02b6a]
+DEFNAME=i_woodland_gauntlets
+NAME=Woodland Gauntlets
+TYPE=t_armor
+RESOURCES=15 i_log
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=70
+ARMOR=0 // 35
+DUPELIST=03161
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Gauntlets
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 03161]
+DUPEITEM=02b6a
+
+[ITEMDEF 02b6b]
+DEFNAME=i_woodland_leggings
+NAME=Woodland Leggings
+TYPE=t_armor
+RESOURCES=15 i_log
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=90
+ARMOR=0 // 35
+DUPELIST=03162
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Leggings
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 03162]
+DUPEITEM=02b6b
+
+[ITEMDEF 02b6c]
+DEFNAME=i_woodland_arms
+NAME=Woodland Arms
+TYPE=t_armor
+RESOURCES=15 i_log
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=80
+ARMOR=0 // 35
+DUPELIST=03163
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Arms
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 03163]
+DUPEITEM=02b6c
+
+[ITEMDEF 02b6d]
+DEFNAME=i_armor_female_woodland
+NAME=Female Woodland Chest
+TYPE=t_armor
+RESOURCES=20 i_log
+SKILLMAKE=CARPENTRY 90.0
+REQSTR=95
+ARMOR=0 // 35
+DUPELIST=03164
+CATEGORY=Provisions - Armor - Wood
+SUBSECTION=Woodland Armor
+DESCRIPTION=Woodland Chest (Female)
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 03164]
+DUPEITEM=02b6d
+
+[eof]

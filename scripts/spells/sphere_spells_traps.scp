@@ -1,0 +1,63 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Pyromapes2k - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// In fact, traps use Tinkering, not magery.
+
+[SPELL 1001]
+DEFNAME=s_trap_dart
+NAME=Dart
+FLAGS=SPELLFLAG_FX_TARG
+SKILLREQ=Magery 30.0 
+EFFECT_ID=0
+EFFECT=0
+
+ON=@Effect
+Sound 547
+EffectFromTo <Targ.Uid>,<Src.Uid>,09c001bfe,4,020,1,0,0
+Damage <Eval 20 + (<Argn2> / 33)>,00800,<Src.Uid> //Damage (20-50)
+Say @83,,1 [Dart Trap]
+
+[SPELL 1002]
+DEFNAME=s_trap_explosion
+NAME=Explosion
+FLAGS=SPELLFLAG_FX_TARG
+SKILLREQ=Magery 30.0 
+EFFECT_ID=0
+EFFECT=0
+
+ON=@Effect
+Sound snd_spell_explosion
+Effect 3,i_fx_explode,16,10,0
+Damage <Eval 60 + (<Argn2> / 50) + <R<eval <Argn2> / 25>>>,00010,<Src.Uid> //Damage (60-120)
+Say @49,,1 [Explosion Trap]
+
+[SPELL 1003]
+DEFNAME=s_trap_poison
+NAME=Poison
+FLAGS=SPELLFLAG_FX_TARG
+SKILLREQ=Magery 30.0 
+EFFECT_ID=0
+EFFECT=0
+
+ON=@Effect
+Sound 561
+Targ.Effect 2,i_fx_smoke,16,14,0,72,3
+Local.Poison = <eval <Argn2>/250> //Poison (Lesser-Lethal)
+If <Local.Poison> > 4
+Local.Poison = 4
+Endif
+New_Poison <Local.Poison>,<Uid>
+Say @72,,1 [Poison Trap]
+
+[eof]

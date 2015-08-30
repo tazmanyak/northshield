@@ -1,0 +1,199 @@
+
+
+[DIALOG d_stargate_system]
+0,0
+page 0
+
+for 5
+if !<src.ctag0.stargate_symbol<dlocal._for>>
+src.ctag.stargate_symbol<dlocal._for>=1
+endif
+endfor
+
+resizepic 25 80 3600 670 580
+resizepic 35 90 3500 650 560
+
+resizepic 100 140 3500 495 140
+
+dtext 280 115 100 <serv.servname> Stargate System
+
+for 5
+tilepic <eval 25+(<dlocal._for>*30)> 115 <serv.itemdef.<def0.stargate_symbol_<dtag0.symbol_<dlocal._for>>>.id> 
+tilepic 55 <eval 125+(<dlocal._for>*30)> <serv.itemdef.<def0.stargate_symbol_<dtag0.symbol_<dlocal._for>>>.id> 
+tilepic <eval 55+(<dlocal._for>*30)> 280 <serv.itemdef.<def0.stargate_symbol_<dtag0.symbol_<dlocal._for>>>.id> 
+endfor
+
+for 5
+tilepic <eval 455+(<dlocal._for>*30)> 115 <serv.itemdef.<def0.stargate_symbol_<dtag0.symbol_<dlocal._for>>>.id> 
+tilepic 605 <eval 125+(<dlocal._for>*30)> <serv.itemdef.<def0.stargate_symbol_<dtag0.symbol_<dlocal._for>>>.id> 
+tilepic <eval 425+(<dlocal._for>*30)> 280 <serv.itemdef.<def0.stargate_symbol_<dtag0.symbol_<dlocal._for>>>.id> 
+endfor
+
+button 140 170 250 251 1 0 1		//upscroll symbol 1
+tilepichue 125 195 <serv.itemdef.<def0.stargate_symbol_<src.dctag0.stargate_symbol1>>.id> 1
+button 140 235 252 253 1 0 2		//downscroll symbol 1
+
+button 240 170 250 251 1 0 3		//upscroll symbol 1
+tilepichue 225 195 <serv.itemdef.<def0.stargate_symbol_<src.dctag0.stargate_symbol2>>.id> 1
+button 240 235 252 253 1 0 4
+
+button 340 170 250 251 1 0 5		//upscroll symbol 1
+tilepichue 325 195 <serv.itemdef.<def0.stargate_symbol_<src.dctag0.stargate_symbol3>>.id> 1
+button 340 235 252 253 1 0 6
+
+button 440 170 250 251 1 0 7		//upscroll symbol 1
+tilepichue 425 195 <serv.itemdef.<def0.stargate_symbol_<src.dctag0.stargate_symbol4>>.id> 1
+button 440 235 252 253 1 0 8
+
+button 540 170 250 251 1 0 9		//upscroll symbol 1
+tilepichue 525 195 <serv.itemdef.<def0.stargate_symbol_<src.dctag0.stargate_symbol5>>.id> 1
+button 540 235 252 253 1 0 10
+
+button 275 280 4023 4024 1 0 11
+dtext 315 280 1000 Active the Stargate
+
+
+page <argn1>
+
+resizepic 50 310 3500 620 310
+
+//dtext 275 290 100 Known Stargate Sequences
+//for 0 <eval <list.stargate_destinations.count> -1>
+for 7
+if <eval <local._for>+((<argn1>-9000)*7)> <= <serv.list.stargate_destinations.count>
+ref1=<list.stargate_destinations.<eval (<local._for>+((<argn1>-9000)*7)-1)>>
+ if !<ref1.uid>
+ serv.list.stargate_destinations.<eval (<local._for>+((<argn1>-9000)*7)-1)>.remove
+ endif
+if (!<def0.stargate_location_discovery>) || ((<def0.stargate_location_discovery>) && <src.tag0.discovered_stargate_<ref1>>==1))
+button 73 <eval 293+(<dlocal._for>*40)> 1209 1210 1 0 <eval (<local._for>+((<argn1>-9000)*7)+11)>
+  if <ref1.tag0.stargate_name>
+  dtext 90 <eval 290+(<dlocal._for>*40)> 100 <ref1.tag0.stargate_name> Stargate  
+  else
+  dtext 90 <eval 290+(<dlocal._for>*40)> 100 <ref1.region.name> Stargate  
+  endif
+tilepichue 275 <eval 290+(<dlocal._for>*40)> <serv.itemdef.<def0.stargate_symbol_<ref1.dtag0.symbol_1>>.id> 1
+tilepichue 350 <eval 290+(<dlocal._for>*40)> <serv.itemdef.<def0.stargate_symbol_<ref1.dtag0.symbol_2>>.id> 1
+tilepichue 425 <eval 290+(<dlocal._for>*40)> <serv.itemdef.<def0.stargate_symbol_<ref1.dtag0.symbol_3>>.id> 1
+tilepichue 500 <eval 290+(<dlocal._for>*40)> <serv.itemdef.<def0.stargate_symbol_<ref1.dtag0.symbol_4>>.id> 1
+tilepichue 575 <eval 290+(<dlocal._for>*40)> <serv.itemdef.<def0.stargate_symbol_<ref1.dtag0.symbol_5>>.id> 1
+else
+dtext 90 <eval 290+(<dlocal._for>*40)> 026 <ref1.region.name> Stargate Undiscovered
+endif
+else
+local.no_next_page=1
+endif
+endfor
+
+if <argn1> > 9000
+button 75 615 4015 4016 1 0 <eval <argn1>-1>	//backward one page
+endif
+
+if !<local.no_next_page>
+button 625 615 4006 4007 1 0 <eval <argn1>+1>	//forward one page
+endif
+
+[DIALOG d_stargate_system button]
+onbutton=0
+link=
+
+onbutton=1
+if <src.ctag0.stargate_symbol1> > 1
+src.ctag0.stargate_symbol1 -= 1
+endif
+dialog d_stargate_system 9000
+
+onbutton=2
+if <src.ctag0.stargate_symbol1> < 5
+src.ctag0.stargate_symbol1 += 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=3
+if <src.ctag0.stargate_symbol2> > 1
+src.ctag0.stargate_symbol2 -= 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=4
+if <src.ctag0.stargate_symbol2> < 5
+src.ctag0.stargate_symbol2 += 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=5
+if <src.ctag0.stargate_symbol3> > 1
+src.ctag0.stargate_symbol3 -= 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=6
+if <src.ctag0.stargate_symbol3> < 5
+src.ctag0.stargate_symbol3 += 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=7
+if <src.ctag0.stargate_symbol4> > 1
+src.ctag0.stargate_symbol4 -= 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=8
+if <src.ctag0.stargate_symbol4> < 5
+src.ctag0.stargate_symbol4 += 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=9
+if <src.ctag0.stargate_symbol5> > 1
+src.ctag0.stargate_symbol5 -= 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=10
+if <src.ctag0.stargate_symbol5> < 5
+src.ctag0.stargate_symbol5 += 1
+sound 944
+endif
+dialog d_stargate_system 9000
+
+onbutton=11
+link=
+if <valid_stargate_sequence <src.ctag0.stargate_symbol1><src.ctag0.stargate_symbol2><src.ctag0.stargate_symbol3><src.ctag0.stargate_symbol4><src.ctag0.stargate_symbol5>>
+sound 1475 
+sound 1486
+open_stargate <valid_stargate_sequence <src.ctag0.stargate_symbol1><src.ctag0.stargate_symbol2><src.ctag0.stargate_symbol3><src.ctag0.stargate_symbol4><src.ctag0.stargate_symbol5>>
+src.sysmessage @0482 The runes lock into place and a stargate opens.
+tag0.stargate_active=1
+timerf <def0.stargate_duration>,tag0.stargate_active=
+else 
+sound 1110
+src.sysmessage @0482 The controls flicker but nothing else happens.
+endif
+
+onbutton=12,1012
+ref1=<list.stargate_destinations.<eval <argn1>-12>>
+for 5
+src.ctag0.stargate_symbol<dlocal._for> = <ref1.dtag0.symbol_<dlocal._for>>
+endfor
+dialog d_stargate_system 9000
+src.sysmessage @0482 You enter the sequence for the <ref1.region.name> Stargate.
+
+
+onbutton=9000,9999		//scroll right
+
+dialog d_stargate_system <argn1>
+
+
+[eof]
+
+

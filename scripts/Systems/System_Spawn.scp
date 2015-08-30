@@ -1,0 +1,910 @@
+
+[ITEMDEF i_spawncikarici]
+NAME=Spawn Stone
+ID=i_gravestone_7
+TYPE=t_script
+
+on=@create
+attr 08000
+
+on=@dclick
+var.spawnstoneuid2 <uid>
+return 1
+
+[function Spawn_Cikart]
+SERV.NEWNPC <args>
+	NEW.REMOVEFROMVIEW
+	NEW.FLAGS |= <DEF.STATF_INVISIBLE>
+	NEW.P=<P>
+	NEW.MOVE <HVAL {-9999 9999}> <HVAL {-9999 9999}>
+		WHILE (<NEW.ISSTUCK>) || (<NEW.ISNEARTYPE T_WATER>) || (<NEW.ISNEARTYPE T_MULTI_CUSTOM>) || (<NEW.ISNEARTYPE T_MULTI>) || (<NEW.ISNEARTYPE T_WATER>) || (<NEW.P.TERRAIN> == 0244) || (<NEW.ISNEARTYPE T_WALL>) || (strmatch("<New.region.name>","Dungeons")) || (strmatch("<New.region.name>","Star")) || (strmatch('<new.region.guarded>','1')) || !(<NEW.ISNEARTYPE T_grass>) 
+		NEW.P=<P>
+		NEW.MOVE <HVAL {-9000 9000}> <HVAL {-9000 9000}>
+		NEW.FIX
+		ENDWHILE
+	NEW.HOME=<NEW.P>
+	//NEW.KARMA -5000
+	//if strmatch("*Desert*","<new.name>") || strmatch("*Forest*","<new.name>")
+		serv.allclients sysmessage @,,1 <new.name>, <new.region.name> civarında henüz spawn oldu.
+		var.son_spawn_yeri <new.region.name>
+	//else
+	//	serv.allclients sysmessage @,,1 <new.name> henüz spawn oldu.
+    //endif		
+                                         //Tamelendigi diyor sakamisin lan :D Ne tamelenmesi ciktigi saat.
+SERV.WRITEFILE C:\SERVER_LOGLARI\Tame_Tutanaklari\Spawn_Kaydi.txt Ciktigi tarih/saat : (<serv.rtime>): Binek : <new.name> | <new>
+SERV.WRITEFILE C:\SERVER_LOGLARI\Tame_Tutanaklari\Spawn_kaydi.txt ---------------------------------------------------------------------------------------------------------------
+	NEW.HOMEDIST=6
+        NEW.FLAGS &= ~<DEF.STATF_INVISIBLE>
+        new.events +e_<args>
+	NEW.UPDATE
+        local.npc1=<new.uid>
+       serv.newitem i_Binek_Silici
+        new.timer 86400
+        new.cont=<local.npc1>
+return 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////// Akibet Belirleyici Itemler
+
+[events e_c_ostard_forest]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 10
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+endif
+
+on=@death
+findid.i_Binek_Silici.remove
+var0.forest_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_ostard_desert]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 10
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+endif
+
+on=@death
+findid.i_Binek_Silici.remove
+var0.desert_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_ostard_mid]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 20
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+endif
+
+
+
+on=@death
+findid.i_Binek_Silici.remove
+var0.mid_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_ostard_frenzied]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 20
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+endif
+
+on=@death
+findid.i_Binek_Silici.remove
+var0.frenzied_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_Random_mustang]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 20
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+
+
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+endif		
+on=@death
+findid.i_Binek_Silici.remove
+var0.mustang_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_shire]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 20
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+endif
+on=@death
+findid.i_Binek_Silici.remove
+var0.shire_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_m_silver]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 20
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+endif
+on=@death
+findid.i_Binek_Silici.remove
+var0.silver_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_c_m_kirin]
+ON=@NpcSeeNewPlayer
+if !<tag.seeplayer>
+	tag.seeplayer 1
+	for 20
+		SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		endfor
+	endfor
+
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+		SERV.NEWNPC c_wyrm_shadow
+		NEW.P=<P>
+		NEW.HOME=<P>
+		NEW.UPDATE
+		NEW.REMOVETIMER 1200
+endif
+on=@death
+findid.i_Binek_Silici.remove
+var0.kirin_akibet Olduruldu
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_Binek_Silici]
+NAME=Monster Silici
+ID=i_memory
+TYPE=t_eq_script
+LAYER=30
+
+ON=@Timer
+serv.allclients sysmessage @,,1 <cont.region.name> bolgesinde <cont.name> spawn edilmedigi icin acliktan hayatini kaybetti.
+cont.hits 0
+return 1
+
+[DIALOG d_page_var_ulan]
+80,80
+page 0
+resizepic 160 0 9200 275 360	
+gumppictiled 170 10 255 340 2624
+
+dhtmlgump 180 110 300 20 0 0 <def.bfont_lred> 00:00
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////Ay-Saat Genel Ayar
+[FUNCTION rtime.dakika]
+return <strsub 14 2 <serv.rtime>>
+
+[FUNCTION SPAWN_SYSTEM]
+local.hour=<serv.rtime.format %H>
+
+IF (<EVAL <local.hour>> == 00) && (<eval <rtime.dakika>> < 6)
+
+VAR.AKTIF_FOREST	
+VAR.AKTIF_DESERT	
+VAR.AKTIF_MID		
+VAR.AKTIF_FRENZIED	
+VAR.AKTIF_MUSTANG	
+VAR.AKTIF_SHIRE		
+VAR.AKTIF_SILVER	
+VAR.AKTIF_KIRIN		
+VAR.AKTIF_UNICORN	
+VAR.AKTIF_NIGHTMARE
+
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 1)
+	if (<eval <local.hour>> == 1) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 17) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 12) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 2)
+	if (<eval <local.hour>> == 5) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 2) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 20) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 3)
+	if (<eval <local.hour>> == 7) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 16) && (<eval <VAR.AKTIF_SILVER>> == 0)
+	spawn_cikart c_m_silver
+	VAR.AKTIF_SILVER 1
+	var0.silver_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 4)
+	if (<eval <local.hour>> == 1) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 9) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 16) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 22) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 5)
+	if (<eval <local.hour>> == 15) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 9) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_FRENZIED
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 5) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_DESERT
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 6)
+	if (<eval <local.hour>> == 2) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 10) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 18) && (<eval <VAR.AKTIF_KIRIN>> == 0)
+	spawn_cikart c_m_kirin
+	VAR.AKTIF_KIRIN 1
+	var0.kirin_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 7)
+	if (<eval <local.hour>> == 12) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 7) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 20) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 1) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 8)
+	if (<eval <local.hour>> == 10) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 6) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 15) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 9)
+	if (<eval <local.hour>> == 1) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 9) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 10)
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 10) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 18) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 11)
+	if (<eval <local.hour>> == 6) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 0) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 15) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 23) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 12)
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 23) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 10) && (<eval <VAR.AKTIF_KIRIN>> == 0)
+	spawn_cikart c_m_kirin
+	VAR.AKTIF_KIRIN 1
+	var0.kirin_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 13)
+	if (<eval <local.hour>> == 8) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 13) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 5) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 14)
+	if (<eval <local.hour>> == 18) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 16) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> ==4) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 8) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_shire 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 15)
+	if (<eval <local.hour>> == 2) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 15) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 16)
+	if (<eval <local.hour>> == 4) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 18) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 11) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 17)
+	if (<eval <local.hour>> == 7) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 17) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 20) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 18)
+	if (<eval <local.hour>> == 5) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+
+	if (<eval <local.hour>> == 13) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 19)
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 19) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 11) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 20)
+	if (<eval <local.hour>> == 15) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 23) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+
+	if (<eval <local.hour>> == 5) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 21)
+	if (<eval <local.hour>> == 16) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 21) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 5) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 9) && (<eval <VAR.AKTIF_KIRIN>> == 0)
+	spawn_cikart c_m_kirin
+	VAR.AKTIF_KIRIN 1
+	var0.kirin_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 22)
+	if (<eval <local.hour>> == 6) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 19) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+
+	if (<eval <local.hour>> == 11) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 23)
+	if (<eval <local.hour>> == 21) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 23) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 0) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 24)
+	if (<eval <local.hour>> == 7) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+
+	if (<eval <local.hour>> == 12) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+
+	if (<eval <local.hour>> == 18) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 25)
+	if (<eval <local.hour>> == 8) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 2) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 21) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 26)
+	if (<eval <local.hour>> == 9) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 3) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+
+	if (<eval <local.hour>> == 20) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 27)
+	if (<eval <local.hour>> == 10) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 4) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 28)
+	if (<eval <local.hour>> == 13) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 6) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 17) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 19) && (<eval <VAR.AKTIF_SHIRE>> == 0)
+	spawn_cikart c_shire
+	VAR.AKTIF_SHIRE 1
+	var0.shire_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 29)
+	if (<eval <local.hour>> == 14) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 6) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 19) && (<eval <VAR.AKTIF_FRENZIED>> == 0)
+	spawn_cikart c_ostard_frenzied
+	VAR.AKTIF_FRENZIED 1
+	var0.frenzied_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 30)
+	if (<eval <local.hour>> == 16) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 7) && (<eval <VAR.AKTIF_MID>> == 0)
+	spawn_cikart c_ostard_mid
+	VAR.AKTIF_MID 1
+	var0.mid_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 22) && (<eval <VAR.AKTIF_KIRIN>> == 0)
+	spawn_cikart c_m_kirin
+	VAR.AKTIF_KIRIN 1
+	var0.kirin_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+IF (<eval <rtime.day>> == 31)
+	if (<eval <local.hour>> == 10) && (<eval <VAR.AKTIF_FOREST>> == 0)
+	spawn_cikart c_ostard_forest
+	VAR.AKTIF_FOREST 1
+	var0.forest_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 8) && (<eval <VAR.AKTIF_DESERT>> == 0)
+	spawn_cikart c_ostard_desert
+	VAR.AKTIF_DESERT 1
+	var0.desert_akibet Yasiyor
+	endif
+	if (<eval <local.hour>> == 22) && (<eval <VAR.AKTIF_MUSTANG>> == 0)
+	spawn_cikart c_Random_mustang
+	VAR.AKTIF_MUSTANG 1
+	var0.mustang_akibet Yasiyor
+	endif
+ENDIF
+////////////////////////////////////////////////////////////////////////////////////////////
+
+return 1
+[eof]
+
+on=@NpcSeeNewPlayer
+for 10
+SERV.NEWNPC {c_efreet 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_harpy_stone 1}
+NEW.P=<P>
+NEW.HOME=<P>
+NEW.UPDATE
+NEW.REMOVETIMER 1200
+endfor
+
+SERV.NEWNPC c_ancient_wyrm
+NEW.P=<P>
+NEW.HOME=<P>
+NEW.UPDATE
+NEW.REMOVETIMER 1200
+
+
+SERV.NEWNPC c_ancient_wyrm
+NEW.P=<P>
+NEW.HOME=<P>
+NEW.UPDATE
+NEW.REMOVETIMER 1200
+
+on=@death
+findid.i_Binek_Silici.remove
+var0.mustang_akibet Olduruldu

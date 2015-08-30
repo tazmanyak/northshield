@@ -1,0 +1,262 @@
+[Plevel 1]
+ph
+
+[comment power_hour] // ph dereceleri icin...
+0 ile 29.9 arasindaki yetenek zorlugu: 10.0
+29.9 ile 59.9 arasindaki yetenek zorlugu: 200.0
+59.9 sonrasi (120'ye kadar olmasi lazim bunun): 800.0 
+
+
+[defname phlar]
+ph1 * Cok Kolay *
+ph2 * Kolay *
+ph3 * Orta *
+ph4 * Zor *
+ph5 * Cok Zor *
+ph_stone 04000a088
+
+[defname phderece]
+phder1 1.0,1.0,1.0
+phder2 1.0,400.0,400.0
+phder3 1.0,50.0,35.0 //10.0,200.0,200.0
+phder4 1.0,100.0,100.0
+phder5 100.0,150.0,300.0
+
+
+
+[DIALOG d_cphayarmenu]
+0, 0
+nomove
+resizepic 250 10 3500 260 260
+
+page 0
+text 290 20 38 0   
+text 290 50 69 1
+text 290 80 1152 2
+text 290 110 1152 3
+
+
+button 270 50 55 56 1 1152 1
+button 270 80 55 56 1 38 2
+button 270 110 55 56 1 38 3
+
+[DIALOG d_cphayarmenu TEXT]
+Ph Ayalarlari
+Sayfa 1
+Sayfa 2
+Sayfa 3
+
+
+[DIALOG d_cphayarmenu BUTTON]
+onbutton=0
+src.sysmessage @0713,1,1 Turnuva Menusunu Kapattiniz.
+onbutton=1
+dialog d_cphayar
+
+onbutton=2
+dialog d_cphayar2
+
+onbutton=3
+dialog d_cphayar3
+
+[dialog d_cphayar3]
+0,0
+resizepic 60 40 9300 300 500
+resizepic 70 50 9300 280 480
+
+dhtmlgump 120 52 300 20 0 0  North Shield PH Ayarlamalari
+
+
+page 1
+local.y 80
+for 42 49
+button 230 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==1) ? 1:0> 211 1 0 <eval <local._for>+1>
+button 250 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==2) ? 1:0> 211 1 0 <eval <local._for>+101>
+button 270 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==3) ? 1:0> 211 1 0 <eval <local._for>+201>
+button 290 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==4) ? 1:0> 211 1 0 <eval <local._for>+301>
+button 310 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==5) ? 1:0> 211 1 0 <eval <local._for>+401>
+dhtmlgump 103 <eval <local.y>> 130 20 0 0 <serv.skill.<eval <local._for>>.name>
+local.y +=20
+endfor
+button 280 509 5603 5607 0 2
+dhtmlgump 258 507 30 20 0 0 geri
+
+[dialog d_cphayar3 button]
+on 1 500
+if (<argn> < 100)
+local.argn <argn> -1
+local.argn2 1
+elif (<argn> <200)
+local.argn <argn> -101
+local.argn2 2
+elif (<argn> <300)
+local.argn <argn> -201
+local.argn2 3
+elif (<argn> <400)
+local.argn <argn> -301
+local.argn2 4
+elif (<argn> <500)
+local.argn <argn> -401
+local.argn2 5
+endif
+
+
+try tag.skill<eval <local.argn>>ph <eval <local.argn2>>
+aktif
+sdialog d_cphayar3
+
+[dialog d_cphayar2]
+0,0
+resizepic 60 40 9300 300 500
+resizepic 70 50 9300 280 480
+
+dhtmlgump 120 52 300 20 0 0  Olympus UO Ph Ayarlamalari
+
+page 1
+local.y 80
+for 21 41
+button 230 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==1) ? 1:0> 211 1 0 <eval <local._for>+1>
+button 250 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==2) ? 1:0> 211 1 0 <eval <local._for>+101>
+button 270 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==3) ? 1:0> 211 1 0 <eval <local._for>+201>
+button 290 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==4) ? 1:0> 211 1 0 <eval <local._for>+301>
+button 310 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==5) ? 1:0> 211 1 0 <eval <local._for>+401>
+dhtmlgump 103 <eval <local.y>> 130 20 0 0 <serv.skill.<eval <local._for>>.name>
+local.y +=20
+endfor
+
+button 280 509 5603 5607 0 1
+dhtmlgump 258 507 30 20 0 0 geri
+button 300 509 5601 5605 0 3
+dhtmlgump 320 507 40 20 0 0 ileri
+
+[dialog d_cphayar2 button]
+on 1 500
+if (<argn> < 100)
+local.argn <argn> -1
+local.argn2 1
+elif (<argn> <200)
+local.argn <argn> -101
+local.argn2 2
+elif (<argn> <300)
+local.argn <argn> -201
+local.argn2 3
+elif (<argn> <400)
+local.argn <argn> -301
+local.argn2 4
+elif (<argn> <500)
+local.argn <argn> -401
+local.argn2 5
+endif
+
+
+try tag.skill<eval <local.argn>>ph <eval <local.argn2>>
+aktif
+sdialog d_cphayar2
+
+
+
+[dialog d_cphayar]
+0,0
+resizepic 60 40 9300 300 500
+resizepic 70 50 9300 280 480
+
+dhtmlgump 120 52 300 20 0 0  Olympus UO Ph Ayarlamalari
+
+page 1
+local.y 80
+for 0 20
+button 230 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==1) ? 1:0> 211 1 0 <eval <local._for>+1>
+button 250 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==2) ? 1:0> 211 1 0 <eval <local._for>+101>
+button 270 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==3) ? 1:0> 211 1 0 <eval <local._for>+201>
+button 290 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==4) ? 1:0> 211 1 0 <eval <local._for>+301>
+button 310 <eval <local.y>> 21<qval (<eval <tag.skill<eval <local._for>>ph>>==5) ? 1:0> 211 1 0 <eval <local._for>+401>
+dhtmlgump 103 <eval <local.y>> 130 20 0 0 <serv.skill.<eval <local._for>>.name>
+local.y +=20
+endfor
+
+button 300 509 5601 5605 0 2
+dhtmlgump 320 507 40 20 0 0 ileri
+
+
+
+
+
+
+[dialog d_cphayar button]
+on 1 500
+if (<argn> < 100)
+local.argn <argn> -1
+local.argn2 1
+elif (<argn> <200)
+local.argn <argn> -101
+local.argn2 2
+elif (<argn> <300)
+local.argn <argn> -201
+local.argn2 3
+elif (<argn> <400)
+local.argn <argn> -301
+local.argn2 4
+elif (<argn> <500)
+local.argn <argn> -401
+local.argn2 5
+endif
+
+
+try tag.skill<eval <local.argn>>ph <eval <local.argn2>>
+aktif
+sdialog d_cphayar
+
+
+
+[itemdef i_ph_stone]
+id i_grave_stone
+name Ph Stone
+type t_script
+
+on=@create
+color 08a0
+attr 010
+
+on=@dclick
+aktif 
+//if (strmatch('<src.account>','tazmanyak')
+	sdialog d_cphayarmenu
+//	return 1
+//else
+	//src.sysmessage @69,1,1 Xeon haricinde hiç kimse değiştiremez.
+
+
+on=@click
+message @07a1,,1 PH Ayari
+return 1
+
+on=@pickup_ground
+if !(<src.account.plevel> == 7)
+return 1
+else
+return 0
+endif
+
+[function ph]
+if <var.ph_durum>
+	src.sys_normal Şuanda PH açık durumdadır.
+else
+	src.sys_error Şuanda PH kapalı durumdadır.
+endif
+[function aktif]
+var.ph_durum 0
+for 0 49
+try serv.skill.<eval <local._for>>.adv_rate <def.phder<eval <tag.skill<eval <local._for>>ph>>>//try
+try serv.skill.<eval <local._for>>.GAINRADIUS 120.0
+endfor
+
+for 0 49
+if (<eval <tag.skill<eval <local._for>>ph>>==0)
+try serv.skill.<eval <local._for>>.adv_rate <def.phder1>> //try
+endif
+endfor
+
+
+
+
+[eof]

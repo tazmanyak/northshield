@@ -1,0 +1,99 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+///////////////////////////////////////////////////////////////
+//////// BOOMERANGS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 08ff]
+DEFNAME=i_boomerang
+TYPE=t_weapon_bow
+DAM=8,12
+SKILL=Throwing
+REQSTR=25
+RANGE=1,4
+TWOHANDS=N
+SKILLMAKE=75.0 Blacksmithing
+RESOURCES=5 i_ingot_iron
+SPEED=2.0
+WEIGHT=4.0
+DUPELIST=04067
+TDATA4=i_boomerang
+TDATA3=
+CATEGORY=Provisions - Weapons - Throwing
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Boomerang
+TAG.Item.Gargoyle=1
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04067]
+DUPEITEM=08ff
+
+///////////////////////////////////////////////////////////////
+//////// CYCLONES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0901]
+DEFNAME=i_cyclone
+NAME=Cyclone
+TYPE=t_weapon_bow
+DAM=13,17
+SKILL=Throwing
+REQSTR=40
+RANGE=1,6
+TWOHANDS=N
+SKILLMAKE=75.0 Blacksmithing
+RESOURCES=9 i_ingot_iron
+SPEED=3.0
+WEIGHT=6.0
+DUPELIST=0406C
+TDATA4=i_cyclone
+TDATA3=
+CATEGORY=Provisions - Weapons - Throwing
+SUBSECTION=Cyclones
+DESCRIPTION=Cyclone
+TAG.Item.Gargoyle=1
+
+ON=@Create
+HITPOINTS={30 50}
+
+[ITEMDEF 0406C]
+DUPEITEM=0901
+
+
+///////////////////////////////////////////////////////////////
+//////// SOUL GLAVIES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 090A]
+DEFNAME=i_soul_glaive
+NAME=Soul Glaive
+TYPE=t_weapon_bow
+DAM=18,22
+SKILL=Throwing
+REQSTR=60
+RANGE=1,8
+TWOHANDS=N
+SKILLMAKE=75.0 Blacksmithing
+RESOURCES=9 i_ingot_iron
+SPEED=4.0
+WEIGHT=8.0
+DUPELIST=0406B
+TDATA4=i_soul_glaive
+TDATA3=
+CATEGORY=Provisions - Weapons - Throwing
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Soul Glaive
+TAG.Item.Gargoyle=1
+
+ON=@Create
+HITPOINTS={30 50}
+
+[ITEMDEF 0406B]
+DUPEITEM=090A
+
+[eof]

@@ -1,0 +1,1424 @@
+[FUNCTION infos]
+targetf infos_gump
+sysmessage Hebelehubele
+
+[function infos_gump]
+IF (<argo.isitem>)
+ARGO.DIALOG d_infos_item 1
+ELSEIF !(<argo.isitem>)
+IF (<ARGO.ISPLAYER>)
+IF (<ARGO.ACCOUNT.PLEVEL> > <ACCOUNT.PLEVEL>)
+sysmessage You don't have the plevel for this.
+return 1
+ENDIF
+ENDIF
+ARGO.DIALOG d_infos_player 1
+ENDIF
+
+[DIALOG d_infos_item]
+150,75
+page 0
+resizepic 0 0 2620 500 520
+CHECKERTRANS 0 0 505 521
+tilepichue 65 420 <dispiddec> <dcolor>
+
+PAGE 1
+dtext 10 08 1000 Serial
+button 75 08 2440 2440 0 0 1
+dtext 80 10 100 <uid>
+
+dtext 10 30 1000 Name
+button 75 30 2440 2440 1 0 2
+dtext 80 32 100 <name>
+
+dtext 10 52 1000 Color
+button 75 52 2440 2440 1 0 3
+dtext 80 54 100 <color>
+
+dtext 10 74 1000 BaseID
+button 75 74 2440 2440 0 0 4
+dtext 80 76 100 <baseid>
+
+dtext 10 96 1000 DispID
+button 75 96 2440 2440 1 0 5
+dtext 80 98 100 <dispid>
+
+dtext 10 118 1000 Type
+button 75 118 2440 2440 1 0 6
+dtext 80 120 100 <type>
+
+dtext 10 140 1000 Timer
+button 75 140 2440 2440 1 0 7
+dtext 80 142 100 <timer>
+
+dtext 10 162 1000 Amount
+button 75 162 2440 2440 1 0 8
+dtext 80 164 100 <amount>
+
+dtext 10 184 1000 Position
+button 75 184 2440 2440 1 0 9
+dtext 80 186 100 <p>
+
+dtext 10 206 1000 More1
+button 75 206 2440 2440 1 0 10
+dtext 80 208 100 <more1>
+
+dtext 10 228 1000 More2
+button 75 228 2440 2440 1 0 11
+dtext 80 230 100 <more2>
+
+dtext 10 250 1000 MoreP
+button 75 250 2440 2440 1 0 12
+dtext 80 250 100 <morep>
+
+dtext 10 272 1000 MoreX
+button 75 272 2440 2440 1 0 13
+dtext 80 274 100 <morex>
+
+dtext 10 294 1000 MoreY
+button 75 294 2440 2440 1 0 14
+dtext 80 296 100 <morey>
+
+dtext 10 316 1000 MoreZ
+button 75 316 2440 2440 1 0 15
+dtext 80 318 100 <morez>
+
+dtext 10 338 1000 MoreM
+button 75 338 2440 2440 1 0 16
+dtext 80 340 100 <morem>
+
+dtext 10 360 1000 Weight
+button 75 360 2440 2440 0 0 17
+dtext 80 362 100 <weight>
+
+dtext 10 382 1000 Layer
+button 75 382 2440 2440 1 0 18
+dtext 80 386 100 <layer>
+
+dtext 250 08 1000 Armor
+button 305 08 2440 2440 0 0 19
+dtext 310 10 100 <armor>
+
+dtext 250 30 1000 Hits
+button 305 30 2440 2440 1 0 20
+
+dtext 250 52 1000 Instance
+button 305 52 2440 2440 0 0 21
+dtext 310 54 100 <instances>
+
+dtext 250 74 1000 Value
+button 305 74 2440 2440 0 0 22
+dtext 310 76 100 <value>
+
+dtext 250 96 1000 Cont
+button 305 96 2440 2440 1 0 23
+dtext 310 98 100 <cont>
+
+dtext 250 118 1000 Link
+button 305 118 2440 2440 1 0 24
+dtext 310 120 100 <link>
+
+dtext 320 150 0ad ATTRs
+
+dtext 250 180 1000 Ident
+button 305 180 2440 2440 1 0 25
+IF (<attr>&attr_identified)
+dtext 310 182 100 1
+ELSE
+dtext 310 182 100 0
+ENDIF
+
+dtext 250 202 1000 Decay
+button 305 202 2440 2440 1 0 26
+IF (<attr>&attr_decay)
+dtext 310 204 100 1
+ELSE
+dtext 310 204 100 0
+ENDIF
+
+dtext 250 224 1000 Newbie
+button 305 224 2440 2440 1 0 27
+IF (<attr>&attr_newbie)
+dtext 310 226 100 1
+ELSE
+dtext 310 226 100 0
+ENDIF
+
+dtext 250 246 1000 Move
+button 305 246 2440 2440 1 0 28
+IF (<attr>&attr_move_always)
+dtext 310 248 100 1
+ELSE
+dtext 310 248 100 0
+ENDIF
+
+dtext 250 268 1000 Locked
+button 305 268 2440 2440 1 0 29
+IF (<attr>&attr_move_never)
+dtext 310 270 100 1
+ELSE
+dtext 310 270 100 0
+ENDIF
+
+dtext 250 290 1000 Magic
+button 305 290 2440 2440 1 0 30
+IF (<attr>&attr_magic)
+dtext 310 292 100 1
+ELSE
+dtext 310 292 100 0
+ENDIF
+
+dtext 250 312 1000 Owned
+button 305 312 2440 2440 1 0 31
+IF (<attr>&attr_owned)
+dtext 310 314 100 1
+ELSE
+dtext 310 314 100 0
+ENDIF
+
+dtext 250 334 1000 Invis
+button 305 334 2440 2440 1 0 32
+IF (<attr>&attr_invis)
+dtext 310 336 100 1
+ELSE
+dtext 310 336 100 0
+ENDIF
+
+dtext 250 356 1000 Cursed
+button 305 356 2440 2440 1 0 33
+IF (<attr>&attr_cursed)
+dtext 310 358 100 1
+ELSE
+dtext 310 358 100 0
+ENDIF
+
+dtext 250 378 1000 Blessed
+button 305 378 2440 2440 1 0 34
+IF (<attr>&attr_blessed)
+dtext 310 380 100 1
+ELSE
+dtext 310 380 100 0
+ENDIF
+
+dtext 250 400 1000 ForSale
+button 305 400 2440 2440 1 0 35
+IF (<attr>&attr_forsale)
+dtext 310 402 100 1
+ELSE
+dtext 310 402 100 0
+ENDIF
+
+dtext 248 422 1000 Candecay
+button 305 422 2440 2440 1 0 36
+IF (<attr>&attr_can_decay)
+dtext 310 424 100 1
+ELSE
+dtext 310 424 100 0
+ENDIF
+
+dtext 248 444 1000 Static
+button 305 444 2440 2440 1 0 37
+IF (<attr>&attr_static)
+dtext 310 446 100 1
+ELSE
+dtext 310 446 100 0
+ENDIF
+
+dtext 248 466 1000 Dammed
+button 305 466 2440 2440 1 0 38
+IF (<attr>&attr_cursed2)
+dtext 310 468 100 1
+ELSE
+dtext 310 468 100 0
+ENDIF
+
+dtext 248 488 1000 Sacred
+button 305 488 2440 2440 1 0 39
+IF (<attr>&attr_blessed2)
+dtext 310 490 100 1
+ELSE
+dtext 310 490 100 0
+ENDIF
+
+[DIALOG d_infos_item BUTTON]
+ON=0
+tag.infos_target=
+
+ON=2
+tryp 4 inpdlg name 30
+
+ON=3
+tryp 4 inpdlg color 30
+
+ON=5
+tryp 4 inpdlg dispid 30
+
+ON=6
+tryp 4 inpdlg type 30
+
+ON=7
+tryp 4 inpdlg timer 15
+
+ON=8
+tryp 4 inpdlg amount 10
+
+ON=9
+tryp 4 inpdlg p 17
+
+ON=10
+tryp 4 inpdlg more1 20
+
+ON=11
+tryp 4 inpdlg more2 20
+
+ON=12
+tryp 4 inpdlg morep 20
+
+ON=13
+tryp 4 inpdlg morex 20
+
+ON=14
+tryp 4 inpdlg morey 20
+
+ON=15
+tryp 4 inpdlg morez 20
+
+ON=16
+tryp 4 inpdlg morem 3
+
+ON=17
+tryp 4 inpdlg weight 11
+
+ON=18
+tryp 4 inpdlg layer 2
+
+ON=20
+tryp 4 inpdlg hitpoints 25
+
+ON=23
+tryp 4 inpdlg cont 33
+
+ON=24
+tryp 4 inpdlg link 33
+
+on=25
+IF (<attr>&attr_identified)
+attr &= ~attr_identified
+ELSE
+attr |= attr_identified
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=26
+IF (<attr>&attr_decay)
+attr &= ~attr_decay
+ELSE
+attr |= attr_decay
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=27
+IF (<attr>&attr_newbie)
+attr &= ~attr_newbie
+ELSE
+attr |= attr_newbie
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=28
+IF (<attr>&attr_move_always)
+attr &= ~attr_move_always
+ELSE
+attr |= attr_move_always
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=29
+IF (<attr>&attr_move_never)
+attr &= ~attr_move_never
+ELSE
+attr |= attr_move_never
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=30
+IF (<attr>&attr_magic)
+attr &= ~attr_magic
+ELSE
+attr |= attr_magic
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=31
+IF (<attr>&attr_owned)
+attr &= ~attr_owned
+ELSE
+attr |= attr_owned
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=32
+IF (<attr>&attr_invis)
+attr &= ~attr_invis
+ELSE
+attr |= attr_invis
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=33
+IF (<attr>&attr_cursed)
+attr &= ~attr_cursed
+ELSE
+attr |= attr_cursed
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=34
+IF (<attr>&attr_blessed)
+attr &= ~attr_blessed
+ELSE
+attr |= attr_blessed
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=35
+IF (<attr>&attr_forsale)
+attr &= ~attr_forsale
+ELSE
+attr |= attr_forsale
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=36
+IF (<attr>&attr_can_decay)
+attr &= ~attr_can_decay
+ELSE
+attr |= attr_can_decay
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=37
+IF (<attr>&attr_static)
+attr &= ~attr_static
+ELSE
+attr |= attr_static
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=38
+IF (<attr>&attr_cursed2)
+attr &= ~attr_cursed2
+ELSE
+attr |= attr_cursed2
+ENDIF
+update
+DIALOG d_infos_item 1
+
+on=39
+IF (<attr>&attr_blessed2)
+attr &= ~attr_blessed2
+ELSE
+attr |= attr_blessed2
+ENDIF
+update
+DIALOG d_infos_item 1
+
+[DIALOG d_infos_player]
+150,75
+page 0
+resizepic 0 0 2620 500 450
+CHECKERTRANS 0 0 505 455
+resizepic 500 0 3600 50 100
+button 510 10 2117 2118 0 1 120
+button 510 30 2117 2118 0 2 121
+button 510 50 2117 2118 0 3 122
+button 510 70 2117 2118 0 4 123
+dtext 525 8 2010 1
+dtext 525 28 2010 2
+dtext 525 48 2010 3
+dtext 525 68 2010 4
+tilepichue 530 150 <dispiddec> <eval <color>>
+
+page 1
+dtext 10 08 1000 Serial
+button 75 08 2440 2440 0 0 1
+dtext 80 10 100 <uid>
+
+dtext 10 30 1000 Account
+button 75 30 2440 2440 0 0 2
+dtext 80 32 100 <account>
+
+dtext 10 52 1000 Name
+button 75 52 2440 2440 1 0 3
+dtext 80 54 100 <name>
+
+dtext 10 74 1000 Title
+button 75 74 2440 2440 1 0 4
+dtext 80 76 100 <title>
+
+dtext 10 96 1000 Color
+button 75 96 2440 2440 1 0 5
+dtext 80 98 100 <color>
+
+dtext 10 118 1000 Oskin
+button 75 118 2440 2440 1 0 6
+dtext 80 120 100 <oskin>
+
+dtext 10 140 1000 ID
+button 75 140 2440 2440 1 0 0
+dtext 80 142 100 <baseid>
+
+dtext 10 162 1000 Body
+button 75 162 2440 2440 1 0 7
+dtext 80 164 100 <body>
+
+dtext 10 184 1000 OBody
+button 75 184 2440 2440 1 0 8
+dtext 80 188 100 <obody>
+
+dtext 10 206 1000 Position
+button 75 206 2440 2440 1 0 9
+dtext 80 208 100 <p>
+
+dtext 10 228 1000 Home
+button 75 228 2440 2440 1 0 10
+dtext 80 230 100 <home>
+
+dtext 10 250 1000 Action
+button 75 250 2440 2440 1 0 11
+dtext 80 252 100 <action>
+
+dtext 10 272 1000 Food
+button 75 272 2440 2440 1 0 12
+dtext 80 274 100 <food>
+
+dtext 10 294 1000 Npc
+button 75 294 2440 2440 0 0 13
+dtext 80 296 100 <npc>
+
+dtext 10 316 1000 Speech
+button 75 316 2440 2440 1 0 14
+dtext 80 318 100 <speechcolor>
+
+dtext 250 08 1000 Str
+button 305 08 2440 2440 1 0 15
+dtext 310 10 100 <str>
+
+dtext 250 30 1000 Dex
+button 305 30 2440 2440 1 0 16
+dtext 310 32 100 <dex>
+
+dtext 250 52 1000 Int
+button 305 52 2440 2440 1 0 17
+dtext 310 54 100 <int>
+
+dtext 250 74 1000 Hits
+button 305 74 2440 2440 1 0 18
+dtext 310 76 100 <hits>
+
+dtext 250 96 1000 Stam
+button 305 96 2440 2440 1 0 19
+dtext 310 98 100 <stam>
+
+dtext 250 118 1000 Mana
+button 305 118 2440 2440 1 0 20
+dtext 310 120 100 <mana>
+
+dtext 250 140 1000 Karma
+button 305 140 2440 2440 1 0 21
+dtext 310 142 100 <karma>
+
+dtext 250 162 1000 Fame
+button 305 162 2440 2440 1 0 22
+dtext 310 164 100 <fame>
+
+dtext 250 184 1000 Kills
+button 305 184 2440 2440 1 0 23
+dtext 310 186 100 <kills>
+
+dtext 250 206 1000 Deaths
+button 305 206 2440 2440 1 0 24
+dtext 310 208 100 <deaths>
+
+button 15 400 4007 4006 1 0 25
+dtext 48 400 036 Ir na GuildStone
+dtext 40 425 1152 Guild: <getguild>
+resizepic 210 390 3500 200 55
+//dtext 248 400 36 Jail Timer (<eval <findid.i_jail_forgive.timer>/60>)
+button 228 402 2117 2118 1 0 26
+dtext 230 400 07a1 +
+button 378 402 2117 2118 1 0 27
+dtext 380 400 07a1 -
+button 280 422 2117 2118 1 0 28
+dtext 295 420 07a1 Free
+
+button 465 421 4007 4006 0 2 29
+
+dtext 250 228 1000 ModStr
+button 305 228 2440 2440 1 0 30
+dtext 310 230 100 <modstr>
+
+dtext 250 250 1000 ModDex
+button 305 250 2440 2440 1 0 31
+dtext 310 252 100 <ModDex>
+
+dtext 250 272 1000 ModInt
+button 305 272 2440 2440 1 0 32
+dtext 310 274 100 <ModInt>
+
+dtext 250 294 1000 Killspk
+button 305 294 2440 2440 0 0 33
+dtext 310 296 100 <tag0.killspk>
+
+PAGE 2
+
+dtext 10 08 1000 Invulnerability
+button 120 08 2445 2445 1 0 34
+IF (<flags>&statf_invul)
+dtext 125 10 100 1
+ELSE
+dtext 125 10 100 0
+ENDIF
+
+dtext 10 30 1000 Dead
+button 120 30 2445 2445 1 0 35
+IF (<flags>&statf_dead)
+dtext 125 32 100 1
+ELSE
+dtext 125 32 100 0
+ENDIF
+
+dtext 10 52 1000 Paralyzed
+button 120 52 2445 2445 1 0 36
+IF (<flags>&statf_freeze)
+dtext 125 54 100 1
+ELSE
+dtext 125 54 100 0
+ENDIF
+
+dtext 10 74 1000 Invisible
+button 120 74 2445 2445 1 0 37
+IF (<flags>&statf_invisible)
+dtext 125 76 100 1
+ELSE
+dtext 125 76 100 0
+ENDIF
+
+dtext 10 96 1000 Sleeping
+button 120 96 2445 2445 1 0 38
+IF (<flags>&statf_sleeping)
+dtext 125 98 100 1
+ELSE
+dtext 125 98 100 0
+ENDIF
+
+dtext 10 118 1000 Warmode
+button 120 118 2445 2445 1 0 39
+IF (<flags>&statf_war)
+dtext 125 120 100 1
+ELSE
+dtext 125 120 100 0
+ENDIF
+
+dtext 10 140 1000 Reactive Armor
+button 120 140 2445 2445 1 0 40
+IF (<flags>&statf_reactive)
+dtext 125 142 100 1
+ELSE
+dtext 125 142 100 0
+ENDIF
+
+dtext 10 162 1000 Poisoned
+button 120 162 2445 2445 1 0 41
+IF (<flags>&statf_poisoned)
+dtext 125 164 100 1
+ELSE
+dtext 125 164 100 0
+ENDIF
+
+dtext 10 184 1000 Nightsight
+button 120 184 2445 2445 1 0 42
+IF (<flags>&statf_nightsight)
+dtext 125 186 100 1
+ELSE
+dtext 125 186 100 0
+ENDIF
+
+dtext 10 206 1000 Magic Reflect
+button 120 206 2445 2445 1 0 43
+IF (<flags>&statf_reflection)
+dtext 125 208 100 1
+ELSE
+dtext 125 208 100 0
+ENDIF
+
+dtext 10 228 1000 Polymorphed
+button 120 228 2445 2445 1 0 44
+IF (<flags>&statf_polymorph)
+dtext 125 230 100 1
+ELSE
+dtext 125 230 100 0
+ENDIF
+
+dtext 10 250 1000 Incognito
+button 120 250 2445 2445 1 0 45
+IF (<flags>&statf_incognito)
+dtext 125 252 100 1
+ELSE
+dtext 125 252 100 0
+ENDIF
+
+dtext 10 272 1000 Spirit Speak
+button 120 272 2445 2445 1 0 46
+IF (<flags>&statf_spiritspeak)
+dtext 125 274 100 1
+ELSE
+dtext 125 274 100 0
+ENDIF
+
+dtext 10 294 1000 Insubistancial
+button 120 294 2445 2445 1 0 47
+IF (<flags>&statf_insubstantial)
+dtext 125 296 100 1
+ELSE
+dtext 125 296 100 0
+ENDIF
+
+dtext 10 316 1000 Emote Action
+button 120 316 2445 2445 1 0 48
+IF (<flags>&statf_emoteaction)
+dtext 125 318 100 1
+ELSE
+dtext 125 318 100 0
+ENDIF
+
+dtext 10 338 1000 Has Shield
+button 120 338 2445 2445 1 0 49
+IF (<flags>&statf_hasshield)
+dtext 125 340 100 1
+ELSE
+dtext 125 340 100 0
+ENDIF
+
+dtext 10 360 1000 Playing Script
+button 120 360 2445 2445 1 0 50
+dtext 125 362 100 0
+
+dtext 10 382 1000 Stone
+button 120 382 2445 2445 1 0 51
+IF (<flags>&statf_stone)
+dtext 125 384 100 1
+ELSE
+dtext 125 384 100 0
+ENDIF
+
+dtext 275 08 1000 Record Script
+button 385 08 2445 2445 0 0 52
+dtext 390 10 100 0
+
+dtext 275 30 1000 Flying
+button 385 30 2445 2445 1 0 53
+IF (<flags>&statf_fly)
+dtext 390 32 100 1
+ELSE
+dtext 390 32 100 0
+ENDIF
+
+dtext 275 52 1000 Spawn
+button 385 52 2445 2445 0 0 54
+dtext 390 54 100 0
+
+dtext 275 74 1000 Hallucination
+button 385 74 2445 2445 1 0 55
+IF (<flags>&statf_hallucinating)
+dtext 390 76 100 1
+ELSE
+dtext 390 76 100 0
+ENDIF
+
+dtext 275 96 1000 Hidden
+button 385 96 2445 2445 1 0 56
+IF (<flags>&statf_hidden)
+dtext 390 98 100 1
+ELSE
+dtext 390 98 100 0
+ENDIF
+
+dtext 275 118 1000 Indoors
+button 385 118 2445 2445 1 0 57
+IF (<flags>&statf_indoors)
+dtext 390 120 100 1
+ELSE
+dtext 390 120 100 0
+ENDIF
+
+dtext 275 140 1000 Criminal
+button 385 140 2445 2445 1 0 58
+IF (<flags>&statf_criminal)
+dtext 390 142 100 1
+ELSE
+dtext 390 142 100 0
+ENDIF
+
+dtext 275 162 1000 Conjured
+button 385 162 2445 2445 1 0 59
+IF (<flags>&statf_conjured)
+dtext 390 164 100 1
+ELSE
+dtext 390 164 100 0
+ENDIF
+
+dtext 275 184 1000 Pet
+button 385 184 2445 2445 1 0 60
+IF (<flags>&statf_pet)
+dtext 390 186 100 1
+ELSE
+dtext 390 186 100 0
+ENDIF
+
+dtext 275 206 1000 Spawmned
+button 385 206 2445 2445 1 0 61
+IF (<flags>&statf_spawned)
+dtext 390 208 100 1
+ELSE
+dtext 390 208 100 0
+ENDIF
+
+dtext 275 228 1000 Saved
+button 385 228 2445 2445 1 0 62
+IF (<flags>&statf_saveparity)
+dtext 390 230 100 1
+ELSE
+dtext 390 230 100 0
+ENDIF
+
+dtext 275 250 1000 Ridden
+button 385 250 2445 2445 1 0 63
+IF (<flags>&statf_ridden)
+dtext 390 252 100 1
+ELSE
+dtext 390 252 100 0
+ENDIF
+
+dtext 275 272 1000 Mounted
+button 385 272 2445 2445 1 0 64
+IF (<flags>&statf_onhorse)
+dtext 390 274 100 1
+ELSE
+dtext 390 274 100 0
+ENDIF
+
+dtext 275 312 1000 Flags
+gumppic 385 312 2445
+dtext 390 314 100 <flags>
+
+button 285 372 2311 2312 1 0 65
+dtext 340 371 2010 Clear Flags
+
+button 5 421 4014 4015 0 1 66
+button 465 421 4007 4006 0 3 67
+
+PAGE 3
+dtext 10 08 1000 SkillTotal
+gumppic 120 08 2445
+dtext 125 10 39 <fval <skilltotal>>
+
+dtext 10 30 1000 Alchemy
+button 120 30 2445 2445 1 0 68
+dtext 125 32 100 <fval <alchemy>>
+
+dtext 10 52 1000 Anatomy
+button 120 52 2445 2445 1 0 69
+dtext 125 54 100 <fval <anatomy>>
+
+dtext 10 74 1000 Animal Lore
+button 120 74 2445 2445 1 0 70
+dtext 125 76 100 <fval <AnimalLore>>
+
+dtext 10 96 1000 ItemID
+button 120 96 2445 2445 1 0 71
+dtext 125 98 100 <fval <ItemID>>
+
+dtext 10 118 1000 Arms Lore
+button 120 118 2445 2445 1 0 72
+dtext 125 120 100 <fval <ArmsLore>>
+
+dtext 10 140 1000 Parrying
+button 120 140 2445 2445 1 0 73
+dtext 125 142 100 <fval <Parrying>>
+
+dtext 10 162 1000 Begging
+button 120 162 2445 2445 1 0 74
+dtext 125 164 100 <fval <Begging>>
+
+dtext 10 184 1000 Blacksmithy
+button 120 184 2445 2445 1 0 75
+dtext 125 186 100 <fval <Blacksmithing>>
+
+dtext 10 206 1000 Bowcraft
+button 120 206 2445 2445 1 0 76
+dtext 125 208 100 <fval <Bowcraft>>
+
+dtext 10 228 1000 Peacemaking
+button 120 228 2445 2445 1 0 77
+dtext 125 230 100 <fval <Peacemaking>>
+
+dtext 10 250 1000 Camping
+button 120 250 2445 2445 1 0 78
+dtext 125 252 100 <fval <Camping>>
+
+dtext 10 272 1000 Carpentry
+button 120 272 2445 2445 1 0 79
+dtext 125 274 100 <fval <Carpentry>>
+
+dtext 10 294 1000 Cartography
+button 120 294 2445 2445 1 0 80
+dtext 125 296 100 <fval <Cartography>>
+
+dtext 10 316 1000 Cooking
+button 120 316 2445 2445 1 0 81
+dtext 125 318 100 <fval <Cooking>>
+
+dtext 10 338 1000 Detect Hidden
+button 120 338 2445 2445 1 0 82
+dtext 125 340 100 <fval <DetectingHidden>>
+
+//dtext 10 360 1000 Enticement
+//button 120 360 2445 2445 1 0 83
+//dtext 125 362 100 <fval <Enticement>>
+
+dtext 10 382 1000 Eval Int
+button 120 382 2445 2445 1 0 84
+dtext 125 384 100 <fval <EvaluatingIntel>>
+
+dtext 275 08 1000 Healing
+button 385 08 2445 2445 1 0 85
+dtext 390 10 100 <fval <Healing>>
+
+dtext 275 30 1000 Fishing
+button 385 30 2445 2445 1 0 86
+dtext 390 32 100 <fval <Fishing>>
+
+dtext 275 52 1000 Forensics
+button 385 52 2445 2445 1 0 87
+dtext 390 54 100 <fval <Forensics>>
+
+dtext 275 74 1000 Herding
+button 385 74 2445 2445 1 0 88
+dtext 390 74 100 <fval <Herding>>
+
+dtext 275 96 1000 Hiding
+button 385 96 2445 2445 1 0 89
+dtext 390 98 100 <fval <Hiding>>
+
+dtext 275 118 1000 Provocation
+button 385 118 2445 2445 1 0 90
+dtext 390 120 100 <fval <Provocation>>
+
+dtext 275 140 1000 Inscription
+button 385 140 2445 2445 1 0 91
+dtext 390 142 100 <fval <Inscription>>
+
+dtext 275 162 1000 Lock Picking
+button 385 162 2445 2445 1 0 92
+dtext 390 164 100 <fval <LockPicking>>
+
+dtext 275 184 1000 Magery
+button 385 184 2445 2445 1 0 93
+dtext 390 186 100 <fval <Magery>>
+
+dtext 275 206 1000 Magic Resist
+button 385 206 2445 2445 1 0 94
+dtext 390 208 100 <fval <MagicResistance>>
+
+dtext 275 228 1000 Tactics
+button 385 228 2445 2445 1 0 95
+dtext 390 230 100 <fval <Tactics>>
+
+dtext 275 250 1000 Snooping
+button 385 250 2445 2445 1 0 96
+dtext 390 252 100 <fval <Snooping>>
+
+dtext 275 272 1000 Musicianship
+button 385 272 2445 2445 1 0 97
+dtext 390 274 100 <fval <Musicianship>>
+
+dtext 275 294 1000 Poisoning
+button 385 294 2445 2445 1 0 98
+dtext 390 296 100 <fval <Poisoning>>
+
+dtext 275 316 1000 Archery
+button 385 316 2445 2445 1 0 99
+dtext 390 318 100 <fval <Archery>>
+
+dtext 275 338 1000 Spirit Speak
+button 385 338 2445 2445 1 0 100
+dtext 390 340 100 <fval <SpiritSpeak>>
+
+dtext 275 360 1000 Stealing
+button 385 360 2445 2445 1 0 101
+dtext 390 362 100 <fval <Stealing>>
+
+dtext 275 382 1000 Tailoring
+button 385 382 2445 2445 1 0 102
+dtext 390 384 100 <fval <Tailoring>>
+
+button 5 421 4014 4015 0 2 118
+button 465 421 4007 4006 0 4 119
+
+PAGE 4
+dtext 10 08 1000 Taming
+button 120 08 2445 2445 1 0 103
+dtext 125 08 100 <fval <Taming>>
+
+dtext 10 30 1000 TasteID
+button 120 30 2445 2445 1 0 104
+dtext 125 32 100 <fval <TasteID>>
+
+dtext 10 52 1000 Tinkering
+button 120 52 2445 2445 1 0 105
+dtext 125 54 100 <fval <Tinkering>>
+
+dtext 10 74 1000 Tracking
+button 120 74 2445 2445 1 0 106
+dtext 125 76 100 <fval <Tracking>>
+
+dtext 10 96 1000 Veterinary
+button 120 96 2445 2445 1 0 107
+dtext 125 98 100 <fval <Veterinary>>
+
+dtext 10 118 1000 Swordsmanship
+button 120 118 2445 2445 1 0 108
+dtext 125 120 100 <fval <Swordsmanship>>
+
+dtext 10 140 1000 Macefighting
+button 120 140 2445 2445 1 0 109
+dtext 125 142 100 <fval <Macefighting>>
+
+dtext 10 162 1000 Fencing
+button 120 162 2445 2445 1 0 110
+dtext 125 164 100 <fval <Fencing>>
+
+dtext 10 184 1000 Wrestling
+button 120 184 2445 2445 1 0 111
+dtext 125 186 100 <fval <Wrestling>>
+
+dtext 10 206 1000 Lumberjacking
+button 120 206 2445 2445 1 0 112
+dtext 125 208 100 <fval <Lumberjacking>>
+
+dtext 10 228 1000 Mining
+button 120 228 2445 2445 1 0 113
+dtext 125 230 100 <fval <Mining>>
+
+dtext 10 250 1000 Meditation
+button 120 250 2445 2445 1 0 114
+dtext 125 252 100 <fval <Meditation>>
+
+dtext 10 272 1000 Stealth
+button 120 272 2445 2445 1 0 115
+dtext 125 274 100 <fval <Stealth>>
+
+dtext 10 294 1000 RemoveTrap
+button 120 294 2445 2445 1 0 116
+dtext 125 296 100 <fval <RemoveTrap>>
+
+button 5 421 4014 4015 0 3 117
+
+[DIALOG d_infos_player BUTTON]
+ON=0
+tag.infos_target=
+
+ON=3
+tryp 4 inpdlg name 30
+
+on=4
+tryp 4 inpdlg title 30
+
+on=5
+tryp 4 inpdlg color 6
+
+on=6
+tryp 4 inpdlg oskin 6
+
+on=7
+tryp 4 inpdlg body 30
+
+on=8
+tryp 4 inpdlg obody 30
+
+on=9
+tryp 4 inpdlg p 20
+
+on=10
+tryp 4 inpdlg home 20
+
+on=11
+tryp 4 inpdlg action 20
+
+on=12
+tryp 4 inpdlg food 20
+
+on=14
+tryp 4 inpdlg speechcolor 20
+
+on=15
+tryp 4 inpdlg str 20
+
+on=16
+tryp 4 inpdlg dex 20
+
+on=17
+tryp 4 inpdlg int 20
+
+on=18
+tryp 4 inpdlg hits 20
+
+on=19
+tryp 4 inpdlg stam 20
+
+on=20
+tryp 4 inpdlg mana 20
+
+on=21
+tryp 4 inpdlg karma 20
+
+on=22
+tryp 4 inpdlg fame 20
+
+on=23
+tryp 4 inpdlg kills 20
+
+on=24
+tryp 4 inpdlg deaths 20
+
+on=25
+GO <memoryfindtype.memory_guild.link.P>
+DIALOG d_infos_player
+
+on=26
+findid.i_jail_forgive.timer -= <eval 10*60>
+DIALOG d_infos_player
+
+on=27
+findid.i_jail_forgive.timer -= <eval 10*60>
+DIALOG d_infos_player
+
+on=28
+findid.i_jail_forgive.timer
+DIALOG d_infos_player
+
+on=30
+tryp 4 inpdlg modstr 20
+
+on=31
+tryp 4 inpdlg moddex 20
+
+on=32
+tryp 4 inpdlg modint 20
+
+on=33
+tryp 4 inpdlg tag.killspk 20
+
+on=34
+IF (<flags>&statf_invul)
+flags &= ~statf_invul
+ELSE
+flags |= statf_invul
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=35
+IF (<flags>&statf_dead)
+flags &= ~statf_dead
+ELSE
+flags |= statf_dead
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=36
+IF (<flags>&statf_freeze)
+flags &= ~statf_freeze
+ELSE
+flags |= statf_freeze
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=37
+IF (<flags>&statf_invisible)
+flags &= ~statf_invisible
+ELSE
+flags |= statf_invisible
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=38
+IF (<flags>&statf_sleeping)
+flags &= ~statf_sleeping
+ELSE
+flags |= statf_sleeping
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=39
+IF (<flags>&statf_war)
+flags &= ~statf_war
+ELSE
+flags |= statf_war
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=40
+IF (<flags>&statf_reactive)
+flags &= ~statf_reactive
+ELSE
+flags |= statf_reactive
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=41
+IF (<flags>&statf_poisoned)
+flags &= ~statf_poisoned
+ELSE
+flags |= statf_poisoned
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=42
+IF (<flags>&statf_nightsight)
+flags &= ~statf_nightsight
+ELSE
+flags |= statf_nightsight
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=43
+IF (<flags>&statf_reflection)
+flags &= ~statf_reflection
+ELSE
+flags |= statf_reflection
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=44
+IF (<flags>&statf_polymorph)
+flags &= ~statf_polymorph
+ELSE
+flags |= statf_polymorph
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=45
+IF (<flags>&statf_incognito)
+flags &= ~statf_incognito
+ELSE
+flags |= statf_incognito
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=46
+IF (<flags>&statf_spiritspeak)
+flags &= ~statf_spiritspeak
+ELSE
+flags |= statf_spiritspeak
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=47
+IF (<flags>&statf_insubstantial)
+flags &= ~statf_insubstantial
+ELSE
+flags |= statf_insubstantial
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=48
+IF (<flags>&statf_emoteaction)
+flags &= ~statf_emoteaction
+ELSE
+flags |= statf_emoteaction
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=49
+IF (<flags>&statf_hasshield)
+flags &= ~statf_hasshield
+ELSE
+flags |= statf_hasshield
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=50
+IF (<flags>&statf_script_play)
+flags &= ~statf_script_play
+ELSE
+flags |= statf_script_play
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=51
+IF (<flags>&statf_stone)
+flags &= ~statf_stone
+ELSE
+flags |= statf_stone
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=52
+IF (<flags>&statf_script_rec)
+flags &= ~statf_script_rec
+ELSE
+flags |= statf_script_rec
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=53
+IF (<flags>&statf_fly)
+flags &= ~statf_fly
+ELSE
+flags |= statf_fly
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=54
+IF (<flags>&statf_respawnnpc)
+flags &= ~statf_respawnnpc
+ELSE
+flags |= statf_respawnnpc
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=55
+IF (<flags>&statf_hallucinating)
+flags &= ~statf_hallucinating
+ELSE
+flags |= statf_hallucinating
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=56
+IF (<flags>&statf_hidden)
+flags &= ~statf_hidden
+ELSE
+flags |= statf_hidden
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=57
+IF (<flags>&statf_indoors)
+flags &= ~statf_indoors
+ELSE
+flags |= statf_indoors
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=58
+IF (<flags>&statf_criminal)
+flags &= ~statf_criminal
+ELSE
+flags |= statf_criminal
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=59
+IF (<flags>&statf_conjured)
+flags &= ~statf_conjured
+ELSE
+flags |= statf_conjured
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=60
+IF (<flags>&statf_pet)
+flags &= ~statf_pet
+ELSE
+flags |= statf_pet
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=61
+IF (<flags>&statf_spawned)
+flags &= ~statf_spawned
+ELSE
+flags |= statf_spawned
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=62
+IF (<flags>&statf_saveparity)
+flags &= ~statf_saveparity
+ELSE
+flags |= statf_saveparity
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=63
+IF (<flags>&statf_ridden)
+flags &= ~statf_ridden
+ELSE
+flags |= statf_ridden
+ENDIF
+DIALOG d_infos_player 2
+update
+
+on=64
+IF (<flags>&statf_onhorse)
+flags &= ~statf_onhorse
+ELSE
+flags |= statf_onhorse
+ENDIF
+DIALOG d_infos_player 2
+update
+
+ON=65
+flags=00
+update
+src.sysmessage @0ad Flags Cleared
+DIALOG d_infos_player 2
+
+on=68 116
+tryp 4 inpdlg <serv.skill.<eval <argn1>-68>.name> 5
+
+[EOF]

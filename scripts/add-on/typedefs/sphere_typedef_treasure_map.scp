@@ -1,0 +1,110 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[function hazine_temizle_cop]
+local.copitem_kara = 0
+local.copitem_deniz = 0
+local.chest = 0
+
+
+foritems 65000
+	if strmatch("<type>","t_treasure_tile")
+		local.copitem_kara ++
+		remove
+	endif
+endfor
+
+foritems 65000
+	if strmatch(*i_flesh_*,<baseid>) && <isneartype t_water 0>
+		remove
+	endif
+endfor
+
+foritems 65000
+	if (<baseid> == i_chest_treasure_sea) && <isneartype t_water 0>
+		local.chest ++
+		remove
+	endif
+endfor
+
+
+foritems 65000
+	if strmatch("<baseid>","i_sos_tile")
+		local.copitem_deniz ++
+		remove
+	endif
+endfor
+
+serv.log <eval <local.copitem_kara>> adet acilmamis kara hazinesi silindi.
+serv.log <eval <local.copitem_deniz>> adet acilmamis deniz hazinesi silindi.
+serv.log <eval <local.chest>> adet hazine kasası silindi.
+
+[TYPEDEF t_treasure_map]
+on=@dclick
+if <tag.removed>
+	src.sys_error Hazineyi vaktinde açamadığınız için silinmiştir.
+	remove
+	return 1
+endif
+if strmatch(*-1,-1*,<morep>)
+	//DORAND 2
+		//morep = <SANDLOCATION>
+		morep = <f_generate_coords_tmap>
+	//enddo
+endif
+	
+if <src.cartography> < <def.scp.Cartography_TMapLevel_<dtag0.map.level>>
+src.sysmessage @,,1 Bu haritayi okuyacak kadar bilgiye sahip degilsiniz...
+return 1
+endif
+if <src.skillusequick cartography <r<def.scp.Cartography_TMapLevel_<eval <tag.map.level>>>>> && !<tag0.decyphered>
+name = Aciklanmis Treasure Map
+tag.decyphered = 1
+//morep = <SANDLOCATION>
+morep = <f_generate_coords_tmap>
+
+//morep = <f_generate_coords_tmap>
+more1 = <eval ((<morex> - 280) * 010000) + (<morey> - 280)>
+more2 = <eval ((<morex> + 280) * 010000) + (<morey> + 280)>
+//pin 150,150
+serv.newitem { i_plant_fern 1 i_plant_rushes 1 i_plant_fern 1 i_plant_fern_5 1 i_plant_bulrushes 1 i_plant_grasses 1 i_plant_fern_3 1 i_plant_fern_4 1 }
+new.type = t_treasure_tile
+new.tag.map.level = <tag.map.level>
+new.timer = -1
+new.attr = attr_static|attr_move_never|attr_decay
+new.timer 7200
+new.p = <morep>
+link <new.uid>
+src.tag.haz_local.x = <new.p.x>
+src.tag.haz_local.y = <new.p.y>
+src.sysmessage @,,1 Suandan itibaren süreniz baslamistir. 2 saat içerisinde hazineyi açmadığınız taktirde hazine silinecektir.
+return 1
+endif
+if <tag0.decyphered>
+	if !<src.restest 1 i_pickaxe>
+		src.sysmessage @,,1 Yaninizda Pickaxe bulunmak zorundadir.
+		return 1
+	endif
+	src.arrowquest <morep>
+	src.sysmessage @,,1 Hazineyi bulmak icin oku takip edebilirsin.
+	//src.weblink forum.tns.gen.tr/NorthMap/index.php?zoom=5&coords=<eval <src.tag.haz_local.x>>,<eval <src.tag.haz_local.y>>
+	return 1
+endif
+src.sys_error Haritayi acmayi basaramadiniz.
+return 1
+
+on=@click
+message @,,1 [ Kordinat : <morep> ]
+if (strmatch("<name>","Aciklanmis Treasure Map"))
+message @33,,1 <name>
+else
+message @69,,1 <name>
+endif
+return 1
+
+[eof]

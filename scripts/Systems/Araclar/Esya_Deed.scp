@@ -1,0 +1,247 @@
+// ----------------------------
+// DEED.SCP - DEED TANIMLAMALARI  
+// SON GUNCELLENME TARIHI: 24 Haziran 2005 - Destroy
+// ----------------------------
+VERSION=0.55
+
+///////////////////Bless Deed////////////////////////
+
+[ITEMDEF i_deed_bless]
+NAME=Bless Deed
+ID=i_deed
+WEIGHT=1
+VALUE=25000
+TYPE=t_script
+
+ON=@CREATE
+COLOR=0455
+ATTR=04
+
+ON=@DCLICK
+SRC.SYSMESSAGE Hangi Esyayi Blesslemek Istersiniz?
+TARGET
+return 1
+
+ON=@TARGON_ITEM
+IF <SRC.TARG.TOPOBJ.UID> != <SRC.UID>
+SRC.SYSMESSAGE Blesslemek Istediginiz Esya Cantanizda Bulunmalidir!!
+RETURN 1
+ELSEIF <SRC.TARG.ATTR>&04
+src.sysmessage @,,1 Bu esya zaten blesslenmis. (<SRC.TARG.NAME>)
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_container
+	if !(<argo.baseid> == i_bulk_order_book)
+		src.sysmessage @,,1 Sandiklari, cantalari ve kutulari blessleyemezsiniz.
+	else
+		SRC.TARG.ATTR=<SRC.TARG.ATTR> +04
+		src.sysmessage @,,1 Esyaniz Blesslenmistir.
+		src.sysmessage @,,1 [<SRC.TARG.NAME> Uzerinde Bless Deed Kullandiniz.]
+		REMOVE
+		RETURN 1
+	endif
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_reagent
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_gold
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.AMOUNT>>=2
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_deed
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_map
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_kontrat
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_sword
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_jewelry
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_mace_smith
+	if !(<SRC.TARG.baseid>==i_hammer_smith)
+		src.sysmessage @,,1 Bunu blessleyemezsiniz.
+		return 1
+	else
+		SRC.TARG.ATTR=<SRC.TARG.ATTR> +04
+		src.sysmessage @,,1 Esyaniz Blesslenmistir.
+		src.sysmessage @,,1 [<SRC.TARG.NAME> Uzerinde Bless Deed Kullandiniz.]
+		REMOVE
+		RETURN 1
+	endif
+return 1		
+ELSEIF <SRC.TARG.TYPE>==t_weapon_mace_sharp
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_bow
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_xbow
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_axe
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_fence
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_shield
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_leather
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_armor_leather
+	if <src.targ.baseid> != i_leather_gloves
+		src.sysmessage @,,1 Bunu blessleyemezsiniz.
+		RETURN 1
+	else
+		SRC.TARG.ATTR=<SRC.TARG.ATTR> +04
+		src.sysmessage @,,1 Esyaniz Blesslenmistir.
+		src.sysmessage @,,1 [<SRC.TARG.NAME> Uzerinde Bless Deed Kullandiniz.]
+		REMOVE
+		RETURN 1	
+	endif
+ELSEIF <SRC.TARG.TYPE>==t_armor
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_figurine
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_script
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF (<SRC.TARG.TYPE>==t_armor_leather) && !(<src.targ.baseID> == i_armor_female_leather) && !(<src.targ.baseID> == i_armor_female_skirt)
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.DISPID>==i_deathshroud
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.DISPID>==i_fishing_net_green_sarj
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.DISPID>==i_hooded_shroud
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.BASEID>==i_robe_warrior
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.DISPID>==02684
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_weapon_mace_staff
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_potion
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_potion
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_dye_vat
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.TYPE>==t_rune
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSEIF <SRC.TARG.baseid>==i_crystal_reagent
+src.sysmessage @,,1 Bunu blessleyemezsiniz.
+RETURN 1
+ELSE
+SRC.TARG.ATTR=<SRC.TARG.ATTR> +04
+src.sysmessage @,,1 Esyaniz Blesslenmistir.
+src.sysmessage @,,1 [<SRC.TARG.NAME> Uzerinde Bless Deed Kullandiniz.]
+REMOVE
+RETURN 1
+ENDIF
+RETURN 1
+
+[itemdef i_deed_deriset1]
+id i_deed
+name Leather Set Deed
+type t_script
+weight 3
+
+on=@click
+message @1153 Leather Set Deed [Full]
+return 1
+
+on=@dclick
+src.newitem i_leather_gorget
+src.act.bounce
+src.newitem i_leather_gloves
+src.act.bounce
+src.newitem i_leather_sleeves
+src.act.bounce
+src.newitem i_leather_tunic
+src.act.bounce
+src.newitem i_leather_leggings
+src.act.bounce
+src.ekranitemizle
+src.sysmessage @1153 Deed'i actiniz...
+remove
+
+[itemdef i_deed_deriset2]
+id i_deed
+name Studded Set Deed
+weight 3
+type t_script
+
+on=@click
+message @1153 Studded Set Deed [Full]
+return 1
+
+on=@dclick
+src.newitem i_Studded_gorget
+src.act.bounce
+src.newitem i_Studded_gloves
+src.act.bounce
+src.newitem i_Studded_sleeves
+src.act.bounce
+src.newitem i_Studded_tunic
+src.act.bounce
+src.newitem i_Studded_leggings
+src.act.bounce
+src.ekranitemizle
+src.sysmessage @1153 Deed'i actiniz...
+remove
+
+[itemdef i_deed_plateset]
+id i_deed
+name Platemail Set Deed
+weight 3
+type t_script
+
+on=@click
+message @1153 Platemail Set Deed [Full]
+return 1
+
+on=@dclick
+src.newitem i_platemail_gorget
+src.act.bounce
+src.newitem i_platemail_gloves
+src.act.bounce
+src.newitem i_platemail_arms
+src.act.bounce
+src.newitem i_platemail_chest
+src.act.bounce
+src.newitem i_platemail_helm
+src.act.bounce
+src.newitem i_platemail_leggings
+src.act.bounce
+src.newitem i_shield_heater
+src.act.bounce
+src.ekranitemizle
+src.sysmessage @1153 Deed'i actiniz...
+remove
+
+
+
+[EOF]
+

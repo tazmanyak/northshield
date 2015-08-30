@@ -1,0 +1,147 @@
+// SPHERE DEFAULT BEHAVOIUR
+// ------------------------
+// The order in what an NPC decides what to do is:
+// - I'm badly damaged (and smart enough to know) -> run away, BREAK
+// - I'm at full stamina and
+// - - I'm a dragon, target is 1 to 8 tiles away -> breath fire, BREAK
+// - - I'm a giant, target is 2 to 9 tiles away, I have rocks -> throw, BREAK
+// - I'm a mage and can cast -> cast, BREAK
+// - I'm an archer and can fire -> fire, BREAK
+// - I'll try my luck in melee fight
+
+// Other information
+// - More mana, more chances of casting
+// - Action depends on NPC tactics
+// - Will try to help friends if needed (up to 3)
+// - First will try to cast on self, if not, on nearest friend.
+// - You have to provide to the NPC a Book with Spells (Do'h!)
+// - If you want an npc to do melee, just remove his mana!
+
+// SCRIPT DOCUMENTATION
+// --------------------
+// - Change weapons and types of attack.
+// e_npcai_combat_type
+// tag0.combattype = combat type, 1 melee, 2 range (change while fighting)
+// tag0.meleeweapon = sword/axe/etc
+// tag0.shield = the shield to use
+// tag0.rangeweapon = bow/xbow
+
+// - Run away when heal is low. It will also try to heal first
+// e_npcai_fear_death
+// tag0.fleeing = 1 (if running away from attacker)
+
+// - This will heal self with potions when hp is low
+// e_npcai_heal_potion
+// tag0.potion = id of the potion to use
+
+// - Same as before but with spells
+// e_npcai_heal_magic
+// tag0.spell = the spell to use to heal self
+
+// - When a summoned npc is attacking him, it will dispel the npc.
+// e_npcai_dispel_summoned
+
+// - The NPC will attack the player who deals most damage
+// e_npcai_aggro
+
+// tag0.combattype = combat type, 1 melee, 2 range
+// tag0.meleeweapon = sword/axe/etc
+// tag0.shield = the shield to use
+// tag0.rangeweapon = bow/xbow
+// if no range weapon will use default magery (if any)
+[events e_npcai_combat_type]
+on=@gethit
+if <distance <memoryfindtype.memory_war_targ.link.uid>> < 4
+	if <tag0.combattype> == 1
+	return 0
+	endif
+findlayer.layer_hand1.cont = <findlayer.layer_pack.uid>
+findlayer.layer_hand2.cont = <findlayer.layer_pack.uid>
+equip <findid.<tag0.meleeweapon>.uid>
+equip <findid.<tag0.shield>.uid>
+tag0.combattype = 1
+update
+else
+	if <tag0.combattype> == 2
+	return 0
+	elif !<tag0.rangeweapon>
+	return 0
+	endif
+findlayer.layer_hand1.cont = <findlayer.layer_pack.uid>
+findlayer.layer_hand2.cont = <findlayer.layer_pack.uid>
+equip <findid.<tag0.rangeweapon>.uid>
+tag0.combattype = 2
+update
+endif
+
+// use fearofdeath to know at which percent should run
+// it will check first if the npc can heal self, if not: flee.
+// tag0.fleeing = 1 if fleeing
+[events e_npcai_fear_death]
+on=@gethit
+if <hits> < <eval (<maxhits>*<def.fearofdeath>)/100>
+	if !<f_CanHealSelf>
+		if <src.uid> != <uid>
+		act = <src.uid>
+		flee 20
+		tag0.fleeing = 1
+		damage <argn1> <argn2> <uid>
+		return 1
+		endif
+	endif
+endif
+
+on=@npcactfight
+if <tag0.fleeing>
+argn = -1
+endif
+
+// will heal when hits < percent in healself setting
+// tag0.potion = id of the potion to use
+[events e_npcai_heal_potion]
+on=@gethit
+if <hits> <= <eval (<maxhits>*<def.healself>)/100>
+	if <findid.<tag0.potion>>
+	findid.<tag0.potion>.useitem
+	return 0
+	endif
+endif
+
+// will heal when hits < percent in healself setting
+// tag0.spell = the spell to use to heal self
+[events e_npcai_heal_magic]
+on=@gethit
+if <hits> <= <eval (<maxhits>*<def.healself>)/100>
+	if <cancast <tag0.spell>>
+	npccast <tag0.spell>,<uid>
+	endif
+endif
+
+// dispel a monster that is attacking me
+[events e_npcai_dispel_summoned]
+on=@gethit
+if <src.flags>&statf_conjured
+	if <mana> > <serv.spell.s_dispel.manause>
+	spelleffect s_dispel,1500
+	mana -= <serv.spell.s_dispel.manause>
+	endif
+endif
+return 0
+
+// the NPC will attack the player who dealt most damage
+// a.k.a. the most dangerous a.k.a. fuck off the tank.
+[events e_npcai_aggro]
+on=@gethit
+local.mosthits = 0
+local.most_dangerous_enemy = 0
+for n 0 <eval <attacker> -1 >
+  if (<attacker.<dlocal.n>.dam> > <local.mosthits>) && (<canseelos <attacker.<dlocal.n>>>)
+    local.mosthits = <attacker.<dlocal.n>.dam>
+    local.most_dangerous_enemy = <attacker.<dlocal.n>>
+  endif
+endfor
+attack <local.most_dangerous_enemy>
+
+[events e_npcai_immune_poison]
+
+[eof]

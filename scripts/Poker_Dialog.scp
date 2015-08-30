@@ -1,0 +1,554 @@
+[DIALOG d_poker_pokertable]
+0,0
+page 0
+DIALOGCLOSE d_poker_pokertable
+REF1=<SRC.TAG.PokerTable>
+FOR x 1 8
+   IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+      LOCAL.YourSeat=<LOCAL.x>
+      LOCAL.YourHolding=<QVAL <ISEMPTY <REF1.TAG.Player<dLOCAL.x>.Cards>>?0:1>
+      LOCAL.YourSeated=<REF1.TAG0.Player<dLOCAL.x>.Seated>
+      LOCAL.YourDealtIn=<REF1.TAG0.Player<dLOCAL.x>.DealtCards>
+      LOCAL.YourNextBet=<REF1.TAG0.Player<dLOCAL.x>.NextBet>
+      IF (<LOCAL.YourHolding>) && (<REF1.TAG0.Player<dLOCAL.x>.Chips>==0)
+         REF1.TAG0.Player<dLOCAL.x>.Decision=<DEF.PokerDecisionAllIn>
+      ENDIF
+      LOCAL.YourDecision=<REF1.TAG0.Player<dLOCAL.x>.Decision>
+   ENDIF
+ENDFOR
+
+IF (<REF1.TAG0.CurrentStage> < <DEF.PokerStagePickDealer>)
+   IF (<REF1.TAG0.CurrentWinner>)
+      REF1.TAG.CurrentStatus  = "<UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentWinner>>.NAME> was the winner of the previous hand!  Waiting for more players..."
+   ELSE
+      REF1.TAG.CurrentStatus  = "Waiting for more players..."
+   ENDIF
+ELSEIF (<REF1.TAG0.CurrentStage> > <DEF.PokerStageBetRiver>)
+   REF1.TAG.CurrentStatus  = "<UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentWinner>>.NAME> is the winner of this hand!"
+ELSE
+   REF1.TAG.CurrentStatus  = "<DEF.PokerStage<dREF1.TAG0.CurrentStage>>: "
+   REF1.TAG.CurrentStatus .= "<UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentDealer>>.NAME> is the dealer, "
+   REF1.TAG.CurrentStatus .= "The pot is <dREF1.TAG0.CurrentPot>. "
+   REF1.TAG.CurrentStatus .= "The current bet is <dREF1.TAG0.CurrentBet>. "
+//   IF (<LOCAL.YourDecision>)
+//      IF (<LOCAL.YourDecision>==<DEF.PokerDecisionCheck>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to check.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionFold>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to fold.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionCheckFold>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to check (unless someone raises, in which case you will fold.)  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionCall>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to call any bet.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionRaiseBlind>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to raise <dREF1.TAG0.BlindBig>.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionRaisePot>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to raise <dREF1.TAG0.CurrentPot>.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionRaiseCustom>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to raise CUSTOM.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionRaiseMax>)
+//         REF1.TAG.CurrentStatus .= "On your turn, you plan to go all-in.  "
+//      ELSEIF (<LOCAL.YourDecision>==<DEF.PokerDecisionAllIn>)
+//         REF1.TAG.CurrentStatus .= "You are all-in.  "
+//      ENDIF
+//   ENDIF
+   IF (<SRC.UID>==<UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>>.UID>)
+      REF1.TAG.CurrentStatus .= "<DEF.BFONT_RED>It's your turn!<DEF.BFONTE>"
+   ELSE
+      REF1.TAG.CurrentStatus .= "<DEF.BFONT_RED>It's <UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>>.NAME>'s turn."
+   ENDIF
+ENDIF
+
+gumppic     150   0  30500 0
+IF (<SRC.CTAG0.Poker_TableStyle>==1)
+   checkertrans 150   0  458  458
+ENDIF
+IF (<REF1.TAG0.CurrentPot>)
+   tilepichue  355  220  0ef2  0  //pot
+   tilepichue  335  225  0eec  0  //pot
+   tilepichue  365  235  0eef  0  //pot
+   dtext       345  250  1153  <dREF1.TAG.CurrentPot>
+ENDIF
+IF !(<ISEMPTY <REF1.TAG.CurrentCards>>)
+   FOR x 0 4
+      LOCAL.card=<f_getargv <LOCAL.x> <REF1.TAG.CurrentCards>>
+      LOCAL.cardx=<EVAL 310+(<LOCAL.x>*30)>
+      LOCAL.textx=<EVAL 313+(<LOCAL.x>*30)>
+      IF (STRCMPI(<LOCAL.card>,0))
+         gumppic     <LOCAL.cardx>  180  11374 0
+         dhtmlgump   <LOCAL.textx>  180     40 25 0 0 <LOCAL.card>
+      ENDIF
+   ENDFOR
+ENDIF
+
+FOR Seat 1 8
+   IF (<REF1.TAG0.Player<dLOCAL.Seat>>)
+      resizepic   <DEF.PokerSeat<dLOCAL.Seat>.Position.HandData>  9200  140 30
+      IF (<REF1.TAG0.Player<dLOCAL.Seat>>)
+         IF (<REF1.TAG0.CurrentDealer>==<LOCAL.Seat>)
+            tilepichue  <DEF.PokerSeat<dLOCAL.Seat>.Position.DealerIcon>     0193f   0 //DealerIcon
+         ENDIF
+         IF (<REF1.TAG0.CurrentSmallBlind>==<LOCAL.Seat>)
+            tilepichue  <DEF.PokerSeat<dLOCAL.Seat>.Position.SmallBlindIcon>  0eee   0 //SmallBlindIcon
+         ENDIF
+         IF (<REF1.TAG0.CurrentBigBlind>==<LOCAL.Seat>)
+            tilepichue  <DEF.PokerSeat<dLOCAL.Seat>.Position.SmallBlindIcon>  0eee   0 //SmallBlindIcon
+            tilepichue  <DEF.PokerSeat<dLOCAL.Seat>.Position.BigBlindIcon>    0eee   0 //BigBlindIcon
+         ENDIF
+         IF (<REF1.TAG0.Player<dLOCAL.Seat>.Bet>)
+            tilepichue  <DEF.PokerSeat<dLOCAL.Seat>.Position.BetOnTableIcon>  0eec   0 //BetOnTableIcon
+            dtext       <DEF.PokerSeat<dLOCAL.Seat>.Position.BetOnTableIcon>  1153  <dREF1.TAG.Player<dLOCAL.Seat>.Bet>
+         ENDIF
+         IF (<REF1.TAG0.Player<dLOCAL.Seat>.DealtCards>)
+            IF (<ISEMPTY <REF1.TAG.Player<dLOCAL.Seat>.Cards>>)
+               gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard1Folded>  11374   37    //Card1Folded
+               gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard2Folded>  11374   37    //Card2Folded
+            ELSE
+               IF (<LOCAL.YourSeat>==<LOCAL.Seat>)
+                  gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard1Back>  11374    0      //Card1Face
+                  gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard2Back>  11374    0      //Card2Face
+                  dhtmlgump   <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard1Text>     40   25 0 0 <STRARG <REF1.TAG0.Player<dLOCAL.Seat>.Cards>>
+                  dhtmlgump   <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard2Text>     40   25 0 0 <STREAT <REF1.TAG0.Player<dLOCAL.Seat>.Cards>>
+               ELSEIF (<REF1.TAG0.CurrentStage> >= <DEF.PokerStageScore>)
+                  gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard1Back>  11374    0      //Card1Back
+                  gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard2Back>  11374    0      //Card2Back
+                  dhtmlgump   <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard1Text>     40   25 0 0 <STRARG <REF1.TAG0.Player<dLOCAL.Seat>.Cards>>
+                  dhtmlgump   <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard2Text>     40   25 0 0 <STREAT <REF1.TAG0.Player<dLOCAL.Seat>.Cards>>
+               ELSE
+                  gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard1Back>  11374   37      //Card1Back
+                  gumppic     <DEF.PokerSeat<dLOCAL.Seat>.Position.HoleCard2Back>  11374   37      //Card2Back
+               ENDIF
+            ENDIF
+         ENDIF
+      ENDIF
+      resizepic   <DEF.PokerSeat<dLOCAL.Seat>.Position.PlayerData>            9200  140 52
+      dtext       <DEF.PokerSeat<dLOCAL.Seat>.Position.PlayerName>            1153  <UID.<REF1.TAG.Player<dLOCAL.Seat>>.NAME>
+      tilepichue  <DEF.PokerSeat<dLOCAL.Seat>.Position.PlayerChipsIcon>       0eef  0     //ChipsIcon
+      dtext       <DEF.PokerSeat<dLOCAL.Seat>.Position.PlayerChipsText>       1153  <dREF1.TAG.Player<dLOCAL.Seat>.Chips>
+   ELSE
+      IF (<LOCAL.YourSeat>) || (<SRC.GOLD> < <REF1.TAG0.BuyinMin>) || ( (<REF1.TAG0.CurrentStage> > <DEF.PokerStageDeal>) && (<REF1.TAG0.CurrentStage> < <DEF.PokerStageScore>) )
+         gumppic        <DEF.PokerSeat<dLOCAL.Seat>.Position.Empty> 1417 0
+      ELSE
+         IF (<LOCAL.Seat> < 5)
+            buttontileart  <DEF.PokerSeat<dLOCAL.Seat>.Position.Empty> 1417 1417 1 0 <EVAL <LOCAL.Seat>+10> 0121a 0 20 5
+         ELSE
+            buttontileart  <DEF.PokerSeat<dLOCAL.Seat>.Position.Empty> 1417 1417 1 0 <EVAL <LOCAL.Seat>+10> 01218 0 15 0
+         ENDIF
+      ENDIF
+   ENDIF
+ENDFOR
+
+//Top Left Menu
+resizepic       100  0  2620  200  50
+IF (<SRC.CTAG0.Poker_TableStyle>==1)
+   checkertrans 105  5        190  40
+ENDIF
+dtext       130   15   021  <SERV.SERVNAME> "Hold'em" Poker
+
+//Top Right Menu
+resizepic       450  0  2620  200  50
+IF (<SRC.CTAG0.Poker_TableStyle>==1)
+   checkertrans 455  5        190  40
+ENDIF
+dtext       460    7  1153  Small/Big Blind: <dREF1.TAG.BlindSmall>/<dREF1.TAG.BlindBig>
+dtext       460   22  1153  Min/Max Buyin: <dREF1.TAG.BuyinMin>/<dREF1.TAG.BuyinMax>
+
+//Bottom Left Menu (decisions)
+IF (<LOCAL.YourSeat>) && (<LOCAL.YourDealtIn>) && (<LOCAL.YourHolding>) && (<REF1.TAG0.CurrentStage> > <DEF.PokerStageDeal>) && (<REF1.TAG0.CurrentStage> < <DEF.PokerStageScore>)
+   resizepic       100  355  2620  200  110
+   IF (<SRC.CTAG0.Poker_TableStyle>==1)
+      checkertrans 105  360        190  100
+   ENDIF
+   Group 0
+   IF (<REF1.TAG0.Player<dLOCAL.YourSeat>.Decision>==<DEF.PokerDecisionAllIn>)
+      dtext       150  395  1153 You are All-In!
+   ELSE
+      radio       105  362  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionFold> ? 1:0> <DEF.PokerDecisionFold>
+      dtext       125  362  1153  Fold
+      radio       150  362  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionCheckFold> ? 1:0> <DEF.PokerDecisionCheckFold>
+      dtext       170  362  1153  Check/Fold
+      IF (<REF1.TAG0.Player<dLOCAL.YourSeat>.Bet>==<REF1.TAG0.CurrentBet>)
+         radio       235  362  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionCheck> ? 1:0> <DEF.PokerDecisionCheck>
+         dtext       255  362  1153  Check
+      ENDIF
+      IF (<REF1.TAG0.Player<dLOCAL.YourSeat>.Bet> < <REF1.TAG0.CurrentBet>)
+         LOCAL.CallAmount=<EVAL <REF1.TAG0.CurrentBet>-<REF1.TAG0.Player<dLOCAL.YourSeat>.Bet>>
+         IF (<LOCAL.CallAmount> > <REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>)
+            LOCAL.CallAmount=<REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>
+         ENDIF
+         radio       105  377  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionCall> ? 1:0> <DEF.PokerDecisionCall>
+         dtext       125  377  1153  Call: <dLOCAL.CallAmount>
+      ENDIF
+      IF (<EVAL <REF1.TAG0.Player<dLOCAL.YourSeat>.Bet>+<REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>> > <REF1.TAG0.CurrentBet>)
+         LOCAL.RaiseBlindAmount=<EVAL (<REF1.TAG0.CurrentBet>+<REF1.TAG0.BlindBig>)-<REF1.TAG0.Player<dLOCAL.YourSeat>.Bet>>
+         IF (<LOCAL.RaiseBlindAmount> > <REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>)
+            LOCAL.RaiseBlindAmount=<REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>
+         ENDIF
+         radio       105  392  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionRaiseBlind> ? 1:0> <DEF.PokerDecisionRaiseBlind>
+         dtext       125  392  1153  Blind Raise: <dLOCAL.RaiseBlindAmount>
+         FOR x 1 8
+            IF (<LOCAL.x> != <LOCAL.YourSeat>)
+               LOCAL.OpponentStack=<EVAL <REF1.TAG0.Player<dLOCAL.x>.Chips> + <REF1.TAG0.Player<dLOCAL.x>.Bet>>
+               IF (<LOCAL.OpponentStack> > <LOCAL.BiggestOpponentStack>)
+                  LOCAL.BiggestOpponentStack=<LOCAL.OpponentStack>
+               ENDIF
+               LOCAL.OpponentChipsInPlay += <REF1.TAG0.Player<dLOCAL.x>.Bet>
+            ENDIF
+         ENDFOR
+         LOCAL.RaisePotAmount=<EVAL <REF1.TAG0.CurrentPot> + <LOCAL.OpponentChipsInPlay>>
+         IF (<LOCAL.RaisePotAmount> > <REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>)
+            LOCAL.RaisePotAmount=<REF1.TAG0.Player<dLOCAL.YourSeat>.Chips>
+         ENDIF
+         IF (<LOCAL.RaisePotAmount> > <REF1.TAG0.BlindBig>)
+            radio       105  407  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionRaisePot> ? 1:0> <DEF.PokerDecisionRaisePot>
+            dtext       125  407  1153  Pot Raise: <dLOCAL.RaisePotAmount>
+         ENDIF
+         LOCAL.RaiseMaxAmount=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>
+         radio       105  422  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionRaiseMax> ? 1:0> <DEF.PokerDecisionRaiseMax>
+         dtext       125  422  1153  All-In: <dLOCAL.RaiseMaxAmount>
+//   FIXME: Custom betting amounts
+//         radio       105  422  1896  1895 <QVAL <LOCAL.YourDecision>==<DEF.PokerDecisionRaiseCustom> ? 1:0> <DEF.PokerDecisionRaiseCustom>
+//         dtext       125  422  1153  Custom
+//         dtext       125  437  1153  Raise:
+//         resizepic   173  424  2620  89 32
+//         button      180  430  2704  2705  1 0 3 //Raise custom bet
+//         button      193  430  2706  2707  1 0 4 //Lower custom bet
+//         dtextentrylimited  205  430  80  23 1153 3 6 <dLOCAL.YourNextBet>
+      ENDIF
+   ENDIF
+   button      270  430  2714  2715  1 0 5 //Decision
+ENDIF
+
+//Bottom Right Menu (man menu)
+resizepic       450  355  2620  200 110
+IF (<SRC.CTAG0.Poker_TableStyle>==1)
+   checkertrans 455  360        190 100
+ENDIF
+IF (<SRC.CTAG0.Poker_ShowMenu>)
+   dtext       475  362  1153  Show Log
+   button      456  362  2714  2715  1 0 2
+   IF (<LOCAL.YourSeated>)
+      dtext       475  382  1153  Stand Up
+   ELSE
+      dtext       475  382  1153  Exit Game (cash out)
+   ENDIF
+   button      456  382  2714  2715  1 0 99
+   dtext       475  402  1153  Change Background
+   button      456  402  2714  2715  1 0 1
+   IF (<SRC.CTAG0.Poker_ShowSettingsMenu>)
+      dtext       475  422  1153  Hide Game Settings
+   ELSE
+      dtext       475  422  1153  Show Game Settings
+   ENDIF
+   button      456  422  2714  2715  1 0 8
+   dtext       475  442  1153  Get More Chips
+   button      456  442  2714  2715  1 0 9
+ELSE
+   dtext       475  362  1153  Show Menu
+   button      456  362  2714  2715  1 0 2
+   dhtmlgump   455  380   190  80 1 1 <REF1.TAG.CurrentStatus>
+ENDIF
+
+//Over Table Menu #1: Buyin
+IF (<LOCAL.YourSeat>) && !(<LOCAL.YourSeated>)
+   resizepic  290  150  2620  180  145
+   button     445  159  2708  2709  1 0 20
+   dtext      300  160  1153  Small Blind: <REF1.dTAG0.BlindSmall>
+   dtext      300  175  1153  Big Blind: <REF1.dTAG0.BlindBig>
+   dtext      300  190  1153  Min Buy-In: <REF1.dTAG0.BuyinMin>
+   dtext      300  205  1153  Max Buy-In: <REF1.dTAG0.BuyinMax>
+   dtext      300  220  1153  Bank Balance: <SRC.GOLD>
+   dtext      300  260  1153  Amount:
+   IF (<SRC.GOLD> < <REF1.dTAG0.BuyinMax>)
+      LOCAL.DefaultBuyin=<SRC.GOLD>
+   ELSE
+      LOCAL.DefaultBuyin=<REF1.dTAG0.BuyinMax>
+   ENDIF
+   IF (<SRC.GOLD> < <REF1.dTAG0.BuyinMin>)
+      dtext      355  260 021 Not enough gold!
+   ELSE
+      resizepic  345  255  2620  87 30
+      dtextentrylimited 350  260    75  20 1153 6 8 <dLOCAL.DefaultBuyin>
+      button     440  261  2714  2715  1 0 19
+   ENDIF
+ENDIF
+//Over Table Menu #1: Game Settings
+IF (<SRC.CTAG0.Poker_ShowSettingsMenu>)
+   resizepic  290  150  2620  180  145
+   dtext      300  160  1153  Small Blind: <REF1.dTAG0.BlindSmall>
+   dtext      300  175  1153  Big Blind: <REF1.dTAG0.BlindBig>
+   dtext      300  190  1153  Min Buy-In: <REF1.dTAG0.BuyinMin>
+   dtext      300  205  1153  Max Buy-In: <REF1.dTAG0.BuyinMax>
+   dtext      300  220  1153  Min Players: <REF1.dTAG0.PlayersMin>
+   dtext      300  235  1153  Max Players: <REF1.dTAG0.PlayersMax>
+ENDIF
+
+
+[DIALOG d_poker_pokertable button]
+OnButton=0//Close Dialog
+
+OnButton=1//Change Background
+IF (<SRC.CTAG0.Poker_TableStyle>==1)
+   SRC.CTAG.Poker_TableStyle=0
+ELSE
+   SRC.CTAG.Poker_TableStyle=1
+ENDIF
+DIALOG d_poker_pokertable
+RETURN 1
+
+OnButton=2//Show Menu
+IF (<SRC.CTAG0.Poker_ShowMenu>==1)
+   SRC.CTAG.Poker_ShowMenu=0
+ELSE
+   SRC.CTAG.Poker_ShowMenu=1
+ENDIF
+DIALOG d_poker_pokertable
+RETURN 1
+
+OnButton=3//Raise custom bet
+REF1=<SRC.TAG.PokerTable>
+FOR x 1 8
+   IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+      LOCAL.PlayerPosition=<LOCAL.x>
+   ENDIF
+ENDFOR
+IF (<REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision>!=<DEF.PokerDecisionAllIn>)
+   f_pokerlog 1,"<SRC.NAME> decided to increase their raise..."
+   IF !(STRMATCH(*[0-9]*,<ARGTXT[3]>))
+      f_pokerlog 1,"..custom bet was not numeric."
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.NextBet=
+   ELSE
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=<DEF.PokerDecisionRaiseCustom>
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<EVAL <ARGTXT[3]> + <REF1.TAG0.BlindBig>>
+      IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet> < <REF1.TAG0.BlindBig>)
+         f_pokerlog 1,"..amount must be at least <dREF1.TAG0.BlindBig>."
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.BlindBig>
+      ELSEIF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet> > <REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>)
+         f_pokerlog 1,"..amount must be at most their chip count <dREF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>."
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.Decision=<DEF.PokerDecisionRaiseMax>
+      ENDIF
+   ENDIF
+ENDIF
+IF (<REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision>) && (<LOCAL.PlayerPosition>==<REF1.TAG0.CurrentPlayer>)
+   REF1.TIMER=0
+ELSE
+   DIALOG d_poker_pokertable
+ENDIF
+RETURN 1
+
+OnButton=4//Lower custom bet
+REF1=<SRC.TAG.PokerTable>
+FOR x 1 8
+   IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+      LOCAL.PlayerPosition=<LOCAL.x>
+   ENDIF
+ENDFOR
+IF (<REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision>!=<DEF.PokerDecisionAllIn>)
+   f_pokerlog 1,"<SRC.NAME> decided to decrease their raise..."
+   IF !(STRMATCH(*[0-9]*,<ARGTXT[3]>))
+      f_pokerlog 1,"..custom bet was not numeric."
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.NextBet=
+   ELSE
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=<DEF.PokerDecisionRaiseCustom>
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<EVAL <ARGTXT[3]> - <REF1.TAG0.BlindBig>>
+      IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet> < <REF1.TAG0.BlindBig>)
+         f_pokerlog 1,"..amount must be at least <dREF1.TAG0.BlindBig>."
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.BlindBig>
+      ELSEIF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet> > <REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>)
+         f_pokerlog 1,"..amount must be at most their chip count <dREF1.TAG.Player<dLOCAL.PlayerPosition>.Chips>."
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.Decision=<DEF.PokerDecisionRaiseMax>
+      ENDIF
+   ENDIF
+ENDIF
+IF (<REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision>) && (<LOCAL.PlayerPosition>==<REF1.TAG0.CurrentPlayer>)
+   REF1.TIMER=0
+ELSE
+   DIALOG d_poker_pokertable
+ENDIF
+RETURN 1
+
+OnButton=5//Make decision
+REF1=<SRC.TAG.PokerTable>
+FOR x 1 8
+   IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+      LOCAL.PlayerPosition=<LOCAL.x>
+   ENDIF
+ENDFOR
+IF (<ARGCHKID> > 0)
+   LOCAL.PlayerDecision=<ARGCHKID>
+   REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=<LOCAL.PlayerDecision>
+   f_pokerlog 1,"<SRC.NAME> decided to <DEF.PokerDecision<dLOCAL.PlayerDecision>>..."
+   IF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionFold>)
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionCheckFold>)
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionCheck>)
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionCall>)
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.CurrentBet>
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionRaiseBlind>)
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.BlindBig>
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionRaisePot>)
+      LOCAL.TotalChips=<REF1.TAG0.CurrentPot>
+      FOR x 1 8
+         LOCAL.TotalChips=<EVAL <LOCAL.TotalChips> + <REF1.TAG0.Player<dLOCAL.PlayerPosition>.Bet>>
+      ENDFOR
+      LOCAL.PotRaise=<EVAL <REF1.TAG0.CurrentPot>+<LOCAL.TotalChips>>
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<EVAL <LOCAL.PotRaise>-<REF1.TAG0.Player<dLOCAL.x>.Bet>>
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionRaiseCustom>)
+      IF !(STRMATCH(*[0-9]*,<ARGTXT[3]>))
+         f_pokerlog 2,"..but that is not numeric."
+         REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=
+         REF1.TAG.Player<dLOCAL.PlayerPosition>.NextBet=
+      ELSE
+         REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<EVAL <ARGTXT[3]>>
+      ENDIF
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionRaiseMax>)
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>
+   ELSEIF (<LOCAL.PlayerDecision>==<DEF.PokerDecisionAllIn>)
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.NextBet=
+   ENDIF
+ELSE
+   IF (<REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision>!=<DEF.PokerDecisionAllIn>)
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=
+   ENDIF
+   REF1.TAG.Player<dLOCAL.PlayerPosition>.NextBet=
+ENDIF
+IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet>)
+   IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet> < <REF1.TAG0.BlindBig>)
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.BlindBig>
+   ENDIF
+ENDIF
+IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet> > <REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>)
+   REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>
+//   REF1.TAG.Player<dLOCAL.PlayerPosition>.Decision=<DEF.PokerDecisionAllIn>
+ENDIF
+SERV.LOG playerposition=<dLOCAL.PlayerPosition> currentplayer=<dREF1.TAG0.CurrentPlayer> decision=<dREF1.TAG0.Player<dLOCAL.PlayerPosition>.Decision>
+IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Decision>) && (<LOCAL.PlayerPosition>==<REF1.TAG0.CurrentPlayer>)
+   REF1.TIMER=0
+ELSE
+   DIALOG d_poker_pokertable
+ENDIF
+RETURN 1
+
+
+OnButton=8//Games Settings
+IF (<SRC.CTAG0.Poker_ShowSettingsMenu>==1)
+   SRC.CTAG.Poker_ShowSettingsMenu=0
+ELSE
+   SRC.CTAG.Poker_ShowSettingsMenu=1
+ENDIF
+DIALOG d_poker_pokertable
+RETURN 1
+
+
+OnButton=9//Get More Chips
+DIALOG d_poker_pokertable
+RETURN 1
+
+
+OnButton=11 18//Take a Seat
+f_pokerlog 1,"<SRC.NAME> takes seat <EVAL <ARGN>-10>..."
+REF1=<SRC.TAG.PokerTable>
+REF1.TAG.Player<EVAL <ARGN>-10>=<SRC>
+REF1.f_Poker_RefreshTable
+RETURN 1
+
+
+OnButton=19//Buyin
+f_pokerlog 1,"<SRC.NAME> is buying chips..."
+REF1=<SRC.TAG.PokerTable>
+IF !(STRMATCH(*[0-9]*,<ARGTXT[6]>))
+   f_pokerlog 1,"..<SRC.NAME>'s buyin amount must be numeric."
+ELSE
+   LOCAL.BuyinAmount=<EVAL <ARGTXT[6]>>
+   IF (<LOCAL.BuyinAmount> < <REF1.dTAG0.BuyinMin>)
+      f_pokerlog 2,"..amount was lower than the table minimum (<dREF1.TAG0.BuyinMin>)."
+      SRC.SYSMESSAGE @<DEF.PokerDefaultText>,,1 Your buyin amount was lower than the table minimum.
+   ELSEIF (<LOCAL.BuyinAmount> > <REF1.dTAG0.BuyinMax>)
+      f_pokerlog 2,"..amount was higher than the table maximum (<dREF1.TAG0.BuyinMax>)."
+      SRC.SYSMESSAGE @<DEF.PokerDefaultText>,,1 Your buyin amount was higher than the table maximum.
+   ELSEIF (<LOCAL.BuyinAmount> > <SRC.GOLD>)
+      f_pokerlog 2,"..amount was more gold than they own."
+      SRC.SYSMESSAGE @<DEF.PokerDefaultText>,,1 Your buyin amount was more gold than you own.
+   ELSE
+      f_pokerlog 2,"..amount is <dLOCAL.BuyinAmount>."
+      SRC.SYSMESSAGE @<DEF.PokerDefaultText>,,1 Your buyin was accepted, you will be dealt into the next hand.
+      SRC.GOLD -= <LOCAL.BuyinAmount>
+      FOR x 1 8
+         IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+            LOCAL.PlayerPosition=<LOCAL.x>
+         ENDIF
+      ENDFOR
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Seated=1
+      REF1.TAG.Player<dLOCAL.PlayerPosition>.Chips=<LOCAL.BuyinAmount>
+   ENDIF
+ENDIF
+REF1.f_Poker_RefreshTable
+RETURN 1
+
+
+OnButton=20//Cancel Buyin
+f_pokerlog 1,"<SRC.NAME> cancels buyin..."
+REF1=<SRC.TAG.PokerTable>
+FOR x 1 8
+   IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+      LOCAL.PlayerPosition=<LOCAL.x>
+   ENDIF
+ENDFOR
+REF1.TAG.Player<dLOCAL.PlayerPosition>=
+REF1.TAG.Player<dLOCAL.PlayerPosition>.Seated=
+REF1.TAG.Player<dLOCAL.PlayerPosition>.Chips=
+REF1.f_Poker_RefreshTable
+RETURN 1
+
+
+OnButton=99//Stand Up or Exit Game
+REF1=<SRC.TAG.PokerTable>
+FOR x 1 8
+   IF (<SRC>==<REF1.TAG0.Player<dLOCAL.x>>)
+      LOCAL.PlayerPosition=<LOCAL.x>
+   ENDIF
+ENDFOR
+
+IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Seated>)
+   f_pokerlog 1,"<SRC.NAME> stands up..."
+  
+   IF (<REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>)
+      f_pokerlog 2,"..Give the player their chips."
+      SRC.SYSMESSAGE @<DEF.PokerDefaultText>,,1 <REF1.dTAG0.Player<dLOCAL.PlayerPosition>.Chips> gold has been deposited to your bank.
+      SRC.GOLD += <REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips>
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.Chips=
+   ENDIF
+   
+   IF !(<ISEMPTY <REF1.TAG0.Player<dLOCAL.PlayerPosition>.Cards>>)
+      f_pokerlog 2,"..Fold their cards."
+      REF1.TAG0.Player<dLOCAL.PlayerPosition>.Cards=
+   ENDIF
+   
+   f_pokerlog 2,"..remove the TAG data from the table."
+   REF1.TAG0.Player<dLOCAL.PlayerPosition>.Seated=
+   REF1.TAG0.Player<dLOCAL.PlayerPosition>.NextBet=
+   REF1.TAG0.Player<dLOCAL.PlayerPosition>.Decision=<DEF.PokerDecisionCheckFold>
+   //REF1.TAG0.Player<dLOCAL.PlayerPosition>=
+ELSE
+   f_pokerlog 1,"<SRC.NAME> leaves the table..."
+
+   f_pokerlog 2,"..remove the player from the PlayerUIDs LIST."
+   LOCAL.ListIndex=<LIST.<REF1.TAG.GlobalScope>_PlayerUIDs.FINDELEM <SRC>>
+   LIST.<REF1.TAG.GlobalScope>_PlayerUIDs.<dLOCAL.ListIndex>.REMOVE
+
+   f_pokerlog 2,"..remove the TAG data from the player."
+   SRC.TAG.PokerTable=
+   SRC.CTAG.Poker_ShowMenu=
+   SRC.CTAG.Poker_TableStyle=
+   SRC.CTAG.Poker_ShowSettingsMenu=
+ENDIF
+REF1.f_Poker_RefreshTable
+RETURN 1
+
+
+[EOF]

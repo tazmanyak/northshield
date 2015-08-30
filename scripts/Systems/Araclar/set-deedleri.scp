@@ -1,0 +1,651 @@
+[plevel 7]
+mytheril
+valorite
+verite
+bloodrock
+blackrock
+shadow
+
+[function mytheril]
+if !(strmatch('<src.account>','tazmanyak')) && !(strmatch('<src.account>','tazmanyak23'))
+	return 1
+else
+	newitem i_mytheril_deed
+	new.bounce
+	return 1
+endif
+
+[itemdef i_mytheril_deed]
+id 9793
+type t_eq_script
+name Mytheril set deed
+weight 0
+
+on=@create
+color 051f
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@dclick
+newitem i_platemail_chest_mytheril
+new.bounce
+newitem i_platemail_arms_mytheril
+new.bounce
+newitem i_platemail_leggings_mytheril
+new.bounce
+newitem i_helm_plate_mytheril
+new.bounce
+newitem i_platemail_gorget_mytheril
+new.bounce
+newitem i_platemail_gloves_mytheril
+new.bounce
+newitem i_shield_heater_mytheril
+new.bounce
+remove
+return 1
+
+
+[itemdef i_agapite_deed]
+id 9793
+type t_eq_script
+name Agapite set deed
+weight 0
+
+on=@create
+color 051f
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@dclick
+newitem i_platemail_chest_agapite
+new.bounce
+newitem i_platemail_arms_agapite
+new.bounce
+newitem i_platemail_leggings_agapite
+new.bounce
+newitem i_helm_plate_agapite
+new.bounce
+newitem i_platemail_gorget_agapite
+new.bounce
+newitem i_platemail_gloves_agapite
+new.bounce
+newitem i_shield_heater_agapite
+new.bounce
+remove
+return 1
+
+[itemdef i_shadow_deed]
+id 9793
+type t_eq_script
+name Agapite set deed
+weight 0
+
+on=@create
+color 051f
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@dclick
+newitem i_platemail_chest_shadow
+new.bounce
+newitem i_platemail_arms_shadow
+new.bounce
+newitem i_platemail_leggings_shadow
+new.bounce
+newitem i_helm_plate_shadow
+new.bounce
+newitem i_platemail_gorget_shadow
+new.bounce
+newitem i_platemail_gloves_shadow
+new.bounce
+newitem i_shield_heater_shadow
+new.bounce
+remove
+return 1
+
+// Verite
+
+[function verite]
+if !(strmatch('<src.account>','alobar')) && !(strmatch('<src.account>','akillis'))
+	return 1
+else
+	newitem i_verite_deed
+	new.bounce
+	return 1
+endif
+
+[itemdef i_verite_deed]
+id 8792
+type t_eq_script
+name Verite set deed
+weight 0
+
+on=@create
+color 07d1
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@dclick
+newitem i_verite_platemail
+new.bounce
+newitem i_verite_platemail_arms
+new.bounce
+newitem i_verite_platemail_leggings
+new.bounce
+newitem i_verite_plate_helm
+new.bounce
+newitem i_verite_platemail_gorget
+new.bounce
+newitem i_verite_platemail_gauntlets
+new.bounce
+newitem i_verite_heater_shield
+new.bounce
+remove
+return 1
+
+// Valorite
+
+[function valorite]
+if !(strmatch('<src.account>','alobar')) && !(strmatch('<src.account>','akillis'))
+	return 1
+else
+	newitem i_valorite_deed
+	new.bounce
+	return 1
+endif
+
+[itemdef i_valorite_deed]
+id 8792
+type t_eq_script
+name Valorite set deed
+weight 0
+
+on=@create
+color 0515
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@dclick
+newitem i_platemail_valorite
+new.bounce
+newitem i_platemail_arms_valorite
+new.bounce
+newitem i_platemail_leggings_valorite
+new.bounce
+newitem i_plate_helm_valorite
+new.bounce
+newitem i_platemail_gorget
+new.bounce
+newitem i_platemail_gauntlets_valorite
+new.bounce
+newitem i_heater_shield_valorite
+new.bounce
+remove
+return 1
+
+// Shadow
+
+[function shadow]
+if !(strmatch('<src.account>','alobar')) && !(strmatch('<src.account>','akillis'))
+	return 1
+else
+	newitem i_shadow_deed
+	new.bounce
+	return 1
+endif
+
+
+
+// Bloodrock
+
+[function bloodrock]
+if !(strmatch('<src.account>','alobar')) && !(strmatch('<src.account>','akillis'))
+	return 1
+else
+	newitem i_bloodrock_deed
+	new.bounce
+	return 1
+endif
+
+[itemdef i_bloodrockw_deed]
+id 8792
+type t_eq_script
+name Bloodrock set deed
+weight 0
+
+on=@create
+color 04c2
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@dclick
+newitem i_bloodrock_platemail
+new.bounce
+newitem i_bloodrock_platemail_arms
+new.bounce
+newitem i_bloodrock_platemail_leggings
+new.bounce
+newitem i_bloodrock_plate_helm
+new.bounce
+newitem i_bloodrock_platemail_gorget
+new.bounce
+newitem i_bloodrock_platemail_gauntlets
+new.bounce
+newitem i_bloodrock_heater_shield
+new.bounce
+remove
+return 1
+
+// Blackrock
+
+[function blackrock]
+if !(strmatch('<src.account>','alobar')) && !(strmatch('<src.account>','akillis'))
+	return 1
+else
+	newitem i_blackrock_deed
+	new.bounce
+	return 1
+endif
+
+[itemdef i_blackrock_deed]
+id 9793
+type t_eq_script
+name Blackrock set deed
+weight 0
+Value 15000
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @0 <name>
+return 1
+
+on=@equip
+src.bounce
+return 1
+
+on=@dclick
+newitem i_platemail_chest_blackrock
+new.bounce
+newitem i_platemail_arms_blackrock
+new.bounce
+newitem i_platemail_leggings_blackrock
+new.bounce
+newitem i_helm_plate_blackrock
+new.bounce
+newitem i_platemail_gorget_blackrock
+new.bounce
+newitem i_platemail_gloves_blackrock
+new.bounce
+newitem i_shield_heater_blackrock
+new.bounce
+remove
+return 1
+
+
+
+[ITEMDEF i_hell_deed]//248 armor veriyor
+NAME=Hell Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00
+color 07b2
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_hell_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_hell_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_hell_platemai_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_hell_platemai_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_hell_platemai_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_hell_platemai_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_hell_platemai_heater
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+
+[ITEMDEF i_Mirage_deed]
+NAME=Mirage Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=07c5
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_Mirage_tnc
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Mirage_lg
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Mirage_bot
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Mirage_grg
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Mirage_slvs
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Mirage_glv
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+
+
+
+
+
+
+[ITEMDEF i_lightning_deed]//114 armor veriyor
+NAME=Lightning Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=0800
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_lightning_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_lightning_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_lightning_platemail_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_lightning_plate_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_lightning_platemail_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_lightning_platemail_gauntlets
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_lightning_heater_shield
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+
+[ITEMDEF i_bloodrock_deed]
+NAME=Bloodrock Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=color_o_bloodrock
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_bloodrock_heater_shield
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_bloodrock_platemail_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_bloodrock_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_bloodrock_platemail_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_bloodrock_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_bloodrock_platemail_gauntlets
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_bloodrock_plate_helm
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+
+
+[ITEMDEF i_titanium_deed]
+NAME=Titanium Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=0810
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_titanium_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_titanium_legs
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_titanium_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_titanium_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_titanium_gauntlets
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_titanium_chest
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_titanium_heater
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+
+
+[ITEMDEF i_export_deed]//248 armor veriyor
+NAME=Export Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=09a3
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_export_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_export_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_export_platemai_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_export_platemai_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_export_platemai_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_export_platemai_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_export_platemai_heater
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_meteorite_deed]//114 armor veriyor
+NAME=Meteorite Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=0799
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_meteorite_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_meteorite_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_meteorite_platemail_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_meteorite_plate_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_meteorite_platemail_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_meteorite_platemail_gauntlets
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_meteorite_heater_shield
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_order_deed]
+NAME=order Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=0809
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_order_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_order_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_order_platemail_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_order_plate_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_order_platemail_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_order_platemail_gauntlets
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_order_heater_shield
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_chaos_deed]
+NAME=Chaos Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=0810
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_chaos_platemail
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_chaos_platemail_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_chaos_platemail_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_chaos_plate_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_chaos_platemail_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_chaos_platemail_gauntlets
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_chaos_heater_shield
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_muriara_deed]//187 armor veriyor
+NAME=Muriara Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=07b2
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_muriara_plate
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_muriara_plate_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_muriara_plate_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_muriara_plate_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_muriara_plate_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_muriara_plate_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_muriara_plate_heater
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_chef_deed]
+NAME=Chef Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=07c5
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_Chef_tnc
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Chef_lg
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Chef_bot
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_Chef_grg
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_Chef_slvs
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_Chef_glv
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[ITEMDEF i_silver_deed]
+NAME=Silver Set Deed
+ID=i_deed
+WEIGHT=10
+
+ON=@Create
+ATTR=00004
+Color=07a1
+
+ON=@DCLICK
+SRC.SFX 020c
+SRC.NEWITEM i_silver_plate
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_silver_platel_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_silver_plate_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_silver_plate_helm
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_silver_plate_arms
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_silver_plate_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_silver_plate_heater
+SRC.ACT.BOUNCE
+REMOVE
+RETURN 1
+
+[EOF]

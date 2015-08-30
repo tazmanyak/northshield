@@ -1,0 +1,89 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Tuesday, December 08, 2009
+// BY: Valios
+
+VERSION=0.56b
+
+// Gargoyle Clothing
+
+[ITEMDEF 04060]
+DEFNAME=i_gargoyle_clothing_arms_m
+NAME=Gargoyle Clothing Arms
+WEIGHT=3
+TYPE=t_clothing
+DYE=1
+ARMOR=3
+DUPELIST=0404
+SKILLMAKE=TAILORING 20.0, t_sewing_kit
+RESOURCES=8 i_cloth
+
+CATEGORY=Provisions - Clothing
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Gargoyle Clothing Arms
+
+[ITEMDEF 0404]
+DUPEITEM=04060
+
+[ITEMDEF 04062]
+DEFNAME=i_gargoyle_clothing_chest_m
+NAME=Gargoyle Clothing Chest
+WEIGHT=6
+TYPE=t_clothing
+DYE=1
+ARMOR=5
+DUPELIST=0406
+SKILLMAKE=TAILORING 25.0, t_sewing_kit
+RESOURCES=12 i_cloth
+
+CATEGORY=Provisions - Clothing
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Gargoyle Clothing Chest
+
+[ITEMDEF 0406]
+DUPEITEM=04062
+
+[ITEMDEF 04064]
+DEFNAME=i_gargoyle_clothing_kilt_m
+NAME=Gargoyle Clothing Kilt
+WEIGHT=5
+TYPE=t_clothing
+DYE=1
+ARMOR=4
+DUPELIST=0408
+SKILLMAKE=TAILORING 25.0, t_sewing_kit
+RESOURCES=15 i_cloth
+
+CATEGORY=Provisions - Clothing
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Gargoyle Clothing Kilt
+
+[ITEMDEF 0408]
+DUPEITEM=04064
+
+[ITEMDEF 04065]
+DEFNAME=i_gargoyle_clothing_legs_f
+NAME=Gargoyle Clothing Legs
+WEIGHT=2
+TYPE=t_clothing
+DYE=1
+ARMOR=2
+DUPELIST=0409
+SKILLMAKE=TAILORING 16.0, t_sewing_kit
+RESOURCES=8 i_cloth
+
+CATEGORY=Provisions - Clothing
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Gargoyle Clothing Legs
+
+[ITEMDEF 0409]
+DUPEITEM=04065
+
+[EOF]

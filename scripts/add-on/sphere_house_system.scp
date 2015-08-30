@@ -1,0 +1,4836 @@
+﻿
+[itemdef i_house_banish]
+name=House Bannish
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+morex 10
+timer 1
+
+on=@timer
+if <morex> == 0
+	if !<tag.ev_bu>
+		trysrc <cont.uid> f_evden_ayril_x
+	endif
+	remove
+	return 1
+else
+	morex --
+	cont.sys_error <morex>
+	timer 1
+	return 1
+endif
+
+
+
+[itemdef i_koy_banish]
+name=Koy Bannish
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+morex 10
+timer 1
+
+on=@timer
+if <morex> == 0
+	if !<tag.koy_bu>
+	trysrc <cont.uid> f_koyden_ayril_x
+	endif
+	remove
+	return 1
+else
+	morex --
+	cont.sys_error <morex>
+	timer 1
+	return 1
+endif
+
+
+[function f_house_repair]
+foritems 7144
+	if <more2> == 0a036
+		src.go <p>
+	endif
+endfor
+
+////////////////////////////////
+[function house_list_convert]
+local.p <src.p>
+serv.b <local.p>
+for 0 255
+	if (<serv.maplist.<dlocal._for>>)
+		
+		src.p=0,0,0,<dlocal._for>
+serv.log processing map <dlocal._for>
+  		src.f_house_loop
+ 	endif
+endfor
+src.p <local.p>
+
+[function f_house_loop]
+foritems 7168
+ 	if (<type>==t_multi)
+ 	 	ref2=<more1>
+		ref3=<region.tag0.sign>
+			if <serv.list.<ref2.account>_houses.count>
+				if <serv.list.<ref2.account>_houses.findelem <ref3.link>> == -1
+					serv.list.<ref2.account>_houses.add <ref3.link>
+					serv.log House <ref3.link> owned by <ref2.name> pushed to list
+					if <ref3.tag0.coowner>
+						for 1 10
+							if <ref3.link.tag0.coowner_<local._for>>
+								serv.list.house_<ref3.link>_coowner.add <ref3.link.tag0.coowner_<local._for>>
+								serv.log #<dlocal._for> push to list <ref3.link.tag0.coowner_<local._for>> 
+								ref3.link.tag0.coowner_<local._for>=
+							endif
+						endfor
+						ref3..tag0.coowner=
+						serv.log coowner tags cleared / coowner list contains <serv.list.house_<ref3.link>_coowner.count>
+					endif
+					if <ref3.tag0.friend>
+						for 1 20
+							if <ref3.link.tag0.friend_<local._for>>
+								serv.list.house_<ref3.link>_friend.add <ref3.link.tag0.friend_<local._for>>
+								serv.log #<dlocal._for> push to list <ref3.link.tag0.friend_<local._for>>
+								ref3.link.tag0.friend_<local._for>=
+							endif
+						endfor
+						ref3.tag0.friend=
+						serv.log friend tags cleared / friend list contains <serv.list.house_<ref3.link>_friend.count>
+					endif
+					if <ref3.tag0.access>
+						for 1 10
+							if <ref3.link.tag0.access_<local._for>>
+								serv.list.house_<ref3.link>_access.add <ref3.link.tag0.access_<local._for>>
+								serv.log #<dlocal._for> push to list <ref3.link.tag0.access_<local._for>>
+								ref3.link.tag0.access_<local._for>=
+							endif
+						endfor
+						ref3.tag0.access=
+						serv.log access tags cleared / access list contains <serv.list.house_<ref3.link>_access.count>
+					endif
+					if <ref3.tag0.bans>
+					serv.log bans found
+						for 1 10
+							if <ref3.link.tag0.banned_<local._for>>
+								serv.list.house_<ref3.link>_ban.add <ref3.link.tag0.banned_<local._for>>
+								serv.log #<dlocal._for> push to list <ref3.link.tag0.ban_<local._for>>
+								ref3.link.tag0.banned_<local._for>=
+							endif
+						endfor
+						ref3.tag0.bans=
+						serv.log ban tags cleared / ban list contains <serv.list.house_<ref3.link>_ban.count>
+					endif
+				endif
+			else
+				serv.list.<ref2.account>_houses.add <ref3.link>
+				serv.log House <ref3.link> owned by <ref2.name> pushed to list
+				serv.log <ref3>   house sign
+				if <ref3.tag0.coowner>
+					for 1 10
+						if <ref3.link.tag0.coowner_<local._for>>
+							serv.list.house_<ref3.link>_coowner.add <ref3.link.tag0.coowner_<local._for>>
+							serv.log #<dlocal._for> push to list <ref3.link.tag0.coowner_<local._for>> 
+							ref3.link.tag0.coowner_<local._for>=
+						endif
+					endfor
+					ref3.tag0.coowner=
+					serv.log coowner tags cleared / coowner list contains <serv.list.house_<ref3.link>_coowner.count>
+				endif
+				if <ref3.tag0.friend>
+					for 1 20
+						if <ref3.link.tag0.friend_<local._for>>
+							serv.list.house_<ref3.link>_friend.add <ref3.link.tag0.friend_<local._for>>
+							serv.log #<dlocal._for> push to list <ref3.link.tag0.friend_<local._for>>
+							ref3.link.tag0.friend_<local._for>=
+						endif
+					endfor
+					ref3.tag0.friend=
+					serv.log friend tags cleared / friend list contains <serv.list.house_<ref3.link>_friend.count>
+				endif
+				if <ref3.tag0.access>
+					for 1 10
+						if <ref3.link.tag0.access_<local._for>>
+							serv.list.house_<ref3.link>_access.add <ref3.link.tag0.access_<local._for>>
+							serv.log #<dlocal._for> push to list <ref3.link.tag0.access_<local._for>>
+							ref3.link.tag0.access_<local._for>=
+						endif
+					endfor
+					ref3.tag0.access=
+					serv.log access tags cleared / access list contains <serv.list.house_<ref3.link>_access.count>
+				endif
+				if <ref3.tag0.banned>
+					for 1 10
+						if <ref3.link.tag0.banned_<local._for>>
+							serv.list.house_<ref3.link>_ban.add <ref3.link.tag0.banned_<local._for>>
+							serv.log #<dlocal._for> push to list <ref3.link.tag0.ban_<local._for>>
+							ref3.link.tag0.banned_<local._for>=
+						endif
+					endfor
+					ref3.tag0.banned=
+					serv.log ban tags cleared / ban list contains <serv.list.house_<ref3.link>_ban.count>
+				endif
+			endif
+ 	endif
+endfor
+///////////////////////////////////////////////////////////////
+
+
+[function timerreset]
+
+foritems 65000
+	if <baseid> == i_sign_brass
+		timer 1
+	endif
+endfor
+
+
+[Plevel 1]
+fiyat
+
+[function fiyat]
+src.sys_error Vendor çantasına eşya koyduğunuzda fiyatı direk belirleyebilirsiniz. Tek yapmanız gereken eşyayı vendora bırakıp ekrana değerini yazıp entera basmaktır.
+// targetf f_evvendorfiyat <args>
+// src.sys_normal fiyatlandirmak istediginiz esyayi seciniz.
+
+
+
+
+[function itemup]
+if !<argo.isitem>
+return 1
+endif
+
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)
+ IF !(<argo.REGION.UID>==<REGION.uid>)
+   //src.sysmessage @1100 Evin içinde degilsınız.
+   return 1
+ endif
+endif
+
+if !(<argo.attr>&attr_move_never)
+src.sysmessage @1100,,1 Önce esyayi sabitlemelisınız.
+return 1
+endif
+
+if ((<argo.baseid> == i_strong_box) || (<argo.type> == t_multi) || (<argo.type> == t_spell) || (<argo.baseid> == i_corpse) || (<argo.type> == t_blood) || (<argo.type> == t_door) || (<argo.type> == t_door_locked) || (<argo.type> == t_sign_gump) || (<argo.type> == t_stone_guild) || (<argo.baseid> == i_forge) || (<argo.baseid> == i_anvil) || (<argo.baseid> == i_training_dummy) || (<argo.baseid> == i_pickpocket_dip) || (<argo.baseid> == i_spinning_wheel) || (<argo.baseid> == i_loom_upright) || (<argo.baseid> == i_pentagram) || (<argo.type> == t_deed))
+
+src.sysmessage @1100,,1 Bu esyanin pozisyonuyla oynayamazsınız.
+return 1
+endif
+
+ if !((<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_tower) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_villa_2story) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_castle) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_keep) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble))
+ local.z=25
+ else
+ local.z=45
+ endif 
+
+if <argo.p.z> > 70
+src.sysmessage @1100,,1 Bu esyayi daha fazla yukseltemezsınız.
+return 1
+endif
+
+if (<argo.p.z> >= <eval (<src.p.z> + <dlocal.z>)>)
+src.sysmessage @1100,,1 Bu esyayi daha fazla yukseltemezsınız.
+return 1
+endif
+
+//src.say <dlocal.z> , <SRC.UID.<SRC.REGION.UID>.baseid>
+
+argo.nudgeup	
+
+[function itemdown]
+if !<argo.isitem>
+return 1
+endif
+
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)
+ IF !(<argo.REGION.UID>==<REGION.uid>)
+   //src.sysmessage @1100 Evin içinde degilsınız.
+   return 1
+ endif
+endif
+
+if !(<argo.attr>&attr_move_never)
+src.sysmessage @1100,,1 Önce esyayi sabitlemelisınız.
+return 1
+endif
+
+if ((<argo.type> == t_multi) || (<argo.baseid> == i_strong_box) || (<argo.type> == t_spell) || (<argo.baseid> == i_corpse) || (<argo.type> == t_blood) || (<argo.type> == t_door) || (<argo.type> == t_door_locked) || (<argo.type> == t_sign_gump) || (<argo.type> == t_stone_guild) || (<argo.baseid> == i_forge) || (<argo.baseid> == i_anvil) || (<argo.baseid> == i_training_dummy) || (<argo.baseid> == i_pickpocket_dip) || (<argo.baseid> == i_spinning_wheel) || (<argo.baseid> == i_loom_upright) || (<argo.baseid> == i_pentagram) || (<argo.type> == t_deed))
+
+src.sysmessage @1100,,1 Bu esyanin pozisyonuyla oynayamazsınız.
+return 1
+endif
+
+
+if (<argo.p.z> <= <src.p.z>)
+src.sysmessage @1100,,1 Bu esyayi daha fazla alcaltamazsınız.
+return 1
+endif
+
+
+argo.nudgedown
+
+
+
+[function is_kapiya_yakin]
+local.kurulmaz = 0
+foritems 2
+if (strmatch('<type>','t_door')) || (strmatch('<type>','t_door_locked'))
+  IF (<UID.<REGION.UID>.TYPE>==t_multi) || (<UID.<REGION.UID>.TYPE>==t_multi_custom)
+	local.kurulmaz ++
+  endif
+endif
+endfor
+return <dlocal.kurulmaz>
+
+
+[function is_tabelaya_yakin]
+if (strmatch('<baseid>','i_deed_guildstone'))
+return 1
+endif
+
+foritems 1
+if (strmatch('<baseid>','i_sign_brass'))
+local.kurulmaz +=1
+endif
+endfor
+return <dlocal.kurulmaz>
+
+[function is_tabelaya_yakin2]
+foritems 1
+if (strmatch('<baseid>','i_sign_brass'))
+local.kurulmaz +=1
+endif
+endfor
+return <dlocal.kurulmaz>
+
+
+[function isevkurulmaz]
+foritems 13
+if (strmatch('<baseid>','i_kurulmaz'))
+local.kurulmaz +=1
+endif
+endfor
+return <dlocal.kurulmaz>
+
+
+
+[FUNCTION strongboxkoy]
+if (<src.hits> < <src.str>)
+src.sysmessage @1153 Yarali iken kullanamazsınız.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sysmessage @,,1 Tabelaya çok yakinsınız
+return 1
+endif
+
+//if <src.is_kapiyaa_yakin>
+//src.sysmessage @,,1 Kapiya cok yakinsınız.
+//return 1
+//endif
+
+if (<src.memoryfindtype.memory_fight>)
+	src.sysmessage @38 Son savasınızdan belirli bir sure gecmedikce bu esyayi kullanamazsınız.
+	return 1
+endif
+
+foritems 100
+   IF (<src.REGION.UID>==<REGION.uid>)
+     	 if (<baseid>==i_strong_box)
+		if (<more2> == <src.uid>)
+ 		src.sysmessage @1153 Bu evde zaten bir strongbox'a sahipsin.
+		return 1
+		endif
+	endif
+      IF (<TYPE>==t_sign_gump) || (<TYPE>==t_ship_plank) ///t_ship_plank aktiflenmemis evlerde geçio / Noxier
+      	if !(<dtag0.strongbox> > 2 )
+     	     tag0.strongbox +=1
+     	     //say @1153 Strongbox bilgileri eklendi.
+             src.newitem i_strong_box
+             src.new.p <src.p>
+	     src.new.name Strong Box
+	     src.new.link <uid>
+	     src.new.more2 <src.uid>
+        else
+        src.sysmessage @1153 Evde max. 3 tane strongbox olabilir.
+     	 ENDIF
+       endif
+   ENDIF
+ENDFOR
+return 1
+
+[FUNCTION strongboxsil]
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)
+ IF !(<argo.REGION.UID>==<REGION.uid>)
+   //src.sysmessage @1100 Evin içinde degilsınız.
+   return 1
+ endif
+
+  if (<argo.baseid> == i_addon_trash_barrel) && (<UID.<ARGO.REGION.UID>.MORE2>==<REF1>)
+	src.sysmessage @,,1 Trash barrel kaldirilmistir.
+	argo.remove
+	return 1
+  endif
+	
+  if (<argo.baseid> == i_strong_box)
+      if ((<argo.more2> == <src.uid>) || (<argo.link.more1> == <src.uid>))
+	   if (<argo.rescount> > 0)
+	   src.sysmessage @1153 Strongbox bos olmali.
+           return 1
+           endif
+           foritems 100
+	    IF (<src.REGION.UID>==<REGION.uid>)
+             IF (<TYPE>==t_sign_gump) || (<TYPE>==t_ship_plank)
+	       	 tag0.strongbox -=1
+     	    	 // say @1153 Strongbox bilgileri silindi.
+             endif
+            endif
+           endfor
+         obj=<argo.uid>
+	 obj.remove
+	 src.sysmessage @1100 Strongbox kaldirildi.
+       else
+         if !(<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>)
+         src.sysmessage @1100 Bu strongbox size ait degil.
+         else
+	  if (<argo.rescount> > 0)
+	   src.sysmessage @1153 Strongbox bos olmali.
+           return 1
+           endif
+	foritems 100
+	    IF (<src.REGION.UID>==<REGION.uid>)
+             IF (<TYPE>==t_sign_gump) || (<TYPE>==t_ship_plank)
+	       	 tag0.strongbox -=1
+     	    	// say @1153 Strongbox bilgileri silindi.
+             endif
+            endif
+         endfor
+         obj=<argo.uid>
+	 obj.remove
+	 src.sysmessage @1100 Strongbox kaldirildi.
+	 endif
+       endif
+   endif
+
+
+
+endif
+return 1
+
+
+[itemdef i_strong_box]
+defname i_strong_box
+type t_container
+id i_box_brass
+name strongbox
+tdata2 04b
+
+On=@Create
+timer -1
+attr attr_move_never
+color 00
+
+On=@Click
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)
+	message @1153 Sahip : <src.uid.<more2>.name>	
+endif
+if (<rescount> > 0)
+	messageua 1153,6,6,1 <name> [<rescount>,<eval ((<weight> / 10) - <typedef.weight>)>]
+else 
+message @1153 strongbox [esya yok]
+endif
+return 1
+
+On=@DClick
+if ((<more2> == <src.uid>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>)
+	return 0
+else
+	return 1
+endif
+
+On=@PickUp_Ground
+	return 1
+
+
+[dialog d_h_help]
+150,50
+resizepic 0 0 2620 300 480
+checkertrans 0 0 300 480
+
+dhtmlgump 15 20 150 150 0 0 <def.bfont_lred>i ban thee<def.br><def.bfont_lgreen>(Evden atar)
+dhtmlgump 15 60 150 150 0 0 <def.bfont_lred>item up / item down <def.br><def.bfont_lgreen>(Eysa yukseltme/alcaltma)
+dhtmlgump 15 100 150 150 0 0 <def.bfont_lred>I wish to place a strongbox<def.br><def.bfont_lgreen>(Kutu koy)
+dhtmlgump 15 160 150 150 0 0 <def.bfont_lred>I wish to remove this<def.br><def.bfont_lgreen>(Kutu kaldir)
+//dhtmlgump 15 200 150 150 0 0 Item down<def.br><def.bfont_lgreen>(Esya alcaltir)
+dhtmlgump 15 400 150 150 0 0 <def.bfont_lred>I wish to secure this down<def.br><def.bfont_lgreen>(Esya guvenli yapar)
+dhtmlgump 15 260 150 150 0 0 <def.bfont_lred>I wish to lock this down<def.br><def.bfont_lgreen>(Esya sabitler)
+dhtmlgump 15 300 150 150 0 0 <def.bfont_lred>I wish to release this<def.br><def.bfont_lgreen>(Esya sabit kaldirir)
+dhtmlgump 15 340 150 150 0 0 <def.bfont_lred>I wish to place a trash barrel<def.br><def.bfont_lgreen>(Trash Barrel Koyar)
+//dhtmlgump 15 380 150 150 0 0 Kaldir<var.br>><var.font2>>(Strongbox kaldirir)
+
+[dialog d_h_help BUTTON]
+On=0
+
+
+[Plevel 7]
+evlerereset
+gemireset
+
+
+
+
+
+[function worldsabitle]
+foritems 250
+	if (<type> == t_sign_gump)
+		src.go <p>
+	endif
+endfor
+
+
+
+
+[function gemireset]
+foritems 65000
+	if (<baseid> == i_multi_short_table)
+		remove
+	endif
+endfor
+
+[events e_house]
+
+On=@Spelleffect
+IF STRMATCH("t_multi*","<UID.<REGION.UID>.TYPE>")
+	if (<argn> == 59) && (<flags>&statf_dead)
+		var.p <p>
+		p 5 5
+		spelleffect 59 100.0
+		p <var.p>
+		update
+	endif
+endif
+
+On=@ItemDClick
+if strmatch("*golem*","<act.baseid>")
+	src.sys_error Ev içerisinde çıkartamazsınız.
+	return 1
+endif
+
+//On=@Login
+
+
+//On=@Logout
+//if !(STRMATCH("t_multi*","<UID.<REGION.UID>.TYPE>"))
+// return 0
+//else
+//	REF1=<UID.<SRC.REGION.UID>.MORE2>
+//	IF !(<REF1.HousePlayerAccess <SRC>> >= 1)
+//		var.p <p>
+//		p <ref1.p>
+//		update
+//		p <var.p>
+//		disconnect
+//		var.p
+//	endif
+//endif
+
+//on=@ItemDclick
+//if (<act.baseid> == i_runebook)
+//sysmessage @38,,1 Evde Runebook Kullanamassınız....
+//return 1
+//endif
+//if (<act.baseid> == i_pet_golem2)
+//sysmessage @38,,1 Evde Golem Cikartamassınız....
+//return 1
+//endif
+
+
+
+[Plevel 6]
+evmevyok
+evmevyok2
+
+[function evmevyok]
+targetf evmevyok_x
+
+
+[function evmevyok_x]
+argo.evmevyok_xx
+
+[function evmevyok_xx]
+for 0 <eval <RESCOUNT>-1>
+	if (<UID.<FINDCONT(<LOCAL._FOR>).LINK>.ISITEM>)
+		if STRMATCH("t_multi*","<UID.<FINDCONT(<LOCAL._FOR>).LINK>.TYPE>")
+			remove
+		endif
+	endif
+endfor
+
+[function evmevyok2]
+src.x TAG0.House.PlacementDelay
+
+
+
+
+
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 19-Jul-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Coruja (coruja747) - Main system
+// Terrikate - TradeWindow scripted function
+//
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Version 5.5
+// This system is based on the official OSI House System, witch include the
+// Custom Housing engine, that allow players build houses using the built-in
+// AOS custom house builder feature on client (AOS+ client is needed to do this).
+//
+// A house can be placed using the House Placement Tool item, or using the old deed-style housing.
+// And there's another item called House Interior Decorator, to move up/down and flip items locked on houses.
+// These item are selled on any architect npc.
+//
+// The owner of the house can manage the house access list, giving access to others player on
+// some functions, doors and items inside the house.
+//
+// Players on house access list can use some commands to interact with the house:
+// -I wish to lock this down		//Lock an item on house ground.
+// -I wish to secure this		//Lock an item on house ground and set a minimum required house access to use it.
+// -I wish to release this		//Unlock an item that is locked or secured.
+// -I ban thee				//Ban someone from the house.
+// -Remove thyself			//Eject someone from the house.
+// -I wish to place a trash barrel	//Place a trash barrel at your feet.
+//
+// House maximum storage is calculated based on the house area, and maximum lockdowns is
+// always half of this value. There's 2 types of storage: used by lockdowns and used by
+// secure containers. Every item placed inside a locked container will count on lockdown
+// limit, and will count on secure storage limit if it's placed inside a secured container.
+//
+//
+// INSTALLATION NOTES
+// ------------------
+// This script is compatible with Custom Vendor systems. If you have problems on interactivity
+// with your vendors, just modify the section [FUNCTION IsHouseVendor] in this script.
+//
+// 1st step: (If you want to switch between house placement tool and classic deeds)
+//  -Open sphere_template_vend.scp
+//  -Add this code under [TEMPLATE VENDOR_S_DEED_TEMPLATE]:
+//	SELL=i_house_placement_tool,{2 6}
+//	SELL=i_house_interior_decorator,{2 6}
+//  -On same section, disable all house deeds placing // codes on the start of the line.
+//  In the case you want to enable the deeds, just do the inverse process.
+//
+// 2rd step:
+//  -Check [DEFNAME Avaible_Houses] section on this house script, this section define what
+//   houses will be avaible to build using House Placement Tool.
+
+/////////////////////////////////////////
+
+[FUNCTION IsHouseVendor]		//Configure this function to recognize your vendor script
+if ((<NPC>==brain_human) || (<NPC>==brain_vendor))	//Do not use (<OWNER.ISPLAYER>), Sphere cannot recognize OWNER when the vendor got created.
+	return 1
+else
+	return 0
+endif
+
+[FUNCTION HouseVendorRemove]		//Function called on vendor before the house remove it
+//SERV.NEWITEM i_deed
+//NEW.NAME=Deed for Custom Vendor
+///NEW.MORE=<DISPID>
+//NEW.P=<P>
+//REMOVE
+
+//house_classic_2			"i_multi_house_stone_small"
+//house_classic_3			"i_multi_house_stone_brick_small"
+//house_classic_4			"i_multi_house_stone_wood_small"
+//house_classic_5			"i_multi_house_wood_plaster_small"
+//house_classic_6			"i_multi_house_wood_thatched_small"
+/////////////////////////////////////////
+
+[DEFNAME Avaible_Houses]		//Avaible houses on House Placement Tool
+DEMOLITION_PEND_DECAY 3
+house_classic_1			"i_multi_house_stone_plaster_small"
+house_classic_2			"i_multi_shop_stone_small"
+house_classic_3			"i_multi_shop_marble_small"
+house_classic_4			"i_multi_tower_wizard"
+house_classic_5		"i_multi_house_patio_sand"
+house_classic_6		"i_multi_villa_2story"
+house_classic_7		"i_multi_cabin_log_2story"
+house_classic_8		"i_multi_house_3room"
+house_classic_9		"i_multi_house_wood_plaster_2story"
+house_classic_10		"i_multi_house_stone_plaster_2story"
+house_classic_11		"i_multi_shop_blacksmithy_large"
+house_classic_12		"i_multi_house_patio_marble"
+//house_classic_13		"i_multi_tower"
+house_classic_13		"i_multi_keep"
+house_classic_14		"i_multi_castle"
+
+house_custom_2story_1		"i_multi_foundation_7x7"
+house_custom_2story_2		"i_multi_foundation_7x8"
+house_custom_2story_3		"i_multi_foundation_7x9"
+house_custom_2story_4		"i_multi_foundation_7x10"
+house_custom_2story_5		"i_multi_foundation_7x11"
+house_custom_2story_6		"i_multi_foundation_7x12"
+house_custom_2story_7		"i_multi_foundation_8x7"
+house_custom_2story_8		"i_multi_foundation_8x8"
+house_custom_2story_9		"i_multi_foundation_8x9"
+house_custom_2story_10		"i_multi_foundation_8x10"
+house_custom_2story_11		"i_multi_foundation_8x11"
+house_custom_2story_12		"i_multi_foundation_8x12"
+house_custom_2story_13		"i_multi_foundation_8x13"
+house_custom_2story_14		"i_multi_foundation_9x7"
+house_custom_2story_15		"i_multi_foundation_9x8"
+house_custom_2story_16		"i_multi_foundation_9x9"
+house_custom_2story_17		"i_multi_foundation_9x10"
+house_custom_2story_18		"i_multi_foundation_9x11"
+house_custom_2story_19		"i_multi_foundation_9x12"
+house_custom_2story_20		"i_multi_foundation_9x13"
+house_custom_2story_21		"i_multi_foundation_10x7"
+house_custom_2story_22		"i_multi_foundation_10x8"
+house_custom_2story_23		"i_multi_foundation_10x9"
+house_custom_2story_24		"i_multi_foundation_10x10"
+house_custom_2story_25		"i_multi_foundation_10x11"
+house_custom_2story_26		"i_multi_foundation_10x12"
+house_custom_2story_27		"i_multi_foundation_10x13"
+house_custom_2story_28		"i_multi_foundation_11x7"
+house_custom_2story_29		"i_multi_foundation_11x8"
+house_custom_2story_30		"i_multi_foundation_11x9"
+house_custom_2story_31		"i_multi_foundation_11x10"
+house_custom_2story_32		"i_multi_foundation_11x11"
+house_custom_2story_33		"i_multi_foundation_11x12"
+house_custom_2story_34		"i_multi_foundation_11x13"
+house_custom_2story_35		"i_multi_foundation_12x7"
+house_custom_2story_36		"i_multi_foundation_12x8"
+house_custom_2story_37		"i_multi_foundation_12x9"
+house_custom_2story_38		"i_multi_foundation_12x10"
+house_custom_2story_39		"i_multi_foundation_12x11"
+house_custom_2story_40		"i_multi_foundation_12x12"
+house_custom_2story_41		"i_multi_foundation_12x13"
+house_custom_2story_42		"i_multi_foundation_13x8"
+house_custom_2story_43		"i_multi_foundation_13x9"
+house_custom_2story_44		"i_multi_foundation_13x10"
+house_custom_2story_45		"i_multi_foundation_13x11"
+house_custom_2story_46		"i_multi_foundation_13x12"
+house_custom_2story_47		"i_multi_foundation_13x13"
+
+house_custom_3story_1		"i_multi_foundation_9x14"
+house_custom_3story_2		"i_multi_foundation_10x14"
+house_custom_3story_3		"i_multi_foundation_10x15"
+house_custom_3story_4		"i_multi_foundation_11x14"
+house_custom_3story_5		"i_multi_foundation_11x15"
+house_custom_3story_6		"i_multi_foundation_11x16"
+house_custom_3story_7		"i_multi_foundation_12x14"
+house_custom_3story_8		"i_multi_foundation_12x15"
+house_custom_3story_9		"i_multi_foundation_12x16"
+house_custom_3story_10		"i_multi_foundation_12x17"
+house_custom_3story_11		"i_multi_foundation_13x14"
+house_custom_3story_12		"i_multi_foundation_13x15"
+house_custom_3story_13		"i_multi_foundation_13x16"
+house_custom_3story_14		"i_multi_foundation_13x17"
+house_custom_3story_15		"i_multi_foundation_13x18"
+house_custom_3story_16		"i_multi_foundation_14x9"
+house_custom_3story_17		"i_multi_foundation_14x10"
+house_custom_3story_18		"i_multi_foundation_14x11"
+house_custom_3story_19		"i_multi_foundation_14x12"
+house_custom_3story_20		"i_multi_foundation_14x13"
+house_custom_3story_21		"i_multi_foundation_14x14"
+house_custom_3story_22		"i_multi_foundation_14x15"
+house_custom_3story_23		"i_multi_foundation_14x16"
+house_custom_3story_24		"i_multi_foundation_14x17"
+house_custom_3story_25		"i_multi_foundation_14x18"
+house_custom_3story_26		"i_multi_foundation_15x10"
+house_custom_3story_27		"i_multi_foundation_15x11"
+house_custom_3story_28		"i_multi_foundation_15x12"
+house_custom_3story_29		"i_multi_foundation_15x13"
+house_custom_3story_30		"i_multi_foundation_15x14"
+house_custom_3story_31		"i_multi_foundation_15x15"
+house_custom_3story_32		"i_multi_foundation_15x16"
+house_custom_3story_33		"i_multi_foundation_15x17"
+house_custom_3story_34		"i_multi_foundation_15x18"
+house_custom_3story_35		"i_multi_foundation_16x11"
+house_custom_3story_36		"i_multi_foundation_16x12"
+house_custom_3story_37		"i_multi_foundation_16x13"
+house_custom_3story_38		"i_multi_foundation_16x14"
+house_custom_3story_39		"i_multi_foundation_16x15"
+house_custom_3story_40		"i_multi_foundation_16x16"
+house_custom_3story_41		"i_multi_foundation_16x17"
+house_custom_3story_42		"i_multi_foundation_16x18"
+house_custom_3story_43		"i_multi_foundation_17x12"
+house_custom_3story_44		"i_multi_foundation_17x13"
+house_custom_3story_45		"i_multi_foundation_17x14"
+house_custom_3story_46		"i_multi_foundation_17x15"
+house_custom_3story_47		"i_multi_foundation_17x16"
+house_custom_3story_48		"i_multi_foundation_17x17"
+house_custom_3story_49		"i_multi_foundation_17x18"
+house_custom_3story_50		"i_multi_foundation_18x13"
+house_custom_3story_51		"i_multi_foundation_18x14"
+house_custom_3story_52		"i_multi_foundation_18x15"
+house_custom_3story_53		"i_multi_foundation_18x16"
+house_custom_3story_54		"i_multi_foundation_18x17"
+house_custom_3story_55		"i_multi_foundation_18x18"
+
+
+[DEFNAME Classic_Houses_Convertion]	//Don't make changes here
+convertion_i_multi_house_stone_plaster_small	"i_multi_foundation_7x7"
+convertion_i_multi_house_stone_small		"i_multi_foundation_7x7"
+convertion_i_multi_house_stone_brick_small	"i_multi_foundation_7x7"
+convertion_i_multi_house_stone_wood_small	"i_multi_foundation_7x7"
+convertion_i_multi_house_wood_plaster_small	"i_multi_foundation_7x7"
+convertion_i_multi_house_wood_thatched_small	"i_multi_foundation_7x7"
+convertion_i_multi_shop_stone_small		"i_multi_foundation_7x7"
+convertion_i_multi_shop_marble_small		"i_multi_foundation_7x7"
+convertion_i_multi_tower_wizard			"i_multi_foundation_8x7"
+convertion_i_multi_house_patio_sand		"i_multi_foundation_12x8"
+convertion_i_multi_villa_2story			"i_multi_foundation_11x11"
+convertion_i_multi_cabin_log_2story		"i_multi_foundation_8x13"
+convertion_i_multi_house_3room			"i_multi_foundation_14x14"
+convertion_i_multi_house_wood_plaster_2story	""
+convertion_i_multi_house_stone_plaster_2story	""
+convertion_i_multi_shop_blacksmithy_large	"i_multi_foundation_15x14"
+convertion_i_multi_house_patio_marble		"i_multi_foundation_15x14"
+convertion_i_multi_tower			""
+convertion_i_multi_keep				""
+convertion_i_multi_castle			""
+
+
+[FUNCTION AreaStorage]	//Don't make changes here
+if (<ARGS> < 50)
+	return 489
+elif (<ARGS> < 60)
+	return 667
+elif (<ARGS> < 65)
+	return 748
+elif (<ARGS> < 75)
+	return 805
+elif (<ARGS> < 82)
+	return 863
+elif (<ARGS> < 91)
+	return 920
+elif (<ARGS> < 125)
+	return 1265
+elif (<ARGS> < 133)
+	return 1323
+elif (<ARGS> < 150)
+	return 1380
+elif (<ARGS> < 157)
+	return 1438
+elif (<ARGS> < 170)
+	return 1495
+elif (<ARGS> < 185)
+	return 1553
+elif (<ARGS> < 215)
+	return 1576
+elif (<ARGS> < 460)
+	return 2437
+elif (<ARGS> < 600)
+	return 3019
+elif (<ARGS> < 1000)
+	return 4688
+endif
+
+//////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF 0bd1]
+DEFNAME=i_sign_brass
+TYPE=t_sign_gump
+CAN=CAN_I_DCIGNORELOS
+CATEGORY=Decoration - Signs
+SUBSECTION=Blank
+DESCRIPTION=Brass Blank
+DUPELIST=0bd2
+
+on=@click
+if (<timer> >= 1500000)
+	message @0481,,1 [yepyeni]
+elseif (<timer> >=  692800)
+	message @0481,,1 [yeni]
+elseif (<timer> >=  520800)
+	message @0481,,1 [bakimsiz]
+elseif (<timer> >=  348800)
+	message @0481,,1 [eskimis]
+elseif (<timer> >=  176800)
+	message @0481,,1 [dokuluyor]
+elseif (<timer> <=  1)
+	//serv.allclients sysmessage @54,,1 Bir ev yikildi  <p.x>,<p.y>,<p.z>,<p.m> koordinatlarinda bulunan ev cok eskidigi icin yikildi.
+	return 1
+endif
+
+
+
+ON=@Create
+	TIMERF 1,HouseCheckPlacement
+	TIMER=30
+
+ON=@DClick
+if (<LINK.TYPE> == t_multi) || (<LINK.TYPE> == t_multi_custom)
+	if ((<SRC.ACCOUNT.PLEVEL> >= 4) && (<SRC.ISGM>)) || ((<SRC.ACCOUNT.PLEVEL> > 1) && (<SRC.ACCOUNT.PLEVEL> < 4))
+		SDIALOG d_house_information
+		return 1
+	elif (<HousePlayerAccess <SRC>> >= 2)
+		SRC.SYSMESSAGE <def.scp.house_msg_welcomeback>
+		if <def.scp.House_DecayUse> == 1
+			if (<DEF.scp.House_DecayTimer> > 0) && (<isempty <TAG.DEMOLITION_PENDING>>)
+				TIMER=<eval <DEF.scp.House_DecayTimer>*24*60*60>
+			endif
+		endif
+		SDIALOG d_house_information
+		foritems 15
+		//if (<attr>&attr_magic)
+		if (<attr> = 022)
+		if <type==t_magic> 
+		remove
+		endif
+		endif
+		endfor
+		return 1
+	endif
+	//TAG0.VISITS ++
+	SDIALOG d_house_visitor
+	return 1
+endif
+
+
+//ON=@ClientToolTip
+//src.addcliloc 1061638
+//src.addcliloc 1061639,<name>
+//src.addcliloc 1061640,<uid.<link.more1>.name>
+//src.addcliloc <qval (<tag0.public>) ? 1061641:1061642>
+//return 1
+
+//ON=@ContextMenuRequest
+///if (<DEF.scp.House_UseVendors>) && (<TAG0.VENDORS>)
+//	SRC.AddContextEntry 747,6211
+//endif
+
+//ON=@ContextMenuSelect
+//if (<ARGN>==747)
+//	if (<DISTANCE> > 5)
+//		SRC.SYSMESSAGE <def.scp.house_msg_housedistance>
+//		return 1
+//	endif
+//	SDIALOG d_house_vendor_list
+//endif
+
+ON=@Timer
+if !(<MORE2>)
+	REF1=<LINK.MORE1>
+	if (<LINK.TAG0.PLACEMENT> != i_gold)
+		SERV.NEWITEM <LINK.TAG0.PLACEMENT>
+		NEW.CONT=<UID.<LINK.MORE1>.FINDLAYER.21>
+	endif
+	if (<REF1.ISONLINE>)
+		TRYSRC <REF1> DIALOGCLOSE d_house_placement
+	endif
+	REF1.NOTICE Kurulumdan bu yana cok zaman gectigi icin ev silinmistir.Tekrar deneyiniz! // 1060647
+	LINK.REMOVE
+
+elif (<DEF.scp.House_DecayUse>) || (<TAG0.DEMOLITION_PENDING>)
+	for 1 3
+		ARGS=<HouseAccessList <LOCAL._FOR>>
+		for x <TAG0.Access.Total.<LOCAL._FOR>>
+			if !(<isempty <ARGV[<dLOCAL.X>]>>)
+				UID.<ARGV[<dLOCAL.X>]>.NOTICE You got removed from the <DEF.Access_<LOCAL._FOR>> list of the house '<NAME>' because it was decayed on <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>>.
+			endif
+		endfor
+	endfor
+	TRY UID.<MORE2>.NOTICE=Eviniz '<NAME>'  <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> tarihinde suresi doldugu icin su sebeple : <QVAL (<STRARG <TAG0.DEMOLITION_PENDING>>)?  <dSTRARG <dTAG0.DEMOLITION_PENDING>> gün icersinde silmediniz(Staff tarafindan hatali isaretlendi.).:<dDEF.scp.House_DecayTimer> gundur evinizi yenilemediniz.>.
+	Uid.<more2>.gold += <link.value>
+
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt ________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt  Evin Sahibi : <UID.<MORE2>.name> 
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt  Tarih : <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt  Sebep : <QVAL (<STRARG <TAG0.DEMOLITION_PENDING>>)?  <dSTRARG <dTAG0.DEMOLITION_PENDING>> gün icersinde silmediniz(Staff tarafindan hatali isaretlendi.).:<dDEF.scp.House_DecayTimer> gundur evinizi yenilemediniz.>.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt  Koordinat : <link.p> , Evin Cinsi : <link.name> , Degeri : <link.value> gold.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Ev_Silinme_Kayitlari\<UID.<MORE2>.name>.txt ________________________________________________________________________________________________________________________________________________________________________________________________________________________________	
+
+
+	LINK.f_house_demolish 1
+	LINK.REMOVE
+
+endif
+
+
+[ITEMDEF 0100e]
+DEFNAME=i_key_copper
+RESOURCES=3 i_ingot_iron
+WEIGHT=0.1
+TYPE=T_KEY
+CATEGORY=Provisions - Miscellaneous
+SUBSECTION=Keys
+DESCRIPTION=Copper Key
+SKILLMAKE=TINKERING 43.0,t_tinker_tools
+
+ON=@Click
+MESSAGE (<LINK.NAME>)
+
+ON=@DClick
+return 1
+
+
+[FUNCTION HouseCheckPlacement]
+REF1=<LINK.MORE1>//Owner
+if !<ref1.uid>
+	return 1
+endif
+//if (<ref1.memoryfindtype.(memory_guard)>)
+//	if !(<ref1.memoryfindtype.(memory_guard).link.type> == t_ship)
+//		ref1.sysmessage @69,1,1 Ikinci bir ev kurabilmek icin diger evinizi yikmalisınız.
+//		return 1
+//	endif
+//endif
+REF1.HouseRemoveKeys
+if (<LINK.HouseCheckNearArea>)
+	REF1.SYSMESSAGE @,,1 Bu alana evi kuramassınız..
+	if !(<REF1.ISGM>)
+		if (<LINK.TAG0.PLACEMENT> != i_gold)
+			SERV.NEWITEM <LINK.TAG.PLACEMENT>
+			NEW.CONT=<REF1.FINDLAYER.21>
+		endif
+		LINK.REMOVE
+		return 1
+	endif
+else
+	if <def.scp.House_DecayUnlockedItems> == 1
+		region.flags = <region.flags>&~region_flag_nodecay
+	endif
+	REF1.SYSMESSAGE @,,1 Bu alana ev kuramassınız.
+endif
+TRYSRC <REF1> DIALOG d_house_placement
+
+
+[FUNCTION HouseRemoveKeys]
+for 0 <FINDLAYER.21.RESCOUNT>
+	REF1=<FINDLAYER.21.FINDCONT(<LOCAL._FOR>)>
+	if (<REF1.DISPID>==i_key_copper)
+		if STRMATCH("t_multi*","<REF1.LINK.TYPE>")
+			REF1.REMOVE
+		endif
+	endif
+endfor
+for 0 <FINDLAYER.29.RESCOUNT>
+	REF1=<FINDLAYER.29.FINDCONT(<LOCAL._FOR>)>
+	if (<REF1.DISPID>==i_key_copper)
+		if STRMATCH("t_multi*","<REF1.LINK.TYPE>")
+			REF1.REMOVE
+		endif
+	endif
+endfor
+
+
+[DIALOG d_house_placement]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dhtmlgump 10 10 400 20 0 0 <DEF.L1>basefont color="#f70000"<DEF.R1><DEF.CENTER>WARNING
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1>Yeni bir ev kurmak uzeresınız. Evinizin kurulmasini kabul etmeden once belirtmek istersizki bir evden fazla eve sahip olamassınız vede kurdugunuz evinizi 1 hafta icerisinde yenilemesseniz eviniz yikilacaktir.Bu prosedurleri kabul ediyorsaniz OKAY etmiyorsaniz CANCEL diyerek iptal edebilirsınız.
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 OKAY
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 CANCEL
+
+[DIALOG d_house_placement BUTTON]
+ON=0
+if (<LINK.TAG0.PLACEMENT> != i_gold)
+	SERV.NEWITEM <LINK.TAG0.PLACEMENT>
+	NEW.BOUNCE
+endif
+LINK.REMOVE
+
+ON=1
+if (<LINK.TAG0.PLACEMENT> == i_gold)
+	if (<SRC.ISGM>)
+		SRC.SYSMESSAGE @,,1 <LINK.VALUE> kadar altin hesabinizdan cekilecektir.
+	elif (<SRC.BANKBALANCE> < <LINK.VALUE>)
+		SRC.SYSMESSAGE @,,1 Bu evi satin alabilecek kadar bankanizda paraniz bulunmuyor.Daha ucuz evleri deneyin yada bankaniza para ekleyiniz.
+		LINK.REMOVE
+		return 1
+	else
+		SRC.GOLD -= <LINK.VALUE>
+		SRC.UPDATE
+		SRC.SYSMESSAGE @,,1 <LINK.VALUE> altin banka hesabinizdan cekildi.
+	endif
+endif
+MORE2=<SRC>
+LINK.MORE2=<UID>
+LINK.TAG.PLACEMENT=
+TIMER=<eval <DEF.scp.House_DecayTimer>*24*60*60>
+TAG.BUILTON=<serv.rtime.format %d>-<serv.rtime.format %m>-<serv.rtime.format %Y> <strsub 11 8 <serv.rtime>>
+TAG.STORAGE_LIMIT=<AreaStorage <AREA>>
+REGION.EVENTS=+r_house_system
+if (<LINK.TYPE>==t_multi_custom)
+	LINK.HousePlaceFoundationStairs
+endif
+if !(<SRC.ISGM>) && (<DEF0.scp.House_PlaceWaitPeriod>)
+	SRC.TAG.House.PlacementDelay=<eval <SERV.TIME>+(<DEF0.scp.House_PlaceWaitPeriod>*864000)+36000>
+endif
+
+[FUNCTION HousePlaceFoundationStairs]
+TAG.COMPONENTS=<COMPONENTS>
+ARGS=<MULTIREGION>
+for <ARGV2> <eval <ARGV0>+1>
+	ADDITEM 1873,<LOCAL._FOR>,<ARGV3>,0
+endfor
+COMMIT
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[FUNCTION RenderHouseDialogBackground]
+resizepic 0 0 5054 420 440
+gumppictiled 10 10 400 100 2624
+checkertrans 10 10 400 100
+gumppictiled 10 120 400 260 2624
+checkertrans 10 120 400 260
+gumppictiled 10 390 400 40 2624
+checkertrans 10 390 400 40
+button 250 410 4005 4007 1 0 0
+dtext 285 410 1152 KAPAT
+gumppic 10 10 100
+dhtmlgump 30 43 105 40 0 0 <DEF.CENTER><NAME><DEF.CENTERE>
+if (<HousePlayerAccess <SRC>> >= 2)
+	button 150 10 4005 4007 1 0 1
+	dtext 195 10 1152 BILGI
+	if !(strmatch(*Brit_Genel_1*,<region.name>))
+			button 150 30 4005 4007 1 0 2
+	endif
+	if (strmatch(*Brit_Genel_1*,<region.name>))
+		if <src.isgm>
+			button 150 30 4005 4007 1 0 2
+		endif
+	endif
+	dtext 195 30 1152 GUVENLIK
+	button 150 50 4005 4007 1 0 3
+	dtext 195 50 1152 STORAGE
+	button 150 70 4005 4007 1 0 4
+	dtext 195 70 1152 OZELLISTIRME
+	if !<src.region.tag.koyburasi>
+		button 150 90 4005 4007 1 0 5
+		dtext 195 90 1152 MULKIYET
+	endif
+	if !(<TAG0.Public>) && (<DEF.scp.House_DepthOfField>)
+		button 10 390 4005 4007 1 0 9
+		dtext 45 390 1152 Erisim Yetkisi
+		button 10 410 4005 4007 1 0 10
+		dtext 45 410 1152 Erisim Iptal Etme
+	elif (<DEF.scp.House_BanEngine>)
+		button 10 390 4005 4007 1 0 7
+		dtext 45 390 1152 Yasaklama
+		button 10 410 4005 4007 1 0 8
+		dtext 45 410 1152 Yasak Kaldirma
+	endif
+	if (<DEF.scp.House_AllowBanking>)
+		button 250 390 4005 4007 1 0 6
+		dtext 285 390 1152 Banka Hesabini Ac
+	endif
+endif
+
+
+[FUNCTION DefaultHouseDialogButtons]
+if (<ARGS>==1)
+	DIALOG d_house_information
+	return 1
+elif (<ARGS>==2)
+	DIALOG d_house_security
+	return 1
+elif (<ARGS>==3)
+	DIALOG d_house_storage
+	return 1
+elif (<ARGS>==4)
+	DIALOG d_house_customize
+	return 1
+elif (<ARGS>==5)
+	DIALOG d_house_ownership
+	return 1
+elif (<ARGS>==6)
+		
+	IF <src.hits> < <src.maxhits>
+		src.sysmessage @,,1 Canınız azken banka hesabınızı açamazsınız.
+		return 1
+	endif
+
+	if (<DEF.scp.House_AllowBanking>)
+		if (<DISTANCE> < 5)
+			SRC.BANKSELF
+		else
+			SRC.SYSMESSAGE @,,1 Ev tabelasindan cok uzaktasınız.
+		endif
+	endif
+	return 1
+elif (<ARGS>==7)
+	if (<DEF.scp.House_BanEngine>)
+		SRC.SYSMESSAGE @,,1 Evden yasaklayacaginiz bireyi seciniz.
+		SRC.TARGETF f_house_banish <UID>
+	endif
+	return 1
+elif (<ARGS>==8)
+	DIALOG d_house_security 2,-1,1
+	return 1
+elif (<ARGS>==9)
+	if (<DEF.scp.House_DepthOfField>)
+		SRC.SYSMESSAGE @,,1 Evin tum yetkilerini atamak istediginiz kisiyi belirtiniz.
+		SRC.TARGETF f_house_grant_access <UID>
+	endif
+	return 1
+elif (<ARGS>==10)
+	DIALOG d_house_security 2,1,1
+	return 1
+elif <ARGS> == 15
+	if <def.scp.House_DecayUse> == 2
+		local.fee = <def.scp.House_DecayFee>
+	elif <def.scp.House_DecayUse> == 3
+		local.fee = <eval (<link.HouseValue> * <def.scp.House_DecayFee>) / 100>
+	endif
+	local.topay = <eval (<local.fee> * (<def.scp.House_DecayTimer> - (<timer>/86400))) / <def.scp.House_DecayTimer>>
+	if <src.gold> < <local.topay>
+		src.sysmessage @,,1 Evinizi yenileyebilmek icin yeterli miktarda altininiz bulunmuyor.
+		return 1
+	endif
+	src.gold -= <local.topay>
+	timer = <eval <def.scp.House_DecayTimer>*24*60*60>
+	src.sysmessage @,,1 Eviniz Yenilendi!
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+[DIALOG d_house_information]
+50,40
+
+page 0
+RenderHouseDialogBackground
+button 150 10 4006 4007 1 0 1
+dtext 195 10 5 BILGILENDIRME
+
+page 1
+dtext 20 130 1152 <qval <region.tag.koyburasi>?Köyün Sahibi:Evin Sahibi:>
+dtext 210 130 1152 <UID.<MORE2>.NAME>
+dtext 20 170 <QVAL (<TAG0.DEMOLITION_PENDING>)? 37 Bu ev hatali olarak:5 Bu <qval <region.tag.koyburasi>?köy:ev> uygun olarak> kurulmus.
+dtext 20 190 5 Bu <qval <region.tag.koyburasi>?köy:ev> modern olarak tasarlanmis.
+dtext 20 210 5 Bu <qval <region.tag.koyburasi>?köy:ev> <QVAL (<LINK.TYPE> != t_multi_custom)? önceden oluşturulmuş:özelleştirilebilir>-built bir <qval <region.tag.koyburasi>?köydür:evdir>.
+dtext 20 230 5 Bu <qval <region.tag.koyburasi>?köy:ev> <QVAL !(<TAG0.Public>)? ozeldir:halka aciktir>.
+if (<TAG0.DEMOLITION_PENDING>)
+	dtext 20 250 37 Bu <qval <region.tag.koyburasi>?köy:ev> hatalidir.
+	dtext 20 270 37 <qval <region.tag.koyburasi>?Köyün:evin> yıkılma süresi: <eval <TIMER>/86400> gun, <eval (<TIMER>%86400)/3600> saat and <eval ((<TIMER>%86400)%3600)/60> dakika.
+elif <def.scp.House_DecayUse> > 0
+	if (<DEF.scp.House_DecayTimer>) && (<TIMER> > 0)
+		dtext 20 250 33 Evin yikilma suresi: <eval <TIMER>/86400> gun, <eval (<TIMER>%86400)/3600> saat and <eval ((<TIMER>%86400)%3600)/60> dakika.
+	endif
+	if <def.scp.House_DecayUse> > 1
+		if !<region.tag.koyburasi>
+		button 20 270 4005 4007 1 0 15
+		endif
+		if <def.scp.House_DecayUse> == 2
+			local.fee = <def.scp.House_DecayFee>
+		elif <def.scp.House_DecayUse> == 3
+			local.fee = <eval (<link.HouseValue> * <def.scp.House_DecayFee>) / 100>
+		endif
+		local.topay = <eval (<local.fee> * (<def.scp.House_DecayTimer> - (<timer>/86400))) / <def.scp.House_DecayTimer>>
+		if !<region.tag.koyburasi>
+		dtext 60 270 1152 Evinizi şimdi yenileyin! Yenilemenin size maliyeti <dlocal.topay>gps.
+		endif
+	endif
+else
+	dtext 20 250 5 Ev otomatik olarak yenilendi.
+endif
+dtext 20 290 5 Kurulus:
+dtext 250 290 1152 <TAG0.BUILTON>
+//if (<TAG0.LastTraded>)
+//	dtext 20 310 5 Last Traded:
+//	dtext 250 310 1152 <TAG0.LastTraded>
+//endif
+dtext 20 330 5 Evin Degeri:
+dtext 250 330 1152 <eval (<LINK.HouseValue>*<DEF.scp.House_DemolishRefund>)/100> gps
+dtext 20 360 5 Simdiya kadar eve yapilan ziyaretci sayisi:
+dtext 350 360 1152 <dTAG0.VISITS>
+
+[DIALOG d_house_information BUTTON]
+ON=1 15
+DefaultHouseDialogButtons <ARGN>
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_security]
+50,40
+
+page 0
+RenderHouseDialogBackground
+button 150 30 4006 4007 1 0 2
+dtext 195 30 5 GUVENLIK
+
+page 1
+if (<IsOwner <SRC>>)
+	button 10 150 4005 4007 1 0 11
+	dtext 45 150 1152 Ortak Ekle
+	button 10 170 4005 4007 1 0 14
+	dtext 45 170 1152 Ortak Sil
+	button 10 190 4005 4007 1 0 21
+	dtext 45 190 1152 Ortak Listesini Temizle
+else
+	dtext 45 150 998 Ortak Ekle
+	dtext 45 170 998 Ortak Sil
+	dtext 45 190 998 Tum Ortak Listesini Temizle
+endif
+
+button 10 220 4005 4007 1 0 15
+dtext 45 220 1152 Tum Dostlari Goster
+if (<HousePlayerAccess <SRC>> >= 3)
+
+	button 10 130 4005 4007 1 0 13
+	dtext 45 130 1152 Tum Ortaklari Goster
+	button 10 240 4005 4007 1 0 12
+	dtext 45 240 1152 Dost Ekle
+	button 10 260 4005 4007 1 0 16
+	dtext 45 260 1152 Dost Sil
+	button 10 280 4005 4007 1 0 22
+	dtext 45 280 1152 Tum Dostlari Sil 
+	
+else
+	dtext 45 130 998 Tum Ortaklari Goster
+	dtext 45 240 998 Dost Ekle
+	dtext 45 260 998 Dost Sil
+	dtext 45 280 998 Tum Dost Listesini Temizle
+endif
+
+if !(<TAG0.Public>) && (<DEF.scp.House_DepthOfField>)
+	button 10 310 4005 4007 1 0 19
+	dtext 45 310 1152 Erisim Izni Olanlari Goster
+	if (<HousePlayerAccess <SRC>> >= 3)
+		button 10 330 4005 4007 1 0 24
+		dtext 45 330 1152 Eve Erisim Listesini Temizle
+	else
+		dtext 45 330 998 Tum Erisim Listesini Temizle
+	endif
+elif (<DEF.scp.House_BanEngine>)
+	button 10 310 4005 4007 1 0 17
+	dtext 45 310 1152 Yasak Listesini Goster
+	if (<HousePlayerAccess <SRC>> >= 3)
+		button 10 330 4005 4007 1 0 23
+		dtext 45 330 1152 Yasak Listesini Temizle
+	else
+		dtext 45 330 998 Yasak Listesini Temizle
+	endif
+endif
+
+if (<IsOwner <SRC>>)
+	if !(<TAG0.Public>)
+		dtext 245 130 5 Evi Ozel duruma getir
+		button 210 150 4005 4007 1 0 31
+		dtext 245 150 1152 Evi halka ac
+	else
+		button 210 130 4005 4007 1 0 31
+		dtext 245 130 1152 Evi ozel durumuna getir
+		dtext 245 150 5 Evi halka ac
+	endif
+else
+	if !(<TAG0.Public>)
+		dtext 245 130 5 Evi ozel durumuna getir
+		dtext 245 150 998 Evi halka ac
+	else
+		dtext 245 130 998 Eve ozel durumuna getir
+		dtext 245 150 5 Evi halka ac
+	endif
+endif
+
+page 2
+if (0<ARGS>)
+	RenderDialogAccessList <ARGS>
+endif
+
+
+[DIALOG d_house_security BUTTON]
+ON=1 10
+DefaultHouseDialogButtons <ARGN>
+
+ON=11
+SRC.SYSMESSAGE @,,1 Eve ortak almak istediginiz kisiyi seciniz.
+SRC.TARGETF f_house_add_coowner <UID>
+
+ON=12
+SRC.SYSMESSAGE @,,1 Eve dost almak istediginiz kisiyi seciniz.
+SRC.TARGETF f_house_add_friend <UID>
+
+ON=13 20
+if (<ARGN>==13)		//Co-Owner View
+	DIALOG d_house_security 2,3
+elif (<ARGN>==14)	//Co-Owner Remove
+	DIALOG d_house_security 2,3,1
+elif (<ARGN>==15)	//Friend View
+	DIALOG d_house_security 2,2
+elif (<ARGN>==16)	//Friend Remove
+	DIALOG d_house_security 2,2,1
+elif (<ARGN>==17)	//Ban View
+	DIALOG d_house_security 2,-1
+elif (<ARGN>==18)	//Ban Remove
+	DIALOG d_house_security 2,-1,1
+elif (<ARGN>==19)	//Access View
+	DIALOG d_house_security 2,1
+elif (<ARGN>==20)	//Access Remove
+	DIALOG d_house_security 2,1,1
+endif
+
+ON=21
+SDIALOG d_house_clear_coowners
+
+ON=22
+DIALOG d_house_clear_friends
+
+ON=23
+DIALOG d_house_clear_bans
+
+ON=24
+DIALOG d_house_clear_access_list
+
+ON=31
+if !(<IsOwner <SRC>>)
+	return 1
+elif !(<TAG0.Public>)
+	TAG.Public=1
+	RESENDTOOLTIP
+	DIALOG d_house_type 1
+else
+	if (<DEF.scp.House_VendorsPublic>)
+		DIALOG d_house_type 3
+	else
+		TAG.Public=
+		RESENDTOOLTIP
+		if (<DEF.scp.House_SignChange>) && (<DISPID> != 0bd2)
+			DISPID=0bd2
+			UPDATEX
+		endif
+		DIALOG d_house_type 2
+	endif
+endif
+
+ON=100 199
+if (<HousePlayerAccess <SRC>> < 2)
+	return 1
+endif
+REF1=<HouseGetAccessRef -1,<eval <ARGN>-100>>
+if (<REF1>)
+	SRC.SYSMESSAGE @,,1 The ban is lifted.
+	HouseUpdateAccessListNumber <TAG.Access.<REF1>>
+	TRY TAG.Access.<REF1>=
+	TAG0.Access.Total.-1 --
+endif
+SDIALOG d_house_security 2,-1,1
+
+ON=200 299
+if (<HousePlayerAccess <SRC>> < 3)
+	return 1
+endif
+REF1=<HouseGetAccessRef 1,<eval <ARGN>-200>>
+if (<REF1>)
+	SRC.SYSMESSAGE @,,1 Istek reddedildi.
+	HouseUpdateAccessListNumber <TAG.Access.<REF1>>
+	TRY TAG.Access.<REF1>=
+	TAG0.Access.Total.1 --
+endif
+SDIALOG d_house_security 2,1,1
+
+ON=300 399
+if (<HousePlayerAccess <SRC>> < 3)
+	return 1
+endif
+REF1=<HouseGetAccessRef 2,<eval <ARGN>-300>>
+if (<REF1>)
+	SRC.SYSMESSAGE @,,1 Dost listeden silindi.
+	REF1.NOTICE='<NAME>'su tarihte : <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> evin dost listesinden silindiniz.
+	HouseUpdateAccessListNumber <TAG.Access.<REF1>>
+	TRY TAG.Access.<REF1>=
+	TAG0.Access.Total.2 --
+endif
+SDIALOG d_house_security 2,2,1
+
+ON=400 499
+if (<HousePlayerAccess <SRC>> < 3)
+	return 1
+endif
+REF1=<HouseGetAccessRef 3,<eval <ARGN>-400>>
+if (<REF1>)
+	SRC.SYSMESSAGE @,,1 Ortak listeden silindi.
+	REF1.NOTICE=Y '<NAME>' su tarihte : <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime> evin ortak listesinden silindiniz.
+	HouseUpdateAccessListNumber <TAG.Access.<REF1>>
+	TRY TAG.Access.<REF1>=
+	TAG0.Access.Total.3 --
+endif
+SDIALOG d_house_security 2,3,1
+
+
+[FUNCTION RenderDialogAccessList]
+LOCAL.ACCESS=<ARGV[0]>
+if (0<ARGV[1]>)
+	LOCAL.REMOVE=<ARGV[1]>
+	LOCAL.BUTTON=<eval (<QVAL (<ARGV[0]>!=-1)? <ARGV[0]>:<eval <ARGV[0]>+1>>+1)*100>
+endif
+ARGS=<HouseAccessList <ARGV[0]>>
+
+dhtmlgump 10 120 400 20 0 0 <DEF.CENTER><DEF.BFONT_WHITE><DEF.Access_<dLOCAL.ACCESS>> LIST<DEF.CENTERE>
+LOCAL.PAGE=2
+LOCAL.Y=150
+if (<TAG0.Access.Total.<dLOCAL.ACCESS>>)
+	if !(<LOCAL.REMOVE>)
+		for <TAG0.Access.Total.<dLOCAL.ACCESS>>
+			CALL RenderDialogAccessListPage
+			dtext 15 <LOCAL.Y> 1152 * <UID.<ARGV<dLOCAL._FOR>>.NAME>
+			LOCAL.Y += 20
+		endfor
+	else
+		for <TAG0.Access.Total.<dLOCAL.ACCESS>>
+			CALL RenderDialogAccessListPage
+			REF1=<ARGV[<LOCAL._FOR>]>
+			dtext 45 <LOCAL.Y> 1152 * <REF1.NAME>
+			button 10 <LOCAL.Y> 4005 4007 1 0 <eval <STREAT <TAG0.Access.<REF1>>>+<LOCAL.BUTTON>>
+			LOCAL.Y += 20
+		endfor
+	endif
+endif
+
+[FUNCTION RenderDialogAccessListPage]
+if (<LOCAL.Y> > 340)
+	LOCAL.Y=150
+	button 40 360 4005 4007 0 <eval <LOCAL.PAGE>+1> 0
+	LOCAL.PAGE ++
+	page <LOCAL.PAGE>
+	button 10 360 4014 4016 0 <eval <LOCAL.PAGE>-1> 0
+	dhtmlgump 10 120 400 20 0 0 <DEF.CENTER><DEF.BFONT_WHITE><DEF.Access_<dLOCAL.ACCESS>> LIST<DEF.CENTERE>
+endif
+
+[DEFNAME AccessName]
+Access_-1	"BAN"
+Access_1	"ACCESS"
+Access_2	"FRIENDS"
+Access_3	"CO-OWNER"
+
+[FUNCTION HouseUpdateAccessListNumber]
+if (<TAGCOUNT>)
+	LOCAL.ACCESS=<ARGV[0]>
+	LOCAL.NUMBER=<ARGV[1]>
+	for 0 <eval <TAGCOUNT>-1>
+		if !STRCMP("<STRSUB 0 6 <TAGAT.<LOCAL._FOR>.KEY>>","access")
+			if (<LOCAL.ACCESS>==<STRARG <TAGAT.<LOCAL._FOR>.VAL>>) && (<LOCAL.NUMBER> < 0<STREAT <TAGAT.<LOCAL._FOR>.VAL>>)
+				ARGS=<TAGAT.<LOCAL._FOR>.VAL>
+				TRY TAG.<TAGAT.<LOCAL._FOR>.KEY>=<ARGV[0]>,<eval <ARGV[1]>-1>
+			endif
+		endif
+	endfor
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_storage]
+50,40
+
+page 0
+RenderHouseDialogBackground
+button 150 50 4006 4007 1 0 3
+dtext 195 50 5 STORAGE
+
+page 1
+dhtmlgump 10 130 400 20 0 0 <DEF.CENTER><DEF.BFONT_WHITE>HOUSE STORAGE SUMMARY<DEF.CENTERE>
+if (<TAG0.STORAGE_INCREASE>)
+	dtext 10 150 1152 Artirilmis Depolama
+	dtext 310 150 1152 <dTAG0.STORAGE_INCREASE>%
+endif
+dtext 10 170 1152 Max. Esya Sabitleme
+dtext 310 170 1152 <House_MaxSecureStorage>
+//dtext 10 190 998 Used by Moving Crate
+//dtext 310 190 998 0
+dtext 10 210 1152 Sabitlenmis Esya Sayisi
+dtext 310 210 1152 <dTAG0.LOCKED_ITEMS>
+dtext 10 230 1152 Guventi kasa sayisi
+dtext 310 230 1152 <dTAG0.SECURE_CONT>
+dtext 10 250 1152 Kilitlenebilir kasa sayisi
+dtext 310 250 1152 <House_AvaibleStorage>
+dtext 10 290 1152 Max. kilitli kasa sayisi
+dtext 310 290 1152 <House_MaxLockdowns>
+dtext 10 310 1152 Sabitlenebilir esya sayisi
+dtext 310 310 1152 <House_AvaibleLockdowns>
+
+
+[DIALOG d_house_storage BUTTON]
+ON=1 10
+DefaultHouseDialogButtons <ARGN>
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_customize]
+50,40
+
+page 0
+RenderHouseDialogBackground
+button 150 70 4006 4007 1 0 4
+dtext 195 70 5 OZELLESTIRME
+
+page 1
+//dtext 45 180 998 Relocate Moving Crate
+if (<IsCoOwner <SRC>>) || (<IsOwner <SRC>>)//if (<IsOwner <SRC>>)
+	if (<DEF.scp.House_AoSDesignTool>) && (<DEF.scp.House_AllowConvert>) && !(<isempty <DEF.convertion_<LINK.DISPID>>>)
+		dtext 45 120 1152 Evi dekore edilebilir hale getir.
+		button 10 120 4005 4007 1 0 20
+	else
+		dtext 45 120 998 Evi dekore edilebilir hale getir
+	endif
+	if (<DEF.scp.House_AoSDesignTool>) && (<LINK.TYPE>==t_multi_custom)
+		dtext 45 160 1152 Evi Dekore Et
+		button 10 160 4005 4007 1 0 21
+		dtext 45 230 1152 Tabela askisini degistir
+		button 10 230 4005 4007 1 0 24
+		dtext 45 250 1152 Tabela diregini degistir
+		button 10 250 4005 4007 1 0 25
+		dtext 45 280 1152 Ev citlerini degistir
+		button 10 280 4005 4007 1 0 26
+	else
+		dtext 45 160 998 Evi Dekore Et
+		dtext 45 230 998 Tabela askisini degistir
+		dtext 45 250 998 Tabela diregini degistir
+		dtext 45 280 998 Ev citlerini degistir
+	endif
+	if ((<DEF.scp.House_SignChange>) && (<TAG0.Public>)) || !(<DEF.scp.House_SignChange>)
+		button 10 210 4005 4007 1 0 23
+		dtext 45 210 1152 Ev Tabelasini Degistir
+	else
+		dtext 45 210 998 Ev Tabelasini Degistir
+	endif
+	button 10 310 4005 4007 1 0 27
+	dtext 45 310 1152 Evi adlandir
+else
+	dtext 45 120 998 Evi dekore edilebilir hale getir
+	dtext 45 160 998 Evi dekore et
+	dtext 45 210 998 Ev tabelasini degistir
+	dtext 45 230 998 Tabela askisini degistir
+	dtext 45 250 998 Tabela diregini degistir
+	dtext 45 280 998 Ev citlerini degistir
+	dtext 45 310 998 Evi yeniden isimlendir
+endif
+
+
+[DIALOG d_house_customize BUTTON]
+ON=1 10
+DefaultHouseDialogButtons <ARGN>
+
+ON=20 27
+if (<DISTANCE> > 15)
+	SRC.SYSMESSAGE @,,1 Evin tabelasindan cok uzaktasınız. ( Max 15 Kare )
+	return 1
+elif (<IsCoOwner <SRC>>) || (<IsOwner <SRC>>)
+	if (<ARGN>==20)
+		if <src.isgm>//if (<DEF.scp.House_AoSDesignTool>) && (<DEF.scp.House_AllowConvert>) && !(<isempty <DEF.convertion_<LINK.DISPID>>>)
+			SDIALOG d_house_convertion
+		endif
+		return 1
+	elif (<ARGN>==21)
+		if (<DEF.scp.House_AoSDesignTool>) && (<LINK.TYPE> == t_multi_custom)
+			IF (<src.MEMORYFINDTYPE.memory_fight>)
+				src.sysmessage @,,1 Savas Halindeyken bu menuyu kullanamassınız.
+			return 1
+			endif
+	
+			IF <src.hits> < <src.maxhits>
+				src.sysmessage @,,1 Caniniz az oldugu icin evi bu sekilde dekore edemezsınız.
+			return 1
+			endif
+
+			if (<SRC.ACCOUNT.RESDISP> < 3)
+				SRC.SYSMESSAGE @,,1 Malesef, bunu yapabilmeniz icin AOS update pack'e ihtiyaciniz vardir.
+				return 1
+			elif (<LINK.DESIGNER>)
+				SRC.SYSMESSAGE @,,1 <UID.<LINK.DESIGNER>.NAME> adli kisi evi tasarliyor.
+				return 1
+			endif
+			REF1=<LINK>
+			forclients 18
+				if (<REGION.UID>==<REF1>)
+					GOUID <REF1.MORE2>
+					MOVE S
+					FIX
+				endif
+			endfor
+			//tag.location <p>
+			src.tag.location_uid <uid>
+			src.tag.location_p <p>
+			p <link.p>
+			SRC.GO <link.P.X>,<link.P.Y>,15
+			if !(<SRC.ISEVENT.e_house_customize>)
+				SRC.EVENTS +e_house_customize
+				src.nightsight 1
+				SRC.DSPEECH +spk_house_customize
+			endif
+			LINK.CUSTOMIZE
+		endif
+		return 1
+	elif (<ARGN>==22)
+		//Nothing
+	elif (<ARGN>==23)
+		SDIALOG d_house_features 1	//Change House Sign
+	elif (<ARGN>==24)
+		if (<LINK.TYPE>==t_multi_custom)
+			SDIALOG d_house_features 4	//Change House Sign Hanger
+		endif
+	elif (<ARGN>==25)
+		if (<LINK.TYPE>==t_multi_custom)
+			SDIALOG d_house_features 5	//Change Signpost
+		endif
+	elif (<ARGN>==26)
+		if (<LINK.TYPE>==t_multi_custom)
+			SDIALOG d_house_features 7	//Change Foundation Style
+		endif
+	elif (<ARGN>==27)
+		SRC.SYSMESSAGE @,,1 What dost thou wish the sign to say?
+		SRC.PROMPTCONSOLE f_change_house_name
+	endif
+endif
+
+
+[FUNCTION f_change_house_name]
+if (<TARG.TYPE>==t_sign_gump)
+	if !(<isempty <ARGS>>)
+		if STRMATCH("[a-z]*","<ARGS>")
+			SYSMESSAGE @,,1 Evin isareti degistirildi.
+			TARG.NAME=<ARGS>
+			TARG.RESENDTOOLTIP
+		else
+			SYSMESSAGE @,,1 Hatali isim.
+		endif
+	else
+		SYSMESSAGE @,,1 Iptal Edildi.
+	endif
+	TARG.DIALOG d_house_customize
+else
+	SYSMESSAGE @,,1 Istenmeyen bir hata olustu, lutfen daha sonra tekrar deneyiniz.
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_ownership]
+50,40
+
+page 0
+RenderHouseDialogBackground
+button 150 90 4006 4007 1 0 5
+dtext 195 90 5 MULKIYET
+
+page 1
+IF (<IsOwner <SRC>>)
+ button 10 130 4005 4007 1 0 21
+ dtext 45 130 1152 Evi Kaldır
+ button 10 150 4005 4007 1 0 22
+ dtext 45 150 1152 Evi Devret
+ELSE
+ dtext 45 130 998 Evi Kaldir
+ dtext 45 150 998 Evi Devret
+ENDIF
+//dtext 45 190 998 Make Primary
+
+IF (<SRC.ISGM>)
+ dtext 125 250 1152 Oyun Yoneticisi Secenekleri
+ dtext 45 300 1152 Neden:
+ gumppictiled 90 300 310 36 9264
+ checkertrans 90 300 310 36
+ IF (<isempty <TAG.DEMOLITION_PENDING>>)
+  button 10 280 4005 4007 1 0 31
+  dtext 45 280 1152 Evi hatali olarak isaretle.          gun sure izin.
+  dtextentry 253 280 15 20 1152 0 <dDEF.DEMOLITION_PEND_DECAY>
+  dtextentry 93 300 300 36 1152 1
+ ELSE
+  button 10 280 4005 4007 1 0 32
+  dtext 45 280 5 Evin hatali durumunu duzelt.
+  dhtmlgump 93 300 300 36 0 0 <DEF.BFONT_WHITE><QVAL (<isempty <STREAT <TAG.DEMOLITION_PENDING>>>)? Belirtilmedi:<STREAT <TAG.DEMOLITION_PENDING>>>
+ ENDIF
+ENDIF
+
+
+[DIALOG d_house_ownership BUTTON]
+ON=1 10
+DefaultHouseDialogButtons <ARGN>
+
+ON=21
+if !<src.isgm>
+   if (strmatch(*Brit_Genel_1*,<region.name>))
+	src.sys_error Yeni Mahalle Bölgesinde bunu yapamazsınız.
+	return 1
+endif
+endif
+if (<IsOwner <SRC>>)
+	SDIALOG d_house_demolish
+endif
+
+ON=22
+if !(<SRC.ISGM>)
+	if !(<IsOwner <SRC>>)
+		return 1
+	elif (<TAG0.DEMOLITION_PENDING>)
+		SRC.SYSMESSAGE @,,1 Bu ev hatali olarak isaretlendigininden dolayi transfer edilemez.
+		return 1
+	endif
+endif
+SRC.DIALOGCLOSE d_house_ownership
+SRC.SYSMESSAGE @,,1 Evi transfer etmek istediginiz kisiyi seciniz.
+SRC.TARGETF f_house_transfer <UID>
+
+ON=31 32
+if (<SRC.ACCOUNT.PLEVEL> < 2)
+	return 1
+elif (<ARGN>==31)
+	if (<isnum <ARGTXT[0]>>)
+		if (<ARGTXT[0]> < 100)
+			SRC.SYSMESSAGE @,,1 Bu ev hatali olarak isaretlediginden dolayi,otomatik olarak <dARGTXT[0]> gun icerisinde yikilacaktir.Lutfen bu sure icerisinde evi kaldiriniz.
+			TIMER=<ARGTXT[0]>*24*60*60
+			TAG.DEMOLITION_PENDING=<ARGTXT[0]> <ARGTXT[1]>
+			SDIALOG d_house_ownership
+			TRY UID.<MORE2>.NOTICE=Eviniz '<SRC.TARG.NAME>' tarafindan hatali olarak <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> tarihinde isaretlenmistir ve <dARGTXT[0]> gün icerisinde otomatik olarak eger kaldirmazsaniz yikilacaktir.
+		endif
+	endif
+elif (<ARGN>==32)
+	SRC.SYSMESSAGE @,,1 Evi hatali durumunu normal olarak duzelttiniz.
+	TAG.DEMOLITION_PENDING=
+	SDIALOG d_house_ownership
+	TRY UID.<MORE2>.NOTICE=Evinizin hatali durumu '<SRC.TARG.NAME>' tarafindan <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> tarihinde iptal edilmistir.Eviniz herhangi bir sure icerisinde yikilmayacaktir.Eski kullanimina devam edebilirsınız.
+	if (<DEF.scp.House_DecayTimer> > 0)
+		TIMER=<eval <DEF.scp.House_DecayTimer>*24*60*60>
+	else
+		TIMER=-1
+	endif
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_vendor_list]
+50,40
+
+page 0
+RenderHouseDialogBackground
+
+page 1
+dhtmlgump 10 120 400 20 0 0 <DEF.CENTER><DEF.BFONT_WHITE>SHOPS<DEF.CENTERE>
+LOCAL.Y=150
+LOCAL.PAGE=1
+for <TAG0.VENDORS>
+	dtext 45 <LOCAL.Y> 5 <UID.<TAG0.VENDOR<dLOCAL._FOR>>.TAG.NAMESHOP>
+	button 10 <LOCAL.Y> 4005 4007 1 0 <eval <LOCAL._FOR>+100>
+	LOCAL.Y += 20
+	CALL RenderDialogVendorListPage
+endfor
+
+[FUNCTION RenderDialogVendorListPage]
+if (<LOCAL.Y> > 340)
+	LOCAL.Y=150
+	button 40 360 4005 4007 0 <eval <LOCAL.PAGE>+1> 0
+	LOCAL.PAGE ++
+	page <LOCAL.PAGE>
+	button 10 360 4014 4016 0 <eval <LOCAL.PAGE>-1> 0
+	dhtmlgump 10 120 400 20 0 0 <DEF.CENTER><DEF.BFONT_WHITE>SHOPS<DEF.CENTERE>
+endif
+
+
+[DIALOG d_house_vendor_list BUTTON]
+ON=1 10
+DefaultHouseDialogButtons <ARGN>
+
+ON=100 200
+SRC.DClick <TAG0.VENDOR<eval <ARGN>-100>>
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_features]
+50,40
+
+page 0
+RenderHouseDialogBackground
+
+page 1	//Change House Sign 1/3
+button 10 360 4005 4007 0 2 0
+button 30 130 4005 4007 1 0 11
+tilepic 50 130 2980
+button 90 130 4005 4007 1 0 12
+tilepic 110 130 2982
+button 150 130 4005 4007 1 0 13
+tilepic 170 130 2984
+button 210 130 4005 4007 1 0 14
+tilepic 230 130 2986
+button 270 130 4005 4007 1 0 15
+tilepic 290 130 2988
+button 330 130 4005 4007 1 0 16
+tilepic 350 130 2990
+button 30 190 4005 4007 1 0 17
+tilepic 50 190 2992
+button 90 190 4005 4007 1 0 18
+tilepic 110 190 2994
+button 150 190 4005 4007 1 0 19
+tilepic 170 190 2996
+button 210 190 4005 4007 1 0 20
+tilepic 230 190 2998
+button 270 190 4005 4007 1 0 21
+tilepic 290 190 3000
+button 330 190 4005 4007 1 0 22
+tilepic 350 190 3002
+button 30 250 4005 4007 1 0 23
+tilepic 50 250 3004
+button 90 250 4005 4007 1 0 24
+tilepic 110 250 3006
+button 150 250 4005 4007 1 0 25
+tilepic 170 250 3008
+button 210 250 4005 4007 1 0 26
+tilepic 230 250 3010
+button 270 250 4005 4007 1 0 27
+tilepic 290 250 3012
+button 330 250 4005 4007 1 0 28
+tilepic 350 250 3014
+
+page 2	//Change House Sign 2/3
+button 10 360 4005 4007 0 3 0
+button 30 130 4005 4007 1 0 29
+tilepic 50 130 3016
+button 90 130 4005 4007 1 0 30
+tilepic 110 130 3018
+button 150 130 4005 4007 1 0 31
+tilepic 170 130 3020
+button 210 130 4005 4007 1 0 32
+tilepic 230 130 3022
+button 270 130 4005 4007 1 0 33
+tilepic 290 130 3024
+button 330 130 4005 4007 1 0 34
+tilepic 350 130 3026
+button 30 190 4005 4007 1 0 35
+tilepic 50 190 3028
+button 90 190 4005 4007 1 0 36
+tilepic 110 190 3030
+button 150 190 4005 4007 1 0 37
+tilepic 170 190 3032
+button 210 190 4005 4007 1 0 38
+tilepic 230 190 3034
+button 270 190 4005 4007 1 0 39
+tilepic 290 190 3036
+button 330 190 4005 4007 1 0 40
+tilepic 350 190 3038
+button 30 250 4005 4007 1 0 41
+tilepic 50 250 3040
+button 90 250 4005 4007 1 0 42
+tilepic 110 250 3042
+button 150 250 4005 4007 1 0 43
+tilepic 170 250 3044
+button 210 250 4005 4007 1 0 44
+tilepic 230 250 3046
+button 270 250 4005 4007 1 0 45
+tilepic 290 250 3048
+button 330 250 4005 4007 1 0 46
+tilepic 350 250 3050
+
+page 3	//Change House Sign 3/3
+button 10 360 4005 4007 0 1 0
+button 30 130 4005 4007 1 0 47
+tilepic 50 130 3052
+button 90 130 4005 4007 1 0 48
+tilepic 110 130 3054
+button 150 130 4005 4007 1 0 49
+tilepic 170 130 3056
+button 210 130 4005 4007 1 0 50
+tilepic 230 130 3058
+button 270 130 4005 4007 1 0 51
+tilepic 290 130 3060
+button 330 130 4005 4007 1 0 52
+tilepic 350 130 3062
+button 30 190 4005 4007 1 0 53
+tilepic 50 190 3064
+button 90 190 4005 4007 1 0 54
+tilepic 110 190 3066
+button 150 190 4005 4007 1 0 55
+tilepic 170 190 3068
+button 210 190 4005 4007 1 0 56
+tilepic 230 190 3070
+button 270 190 4005 4007 1 0 57
+tilepic 290 190 3072
+button 330 190 4005 4007 1 0 58
+tilepic 350 190 3074
+button 30 250 4005 4007 1 0 59
+tilepic 50 250 3076
+button 90 250 4005 4007 1 0 60
+tilepic 110 250 3078
+button 150 250 4005 4007 1 0 61
+tilepic 170 250 3080
+button 210 250 4005 4007 1 0 62
+tilepic 230 250 3082
+button 270 250 4005 4007 1 0 63
+tilepic 290 250 3084
+button 330 250 4005 4007 1 0 64
+tilepic 350 250 3086
+
+page 4	//Change House Sign Hanger
+button 50 180 4005 4007 1 0 70
+tilepic 70 180 2968
+button 150 180 4005 4007 1 0 71
+tilepic 170 180 2970
+button 250 180 4005 4007 1 0 72
+tilepic 270 180 2972
+button 50 260 4005 4007 1 0 73
+tilepic 70 260 2974
+button 150 260 4005 4007 1 0 74
+tilepic 170 260 2976
+button 250 260 4005 4007 1 0 75
+tilepic 270 260 2978
+
+page 5	//Change Signpost 1/2
+button 10 360 4005 4007 0 6 0
+button 15 130 4005 4007 1 0 80
+tilepic 25 130 9
+button 65 130 4005 4007 1 0 81
+tilepic 75 130 29
+button 115 130 4005 4007 1 0 82
+tilepic 125 130 54
+button 165 130 4005 4007 1 0 83
+tilepic 175 130 90
+button 215 130 4005 4007 1 0 84
+tilepic 225 130 147
+button 265 130 4005 4007 1 0 85
+tilepic 275 130 169
+button 315 130 4005 4007 1 0 86
+tilepic 325 130 177
+button 365 130 4005 4007 1 0 87
+tilepic 375 130 204
+button 15 240 4005 4007 1 0 88
+tilepic 25 240 251
+button 65 240 4005 4007 1 0 89
+tilepic 75 240 257
+button 115 240 4005 4007 1 0 90
+tilepic 125 240 263
+button 165 240 4005 4007 1 0 91
+tilepic 175 240 298
+button 215 240 4005 4007 1 0 92
+tilepic 225 240 347
+button 265 240 4005 4007 1 0 93
+tilepic 275 240 424
+button 315 240 4005 4007 1 0 94
+tilepic 325 240 441
+button 365 240 4005 4007 1 0 95
+tilepic 375 240 466
+
+page 6	//Change Signpost 2/2
+button 10 360 4005 4007 0 5 0
+button 15 130 4005 4007 1 0 96
+tilepic 25 130 514
+button 65 130 4005 4007 1 0 97
+tilepic 75 130 600
+button 115 130 4005 4007 1 0 98
+tilepic 125 130 601
+button 165 130 4005 4007 1 0 99
+tilepic 175 130 602
+button 215 130 4005 4007 1 0 100
+tilepic 225 130 603
+button 265 130 4005 4007 1 0 101
+tilepic 275 130 660
+button 315 130 4005 4007 1 0 102
+tilepic 325 130 666
+button 365 130 4005 4007 1 0 103
+tilepic 375 130 672
+button 15 240 4005 4007 1 0 104
+tilepic 25 240 898
+button 65 240 4005 4007 1 0 105
+tilepic 75 240 970
+button 115 240 4005 4007 1 0 106
+tilepic 125 240 974
+button 165 240 4005 4007 1 0 107
+tilepic 175 240 982
+
+page 7	//Change Foundation Style
+button 15 180 4005 4007 1 0 120
+tilepic 40 180 014
+button 95 180 4005 4007 1 0 121
+tilepic 120 180 0bd
+button 175 180 4005 4007 1 0 122
+tilepic 200 180 02fd
+button 255 180 4005 4007 1 0 123
+tilepic 280 180 041
+button 335 180 4005 4007 1 0 124
+tilepic 360 180 065
+if <src.account.resdisp> > 4
+	button 15 280 4005 4007 1 0 125
+	tilepic 40 280 02df7
+	button 95 280 4005 4007 1 0 126
+	tilepic 120 280 02dfb
+	button 175 280 4005 4007 1 0 127
+	tilepic 200 280 03672
+	button 255 280 4005 4007 1 0 128
+	tilepic 280 280 03676
+endif
+
+
+[DIALOG d_house_features BUTTON]
+ON=1 10
+DefaultHouseDialogButtons <ARGN>
+
+ON=11 64
+LOCAL.SIGN=2980
+LOCAL.SIGN += <eval (<ARGN>-11)*2>
+DISPID=<dLOCAL.SIGN>
+UPDATEX
+SDIALOG d_house_customize
+
+ON=70 75
+LOCAL.SIGN=2968
+LOCAL.SIGN += <eval (<ARGN>-70)*2>
+REF1=<UID>
+foritems 30
+	if (<REGION.UID>==<REF1.REGION.UID>)
+		if (<DISPIDDEC> >= 2968) && (<DISPIDDEC> <= 2978) && (<LINK>==<REGION.UID>)
+			DISPID=<dLOCAL.SIGN>
+			UPDATEX
+		endif
+	endif
+endfor
+SDIALOG d_house_customize
+
+ON=80 107
+if (<ARGN>==80)
+	LOCAL.SIGN=9
+elif (<ARGN>==81)
+	LOCAL.SIGN=29
+elif (<ARGN>==82)
+	LOCAL.SIGN=54
+elif (<ARGN>==83)
+	LOCAL.SIGN=90
+elif (<ARGN>==84)
+	LOCAL.SIGN=147
+elif (<ARGN>==85)
+	LOCAL.SIGN=169
+elif (<ARGN>==86)
+	LOCAL.SIGN=177
+elif (<ARGN>==87)
+	LOCAL.SIGN=204
+elif (<ARGN>==88)
+	LOCAL.SIGN=251
+elif (<ARGN>==89)
+	LOCAL.SIGN=257
+elif (<ARGN>==90)
+	LOCAL.SIGN=263
+elif (<ARGN>==91)
+	LOCAL.SIGN=298
+elif (<ARGN>==92)
+	LOCAL.SIGN=347
+elif (<ARGN>==93)
+	LOCAL.SIGN=424
+elif (<ARGN>==94)
+	LOCAL.SIGN=441
+elif (<ARGN>==95)
+	LOCAL.SIGN=466
+elif (<ARGN>==96)
+	LOCAL.SIGN=514
+elif (<ARGN>==97)
+	LOCAL.SIGN=600
+elif (<ARGN>==98)
+	LOCAL.SIGN=601
+elif (<ARGN>==99)
+	LOCAL.SIGN=602
+elif (<ARGN>==100)
+	LOCAL.SIGN=603
+elif (<ARGN>==101)
+	LOCAL.SIGN=660
+elif (<ARGN>==102)
+	LOCAL.SIGN=666
+elif (<ARGN>==103)
+	LOCAL.SIGN=672
+elif (<ARGN>==104)
+	LOCAL.SIGN=898
+elif (<ARGN>==105)
+	LOCAL.SIGN=970
+elif (<ARGN>==106)
+	LOCAL.SIGN=974
+elif (<ARGN>==107)
+	LOCAL.SIGN=982
+endif
+REF1=<HouseSignPost>
+if (<REF1>)
+	REF1.DISPID=<dLOCAL.SIGN>
+	REF1.UPDATEX
+endif
+SDIALOG d_house_customize
+
+ON=120 128
+if (<ARGN>==120)
+	HouseChangeFoundationStyle 0017,0016,0015,0014		//Wood
+elif (<ARGN>==121)
+	HouseChangeFoundationStyle 00c0,00bf,00be,00bd		//Bright Wood
+elif (<ARGN>==122)
+	HouseChangeFoundationStyle 0300,02fe,02ff,02fd		//Dungeon
+elif (<ARGN>==123)
+	HouseChangeFoundationStyle 0044,0042,0043,0041		//Brick
+elif (<ARGN>==124)
+	HouseChangeFoundationStyle 0066,0063,0064,0065		//Stone
+elif (<ARGN>==125) //ML
+	HouseChangeFoundationStyle 02df8,02dfa,02df9,02df7	//Elven Grey
+elif (<ARGN>==126)
+	HouseChangeFoundationStyle 02dfc,02dfe,02dfd,02dfb	//Elven Natural
+elif (<ARGN>==127) //ML 9th age
+	HouseChangeFoundationStyle 03673,03670,03671,03672	//Crystal
+elif (<ARGN>==128)
+	HouseChangeFoundationStyle 03677,03674,03675,03676	//Shadow
+endif
+SDIALOG d_house_customize
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[DIALOG d_house_visitor]
+200,200
+
+gumppic 10 10 100
+dhtmlgump 30 43 105 40 0 0 <DEF.CENTER><NAME><DEF.CENTERE>
+
+
+[DIALOG d_house_type]
+160,150
+noclose
+
+page 0
+resizepic 0 0 5054 320 180
+gumppictiled 10 10 300 20 2624
+checkertrans 10 10 300 20
+dhtmlgump 10 10 300 20 0 0 <DEF.L1>basefont color="#f70000"<DEF.R1><DEF.CENTER>DUYURU
+gumppictiled 10 40 300 100 2624
+checkertrans 10 40 300 100
+gumppictiled 10 150 300 20 2624
+checkertrans 10 150 300 20
+button 10 150 4005 4007 1 0 1
+dtext 40 150 1152 OKAY
+
+page 1
+dhtmlgump 10 40 300 100 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1>Bu ev halka acik. <QVAL (<DEF.scp.House_UseVendors> && <DEF.scp.House_VendorsPublic>)? The owner may now place vendors and vendor rental contracts.>
+
+page 2
+dhtmlgump 10 40 300 100 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1>Bu ev ozel durumda.
+
+page 3
+dhtmlgump 10 40 300 100 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1>Evinizin disinda calisan vendorunuz bulunmaktadir.Vendorlari kaldirmadiginiz surece evinizin durumunu ozel duruma getiremezsınız.
+
+[DIALOG d_house_type BUTTON]
+ON=1
+SDIALOG d_house_security
+
+
+[DIALOG d_house_clear_coowners]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dtext 180 10 026 WARNING
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 Evinizdeki tum ortaklari silmek uzeresınız. Tum ortaklari silmek istediginizden emin misınız ?
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_clear_coowners BUTTON]
+ON=0
+SDIALOG d_house_security
+
+ON=1
+ARGS=<HouseAccessList 3>
+for <TAG0.Access.Total.3>
+	REF1=<ARGV[<LOCAL._FOR>]>
+	REF1.NOTICE='<SRC.TARG.NAME>' adli evde <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> tarihinde ortakliktan silindiniz.
+	TRY TAG.Access.<REF1>=
+endfor
+TAG0.Access.Total.3=
+SDIALOG d_house_security
+SRC.SYSMESSAGE @,,1 Evim tum ortaklari silinmistir.
+
+
+[DIALOG d_house_clear_friends]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dtext 180 10 026 DIKKAT!
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 Eger bu ayara devam edecekseniz, evin tum dostlari silinecektir, ve dostlarinizla iliskili tum vendorlar zarar gorecektir. Bunu yapmak istediginizden emin misınız ?
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_clear_friends BUTTON]
+ON=0
+SDIALOG d_house_security
+
+ON=1
+ARGS=<HouseAccessList 2>
+for <TAG0.Access.Total.2>
+	REF1=<ARGV[<LOCAL._FOR>]>
+	REF1.NOTICE='<SRC.TARG.NAME>' adli evden <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> tarihinde dost listesinden silindiniz.
+	TRY TAG.Access.<REF1>=
+endfor
+TAG0.Access.Total.2=
+SDIALOG d_house_security
+SRC.SYSMESSAGE @,,1 Evin tum dostlari silinmistir.
+
+
+[DIALOG d_house_clear_bans]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dtext 180 10 026 DIKKAT
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 Evin tum yasaklilarini kaldirmak uzeresınız. Bunu yapmak istediginizden emin misınız ?
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_clear_bans BUTTON]
+ON=0
+SDIALOG d_house_security
+
+ON=1
+ARGS=<HouseAccessList -1>
+for <TAG0.Access.Total.-1>
+	TRY TAG.Access.<ARGV[<dLOCAL._FOR>]>=
+endfor
+TAG0.Access.Total.-1=
+SDIALOG d_house_security
+SRC.SYSMESSAGE @,,1 Evim tum yasaklilari kaldirildi.
+
+
+[DIALOG d_house_clear_access_list]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dtext 180 10 026 DIKKAT!
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 Bu yaptiginiz listede bulunan herkesin erisimini iptal edecektir ve aninda evden uzaklastiracaktir. Listedeki kisiler bu degisiklikten sonra evinize hic bir sekilde giremeyecektir. Listede erisim bulunan herkesi silmek istediginizden emin misınız ?
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_clear_access_list BUTTON]
+ON=0
+SDIALOG d_house_security
+
+ON=1
+ARGS=<HouseAccessList 1>
+for <TAG0.Access.Total.1>
+	REF1=<ARGV[<LOCAL._FOR>]>
+	if (<REF1.REGION.UID>==<REGION.UID>)
+		REF1.P=<P>
+		REF1.MOVE S
+		REF1.FIX
+		REF1.SYSMESSAGE @,,1 Eve erisiminiz iptal edildi.
+	endif
+	TRY TAG.Access.<REF1>=
+endfor
+TAG0.Access.Total.1=
+SDIALOG d_house_security
+SRC.SYSMESSAGE @,,1 Evin erisim listesi temizlendi.
+
+
+[DIALOG d_house_demolish]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dhtmlgump 10 10 400 20 0 0 <DEF.L1>basefont color="#f70000"<DEF.R1><DEF.CENTER>DIKKAt
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1>Evi kaldirmak uzeresınız. Evin icerisinde bulunan tum esyalariniz silinecektir. Evi kaldirmak istediginizden eminmisınız?
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_demolish BUTTON]
+ON=1
+ref11 <uid>
+forchars 250
+		if strmatch('<baseid>','c_vendor_player_burak')
+			if (<ref11.REGION.UID>==<REGION.UID>)
+			src.sys_error Evinizde bir vendor hizmetteyken evinizi kaldıramazsınız.
+			return 1
+		endif
+	endif
+endfor
+
+ARGS=<IsNearType.P t_stone_guild 40>
+if (<SERV.MAP(<ARGV0>,<ARGV1>,<ARGV3>).REGION.UID>==<REGION.UID>)
+	SRC.SYSMESSAGE @,,1 Icerisinde guild kurulu olan evi kaldiramazsınız.
+else
+	if (<DISTANCE> < 15)
+		if (<SRC.REGION.UID>==<REGION.UID>)
+			SRC.P=<P>
+			SRC.UPDATEX
+		endif
+		for <DEF.scp.House_MaxCoowners>
+			if (<TAG0.CO_OWNER_<dLOCAL._FOR>>)
+				TRY UID.<TAG0.CO_OWNER_<dLOCAL._FOR>>.NOTICE='<SRC.TARG.NAME>' adli ev yikildigi icin <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>> tarihinde evin ortak listesinden silindiniz.
+			endif
+		endfor
+		for <DEF.scp.House_MaxFriends>
+			if (<TAG0.FRIEND_<dLOCAL._FOR>>)
+				TRY UID.<TAG0.FRIEND_<dLOCAL._FOR>>.NOTICE=You got removed from the Friend access list of the house '<SRC.TARG.NAME>' because it was demolished on <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>>.
+			endif
+		endfor
+		LINK.f_house_demolish
+	else
+		SRC.SYSMESSAGE @,,1 Ev tabelasindan cok uzaktasınız.
+	endif
+endif
+
+
+[FUNCTION f_house_demolish]
+if (<isempty <ARGS>>)
+	REF1=<QVAL (<SRC>)? <SRC>:<MORE1>>
+	if (<DEF.scp.House_UseDeeds>) && !STRMATCH("*foundation*","<BASEID>")
+		SERV.NEWITEM i_deed_<STRSUB 8 30 <BASEID>>
+		NEW.CONT=<REF1.FINDLAYER.21>
+		REF1.SYSMESSAGE @,,1 Ev deed cantaniza koyulmustur.
+	else
+		LOCAL.REFUND=<eval (<HouseValue>*<DEF.scp.House_DemolishRefund>)/100>
+		REF1.GOLD += <dLOCAL.REFUND>
+		REF1.SYSMESSAGE @,,1 <dLOCAL.REFUND> kadar altin hesabiniza aktarilmistir.
+	endif
+endif
+
+REF1=<REGION.UID>
+
+local.1=<strarg <streat <streat <ref1.multiregion>>>>
+local.2=<strarg <streat <streat <streat <ref1.multiregion>>>>>
+If (<dlocal.1> > <dlocal.2>)
+	local.radius = <local.1>
+else
+	local.radius = <local.2>
+endif
+
+
+forchars 250
+	if (<REGION.UID>==<REF1>)
+		if strmatch('<baseid>','c_vendor_player_burak')
+			ref11 <tag0.owner>
+			ref11.tag.vendorum_var
+			serv.newitem i_deed_pv_burak,1,<ref11.findlayer.21>
+			serv.newitem i_backpack,1,<ref11.findlayer.29>
+			forcont <findlayer(layer_pack)> 0
+			cont <new>
+			endfor
+			remove
+		else
+			TIMERF 1,FIX
+		endif
+		
+	endif
+endfor
+
+forplayers <dlocal.radius>
+	if (<REGION.UID>==<REF1>)
+		TIMERF 1,FIX
+	endif
+endfor
+
+//foritems 250
+//	if ((<REGION.UID>==<REF1>) //&& (<ISSTORAGE>))
+//		//TIMER=<eval <SERV.DecayTimer>*60>
+//		//ATTR=<ATTR>&~attr_move_never
+//		//ATTR=<ATTR>|attr_decay
+//		//EVENTS -t_locked_down
+//		//TAG.AlwaysSend=
+//		//TAG.Access=
+//		///TIMERF 1,FIX
+//		//UPDATE
+//		REMOVE
+//	elseif (<more2> == <uid.<ref1.uid>.more2>)
+//		remove
+//	endif
+//endfor
+
+
+
+//REF1=<region.tag0.sign>
+//REF1=<ref1.link>
+
+foritems <dlocal.radius>
+                //REF2=<uid> //the items checked
+                //if !(STRCMPI(<REF2.region.tag0.sign>,<REF1.region.tag0.sign>))
+                 remove
+                //endif
+endfor
+
+foritems 250
+	if (<more2> == <uid.<ref1.uid>.more2>)
+		remove
+	endif
+endif
+
+//return 0
+
+
+
+REMOVE
+
+
+[DIALOG d_house_convertion]
+110,100
+noclose
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dhtmlgump 10 10 400 20 0 0 <DEF.L1>basefont color="#f70000"<DEF.R1><DEF.CENTER>DIKKAT!
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1>Evinizi dekore edilebilir hale getirmek uzeresınız. Evinizi donusturdukten sonra istediginiz sekilde evin duvarlarini penceresini kapisini paraniz yettigi kadariyla tasarlayabilirsınız.Tum esyalariniz bir kasa araciligiyla yeni evinize aktarilacaktir. Bunu yapmak istediginizden emin misınız ?
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_convertion BUTTON]
+ON=0
+SDIALOG d_house_customize
+
+ON=1
+if !(<SRC.ISGM>)
+	LOCAL.Price.Old=<eval (<LINK.HouseValue>*<DEF.scp.House_DemolishRefund>)/100>
+	LOCAL.Price.New=<SERV.ITEMDEF.<DEF.convertion_<LINK.DISPID>>.VALUE>
+	LOCAL.Cost=<eval <LOCAL.Price.New>-<LOCAL.Price.Old>>
+	if (<LOCAL.Cost> > 0)
+		if (<SRC.BANKBALANCE> < <LOCAL.Cost>)
+			SRC.SYSMESSAGE @,,1 Evinizi donusturebilecek kadar altininiz bulunmamaktadir.
+			return 1
+		endif
+		SRC.SYSMESSAGE @,,1 <dLOCAL.Cost> kadar altin hesabinizdan cekilmistir.
+		SRC.GOLD -= <LOCAL.Cost>
+	else
+		SRC.SYSMESSAGE @,,1 <eval <LOCAL.Cost>*-1> kadar altin hesabiniza eklenmistir.
+		SRC.GOLD += <eval <LOCAL.Cost>*-1>
+	endif
+	SRC.UPDATE
+endif
+SERV.NEWITEM <DEF.convertion_<LINK.DISPID>>
+LOCAL.P=<LINK.P>
+REF1=<LINK>
+LINK=
+REF1.REMOVE
+NEW.P=<LOCAL.P>
+NEW.MORE1=<SRC>
+NEW.MORE2=<UID>
+NEW.MULTICREATE
+NEW.HousePlaceFoundationStairs
+HouseConvertSign
+SRC.NOTICE Yeni eviniz eski evinizde degistirilmistir. Tum esyalarini kasada bulabilirsınız.//You have successfully replaced your original house with a new house.  The value of the replaced house has been deposited into your bank box.  All of the items in your original house have been relocated to a Moving Crate in the new house.  Any deed-based house add-ons have been converted back into deeds.  Vendors and barkeeps in the house, if any, have been stored in the Moving Crate as well.  Use the <DEF.B>Get Vendor<DEF.BE> context-sensitive menu option on your character to retrieve them.  These containers can be used to re-create the vendor in a new location.  Any barkeepers have been converted into deeds.
+
+[FUNCTION HouseConvertSign]
+REF1=<UID>
+foritems 40
+	if (<REGION.UID>==<REF1.REGION.UID>)
+		if (<TYPE>==t_sign_gump) && (<UID> != <REF1>)
+			REF1.P=<P>
+			REF1.LINK=<LINK>
+			REMOVE
+			return 1
+		endif
+	endif
+endfor
+
+
+[DIALOG d_house_transfer]
+110,100
+noclose
+CTAG.HOUSE.TRANSFER=<ARGS>
+
+resizepic 0 0 5054 420 280
+gumppictiled 10 10 400 20 2624
+checkertrans 10 10 400 20
+dtext 180 10 026 WARNING
+gumppictiled 10 40 400 200 2624
+checkertrans 10 40 400 200
+dhtmlgump 10 40 400 200 0 1 <DEF.BFONT_YELLOW> Evi transfer etmek icin ev tabela hizasinda arka arkaya transfer edeceginiz kisiyle en fazla 2 kare uzaklikta olmaniz gerekmektedir.Evin transferini gerceklestirmek icin karsınıza cikacak olan trade ekranindan her iki tarafindan evin tapusunu kabul etmek icin trade i kabul etmeniz gerekmektedir.<DEF.BR><DEF.BR> Eger isleme devam etmek isteyorsaniz 'TAMAM' istemiyorsaniz ' IPTAL ' diyerek istediginiz islemi gerceklestirebilirsınız.
+
+gumppictiled 10 250 400 20 2624
+checkertrans 10 250 400 20
+button 10 250 4005 4007 1 0 1
+dtext 40 250 1152 TAMAM
+button 210 250 4005 4007 1 0 0
+dtext 240 250 1152 IPTAL
+
+[DIALOG d_house_transfer BUTTON]
+ON=0 1
+REF1=<CTAG0.HOUSE.TRANSFER>
+CTAG0.HOUSE.TRANSFER=
+if (<ARGN>==1)
+	if (<FINDTYPE.t_eq_trade_window>)
+		SYSMESSAGE @,,1 Baska birisine evi transfer etmeye calisirken bir baskasina da transfer edemezsınız.
+		return 1
+	elif (<SRC.FINDTYPE.t_eq_trade_window>)
+		SRC.SYSMESSAGE @,,1 Baska birisine evi transfer etmeye calisirken bir baskasina da transfer edemezsınız.
+		return 1
+	endif
+	SRC.EVENTS=+e_house_transfer
+	SERV.NEWITEM i_deed
+	NEW.ATTR=attr_move_never
+	NEW.COLOR=0480
+	NEW.LINK=<REF1>
+	NEW.MORE1=<SRC>
+	NEW.TYPE=t_trade_house_deed
+	NEW.TIMERF 2,TRIGGER @Timer
+	SRC.TRYSRC <UID> TradeWindow <NEW>
+endif
+
+[EVENTS e_house_transfer]
+ON=@TradeAccepted
+DIALOGCLOSE d_house_demolish
+DIALOGCLOSE d_house_ownership
+for <ARGN1>
+	if (<REF<dLOCAL._FOR>.TYPE>==t_trade_house_deed)
+		UID.<REF<dLOCAL._FOR>>.TRIGGER @HouseTraded
+		UID.<REF<dLOCAL._FOR>>.REMOVE
+	endif
+endfor
+EVENTS=-e_house_transfer
+
+
+[DIALOG d_house_access]
+50,50
+REF1=<UID.<REGION.UID>.MORE2>
+REF2=<UID.<REGION.UID>.MORE1>
+
+resizepic 0 0 5054 220 180
+gumppictiled 10 10 200 20 5124
+gumppictiled 10 40 200 20 5124
+gumppictiled 10 70 200 100 5124
+checkertrans 10 10 200 160
+dhtmlgump 10 10 200 20 0 0 <DEF.BFONT_white><DEF.CENTER>ERISIM AYARLARI<DEF.CENTERE>
+dhtmlgump 10 40 50 20 0 0 <DEF.BFONT_white>Sahibi:
+dhtmlgump 40 40 155 20 0 0 <DEF.BFONT_white><DEF.CENTER><REF2.NAME>
+
+if (<REF1.IsOwner <SRC>>)
+	button 10 70 <QVAL (<TAG0.Access>==4)? 4006 4007:4005 4007> 1 0 1
+	dhtmlgump 45 70 200 20 0 0 <QVAL (<TAG0.Access>==4)? <def.bfont_red>:<def.bfont_white>>Sadece Sahibi
+endif
+
+button 10 90 <QVAL (<TAG0.Access>==3)? 4006 4007:4005 4007> 1 0 2
+dhtmlgump 45 90 200 20 0 0 <QVAL (<TAG0.Access>==3)? <def.bfont_red>:<def.bfont_white>>Ortaklar
+
+button 10 110 <QVAL (<TAG0.Access>==2)? 4006 4007:4005 4007> 1 0 3
+dhtmlgump 45 110 200 20 0 0 <QVAL (<TAG0.Access>==2)? <def.bfont_red>:<def.bfont_white>>Dostlar
+
+if (<REF2.GUILD>)
+	if (<REF1.IsOwner <SRC>>)
+		button 10 130 <QVAL (<TAG0.Access>==5)? 4006 4007:4005 4007> 1 0 4
+		dhtmlgump 45 130 200 20 0 0 <QVAL (<TAG0.Access>==5)? <def.bfont_red>:<def.bfont_white>>Guild Uyeleri
+	endif
+endif
+
+button 10 150 <QVAL (<TAG0.Access>==0)? 4006 4007:4005 4007> 1 0 5
+dhtmlgump 45 150 200 20 0 0 <QVAL (<TAG0.Access>==0)? <def.bfont_red>:<def.bfont_white>>Herkes
+
+
+[DIALOG d_house_access BUTTON]
+ON=0
+SRC.SYSMESSAGE @,,1 Erisim izni degistirilmedi.
+
+ON=1 5
+REF1=<UID.<REGION.UID>.MORE2>
+if (<TYPE>==t_container)
+	LOCAL.RESCOUNT=<FCOUNT>
+endif
+if (<ARGN> < 5)
+	if (<TYPE>==t_container) && !(<TAG0.Access>)
+		if !(<REF1.House_AvaibleLockdowns>) || (<LOCAL.RESCOUNT> > <REF1.House_AvaibleStorage>)
+			SRC.SYSMESSAGE @,,1 Bu islem ile evin sabitlenebilir esya kapasitesini asmis bulunmaktasınız.
+			return 1
+		elif (<ARGN>==1) && (<REF1.HousePlayerAccess <SRC>> < 4)
+			return 1
+		elif (<ARGN>==2) && (<REF1.HousePlayerAccess <SRC>> < 3)
+			return 1
+		endif
+		REF1.TAG0.LOCKED_ITEMS -= <LOCAL.RESCOUNT>
+		REF1.TAG0.SECURE_CONT += <LOCAL.RESCOUNT>
+	endif
+endif
+if (<ARGN>==1)
+	TAG.Access=4
+elif (<ARGN>==2)
+	TAG.Access=3
+elif (<ARGN>==3)
+	TAG.Access=2
+elif (<ARGN>==4)
+	TAG.Access=5
+elif (<ARGN>==5)
+	if (<TYPE>==t_container) && (<TAG0.Access>)
+		REF1.TAG0.SECURE_CONT -= <LOCAL.RESCOUNT>
+		REF1.TAG0.LOCKED_ITEMS += <LOCAL.RESCOUNT>
+	endif
+	TAG.Access=
+endif
+UPDATE
+SRC.SYSMESSAGE @,,1 Yeni erisim ayari gerceklestirildi.
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[REGIONTYPE r_house_system] 
+
+
+
+ON=@ENTER
+if (<src.ISPLAYER>)
+	src.DSPEECH +spk_player_house
+	src.events +e_house
+endif
+
+REF1=<UID.<UID>.MORE2>
+//if (<REF1.HousePlayerAccess <SRC>>==-1)
+//	SRC.SYSMESSAGE @,,1 You may not enter.
+//	return 1
+if (<SRC.ISPLAYER>)
+	if !(<SRC.ISGM>)
+		//if (<DEF.scp.House_DepthOfField>) && !(<REF1.TAG0.Public>) && (<REF1.HousePlayerAccess <SRC>> < 1)
+		//	SRC.SYSMESSAGE @,,1 You may not enter.
+		//	return 1
+		if (<UID.<UID>.TYPE>==t_multi_custom)
+			if (<UID.<UID>.DESIGNER>)
+				return 1
+			endif
+		endif
+	endif
+	return 0
+else
+	if (<DEF.scp.House_DepthOfField>) && !(<REF1.TAG0.Public>) && (<REF1.HousePlayerAccess <SRC.OWNER>> < 1)
+		return 1
+	endif
+endif
+if <def.scp.House_DecayUnlockedItems> == 1
+	if (<uid.<uid>.type> == t_multi) || (<uid.<uid>.type> == t_multi_custom)
+		if <flags>&region_flag_nodecay
+			flags = <flags>&~region_flag_nodecay
+		endif
+	endif
+endif
+
+
+
+
+ON=@Exit
+if <src.findid.i_house_banish>
+	src.sys_error Evin dışına çıktığınız için ayrılma işlemi iptal edildi.
+	src.findid.i_house_banish.remove
+endif
+if <src.findid.i_koy_banish>
+	src.sys_error Evin dışına çıktığınız için ayrılma işlemi iptal edildi.
+	src.findid.i_koy_banish.remove
+endif
+if <src.isplayer>
+SRC.DSPEECH -spk_player_house
+src.events -e_house
+endif
+
+
+[EVENTS e_aos_house_vendor]
+ON=@RegionLeave
+return 1
+
+ON=@Destroy
+REF1=<UID.<TAG0.House>.MORE2>
+for <REF1.TAG0.VENDORS>
+	if (<REF1.TAG0.Vendor<dLOCAL._FOR>>==<UID>)
+		TRY REF1.TAG0.VENDOR<dLOCAL._FOR>=
+		for x <LOCAL._FOR> <REF1.TAG0.VENDORS>
+			TRY REF1.TAG.VENDOR<dLOCAL.X>=<REF1.TAG.VENDOR<eval <LOCAL.X>+1>>
+		endfor
+		REF1.TAG0.VENDORS --
+	endif
+endfor
+if (<TAG0.DemolishHouse>) && !(<REF1.TAG0.VENDORS>)
+	REF1.TIMER=0
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[FUNCTION HouseAddAccess]	//uid,access
+if !(<TAG0.Access.<ARGV0>>)
+	TRY TAG0.Access.Total.<ARGV1> = <eval <TAG0.Access.Total.<ARGV1>>+1>
+endif
+TRY TAG.Access.<ARGV0>=<ARGV1>,<dTAG0.Access.Total.<ARGV1>>
+
+[FUNCTION HouseGetAccessRef]	//access,number
+if (<TAGCOUNT>)
+	for 0 <eval <TAGCOUNT>-1>
+		if !STRCMP("<STRSUB 0 6 <TAGAT.<LOCAL._FOR>.KEY>>","access")
+			if (<ARGV0>==<STRARG <TAGAT.<LOCAL._FOR>.VAL>>) && (<ARGV1>==<STREAT <TAGAT.<LOCAL._FOR>.VAL>>)
+				return <STRSUB 7 0 <TAGAT.<LOCAL._FOR>.KEY>>
+			endif
+		endif
+	endfor
+endif
+
+[FUNCTION HouseAccessList]	//access
+if (<TAGCOUNT>)
+	for 0 <eval <TAGCOUNT>-1>
+		if !STRCMP("<STRSUB 0 6 <TAGAT.<LOCAL._FOR>.KEY>>","access") && STRCMP("<STRSUB 7 5 <TAGAT.<LOCAL._FOR>.KEY>>","total")
+			if (<ARGV0>==<STRARG <TAGAT.<LOCAL._FOR>.VAL>>)
+				LOCAL.LIST .= ,<STRSUB 7 0 <TAGAT.<LOCAL._FOR>.KEY>>
+			endif
+		endif
+	endfor
+	return <LOCAL.LIST>
+endif
+
+[FUNCTION HousePlayerAccess]	//uid
+if (<MORE2> == <ARGS>) || ((<DEF.scp.House_AccOwner>) && !STRCMP("<UID.<MORE2>.ACCOUNT>","<UID.<ARGS>.ACCOUNT>")) || (<UID.<ARGS>.ISGM>)
+	return 5
+else
+	return <STRARG <TAG0.Access.<ARGS>>>
+endif
+
+
+[FUNCTION IsOwner]
+if (<HousePlayerAccess <ARGS>> >= 4)
+	return 1
+endif
+return 0
+
+[FUNCTION IsCoOwner]
+if (<HousePlayerAccess <ARGS>>==3)
+	return 1
+endif
+return 0
+
+[FUNCTION IsFriend]
+if (<HousePlayerAccess <ARGS>>==2)
+	return 1
+endif
+return 0
+
+[FUNCTION IsBanned]
+if !(<DEF.scp.House_BanEngine>) || (<HousePlayerAccess <ARGS>> != -1)
+	return 0
+endif
+return 1
+
+[FUNCTION HasAccess]
+if !(<DEF.scp.House_DepthOfField>) || (<HousePlayerAccess <ARGS>> > 0)
+	return 1
+endif
+return 0
+
+
+[FUNCTION CanAccess]
+if (<SRC.ISPLAYER>)
+	if (<UID.<UID.<REGION.UID>.MORE2>.HousePlayerAccess <SRC>> >= <TAG0.Access>) || ((<TAG0.Access>==5) && (<SRC.GUILD> == <UID.<UID.<REGION.UID>.MORE1>.GUILD>)) || (<SRC.ISGM>)
+		return 1
+	endif
+endif
+return 0
+
+[FUNCTION IsStorage]
+if !(<ISITEM>)
+	return 0
+elif (<TYPE>==t_door_locked) || (<TYPE>==t_door) || (<TYPE>==t_sign_gump) || (<TYPE>==t_corpse) || (<TYPE>==t_spell)
+	return 0
+elif (<ISEVENT.t_locked_down>)
+	if !(<TAG0.Access>)
+		return 1
+	else
+		return 2
+	endif
+endif
+return 0
+
+[FUNCTION IsOnHouse]
+if ((<UID.<REGION.UID>.TYPE>==t_multi) || (<UID.<REGION.UID>.TYPE>==t_multi_custom)) //&& (<Z> > <SERV.MAP(<P.X>,<P.Y>,<P.M>).TERRAIN.Z>)
+	return 1
+endif
+return 0
+
+
+[FUNCTION House_MaxSecureStorage]
+if (<DEF.scp.House_GlobalStorage>)
+	return <eval (<dDEF.scp.House_GlobalSecStorage>+<MulDiv <DEF.scp.House_GlobalSecStorage>,<TAG0.STORAGE_INCREASE>,100>)>
+else
+	return <eval (<TAG0.STORAGE_LIMIT>+<MulDiv <TAG0.STORAGE_LIMIT>,<TAG0.STORAGE_INCREASE>,100>)>
+endif
+
+[FUNCTION House_AvaibleStorage]
+return <eval <House_MaxSecureStorage>-(<TAG0.LOCKED_ITEMS>+<TAG0.SECURE_CONT>)>
+
+[FUNCTION House_MaxLockdowns]
+return <eval <House_MaxSecureStorage>/2>
+
+[FUNCTION House_AvaibleLockdowns]
+LOCAL.LOCKDOWNS=<House_MaxLockdowns>-<TAG0.LOCKED_ITEMS>
+if (<House_AvaibleStorage> > <LOCAL.LOCKDOWNS>)
+	return <dLOCAL.LOCKDOWNS>
+else
+	return <House_AvaibleStorage>
+endif
+
+[Plevel 1]
+evuyelik
+
+[function evuyelik]
+if !<src.tag.ev_uyelik>
+	src.tag.ev_uyelik 1
+	src.sys_normal Ev üyeliğini açtınız kapatmak için komutu tekrar yazmanız yeterlidir.
+	return 1
+else
+	src.tag.ev_uyelik 0
+	src.sys_error Ev üyeliğini kapattınız tekrar açmak için komutu tekrar yazabilirsınız.
+	return 1
+endif
+[FUNCTION f_house_add_coowner]
+REF1=<ARGS>
+
+
+if !(<ARGO.ISPLAYER>)
+	SRC.SYSMESSAGE @,,1 Bu evin ortagi olamaz !
+	return 1
+elif !<argo.tag.ev_uyelik>
+	src.sysmessage @,,1 Kişinin ev üyeliği aktif olmadığı için ortak ekleyemezsınız.
+	argo.sysmessage @,,1 <src.name> adlı kullanıcı sizi evine ortak istiyor.(.evuyelik komutu ile ev üyeliğini aktif edip kapatabilirsınız.)
+	return 1
+elif (<REF1.TAG0.Access.Total.3> >= <DEF.scp.House_MaxCoowners>)
+	SRC.SYSMESSAGE @,,1 Evin ortak listesi dolu !
+	return 1
+elif (<REF1.IsOwner <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi zaten evin sahibi !
+	return 1
+elif (<REF1.IsCoOwner <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi zaten evin ortagi !
+	return 1
+elif (<REF1.IsFriend <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi zaten evin dostu ! eger ortak etmek istiyorsaniz once dost listesinden silin daha sonra ortak olarak ekleyiniz. 
+	return 1
+elif (<REF1.IsBanned <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi yasakli. Yasak listesinden kaldirdiktan sonra islem yapabilirsınız.
+	return 1
+endif
+REF1.HouseAddAccess <ARGO>,3
+SRC.SYSMESSAGE @,,1 <ARGO.NAME> adli kisiyi eve ortak eklediniz.
+ARGO.SYSMESSAGE @,,1 Eve ortak olarak eklendiniz.
+
+
+[FUNCTION f_house_add_friend]
+REF1=<ARGS>
+
+
+if !(<ARGO.ISPLAYER>)
+	SRC.SYSMESSAGE @,,1 Bu evin dostu olamaz.
+	return 1
+elif !<argo.tag.ev_uyelik>
+	src.sysmessage @,,1 Kişinin ev üyeliği aktif olmadığı için dost ekleyemezsınız.
+	argo.sysmessage @,,1 <src.name> adlı kullanıcı sizi evine dost istiyor.(.evuyelik komutu ile ev üyeliğini aktif edip kapatabilirsınız.)
+	return 1
+elif (<REF1.TAG0.Access.Total.2> >= <DEF.scp.House_MaxFriends>)
+	SRC.SYSMESSAGE @,,1 Evin dost dost listesi dolu !
+	return 1
+elif (<REF1.IsOwner <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi zaten evin sahibi !
+	return 1
+elif (<REF1.IsCoOwner <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi zaten evinizde ortak !
+	return 1
+elif (<REF1.IsFriend <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi zaten evinize dost !
+	return 1
+elif (<REF1.IsBanned <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi evinizden yasakli !. Once yasagini kaldiriniz.
+	return 1
+endif
+REF1.HouseAddAccess <ARGO>,2
+SRC.SYSMESSAGE @,,1 <ARGO.NAME> adli kisiyi eve dost eklediniz.
+ARGO.SYSMESSAGE @,,1 EVe dost olarak eklendiniz.
+
+
+[FUNCTION f_house_grant_access]
+REF1=<ARGS>
+if !(<ARGO.ISPLAYER>)
+	SRC.SYSMESSAGE @,,1 Bu oyuncu degil.
+	return 1
+elif (<REF1.TAG0.Access.Total.1> >= <DEF.scp.House_MaxAccess>)
+	SRC.SYSMESSAGE @,,1 Eve erisim izni limiti asmis durumdadir.
+	return 1
+elif (<REF1.IsBanned <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisi yasakli, once yasagini kaldiriniz.
+	return 1
+elif (<REF1.HousePlayerAccess <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Bu kisinin zaten eve erisim izni bulunmakta !
+	return 1
+endif
+REF1.HouseAddAccess <ARGO>,1
+ARGO.SYSMESSAGE @,,1 Eve erisim iznine sahip oldunuz.
+
+
+[function f_evden_ayril]
+if !<src.findid.i_house_banish>
+	serv.newitem i_house_banish
+	new.equip
+	src.sys_error 10 saniye sonra evden atılacaksınız.
+else
+	src.sys_error Evden ayrılmak üzeresınız.
+endif
+
+[function f_koyden_ayril]
+if !<src.findid.i_koy_banish>
+	serv.newitem i_koy_banish
+	new.equip
+else
+	src.sys_error Köyden ayrılmak üzeresınız.
+endif
+
+
+[function f_koyden_ayril_x]
+if <src.region.tag.koyburasi>
+	SRC.GO <src.region.tag.koydenat>
+	SRC.MOVE S
+	SRC.FIX
+	SRC.SYSMESSAGE @,,1 Köyden ayrıldınız.
+endif
+
+[function f_evden_ayril_x]
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<SRC.REGION.UID> == <REF1.REGION.UID>)
+	SRC.GO <REF1.P>
+	SRC.MOVE S
+	SRC.FIX
+	SRC.SYSMESSAGE @,,1 Evden ayrıldınız.
+endif
+
+[FUNCTION f_house_banish]
+if <src.isdeath>
+	src.sys_error Ölü iken kullanamazsınız.
+	return 1
+endif
+if (strmatch(*Brit_Genel_1*,<region.name>))
+	src.sys_error Yeni Mahalle Bölgesinde bunu yapamazsınız.
+	return 1
+endif
+REF1=<ARGS> //<UID.<SRC.REGION.UID>.MORE2>
+IF (<ARGO.ISITEM>)
+ SRC.SYSMESSAGE @,,1 Bunu atamassınız.
+ return 1
+//ELIF (<REF1.TAG0.Access.Total.-1> >= <DEF.MAX_HOUSE_BANS>)
+// SRC.SYSMESSAGE @,,1 The ban limit for this house has been reached!
+// return 1
+ELIF (<ARGO.UID>==<SRC>)
+ SRC.SYSMESSAGE @,,1 Kendinizi atamassınız!
+ return 1
+//ELIF (<REF1.IsBanned <ARGO.UID>>)
+// SRC.SYSMESSAGE @,,1 <ARGO.NAME> is already banned from this house!
+// return 1
+ELIF (<ARGO.IsHouseVendor>)
+ SRC.SYSMESSAGE @,,1 Ev vendorunu atamassınız!
+ return 1
+ELIF (<REF1.IsOwner <ARGO.UID>>)
+ SRC.SYSMESSAGE @,,1 Evin sahibini atamassınız!
+ return 1
+ELIF (<REF1.IsCoOwner <ARGO.UID>>)
+ SRC.SYSMESSAGE @,,1 Evin ortaklarini atamassınız!
+ return 1
+ELIF (<REF1.IsFriend <ARGO.UID>>)
+ SRC.SYSMESSAGE @,,1 Evin dostlarini atamassınız!
+ return 1
+ELIF (<ARGO.REGION.UID> != <REF1.REGION.UID>)
+ SRC.SYSMESSAGE @,,1 Evinizde olmayan bir kisiyi evinizden nasil ata bilirsınız ?
+ return 1
+ENDIF
+//REF1.HouseAddAccess <ARGO.UID>,-1
+ARGO.GO <REF1.P>
+ARGO.MOVE S
+ARGO.FIX
+SRC.SYSMESSAGE @,,1 <ARGO.NAME> evden atildi.
+ARGO.SYSMESSAGE @,,1 Evden atildiniz.
+serv.newitem i_house_banish
+new.tag.ev_bu 1
+new.equip
+
+
+[FUNCTION f_house_eject]
+if (strmatch(*Brit_Genel_1*,<region.name>))
+	src.sys_error Yeni Mahalle Bölgesinde bunu yapamazsınız.
+	return 1
+endif
+REF1=<ARGS>
+if (<ARGO.ISITEM>)
+	SRC.SYSMESSAGE @,,1 Bunu evden atamazsınız !
+	return 1
+elif (<ARGO.REGION.UID> != <REF1.REGION.UID>)
+	SRC.SYSMESSAGE @,,1 <ARGO.NAME> evinizde degil.
+	return 1
+elif (<ARGO>==<SRC>)
+	SRC.SYSMESSAGE @,,1 Kendinizi evden atamazsınız !
+	return 1
+elif (<REF1.IsOwner <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Evin sahibini evden atamazsınız !
+	return 1
+elif (<REF1.IsCoOwner <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Evin ortaklarini evden atamazsınız !
+	return 1
+elif (<REF1.IsFriend <ARGO>>)
+	SRC.SYSMESSAGE @,,1 Evin dostlarini evden atamazsınız !
+	return 1
+endif
+ARGO.GO <REF1.P>
+ARGO.FIX
+SRC.SYSMESSAGE @,,1 <ARGO.NAME> evden atildi.
+ARGO.SYSMESSAGE @,,1 Evden atildiniz.
+
+
+[FUNCTION f_house_secure]
+
+REF1=<args>
+REF2=<UID.<SRC.REGION.UID>.MORE2>
+
+
+if (strmatch(*Brit_Genel_1*,<region.name>))
+	src.sys_error Yeni Mahalle Bölgesinde eşya sabitleyemezsınız.
+	return 1
+endif
+IF !(<ARGO.ISITEM>)
+  SRC.SYSMESSAGE @,,1 Bunu guvenli yapamassınız.
+  return 1
+ELIF (<ARGO.TYPE>==t_container)
+  LOCAL.RESCOUNT=<ARGO.FCOUNT>
+ENDIF
+IF (<ARGO.CONT>) || (<SRC.REGION.UID> != <ARGO.REGION.UID>) || !(<ARGO.IsOnHouse>)
+  SRC.SYSMESSAGE @,,1 Bu sizin evinizde degil.
+ELIF <REF1.UID> != <REF2.UID>
+	src.sys_error Karaktersizlik yapmanın bir manası yok değil mi.Uyarı aldınız.
+	//return 1
+ELIF (<ARGO.LINK>==<ARGO.REGION.UID>) || (<ARGO.TYPE>==t_door_locked) || (<ARGO.TYPE>==t_door) || (<ARGO.TYPE>==t_sign_gump) || (<ARGO.TYPE>==t_corpse) || (<ARGO.TYPE>==t_spell) || (<ARGO.BASEID>==i_horse_dung)
+  SRC.SYSMESSAGE @,,1 Bunu guvenli yapamassınız.
+ELIF !(<ARGO.CanAccess>)
+  SRC.SYSMESSAGE @,,1 You cannot change the access for this.
+ELIF (<ARGO.ATTR> & attr_move_never) && (<ARGO.TYPE> != t_container)
+  SRC.SYSMESSAGE @,,1 Bu esya evinizde zaten kilitli ve bu sekilde guvenli yapamassınız.
+ELIF (<ARGO.ISSTORAGE>)
+  ARGO.SDIALOG d_house_access
+ELIF !(<UID.<ARGS>.House_AvaibleLockdowns>) || (<LOCAL.RESCOUNT> > <UID.<ARGS>.House_AvaibleStorage>)
+  SRC.SYSMESSAGE @,,1 Yaptiginiz bu islem evdeki toplam guvenli esya miktarinizi asmaya sebep oluyor.
+ELSE
+  ARGO.HouseSetLockedProps 1
+  //ARGO.TIMER -1
+  IF (<ARGO.TYPE> == t_container)
+   ARGO.TAG.Access=3
+   ARGO.UPDATE
+   UID.<ARGS>.TAG0.SECURE_CONT += <LOCAL.RESCOUNT>
+   ARGO.SDIALOG d_house_access
+  ENDIF
+ENDIF
+
+[FUNCTION f_house_lock]
+if (strmatch(*Brit_Genel_1*,<region.name>))
+	src.sys_error Yeni Mahalle Bölgesinde eşya sabitleyemezsınız.
+	return 1
+endif
+IF !(<ARGO.ISITEM>)
+  SRC.SYSMESSAGE @,,1 Bunu sabitleyemezsınız.
+  return 1
+ELIF (<argo.baseid> == i_kazan_alchemy)
+	local.kazan 0
+	foritems 50
+		if (<baseid> == i_kazan_alchemy) && (<argo.region.uid>==<region.uid>)
+			local.kazan ++
+		endif
+	endfor
+	if <dlocal.kazan> > 1
+		src.sys_error 1 den fazla kazan olduğu için sabitleyemezsiniz.
+		return 1
+	endif
+ELIF (<ARGO.TYPE>==t_container)
+  LOCAL.RESCOUNT=<ARGO.FCOUNT>
+ENDIF
+IF (<ARGO.CONT>) || (<SRC.REGION.uid> != <ARGO.REGION.UID>) || !(<ARGO.IsOnHouse>)
+  SRC.SYSMESSAGE @,,1 Evin içinde degilsınız.
+ELIF (<ARGO.LINK>==<ARGO.REGION.UID>) || (<ARGO.TYPE>==t_door_locked) || (<ARGO.TYPE>==t_door) || (<ARGO.TYPE>==t_sign_gump) || (<ARGO.TYPE>==t_corpse) || (<ARGO.TYPE>==t_spell) || (<ARGO.BASEID>==i_horse_dung) || (<ARGO.TYPE> == t_campfire)
+  SRC.SYSMESSAGE @,,1 Bunu kitleyemessınız!
+ELIF (<ARGO.ATTR> & attr_move_never)
+  SRC.SYSMESSAGE @,,1 Bu zaten kilitli.
+ELIF (<eval 1+<LOCAL.RESCOUNT>> > <UID.<ARGS>.House_AvaibleLockdowns>)
+  SRC.SYSMESSAGE @,,1 Evinizdeki toplam kilitli kapi sayi miktariniz doldugu icin daha fazla kilitleyemessınız.
+ELSE
+  ARGO.HouseSetLockedProps 1
+  UID.<ARGS>.TAG0.LOCKED_ITEMS += <LOCAL.RESCOUNT>
+  src.sysmessage @69,,1 Sabitlendi.
+ENDIF
+
+[FUNCTION f_house_release]
+
+
+
+REF1=<args>
+REF2=<UID.<SRC.REGION.UID>.MORE2>
+IF <REF1.UID> != <REF2.UID>
+	src.sys_error Karaktersizlik yapmanın bir manası yok değil mi.Uyarı aldınız.
+	return 1
+endif
+
+
+
+if (<argo.dtag0.ek_ev> == 1)
+	if !(strmatch('<argo.tag0.anaitem>',''))
+		src.newitem <argo.tag0.anaitem>
+		src.new.bounce
+		foritems 15
+			obj=<uid>
+			if (<obj.link>==<argo.uid>)
+				obj.remove
+			endif
+		endfor
+		TRY UID.<ARGO.UID>.remove
+	endif
+endif
+
+if <argo.tag.deed>
+serv.newitem <argo.tag.deed>
+new.p <argo.p>
+argo.remove
+return 1
+endif
+
+IF (<ARGO.BASEID>==i_ostard_egg_kulucka)
+	if (<argo.link> == <src.uid>)
+		argo.remove
+		src.newitem i_kulucka
+		src.new.bounce
+		src.newitem i_egg_ostard
+		src.new.bounce	
+		argo.link.account.tag0.oskuluc <argo.link.account.tag0.oskuluc> - 1)
+		return 1
+	else
+		src.sysmessage @,,1 Yumurtayi sadece kuran kisi kaldirabilir.	
+		return 1
+	endif
+endif
+
+
+
+IF !(<ARGO.ISITEM>)
+  SRC.SYSMESSAGE @,,1 Sadece esyalarin sabitligini kaldirabilirsınız..
+	return 1
+//ELIF (<ARGO.REGION.UID> != <UID.<ARGS>.REGION.UID>) 
+//  SRC.SYSMESSAGE @,,1 Bu ev size ait degil.
+//	return 1
+ELIF !(<ARGO.ISSTORAGE>)
+  SRC.SYSMESSAGE @,,1 Bunun sabitligini kaldiramassınız.
+	return 1
+ELIF ((<argo.baseid> == i_kazan_alchemy) && (<argo.timer> > 0))
+	src.sys_error Kazan kaynarken sabitliğini kaldıramazsınız.
+	return 1
+ELIF (<UID.<ARGS>.HousePlayerAccess <SRC>> < <ARGO.TAG0.Access>)
+  SRC.SYSMESSAGE @,,1 Bunu yapacak yetkiye sahip degilsınız.
+	return 1
+ELSE
+  IF (<ARGO.TYPE>==t_container)
+    IF (<ARGO.IsStorage>==1)
+     UID.<ARGS>.TAG0.LOCKED_ITEMS -= <ARGO.FCOUNT>
+    ELIF (<ARGO.IsStorage>==2)
+     ARGO.TAG.Access=
+     UID.<ARGS>.TAG0.SECURE_CONT -= <ARGO.FCOUNT>
+    ENDIF
+  ENDIF
+  ARGO.HouseSetLockedProps 0
+ENDIF
+
+
+
+
+IF (<ARGO.TYPE>==t_door_locked) || (<ARGO.TYPE>==t_door) || (<ARGO.TYPE>==t_sign_gump) || (<ARGO.TYPE>==t_stone_guild)
+    SRC.SYSMESSAGE @1100 Hatali secim.
+    RETURN 1
+   ENDIF
+
+if (strmatch('<argo.baseid>','i_strong_box'))
+     src.sysmessage @1153 Hatali secim.
+     return 1
+    endif 
+
+
+
+
+
+if (<eval <argo.attr>> == 010) || (<eval <argo.attr>> == 018) 
+ARGO.HouseSetLockedProps 0
+return 1
+endif
+
+//////////////////////
+
+
+
+
+[FUNCTION HouseSetLockedProps]
+FixHouseSubcontainers <ARGS>
+if (<ARGS>)
+	if (<CAN> & can_i_block)
+		TAG.AlwaysSend=1
+	endif
+	ATTR=<ATTR>&~attr_decay
+	ATTR=<ATTR>|attr_move_never
+	TIMER=-1
+	EVENTS +t_locked_down
+	UID.<UID.<REGION.UID>.MORE2>.TAG0.LOCKED_ITEMS ++
+	UPDATE
+	return 1
+else
+	TAG.AlwaysSend=
+	ATTR=<ATTR>&~attr_move_never
+	EVENTS -t_locked_down
+	UID.<UID.<REGION.UID>.MORE2>.TAG0.LOCKED_ITEMS --
+	if !(<REGION.FLAGS> & region_flag_nodecay)
+		ATTR=<ATTR>|attr_decay
+		TIMER=60*60*24
+	endif
+	UPDATE
+	return 1
+endif
+
+[FUNCTION FixHouseSubcontainers]
+if (<TYPE>==t_container)
+	if (<TOPOBJ> != <UID>)
+		EVENTS=<QVAL (<ARGS>)? +:->t_subcont
+	endif
+	forcont <UID>
+		if (<TYPE>==t_container)
+			EVENTS=<QVAL (<ARGS>)? +:->t_subcont
+		endif
+	endfor
+endif
+
+
+[FUNCTION f_house_transfer]
+if !(<ARGO.ISPLAYER>)
+	SRC.SYSMESSAGE @,,1 Sadece oyuncular ev sahibi olabilir !
+	return 1
+endif
+REF1=<ARGS>
+if (<ARGO>==<SRC>)
+	SRC.SYSMESSAGE @,,1 Evi kendine nasil transfer etmeyi dusunuyorsun arkadas !
+	return 1
+//elif ((<ARGO.IsOnHouse>) || (<SRC.IsOnHouse>)) || ((<ARGO.DISTANCE <REF1>> > 5) || (<SRC.DISTANCE <REF1>> > 5))
+//	SRC.SYSMESSAGE @,,1 Evi transfer edebilmeniz icin ev tabela hizasindan en fazla 5 kare uzakta olmalisınız.
+//	return 1
+elif (<ARGO.CHECK_ACCOUNT_TYPEDEF t_multi*> >= <DEF.scp.House_MaxPerAccount>)
+	SRC.SYSMESSAGE @,,1 <ARGO.NAME> zaten eve sahip, <dDEF.scp.House_MaxPerAccount> kadar ev sahibi olabilirsınız.
+	return 1
+elif (<DEF0.scp.House_PlaceWaitPeriod>) && (<ARGO.TAG0.House.PlacementDelay> > <SERV.TIME>)
+	SRC.SYSMESSAGE @,,1 Bu kisi suanda evin sahibi olamaz.
+	ARGO.SYSMESSAGE @,,1 Evin size transfer edildiginden itibaren gecen sure : <eval (<ARGO.TAG0.House.PlacementDelay>-<SERV.TIME>)/864000>
+	return 1
+endif
+SRC.SYSMESSAGE @,,1 Lutfen diger oyuncu transferi onaylayana kadar bekleyiniz.
+SRC.TRYSRC <ARGO> DIALOG d_house_transfer 0,<REF1>
+
+[TYPEDEF t_trade_house_deed]
+ON=@Click
+MESSAGE House Transfer Contract
+MESSAGE House Name: <LINK.NAME>
+MESSAGE Owner: <UID.<LINK.MORE2>.NAME>
+MESSAGE Location: <LINK.SEXTANTP> //<LINK.REGION.REGION.NAME> (<LINK.P>)
+return 1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1061112,<LINK.NAME>
+SRC.ADDCLILOC 1061113,<UID.<LINK.MORE2>.NAME>
+SRC.ADDCLILOC 1061114,<STRARG <LINK.SEXTANTP>> <STREAT <LINK.SEXTANTP>>
+
+ON=@Timer
+if (<CONT.TYPE>==t_eq_trade_window)
+	TIMERF 2,trigger @Timer
+else
+	UID.<MORE1>.EVENTS=-e_house_transfer
+	REMOVE
+endif
+return 1
+
+ON=@HouseTraded
+REF1=<MORE1>		//New Owner
+REF2=<LINK.MORE2>	//Old Owner
+REF1.EVENTS=-e_house_transfer
+REF2.SYSMESSAGE @,,1 Evi transfer ettiniz.
+REF1.SYSMESSAGE @,,1 Suan evin tum yetkisi size gecmis bulunmaktadir.
+LINK.TAG.LastTraded=<serv.rtime.format %d>-<serv.rtime.format %m>-<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>>
+LINK.MORE2=<REF1>
+LINK.LINK.MORE1=<REF1>
+for <eval <REF2.COUNT>-1> 0
+	if (<REF2.FINDCONT.<LOCAL._FOR>.LINK>==<LINK.LINK>)
+		REF2.FINDCONT.<dLOCAL._FOR>.CONT=<REF1>
+	endif
+endfor
+for 1 3
+	ARGS=<LINK.HouseAccessList <LOCAL._FOR>>
+	for x <LINK.TAG0.Access.Total.<LOCAL._FOR>>
+		if !(<isempty <ARGV[<dLOCAL.X>]>>)
+			UID.<ARGV[<dLOCAL.X>]>.NOTICE <DEF.Access_<LOCAL._FOR>>  '<LINK.NAME>' ye transfer edilmistir. Tarih : <serv.rtime.format %d>/<serv.rtime.format %m>/<serv.rtime.format %Y> <strsub 11 0 <serv.rtime>>.
+		endif
+	endfor
+endfor
+if !(<REF1.ISGM>) && (<DEF0.scp.House_PlaceWaitPeriod>)
+	REF1.TAG.House.PlacementDelay=<eval <SERV.TIME>+(<DEF0.scp.House_PlaceWaitPeriod>*864000)+36000>
+endif
+LINK.CLEARTAGS Access
+
+
+[FUNCTION remove_invalid_houses]
+for 0 <eval <COUNT>-1>
+	if (<FINDCONT.<LOCAL._FOR>.LINK.ISITEM>)
+		if STRMATCH("t_multi*","<FINDCONT.<LOCAL._FOR>.LINK.TYPE>")
+			UID.<UID.<FINDCONT.<LOCAL._FOR>.LINK>.MORE2>.TIMER=1
+		endif
+	endif
+endfor
+
+
+[FUNCTION check_account_typedef]
+for 0 <eval <ACCOUNT.CHARS>-1>
+	LOCAL.RETURN += <ACCOUNT.CHAR.<LOCAL._FOR>.f_check_typedefs <ARGS>>
+endfor
+return <LOCAL.RETURN>
+
+[FUNCTION f_check_typedefs]
+for 0 <eval <RESCOUNT>-1>
+	if (<UID.<FINDCONT(<LOCAL._FOR>).LINK>.ISITEM>)
+		if STRMATCH("<ARGS>","<UID.<FINDCONT(<LOCAL._FOR>).LINK>.TYPE>")
+			LOCAL.FOUND ++
+		endif
+	endif
+endfor
+return <LOCAL.FOUND>
+
+
+[FUNCTION area]
+if (<SERV.ITEMDEF.<ARGS>.MULTIREGION>)
+	ARGS=<SERV.ITEMDEF.<ARGS>.MULTIREGION>
+	return <eval ((<ARGV0>*-1)+<ARGV2>+1)*((<ARGV1>*-1)+<ARGV3>)>
+elif (<UID.<REGION.UID>.MULTIREGION>)
+	ARGS=<UID.<REGION.UID>.MULTIREGION>
+	return <eval ((<ARGV0>*-1)+<ARGV2>+1)*((<ARGV1>*-1)+<ARGV3>)>
+endif
+
+[FUNCTION area.x]
+if (<SERV.ITEMDEF.<ARGS>.MULTIREGION>)
+	ARGS=<SERV.ITEMDEF.<ARGS>.MULTIREGION>
+	return <eval (<ARGV0>*-1)+<ARGV2>+1>
+elif (<UID.<REGION.UID>.MULTIREGION>)
+	ARGS=<UID.<REGION.UID>.MULTIREGION>
+	return <eval (<ARGV0>*-1)+<ARGV2>+1>
+endif
+
+[FUNCTION area.y]
+if (<SERV.ITEMDEF.<ARGS>.MULTIREGION>)
+	ARGS=<SERV.ITEMDEF.<ARGS>.MULTIREGION>
+	return <eval (<ARGV1>*-1)+<ARGV3>>
+elif (<UID.<REGION.UID>.MULTIREGION>)
+	ARGS=<UID.<REGION.UID>.MULTIREGION>
+	return <eval (<ARGV1>*-1)+<ARGV3>>
+endif
+
+
+[FUNCTION HouseMaxVendors]
+if !(<DEF.scp.House_GlobalMaxVendors>)
+	return <eval ((<AREA.X>+<AREA.Y>)/4)+1>
+else
+	return <dDEF.scp.House_MaxVendors>
+endif
+
+
+[FUNCTION HouseSignPost]
+REF1=<REGION.UID>
+foritems 30
+	if (<REGION.UID>==<REF1.REGION.UID>)
+		if (<LINK>==<REGION.UID>) && (<TYPE>==t_wall) && (<DISPIDDEC> < 1000)
+			//serv.log <uid>
+			return <UID>
+		endif
+	endif
+endfor
+
+
+[FUNCTION HouseFloor]
+LOCAL.TERRAIN=<eval <SERV.MAP(<P.X>,<P.Y>,<P.M>).TERRAIN.Z>+5>
+if (<ARGS> > <LOCAL.TERRAIN>)
+	return <eval 1+(<ARGS>-<LOCAL.TERRAIN>)/20>
+endif
+return 0
+
+///////////////////////////////////////
+
+[typedef t_anti_house_deed]
+
+on=@click
+message  (invis)
+message @33,,1 (Anti House)
+message @,,1 20 Kare
+return 1
+
+on=@dclick
+return 1
+
+on=@pickup_ground
+src.sysmessage @32,,1 Bu islem loglara gecti.
+return 1
+
+[ITEMDEF i_anti_house_deed]
+NAME=Anti House
+ID=i_deed
+WEIGHT=5.0
+TYPE=t_anti_house_deed
+
+On=@Create
+color 0ba9
+attr 080
+
+
+/////////////////////////////////////////
+
+
+[FUNCTION HouseCheckNearArea]
+ARGS=<UID.<REGION.UID>.MULTIREGION>
+SERV.NEWNPC c_pig
+NEW.FLAGS=statf_invul|statf_insubstantial
+
+for 0 7
+	NEW.P=<UID.<REGION.UID>.P>
+	doswitch <LOCAL._FOR>
+		NEW.MOVE <ARGV0> <ARGV1>
+		NEW.MOVE 0 <ARGV1>
+		NEW.MOVE <ARGV2> <ARGV1>
+		NEW.MOVE <ARGV2> 0
+		NEW.MOVE <ARGV2> <ARGV3>
+		NEW.MOVE 0 <ARGV3>
+		NEW.MOVE <ARGV0> <ARGV3>
+		NEW.MOVE <ARGV0> 0
+	enddo
+	doswitch <LOCAL._FOR>
+		LOCAL.CLEAR=<NEW.CANMOVE nw>
+		LOCAL.CLEAR=<NEW.CANMOVE n>
+		LOCAL.CLEAR=<NEW.CANMOVE ne>
+		LOCAL.CLEAR=<NEW.CANMOVE e>
+		LOCAL.CLEAR=<NEW.CANMOVE se>
+		LOCAL.CLEAR=<NEW.CANMOVE s>
+		LOCAL.CLEAR=<NEW.CANMOVE sw>
+		LOCAL.CLEAR=<NEW.CANMOVE w>
+	enddo
+	if (<NEW.IsOnRoad>) || !(<LOCAL.CLEAR>)
+		NEW.REMOVE
+		return 1
+	endif
+endfor
+
+for 0 7
+	NEW.P=<UID.<REGION.UID>.P>
+	doswitch <LOCAL._FOR>
+		NEW.MOVE <eval <ARGV0>+1> <eval <ARGV1>+1>
+		NEW.MOVE 0 <eval <ARGV1>+1>
+		NEW.MOVE <eval <ARGV2>-1> <eval <ARGV1>+1>
+		NEW.MOVE <eval <ARGV2>-1> 0
+		NEW.MOVE <eval <ARGV2>-1> <eval <ARGV3>-1>
+		NEW.MOVE 0 <eval <ARGV3>-1>
+		NEW.MOVE <eval <ARGV0>+1> <eval <ARGV3>-1>
+		NEW.MOVE <eval <ARGV0>+1> 0
+	enddo
+	if (<NEW.ISNEARTYPE t_tree 2>) || (<NEW.ISNEARTYPE t_anti_house_deed 20>)
+		NEW.REMOVE
+		return 1
+	endif
+endfor
+
+if (<DEF.scp.House_PlaceMinDistArea>)
+	LOCAL.AREA=<DEF.scp.House_PlaceMinDistArea>
+	for 0 7
+		NEW.P=<UID.<REGION.UID>.P>
+		doswitch <LOCAL._FOR>
+			NEW.MOVE <eval <ARGV0>+(<LOCAL.AREA>*-1)> <eval <ARGV1>+(<LOCAL.AREA>*-1)>
+			NEW.MOVE 0 <eval <ARGV1>+(<LOCAL.AREA>*-1)>
+			NEW.MOVE <eval <ARGV2>+<LOCAL.AREA>> <eval <ARGV1>+(<LOCAL.AREA>*-1)>
+			NEW.MOVE <eval <ARGV2>+<LOCAL.AREA>> 0
+			NEW.MOVE <eval <ARGV2>+<LOCAL.AREA>> <eval <ARGV3>+<LOCAL.AREA>>
+			NEW.MOVE 0 <eval <ARGV3>+<LOCAL.AREA>>
+			NEW.MOVE <eval <ARGV0>+(<LOCAL.AREA>*-1)> <eval <ARGV3>+<LOCAL.AREA>>
+			NEW.MOVE <eval <ARGV0>+(<LOCAL.AREA>*-1)> 0
+		enddo
+		if STRMATCH("t_multi*","<UID.<NEW.REGION.UID>.TYPE>")
+			NEW.REMOVE
+			return 2
+		endif
+	endfor
+endif
+if (<DEF.scp.House_PlaceMinDistFront>)
+	LOCAL.FRONT=<DEF.scp.House_PlaceMinDistFront>
+	for 0 5
+		NEW.P=<UID.<REGION.UID>.P>
+		doswitch <LOCAL._FOR>
+			NEW.MOVE <ARGV2> <eval <ARGV3>+<LOCAL.FRONT>>
+			NEW.MOVE 0 <eval <ARGV3>+<LOCAL.FRONT>>
+			NEW.MOVE <ARGV0> <eval <ARGV3>+<LOCAL.FRONT>>
+			NEW.MOVE <ARGV0> <eval <ARGV1>+(<LOCAL.FRONT>*-1)>
+			NEW.MOVE 0 <eval <ARGV1>+(<LOCAL.FRONT>*-1)>
+			NEW.MOVE <ARGV2> <eval <ARGV1>+(<LOCAL.FRONT>*-1)>
+		enddo
+		if STRMATCH("t_multi*","<UID.<NEW.REGION.UID>.TYPE>")
+			NEW.REMOVE
+			return 3
+		endif
+	endfor
+endif
+NEW.REMOVE
+return 0
+
+[FUNCTION IsOnRoad]
+LOCAL.TERRAIN=<SERV.MAP(<P.X>,<P.Y>,<P.M>).TERRAIN>
+if (<LOCAL.TERRAIN> >= 113) && (<LOCAL.TERRAIN> <= 140)
+	return 1
+elif (<LOCAL.TERRAIN> >= 232) && (<LOCAL.TERRAIN> <= 235)
+	return 1
+elif (<LOCAL.TERRAIN> >= 332) && (<LOCAL.TERRAIN> <= 335)
+	return 1
+elif (<LOCAL.TERRAIN> >= 353) && (<LOCAL.TERRAIN> <= 372)
+	return 1
+elif (<LOCAL.TERRAIN> >= 496) && (<LOCAL.TERRAIN> <= 499)
+	return 1
+elif (<LOCAL.TERRAIN> >= 622) && (<LOCAL.TERRAIN> <= 633)
+	return 1
+elif (<LOCAL.TERRAIN> >= 638) && (<LOCAL.TERRAIN> <= 641)
+	return 1
+elif (<LOCAL.TERRAIN> >= 804) && (<LOCAL.TERRAIN> <= 940)
+	return 1
+elif (<LOCAL.TERRAIN> >= 1351) && (<LOCAL.TERRAIN> <= 1366)
+	return 1
+elif (<LOCAL.TERRAIN> >= 1431) && (<LOCAL.TERRAIN> <= 1446)
+	return 1
+elif (<LOCAL.TERRAIN> >= 1966) && (<LOCAL.TERRAIN> <= 1969)
+	return 1
+elif (<LOCAL.TERRAIN> >= 1090) && (<LOCAL.TERRAIN> <= 1145)	// Sand stones
+	return 1
+elif (<LOCAL.TERRAIN> >= 1281) && (<LOCAL.TERRAIN> <= 1296)	// Sand stones
+	return 1
+elif (<LOCAL.TERRAIN> >= 9) && (<LOCAL.TERRAIN> <= 21)		// Furrows
+	return 1
+elif (<LOCAL.TERRAIN> >= 336) && (<LOCAL.TERRAIN> <= 348)	// Furrows
+	return 1
+else
+	return 0
+endif
+
+
+[FUNCTION HouseValue]
+if (<TYPE> != t_multi_custom)
+	return <VALUE>
+else
+	return <eval <VALUE>+((((<QVAL (<isempty <ARGS>>)? <COMPONENTS>:<ARGS>> - <TAG0.COMPONENTS>)-<AREA.X>-1)*<DEF.scp.House_PricePerComp>))>
+endif
+
+
+[FUNCTION HouseChangeFoundationStyle]
+REF1=<REGION.UID>
+REF1.REVERT
+LOCAL.ITEM=<ARGS>
+ARGS=<REF1.MULTIREGION>
+REF1.AddItem <STRARG <LOCAL.ITEM>>,<ARGV0>,<ARGV1>,0
+LOCAL.ITEM=<STREAT <LOCAL.ITEM>>
+for <ARGV2> <eval <ARGV0>+1>
+	REF1.AddItem <STRARG <LOCAL.ITEM>>,<LOCAL._FOR>,<ARGV1>,0
+	REF1.AddItem <STRARG <LOCAL.ITEM>>,<LOCAL._FOR>,<eval <ARGV3>-1>,0
+endfor
+LOCAL.ITEM=<STREAT <LOCAL.ITEM>>
+for <eval <ARGV3>-1> <eval <ARGV1>+1>
+	REF1.AddItem <STRARG <LOCAL.ITEM>>,<ARGV0>,<LOCAL._FOR>,0
+	REF1.AddItem <STRARG <LOCAL.ITEM>>,<ARGV2>,<LOCAL._FOR>,0
+endfor
+LOCAL.ITEM=<STREAT <LOCAL.ITEM>>
+REF1.AddItem <STRARG <LOCAL.ITEM>>,<ARGV2>,<eval <ARGV3>-1>,0
+REF1.Commit
+
+
+[FUNCTION TradeWindow] //Credits to Terrikate for provide the function engine
+REF1=<SRC>
+REF2=<UID>
+REF3=<ARGS>
+if (<REF1>==<REF2>) || !((<REF1.ISPLAYER>) && (<REF2.ISPLAYER>))
+	return 1
+endif
+for 2
+	SERV.NEWITEM i_bulletin_board
+	LOCAL.TRADE_WINDOW_<dLOCAL._FOR>=<NEW>
+	NEW.TYPE t_eq_trade_window
+	REF<LOCAL._FOR>.EQUIP <NEW>
+endfor
+UID.<LOCAL.TRADE_WINDOW_1>.LINK=<LOCAL.TRADE_WINDOW_2>
+UID.<LOCAL.TRADE_WINDOW_2>.LINK=<LOCAL.TRADE_WINDOW_1>
+if (<REF3>)
+	REF3.CONT=<LOCAL.TRADE_WINDOW_1>
+endif
+REF1.SENDPACKET 06F W02F B0 D<REF2> D<LOCAL.TRADE_WINDOW_1> D<LOCAL.TRADE_WINDOW_2> 01 <TradeWindow_PacketSplit <REF2.NAME>>
+REF2.SENDPACKET 06F W02F B0 D<REF1> D<LOCAL.TRADE_WINDOW_2> D<LOCAL.TRADE_WINDOW_1> 01 <TradeWindow_PacketSplit <REF1.NAME>>
+
+[FUNCTION TradeWindow_PacketSplit]
+LOCAL.LENGHT=<eval STRLEN(<ARGS>)>
+ARGS=<ASC <ARGS>>
+for <eval (30-<LOCAL.LENGHT>)>
+	ARGS .= " 00"
+endfor
+return <ARGS>
+
+[FUNCTION codexofwisdom]
+return <DEF.L1>a href = "?ForceTopic<ARGV0>"<DEF.R1><STREAT <ARGS>><DEF.L1>/a<DEF.R1>
+
+[FUNCTION CodexOfWisdomDialog]
+return <DEF.L1>a href = "?ForceTopic<ARGV0>"<DEF.R1><STREAT <ARGS>><DEF.L1>/a<DEF.R1>
+
+
+//////////////////////////////////////////////////////////////////////////////////
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	SRC.TARGETF f_house_release <REF1>
+	SRC.SYSMESSAGE @,,1 Sabitliğini kaldırmak istediğiniz eşyayı seçiniz.
+endif
+
+[SPEECH spk_player_house]
+
+
+ON=I wish to release this
+On=release
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if <src.hits> >= <src.str>
+		SRC.TARGETF f_house_release <REF1>
+		SRC.SYSMESSAGE @1153 Serbest birakmak istediginiz esyayi seciniz.
+	else
+		src.sysmessage @,,1 Yaraliyken kullanamazsınız.
+	endif   
+   endif
+else
+src.sysmessage @1153 Yetkiniz yok.
+return 1
+ENDIF
+
+ON=I wish to lock this down
+on=lock
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if (<REF1.House_AvaibleLockdowns>)
+		SRC.TARGETF f_house_lock <REF1>
+		SRC.SYSMESSAGE @,,1 Neyi sabitlemek istiyorsunuz?
+	else
+		SRC.SYSMESSAGE @,,1 Eve esya sabitleme limiti dolmustur.
+	endif
+endif
+
+
+on=remove
+on=i wish to remove this
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+	if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+		if <src.hits> >= <src.str>
+ 			src.targetf strongboxsil
+   			src.sysmessage @1153 Silmek istediginiz strongbox u seciniz...
+   		else
+   			src.sysmessage @,,1 Yaralıyken kullanamazsınız.
+   		endif
+ 	 else
+  		src.sysmessage @,,1 Sadece kendi evinizde kullanabilirsınız.
+  	endif
+else
+	src.sysmessage @1153 Sadece ev içinde kullanabilirsınız
+	return 1
+endif
+
+on=i wish to place a strongbox
+If (<src.action> == skill_necromancy)
+src.sysmessage @,,1 Büyü atarken konuşamazsınız.
+return 1
+endif
+If (<src.action> == skill_magery)
+src.sysmessage @,,1 Büyü atarken konuşamazsınız.
+return 1
+endif
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+	if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+   		src.strongboxkoy
+	endif
+else
+	src.sysmessage @1153 Sadece ev içinde kullanabilirsiniz
+	return 1
+endif
+
+on=item up
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+ if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+  
+  //if !((<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_tower) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_villa_2story) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_castle) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_keep) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble))
+  // src.sysmessage @,,1 Bu evde herhangi bir esyayi yükseltemezsınız.
+  // return 1
+  //endif
+	
+  if <src.hits> >= <src.str>
+	src.targetf itemup
+  else
+  	src.sysmessage @,,1 Yaralıyken kullanamazsınız.
+  endif
+ endif
+else
+src.sysmessage @1153 Sadece ev içinde kullanabilirsiniz.
+return 1
+endif
+
+on=item down
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+ if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+   // if !((<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_tower) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_villa_2story) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_castle) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_keep) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble))
+   // src.sysmessage @,,1 Bu evde herhangi bir esyayi alcaltamazsin.
+   // return 1
+   // endif
+  //if <src.hits> >= <src.str>
+  src.targetf itemdown
+ // else
+ // src.sysmessage @,,1 Yaraliyken kullanamazsınız.
+ // endif
+ endif
+else
+src.sysmessage @1153 Sadece ev içinde kullanabilirsiniz.
+return 1
+endif
+
+ON=secure
+ON=I wish to secure this down
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if (<REF1.House_AvaibleLockdowns>)
+		SRC.TARGETF f_house_secure <REF1>
+		SRC.SYSMESSAGE @,,1 Guvenli hale getirmek istediginiz esyayi seciniz.
+	else
+		SRC.SYSMESSAGE @,,1 Daha fazla esyayi guvenli yapamassınız cunku guvenli yapma limitiniz dolmustur.
+	endif
+endif
+
+ON=evden ayrıl
+ON=evden ayril
+src.f_evden_ayril
+
+ON=köyden ayrıl
+ON=koyden ayril
+if <src.region.tag.koyburasi>
+src.f_koyden_ayril
+endif
+ON=I ban thee
+if !<src.region.tag.koyburasi>
+	if !<src.findid.i_house_banish>
+		if (<src.flags>&statf_dead)
+			src.sys_error Ölü iken kullanamazsınız.
+			return 1
+		endif
+		if !(<DEF.scp.House_BanEngine>)
+			return 0
+		endif
+		REF1=<UID.<SRC.REGION.UID>.MORE2>
+		if (<REF1.HousePlayerAccess <SRC>> >= 2)
+			TARGETF f_house_banish <REF1>
+			SRC.SYSMESSAGE @,,1 Lutfen evden kovmak istediginiz kisiyi seciniz.
+		endif
+	else
+		src.sys_error 10 saniyede bir evden atabilirsınız.
+		//return 1
+	endif
+endif
+//ON=Remove thyself
+//
+//if (<src.flags>&statf_dead)
+//src.sys_error Ölü iken kullanamazsınız.
+//return 1
+//endif
+//if !(<DEF.scp.House_BanEngine>)
+//	return 0
+//endif
+//REF1=<UID.<SRC.REGION.UID>.MORE2>
+//if (<REF1.HousePlayerAccess <SRC>> >= 2)
+//	SRC.TARGETF f_house_eject <REF1>
+//	SRC.SYSMESSAGE @,,1 Lutfen evden kovmak istediginiz kisiyi seciniz.
+//endif
+
+ON=I wish to place a trash barrel
+if !(<DEF.scp.House_UseTrash>)
+	return 0
+endif
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if ((<SRC.ISNEARTYPE t_door 1>) || (<SRC.ISNEARTYPE t_door_locked 1>))
+		SRC.SYSMESSAGE @,,1 Kapi yada tabelaya yakin bir yere cop kutusu koyamazsınız.
+		return 0
+	else
+		foritems 40
+			if (<BASEID>==i_addon_trash_barrel) && (<UID.<REGION.UID>.MORE2>==<REF1>)
+				P=<SRC.P>
+				return 0
+			endif
+		endfor
+		SERV.NEWITEM i_addon_trash_barrel
+		NEW.P=<SRC.P>
+		NEW.LINK=<NEW.REGION.UID>
+		SRC.SYSMESSAGE @,,1 Yeni bir cop kutusuna sahipsınız.3 dakika sonra cop kutusuna bir seyler koyabilirsınız.Koyduklariniz bir sure sonra silinecektir. Silinen itemleri geti getirmeniz mumkun degildir.!
+	endif
+endif
+
+ON=bank
+if <def.scp.House_AllowBanking> == 0
+	return 0
+endif
+
+
+IF <src.hits> < 25 
+	src.sysmessage @,,1 Canınız azken banka hesabınızı açamazsınız.
+	return 1
+endif
+
+IF (<src.account.tag.pinkabul>==1)
+	ref1 = <uid.<src.region.uid>.more2>
+	if (<ref1.HousePlayerAccess <src.uid>> >= 1)
+		src.bankself
+	endif
+else
+	src.dialog d_pin_giris
+	return 1
+endif
+
+On=house help// evribadi ken du
+IF STRMATCH("t_multi*","<UID.<REGION.UID>.TYPE>")
+src.dialog d_h_help
+endif
+
+//////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_addon_trash_barrel]
+ID=i_barrel_open
+NAME=trash barrel
+
+ON=@Create
+	COLOR=946
+	ATTR=010
+
+ON=@Timer
+if !(<ATTR> & attr_decay)
+	if (<COUNT>)
+		MESSAGE @,,1 Cop kutusu bosaltildi!
+		EMPTY
+	endif
+	return 1
+endif
+
+ON=@DropOn_Self
+if (<RESCOUNT> >= 50)
+	TOPOBJ.MESSAGE @,,1 Cop kutusu dolu bosaltin!
+	EMPTY
+else
+	TOPOBJ.MESSAGE @,,1 Esyalar 3 dakika icerisinde silinecektir.
+	TIMER=180
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+[function fix_doors]
+forinstances i_door_metal
+	if <more2> == 0a036
+		more2 0a492
+	endif
+endfor
+[TYPEDEF t_door_locked]
+ON=@Click
+if (<DEF.scp.House_DoorAccess>)
+	if !(<SERV.FeatureAOS> & 04) || (<SRC.ACCOUNT.RESDISP> < 2)
+		if (<UID.<UID.<REGION.UID>.MORE2>.IsOwner <SRC>>)
+			SDIALOG d_house_access
+		endif
+	endif
+endif
+
+
+ON=@DClick
+REF1=<UID.<REGION.UID>.MORE2>
+if (<TAG0.Access>==5) && !(<UID.<REF1.MORE2>.GUILD>)
+	TAG.Access=4
+endif
+LOCAL.RequiredAccess=<TAG0.Access>
+if !(<REF1.TAG0.Public>) && !(<TAG0.Access>)
+	LOCAL.RequiredAccess=1
+endif
+if (<REF1.HousePlayerAccess <SRC>> >= <LOCAL.RequiredAccess>) || ((<TAG0.Access>==5) && (<SRC.GUILD> == <UID.<REF1.MORE2>.GUILD>))
+	TIMER=0
+	return 1
+endif
+
+if <src.region.tag.koyburasi>
+	if (strmatch("<src.region.tag.koyuid>","<src.tag.koyuid>"))
+		TIMER=0
+	return 1
+	endif
+endif
+	
+
+
+[TYPEDEF t_locked_down]
+
+
+ON=@Click
+if (<TYPE> != t_door_locked)
+	if (<TAG0.Access>)
+		MESSAGE @,,1 [ Sabit & Guvenli ]
+	else
+		MESSAGE @,,1 [ Sabit ]
+	endif
+endif
+
+ON=@DClick
+
+
+if (<TAG0.Access>==5) && !(<UID.<UID.<REGION.UID>.MORE1>.GUILD>)
+	TAG.Access=4
+endif
+
+if !(<CanAccess>)
+	src.sysmessage @,,1 Bunu yapmaya izniniz yok !
+	return 1
+endif
+
+
+if (<CanAccess>)
+local.access = (<baseid> == i_bar_door_ne) || (<baseid> == i_kazan_alchemy) || (<baseid> == i_ankh) || (<baseid> == i_keg_potion) || (<baseid> == i_doom_lamppost) || (<baseid> == i_dice_cup) || (<baseid> == i_bowl_empty) || (<type> == T_DYE_VAT) || (<type> == T_DYE) || (<type> == t_bboard) || (<type> == t_container) || strmatch(*oven*,<baseid>) || strmatch(*forge*,<baseid>) || (<type> == t_light_out) || (<type> == t_light_lit) || (<baseid> == i_ostard_egg_kulucka)
+	
+	if <local.access>
+		return 0
+	else
+		return 1
+	endif
+endif
+
+
+
+
+ON=@DropOn_Self
+if !(<TAG0.Ref>)
+	REF1=<ARGO>
+else
+	REF1=<TAG.Ref>
+	TAG.Ref=
+endif
+REF2=<UID.<REGION.UID>.MORE2>
+LOCAL.Items=1
+if (<REF1.TYPE>==t_container)
+	LOCAL.Items += <REF1.FCOUNT>
+endif
+if (<TAG0.Access>)	//Secured
+	if (<REF2.House_AvaibleStorage> < <LOCAL.Items>)
+		SRC.SYSMESSAGE @,,1 Evin esya limitini asmis bulunmaktasınız.
+		REF1.ATTR |= attr_move_never
+		REF1.TIMERF 1,CONT=<SRC.FINDLAYER.21>
+		REF1.TIMERF 1,ATTR &~ attr_move_never
+		return 0
+	endif
+	if (<TYPE>==t_container)
+		if (<REF1.TYPE>==t_container)
+			REF1.FixHouseSubcontainers 1
+		endif
+		REF2.TAG0.SECURE_CONT += <LOCAL.Items>
+		TAG.FixStack=1,<FCOUNT>
+		timerf 1,f_fix_contitems
+	endif
+	return 0
+else			//Locked
+	if (<REF2.House_AvaibleLockdowns> < <LOCAL.Items>)
+		SRC.SYSMESSAGE @,,1 Evin esya limiti
+		REF1.ATTR |= attr_move_never
+		REF1.TIMERF 1,CONT=<SRC.FINDLAYER.21>
+		REF1.TIMERF 1,ATTR &~ attr_move_never
+		return 0
+	endif
+	if (<TYPE>==t_container)
+		if (<REF1.TYPE>==t_container)
+			REF1.FixHouseSubcontainers 1
+		endif
+		REF2.TAG0.LOCKED_ITEMS += <LOCAL.Items>
+		TAG.FixStack=1,<FCOUNT>
+		timerf 1,f_fix_contitems
+	endif
+	return 0
+endif
+
+ON=@PickUp_Self
+if !(<TAG0.Ref>)
+	REF1=<ARGO>
+else
+	REF1=<TAG.Ref>
+	TAG.Ref=
+endif
+REF2=<UID.<REGION.UID>.MORE2>
+if (<TAG0.Access>)	//Secured
+	REF2.TAG0.SECURE_CONT --
+	if (<REF1.TYPE>==t_container)
+		REF2.TAG0.SECURE_CONT -= <REF1.FCOUNT>
+		REF1.FixHouseSubcontainers 0
+	endif
+	TAG.FixStack=0,<FCOUNT>
+	timerf 1,f_fix_contitems
+	return 0
+else			//Locked
+	REF2.TAG0.LOCKED_ITEMS --
+	if (<REF1.TYPE>==t_container)
+		REF2.TAG0.LOCKED_ITEMS -= <REF1.FCOUNT>
+		REF1.FixHouseSubcontainers 0
+	endif
+	TAG.FixStack=0,<FCOUNT>
+	timerf 1,f_fix_contitems
+	return 0
+endif
+
+ON=@Destroy
+if STRMATCH("t_multi*","<UID.<REGION.UID>.TYPE>")
+	REF1=<UID.<REGION.UID>.MORE2>
+	REF1.TAG0.LOCKED_ITEMS --
+	if (<TYPE>==t_container)
+		if (<TAG0.Access>)	//Secured
+			REF1.TAG0.SECURE_CONT -= <FCOUNT>
+		else			//Locked
+			REF1.TAG0.LOCKED_ITEMS -= <FCOUNT>
+		endif
+	endif
+endif
+
+[TYPEDEF t_subcont]
+ON=@DropOn_Self
+if (<TOPOBJ> != <UID>)
+	TOPOBJ.TAG.Ref=<ARGO>
+	TOPOBJ.TRIGGER @DropOn_Self
+endif
+
+ON=@PickUp_Self
+if (<TOPOBJ> != <UID>)
+	TOPOBJ.TAG.Ref=<ARGO>
+	TOPOBJ.TRIGGER @PickUp_Self
+endif
+
+
+[FUNCTION f_fix_contitems]
+if (<TAG0.FixStack> != 0)
+	HouseFixStackedStorage <TAG0.FixStack>
+	TAG.FixStack=
+endif
+
+[FUNCTION HouseFixStackedStorage]
+if (<FCOUNT> == <ARGV1>)
+	REF1=<UID.<REGION.UID>.MORE2>
+	if (<TAG0.Access>)	//Secured
+		REF1.TAG0.SECURE_CONT = <eval <REF1.TAG0.SECURE_CONT><QVAL (<ARGV0>)? -:+>1>
+	else			//Locked
+		REF1.TAG0.LOCKED_ITEMS = <eval <REF1.TAG0.LOCKED_ITEMS><QVAL (<ARGV0>)? -:+>1>
+	endif
+endif
+return 1
+
+
+[TYPEDEF t_telepad_house]
+
+
+ON=@Step
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if <src.region.tag.koyburasi>
+	if !(strmatch("<src.region.tag.koyuid>","<src.tag.koyuid>"))
+		src.sys_error Sadece köy üyeleri kullanabilir.
+		return 1
+	endif
+elseif !(<REF1.HousePlayerAccess <SRC>> >= 2)
+		SRC.SYSMESSAGE @,,1 Buna erisim izniniz bulunmamaktadir.
+		return 1
+endif
+	
+//	return 1
+//
+//if (<TAG0.Access>==5) && !(<UID.<UID.<REGION.UID>.MORE1>.GUILD>)
+//	TAG.Access=4
+//endif
+//if !(<CanAccess>)
+//	SRC.SYSMESSAGE @,,1 Buna erisim izniniz bulunmamaktadir.
+//	return 1
+//endif
+
+if (<src.findid.i_rune_poison>)
+	src.sys_error Zehirli iken teleport olamazsınız.
+	return 1
+endif
+
+IF <src.hits> < <src.maxhits>
+	src.sysmessage @,,1 Canınız az oldugu icin teleport olamazsınız.
+	return 1
+endif
+
+
+
+[FUNCTION update_rescount]
+REF1=<UID.<REGION.UID>.MORE2>
+if (<TAG0.Access>)	//Secured
+	REF1.TAG0.SECURE_CONT += <FCOUNT>
+else			//Locked
+	REF1.TAG0.LOCKED_ITEMS += <FCOUNT>
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[FUNCTION Notice]
+//closealldialogs
+// if <tag.tns_duyuru>
+	// return 1
+// endif
+// if (<ISPLAYER>)
+	// if (<DEF.scp.House_NoticeSystem>)
+		// TAG.NOTICE=<ARGS>
+		// //EVENTS +e_notice
+		// if (<ISONLINE>)
+			// DIALOG d_notice
+		// endif
+	// else
+		// if (<ISONLINE>)
+			// SYSMESSAGE @,,1 <ARGS>
+		// endif
+	// endif
+// endif
+post_message <args>
+
+
+[FUNCTION Notice2]
+if (<ISPLAYER>)
+	if (<DEF.scp.House_NoticeSystem>)
+		TAG.NOTICE=<ARGS>
+		//EVENTS +e_notice
+		if (<ISONLINE>)
+			TIMERF 1,DIALOG d_notice
+		endif
+	else
+		if (<ISONLINE>)
+			SYSMESSAGE @,,1 <ARGS>
+		endif
+	endif
+endif
+
+[EVENTS e_notice]
+//ON=@Login
+//SDIALOG d_notice
+
+
+[DIALOG d_notice]
+0,0
+//noclose
+
+if !<tag.oku>
+//resizepic 0 0 5054 10 180
+gumppictiled 10 10 300 20 2624
+checkertrans 10 10 300 20
+dhtmlgump 10 10 300 20 0 0 <DEF.L1>basefont color="#f70000"<DEF.R1><DEF.CENTER>North Shield Bildiri
+//gumppictiled 10 40 300 100 2624
+//checkertrans 10 40 300 100
+//gumppictiled 10 150 300 20 2624
+//checkertrans 10 150 300 20
+button 10 10 4005 4007 1 0 1
+dtext 40 10 1152 AÇ
+//
+else
+resizepic 0 0 5054 320 180
+gumppictiled 10 10 300 20 2624
+checkertrans 10 10 300 20
+dhtmlgump 10 10 300 20 0 0 <DEF.L1>basefont color="#f70000"<DEF.R1><DEF.CENTER>North Shield Bildiri
+gumppictiled 10 40 300 100 2624
+checkertrans 10 40 300 100
+gumppictiled 10 150 300 20 2624
+checkertrans 10 150 300 20
+dhtmlgump 10 40 300 100 0 1 <DEF.L1>basefont color="#ffc600"<DEF.R1><TAG0.NOTICE>
+endif
+
+[DIALOG d_notice BUTTON]
+ON=0
+src.TAG.NOTICE=
+src.EVENTS -e_notice
+src.tag.oku
+
+on=1
+src.closealldialogs
+src.EVENTS -e_notice
+src.tag.oku 1
+src.DIALOG d_notice
+src.tag.oku
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[ITEMDEF i_house_placement_tool]
+ID=014f6
+NAME=House Placement Tool
+VALUE=600
+DUPELIST=014f5
+
+ON=@DClick
+if !<src.isgm>
+if (<SRC.MAP> != 0)
+	src.sys_error Sosoria dışındaki hiç bir alana ev kurulumu yapamazsınız.
+	return 1
+endif
+if (<src.memoryfindtype.(memory_guard)>)
+	if !(<src.memoryfindtype.(memory_guard).link.type> == t_ship)
+		src.sysmessage @69,1,1 Ikinci bir ev kurabilmek icin diger evinizi yikmalisınız.
+		return 1
+	endif
+endif
+endif
+SDIALOG d_house_placement_tool
+return 1
+
+
+[DIALOG d_house_placement_tool]
+50,50
+
+page 0
+if !(<SRC.ISGM>) && (<DEF0.scp.House_PlaceWaitPeriod>) && (<SRC.TAG0.House.PlacementDelay> > <SERV.TIME>)
+	LOCAL.X=330
+	LOCAL.Y=220
+else
+	LOCAL.X=250
+	LOCAL.Y=125
+endif
+
+resizepic 0 0 5054 <eval <LOCAL.X>+20> <eval <LOCAL.Y>+20>
+gumppictiled 10 10 <dLOCAL.X> <dLOCAL.Y> 2624
+checkertrans 10 10 <dLOCAL.X> <dLOCAL.Y>
+dhtmlgump 10 10 <LOCAL.X> 20 0 0 <DEF.BFONT_white><DEF.CENTER>EV KURULUM ARACI<DEF.CENTERE>
+
+dtext 45 40 1152 Klasik Evler
+
+dtext 45 60 1152 2-Dekore Edilebilir Evler
+
+dtext 45 80 1152 3-Buyuk Dekore Edilebilir Evler
+if !(<SRC.ISGM>) && (<DEF0.scp.House_PlaceWaitPeriod>) && (<SRC.TAG0.House.PlacementDelay> > <SERV.TIME>)
+	dhtmlgump 10 105 330 90 0 0 <DEF.BFONT_yellow>Ev kurulumunu yeni gerceklestirdiginiz icin yeni bir ev kurulumunu ya da transferini 7 gun boyunca gerceklestiremessınız.
+	LOCAL.Y=205
+else
+	button 10 40 4005 4007 1 0 1
+	button 10 60 4005 4007 1 0 2
+	button 10 80 4005 4007 1 0 3
+	LOCAL.Y=110
+endif
+button 10 <LOCAL.Y> 4017 4019 1 0 0
+dtext 45 <LOCAL.Y> 1152 Kapat
+
+[DIALOG d_house_placement_tool BUTTON]
+ON=1
+SDIALOG d_house_placement_tool_classic
+
+ON=2
+if <src.isgm>
+	SDIALOG d_house_placement_tool_custom_2story
+	return 1
+endif
+if strmatch(*Britain*,<src.region.name>)
+	src.sys_error Britain'a tasarlanabilir ev kurulamamaktadir.
+	return 1
+else
+	SDIALOG d_house_placement_tool_custom_2story
+endif
+
+ON=3
+if <src.isgm>
+	SDIALOG d_house_placement_tool_custom_3story
+	return 1
+endif
+if strmatch(*Britain*,<src.region.name>)
+	src.sys_error Britain'a tasarlanabilir ev kurulamamaktadir.
+	return 1
+else
+	SDIALOG d_house_placement_tool_custom_3story
+endif
+
+[FUNCTION RenderPlacementToolDialogBackground]
+resizepic 0 0 5054 520 420
+gumppictiled 10 10 500 20 2624
+checkertrans 10 10 500 20
+dhtmlgump 10 10 500 20 0 0 <DEF.BFONT_white><DEF.CENTER>EV KURULUM ARACI<DEF.CENTERE>
+gumppictiled 10 40 500 20 2624
+checkertrans 10 40 500 20
+dtext 50 40 1152 Evin tanimi :
+dtext 275 40 1152 E.Kapasite :
+dtext 350 40 1152 Kilit.Esy.
+dtext 425 40 1152 Fiyati
+gumppictiled 10 70 500 280 2624
+checkertrans 10 70 500 280
+gumppictiled 10 360 500 20 2624
+checkertrans 10 360 500 20
+dtext 10 360 1152 Bank Balance:
+dtext 250 360 1152 <SRC.BANKBALANCE>
+gumppictiled 10 390 500 20 2624
+checkertrans 10 390 500 20
+button 10 390 4017 4019 1 0 0
+dtext 50 390 1152 Kapat
+
+[FUNCTION RenderPlacementToolDialogPage]
+if (<LOCAL.Y> > 340)
+	button 450 390 4005 4007 0 <eval <LOCAL.PAGE>+1> 0
+	dtext 400 390 1152 Ileri
+	LOCAL.PAGE ++
+	page <LOCAL.PAGE>
+	button 200 390 4014 4016 0 <eval <LOCAL.PAGE>-1> 0
+	dtext 250 390 1152 Geri
+	LOCAL.Y=70
+endif
+
+
+[DIALOG d_house_placement_tool_classic]
+50,50
+
+page 0
+RenderPlacementToolDialogBackground
+
+page 1
+LOCAL.PAGE=1
+LOCAL.Y=70
+for 1 15
+	if (<SERV.ITEMDEF.<DEF.house_classic_<dlocal._for>>>)
+		LOCAL.STORAGE=<AreaStorage (<AREA <DEF.house_classic_<dlocal._for>>>)>
+		button 10 <LOCAL.Y> 4005 4007 1 0 <local._for>
+		dtext 50 <LOCAL.Y> 1152 <SERV.ITEMDEF.<DEF.house_classic_<dlocal._for>>.NAME>
+		dtext 275 <LOCAL.Y> 1152 <dLOCAL.Storage>
+		dtext 350 <LOCAL.Y> 1152 <eval <LOCAL.Storage>/2>
+		dtext 425 <LOCAL.Y> 1152 <SERV.ITEMDEF.<DEF.house_classic_<dlocal._for>>.VALUE>
+		LOCAL.Y += 20
+		CALL RenderPlacementToolDialogPage
+	endif
+endfor
+
+[DIALOG d_house_placement_tool_classic BUTTON]
+ON=0
+SDIALOG d_house_placement_tool
+
+ON=1 20
+SRC.f_house_placement <DEF.house_classic_<ARGN>>
+
+
+[DIALOG d_house_placement_tool_custom_2story]
+50,50
+
+page 0
+RenderPlacementToolDialogBackground
+
+page 1
+LOCAL.PAGE=1
+LOCAL.Y=70
+for 1 47
+	if (<SERV.ITEMDEF.<DEF.house_custom_2story_<dlocal._for>>>)
+		LOCAL.STORAGE=<AreaStorage (<AREA <DEF.house_custom_2story_<dlocal._for>>>)>
+		button 10 <LOCAL.Y> 4005 4007 1 0 <local._for>
+		dtext 50 <LOCAL.Y> 1152 <SERV.ITEMDEF.<DEF.house_custom_2story_<dlocal._for>>.NAME>
+		dtext 275 <LOCAL.Y> 1152 <dLOCAL.Storage>
+		dtext 350 <LOCAL.Y> 1152 <eval <LOCAL.Storage>/2>
+		dtext 425 <LOCAL.Y> 1152 <SERV.ITEMDEF.<DEF.house_custom_2story_<dlocal._for>>.VALUE>
+		LOCAL.Y += 20
+		CALL RenderPlacementToolDialogPage
+	endif
+endfor
+
+[DIALOG d_house_placement_tool_custom_2story BUTTON]
+ON=0
+SDIALOG d_house_placement_tool
+
+ON=1 47
+SRC.f_house_placement <DEF.house_custom_2story_<ARGN>>
+
+
+[DIALOG d_house_placement_tool_custom_3story]
+50,50
+
+page 0
+RenderPlacementToolDialogBackground
+
+page 1
+LOCAL.PAGE=1
+LOCAL.Y=70
+for 1 55
+	if (<SERV.ITEMDEF.<DEF.house_custom_3story_<dlocal._for>>>)
+		LOCAL.STORAGE=<AreaStorage (<AREA <DEF.house_custom_3story_<dlocal._for>>>)>
+		button 10 <LOCAL.Y> 4005 4007 1 0 <local._for>
+		dtext 50 <LOCAL.Y> 1152 <SERV.ITEMDEF.<DEF.house_custom_3story_<dlocal._for>>.NAME>
+		dtext 275 <LOCAL.Y> 1152 <dLOCAL.Storage>
+		dtext 350 <LOCAL.Y> 1152 <eval <LOCAL.Storage>/2>
+		dtext 425 <LOCAL.Y> 1152 <SERV.ITEMDEF.<DEF.house_custom_3story_<dlocal._for>>.VALUE>
+		LOCAL.Y += 20
+		CALL RenderPlacementToolDialogPage
+	endif
+endfor
+
+[DIALOG d_house_placement_tool_custom_3story BUTTON]
+ON=0
+SDIALOG d_house_placement_tool
+
+ON=1 55
+SRC.f_house_placement <DEF.house_custom_3story_<ARGN>>
+
+
+////////////////////////////////////////
+
+
+[FUNCTION f_house_placement]
+SERV.NEWITEM i_gold
+NEW.TYPE=t_deed
+NEW.MORE1=<ARGS>
+NEW.CONT <SRC.FINDLAYER.21>
+NEW.REMOVEFROMVIEW
+NEW.USE
+
+
+[FUNCTION HouseIsPlaced]
+SERV.NEWITEM i_gold
+NEW.P <STREAT <STREAT <ARGS>>>
+NEW.REMOVEFROMVIEW
+REF1=<NEW.REGION.UID>
+if (<REF1.DISPID>==<STRARG <ARGS>>)
+	REF1.TAG.PLACEMENT=<STRARG <STREAT <ARGS>>>
+endif
+NEW.REMOVE
+
+//////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_house_interior_decorator]
+ID=0fc1
+NAME=Interior Decorator
+VALUE=10000
+
+ON=@ClientToolTip
+if (<TAG0.MODE>)
+	SRC.ADDCLILOC <eval 1018322+<TAG0.MODE>>
+endif
+
+ON=@Click
+if (<TAG0.MODE>==1)
+	MESSAGE (turn)
+elif (<TAG0.MODE>==2)
+	MESSAGE (up)
+elif (<TAG0.MODE>==3)
+	MESSAGE (down)
+endif
+
+ON=@DClick
+REF1=<REGION.UID>
+if (<CONT.TOPOBJ> != <SRC>)
+	SRC.SYSMESSAGE @,,1 That must be in your pack for you to use it.
+	return 1
+elif !(<SRC.IsOnHouse>) || (<UID.<REF1.MORE2>.HousePlayerAccess <SRC>> < 3)
+	SRC.SYSMESSAGE @,,1 Bu islemi yapabilmeniz icin evinizde olmaniz gerekiyor.
+	return 1
+elif !(<TAG0.MODE>)
+	SDIALOG d_house_interior_decorator
+else
+	TAG.House=<REGION.UID>
+	TARGET
+endif
+return 1
+
+ON=@TargOn_Char
+TAG.House=
+return 1
+
+ON=@TargOn_Cancel
+TAG.House=
+
+ON=@TargOn_Item
+if (<ARGO> == <UID>)
+	TAG.House=
+	TAG.Mode=
+	SDIALOG d_house_interior_decorator
+	return 1
+else
+	if (<SRC.REGION.UID> != <TAG0.HOUSE>) || !(<SRC.IsOnHouse>)
+		SRC.SYSMESSAGE @,,1 You must be in your house to do this.
+	elif (<ARGO.CONT>) || (<ARGO.REGION.UID> != <TAG0.HOUSE>) || !(<ARGO.IsOnHouse>)
+		SRC.SYSMESSAGE @,,1 Bu evinizde degil.
+	elif !(<ARGO.IsStorage>)
+		SRC.SYSMESSAGE @,,1 Bu kilitli degil.
+	elif (<ARGO.WEIGHT> > 100)
+		SRC.SYSMESSAGE @,,1 Bu cok agir. Sabitleyemezsınız. Evin zeminine zarar !
+	else
+		TAG.House=
+		if (<TAG0.Mode>==1)
+			if !(<ARGO.FLIP>)
+				SRC.SYSMESSAGE @,,1 Bunu donduremezsınız !
+			else
+				ARGO.FLIP
+			endif
+			return 1
+		elif (<TAG0.MODE>==2)
+			if (<ARGO.HouseFloor <ARGO.Z>> != <ARGO.HouseFloor <eval <ARGO.Z>+<ARGO.HEIGHT>+3>>)
+				SRC.SYSMESSAGE @,,1 Bunu daha yukseltemezsınız.
+			else
+				ARGO.NUDGEUP
+			endif
+			return 1
+		elif (<TAG0.MODE>==3)
+			if (<ARGO.HouseFloor <ARGO.Z>> != <ARGO.HouseFloor <eval <ARGO.Z>-1>>)
+				SRC.SYSMESSAGE @,,1 Bunu daha assa indiremezsınız.
+			else
+				ARGO.NUDGEDOWN
+			endif
+			return 1
+		endif
+	endif
+	return 1
+endif
+
+
+[DIALOG d_house_interior_decorator]
+150,50
+
+resizepic 0 0 2600 200 200
+button 50 45 2152 2154 1 0 1
+dhtmlgump 90 50 70 40 0 0 Turn
+button 50 95 2152 2154 1 0 2
+dhtmlgump 90 100 70 40 0 0 Up
+button 50 145 2152 2154 1 0 3
+dhtmlgump 90 150 70 40 0 0 Down
+
+[DIALOG d_house_interior_decorator BUTTON]
+ON=1 3
+TAG.Mode=<ARGN>
+DClick
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+[EVENTS e_house_customize]
+ON=@SkillStart
+SYSMESSAGE @,,1 Evi dekore ederken bunu yapamazsınız.
+return 1
+
+ON=@SkillPreStart
+SYSMESSAGE @,,1 Evi dekore ederken bunu yapamazsınız.
+return 1
+
+ON=@SkillWait
+SYSMESSAGE @,,1 Evi dekore ederken bunu yapamazsınız.
+return 1
+
+ON=@SkillUseQuick
+return 1
+
+ON=@GetHit
+return 1
+
+ON=@Login
+TRIGGER @HouseDesignExit
+
+ON=@DClick
+SYSMESSAGE @,,1 Evi dekore ederken bunu yapamazsınız.
+return 1
+
+ON=@ItemDClick
+SYSMESSAGE @,,1 Evi dekore ederken bunu yapamazsınız.
+return 1
+
+ON=@EnvironChange
+if !(<HouseDesign>)
+	TRIGGER @HouseDesignExit
+endif
+
+ON=@HouseAddItem
+if <tag0.commithouse> == 1
+	return 1
+endif
+
+ON=@HouseDesignButton
+if <tag0.commithouse> == 1
+	return 1
+endif
+
+ON=@HouseDesignCommit
+LOCAL.CURCOST = (<ARGN2>-<ARGN1>)*<DEF.scp.House_PricePerComp>
+LOCAL.OLDCOST = (<ARGO.HouseValue <ARGN1>>*<DEF.scp.House_DemolishRefund>)/100
+LOCAL.NEWCOST = <LOCAL.OLDCOST>+<LOCAL.CURCOST>
+ARGO.TAG.CUSTOMIZE.INFO=<LOCAL.OLDCOST>,<LOCAL.NEWCOST>,<LOCAL.CURCOST>
+ARGO.SDIALOG d_house_customize_commit
+tag.commithouse = 1
+return 1
+
+ON=@HouseDesignExit
+EVENTS -e_house_customize
+//nightsight 0
+DSPEECH -spk_house_customize
+tag.commithouse =
+timerf 1, go <tag.location_p>
+ref1 <tag.location_uid>
+ref1.p=<tag.location_p>
+tag.location_uid
+tag.location_p
+update
+timerf 2,sector.allclients update
+
+
+[DIALOG d_house_customize_commit]
+50,50
+noclose
+
+ARGS=<TAG0.CUSTOMIZE.INFO>
+resizepic 0 0 5054 320 320
+gumppictiled 10 10 300 20 2624
+gumppictiled 10 40 300 240 2624
+gumppictiled 10 290 300 20 2624
+checkertrans 10 10 300 300
+dhtmlgump 10 10 300 20 0 0 <DEF.L1>basefont color="#fffC00"<DEF.R1><DEF.CENTER>TASARIM TAAHHUTU
+dhtmlgump 10 40 300 140 0 1 <DEF.L1>basefont color="#ff3ff"<DEF.R1> Evinizin yeni dizaynini gerceklestirmek uzerezesınız.Eger tasarim ucreti evinizden fazla ise bankanizdan alinacaktir yada az ise fazla alinan miktar bankaniza iade edilecektir.
+dhtmlgump 10 190 150 20 0 0 <DEF.L1>basefont color="#fffC00"<DEF.R1>Bank Balance:
+dtext 170 190 55 <SRC.BANKBALANCE>
+dhtmlgump 10 215 150 20 0 0 <DEF.L1>basefont color="#ff3ff"<DEF.R1>Eski Ev Fiyati:
+dtext 170 215 90 <dARGV[0]>
+dhtmlgump 10 235 150 20 0 0 <DEF.L1>basefont color="#ff3ff"<DEF.R1>Dizayn Fiyati:
+dtext 170 235 90 <dARGV[1]>
+dhtmlgump 10 260 150 20 0 0 <DEF.L1>basefont color="#f01C00"<DEF.R1>Toplam Ucret:
+dtext 170 260 40 <dARGV[2]>
+button 10 290 4005 4007 1 0 1
+dhtmlgump 45 290 80 20 0 0 <DEF.BFONT_WHITE>OKAY
+button 170 290 4005 4007 1 0 0
+dhtmlgump 205 290 80 20 0 0 <DEF.BFONT_WHITE>CANCEL
+
+[DIALOG d_house_customize_commit BUTTON]
+ON=0 1
+src.tag.commithouse =
+if (<ARGN>==1)
+	if !<src.region.tag.koyburasi>
+	ARGS=<TAG.CUSTOMIZE.INFO>
+	LOCAL.OLDCOST = <dARGV[0]>
+	LOCAL.NEWCOST = <dARGV[1]>
+	LOCAL.CURCOST = <dARGV[2]>
+	if (<SRC.ISGM>)
+		if (<LOCAL.CURCOST> < 0)
+			SRC.SYSMESSAGE @,,1 <eval <LOCAL.CURCOST>*-1> kadar altin hesabiniza yatirilmistir.
+		elif (<LOCAL.CURCOST> > 0)
+			SRC.SYSMESSAGE @,,1 <dLOCAL.CURCOST> kadar altin hesabinizdan alinmistir.
+		endif
+	else
+		
+		if (<SRC.BANKBALANCE> < <LOCAL.CURCOST>)
+			SRC.SYSMESSAGE @,,1 Bu dizayn ucretini karsilayacak kadar paraniz yok.
+			return 1
+		endif
+		SRC.SYSMESSAGE @,,1 Yeni ev dizayniniz gerceklestirilmistir.
+		if (<LOCAL.CURCOST> == 0)
+			SRC.SYSMESSAGE @,,1 Yeni ev tasarimiyla, eski ev fiyati ayni oldugu icin parasal hic bir islem yapilmamistir.
+		elif (<LOCAL.CURCOST> < 0)
+			LOCAL.CURCOST = <eval ((<LOCAL.CURCOST>*-1)*<DEF.scp.House_DemolishRefund>)/100>
+			SRC.GOLD += <dLOCAL.CURCOST>
+			SRC.SYSMESSAGE @,,1 Eski eviniz yeni tasarimdan daha pahali oldugu icin, <dLOCAL.CURCOST> kadar altin hesabiniza geri iade edilmistir.
+		else
+			SRC.GOLD -= <dLOCAL.CURCOST>
+			SRC.SYSMESSAGE @,,1 <dLOCAL.CURCOST> gold has been taken out of your account to pay for the construction.
+		endif
+		
+	endif
+	endif
+	RESYNC <src.uid>
+	COMMIT
+	ENDCUSTOMIZE
+	TIMERF 1,FixCustomization
+endif
+TAG.CUSTOMIZE.INFO=
+return 1
+
+
+[FUNCTION FixCustomization]
+REF1=<REGION.UID>
+foritems 20
+	if (<LINK>==<REF1>)
+		if (<TYPE>==t_door)
+			TYPE=t_door_locked
+		elif (<TYPE>==t_telepad)
+			EVENTS=+t_telepad_house
+		endif
+	endif
+endfor
+
+
+[SPEECH spk_house_customize]
+ON=*
+SRC.SYSMESSAGE @,,1 Evi dekore ederken konusamazsınız.
+return 1
+
+[FUNCTION f_custom_house]
+local.subcmd = <local.7><local.8>
+if (<local.subcmd> == 06) || (<local.subcmd> == 0d) || (<local.subcmd> == 013)
+	if <uid.<local.char>.trigger @HouseAddItem> == 1
+		uid.<uid.<local.char>.housedesign>.resync <local.char>
+		return 1
+	endif
+endif
+if (<local.subcmd> == 02) || (<local.subcmd> == 03) || (<local.subcmd> == 04) || (<local.subcmd> == 010) || (<local.subcmd> == 01a)
+	if <uid.<local.char>.trigger @HouseDesignButton> == 1
+		uid.<uid.<local.char>.housedesign>.resync <local.char>
+		return 1
+	endif
+endif
+
+[EOF]

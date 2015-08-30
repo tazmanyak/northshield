@@ -1,0 +1,24 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 51]
+DEFNAME=SKILL_CHIVALRY
+KEY=Chivalry
+TITLE=Paladin
+STAT_STR=100
+STAT_INT=35
+STAT_DEX=55
+BONUS_STR=80
+BONUS_DEX=20
+BONUS_INT=0
+BONUS_STATS=10
+//ADV_RATE=10.0,150.0,600.0
+//ADV_RATE=0,0,0
+
+
+[eof]

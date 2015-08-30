@@ -1,0 +1,114 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0f66]
+DEFNAME=i_easel_with_canvas
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 86.8, t_carpentry
+RESOURCES=20 i_log
+WEIGHT=24
+DUPELIST=0f68,0f6a
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Easel with Canvas
+
+[ITEMDEF 0f68]
+DUPEITEM=0f66
+
+[ITEMDEF 0f6a]
+DUPEITEM=0f66
+
+[ITEMDEF 01e2e]
+DEFNAME=i_dartboard
+NAME=Dartboard
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 15.7, t_carpentry
+RESOURCES=5 i_log
+WEIGHT=10
+DUPELIST=01e2f
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Dartboard
+
+[ITEMDEF 01e2f]
+DUPEITEM=01e2e
+
+[ITEMDEF 01e5e]
+DEFNAME=i_bulletin_board
+NAME=Bulletin Board
+TYPE=T_BBOARD
+TDATA2=0866
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+RESOURCES=50 i_log
+WEIGHT=25
+DUPELIST=01e5f
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Bulletin Board
+
+[ITEMDEF 01e5f]
+DEFNAME=i_bulletin_board_2
+DUPEITEM=01e5e
+
+[ITEMDEF 024cb]
+DEFNAME=i_shoji_screen
+NAME=Shoji Screen
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 80.0, TAILORING 50.0, t_carpentry
+RESOURCES=75 i_log, 60 i_cloth
+WEIGHT=10
+DUPELIST=024cd
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Shoji Screen
+
+[ITEMDEF 024cd]
+DUPEITEM=024cb
+
+[ITEMDEF 024d1]
+DEFNAME=i_bamboo_screen
+NAME=Bamboo Screen
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 80.0, TAILORING 50.0, t_carpentry
+RESOURCES=75 i_log, 60 i_cloth
+WEIGHT=10
+DUPELIST=024d2
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Bamboo Screen
+
+[ITEMDEF 024d2]
+DUPEITEM=024d1
+
+[ITEMDEF 02ddd]
+DEFNAME=i_podium_elven
+NAME=Elven Podium
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+RESOURCES=20 i_log
+WEIGHT=15
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Elven Podium
+
+[ITEMDEF 02ff4]
+DEFNAME=i_parrot_perch
+NAME=Parrot Perch
+TYPE=t_parrot_perch
+SKILLMAKE=CARPENTRY 50.0, t_carpentry
+RESOURCES=50 i_log
+WEIGHT=15
+DUPELIST=02ff5
+CATEGORY=Decoration - Furniture
+SUBSECTION=Misc
+DESCRIPTION=Parrot Perch
+
+[ITEMDEF 02ff5]
+DUPEITEM=02ff4
+
+[eof]

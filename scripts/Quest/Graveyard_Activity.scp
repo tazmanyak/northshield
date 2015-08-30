@@ -1,0 +1,298 @@
+[itemdef i_graveyard_activity]
+id 01f18
+name Graveyard Activity
+
+
+on=@create
+color 07a1
+attr 08000
+tag.npc 20
+tag.boss 20
+tag.durum 0
+tag.ata 20
+
+on=@click
+if (<timer> > 1)
+	message @69,,1 Tekrar aktif olmasina:
+	message @33,,1 0 : <eval <timer>/60> : <eval (<timer> - (<timer> / 60) * 60)> 
+else
+	message @69,,1 ( Aktif )
+	message @,,1 Kalan Npc: <eval <tag.boss>>
+endif
+
+on=@timer
+if (<eval <tag.durum>> == 1)
+	f_graveyard_activity
+	tag.durum 0
+	timerf 5,tag.npc <tag.ata>
+	timerf 6,tag.boss <tag.ata>
+	timer 10
+	return 1
+endif
+
+
+if (<eval <tag.npc>> > 0)
+
+	//if (<eval <tag.ratmen>> == 1)
+		serv.newnpc { C_M_SKELETONARCHER 3 c_zombie 3 c_headless 3 c_skeleton 3 c_ghoul 3 c_headless 3 c_headless 3 c_skeleton_mage 2 c_skeleton_knight 2 c_lich 1}
+	//else
+	//	serv.newnpc { c_ratman 1 c_ratman_w_sword 1 c_ratman_w_mace 1 c_rat_giant 1 c_ratman_mage 1}
+	//endif
+
+	NEW.REMOVEFROMVIEW
+	NEW.FLAGS |= <DEF.STATF_INVISIBLE>
+	NEW.P=<P>
+	NEW.MOVE <HVAL {-100 100}> <HVAL {-100 100}>
+		WHILE (<NEW.ISSTUCK>) || (<NEW.ISNEARTYPE T_WATER>) || (<NEW.P.TERRAIN> == 0244) || (<NEW.ISNEARTYPE T_WALL>) || !(strmatch("<New.region.name>","<region.name>"))
+		NEW.P=<P>
+		NEW.MOVE <HVAL {-100 100}> <HVAL {-100 100}>
+		NEW.FIX
+		ENDWHILE
+	NEW.HOME=<NEW.P>
+	NEW.KARMA -5000
+	NEW.HOMEDIST=2
+        NEW.FLAGS &= ~<DEF.STATF_INVISIBLE>
+	tag.npc --
+        new.events +e_graveyard_activity_npc
+	NEW.UPDATE
+	new.tag.activity <uid>
+	timer 1
+	return 1
+endif
+
+
+timer -1
+return 1
+
+on=@dclick
+//f_graveyard_activity
+return 1
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_graveyard_activity]
+
+if (<eval <tag.boss>> == 0)
+
+forplayers 100
+	if <isevent.e_graveyard_activity_player>
+		f_graveyard_activity_hediye
+	endif
+endfor
+
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_graveyard_activity_hediye]
+
+ref1 <uid>
+
+if <isevent.e_graveyard_activity_player>
+	ref1.gold += <eval <ref1.tag.activity_point>*100>
+	ref1.sysmessage @55,,1 Bankaniza <eval <ref1.tag.activity_point>*100> Gold aktarildi.
+	message @69,,1 Tebrikler !
+		if (<eval <tag.activity_point>> > 5)
+			ref1.f_activity_bonus
+		endif
+	tag.activity_point
+	events -e_graveyard_activity_player
+
+endif
+
+[function f_activity_bonus]
+
+DORAND 5
+	BEGIN
+		events +e_graveyard_activity_bonus_expo
+		olumlu1 * Expo Bonus *
+	END
+
+	BEGIN
+		events +e_graveyard_activity_bonus_stone
+		olumlu1 * Stone Bonus *
+	END
+
+	BEGIN
+		events +e_graveyard_activity_bonus_kritik
+		olumlu1 * Kritik Bonus *
+	END
+
+	BEGIN
+		events +e_graveyard_activity_bonus_gold
+		olumlu1 * Gold Bonus *
+	END
+
+	BEGIN
+		events +e_graveyard_activity_bonus_tavuk
+		olumlu1 * Converter Bonus *
+	END
+
+ENDDO
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_graveyard_activity_npc]
+//on=@click
+//message @69,,1 [Graveyard]
+
+on=@death
+uid.<tag.activity>.tag.boss --
+uid.<tag.activity>.say @69,,1 Kalan Npc: <eval <uid.<tag.activity>.tag.boss>>
+if (<eval <uid.<tag.activity>.tag.boss>> == 0)
+	uid.<tag.activity>.tag.durum 1
+endif
+//uid.<tag.activity>.f_graveyard_activity
+uid.<tag.activity>.timer 1
+
+
+
+if <act.isplayer>
+	if (strmatch("<uid.<tag.activity>.region.name>","<act.region.name>"))
+		act.sysmessage @69,,1 Graveyard Activity puani kazandiniz. Eger mezarliktan cikarsaniz ve ya oyundan cikarsaniz bu aktiviteden faydalanamicaksiniz.
+			if !<act.tag.activity_point>
+				act.tag.activity_point 1
+			else
+				act.tag.activity_point ++
+			endif
+		act.sysmessage @155,,1 G.A. Puaniniz: <eval <act.tag.activity_point>>
+		act.events +e_graveyard_activity_player
+	else
+		act.sysmessage @33,,1 Mezarligin disinda npc kestiginiz icin aktiviteye dahil olmadiniz.
+	endif
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_graveyard_activity_player]
+on=@RegionLeave
+src.say @33,,1 Aktiviteden ayrildiniz...
+src.tag.activity_point
+src.events -e_graveyard_activity_player
+
+on=@login
+src.tag.activity_point
+src.events -e_graveyard_activity_player
+
+on=@logout
+src.tag.activity_point
+src.events -e_graveyard_activity_player
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_graveyard_activity_bonus_expo]
+
+on=@RegionLeave
+src.say @33,,1 Expo bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_expo
+
+on=@login
+src.say @33,,1 Expo bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_expo
+
+On=@Hit
+if !(<src.isplayer>)
+	argn1 += 4
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+endif
+
+/////////////////////////////////////
+
+[events e_graveyard_activity_bonus_stone]
+
+on=@RegionLeave
+src.say @33,,1 Stone bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_stone
+
+on=@login
+src.say @33,,1 Stone bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_stone
+
+On=@Hit
+if !(<src.isplayer>)
+	IF (RAND(4)==1)
+		argn1 += 8
+		src.stam 0
+		src.olumsuz1 * Stam Shoot *
+	endif
+endif
+
+/////////////////////////////////////
+
+[events e_graveyard_activity_bonus_kritik]
+
+on=@RegionLeave
+src.say @33,,1 Kritik atak bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_kritik
+
+on=@login
+src.say @33,,1 Kritik atak devredisi kaldi...
+src.events -e_graveyard_activity_bonus_kritik
+
+On=@Hit
+if !(<src.isplayer>)
+	IF (RAND(6)==1)
+		argn1 += 20
+		src.olumsuz1 * Kritik Hasar *
+	endif
+endif
+
+/////////////////////////////////////
+
+
+[events e_graveyard_activity_bonus_gold]
+
+on=@RegionLeave
+src.say @33,,1 Gold bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_gold
+
+on=@login
+src.say @33,,1 Gold devredisi kaldi...
+src.events -e_graveyard_activity_bonus_gold
+
+On=@Hit
+if !(<src.isplayer>)
+	//src.gold +=5
+	gold += 5
+	sysmessage @69,,1 Gold bonus!
+endif
+
+/////////////////////////////////////
+
+
+[events e_graveyard_activity_bonus_tavuk]
+
+on=@RegionLeave
+src.say @33,,1 Converter bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_tavuk
+
+on=@login
+src.say @33,,1 Converter bonusunuz devredisi kaldi...
+src.events -e_graveyard_activity_bonus_tavuk
+
+On=@Hit
+if !(<src.isplayer>)
+if !(<src.body> == c_chicken)
+	IF (RAND(4)==1)
+		src.olumsuz * Converter *
+		src.body c_chicken
+		argn1 += 7
+		src.update
+		src.timerf 2,body <src.obody>
+		src.timerf 2,update
+	endif
+endif
+endif
+
+
+
+
+
+
+
+
+
+
+
+[EOF]

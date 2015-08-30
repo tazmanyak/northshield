@@ -1,0 +1,703 @@
+[dialog d_aile_self]
+230,130
+PAGE 0
+//resizepic 0 0 5120 310 280
+//resizepic 12 10 3000 290 260
+
+resizepic 0 0 9200 310 280
+gumppictiled 10 10 290 260 2624
+
+
+dtext 60 20 1153 <serv.name> Account Aile Üyeliği
+dtext 25 50 1153 Hangi karakteri aileye alacaksınız?
+for 0 <eval <account.chars>-1>
+if !strmatch(*Bos Slot*,<account.char.<dlocal._for>.name>)
+dtext 65 <eval (<dlocal._for>*30)+90> 025 <account.char.<dlocal._for>.name>
+endif
+endfor
+for 1 <eval <account.chars>>
+if !strmatch(*Bos Slot*,<account.char.<eval <dlocal._for> -1>.name>)
+<QVAL (<ACCOUNT.CHAR.<eval <dLOCAL._FOR> -1>.UID> != <SRC>)? button 30 <eval (<dlocal._for>*30)+60> 4020 4022 1 0 <dlocal._for> : >
+endif
+endfor
+
+[dialog d_aile_self button]
+on=1 5
+ref1 = <src.account.char.<eval <argn>-1>.uid>
+if (<ref1.uid> == <src.uid>)
+	src.sys_error Zaten bu ailenin kurucususun.
+	return 1
+endif
+if !<isempty <ref1.tag.name.suffix>>
+	src.sys_error Bu karakter zaten bir ailede.
+	return 1
+endif
+
+if <src.gold> < 75000
+		sysmessage @,,1  Yeterli altininiz bulunmuyor. (75.000gp)
+		return 1
+endif
+f_option_mysql 0
+db.connect
+db.query "select ailereis from aileler where id='<dtag0.aileno>'";
+if <db.row.0.ailereis>!=<uid>
+	src.sysmessage @,,1 Bu islemi yalnizca aile reisi kullanabilir.
+else
+	    db.query "select id,aileisim from aileler where yuzukid='<findid.i_yuzuk_aile.uid>'";
+		serv.allclients sys_normal <ref1.name>, <db.row.0.aileisim> isimli aileye katıldı.
+		src.gold -=75000
+		ref1.tag0.name.suffix=" <db.row.0.aileisim>"
+		db.execute "insert into aileuyeleri (aileno,uyeuid) values (<db.row.0.id>,'<ref1>')";
+	
+ 
+endif
+db.close
+
+[function aile_self]
+
+
+
+[function f_aile_geriver]
+forplayers 6144
+	if <tag.masteruid> == <uid>
+		serv.log asd//uid.<tag.masteruid>.aile_deed_ver
+	endif
+endfor	
+
+[function badfamilynames]
+local.desen1="^[a-zA-Z]+[:space:]{1}+[a-zA-Z]+$"
+local.desen2="^[a-zA-Z]+$"
+local.desen3="^[a-zA-Z]+[\']{1}+[a-zA-Z]+$"
+local.desen4="^[a-zA-Z]+[:space:]{1}+[a-zA-Z]+[\']{1}+[a-zA-Z]+$"
+local.desen5="^[a-zA-Z]+[\-]{1}+[a-zA-Z]+$"
+if strregex(<local.desen1>,<args>)
+return 0
+elif strregex(<local.desen2>,<args>)
+return 0
+elif strregex(<local.desen3>,<args>)
+return 0
+elif strregex(<local.desen4>,<args>)
+return 0
+elif strregex(<local.desen5>,<args>)
+return 0
+else
+return 1
+endif
+
+
+[function aile_deed_Ver]
+SRC.NEWITEM=i_aile_belgesi
+SRC.ACT.BOUNCE
+
+
+[plevel 7]
+ailetablo
+ailetablo_sil
+
+[function ailetablo]
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.execute "CREATE TABLE IF NOT EXISTS `aileler` (`id` INT NULL AUTO_INCREMENT PRIMARY KEY,`aileisim` VARCHAR( 14 ) NOT NULL, `ailereis` VARCHAR( 10 ) NOT NULL, `kurulus` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP, `yuzukid` VARCHAR( 15 ) NOT NULL DEFAULT 'NULL', `durum` ENUM( '0', '1' ) NOT NULL DEFAULT '0', `onaylayan` VARCHAR( 10 ) DEFAULT 'NULL')";
+	db.execute "CREATE TABLE IF NOT EXISTS `aileUyeleri` (`id` INT NULL AUTO_INCREMENT PRIMARY KEY ,`aileNo` INT NOT NULL ,`uyeUid` VARCHAR( 10 ) NOT NULL ,`katilmaTarihi` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP )"
+	sysmessage @,,1 tablolar olusturuldu.
+endif
+db.close
+
+[function ailetablo_sil]
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.execute "drop table aileler";
+	db.execute "drop table aileuyeleri"
+endif
+db.close
+
+[function isinfamily]
+if <tag0.aileno>
+	return 1
+else
+	return 0
+endif
+
+[function isfamilyexist]
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select aileisim from aileler where aileisim='<addslashes <args>>'";
+	if <db.row.numrows>
+		return 1
+	else
+		return 0
+	endif
+else
+	return 1
+endif
+db.close
+
+[function isfamilyreqexist]
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select ailereis from aileler where ailereis='<src>'";
+	if <db.row.numrows>
+		return 1
+	else
+		return 0
+	endif
+else
+	return 1
+endif
+db.close
+
+[function staff_aile_msg]
+if <account.plevel> > 1
+	sys_normal <args>
+endif
+
+[plevel 3]
+ailetalep
+
+[function ailetalep]
+clearctags=aile
+ctag0.aile_limit=0
+dialogclose d_aile_yetkili_paneli
+sdialog d_aile_yetkili_paneli
+
+[plevel 1]
+ailem
+ailemi_dagit
+aileden_ayril
+ac
+
+[function ac]
+// src.sys_error Yapılandırma olduğu için bir süre kullanım dışıdır.
+// return 1
+if !<isempty <tag.name.suffix>>
+	serv.allclients ac_x <name>,<tag.name.suffix>,<args>,
+else
+	src.sys_error Herhangi bir aileye mensup değilsiniz.
+	return 1
+endif
+
+[function ac_x]
+if !<isempty <tag.name.suffix>>
+	if strmatch("<argv[1]>","<tag.name.suffix>")
+		sys_normal |<argv[0]>| : <argv[3]>
+	endif
+endif
+return 1
+
+[function ailem]
+if !<isempty <tag.name.suffix>>
+	f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select ailereis from aileler where id='<dtag0.aileno>'";
+		if <db.row.0.ailereis>!=<uid>
+			sysmessage @,,1 Bu islemi yalnizca aile reisi kullanabilir.
+		else
+			db.query "select count(id) from aileuyeleri where aileno='<dtag0.aileno>'";
+			if !<db.row.0>
+				sysmessage @,,1 Ailenizde uye bulunmuyor.
+			else
+				db.query "select id from aileuyeleri where aileno='<dtag0.aileno>'";
+				ctag0.uye_index=0
+				ctag0.uye_id=<db.row.<dctag0.uye_index>.id>
+				sdialog d_aile_menusu
+			endif
+		endif
+	endif
+	db.close
+endif
+
+
+[function ailemi_dagit]
+if !<isempty <tag.name.suffix>>
+	f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select ailereis from aileler where id='<dtag0.aileno>' and ailereis='<uid>'";
+		if !<db.row.numrows>
+			sysmessage @,,1  Bu islemi yalnizca aile reisi kullanabilir.
+		else
+			sdialog d_aile_dagit
+		endif
+	endif
+	db.close
+endif
+
+[function aileden_ayril]
+if !<isempty <tag.name.suffix>>
+	f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select ailereis from aileler where id='<dtag0.aileno>' and ailereis='<uid>'";
+		if <db.row.numrows>
+			sysmessage @,,1  Yalnizca aile uyeleri kullanabilir.
+		else
+			sdialog d_aileden_ayril
+		endif
+	endif
+	db.close
+endif
+
+// -- items
+
+[itemdef i_yuzuk_aile]
+id=i_ring_gold
+type=t_jewelry
+weight=0
+name=aile yuzugu
+
+on=@create
+color=1153
+attr=attr_newbie
+
+on=@click
+messageua 48,6,6,0 [<name>]
+messageua 1000,6,6,0 sahibi: <link.name>
+return 1
+
+
+
+on=@dclick
+if strmatch(<link.account.name> == <src.account.name>)
+	target @048,,1 Aileye almak istediginiz oyuncuyu seciniz.
+	//equip
+	return 1
+endif
+	
+if <link>!=<src>
+	cont=<link.findlayer(layer_pack).uid>
+	link.equip=<uid>
+	update
+	src.sysmessage @,,1  Bu yuzuk size ait degil.
+else
+	target @048,,1 Aileye almak istediginiz oyuncuyu seciniz.
+	equip
+endif
+return 1
+
+
+on=@equip
+	
+if <link>
+	if <link>!=<src>
+		link.equip=<uid>
+		update
+		src.sysmessage @,,1  Bu yuzuk size ait degil.
+	endif
+endif
+
+on=@targon_item
+if <argo.uid> == <uid>
+	src.dialog d_aile_self
+	return 1
+endif
+target @38,,1 Yalnizca oyunculari secebilirsiniz.
+return 1
+
+on=@targon_ground
+target @38,,1 Yalnizca oyunculari secebilirsiniz.
+return 1
+
+on=@targon_char
+
+
+  if <src.targ>==<src>
+	target @38,,1 Kendinizi secemezsiniz.
+  elif !(<src.targ.isplayer>) //|| (<src.targ.account.plevel> > 1)
+	target @38,,1 Yalnizca oyunculari secebilirsiniz.
+  elif <src.targ.isinfamily>
+	target @38,,1 <src.targ.name> <strtrim <src.targ.tag0.name.suffix>> ailesinin mensubu.
+  elif <src.targ.gold> < 75000
+	target @38,,1 <src.targ.name> uyelik icin gereken ucreti odeyecek durumda degil. (75.000gp)
+  elif <src.targ.isdialogopen d_aile_uye_onay>
+	target @38,,1 <src.targ.name> su an zaten bir aile daveti aliyor.
+  else
+	trysrc <src.targ> sdialog d_aile_uye_onay
+  endif
+  return 1
+
+on=@destroy
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select id,uyeuid from aileuyeleri where aileno='<link.dtag0.aileno>'";
+	while <db.row.<dlocal._while>.uyeuid>
+		ref1=<db.row.<dlocal._while>.uyeuid>
+		ref1.tag0.name.suffix=
+		db.execute "delete from aileuyeleri where id='<db.row.<dlocal._while>.id>'";
+		ref1.dialogcloseall
+	endwhile
+	//serv.allclients sys_normal <strtrim <link.tag0.name.suffix>> isimli aile dagildi.
+	link.tag0.name.suffix=
+	link.tag0.aileno=
+	db.execute "delete from aileler where yuzukid='<uid>'";
+	link.closealldialogs
+else
+	return 1
+endif
+db.close
+
+[itemdef i_aile_belgesi]
+id=i_deed
+type=t_script
+value=500000
+name=Aile Belgesi
+weight=5
+
+on=@create
+color=0410
+attr=attr_newbie
+
+on=@click
+message <name>
+return 1
+
+on=@dclick
+if <topobj>!=<src>
+	sysmessage @,,1  Yalnizca cantanizdayken kullanabilirsiniz.
+elif <src.isinfamily>
+	sysmessage @,,1  Sizin zaten bir aileniz var.
+else
+	sdialog d_aile_kurulum
+endif
+return 1
+
+[dialog d_aile_kurulum]
+0,0
+nomove
+resizepic 50 50 5170 450 350
+dhtmlgump 90 55 220 20 0 0 <def.bfont_size5>TNS Aile Kurulum Menusu
+dhtmlgump 80 85 400 90 0 0 Aile kurabilmek icin oncelikle aile ismizin kurallara uygun olmasi gerekmektedir. Bu kurallara asagidan ulasabilirsiniz. Ayrica aile kurulumu icin talepte bulundugunuz an talebiniz yetkili onayina gonderilecektir. Uygun goruldugu taktirde ailenizin kurulum islemi tamamlanacaktir.
+dhtmlgump 100 180 380 120 0 0 <def.bfont_red>1. Hakaret iceren anlamsiz soy isimleri kullanmaniz yasaktir.<def.br>2. Sunucudaki aktif soy isimlerini kullanamazsiniz.<def.br>3. Soy isminin uzunlugu en az 3, en fazla 14 karakter olabilir.<def.br>4. Yalnizca alfabetik karakterler, (')(-) simgeleri ve bosluk karakterini kullanabilirsiniz.
+gumppic 190 300 098e
+dtextentrylimited 205 300 200 20 1152 0 14
+button 210 330 09a8 09a9 1 0 1
+dtext 240 333 0 Gonder
+
+[dialog d_aile_kurulum button]
+on=1
+if <topobj>!=<src>
+	src.sysmessage @,,1  Yalnizca cantanizdayken kullanabilirsiniz.
+elif <src.isinfamily>
+	src.sysmessage @,,1  Sizin zaten bir aileniz var.
+elif <src.isfamilyreqexist>
+	src.sysmessage @,,1  Siz daha onceden aile kurulumu icin talepte bulunmussunuz.
+elif <isempty <argtxt[0]>>
+	src.sysmessage @,,1  Aile ismini girmelisiniz.	
+elif <eval(strlen(<argtxt[0]>))> < 2
+	src.sysmessage @,,1  Aile ismi en az 2, en fazla 14 karakterden olusabilir.
+elif <badfamilynames <argtxt[0]>>
+	src.sysmessage @,,1  Hatali aile ismi girdiniz.
+elif <isfamilyexist <argtxt[0]>>
+	src.sysmessage @,,1  Bu aile ismi daha onceden kayit edilmis.
+else
+	f_option_mysql 0
+	db.connect
+	if <db.connected>
+		local.aileisim=<strtrim <argtxt[0]>>
+		db.execute "insert into aileler (aileisim,ailereis) values ('<addslashes <local.aileisim>>','<src>')";
+		src.sysmessage @,,1 Aile basvurusu talebiniz iletildi.
+		serv.allclients staff_aile_msg -- Yeni Aile Talebi: <local.aileisim>, <src.name>/<src>
+		remove
+	endif
+	db.close
+endif
+
+// --
+
+// -- dialogs
+
+[dialog d_aile_yetkili_paneli]
+0,0
+nomove
+resizepic 50 100 2600 590 400
+dtext 100 120 48 Aile Ismi
+dtext 220 120 48 Kurucu
+dtext 340 120 48 Tarih
+dtext 520 120 48 Onaylayan
+gumppictiled 100 140 500 5 3000
+button 600 460 015a4 015a6 1 0 10000
+button 70 460 015a1 015a3 1 0 10001
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select id,aileisim,ailereis,kurulus,onaylayan,durum from aileler order by kurulus desc limit <dctag0.aile_limit>,15";
+	while <db.row.<dlocal._while>.ailereis>
+		if <db.row.<dlocal._while>.durum>==1
+			local.color=048
+			dtext 520 <eval(<local._while>*20)+150> <local.color> <uid.<db.row.<dlocal._while>.onaylayan>.name>
+		else
+			local.color=38
+			dtext 520 <eval(<local._while>*20)+150> <local.color> -
+			button 65 <eval(<local._while>*20)+150> 4005 4007 1 0 <db.row.<dlocal._while>.id>
+		endif
+		dtext 100 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.aileisim>
+		dtext 220 <eval(<local._while>*20)+150> <local.color> <uid.<db.row.<dlocal._while>.ailereis>.name>
+		dtext 340 <eval(<local._while>*20)+150> <local.color> <db.row.<dlocal._while>.kurulus>
+	endwhile
+endif
+db.close
+
+[dialog d_aile_yetkili_paneli button]
+on=1 9999
+ctag0.aile_id=<dargn>
+sdialog d_aile_onay
+
+on=10000
+ctag0.aile_limit +=16
+sdialog d_aile_yetkili_paneli
+
+on=10001
+if <ctag0.aile_limit> > 0
+	ctag0.aile_limit -=16
+endif
+sdialog d_aile_yetkili_paneli
+
+[dialog d_aile_onay]
+0,0
+nomove
+resizepic 50 50 5170 300 180
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select aileisim,ailereis,kurulus from aileler where id='<dctag0.aile_id>'";
+	dhtmlgump 80 75 280 70 0 0 <db.row.0.aileisim> isimli aile basvurusunu nasil degerlendiriyorsunuz?<def.br><def.bfont_red>Kurucu:<def.bfont_black> <uid.<db.row.0.ailereis>.name><def.br><def.bfont_red>Kurulus:<def.bfont_black> <db.row.0.kurulus>
+	button 80 170 0481 0483 1 0 1
+	dtext 110 170 1152 Onayla
+	button 220 170 047e 0480 1 0 2
+	dtext 250 170 1152 Sil
+endif
+db.close
+
+[dialog d_aile_onay button]
+on=1
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select aileisim,ailereis from aileler where id='<dctag0.aile_id>'";
+	ref1=<db.row.0.ailereis>
+	local.aileisim=<db.row.0.aileisim>
+	ref1.tag0.name.suffix=" <db.row.0.aileisim>"
+	ref1.tag0.aileno=<dctag0.aile_id>
+	serv.newitem i_yuzuk_aile,1,<ref1>,1
+	new.link=<ref1>
+	db.execute "update aileler set durum='1', onaylayan='<src>', yuzukid='<new>' where id='<dctag0.aile_id>'";
+	sysmessage @,,1 Aile basvurusunu kabul ettiniz.
+	if <ref1.isonline>
+		ref1.sysmessage @,,1 Aile basvurunuz <name> tarafindan onaylandi.
+	else
+		ref1.events +e_aile_msg2
+		ref1.tag0.aile_staff=<name>
+	endif
+	serv.allclients sys_normal <local.aileisim> isimli aile <ref1.name> tarafindan kuruldu.
+endif
+db.close
+
+on=2
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select ailereis from aileler where id='<dctag0.aile_id>'";
+	ref1=<db.row.0.ailereis>
+	db.execute "delete from aileler where id='<dctag0.aile_id>'";
+	serv.newitem i_aile_belgesi,1,<ref1.findlayer(layer_pack).uid>
+	sysmessage @,,1 Aile basvurusunu ret ettiniz.
+	if <ref1.isonline>
+		ref1.sysmessage @,,1 Aile basvurunuz <name> tarafindan ret edildi.
+	else
+		ref1.tag0.aile_staff=<name>
+		ref1.events +e_aile_msg1
+	endif
+endif
+db.close
+
+[events e_aile_msg1]
+on=@login
+sysmessage @,,1 Aile basvurunuz <tag0.aile_staff> tarafindan ret edildi.
+tag0.aile_staff=
+events -e_aile_msg1
+
+[events +e_aile_msg2]
+on=@login
+sysmessage @,,1 Aile basvurunuz <tag0.aile_staff> tarafindan onaylandi.
+tag0.aile_staff=
+events -e_aile_msg2
+
+[dialog d_aile_uye_onay]
+0,0
+nomove
+resizepic 75 75 5170 340 140
+dhtmlgump 108 97 270 50 0 0 <link.name> sizi <strtrim <link.tag0.name.suffix>> isimli ailesine davet ediyor. Katilmak ister misiniz?
+button 120 150 4005 4007 1 0 2
+dtext 155 150 0 Evet
+button 270 150 4005 4007 1 0 1
+dtext 305 150 0 Hayir
+
+[dialog d_aile_uye_onay button]
+on=0 1
+if <link.isonline>
+	link.sysmessage @,,1 <src.name> aile davetinizi ret etti.
+endif
+
+on=2
+f_option_mysql 0
+db.connect
+if !<db.connected>
+	link.sysmessage @,,1 Sistem hatasi olustu, yetkililere ulasiniz.
+	sysmessage @,,1 Sistem hatasi olustu, yetkililere ulasiniz.
+else
+	db.query "select id,aileisim from aileler where yuzukid='<uid>'";
+	if !<db.row.numrows>
+		sysmessage @,,1  Boyle bir aile bulunamadi.
+	elif <src.gold> < 75000
+		sysmessage @,,1  Yeterli altininiz bulunmuyor. (75.000gp)
+		link.sysmessage @,,1  <src.name>'in yeterli altini bulunmuyor. (75.000gp)
+	else
+		link.sysmessage @,,1 <src.name> aile davetinizi kabul etti.
+		serv.allclients sys_normal <src.name>, <db.row.0.aileisim> isimli aileye katıldı.
+		src.gold -=75000
+		src.tag0.name.suffix=" <db.row.0.aileisim>"
+		db.execute "insert into aileuyeleri (aileno,uyeuid) values (<db.row.0.id>,'<src>')";
+	endif
+endif
+db.close
+
+[dialog d_aile_menusu]
+0,0
+nomove
+resizepic 100 100 5170 350 215
+dtext 140 130 450 Isim:
+dtext 140 150 450 Durumu:
+dtext 140 170 450 Skilltotal:
+dtext 140 190 450 Stats:
+dtext 140 210 450 Fame/Karma: 
+dtext 140 230 450 Kills/Deaths:
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select uyeuid from aileuyeleri where id='<dctag0.uye_id>'";
+	if <db.row.0>
+		ref1=<db.row.0>
+		dhtmlgump 235 132 200 20 0 0 <ref1.name>
+		dhtmlgump 235 152 100 20 0 0 <qval(<ref1.isonline>)?<def.bfont_green>Online:<def.bfont_red>Offline>
+		dhtmlgump 235 172 100 20 0 0 <fval <ref1.skilltotal>>
+		dhtmlgump 235 192 200 20 0 0 <ref1.maxhits> str, <ref1.maxstam> dex, <ref1.maxmana> int
+		dhtmlgump 235 212 150 20 0 0 <ref1.fame>/<ref1.karma>
+		dhtmlgump 235 232 150 20 0 0 <qval(<ref1.kills>)?<ref1.kills>:->/<qval(<ref1.deaths>)?<ref1.deaths>:->
+		button 380 265 015a4 015a6 1 0 2
+		dtext 335 266 0 Sonraki
+		button 140 265 015a1 015a3 1 0 1
+		dtext 162 266 0 onceki
+		db.query "select ailereis from aileler where id='<dtag0.aileno>' and ailereis='<src>'";
+		if <db.row.numrows>
+			button 120 105 2117 2118 1 0 3
+			dtext 140 103 68 Aileden cikart (Emin misiniz? :    )
+			checkbox 330 103 02342 02343 0 1
+		endif
+	endif
+endif
+db.close
+
+[dialog d_aile_menusu button]
+on=1
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select id from aileuyeleri where aileno='<dtag0.aileno>'";
+	if <db.row.<eval(<ctag0.uye_index>-1)>.id>
+		ctag0.uye_index --
+		ctag0.uye_id=<db.row.<dctag0.uye_index>.id>
+	endif
+	db.close
+endif
+sdialog d_aile_menusu
+
+on=2
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select id from aileuyeleri where aileno='<dtag0.aileno>'";
+	if <db.row.<eval(<ctag0.uye_index>+1)>.id>
+		ctag0.uye_index ++
+		ctag0.uye_id=<db.row.<dctag0.uye_index>.id>
+	endif
+db.close
+endif
+sdialog d_aile_menusu
+
+on=3
+if !<argchk[1]>
+	sysmessage @,,1  Aileden cikartma islemi icin onayiniz gerekiyor.
+	sdialog d_aile_menusu
+else
+	f_option_mysql 0
+	db.connect
+	if <db.connected>
+		db.query "select uyeuid from aileuyeleri where id='<dctag0.uye_id>'";
+		if !<db.row.numrows>
+			sysmessage @,,1  Boyle bir uye bulunamadi.
+		else
+			ref1=<db.row.0.uyeuid>
+			ref1.tag0.name.suffix=
+			if <ref1.isonline>
+				ref1.sysmessage @,,1 Ailenizden cikartildiniz.
+			endif
+			db.execute "delete from aileuyeleri where id='<dctag0.uye_id>'";
+			sysmessage @,,1 <ref1.name> isimli uye ailenizden cikartildi.
+		endif
+	endif
+	db.close
+endif
+
+[dialog d_aile_dagit]
+0,0
+resizepic 100 100 5170 280 140
+dhtmlgump 135 130 250 45 0 0 <strtrim <tag0.name.suffix>> isimli ailenizi dagitmak istediginize emin misiniz?
+button 150 180 4005 4007 1 0 1
+dtext 185 180 0 Evet
+button 250 180 4005 4007 1 0 2
+dtext 285 180 0 Hayir
+
+[dialog d_aile_dagit button]
+on=1
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.query "select yuzukid from aileler where id='<dtag0.aileno>'";
+	ref1=<db.row.0.yuzukid>
+	ref1.remove
+endif
+db.close
+
+[dialog d_aileden_ayril]
+0,0
+resizepic 100 100 5170 280 140
+dhtmlgump 135 130 250 45 0 0 <strtrim <tag0.name.suffix>> isimli ailenizden ayrilmak istediginize emin misiniz?
+button 150 180 4005 4007 1 0 1
+dtext 185 180 0 Evet
+button 250 180 4005 4007 1 0 2
+dtext 285 180 0 Hayir
+
+[dialog d_aileden_ayril button]
+on=1
+f_option_mysql 0
+db.connect
+if <db.connected>
+	db.execute "delete from aileuyeleri where uyeuid='<uid>'";
+	serv.allclients sys_normal <name> <strtrim <tag0.name.suffix>> isimli aileden ayrildi.
+	tag0.name.suffix=
+	tag0.aileno=
+	sysmessage @,,1 Ailenizden ayrildiniz.
+endif
+db.close
+
+// --
+
+[eof] 
+
+
+

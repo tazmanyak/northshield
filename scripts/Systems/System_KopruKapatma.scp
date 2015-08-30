@@ -1,0 +1,278 @@
+////////////////////////////// BlackThorne Kopru Kapama /////////////////////////////////////
+
+[itemdef i_blackthorne_kopru]
+type=t_script
+id=0108e
+name=Kopru
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 [ Aktif ]
+return 1
+
+
+on=@create
+attr 08000
+color 0957
+
+
+on=@dclick
+If (<distance> < 3)
+	if (<src.isevent.e_krallik_blackthorne>)
+		serv.newitem i_parmaklik
+		new.p 1522,1504,8
+		serv.newitem i_parmaklik
+		new.p 1523,1504,8
+		serv.newitem i_parmaklik
+		new.p 1524,1504,8
+		serv.newitem i_parmaklik
+		new.p 1525,1504,8
+		serv.newitem i_parmaklik_2
+		new.p <p>
+		serv.b @0957,9 Lord Blackthorn Kalesinin kopru girisi kapatildi.
+		serv.b @0957,9 Kapatan Kisi : <src.name> 
+		remove
+	else
+		src.sysmessage @481 Sadece Blackthorne Krali bu geciti kapatabilir.
+		return 1
+else
+	src.sysmessage @0481 Biraz daha yaklasmalisiniz.
+	return 1
+endif
+return 1
+
+
+
+
+
+////////////////////////////// Britain Kopru /////////////////////////////////////
+
+[itemdef i_Britain_kopru]
+type=t_script
+id=0108e
+name=Kopru
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 [ Aktif ]
+return 1
+
+
+on=@create
+attr 08000
+color 0957
+
+on=@dclick
+If (<distance> < 3)
+	if (<src.isevent.e_krallik_blackthorne>)
+		serv.newitem i_parmaklik
+		new.p 1377,1754,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1753,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1752,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1751,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1750,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1749,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1748,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1747,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1746,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1745,-5
+		serv.newitem i_parmaklik
+		new.p 1377,1744,-5
+		serv.newitem i_parmaklik_2
+		new.p 1377,1756,1
+		serv.b @0957,9 Lord Blackthorn Kalesinin kopru girisi kapatildi.
+		serv.b @0957,9 Kapatan Kisi : <src.name> 
+		remove
+		return 1
+	else
+		src.sysmessage @484 Sadece kral bu geciti kapatabilir.
+else
+	src.sysmessage @0484 Kopruyu bu kadar uzaktan kapatamassiniz.
+	return 1
+endif
+
+
+[itemdef i_parmaklik]
+type=t_script
+id=210
+name=Parmaklik
+
+on=@create
+attr 08000
+color 0810
+timer 60
+
+on=@timer
+remove
+return 1
+
+[itemdef i_parmaklik_2]
+type=t_script
+id=i_lever
+name=Kopru
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 Engelin Kalkmasina : <eval <timer>> saniye var.
+return 1
+
+on=@dclick
+src.sysmessage @0810 Son <timer> saniye.
+return 1
+
+on=@create
+attr 08000
+color 0957
+timer 60
+
+on=@timer
+serv.newitem i_parmaklik_3
+new.p <p>
+serv.b @0798,3 Blackthorne Kopru girisi acildi.
+remove
+
+[itemdef i_parmaklik_3]
+type=t_script
+id=0108d
+name=Kopru Acici
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 Aktif Olmasina : <eval <timer>/60> dakika var.
+return 1
+
+on=@dclick
+src.sysmessage @0810 Son <timer> saniye.
+return 1
+
+on=@create
+attr 08000
+color 0957
+timer 240
+
+on=@timer
+serv.newitem i_blackthorne_kopru
+new.p <p>
+remove
+
+
+////////////////////////////// Minoc Kopru /////////////////////////////////////
+
+[itemdef i_minoc_kopru]
+type=t_script
+id=0108e
+name=Kopru
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 [ Aktif ]
+return 1
+
+on=@create
+attr 08000
+color 0957
+
+on=@dclick
+if ( <src.kills> < 7 )
+src.sysmessage @56,,1 Sadece PKlar Kopruyu Kapatabilir.
+return 1
+endif
+If (<distance> < 3)
+serv.newitem i_parmaklik
+new.p 2547,502,25
+serv.newitem i_parmaklik
+new.p 2547,501,25
+serv.newitem i_parmaklik
+new.p 2547,500,25
+serv.newitem i_parmaklik
+new.p 2547,499,25
+serv.newitem i_parmaklik_minoc_1
+new.p 2549,505,16
+serv.b @0957,9 Minoc kopru PKlar tarafindan kapatildi.
+serv.b @0957,9 Kapatan Kisi : <src.name> 
+remove
+return 1
+else
+src.sysmessage @0484 Kopruyu bukadar uzaktan kapatamassiniz.
+return 1
+endif
+
+[itemdef i_parmaklik_minoc_1]
+type=t_script
+id=i_lever
+name=Kopru
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 Engelin Kalkmasina : <eval <timer>> saniye var.
+return 1
+
+on=@dclick
+src.sysmessage @0810 Son <timer> saniye.
+return 1
+
+on=@create
+attr 08000
+color 0957
+timer 60
+
+on=@timer
+serv.newitem i_parmaklik_minoc_2
+new.p 2549,505,16
+serv.b @0798,3 Minoc kopru acildi.
+remove
+
+[itemdef i_parmaklik_minoc_2]
+type=t_script
+id=0108d
+name=Kopru Acici
+
+on=@click
+message @69,1,1 Kopru Kolu
+message @0790,1,1 Aktif Olmasina : <eval <timer>/60> dakika var.
+return 1
+
+on=@dclick
+src.sysmessage @0810 Son <timer> saniye.
+return 1
+
+on=@create
+attr 08000
+color 0957
+timer 240
+
+on=@timer
+serv.newitem i_minoc_kopru
+new.p 2549,505,16
+remove
+
+
+
+
+
+
+[eof]
+
+[eof]
+
+[eof]
+
+[eof]
+
+[eof]
+
+[eof]
+
+[eof]
+
+[eof]
+

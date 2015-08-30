@@ -1,0 +1,759 @@
+﻿[comment start_menu]
+hazırlayan: Slothere
+tarih: 24.07.2010
+güncelleme: 29.07.2010 - slothere
+version: 056b+
+---------------------
+
+[function stattotal]
+return <eval(<str>+<dex>+<int>)>
+
+[function israw]
+if <serv.itemdef.<args>.type>==t_ingot
+return 1
+elif <serv.itemdef.<args>.type>==t_ore
+return 1
+elif <serv.itemdef.<args>.type>==t_potion_empty
+return 1
+elif <serv.itemdef.<args>.type>==t_scroll_blank
+return 1
+elif <serv.itemdef.<args>.type>==t_reagent
+return 1
+elif <serv.itemdef.<args>.type>==t_cloth
+return 1
+elif <serv.itemdef.<args>.type>==t_log
+return 1
+else
+return 0
+endif
+
+[plevel 7]
+startitems
+
+[function startitems]
+doswitch <dargn>
+//return i_studded_gorget
+//return i_studded_gloves
+//return i_studded_leggings
+//return i_studded_sleeves
+//return i_studded_tunic
+return i_leather_gorget
+return i_leather_gloves
+return i_leather_leggings
+return i_leather_sleeves
+return i_leather_tunic
+return i_platemail_chest
+return i_platemail_leggings
+return i_platemail_gloves
+return i_platemail_gorget
+return i_platemail_arms
+return i_platemail_helm
+return i_shield_heater
+return i_katana
+return i_sword_long
+return i_kryss
+return i_spear_short
+return i_mace
+return i_maul
+return i_staff_gnarled 
+return i_bow
+return i_crossbow
+return i_arrow
+return i_xbolt
+return i_lockpick
+return i_bottle_empty
+return i_scroll_blank
+return i_pet_horse_brown_dk
+enddo
+
+[function f_hue]
+ref1=<local.char>
+ref2 = <ref1.ctag0.chr>
+if <ref2.ctag0.hue_use>
+ref2.findlayer(layer_hair).color <hval <local.7>00 + <local.8>>
+if <ref2.findlayer(layer_beard)>
+ref2.findlayer(layer_beard).color <hval <local.7>00 + <local.8>>
+endif
+ref2.ctag0.hue_use=
+endif
+ref1.ctag0.chr
+
+[events e_start_event]
+on=@dropon_ground
+return 1
+
+on=@pickup_ground
+return 1
+
+on=@spellcast
+return 1
+
+on=@spelleffect
+return 1
+
+on=@gethit
+return 1
+
+on=@attack
+return 1
+
+on=@hit
+return 1
+
+on=@skillgain
+return 1
+
+on=@login
+openpaperdoll
+timerf 5,sdialog d_start_show
+
+[dialog d_start_show]
+0,0
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 330
+//alphablack 60 160 490 310
+dhtmlgump 75 170 470 170 0 0 <def.bfont_white>Merhaba.<def.br>The North Shield Ultima Online sunucusuna hoşgeldiniz. Karakteriniz ile aktif bir şekilde oynayabilmeniz için öncelikle karakteriniz ile ilgili bazı ayarlamalar yapmanız gerekiyor. Bu ayarlar karakterinize daha hakim olmanızı sağlayacaktır. <def.br><def.br>Ayarların sırası ve yönergelerin içerikleri hakkındaki bilgilere aşağıdan ulaşabilirsiniz. Keyifli oyunlar dileriz.<def.div_right>TNS Yetkili Kadrosu
+gumppictiled 60 330 490 5 2604
+checkertrans 60 330 490 5
+dtext 80 340 38 1. Temel karakter düzenlemeleri.
+dtext 80 360 38 2. Karakter isminin düzenlenmesi.
+dtext 80 380 38 3. Stat puanı dağıtımı.
+dtext 80 400 38 4. Yetenek (skill) puanı seçimi.
+dtext 80 420 38 5. Başlangıç eşyalarının seçimi.
+dtext 80 440 38 6. Başlangıç şehri seçimi.
+button 320 365 4005 4007 1 0 1
+dtext 355 365 1152 Ayarlara başla.
+//button 320 390 4005 4007 1 0 2
+//dtext 355 390 1152 Karakteri sil.
+
+[dialog d_start_show button]
+//on=2
+//serv.log ## CHAR DELETE
+//serv.log /* chr:<uid>/<name> -- acct:<account.name>
+//serv.log ##
+//trysrv remove 1
+
+on=1
+sdialog d_start_char
+
+[dialog d_start_char]
+0,0
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 330
+//alphablack 60 160 490 310
+dtext 75 170 048 1. Temel karakter düzenlemeleri
+dhtmlgump 75 190 470 70 0 0 <def.bfont_white>Bu bölüm aracılığı ile karakteriniz ile ilgili en temel ayarlamaları yapabilirsiniz.
+
+dtext 80 230 38 Cinsiyet:
+button 90 255 2117 2118 1 0 1
+dtext 110 253 1152 Erkek
+button 90 275 2117 2118 1 0 2
+dtext 110 273 1152 Bayan
+
+dtext 190 230 38 Ten Rengi:
+button 200 255 2117 2118 1 0 3
+dtext 220 253 1152 <dcolor>
+
+dtext 300 230 38 Saç tipi:
+button 310 255 2117 2118 1 0 4
+dtext 330 253 1152 Short
+button 310 275 2117 2118 1 0 5
+dtext 330 273 1152 Long
+button 310 295 2117 2118 1 0 6
+dtext 330 293 1152 Ponytail
+button 310 315 2117 2118 1 0 7
+dtext 330 313 1152 Pageboy
+button 310 335 2117 2118 1 0 8
+dtext 330 333 1152 Buns
+button 310 355 2117 2118 1 0 9
+dtext 330 353 1152 Afro
+button 310 375 2117 2118 1 0 10
+dtext 330 373 1152 Receding
+button 310 395 2117 2118 1 0 11
+dtext 330 393 1152 Pigtails
+button 310 415 2117 2118 1 0 12
+dtext 330 413 1152 Krisna
+
+dtext 410 230 38 Sakal Tipi:
+if <body>==c_man
+button 420 255 2117 2118 1 0 13
+dtext 440 253 1152 Long
+button 420 275 2117 2118 1 0 14
+dtext 440 273 1152 Short
+button 420 295 2117 2118 1 0 15
+dtext 440 293 1152 Goatee
+button 420 315 2117 2118 1 0 16
+dtext 440 313 1152 Mustache
+button 420 335 2117 2118 1 0 17
+dtext 440 333 1152 Med (short)
+button 420 355 2117 2118 1 0 18
+dtext 440 353 1152 Med (long)
+button 420 375 2117 2118 1 0 19
+dtext 440 373 1152 Vandyke
+endif
+
+dtext 135 320 38 Saç-Sakal Rengi:
+button 145 340 2117 2118 1 0 20
+dtext 165 338 1152 Rastgele renk
+button 145 360 2117 2118 1 0 21
+dtext 165 358 1152 Saç Rengi seç
+button 145 380 2117 2118 1 0 24
+dtext 165 378 1152 Sakal Rengi seç
+
+button 490 450 09a5 09a6 1 0 22
+button 65 450 09a2 09a3 1 0 23
+
+[dialog d_start_char button]
+on=1
+body c_man
+obody c_man
+update
+sdialog d_start_char
+
+on=2
+body c_woman
+obody c_woman
+findlayer(layer_beard).remove
+update
+sdialog d_start_char
+
+on=3
+color=colors_skin
+oskin=<color>
+update
+sdialog d_start_char
+
+on=4
+serv.newitem i_hair_short,1,<src>,1
+sdialog d_start_char
+
+on=5
+serv.newitem i_hair_long,1,<src>,1
+sdialog d_start_char
+
+on=6
+serv.newitem i_hair_ponytail,1,<src>,1
+sdialog d_start_char
+
+on=7
+serv.newitem i_hair_pageboy,1,<src>,1
+sdialog d_start_char
+
+on=8
+serv.newitem i_hair_buns,1,<src>,1
+sdialog d_start_char
+
+on=9
+serv.newitem i_hair_afro,1,<src>,1
+sdialog d_start_char
+
+on=10
+serv.newitem i_hair_receding,1,<src>,1
+sdialog d_start_char
+
+on=11
+serv.newitem i_hair_2_pigtails,1,<src>,1
+sdialog d_start_char
+
+on=12
+serv.newitem i_hair_krisna,1,<src>,1
+sdialog d_start_char
+
+on=13
+if <body>==c_man
+serv.newitem i_beard_long,1,<src>,1
+endif
+sdialog d_start_char
+
+on=14
+if <body>==c_man
+serv.newitem i_beard_short,1,<src>,1
+endif
+sdialog d_start_char
+
+on=15
+if <body>==c_man
+serv.newitem i_beard_goatee,1,<src>,1
+endif
+sdialog d_start_char
+
+on=16
+if <body>==c_man
+serv.newitem i_beard_mustache,1,<src>,1
+endif
+sdialog d_start_char
+
+on=17
+if <body>==c_man
+serv.newitem i_beard_short_med,1,<src>,1
+endif
+sdialog d_start_char
+
+on=18
+if <body>==c_man
+serv.newitem i_beard_long_med,1,<src>,1
+endif
+sdialog d_start_char
+
+on=19
+if <body>==c_man
+serv.newitem i_beard_vandyke,1,<src>,1
+endif
+sdialog d_start_char
+
+on=20
+findlayer(layer_hair).color=colors_hair
+if <findlayer(layer_beard)>
+findlayer(layer_beard).color=<findlayer(layer_hair).color>
+endif
+sdialog d_start_char
+
+on=21
+HUEPICKER <FINDLAYER.LAYER_HAIR>
+sdialog d_start_char
+
+on=24
+HUEPICKER <FINDLAYER.LAYER_BEARD>
+sdialog d_start_char
+
+on=22
+sdialog d_start_name
+
+on=23
+sdialog d_start_show
+
+[dialog d_start_name]
+0,0
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 330
+//alphablack 60 160 490 310
+dtext 75 170 048 2. Karakter isminin düzenlenmesi
+dhtmlgump 75 190 470 120 0 0 <def.bfont_white>Bu bölüm aracılığı ile karakterinizin ismini düzenleyebilirsiniz.<def.br><def.br>Karakter ismi seçerken dikkat etmeniz gerekenler;<def.br>1. En az 3, en fazla 16 karakter kullanabilirsiniz.<def.br>2. Yalnızca harf kullanabilirsiniz.
+button 490 450 09a5 09a6 1 0 4
+button 65 450 09a2 09a3 1 0 3
+dtext 230 320 38 Karakterinizin ismini giriniz:
+gumppic 235 350 09c5
+dtextentrylimited 250 350 150 20 1152 0 16 <name>
+button 200 385 09a8 09a9 1 0 1
+dtext 230 388 1152 Kontrol Et
+button 360 385 09a8 09a9 1 0 2
+dtext 390 388 1152 Ayarla
+
+[dialog d_start_name button]
+on=1
+
+if <isempty <argtxt[0]>>
+sys_error Bir isim girmelisiniz.
+elif <eval(strlen(<argtxt[0]>)> < 3
+sys_error En az 3 karakter girebilirsiniz.
+elif !<isalfa <argtxt[0]>>
+sys_error Yalnizca alfabetik karakterler kullanabilirsiniz.
+else
+sys_normal Herhangi bir hata bulunamadı.
+endif
+sdialog d_start_name
+
+on=2
+
+if <isempty <argtxt[0]>>
+sys_error Bir isim girmelisiniz.
+elif <eval(strlen(<argtxt[0]>)> < 3
+sys_error En az 3 karakter girebilirsiniz.
+elif !<isalfa <argtxt[0]>>
+sys_error Yalnizca alfabetik karakterler kullanabilirsiniz.
+else
+name=<argtxt[0]>
+sys_normal Yeni isim: <argtxt[0]>
+endif
+sdialog d_start_name
+
+on=3
+sdialog d_start_char
+
+on=4
+
+if strmatch("<name>","Bos")
+	sys_error İsminizi belirlemediniz. 
+	sdialog d_start_name
+	return 1
+endif
+str=25
+dex=25
+int=25
+sdialog d_start_stat
+
+[dialog d_start_stat]
+0,0
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 330
+//alphablack 60 160 490 310
+dtext 75 170 048 3. Stat puanı dağıtımı.
+dhtmlgump 75 190 470 55 0 0 <def.bfont_white>Bu bölüm aracılığı ile karakterinizin stat puanlarını düzenleyebilirsiniz.<def.br><def.br>- En fazla 100'e kadar yükseltebilir, 25'e kadar düşürebilirsiniz.
+button 490 450 09a5 09a6 1 0 1
+button 65 450 09a2 09a3 1 0 2
+dtext 250 295 1152 +1
+dtext 280 295 1152 +5
+dtext 310 295 1152 +10
+dtext 370 295 1152 -1
+dtext 400 295 1152 -5
+dtext 430 295 1152 -10
+dtext 180 320 048 Str (<str>):
+button 250 320 0fa 0fb 1 0 3
+button 280 320 0fa 0fb 1 0 4
+button 310 320 0fa 0fb 1 0 5
+button 370 320 0fc 0fd 1 0 6
+button 400 320 0fc 0fd 1 0 7
+button 430 320 0fc 0fd 1 0 8
+dtext 180 340 048 Dex (<dex>):
+button 250 340 0fa 0fb 1 0 9
+button 280 340 0fa 0fb 1 0 10
+button 310 340 0fa 0fb 1 0 11
+button 370 340 0fc 0fd 1 0 12
+button 400 340 0fc 0fd 1 0 13
+button 430 340 0fc 0fd 1 0 14
+dtext 180 360 048 Int (<int>):
+button 250 360 0fa 0fb 1 0 15
+button 280 360 0fa 0fb 1 0 16
+button 310 360 0fa 0fb 1 0 17
+button 370 360 0fc 0fd 1 0 18
+button 400 360 0fc 0fd 1 0 19
+button 430 360 0fc 0fd 1 0 20
+
+[dialog d_start_stat button]
+on=2
+sdialog d_start_name
+
+on=1
+allskills 0.0
+sdialog d_start_skill
+
+on=3 5
+if <dargn>==3
+local.addstat=1
+elif <dargn>==4
+local.addstat=5
+elif <dargn>==5
+local.addstat=10
+endif
+if <local.addstat>
+if <eval(<str>+<dlocal.addstat>)> > 100
+sys_error Daha fazla arttıramazsınız.
+elif <eval(<stattotal>+<dlocal.addstat>)> > 225
+sys_error Stat toplamınız en fazla 225 olabilir
+else
+str=<eval(<str>+<dlocal.addstat>)>
+endif
+sdialog d_start_stat
+
+on=6 8
+if <dargn>==6
+local.removestat=1
+elif <dargn>==7
+local.removestat=5
+elif <dargn>==8
+local.removestat=10
+endif
+if <local.removestat>
+if <eval(<str>-<dlocal.removestat>)> < 25
+sys_error Daha fazla azaltamazsınız.
+else
+str=<eval(<str>-<dlocal.removestat>)>
+endif
+endif
+sdialog d_start_stat
+
+on=9 11
+if <dargn>==9
+local.addstat=1
+elif <dargn>==10
+local.addstat=5
+elif <dargn>==11
+local.addstat=10
+endif
+if <local.addstat>
+if <eval(<dex>+<dlocal.addstat>)> > 100
+sys_error Daha fazla arttıramazsınız.
+elif <eval(<stattotal>+<dlocal.addstat>)> > 225
+sys_error Stat toplamınız en fazla 255 olabilir
+else
+dex=<eval(<dex>+<dlocal.addstat>)>
+endif
+sdialog d_start_stat
+
+on=12 14
+if <dargn>==12
+local.removestat=1
+elif <dargn>==13
+local.removestat=5
+elif <dargn>==14
+local.removestat=10
+endif
+if <local.removestat>
+if <eval(<dex>-<dlocal.removestat>)> < 25
+sys_error Daha fazla azaltamazsınız.
+else
+dex=<eval(<dex>-<dlocal.removestat>)>
+endif
+endif
+sdialog d_start_stat
+
+on=15 17
+if <dargn>==15
+local.addstat=1
+elif <dargn>==16
+local.addstat=5
+elif <dargn>==17
+local.addstat=10
+endif
+if <local.addstat>
+if <eval(<int>+<dlocal.addstat>)> > 100
+sys_error Daha fazla arttıramazsınız.
+elif <eval(<stattotal>+<dlocal.addstat>)> > 225
+sys_error Stat toplamınız en fazla 255 olabilir
+else
+int=<eval(<int>+<dlocal.addstat>)>
+endif
+sdialog d_start_stat
+
+on=18 20
+if <dargn>==18
+local.removestat=1
+elif <dargn>==19
+local.removestat=5
+elif <dargn>==20
+local.removestat=10
+endif
+if <local.removestat>
+if <eval(<int>-<dlocal.removestat>)> < 25
+sys_error Daha fazla azaltamazsınız.
+else
+int=<eval(<int>-<dlocal.removestat>)>
+endif
+endif
+sdialog d_start_stat
+
+[dialog d_start_skill]
+0,0
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 355
+//alphablack 60 160 490 335
+dtext 75 170 048 4. Yetenek (skill) puanı seçimi.
+dhtmlgump 75 190 470 75 0 0 <def.bfont_white>Bu bölüm aracılığı ile karakterinizin başlangıçta alacağı yetenekleri seçebilirsiniz.<def.br><def.br>- En fazla 2 yetenek seçebilirsiniz.<def.br>- Seçilen yetenekler 50.0 ile başlayacaktır.
+button 490 475 09a5 09a6 1 0 51
+button 65 475 09a2 09a3 1 0 52
+button 380 225 4005 4007 1 0 50
+dtext 415 226 1152 Sıfırla
+page 1
+for 0 9
+button 80 <eval(<local._for>*20)+268> 2117 2118 1 0 <eval(<local._for>+1)>
+dtext 100 <eval(<local._for>*20)+265> 38 <serv.skill.<dlocal._for>.name>
+endfor
+for 10 19
+button 190 <eval(<local._for>*20)+70> 2117 2118 1 0 <eval(<local._for>+1)>
+dtext 210 <eval(<local._for>*20)+67> 38 <serv.skill.<dlocal._for>.name>
+endfor
+for 20 29
+button 300 <eval(<local._for>*20)-130> 2117 2118 1 0 <eval(<local._for>+1)>
+dtext 320 <eval(<local._for>*20)-133> 38 <serv.skill.<dlocal._for>.name>
+endfor
+for 30 39
+button 415 <eval(<local._for>*20)-330> 2117 2118 1 0 <eval(<local._for>+1)>
+dtext 435 <eval(<local._for>*20)-333> 38 <serv.skill.<dlocal._for>.name>
+endfor
+button 350 475 015e1 015e5 0 2 2
+dtext 325 472 1152 İleri
+page 2
+button 300 475 015e3 015e7 0 1 1
+dtext 325 472 1152 Geri
+for 40 48
+button 80 <eval(<local._for>*20)-532> 2117 2118 1 0 <eval(<local._for>+1)>
+dtext 100 <eval(<local._for>*20)-536> 38 <serv.skill.<dlocal._for>.name>
+endfor
+
+[dialog d_start_skill button]
+on=1 49
+local.argn=<eval(<argn>-1)>
+if <skilltotal> >= 1000
+sys_error En fazla 2 yetenek seçebilirsiniz.
+elif <<serv.skill.<dlocal.argn>.name>> >= 500
+sys_error Bu yeteneği daha fazla yükseltemezsiniz.
+else
+try <serv.skill.<dlocal.argn>.key>=500
+endif
+sdialog d_start_skill
+
+on=50
+allskills 0.0
+sdialog d_start_skill
+
+on=51
+sdialog d_start_items
+
+on=52
+sdialog d_start_stat
+
+[dialog d_start_items]
+0,-50
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 450
+//alphablack 60 160 490 430
+dtext 75 170 048 5. Başlangıç eşyalarının seçimi.
+dhtmlgump 75 190 470 35 0 0 <def.bfont_white>Bu bölüm aracılığı ile karakterinizin başlangıçta almasını istediğiniz eşyaları seçebilirsiniz.
+button 485 570 09a5 09a6 1 0 50
+button 65 570 09a2 09a3 1 0 51
+dtext 75 230 38 Kullanabileceğiniz <bolukayir <dtag0.totalgp>>gp'niz bulunuyor.
+for 0 11
+button 80 <eval(<local._for>*25)+255> 2117 2118 1 0 <eval(<local._for>+1)>
+tilepic 95 <eval(<local._for>*25)+255> <serv.itemdef.<startitems <dlocal._for>>.id>
+dhtmlgump 100 <eval(<local._for>*25)+255> 35 20 0 0 <def.bfont_white><def.bfont_size1><eval <serv.itemdef.<startitems <dlocal._for>>.value>>gp
+gumppic 145 <eval(<local._for>*25)+255> 098b
+dtextentrylimited 152 <eval(<local._for>*25)+256> 50 20 1152 <dlocal._for> 6 0
+endfor
+for 12 23
+button 230 <eval(<local._for>*25)-45> 2117 2118 1 0 <eval(<local._for>+1)>
+tilepic 250 <eval(<local._for>*25)-45> <serv.itemdef.<startitems <dlocal._for>>.id>
+dhtmlgump 250 <eval(<local._for>*25)-45> 35 20 0 0 <def.bfont_white><def.bfont_size1><eval <serv.itemdef.<startitems <dlocal._For>>.value>>gp
+gumppic 305 <eval(<local._for>*25)-45> 098b
+dtextentrylimited 312 <eval(<local._for>*25)-45> 50 20 1152 <dlocal._for> 6 0
+endfor
+for 24 26
+button 380 <eval(<local._for>*25)-345> 2117 2118 1 0 <eval(<local._for>+1)>
+tilepic 400 <eval(<local._for>*25)-345> <serv.itemdef.<startitems <dlocal._for>>.id>
+dhtmlgump 400 <eval(<local._for>*25)-345> 35 20 0 0 <def.bfont_White><def.bfont_size1><eval <serv.itemdef.<startitems <dlocal._for>>.value>>gp
+gumppic 455 <eval(<local._for>*25)-345> 098b
+dtextentrylimited 462 <eval(<local._for>*25)-345> 50 20 1152 <dlocal._for> 6 0
+endfor
+
+[dialog d_start_items button]
+on=1 36
+local.argn=<eval(<argn>-1)>
+if !<isnumeric <argtxt[<dlocal.argn>]>>
+sys_error Yalnizca rakam girebilirsiniz.
+elif <dargtxt[<dlocal.argn>]> < 1
+sys_error Hatalı adet girdiniz.
+elif (<israw <startitems <dlocal.argn>>>) && (<eval(<rescount <startitems <dlocal.argn>>>+<argtxt[<dlocal.argn>]>)> > 250)
+sys_error Bu eşyadan en fazla 250 adet alabilirsiniz.
+elif <dargtxt[<dlocal.argn>]> > 100
+sys_error Bir seferde en fazla 100 adet alabilirsiniz.
+else
+if <argtxt[<dlocal.argn>]> > 1
+local.totalprice=<eval(<argtxt[<dlocal.argn>]>*<serv.itemdef.<startitems <dlocal.argn>>.value>)>
+else
+local.totalprice=<serv.itemdef.<startitems <dlocal.argn>>.value>
+endif
+if <dlocal.totalprice> > <dtag0.totalgp>
+sys_error Yeterli miktarda altınınız bulunmuyor. (<bolukayir <dlocal.totalprice>>gp)
+else
+if <serv.itemdef.<startitems <dlocal.argn>>.can>&can_i_pile
+serv.newitem <serv.itemdef.<startitems <dlocal.argn>>.id>,<dargtxt[<dlocal.argn>]>,<findlayer(layer_pack)>
+else
+for <dargtxt[<dlocal.argn>]>
+serv.newitem <serv.itemdef.<startitems <dlocal.argn>>.id>,1,<findlayer(layer_pack)>
+if <serv.itemdef.<startitems <dlocal.argn>>.type>==t_figurine
+//new.events=+t_shrink
+endif
+endfor
+endif
+sys_normal <bolukayir <dlocal.totalprice>>gp karşılığında <dargtxt[<dlocal.argn>]> adet <serv.itemdef.<startitems <dlocal.argn>>.name> satın aldınız.
+tag0.totalgp=<eval(<tag0.totalgp>-<local.totalprice>)>
+endif
+endif
+sdialog d_start_items
+endif
+
+on=50
+sdialog d_start_end
+
+on=51
+sdialog d_start_skill
+
+[dialog d_start_end]
+0,0
+//nomove
+noclose
+gumppic 200 -40 058a
+resizepic 50 150 2620 510 330
+//alphablack 60 160 490 310
+dtext 75 170 048 6. Başlangıç şehri seçimi.
+dhtmlgump 75 190 470 55 0 0 <def.bfont_white>Son yönerge olarak karakterinizin başlangıç şehrini seçebilirsiniz.Ayrıca önceki yapmış olduğunuz ayarlarınızı da görüntüleyebilirsiniz.
+button 65 450 09a2 09a3 1 0 10
+dtext 85 250 048 Statlar:
+dtext 95 270 38 Strength: <str>
+dtext 95 290 38 Dexterity: <dex>
+dtext 95 310 38 Intelligence: <int>
+dtext 220 250 048 Skiller:
+dorigin 230 250
+for 0 48
+if <<serv.skill.<dlocal._for>.name>> > 0
+dtext 230 *20 38 - <<serv.skill.<dlocal._for>.name>> <serv.skill.<dlocal._for>.name>
+endif
+endfor
+dtext 360 250 048 Toplam Altın:
+if !<tag0.totalgp>
+dtext 370 270 38 10000gp
+else
+dtext 370 270 38 <eval(<tag0.totalgp>)>gp
+dtext 370 290 1000 * (<dtag0.totalgp>gp kullanılmayan meblâ)
+endif
+dtext 230 340 048 Başlangıç şehrini seçiniz:
+dtext 260 360 38 Britain
+button 240 362 2117 2118 1 0 1
+dtext 260 380 38 Vesper
+button 240 382 2117 2118 1 0 2
+dtext 260 400 38 Minoc
+button 240 402 2117 2118 1 0 3
+
+[dialog d_start_end button]
+on=1 3
+local.name <asciiremove 32,<src.name>>
+if <serv.LIST.player_names.COUNT>
+	if <serv.LIST.player_names.FINDELEM "<local.name>"> != -1 
+        	src.sys_error Suanki isminiz bir oyuncu tarafindan kullanilmaktadir.Isminizi tekrar belirleyiniz.
+		sdialog d_start_name
+		return 1
+	else
+		serv.LIST.player_names.ADD <src.name>
+   	endif
+else
+   	serv.LIST.player_names.ADD <src.name>
+	//serv.log Unique player name list created
+endif
+
+
+
+
+if <dargn>==1
+go Britain
+invul 0
+elif <dargn>==2
+go Vesper
+elif <dargn>==3
+go Minoc
+endif
+
+
+f_newbie_items
+
+if <tag0.totalgp> > 0
+serv.newitem i_gold,<dtag0.totalgp>,<findlayer(layer_pack)>
+new.attr attr_invis|attr_newbie
+endif
+tag0.totalgp=
+events -e_start_event
+
+on=10
+sdialog d_start_items
+
+[eof]

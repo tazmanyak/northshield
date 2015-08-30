@@ -1,0 +1,106 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 0278e]
+DEFNAME=i_leather_ninja_hood
+NAME=Leather Ninja Hood
+type=t_armor_leather
+RESOURCES=14 i_hides_cut
+SKILLMAKE=TAILORING 90.0
+WEIGHT=2
+FLIP=1
+REQSTR=10
+DUPELIST=027d9
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Ninja Armor
+DESCRIPTION=Leather Ninja Hood
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027d9]
+DUPEITEM=0278e
+
+[ITEMDEF 02790]
+DEFNAME=i_leather_ninja_belt
+NAME=Leather Ninja Belt
+TYPE=t_ninja_belt
+RESOURCES=5 i_hides_cut
+SKILLMAKE=TAILORING 50.0, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=10
+DUPELIST=027db
+CATEGORY=Provisions - Clothes
+SUBSECTION=Miscellaneous
+DESCRIPTION=Leather Ninja Belt
+
+[ITEMDEF 027db]
+DUPEITEM=02790
+
+[ITEMDEF 02791]
+DEFNAME=i_leather_ninja_pants
+NAME=Leather Ninja Pants
+type=t_armor_leather
+RESOURCES=13 i_hides_cut
+SKILLMAKE=TAILORING 80.0
+WEIGHT=3
+FLIP=1
+REQSTR=10
+DUPELIST=027dc
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Ninja Armor
+DESCRIPTION=Leather Ninja Pants
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027dc]
+DUPEITEM=02791
+
+[ITEMDEF 02792]
+DEFNAME=i_leather_ninja_mitts
+NAME=Leather Ninja Mitts
+type=t_armor_leather
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 65.0
+WEIGHT=2
+FLIP=1
+REQSTR=10
+DUPELIST=027dd
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Ninja Armor
+DESCRIPTION=Leather Ninja Mitts
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027dd]
+DUPEITEM=02792
+
+[ITEMDEF 02793]
+DEFNAME=i_leather_ninja_jacket
+NAME=Leather Ninja Jacket
+type=t_armor_leather
+RESOURCES=13 i_hides_cut
+SKILLMAKE=TAILORING 85.0
+WEIGHT=5
+FLIP=1
+REQSTR=10
+DUPELIST=027de
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Ninja Armor
+DESCRIPTION=Leather Ninja Jacket
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027de]
+DUPEITEM=02793
+
+[EOF]

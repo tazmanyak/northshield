@@ -1,0 +1,270 @@
+﻿
+
+[DIALOG d_kopru_isyankar]
+0,0
+page 0
+resizepic 49 18 2620 472 240
+htmlgump 55 26 457 170 0 1 1
+text 297 221 2164 1
+button 439 220 247 248 1 0 1
+//button 57 21 241 242 1 0 2
+
+[DIALOG d_kopru_isyankar text]
+<def.bfont> color=#FF0000<def.r1>Britain köprüsunde bir isyan mi başlatmak istiyorsunuz ? <def.br><def.bfont> color=#000000<def.r1>Eger bir isyan başlatacaksanız artik suçlu duruma düşeceksiniz. Bunu kabul ediyor musunuz ? Isyankar bu isyani başlatabilmen için <def.bfont> color=#FF0000<def.r1>500.000 gp<def.bfont> color=#000000<def.r1> altını hibe etmen gerekiyor ki Britain halkına haber salınsın. İsyanı en az <def.bfont> color=#FF0000<def.r1>4 kişi ile parti halinde<def.bfont> color=#000000<def.r1> başlatabilirsin ve suçlu duruma düşeceksin. Britain guard'larına rüşvet vererek bu işi yapıyorsun bunu unutma.<def.br>Paranın kokusunu alan guardianlar her an seni satabilir.<def.br>Britain şehri 2 saat süreliğine <def.bfont> color=#FF0000<def.r1>guard zone<def.bfont> color=#000000<def.r1> den çıkacaktır.Süreni kendin tutmalısın gz tekrar aktif olduğunda bir uyarı verilmeyecektir. Riski almaya razıysan isyana başla !
+Kabul Ediyor Musun ?
+
+[DIALOG d_kopru_isyankar button]
+
+ON=1
+
+if <tag.suanduyuruvar>
+	src.sys_error Suanda tekrar isyan duyuramazsiniz (min:4 saat)	
+	return 1
+endif
+if <var.brit_isyan>
+	src.sys_error İsyan sistemi günde 1 kere yapılabilir. Şuan aktif değil.
+	return 1
+endif
+IF !<SRC.ISINPARTY>
+		src.sys_error Partide değilsiniz.
+		return 1
+endif
+IF !(<EVAL <SRC.PARTY.MEMBERS>> >= 4)
+	src.sys_error İsyan başlatmak için en az 4 kişi olmanız gerekmektir.
+	return 1
+endif
+
+IF (<SRC.BANKBALANCE> >= 500000)
+	tag.suanduyuruvar 1
+	timerf 14400, uid.<uid>.tag.suanduyuruvar 0
+	timerf 3540, serv.allclients sys_error Britain GZ olması için son 1 dakika.
+	src.gold -=500000
+	serv.newitem i_gzcikis
+	new.p 1414,1630,50
+	serv.newitem i_gzcikis
+	new.p 1414,1614,50
+	serv.newitem i_gzcikis
+	new.p 1464,1704
+	serv.newitem i_gzcikis
+	new.p 1464,1704
+	serv.newitem i_gzcikis
+	new.p 1458,1704
+	serv.newitem i_gzcikis
+	new.p 1452,1704
+	serv.newitem i_gzcikis
+	new.p 1493,1624,60
+	new.timer 1
+	serv.newitem i_gzcikis
+	new.p 1474,1625,27
+	new.timer 1
+	src.sys_normal İsyanı başlattın.
+	serv.allclients sys_normal [ Britain Halkina Duyurulur ]
+	serv.allclients sys_error <src.name> adlı isyankar Britain köprüsünde Britain'i ele gecirme çabasina girdi.
+	serv.allclients sys_error Britain şehri 1 saat süreliğine guard zone dışı kalmıştır. 
+	timerf 60, serv.allclients sys_normal [ Britain Halkina Duyurulur ]
+	timerf 60, serv.allclients sys_error <src.name> adli isyankar çete elemanlarıyla Britain köprüsünde Britain'i ele gecirme çabasina girdi.
+	IF (<SRC.ISINPARTY>)
+		FOR 0 <EVAL <SRC.PARTY.MEMBERS>-1>
+		OBJ=<SRC.PARTY.MEMBER.<LOCAL._FOR>.UID>
+		OBJ.criminal 1
+	endfor
+endif
+	return 1
+else
+	src.sys_error 150.000 altinin bulunmuyor. Açlıktan ağzin kokuyor birde isyan mı çıkartacaksın !
+	return 1
+endif
+ON=0
+src.sys_error Çabuk vazgeçtin korkak ! 
+
+
+[itemdef i_kopru_istila]
+id=0108e
+name=Kopru Istila
+type t_normal
+
+on=@create
+attr 08000
+color 0957
+tag.suanduyuruvar 0
+
+on=@dclick
+//if !<tag.suanduyuruvar>
+//	src.closealldialogs
+	sdialog d_kopru_isyankar
+//	return 1
+//else
+//	src.sys_error Suanda tekrar isyan duyuramazsiniz (min:4 saat)
+	return 1
+//endif
+
+//on=@click
+//message @,,1 [ Isyan Baslat ]
+//return 1
+
+on=@timer
+say @,,1 [ İsyan Başlat ]
+//tag.suanduyuruvar 0
+timer 10
+return 1
+
+[itemdef i_gzcikis]
+type=t_script
+id=i_grave_stone
+name=Gz Modu
+
+on=@create
+attr 080
+color 0455
+timer 1
+
+on=@timer
+if !<tag.gz>
+	region.guarded 0
+	tag.gz 1
+	timer 3600
+	return 1
+else
+	region.guarded 1
+	serv.allclients sys_normal Britain esaretten kurtulup tekrar Guard Zone olmuştur.
+	remove
+	return 1
+endif
+return 1
+
+
+[itemdef i_gzgiris]
+type=t_script
+id=i_grave_stone
+name=Gz Modu
+
+on=@create
+attr 080
+color 0455
+timer 1
+
+on=@timer
+region.guarded 1
+remove
+return 1
+
+[itemdef i_sehir_istila2]
+type=t_script
+id=i_grave_Stone
+name=Sehir Istilasi
+
+on=@create
+attr attr_move_never|08000
+color 0455
+timer 86400
+
+on=@click
+message @69,1,1 Sehrin Istila Edilmesine :
+message @0790,1,1 <eval (<timer> / 3600)> saat <eval ((<timer> / 60) - ((<timer> / 3600) * 60))> dakika var.
+return 1
+
+on=@dclick
+src.sysmessage @044,,1 Sehrin Istila Edilmesine <timer> saniye var...
+return 1
+
+on=@timer
+serv.b @038,0 Moonglow Sehri Istilaya Ugramistir.. Guardlar Oldurulmustur..
+serv.newnpc c_kusatici
+new.p 5167,1767
+serv.new.home 4449,1154
+serv.new.homedist=5
+region.guarded 0
+remove
+
+
+
+[CHARDEF c_kusatici] 
+DEFNAME=c_kusatici
+NAME=Enemy
+ID=c_elem_fire
+SOUND=snd_MONSTER_DRAGON1
+ICON=i_pet_DRAGON
+ANIM=03f9c7f
+CAN=MT_WALK|MT_USEHANDS|MT_FIRE_IMMUNE
+DAM=25,35
+ARMOR=23
+RESOURCES=99 i_ribs_raw, 8 i_reag_dragon_blood, 20 i_hide
+FOODTYPE=80 t_meat_raw,t_gem
+//SHELTER=r_caves,r_dungeon
+AVERSIONS=r_water,r_civilization
+
+on=@click
+message @0790,8 BASKIN VAR
+return 1
+
+on=@death
+serv.newitem i_gzcikis
+new.p 4452,1153
+serv.newitem i_sehir_istila
+new.p 4452,1153
+serv.b @038,0 Moonglow Sehri Kurtarilmistir...
+src.bossolumu
+
+ON=@Create
+NPC=brain_dragon
+COLOR=0486
+STR={1050 1350}
+DEX={133 152}
+INT={100 140}
+
+MAGERY=1500.0
+PARRYING={65.0 80.0}
+MAGICRESISTANCE={65.0 80.0}
+TACTICS={65.0 90.0}
+WRESTLING={65.0 80.0}
+TAMING=95.1
+
+FAME={3750 6250}
+KARMA={-5000 -5999}
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_explosion
+
+ITEM=i_gold {45000 50000}
+ITEM=i_gold {45000 50000}
+ITEM=i_gold {45000 50000}
+ITEM=i_gold {45000 50000}
+ITEM=i_gold {45000 50000}
+
+[function bossolumu]
+newitem i_fx_sparkle
+act.type t_normal
+act.color 07a0
+act.p <p>
+act.MOVE 2,1
+act.attr attr_decay
+act.timer 2
+
+newitem i_fx_sparkle
+act.type t_normal
+act.color 07a0
+act.p <p>
+act.MOVE -2,-1
+act.attr attr_decay
+act.timer 2
+
+
+newitem i_fx_sparkle
+act.type t_normal
+act.color 07a0
+act.p <p>
+act.move 1,-2 
+act.attr attr_decay
+act.timer 2
+
+newitem i_fx_sparkle
+act.type t_normal
+act.color 07a0
+act.p <p>
+act.move -1,2
+act.attr attr_decay
+act.timer 2
+
+
+
+[eof]

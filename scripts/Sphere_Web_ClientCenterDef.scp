@@ -1,0 +1,148 @@
+//////////////////////////////////////
+// Account System Foreground Script //
+//////////////////////////////////////
+
+[DEFNAMES ClientCenterScheme]
+//Current Scheme: XP-Oliver
+Web_Scheme_Back			#9DACBD		//Back Ground
+Web_Scheme_TblOutBack		#ADC28C		//Outter Table Back
+Web_Scheme_TblMenuBack		#62854C		//Menu Back
+Web_Scheme_TblHeadBack		#F0F2D3		//Header Back
+Web_Scheme_TblInback		#F6F6EC		//Inner Table Back
+Web_Scheme_TblBorderlight	#000000		//Border Color
+Web_Scheme_FntHead		#56662D		//Header Text
+Web_Scheme_FntOuter		#666633		//OUter  text 
+Web_Scheme_FntNormal		#000000		//Normal Text
+Web_Scheme_FntMenu		#FFFFFF		//Menu Text
+Web_Scheme_FntLink		#000000		//Link Text
+Web_Scheme_FntLinkHover		#62854C		//Link Hover Text
+Web_Scheme_FntLinkHead		#666633		//Header Link text
+Web_Scheme_FntLinkHeadHover	#666633		//Header Link Hover Text
+
+[Function f_WebAccount_InitFilter]
+	var.WebAccount_FilterName[0]="*EOF*"
+	var.WebAccount_FilterName[1]="ADMIN*"
+	var.WebAccount_FilterName[2]="GM*"
+	var.WebAccount_FilterName[3]="* *"		//space in between
+	var.WebAccount_FilterName[4]="REMOTE*"		//Could be bad
+	var.WebAccount_FilterName[5]="System*"
+
+[Function f_WebAccount_GenPass]
+//ARGV[0]: Passlen
+	var.iPassChar=0
+	var.sPassword=""
+	var.iCurPassChar=0		//AsciiCode
+
+	WHILE ( (var.iPassChar) < (ARGV[0]) )
+		var.iCurPassChar={ {030 039} 1 {041 05a} 1 {061 07a} 1 }
+		var.sPassword="<?var.sPassword?><?strSetAscii(0,0,<var.iCurPassChar>)?>"
+		var.iPassChar=<?EVAL((var.iPassChar)+1)?>
+	ENDWHILE
+
+	var.iPassChar=
+	var.iCurPassChar=
+
+	return "<var.sPassword>"
+
+[EMAILMSG  EMail_WebAccount_NewAccount]
+
+[EMAILMSG  EMail_WebAccount_LoginAlert]
+
+
+
+
+[WEBPAGE w_ClientCenter_Scheme]
+WEBPAGESRC=.\Web\ClientCenter\Scheme.htt
+
+[WEBPAGE w_ClientCenter_Register]
+WEBPAGESRC=.\Web\ClientCenter\Register.htt
+
+ON=Submit
+	//Check all fields:
+
+	if ( strmatch("<?strUsername?>","") )
+		src.tag.WebApplicationDeniedReason="You Did Not Specific a Username."
+		webpage=.\Web\ClientCenter\Register_Error.htt
+		return 1
+	endif
+
+	if ( strmatch("<?strEmail?>","") )
+		src.tag.WebApplicationDeniedReason="You Did Not Specific an Email Address."
+		webpage=.\Web\ClientCenter\Register_Error.htt
+		return 1
+	endif
+
+	if (! strmatch("<?strEmail?>","<?strConfirm?>") )
+		src.tag.WebApplicationDeniedReason="Your Email Address Does Not Match with the Confirmation Email."
+		webpage=.\Web\ClientCenter\Register_Error.htt
+		return 1
+	endif
+
+	// Check for used Emails
+
+	// Check for valid accounts
+
+	f_WebAccount_InitFilter
+	var.iFilterIndex=0
+	WHILE ( strlen(<var.WebAccount_FilterName[<var.iFilterIndex>]>) )
+		if ( strmatch("<?strUsername?>","<?var.WebAccount_FilterName[<var.iFilterIndex>]?>") )
+			//bad account
+			src.tag.WebApplicationDeniedReason="Your account name is blocked by the system"
+			webpage=.\Web\ClientCenter\Register_Error.htt
+			return 1
+		endif
+		var.iFilterIndex=<?EVAL((var.ifilterindex)+1)?>
+	ENDWHILE
+
+	//Check to see if account already exist
+	if ( FindAccount("<StrUsername>") )
+		src.tag.WebApplicationDeniedReason="The account you applied is already existing. Please pick a different name"
+		webpage=.\Web\ClientCenter\Register_Error.htt
+		return 1
+	endif
+
+	//Generate password
+	var.sWebAccount_Pass=<?f_WebAccount_GenPass(8)?>		//8 letter pass
+	
+	AccountMgr.Add("<?strUsername?>","<var.sWebAccount_Pass>")
+	serv.FindAccount("<?strUsername?>").LastConnectDate=2000/01/01 00:00:00
+	serv.FindAccount("<?strUsername?>").EmailMsg EMAIL_Password
+
+	var.iFilterIndex=
+	var.sWebAccount_Pass=
+	
+	webpage=.\Web\ClientCenter\Register_Success.htt
+	return 1
+
+[WEBPAGE w_ClientCenter_REGSuccess]
+WEBPAGESRC=.\Web\ClientCenter\Register_Success.htt	
+
+[WEBPAGE w_ClientCenter_REGFail]
+WEBPAGESRC=.\Web\ClientCenter\Register_Error.htt
+
+ON=@Load
+	if ( <?strlen(src.tag.WebApplicationDeniedReason)?> <= 0 )
+		webpage=.\Web\ClientCenter\Login.htt
+		return 1
+	endif
+	
+	
+
+[WEBPAGE w_ClientCenter_AccInfo]
+WEBPAGESRC=.\Web\ClientCenter\AccountInfo.htt
+
+[WEBPAGE w_ClientCenter_Login]
+WEBPAGESRC=.\Web\ClientCenter\Login.htt
+
+ON=Login
+	SRC.LOGIN(<strUsername>,<strPassword>)
+	//try login
+
+	if (<?src.account?>)
+		//i logged in
+		webpage=.\Web\ClientCenter\AccountInfo.htt
+	else	
+		webpage=.\web\spherelogfail.htt
+	endif
+
+[EOF]

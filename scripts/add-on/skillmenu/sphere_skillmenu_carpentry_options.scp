@@ -1,0 +1,13 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[defname sphere_crafting_carpentry_options]
+carpentry_options_default	"1,1,0,0,0"
+
+
+[eof]

@@ -1,0 +1,61 @@
+[CHARDEF c_wood_elf_elite_ranger]
+DEFNAME=c_wood_elf_elite_ranger
+NAME=#NAMES_ELF_MALE the Wood-Elf Elite Ranger
+SOUND=snd_HUMAN_M_DIE_01
+ID=C_ELF_MALE
+CAN=MT_EQUIP|MT_RUN|MT_USEHANDS|MT_WALK
+DAM=15,30
+ARMOR=19,19
+
+TSPEECH=jobFighter
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=0597
+
+CATEGORY=Civilized
+SUBSECTION=Wood Elves
+DESCRIPTION=Wood-Elf Elite Ranger
+
+ON=@Create
+	COLOR=0597
+	NPC=BRAIN_HUMAN
+	KARMA={-2000 -4000}
+
+	STR={60 80}
+	DEX={81 95}
+	INT={70 100}
+
+	MAGICRESISTANCE={15.0 38.0}
+	TACTICS={50.0 100.0}
+	WRESTLING={25.0 40.0}
+	ARCHERY={80.0 100.0}
+	BOWCRAFT={60.0 80.0}
+	SWORDSMANSHIP={50.0 70.0}
+
+	ITEMNEWBIE=i_hair_long
+	//	ITEMNEWBIE=i_beard_goatee
+
+ON=@NPCRestock
+	ITEM=i_CAPE
+	COLOR=045e
+	ITEM=i_studded_gloves
+	COLOR=045e
+	ITEM=i_studded_tunic
+	COLOR=045e
+	ITEM=i_studded_gorget
+	COLOR=045e
+	ITEM=i_studded_leggings
+	COLOR=0599
+	ITEM=i_studded_sleeves
+	COLOR=0599
+	ITEM=i_boots_calf
+	COLOR=045e
+	ITEM=i_SASH
+	COLOR=0599
+	ITEM=i_bow
+	COLOR=045e
+	ITEM=i_arrow,{10 30}
+	ITEM=i_gold,{80 200}
+
+[EOF]

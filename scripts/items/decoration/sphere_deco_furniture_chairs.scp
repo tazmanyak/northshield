@@ -1,0 +1,292 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0a2a]
+DEFNAME=i_chair_stool_bar
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 11.0, t_carpentry
+RESOURCES=9 i_log
+WEIGHT=3
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Stool
+
+[ITEMDEF 0a2b]
+// chair - dark stool
+DEFNAME=i_chair_stool
+TYPE=T_CHAIR
+WEIGHT=3
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Barstool
+SKILLMAKE=CARPENTRY 11.0, t_carpentry
+RESOURCES=9 i_log
+
+[ITEMDEF 0b2c]
+DEFNAME=i_bench_wood_dark
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 52.6, t_carpentry
+RESOURCES=17 i_log
+WEIGHT=10
+DUPELIST=0b2d
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Wooden Bench
+
+[ITEMDEF 0b2d]
+DUPEITEM=0b2c
+
+[ITEMDEF 0b2e]
+DEFNAME=i_chair_wood_rough_dark
+NAME=Wooden Throne
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 52.6, t_carpentry
+RESOURCES=17 i_log
+WEIGHT=10
+DUPELIST=0b2f,0b30,0b31
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Wooden Throne
+
+[ITEMDEF 0b2f]
+DUPEITEM=0b2e
+
+[ITEMDEF 0b30]
+DUPEITEM=0b2e
+
+[ITEMDEF 0b31]
+DUPEITEM=0b2e
+
+[ITEMDEF 0b32]
+DEFNAME=i_chair_throne
+NAME=Magincia-Style Throne
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 52.6, t_carpentry
+RESOURCES=19 i_log
+WEIGHT=15
+DUPELIST=0b33
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Magincia-Style Throne
+
+[ITEMDEF 0b33]
+DUPEITEM=0b32
+
+[ITEMDEF 0b4e]
+DEFNAME=i_chair_wood_fancy_cushion
+NAME=Vesper-Style Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 42.1, t_carpentry
+RESOURCES=15 i_log
+WEIGHT=10
+DUPELIST=0b4f,0b50,0b51
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Vesper-Style Chair
+
+[ITEMDEF 0b4f]
+DUPEITEM=0b4e
+
+[ITEMDEF 0b50]
+DUPEITEM=0b4e
+
+[ITEMDEF 0b51]
+DUPEITEM=0b4e
+
+[ITEMDEF 0b52]
+DEFNAME=i_chair_wood_cushion
+NAME=Trinsic-Style Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 42.1, t_carpentry
+RESOURCES=15 i_log
+WEIGHT=10
+DUPELIST=0b53,0b54,0b55
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Trinsic-Style Chair
+
+[ITEMDEF 0b53]
+DUPEITEM=0b52
+
+[ITEMDEF 0b54]
+DUPEITEM=0b52
+
+[ITEMDEF 0b55]
+DUPEITEM=0b52
+
+[ITEMDEF 0b56]
+DEFNAME=i_chair_wood
+NAME=Wooden Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 21.0, t_carpentry
+RESOURCES=13 i_log
+WEIGHT=3
+DUPELIST=0b57,0b58,0b59
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Wooden Chair
+
+[ITEMDEF 0b57]
+DUPEITEM=0b56
+
+[ITEMDEF 0b58]
+DUPEITEM=0b56
+
+[ITEMDEF 0b59]
+DUPEITEM=0b56
+
+[ITEMDEF 0b5a]
+DEFNAME=i_chair_wood_bamboo
+NAME=Straw Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 21.0, t_carpentry
+RESOURCES=13 i_log
+WEIGHT=3
+DUPELIST=0b5b,0b5c,0b5d
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Straw Chair
+
+[ITEMDEF 0b5b]
+DUPEITEM=0b5a
+
+[ITEMDEF 0b5c]
+DUPEITEM=0b5a
+
+[ITEMDEF 0b5d]
+DUPEITEM=0b5a
+
+[ITEMDEF 0b5e]
+// chair - light stool
+DEFNAME=i_chair_stool_light
+TYPE=t_chair
+WEIGHT=3
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Foot Stool (Light)
+SKILLMAKE=CARPENTRY 11.0, t_carpentry
+RESOURCES=9 i_log
+
+[ITEMDEF 02de3]
+DEFNAME=i_chair_elven_ornate
+NAME=Ornate Elven Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+RESOURCES=30 i_log
+WEIGHT=20
+DUPELIST=02de4,02de5,02de6
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Ornate Elven Chair
+
+[ITEMDEF 02de4]
+DUPEITEM=02de3
+
+[ITEMDEF 02de5]
+DUPEITEM=02de3
+
+[ITEMDEF 02de6]
+DUPEITEM=02de3
+
+[ITEMDEF 02deb]
+DEFNAME=i_chair_elven_cozy
+NAME=Cozy Elven Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+RESOURCES=40 i_log
+WEIGHT=20
+DUPELIST=02dec,02ded,02dee
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Cozy Elven Chair
+
+[ITEMDEF 02dec]
+DUPEITEM=02deb
+
+[ITEMDEF 02ded]
+DUPEITEM=02deb
+
+[ITEMDEF 02dee]
+DUPEITEM=02deb
+
+[ITEMDEF 02ddf]
+DEFNAME=i_elven_loveseat
+NAME=Elven Loveseat
+TYPE=t_chair
+FLIP=0
+WEIGHT=25
+DUPELIST=02de0
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Elven Loveseat
+
+[ITEMDEF 02de0]
+DUPEITEM=02ddf
+
+[ITEMDEF 04023]
+DEFNAME=i_chair_ter_mur
+NAME=Ter-Mur Style Chair
+TYPE=t_chair
+FLIP=1
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+RESOURCES=40 i_log
+WEIGHT=20
+DUPELIST=04024
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Ter-Mur Style Chair
+
+[ITEMDEF 04024]
+DUPEITEM=04023
+
+///////////////////////////////////////////////////////////////
+//////// CHAIR PARTS
+///////////////////////////////////////////////////////////////
+// These are used as components for craftable deeds.
+[ITEMDEF 04027]
+DEFNAME=i_gargish_couch_e_2_2
+NAME=Gargish Couch
+TYPE=t_chair
+WEIGHT=50
+DUPELIST=04028,04029,0402a
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Gargish Couch (East - 2 of 2)
+
+[ITEMDEF 04028]
+DEFNAME=i_gargish_couch_e_1_2
+DUPEITEM=04027
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Gargish Couch (East - 1 of 2)
+
+[ITEMDEF 04029]
+DEFNAME=i_gargish_couch_s_2_2
+DUPEITEM=04027
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Gargish Couch (South - 2 of 2)
+
+[ITEMDEF 0402a]
+DEFNAME=i_gargish_couch_s_1_2
+DUPEITEM=04027
+CATEGORY=Decoration - Furniture
+SUBSECTION=Chairs
+DESCRIPTION=Gargish Couch (South - 1 of 2)
+
+[eof]

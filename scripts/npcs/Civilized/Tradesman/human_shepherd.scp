@@ -1,0 +1,123 @@
+[CHARDEF c_h_shepherd]
+DEFNAME=C_H_SHEPHERD
+NAME=#NAMES_HUMANMALE the Shepherd
+ID=C_MAN
+DESIRES=i_gold,c_SHEEP_WOOLLY,c_SHEEP_SHORN,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobShepherd
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Shepherd (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={51 65}
+	DEX={41 55}
+	INT={31 45}
+
+	ANIMALLORE={50.0 70.0}
+	VETERINARY={50.0 70.0}
+	CAMPING={55.0 78.0}
+	HERDING={55.0 78.0}
+	FENCING={15.0 38.0}
+
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	TACTICS={25.0 48.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=i_pants_short
+	COLOR=colors_all
+	ITEM=i_hat_wide_brim
+	COLOR=colors_neutral
+	ITEM=random_boots
+	ITEM=i_shepherds_crook
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_SHEPHERD
+	BUY=VENDOR_B_SHEPHERD
+
+
+[CHARDEF c_h_shepherd_f]
+DEFNAME=C_H_SHEPHERD_F
+NAME=#NAMES_HUMANFEMALE the Shepherdess
+ID=C_WOMAN
+DESIRES=i_gold,c_SHEEP_WOOLLY,c_SHEEP_SHORN,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobShepherd
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Shepherd (female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={51 65}
+	DEX={41 55}
+	INT={31 45}
+
+	ANIMALLORE={50.0 70.0}
+	VETERINARY={50.0 70.0}
+	CAMPING={55.0 78.0}
+	HERDING={55.0 78.0}
+	FENCING={15.0 38.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	TACTICS={25.0 48.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=i_pants_short
+	COLOR=colors_all
+	ITEM=i_hat_wide_brim
+	COLOR=colors_neutral
+	ITEM=random_boots
+	ITEM=i_shepherds_crook
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_SHEPHERD
+	BUY=VENDOR_B_SHEPHERD
+
+[EOF]

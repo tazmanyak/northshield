@@ -1,0 +1,1113 @@
+﻿[function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+ //if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+ //src.tago.tilleruidi <uid>
+ //<uid> 
+//endif
+//endfor
+
+  foritems 6
+
+    if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+    src.tag0.tillermancik <uid> 
+    endif
+
+    if (<region.uid> == <ref1>) && (<type> == t_fish)
+     cont <ref1.hatch>
+    TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+    endif
+  endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+	SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+	return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 40
+
+  if (rand(4)) ==1)
+	src.sysmessage @,,1 Baliginiz bitti...
+	src.findid.i_balik.timer 2
+        src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+	return 1
+  else
+	src.sysmessage @,,1 Baliginiz bitti...
+	src.findid.i_balik.timer 2
+	src.newitem i_fish_cut_cooked
+	src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+	src.act.bounce
+        src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+	return 1
+  endif
+
+else
+
+  if (rand(10)) ==1)
+	src.sysmessage @33,,1 Baliklari yaktiniz...
+	src.findid.i_balik.timer 1
+	src.consume 10 i_fish_cut_raw
+	timer 2
+	return 1
+  else
+        src.findid.i_balik.timer 2
+        src.consume 40 i_fish_cut_raw
+	src.newitem i_fish_cut_cooked
+	src.act.amount 40
+	src.act.bounce
+	return 1
+  endif
+
+ENDIF
+
+[itemdef i_balik] //////////////balik tavasi
+name Balık Tavası
+defname i_balik
+id i_frypan
+type t_normal
+SKILLMAKE=TINKERING 75.0, t_tinker_tools
+RESOURCES=50 i_ingot_iron, 30 i_ingot_copper, 20 i_log
+value 14000
+
+on=@create
+color color_o_copper
+tag0.tavasaglamlik 1900
+
+on=@click
+
+if (<eval <tag0.tavasaglamlik>> < 19)
+message @33,,1 [ Saglamlik: 1/100 ]
+message @,,1 <name>
+return 1
+else
+message @33,,1 [ Saglamlik: <eval <tag0.tavasaglamlik>/19>/100 ]
+message @,,1 <name>
+return 1
+endif
+
+on=@dclick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @69,1,1 Bu islem icin tavanin cantanizda olmasi gerekiyor.
+	return 1
+endif
+local.tava 0
+forcont <src.findlayer.layer_pack.uid> 0
+	if <baseid> == i_balik
+		local.tava ++
+	endif
+endfor
+if <eval <local.tava>> > 1
+	src.sys_error Çantanızda 1 den fazla tava varken işlem yapamazsınız.
+	return 1
+endif
+
+
+IF (<SRC.COOKING> < 99.1)
+	SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+	return 1
+endif
+
+if !<src.findid.i_fish_cut_raw>
+	src.sysmessage @,,1 Cantanizda kesilmis balik yok.
+	return 1
+endif
+
+if (<timer> > 0)
+src.sysmessage @,,1 Tava temizleniyor...
+return 1
+endif
+
+if (<eval <tag0.tavasaglamlik>> == 0)
+	src.say * Tavasi patlar *
+endif
+
+ref1 <src.uid>
+ref2 <uid>
+
+foritems 2
+	if (<type>==t_campfire) 
+	ref1.balikpisir
+	ref2.baliktavasidamage
+	src.dclick <uid>
+	//Effect 2,i_fx_smoke_small,16,14,0,0,3
+	Effect 2,i_fx_smoke_small,3,20,1
+	//if (rand(10) == 1)
+		timer ++
+		ref1.sysmessage @69,,1 Atesi koruklediniz.
+	//endif
+	DORAND 3
+	ref1.anim 33
+	ref1.anim 30
+	ref1.anim 32
+	enddo
+        return 1 
+endif
+endfor
+
+
+src.sysmessage @,,1 Etrafinzda ates bulunmuyor.
+return 1
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+	remove
+elseif (rand(3) == 1)
+	tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[ITEMDEF i_fishing_net_green]
+ID=i_fishing_net_3
+VALUE=200
+WEIGHT=1
+NAME=Balık Ağı
+SKILLMAKE=TAILORING 98.0 , t_sewing_kit
+RESOURCES=6 i_yarn_ball
+//RESOURCES=10 I_ROPE, 10 I_THREAD, 4 I_SHELL
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Fishing Net
+
+On=@Create
+attr attr_decay
+COLOR=color_o_verite
+MORE1=1000
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@DClick
+
+IF !(<src.uid> == <topobj.uid>//<cont.cont.uid>)
+	src.sysmessage @33,,1 Cantanizda olmasi gereklidir.
+	return 1
+endif
+
+if <src.findid.i_ag_bekletme>
+	src.sysmessage @33,,1 Tekrar ag atmak icin <src.findid.i_ag_bekletme.timer> saniye bekleyiniz.
+	return 1
+endif
+ref1 <src.uid>
+FORITEMS 0
+	if <baseid.i_fishing_net_green>
+	ref1.sysmessage @33,,1 Altinizda zaten ag var.
+	return 1
+	endif
+endfor
+
+if (<SRC.FISHING> < 90.0)
+src.sysmessage @,,1 En az 90 fishing skiliniz olmali.
+	RETURN 1
+endif
+if (<src.findid.i_fishing_delay.timer> < 0)
+	findid.i_fishing_delay.remove
+elseif (<src.findid.i_fishing_delay>)
+	src.sysmessage @39,,1 Hata: Ag atmak icin biraz beklemelisiniz.
+ELSE
+IF ! (<MORE1> == 1000 )
+	MESSAGE @0790,,1 [ Ag Kurulu ]
+RETURN 1
+ELSEIF !(<SRC.REGION.FLAGS>&region_flag_ship)
+	SRC.sysMESSAGE @38,,1 Hata: Bunu sadece gemilerde kullanabilirsiniz!
+	RETURN 1
+ELSEIF !(<REGION.FLAGS>&region_flag_ship)
+	SRC.sysMESSAGE @38,,1 Hata: Bunu sadece gemilerde kullanabilirsiniz!
+	RETURN 1
+ELSEIF (<src.uid> == <topobj.uid>//<cont.cont.uid>)
+        DROP
+	SRC.SAYU Haydi Rastgele! 
+	MORE1=100
+	newitem i_fishing_delay
+	new.equip
+	serv.NEWITEM i_fishnet_spawner2
+        new.tag0.balikcininuid <src.uid>
+	new.EQUIP
+	new.MORE1={8 10}
+	new.TIMER={3 5}
+	new.MOREP=<SRC.P>
+	ATTR=0010
+	TIMER=(<SRC.FINDID.i_fishnet_spawner2.MORE1> * <SRC.FINDID.i_fishnet_spawner2.TIMER>)
+newitem i_ag_bekletme
+new.equip
+	RETURN 1
+ENDIF
+ENDIF
+
+RETURN 1
+
+ON=@Timer
+attr attr_decay
+REMOVE
+return 1
+
+on=@DropOn_Item
+
+if (<argo.topobj.uid> == <src.uid>)
+	if <eval <src.findid.i_fishing_net_green_sarj.more1>> < 250
+		if <src.findid.i_fishing_net_green_sarj>
+			src.findid.i_fishing_net_green_sarj.more1 ++
+			src.sysmessage @69,,1 Ag eklendi, mevcut aglar: <eval <src.findid.i_fishing_net_green_sarj.more1>>
+			remove
+		endif
+	else
+		src.sysmessage @33,,1 Balik aglarinin sarji doldugu icin eklenmedi.( Max 250)
+	endif
+endif
+
+
+
+[itemdef i_ag_bekletme]
+NAME=fishnet spawner
+ID=i_gold
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+ATTR=attr_invis|attr_decay
+
+ON=@Equip
+TIMER=6
+
+on=@timer
+remove
+return 1
+
+[ITEMDEF i_fishnet_spawner2]
+NAME=fishnet spawner
+ID=i_gold
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+ATTR=attr_invis|attr_decay
+
+ON=@Equip
+TIMER=1	
+
+ON=@Timer
+
+if (<cont>)
+	if !(<more1> = 0)
+		more1 = <more1> - (1)
+                ref1 <region.uid>
+	        cont.newitem { i_fish_big_1 1 i_fish_big_2 1 i_fish_big_3 1 i_fish_big_4 1 }
+		//cont.act.p = <morep>
+                cont.act.amount = {14 17}
+		ref1.tiller.say @,,1 <new.amount> balık kasanıza aktarıldı. 
+                cont.act.timer 60
+		cont.act.update
+                new.cont <ref1.hatch>
+		if (rand(180) == 1)
+			cont.newitem i_sos_bottle
+			new.cont <ref1.hatch>
+			cont.act.update
+		endif
+		timer = 2
+		return 1
+	elseif (<more1> = 0)
+		remove
+		return 1
+	endif
+endif
+remove
+return 1
+
+[itemdef i_sedo_remove]
+ID=i_memory
+TYPE=t_eq_script
+NAME=serpent&dolphin remover!
+
+On=@Create
+attr attr_decay
+
+On=@Timer
+if !(<more2>)
+	cont.flags <cont.flags>|04
+	cont.anim 4
+	cont.sayu * dibe dogru dalar *
+	more2 1
+	timer 4
+	return 1
+else
+	cont.remove 1
+	remove
+	return 1
+endif
+
+[ITEMDEF i_fish_prize]
+NAME=prize fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Prize Fish (magic)
+
+on=@create
+COLOR=colors_brown
+
+on=@dclick
+SOUND=snd_spell_cunning
+SRC.SPELLEFFECT=10,100
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fish_wondrous]
+NAME=wondrous fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Wondrous Fish (magic)
+
+on=@Create
+COLOR=colors_blue
+
+on=@DClick
+SOUND=snd_spell_agility
+SRC.SPELLEFFECT=9,100
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fish_rare]
+NAME=truly rare fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Truly Rare Fish (magic)
+
+on=@Create
+COLOR=colors_orange
+
+on=@DClick
+SOUND=snd_spell_strength
+SRC.SPELLEFFECT=16,100
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fish_peculiar]
+NAME=highly peculiar fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Highly Peculiar Fish (magic)
+
+on=@Create
+COLOR=colors_green
+
+on=@DClick
+SOUND=snd_spell_agility
+src.stamina = <src.stamina>+10
+
+IF <src.stamina> > <src.dex>
+	src.stamina = <src.dex>
+ENDIF
+REMOVE
+RETURN 1
+
+[itemdef i_fishing_delay]
+name Fishing Delay
+id 0186a
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_newbie
+timer 6
+
+On=@Equip
+timer 3
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_fishing_net_green_sarj]
+name Balık Ağ Stoğu
+id i_net
+type t_normal
+weight 0
+SKILLMAKE=TAILORING 99.9 , t_sewing_kit
+RESOURCES=5 i_quality_yarn_ball
+
+On=@Create
+more1 1
+
+On=@Timer
+return 1
+
+on=@click
+if <eval <more1>> > 0
+message @69,,1 [<eval <more1>> Adet Ag]
+message @,,1 <name>
+return 1
+else
+message @33,,1 [<eval <more1>> Adet Ag]
+message @,,1 <name>
+return 1
+endif
+
+on=@dclick
+
+if (<SRC.FISHING> < 99.9)
+	src.sysmessage @33,,1 100.0 fishing yeteneginiz olmalidir.
+	RETURN 1
+endif
+
+if <src.findid.i_ag_bekletme>
+	src.sysmessage @33,,1 Tekrar ag atmak icin <src.findid.i_ag_bekletme.timer> saniye bekleyiniz.
+	return 1
+elif <eval <more1>> < 1
+	src.sysmessage @33,,1 Ag kalmamis.
+	return 1
+elif !(<topobj.uid> == <src.uid>)
+	src.sysmessage @33,,1 Cantanizda bulunmasi gerekmektedir.
+	return 1
+elif !(<SRC.REGION.FLAGS>&region_flag_ship)
+	SRC.sysMESSAGE @33,,1 Hata: Bunu sadece gemilerde kullanabilirsiniz!
+	RETURN 1
+elif !(<REGION.FLAGS>&region_flag_ship)
+	SRC.sysMESSAGE @33,,1 Hata: Bunu sadece gemilerde kullanabilirsiniz!
+	RETURN 1
+endif
+	SRC.SAYU Haydi Rastgele! 
+	more1 --
+	serv.NEWITEM i_fishnet_spawner2
+        new.tag0.balikcininuid <src.uid>
+	new.EQUIP
+	new.MORE1={8 10}
+	new.TIMER={3 5}
+	new.MOREP=<SRC.P>
+	serv.newitem i_fishing_net_green
+	new.p <src.p>
+	new.ATTR=0010
+	new.TIMER=(<SRC.FINDID.i_fishnet_spawner2.MORE1> * <SRC.FINDID.i_fishnet_spawner2.TIMER>)
+newitem i_ag_bekletme
+src.equip <new>
+return 1
+
+
+/////////////////////////////////////
+
+[itemdef i_quality_yarn_ball]
+name quality yarn ball
+id i_yarn_Ball
+type t_normal
+weight 1
+
+SKILLMAKE=TAILORING 99.9 , t_sewing_kit
+RESOURCES=100 i_yarn_ball
+
+on=@create
+color 0995
+
+[eof]
+[EOF]
+[function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 20
+
+if (rand(4)) ==1)
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 1
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+else
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 1
+src.newitem i_fish_cut_cooked
+src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+src.act.bounce
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+endif
+
+else
+
+if (rand(40)) ==15)
+src.sysmessage @33,,1 Baliklari yaktiniz...
+src.findid.i_balik.timer 1
+src.consume rand(5) i_fish_cut_raw
+timer 2
+return 1
+else
+src.findid.i_balik.timer 1
+src.consume 20 i_fish_cut_raw
+src.newitem i_fish_cut_cooked
+src.act.amount 20
+src.act.bounce
+return 1
+endif
+
+ENDIF
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof]
+[function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof][function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 20
+
+if (rand(4)) ==1)
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+else
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.newitem i_fish_cut_cooked
+src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+src.act.bounce
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+endif
+
+else
+
+if (rand(5)) ==1)
+src.sysmessage @33,,1 Baliklari yaktiniz...
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+timer 2
+return 1
+else
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+src.newitem i_fish_cut_cooked
+src.act.amount 20
+src.act.bounce
+return 1
+endif
+
+ENDIF
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof]
+[function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 20
+
+if (rand(4)) ==1)
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+else
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.newitem i_fish_cut_cooked
+src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+src.act.bounce
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+endif
+
+else
+
+if (rand(5)) ==1)
+src.sysmessage @33,,1 Baliklari yaktiniz...
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+timer 2
+return 1
+else
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+src.newitem i_fish_cut_cooked
+src.act.amount 20
+src.act.bounce
+return 1
+endif
+
+ENDIF
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof][function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 20
+
+if (rand(4)) ==1)
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+else
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.newitem i_fish_cut_cooked
+src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+src.act.bounce
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+endif
+
+else
+
+if (rand(5)) ==1)
+src.sysmessage @33,,1 Baliklari yaktiniz...
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+timer 2
+return 1
+else
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+src.newitem i_fish_cut_cooked
+src.act.amount 20
+src.act.bounce
+return 1
+endif
+
+ENDIF
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof]
+[function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 20
+
+if (rand(4)) ==1)
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+else
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.newitem i_fish_cut_cooked
+src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+src.act.bounce
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+endif
+
+else
+
+if (rand(5)) ==1)
+src.sysmessage @33,,1 Baliklari yaktiniz...
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+timer 2
+return 1
+else
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+src.newitem i_fish_cut_cooked
+src.act.amount 20
+src.act.bounce
+return 1
+endif
+
+ENDIF
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof][function baliklaritopla]
+
+ref1 <src.region.uid>
+ref2 <ref1.more1>
+
+if (<ref1.type> == t_ship) && (<ref2> == <src>)
+
+//foritems 7
+//if (<region.uid> == <src.region.uid>) && (strmatch("<name>","tiller man")) //&& (<ref2> == <src>)
+//src.tago.tilleruidi <uid>
+//<uid>
+//endif
+//endfor
+
+foritems 6
+
+if (<region.uid> == <ref1>) && (strmatch("<name>","tiller man"))
+src.tag0.tillermancik <uid>
+endif
+
+if (<region.uid> == <ref1>) && (<type> == t_fish)
+cont <ref1.hatch>
+TRY Uid.<src.tag0.tillermancik>.say @,,1 Baliklar kasaya toplandi kaptan.
+endif
+endfor
+endif
+
+
+
+
+[function balikpisir]
+IF (<SRC.COOKING> < 99.1)
+SRC.SYSMESSAGE @026b,,1 Kullanmak Icin 99.1 Cooking Yeteneginiz olmali.
+return 1
+endif
+
+if <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> < 20
+
+if (rand(4)) ==1)
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+else
+src.sysmessage @,,1 Baliginiz bitti...
+src.findid.i_balik.timer 2
+src.newitem i_fish_cut_cooked
+src.act.amount <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT>
+src.act.bounce
+src.consume <SRC.FINDLAYER{21}.rescount{i_fish_cut_raw}.AMOUNT> i_fish_cut_raw
+return 1
+endif
+
+else
+
+if (rand(5)) ==1)
+src.sysmessage @33,,1 Baliklari yaktiniz...
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+timer 2
+return 1
+else
+src.findid.i_balik.timer 2
+src.consume 20 i_fish_cut_raw
+src.newitem i_fish_cut_cooked
+src.act.amount 20
+src.act.bounce
+return 1
+endif
+
+ENDIF
+
+[function baliktavasidamage]
+if (<eval <tag0.tavasaglamlik>> == 0)
+remove
+else
+tag0.tavasaglamlik --
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+//VERSION=0.55
+[typedef t_fish]
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+[eof]

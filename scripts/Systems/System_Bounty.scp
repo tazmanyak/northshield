@@ -1,0 +1,278 @@
+[itemdef i_bounty_board]
+id=i_bulletin_board
+name=@,,1 Kelle Avcı Listesi
+type=t_normal
+
+on=@create
+attr=010
+color=066d
+
+on=@dclick
+sdialog d_bounty_board
+return 1
+
+
+[events e_bounty_system]
+
+on=@death
+if (<act.isplayer>) && (<act.uid>!=<uid>)
+if (<notogetflag <act.uid>>==1) && !(<memoryfindtype.memory_iaggressor.link>==<act.uid>)
+ctag0.murderers=<act.uid>
+sdialog d_bounty
+return 0
+endif
+endif
+
+[dialog d_bounty_board]
+150, 150
+page 0
+gumppic 25 25 2170
+gumppic 235 44 9804
+dtext 190 60 450 Kelle
+dtext 305 60 450 Sistemi
+gumppic 0 182 103
+button 15 187 1209 1210 1 0 1000
+dtext 30 184 455 Kelleyi Ver !
+button 15 207 1209 1210  0 3
+dtext 30 204 455 En İyi Avcı
+button 15 227 1209 1210  0 4
+dtext 30 224 455 Kelle Puanları
+button 15 247 1209 1210  1 0 1
+dtext 30 244 455 Son Eylemler
+button 15 267 1209 1210  1 0 1001
+dtext 30 264 455 Kelle Kontratı Al !
+
+page 1
+dtext 180 140 450 Son kelle anlaşmaları:
+for <tag0.bounties>
+tag0.bounty<local._for>=
+endfor
+tag0.bounties=
+serv.allclients bounty_check <uid>
+if (<tag0.bounties>)
+for <tag0.bounties>
+ref1=<tag0.bounty<local._for>>
+button 150 <eval (167+(<local._for>*15))> 1209 1210 1 0 <eval <local._for>>
+dtext 170 <eval (165+(<local._for>*15))> <src.getnoto_color <ref1>> <ref1.name> - <eval <ref1.tag0.bounty>> gold
+endfor
+else
+dtext 170 180 455 Hiç kimsenin kelle talebi bulunmuyor.
+endif
+
+page 2
+ref1=<src.ctag0.view_bounty>
+dtext 180 140 450 <ref1.name> kelle detayları:
+dtext 170 180 450 Kills: <ref1.kills>
+dtext 170 195 450 Ödül: <eval <ref1.tag0.bounty>> gold
+dtext 170 210 450 Son İşi: Bilinmiyor
+button 140 367 4015 4016 0 1 //previous page
+dtext 175 367 455 Geri
+
+page 3
+dtext 180 140 450 En İyi Avcı: 
+dtext 170 180 450 İsim: <uid.<findplayer_highest tag0.bounty_points>.name>
+dtext 170 195 450 Toplanan Kelleler: <uid.<findplayer_highest tag0.bounty_points>.dtag0.bounty_Points>
+dtext 170 210 450 Kazanılan Gold: <uid.<findplayer_highest tag0.bounty_points>.dtag0.bounty_gold_earned>
+button 140 367 4015 4016 0 1 //previous page
+dtext 175 367 455 Geri
+
+page 4
+dtext 180 140 450 Kelle Puanınız:
+dtext 170 180 450 <eval <src.tag0.bounty_points>> kadar kelle avcılığı puanınız mevcut.
+
+button 140 367 4015 4016 0 1 //previous page
+dtext 175 367 455 Geri
+
+
+[dialog d_bounty_board button]
+onbutton=1,999
+ref1=<tag0.bounty0<argn>>
+src.ctag0.view_bounty=<ref1>
+sdialog d_bounty_board 2
+
+onbutton=1000
+src.claim_bounty
+
+onbutton=1001
+if <src.bankbalance> > 5000
+	serv.newitem i_custom_bounty
+	new.bounce <src.uid>
+	src.sysmessage @,,1 Kelle kontratını aldın. Kullanmak için çift tıklayıp hedefini seçebilirsin. Dikkat et ayağını yerden kaydırmasınlar !
+	src.gold -=5000
+else
+	src.sys_error Açlıktan ağzın kokuyor birde kelle avcılarıyla anlaşmamı yapacaksın.
+endif
+
+onbutton=1002
+sdilaog d_bounty_board 3
+
+
+[itemdef i_custom_bounty]
+id=i_deed
+type=t_normal
+name=Bounty Contract
+
+on=@create
+attr=04
+color=066d
+
+on=@dclick
+target
+src.sysmessage @,,1 Kimin kellesine ödül koymak istiyorsunuz?
+return 1
+
+on=@targon_item
+src.sysmessage @,,1 Buna yapamazsınız.
+return 1
+
+on=@targon_char
+if !(<src.targ.isplayer>)
+src.sysmessage @,,1 Buna yapamazsınız.
+return 1
+endif
+if (<src.targ.uid>==<src.uid>)
+src.sysmessage @,,1 Buna yapamazsınız.
+return 1
+endif
+if (<src.targ.account.lastip>==<src.account.lastip>)
+src.sysmessage @,,1 Tsk.. Tsk..
+return 1
+endif
+src.ctag0.custom_bounty_target=<src.targ.uid>
+src.promptconsole custom_bounty
+src.sysmessage @,,1 <src.name> kafasına ne kadar ödül koyacaksınız , değeri girip ekrana yaz !
+remove
+return 1
+
+[function custom_bounty]
+ref1=<ctag0.custom_bounty_target>
+src.ctag0.custom_bounty_target=
+if (<isempty <args>>)
+src.sysmessage @,,1 Ödül boş belirtilemez.
+return 1
+endif
+if !(<isnum <args>>)
+src.sysmessage @,,1 Kelle için geçerli bir değer girmediniz.
+return 1
+endif
+if (<args>><src.gold>)
+src.sysmessage @,,1 Bunu karşılayacak kadar paranız yok.
+return 1
+endif
+if (<args> < 25000)
+src.sysmessage @,,1 En düşük teklif 25k olarak belirtilmelidir.
+return 1
+endif
+ref1.tag0.bounty=<args>
+serv.allclients sys_normal <src.name>, <ref1.name> kellesi için <eval <args>> kadar gold teklif etti.
+src.sysmessage @,,1 <ref1.name> kellesi için <eval <args>> kadar gold belirlediniz.
+ref1.notice <src.name> kellenize  <eval <args>> kadar gold talep etti. Avcılar peşinize düşecektir.
+src.gold -= <args>
+src.sound 585
+return 1
+
+[function claim_bounty]
+targetf select_head
+sysmessage @,,1 Teslim etmek istediğin kelleyi seç?
+return 1
+
+[function select_head]
+ref1=<argo>
+if !(<ref1.baseid>==i_flesh_head)
+sysmessage @,,1  Bu dogru düzgün bir kelle değil.
+return 1
+endif
+if (<ref1.link.account.lastip>==<account.lastip>) && !(<isgm>)
+sysmessage @,,1 Tsk tsk..
+return 1
+endif
+if !(<ref1.link>)
+sysmessage @,,1 Sadece oyıncuların kellesini verebilirsin.
+return 1
+endif
+if (<ref1.link.tag0.bounty>)
+sysmessage @,,1 <ref1.name> için kelleyi avladınız ve 1 kelle puanı sahibi oldunuz.
+serv.allclients sys_normal <name>, <ref1.name> için kelle avladı ve görevini başarı ile tamamlandı.
+tag0.bounty_points += 1
+tag0.bounty_gold_earned += <ref1.link.tag0.bounty>
+newgold <ref1.link.tag0.bounty>
+sound 54
+ref1.link.tag0.bounty=
+ref1.consume
+return 1
+else
+sysmessage @,,1 <ref1.name> için getirilecek bir kelle yok.
+return 1
+endif
+
+[function bounty_check]
+ref1=<args>
+if (<tag0.bounty>)
+ref1.tag0.bounties += 1
+ref1.add_bounty <uid>
+endif
+
+[function add_bounty]
+ref1=<args>
+for <tag0.bounties>
+if !(<tag0.bounty<local._for>>)
+tag0.bounty<local._for>=<ref1.uid>
+endif
+endfor
+
+[dialog d_bounty]
+150, 150
+ref2=<ctag.murderers>
+gumppic 1 21 2080
+gumppic 19 58 2081
+gumppic 19 128 2082
+gumppic 19 198 2082
+gumppic 19 268 2083
+gumppic 115 4 9804
+dtext 70 25 450 Kelle 
+dtext 185 25 450 Avcılığı
+dhtmlgump 35 55 235 210 0 0 <name>, <ref2.name> tarafınıdan öldürüldünüz, sizi öldürenin kellesine ödül koymak ister misiniz? <bankbalance> kadar bakiyeniz var ve kelle avcılarına sunacak kadar paranız var gibi gözüküyor.Tek yapmanız gereken ödülü belirlemek ve ok demek.
+button 50 170 2450 2451 1 0 1
+gumppic 100 170 2445
+dtextentrylimited 105 169 100 15 1152 1 13 0
+button 50 195 2453 2454 1 0 2
+gumppic 135 300 2094
+
+
+[dialog d_bounty button]
+onbutton=0
+sysmessage @,,1 Vazgeçtiniz.
+ctag0.murderers=
+
+onbutton=1
+ref1=<uid>
+ref2=<ctag0.murderers>
+if !(<isnum <argtxt[1]>>) || (<argtxt[1]>==0)
+sysmessage @,,1 Geçerli bir değer belirtmediniz.
+sdialog d_bounty
+return 1
+endif
+if (<eval <argtxt[1]>>>=<bankbalance>)
+sysmessage @,,1 Bunu karşılayacak kadar bakiyeniz yok.
+sdialog d_bounty
+return 1
+endif
+if !(<ref2>)
+sysmessage @,,1 Katilin yok.
+return 1
+endif
+gold -=<eval <argtxt[1]>> 
+sound 0032
+ref2.tag0.bounty += <argtxt[1]>
+sysmessage @,,1 <ref2.name> kellesi için <eval <args>> kadar gold belirlediniz.
+ref1.notice <name> kellenize <eval <argtxt[1]>> kadar gold talep etti. Avcılar peşinize düşecektir.
+serv.allclients sys_normal <name>, <ref2.name> kellesi için <eval <args>> kadar teklif etti.
+
+ctag0.murderers=
+onbutton=2
+sysmessage @,,1 Vazgeçtiniz.
+ctag0.murderers=
+
+
+[eof]
+

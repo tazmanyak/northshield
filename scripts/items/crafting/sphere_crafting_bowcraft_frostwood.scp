@@ -1,0 +1,345 @@
+[ITEMDEF i_bow_frostwood]
+ID=i_bow
+NAME=Frostwood bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_frostwood
+SKILLMAKE=30.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood bow
+DESCRIPTION=Frostwood bow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_composite_bow_frostwood]
+ID=i_composite_bow
+NAME=Frostwood Composite Bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_frostwood
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=5.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Composite Bow
+DESCRIPTION=Frostwood Composite Bow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_crossbow_frostwood]
+ID=i_crossbow
+NAME=Frostwood crossbow
+TYPE=t_weapon_xbow
+RESOURCES=7 i_log_frostwood
+SKILLMAKE=60.0 Bowcraft
+WEIGHT=7.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood crossbow
+DESCRIPTION=Frostwood crossbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_elven_composite_longbow_frostwood]
+ID=i_elven_composite_longbow
+NAME=Frostwood Elven Composite Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_frostwood
+SKILLMAKE=95.0 Bowcraft
+WEIGHT=8.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Elven Composite Longbow
+DESCRIPTION=Frostwood Elven Composite Longbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_crossbow_heavy_frostwood]
+ID=i_crossbow_heavy
+NAME=Frostwood heavy crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_frostwood
+SKILLMAKE=80.0 Bowcraft
+WEIGHT=9.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood heavy crossbow
+DESCRIPTION=Frostwood heavy crossbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_magical_shortbow_frostwood]
+ID=i_magical_shortbow
+NAME=Frostwood Magical Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_frostwood
+SKILLMAKE=85.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Magical Shortbow
+DESCRIPTION=Frostwood Magical Shortbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_repeating_crossbow_frostwood]
+ID=i_repeating_crossbow
+NAME=Frostwood Repeating Crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_frostwood
+SKILLMAKE=90.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Repeating Crossbow
+DESCRIPTION=Frostwood Repeating Crossbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_yumi_frostwood]
+ID=i_yumi
+NAME=Frostwood Yumi
+TYPE=t_weapon_bow
+RESOURCES=10 i_log_frostwood
+SKILLMAKE=90.0 Bowcraft
+WEIGHT=8.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Yumi
+DESCRIPTION=Frostwood Yumi
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_barbed_longbow_frostwood]
+ID=i_elven_composite_longbow
+NAME=Frostwood Barbed Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_frostwood, 1 i_gem_fire_ruby
+SKILLMAKE=95.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Elven Composite Longbow
+DESCRIPTION=Frostwood Barbed Longbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_slayer_longbow_frostwood]
+ID=i_elven_composite_longbow
+NAME=Frostwood Slayer Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_frostwood, 1 i_gem_brilliant_amber
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Elven Composite Longbow
+DESCRIPTION=Frostwood Slayer Longbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_frozen_longbow_frostwood]
+ID=i_elven_composite_longbow
+NAME=Frostwood Frozen Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_frostwood, 1 i_gem_turquoise
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Elven Composite Longbow
+DESCRIPTION=Frostwood Frozen Longbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_longbow_might_frostwood]
+ID=i_elven_composite_longbow
+NAME=Frostwood Longbow of Might
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_frostwood, 1 i_gem_blue_diamond
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Elven Composite Longbow
+DESCRIPTION=Frostwood Longbow of Might
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_ranger_shortbow_frostwood]
+ID=i_magical_shortbow
+NAME=Frostwood Ranger's Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_frostwood, 1 i_gem_perfect_emerald
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Magical Shortbow
+DESCRIPTION=Frostwood Ranger's Shortbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_lightweight_shortbow_frostwood]
+ID=i_magical_shortbow
+NAME=Frostwood Lightweight Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_frostwood, 1 i_gem_white_pearl
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Magical Shortbow
+DESCRIPTION=Frostwood Lightweight Shortbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_mystical_shortbow_frostwood]
+ID=i_magical_shortbow
+NAME=Frostwood Mystical Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_frostwood, 1 i_gem_ecru_citrine
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Magical Shortbow
+DESCRIPTION=Frostwood Mystical Shortbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_assassin_shortbow_frostwood]
+ID=i_magical_shortbow
+NAME=Frostwood Assassin's Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_frostwood, 1 i_gem_dark_sapphire
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Magical Shortbow
+DESCRIPTION=Frostwood Assassin's Shortbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[EOF]
+[ITEMDEF i_bow_frostwood]
+ID=013b1
+NAME=Frostwood bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_frostwood
+SKILLMAKE=30.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood bow
+DESCRIPTION=Frostwood bow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_crossbow_frostwood]
+ID=0f4f
+NAME=Frostwood crossbow
+TYPE=t_weapon_xbow
+RESOURCES=7 i_log_frostwood
+SKILLMAKE=60.0 Bowcraft
+WEIGHT=7.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood crossbow
+DESCRIPTION=Frostwood crossbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_crossbow_heavy_frostwood]
+ID=013fc
+NAME=Frostwood heavy crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_frostwood
+SKILLMAKE=80.0 Bowcraft
+WEIGHT=9.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood heavy crossbow
+DESCRIPTION=Frostwood heavy crossbow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_fast_bow_frostwood]
+ID=02d1f
+NAME=Frostwood Speed Bow
+TYPE=t_weapon_bow
+RESOURCES=50 i_log_frostwood, 20 i_bow_item, 20 i_reag_dragon_blood
+SKILLMAKE=98.1 Bowcraft, 90.0 Magery
+WEIGHT=4.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Magical Shortbow
+DESCRIPTION=Frostwood Speed Bow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 
+[ITEMDEF i_bow_npc_frostwood]
+ID=026c2
+NAME=Frostwood Slayer Bow
+TYPE=t_weapon_bow
+RESOURCES=50 i_log_frostwood, 20 i_bow_item, 20 i_reag_dragon_blood
+SKILLMAKE=98.1 Bowcraft, 90.0 Magery
+WEIGHT=4.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Frostwood Composite Bow
+DESCRIPTION=Frostwood Slayer Bow
+TAG.DamCold=40
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04ab
+ 

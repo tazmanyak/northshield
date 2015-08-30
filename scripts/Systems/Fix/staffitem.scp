@@ -1,0 +1,1222 @@
+﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_yeni_anons_tasi]
+name Yeni Anons Tasi
+id i_grave_stone
+type t_eq_script
+weight 0
+
+on=@click
+message @33,,1 (Anons Sayisi: 8)
+message @,,1 [Siradaki: <eval <more2>>]
+message <name>
+return 1
+
+on=@dclick
+return 1
+
+on=@create
+attr=080
+timer 300
+color 0542
+more2 7
+
+on=@timer // f_on_server_timer ayarlandi.
+f_yeni_anons
+return 1 
+
+[function f_yeni_anons]
+
+if (<eval <more2>> == 7)
+serv.allclients sysmessage @38,,1 Bilgilendirme:
+serv.allclients sysmessage @,,1 Sistemler,eşyalar ve questler hakkındaki bilgileri TNS Wiki'den öğrenebilirsiniz.
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 6)
+serv.allclients sysmessage @38,,1 Bilgilendirme:
+serv.allclients sysmessage @,,1 Sunucumuzda PH oranı %100'dür
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 5)
+//serv.allclients sysmessage @38,,1 Bilgilendirme:
+//serv.allclients sysmessage @,,1 Küfür etmek bir hastalıktır. Bu kişilerin acil olarak piskolojik destek almaları gerekmektedir.
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 4)
+serv.allclients sysmessage @38,,1 Bilgilendirme:
+serv.allclients sysmessage @,,1 Size hakaret eden kişileri Options'dan IGNORE edebilirsiniz. Sonsuza kadar mesajlarını görmeyebilirsiniz.
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 3)
+//serv.allclients sysmessage @38,,1 Bilgilendirme:
+//serv.allclients sysmessage @,,1 Hakaret vb konular için lütfen page atmayınız. Kendi cezanınızı kendiniz IGNORE ederek verebilirsiniz.
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 2)
+serv.allclients sysmessage @38,,1 Bilgilendirme:
+serv.allclients sysmessage @,,1 Karakter bilginiz ve fazlasi icin .oyuncu komutunu. Fame & Karma sayınızı ogrenmek için .durum komutunu kullanabilirsiniz.
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 1)
+//serv.allclients sysmessage @38,,1 Bilgilendirme:
+//serv.allclients sysmessage @,,1 Aşağılık ve kompleksli olan kişiler en çok küfür kullanmaktadır.
+//timer 300
+more2 --
+return 1
+elseif (<eval <more2>> == 0)
+serv.allclients sysmessage @38,,1 Bilgilendirme:
+serv.allclients sysmessage @,,1 Lutfen forumlari aktif olarak kullanınız ve sistemleri ve guncellemeri TNS Wiki'den takip ediniz.
+more2 8
+//timer 300
+more2 --
+return 1
+endif
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[plevel 2]
+gmmod
+
+[function gmmod]
+if (<account.plevel> < 2)
+	sysmessage @0481,,2 Gm Mod: Kapali
+	src.body c_man 1
+elseif (<account.plevel> < 2)
+	sysmessage @0481,,2 Gm Mod: Acik
+	src.body c_man_gm 1
+endif
+
+[function s_s]
+if (strmatch("<args>",""))
+var.smsgx 0481
+smsgx .s den sonra bisiler yaz
+else
+if (<account.plevel> > 6)
+var.smsgx 55,,1
+var.pln Owner
+elseif (<account.plevel> > 5)
+var.smsgx 95,,1
+var.pln Admin
+elseif (<account.plevel> > 4)
+var.smsgx 85,,1
+var.pln Senior GM
+elseif (<account.plevel> > 3)
+var.smsgx 65,,1
+var.pln GM
+elseif (<account.plevel> > 2)
+var.smsgx 45,,1
+var.pln Seer
+elseif (<account.plevel> = 2)
+var.smsgx 35,,1
+var.pln Counselor
+else
+var.smsgx 0481
+var.pln ???
+endif
+tag.s <args>
+serv.allclients stafftrig <args>
+endif
+
+[function stafftrig]
+if (<account.plevel> > 1)
+smsgx -> [<src.name>]: <args> //<var.pln>
+endif
+////////////////Haberci her yarim saatte haber verir /// chatboard/ teleport staff
+[itemdef i_haberci]
+name Haberci
+id i_grave_stone
+type t_eq_script
+weight 0
+
+on=@click
+message @026 <serv.name> Habercisi
+return 1
+
+on=@dclick
+if (<src.account.plevel> > 5)
+dialog d_announce
+return 1
+else
+src.sms High Council icindir...
+return 1
+endif
+
+on=@create
+attr=08010
+timer 500 // 20 dk da bir
+color 0542
+
+on=@timer
+var.smg 066d
+serv.allclients sysmessage @38,,1 Duyuru:
+serv.allclients announce <name>
+timer 500 // 20 dk
+return 1
+
+[function announce] 
+var.smg 066d
+sysmessage @95,,1 <args>
+endif 
+
+[dialog d_announce] 
+200,200 
+resizepic 0 0 83 330 140 
+resizepic 7 9 3000 328 122
+page 0 
+text 20 20 1152 0 
+gumppic 30 50 1143 
+textentry  40 52 250 20 0481 0 1 
+button 120 90 249 248 1 0 1 //okay 
+button 210 90 243 241 1 0 2 //cancel 
+
+[dialog D_ANNOUNCE text] 
+Neyi Anons Edelim? 
+<src.act.name>
+
+[dialog D_ANNOUNCE button] 
+on=1 
+src.act.name=<argtxt[0]> 
+src.sysmessage Anons Degisti. Su an: '' <argtxt[0]> '' oldu
+return 1 
+on=2 
+return 1 
+
+///////
+[itemdef i_chatboard]
+id=i_grave_stone
+type=t_script
+
+on=@create
+color=0542
+attr=010
+tag.mesaj1=
+tag.mesaj2=
+tag.mesaj3=
+tag.mesaj4=
+tag.mesaj5=
+tag.mesaj6=
+tag.mesaj7=
+tag.mesaj8=
+tag.mesaj9=
+tag.mesaj10=
+tag.mesaj11=
+tag.mesaj12=
+tag.mesaj13=
+tag.mesaj14=
+tag.mesaj15=
+tag.mesaj16=
+tag.mesaj17=
+tag.mesaj18=
+tag.mesaj19=
+tag.mesaj20=
+tag.kimyazmis1=
+tag.kimyazmis2=
+tag.kimyazmis3=
+tag.kimyazmis4=
+tag.kimyazmis5=
+tag.kimyazmis6=
+tag.kimyazmis7=
+tag.kimyazmis8=
+tag.kimyazmis9=
+tag.kimyazmis10=
+tag.kimyazmis11=
+tag.kimyazmis12=
+tag.kimyazmis13=
+tag.kimyazmis14=
+tag.kimyazmis15=
+tag.kimyazmis16=
+tag.kimyazmis17=
+tag.kimyazmis18=
+tag.kimyazmis19=
+tag.kimyazmis20=
+
+on=@click
+message @045 Staff Kayit Defteri
+return 1
+
+on=@dclick
+if (<src.account.plevel> >=2)
+dialog d_chatboard
+return 1
+else
+src.sysmessage Bunu kullanamazsiniz.
+return 1
+endif
+
+[dialog d_chatboard]
+0,0
+page 0
+resizepic 50 60 83 800 440
+resizepic 57 69 3000 788 422
+
+button 65 435 4009 4008 1 1 21
+button 65 413 4009 4008 1 1 22
+
+htmlgump 410 110 150 20 20 0 0 // chatboard
+htmlgump 100 440 150 20 21 0 0 // hepsini sil
+htmlgump 380 90 150 20 22 0 0 // mesajlar
+htmlgump 100 420 150 20 25 0 0
+
+page 1
+htmlgump 100 150 750 20 0 0 0
+htmlgump 100 175 750 20 1 0 0
+htmlgump 100 200 750 20 2 0 0
+htmlgump 100 225 750 20 3 0 0
+htmlgump 100 250 750 20 4 0 0
+htmlgump 100 275 750 20 5 0 0
+htmlgump 100 300 750 20 6 0 0
+htmlgump 100 325 750 20 7 0 0
+htmlgump 100 350 750 20 8 0 0
+htmlgump 100 375 750 20 9 0 0
+htmlgump 100 457 750 20 23 0 0
+
+button 65 150 4030 4029 1 1 1
+button 65 175 4030 4029 1 1 2
+button 65 200 4030 4029 1 1 3
+button 65 225 4030 4029 1 1 4
+button 65 250 4030 4029 1 1 5
+button 65 275 4030 4029 1 1 6
+button 65 300 4030 4029 1 1 7
+button 65 325 4030 4029 1 1 8
+button 65 350 4030 4029 1 1 9
+button 65 375 4030 4029 1 1 10
+button 65 455 4006 4007 0 2
+
+page 2
+htmlgump 100 150 750 20 10 0 0
+htmlgump 100 175 750 20 11 0 0
+htmlgump 100 200 750 20 12 0 0
+htmlgump 100 225 750 20 13 0 0
+htmlgump 100 250 750 20 14 0 0
+htmlgump 100 275 750 20 15 0 0
+htmlgump 100 300 750 20 16 0 0
+htmlgump 100 325 750 20 17 0 0
+htmlgump 100 350 750 20 18 0 0
+htmlgump 100 375 750 20 19 0 0
+htmlgump 100 457 750 20 24 0 0
+
+button 65 150 4030 4029 1 1 11
+button 65 175 4030 4029 1 1 12
+button 65 200 4030 4029 1 1 13
+button 65 225 4030 4029 1 1 14
+button 65 250 4030 4029 1 1 15
+button 65 275 4030 4029 1 1 16
+button 65 300 4030 4029 1 1 17
+button 65 325 4030 4029 1 1 18
+button 65 350 4030 4029 1 1 19
+button 65 375 4030 4029 1 1 20
+button 65 455 4015 4016 0 1
+
+[dialog d_chatboard text]
+<tag.mesaj1>
+<tag.mesaj2>
+<tag.mesaj3>
+<tag.mesaj4>
+<tag.mesaj5>
+<tag.mesaj6>
+<tag.mesaj7>
+<tag.mesaj8>
+<tag.mesaj9>
+<tag.mesaj10>
+<tag.mesaj11>
+<tag.mesaj12>
+<tag.mesaj13>
+<tag.mesaj14>
+<tag.mesaj15>
+<tag.mesaj16>
+<tag.mesaj17>
+<tag.mesaj18>
+<tag.mesaj19>
+<tag.mesaj20>
+Mesajlar
+Hepsini sil
+<serv.name> Chatboard
+Ileri
+Geri
+Kim Yazmis?
+
+[dialog d_chatboard button]
+
+onbutton=1
+dialog d_mesaj1
+
+onbutton=2
+dialog d_mesaj2
+
+onbutton=3
+dialog d_mesaj3
+
+onbutton=4
+dialog d_mesaj4
+
+onbutton=5
+dialog d_mesaj5
+
+onbutton=6
+dialog d_mesaj6
+
+onbutton=7
+dialog d_mesaj7
+
+onbutton=8
+dialog d_mesaj8
+
+onbutton=9
+dialog d_mesaj9
+
+onbutton=10
+dialog d_mesaj10
+
+onbutton=11
+dialog d_mesaj11
+
+onbutton=12
+dialog d_mesaj12
+
+onbutton=13
+dialog d_mesaj13
+
+onbutton=14
+dialog d_mesaj14
+
+onbutton=15
+dialog d_mesaj15
+
+onbutton=16
+dialog d_mesaj16
+
+onbutton=17
+dialog d_mesaj17
+
+onbutton=18
+dialog d_mesaj18
+
+onbutton=19
+dialog d_mesaj19
+
+onbutton=20 
+dialog d_mesaj20
+
+onbutton=21
+if (<src.account.plevel> >=6)
+tag.mesaj1=
+tag.mesaj2=
+tag.mesaj3=
+tag.mesaj4=
+tag.mesaj5=
+tag.mesaj6=
+tag.mesaj7=
+tag.mesaj8=
+tag.mesaj9=
+tag.mesaj10=
+tag.mesaj11=
+tag.mesaj12=
+tag.mesaj13=
+tag.mesaj14=
+tag.mesaj15=
+tag.mesaj16=
+tag.mesaj17=
+tag.mesaj18=
+tag.mesaj19=
+tag.mesaj20=
+var.smx 0542
+src.s Chatboard temizlendi.
+else
+var.smx 0542
+src.smsgx  Onu Bi geccen...
+endif
+
+onbutton=22
+if (<src.account.plevel> >=5)
+dialog d_kimyazmis
+return 1
+else
+var.smx 0542
+src.smx  <var.yetki> iken mi bakiyon? Olmaz git gez gel /Avatar
+return 1
+
+[dialog d_mesaj1] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj1 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj1>
+
+[dialog d_mesaj1 button]
+onbutton=1
+src.targ.tag.mesaj1 <argtxt[0]>
+src.targ.tag.kimyazmis1 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj2] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3 
+
+[dialog d_mesaj2 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj2>
+
+[dialog d_mesaj2 button]
+onbutton=1
+src.targ.tag.mesaj2 <argtxt[0]>
+src.targ.tag.kimyazmis2 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj3] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj3 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj3>
+
+[dialog d_mesaj3 button]
+onbutton=1
+src.targ.tag.mesaj3 <argtxt[0]>
+src.targ.tag.kimyazmis3 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj4] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj4 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj4>
+
+[dialog d_mesaj4 button]
+onbutton=1
+src.targ.tag.mesaj4 <argtxt[0]>
+src.targ.tag.kimyazmis4 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj5] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj5 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj5>
+
+[dialog d_mesaj5 button]
+onbutton=1
+src.targ.tag.mesaj5 <argtxt[0]>
+src.targ.tag.kimyazmis5 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj6] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj6 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj6>
+
+[dialog d_mesaj6 button]
+onbutton=1
+src.targ.tag.mesaj6 <argtxt[0]>
+src.targ.tag.kimyazmis6 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj7] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj7 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj7>
+
+[dialog d_mesaj7 button]
+onbutton=1
+src.targ.tag.mesaj7 <argtxt[0]>
+src.targ.tag.kimyazmis7 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj8] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj8 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj8>
+
+[dialog d_mesaj8 button]
+onbutton=1
+src.targ.tag.mesaj8 <argtxt[0]>
+src.targ.tag.kimyazmis8 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj9] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj9 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj9>
+
+[dialog d_mesaj9 button]
+onbutton=1
+src.targ.tag.mesaj9 <argtxt[0]>
+src.targ.tag.kimyazmis9 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj10] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj10 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj10>
+
+[dialog d_mesaj10 button]
+onbutton=1
+src.targ.tag.mesaj10 <argtxt[0]>
+src.targ.tag.kimyazmis10 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj11] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj11 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj11>
+
+[dialog d_mesaj11 button]
+onbutton=1
+src.targ.tag.mesaj11 <argtxt[0]>
+src.targ.tag.kimyazmis11 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj12] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj12 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj12>
+
+[dialog d_mesaj12 button]
+onbutton=1
+src.targ.tag.mesaj12 <argtxt[0]>
+src.targ.tag.kimyazmis12 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj13] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj13 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj13>
+
+[dialog d_mesaj13 button]
+onbutton=1
+src.targ.tag.mesaj13 <argtxt[0]>
+src.targ.tag.kimyazmis13 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj14] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj14 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj14>
+
+[dialog d_mesaj14 button]
+onbutton=1
+src.targ.tag.mesaj14 <argtxt[0]>
+src.targ.tag.kimyazmis14 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj15] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj15 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj15>
+
+[dialog d_mesaj15 button]
+onbutton=1
+src.targ.tag.mesaj15 <argtxt[0]>
+src.targ.tag.kimyazmis15 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj16] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj16 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj16>
+
+[dialog d_mesaj16 button]
+onbutton=1
+src.targ.tag.mesaj16 <argtxt[0]>
+src.targ.tag.kimyazmis16 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj17] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj17 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj17>
+
+[dialog d_mesaj17 button]
+onbutton=1
+src.targ.tag.mesaj17 <argtxt[0]>
+src.targ.tag.kimyazmis17 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj18] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj18 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj18>
+
+[dialog d_mesaj18 button]
+onbutton=1
+src.targ.tag.mesaj18 <argtxt[0]>
+src.targ.tag.kimyazmis18 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj19] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj19 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj19>
+
+[dialog d_mesaj19 button]
+onbutton=1
+src.targ.tag.mesaj19 <argtxt[0]>
+src.targ.tag.kimyazmis19 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_mesaj20] 
+50,50
+resizepic 50 175 5120 895 150
+resizepic 60 185 3000 875 130
+resizepic 70 235 3000 840 22
+htmlgump 70 200 200 20 0 0 0
+htmlgump 105 275 100 20 1 0 0
+button 70 275 4006 4007 1 0 1
+htmlgump 235 275 100 20 2 0 0
+button 200 275 4006 4007 1 0 0
+textentry 72 237 830 35 0 0 3
+
+[dialog d_mesaj20 text]
+Mesaja ne yazayim?
+Tamam
+Iptal
+<tag.mesaj20>
+
+[dialog d_mesaj20 button]
+onbutton=1
+src.targ.tag.mesaj20 <argtxt[0]>
+src.targ.tag.kimyazmis20 <src.name>
+
+onbutton=2
+return 1
+
+[dialog d_kimyazmis]
+0,0
+page 0
+resizepic 50 60 83 380 380
+resizepic 57 69 3000 368 362
+
+htmlgump 100 150 750 20 0 0 0
+htmlgump 100 175 750 20 1 0 0
+htmlgump 100 200 750 20 2 0 0
+htmlgump 100 225 750 20 3 0 0
+htmlgump 100 250 750 20 4 0 0
+htmlgump 100 275 750 20 5 0 0
+htmlgump 100 300 750 20 6 0 0
+htmlgump 100 325 750 20 7 0 0
+htmlgump 100 350 750 20 8 0 0
+htmlgump 100 375 750 20 9 0 0
+htmlgump 300 150 750 20 10 0 0
+htmlgump 300 175 750 20 11 0 0
+htmlgump 300 200 750 20 12 0 0
+htmlgump 300 225 750 20 13 0 0
+htmlgump 300 250 750 20 14 0 0
+htmlgump 300 275 750 20 15 0 0
+htmlgump 300 300 750 20 16 0 0
+htmlgump 300 325 750 20 17 0 0
+htmlgump 300 350 750 20 18 0 0
+htmlgump 300 375 750 20 19 0 0
+htmlgump 70 75 750 20 20 0 0
+htmlgump 100 100 750 20 21 0 0
+
+
+[dialog d_kimyazmis text]
+1- <tag.kimyazmis1>
+2- <tag.kimyazmis2>
+3- <tag.kimyazmis3>
+4- <tag.kimyazmis4>
+5- <tag.kimyazmis5>
+6- <tag.kimyazmis6>
+7- <tag.kimyazmis7>
+8- <tag.kimyazmis8>
+9- <tag.kimyazmis9>
+10- <tag.kimyazmis10>
+11- <tag.kimyazmis11>
+12- <tag.kimyazmis12>
+13- <tag.kimyazmis13>
+14- <tag.kimyazmis14>
+15- <tag.kimyazmis15>
+16- <tag.kimyazmis16>
+17- <tag.kimyazmis17>
+18- <tag.kimyazmis18>
+19- <tag.kimyazmis19>
+20- <tag.kimyazmis20>
+Yazdiklariniz Dikkate Alinacaktir / Avatar
+Mesajlarin Sahipleri
+
+[dialog d_kimyazmis button]
+
+/////
+
+
+///gonderirim çok pis:D///
+[ITEMDEF i_gonderici]
+NAME=teleport staff
+ID=i_gold
+WEIGHT=0
+type=t_eq_script
+
+ON=@CREATE
+ATTR=attr_newbie || attr_decay || attr_invis
+
+On=@Equip
+if (<src.account.plevel> > 3)
+TARGET Kimi Teleport Edeceksin?
+timer 5
+return 1
+endif
+
+ON=@TARGON_ITEM
+SRC.sysmessage Olmadi gulum donmedi sansim...
+src.sysmessage item uzerine adam atamioz cnm 
+RETURN 1
+
+ON=@TARGON_CHAR
+LINK=<SRC.TARG.UID>
+TARGETG <SRC.TARG.NAME> Nereye Teleport Olsun?
+Return 1
+
+
+ON=@TARGON_GROUND
+LINK.GO <SRC.TARGP>
+RETURN 1
+
+on=@timer
+remove
+return 1
+
+/////teleport komutu
+[plevel 4]
+Ntele
+
+[function ntele]
+newitem i_gonderici
+act.equip
+
+////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[itemdef i_1v1_duello_baslatici]
+id=0108e
+name=Baslatma Kolu
+type t_normal
+
+on=@create
+attr 08000
+color 0957
+tag.gerisayimp 0
+tag.aktif 1
+
+on=@dclick
+if (<src.account.plevel> < 2)
+return 1
+endif
+
+if <eval <tag.aktif>> == 0
+src.sysmessage @33,,1 Suan kullanilamaz...
+return 1
+endif
+
+if (<eval <tag.gerisayimp>> == 0)
+//src.sysmessage @,,1 Rhodos disinda bu item cikartilamaz. Bu islem loglara gecti.
+return 1
+endif
+
+if <tag.aktif> == 1
+tag.aktif 0
+try dispid i_lever
+update
+Serv.newitem i_1v1_duello_baslatici_gerisayimtasi
+new.p <tag.gerisayimp1>
+timer 11
+Serv.newitem i_1v1_duello_baslatici_gerisayimtasi
+new.p <tag.gerisayimp2>
+timer 11
+Serv.newitem i_1v1_duello_baslatici_gerisayimtasi
+new.p <tag.gerisayimp3>
+timer 11
+Serv.newitem i_1v1_duello_baslatici_gerisayimtasi
+new.p <tag.gerisayimp4>
+timer 11
+src.sysmessage @69,,1 Geri sayim basladi...
+endif
+
+return 1
+
+on=@timer
+if <tag0.aktif> == 0
+tag0.aktif 1
+try dispid 0108e
+update
+endif
+
+return 1
+
+[itemdef i_1v1_duello_baslatici_gerisayimtasi]
+id=i_stairs_stone_2
+name=Geri Sayim Tasi
+type t_normal
+
+on=@create
+attr 08000
+color 1
+more2 10
+timer 1
+
+on=@timer
+if (<eval <more2>> == 10)
+	say @,,1 10
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 9)
+	say @,,1 9
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 8)
+	say @,,1 8
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 7)
+	say @,,1 7
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 6)
+	say @,,1 6
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 5)
+	say @,,1 5
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 4)
+	say @,,1 4
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 3)
+	say @,,1 3
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 2)
+	say @,,1 2
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 1)
+	say @,,1 1
+	more2 --
+	timer 1
+	return 1
+elseif (<eval <more2>> == 0)
+	say @,,1 0
+	//move s 6
+	//attr 080
+	remove
+	update
+	//timerf 5,regionstoneyaparmisinreis
+	//timerf 5,remove
+	return 1
+endif
+
+return 1
+
+[function regionstoneyaparmisinreis]
+region.allclients stone 1
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[eof]

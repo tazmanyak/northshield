@@ -1,0 +1,119 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+// version 1 = id, dupe
+// gargish cloth arms = 0x0403, 0x405f = 654
+// gargish cloth chst = 0x0405, 0x4061 = 656
+// gargish cloth kilt = 0x0407, 0x4063 = 658
+// gargish cloth legs = 0x040a, 0x4066 = 661
+
+[ITEMDEF 0403]
+DEFNAME=i_cloth_gargoyle_arms
+NAME=Gargoyle Cloth Arms
+TYPE=t_armor
+RESOURCES=8 i_cloth
+SKILLMAKE=Tailoring 87.1
+WEIGHT=2
+FLIP=1
+REQSTR=20
+DUPELIST=0405f
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Cloth Gargoyle Armor
+DESCRIPTION=Gargoyle Cloth Arms
+TAG.Item.Gargoyle=1
+TAG.ResPhysical=5
+TAG.ResFire=7
+TAG.ResCold=6
+TAG.ResPoison=6
+TAG.ResEnergy=6
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 0405f]
+DUPEITEM=0403
+
+[ITEMDEF 0405]
+DEFNAME=i_cloth_gargoyle_chest
+NAME=Gargoyle Cloth Chest
+TYPE=t_armor
+RESOURCES=12 i_cloth
+SKILLMAKE=Tailoring 94.0
+WEIGHT=2
+FLIP=1
+REQSTR=20
+DUPELIST=04061
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Cloth Gargoyle Armor
+DESCRIPTION=Gargoyle Cloth Chest
+TAG.Item.Gargoyle=1
+TAG.ResPhysical=5
+TAG.ResFire=7
+TAG.ResCold=6
+TAG.ResPoison=6
+TAG.ResEnergy=6
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04061]
+DUPEITEM=0405
+
+[ITEMDEF 0407]
+DEFNAME=i_cloth_gargoyle_kilt
+NAME=Gargoyle Cloth Kilt
+TYPE=t_armor
+RESOURCES=6 i_cloth
+SKILLMAKE=Tailoring 82.9
+WEIGHT=2
+FLIP=1
+REQSTR=20
+DUPELIST=04063
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Cloth Gargoyle Armor
+DESCRIPTION=Gargoyle Cloth Kilt
+TAG.Item.Gargoyle=1
+TAG.ResPhysical=5
+TAG.ResFire=7
+TAG.ResCold=6
+TAG.ResPoison=6
+TAG.ResEnergy=6
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04063]
+DUPEITEM=0407
+
+[ITEMDEF 040a]
+DEFNAME=i_cloth_gargoyle_leggings
+NAME=Gargoyle Cloth Leggings
+TYPE=t_armor
+RESOURCES=10 i_cloth
+SKILLMAKE=Tailoring 91.2
+WEIGHT=2
+FLIP=1
+REQSTR=20
+DUPELIST=04066
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Cloth Gargoyle Armor
+DESCRIPTION=Gargoyle Cloth Leggings
+TAG.Item.Gargoyle=1
+TAG.ResPhysical=5
+TAG.ResFire=7
+TAG.ResCold=6
+TAG.ResPoison=6
+TAG.ResEnergy=6
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04066]
+DUPEITEM=040a
+
+[eof]

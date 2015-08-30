@@ -1,0 +1,178 @@
+﻿[comment craft_sys]
+hazırlayan: Burak Demirsoy
+güncelleme: 7 Ağustos 2010 - Xeon
+version: 056b+
+
+// -yeni dialog eklemek için:
+// 	yeni defname oluşturulup def adları;
+// 	<dialogAdı>_<elemanNo>_<sayfaNo> <değer>
+// 	olarak eklenmeli. 	ÖRNEK: (yeniDialog_0_1 i_xxx)
+// -dialogu göstermek için:
+// 	craft <dialogAdı>	ÖRNEK: (craft yeniDialog)
+
+[function craft_item_colors]
+if strmatch(*dull*,<args>)
+	return <eval 060a>
+elif strmatch(*copper*,<args>)
+	return <eval 0641>
+elif strmatch(*bronze*,<args>)
+	return <eval 06d6>
+elif strmatch(*gold*,<args>)
+	return <eval 045e>
+elif strmatch(*shadow*,<args>)
+	return <eval 0770>
+elif strmatch(*agapite*,<args>)
+	return <eval 03e9>
+elif strmatch(*silver*,<args>)
+	return <eval 07d1>
+elif strmatch(*mytheril*,<args>)
+	return <eval 051f>
+elif strmatch(*verite*,<args>)
+	return <eval 07d1>
+elif strmatch(*valorite*,<args>)
+	return <eval 0515>
+elif strmatch(*bloodrock*,<args>)
+	return <eval 04c2>
+elif strmatch(*blackrock*,<args>)
+	return <eval 0455>
+else
+	return 0
+endif
+
+[function iscancast]
+if !<isempty <args>>
+	if strmatch(i_scroll*,<args>)
+		if strmatch(<args>,i_scroll_paralyze_field)
+			local.spell=s_paralyzation_field
+		else
+			local.spell=s_<strsub 9 99 <args>>
+		endif
+		if !<cancast <local.spell>>
+			return 0
+		else
+			return 1
+		endif
+	endif
+endif
+
+[plevel 2]
+craftxx
+
+[function craftxx]
+clearctags=craft
+if !<isempty <args>>
+	ctag0.craft_skill=<args>
+	ctag0.craft_page=1
+	
+sdialog d_craft_menuxx
+endif
+
+[dialog d_craft_menuxx]
+0,-40
+
+
+resizepic 615 100 2620 40 40
+dtextentry 632 112 90 20 69 22 <dctag0.craft_page>
+button 622 144 4011 4013 1 0 25
+
+local.height=0
+while <def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>
+	local.height +=30
+endwhile
+local.height=<eval(<local.height>+125)>
+if <ctag0.craft_item>
+	resizepic 140 <eval(<local.height>+180> 2620 60 50
+	makebg 120,<eval(<local.height>+80)>,260,120
+endif
+makebg 100,100,500,<dlocal.height>
+dtext 312 82 1152 Craft Menu
+dorigin 200 130
+while <def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>
+	if (<eval <dlocal._while>%2> == 1
+	button -80 *28 2117 2118 1 0 <eval(<local._while>+1)>
+	tilepichue -50 *0 <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.id> <craft_item_colors <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.baseid>>
+	dtext +20 *0 1152 <qval strmatch(*Deed for*,<serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.name>) ? <strsub 9 30 <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.name>> : <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.name>>
+	else
+	button +140 *28 2117 2118 1 0 <eval(<local._while>+1)>
+	tilepichue +170 *0 <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.id> <craft_item_colors <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.baseid>>
+	dtext +240 *0 1152 <qval strmatch(*Deed for*,<serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.name>) ? <strsub 9 30 <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.name>> : <serv.itemdef.<def.<ctag0.craft_skill>_<dlocal._while>_<dctag0.craft_page>>.name>>
+	endif
+endwhile
+dtext 619 80 38 Sayfa //: <dctag0.craft_page>
+button 550 120 4005 4007 1 0 9998
+dtext 155 120 1152 Geri
+button 120 120 4014 4016 1 0 9999
+dtext 520 120 1152 İleri
+if <ctag0.craft_item>
+	dtext 135 <eval(<local.height>+100)> 38 Gerekenler:
+	button 154 <eval(<local.height>+203)> 4011 4013 1 0 10000
+	dtext 210 <eval(<local.height>+100)> 58 <serv.itemdef.<ctag0.craft_item>.name>
+	dhtmlgump 140 <eval(<local.height>+125)> 230 65 0 1 <serv.itemdef.<ctag0.craft_item>.resmake> ve <serv.itemdef.<ctag0.craft_item>.skillmake><def.br><def.bfont> color=#FF0000<def.r1>Craft Puan : <eval <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>>
+endif
+
+[dialog d_craft_menuxx button]
+on=0
+clearctags=craft
+
+
+on=25
+if !<isnum <argtxt[22]>>
+	src.sysmessage @,,1 Sayfa sayisi sadece rakam olabilir :)
+	sdialog d_craft_menuxx
+	return 1
+elseif <argtxt[22]> < <eval <def.<ctag0.craft_skill>_pagesum>>
+	ctag0.craft_page <argtxt[22]>//<eval <def.<ctag0.craft_skill>_pagesum>>
+	sdialog d_craft_menuxx
+else
+	src.sysmessage @,,1 Boyle bir sayfa numarasi bulunmuyor.
+	sdialog d_craft_menuxx
+	return 1
+endif
+
+
+on=1 9997
+local.argn=<eval(<argn>-1)>
+ctag0.craft_item=<def.<ctag0.craft_skill>_<dlocal.argn>_<dctag0.craft_page>>
+sdialog d_craft_menuxx
+
+on=9998
+if <dctag0.craft_page> < <eval <def.<ctag0.craft_skill>_pagesum>>
+	ctag0.craft_page ++
+else
+	ctag0.craft_page 1//<eval <def.<ctag0.craft_skill>_pagesum>>
+endif
+sdialog d_craft_menuxx
+
+on=9999
+if <dctag0.craft_page> > 1
+	ctag0.craft_page --
+else
+	ctag0.craft_page <eval <def.<ctag0.craft_skill>_pagesum>>
+endif
+sdialog d_craft_menuxx
+
+on=10000
+if (!<isempty <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>> && (<eval <tag.craft_puan>> < <eval <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>>))
+	sys_error <serv.itemdef.<ctag0.craft_item>.name> üretecek kadar craft puanına sahip değilsiniz. ( Gerekli puan :<eval <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>>)
+elif !<canmake <ctag0.craft_item>.baseid>>
+	sys_error <serv.itemdef.<ctag0.craft_item>.name> üretecek kadar yeteneğiniz veya eşyanız bulunmuyor.
+else
+	if strmatch(*t_scroll*,<serv.itemdef.<ctag0.craft_item>.type>)
+		if !(<iscancast <ctag0.craft_item>>)
+			sys_error Bu parşömeni yazabilmek için öncelikle kullanabilmelisiniz.
+			sdialog d_craft_menuxx
+			return 1
+		endif
+	endif
+	makeitem <ctag0.craft_item>
+	actdiff = 10
+	//if !<isempty <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>>
+	//	tag.craft_puan -= <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>
+	//	sys_error Craft Puanınız  <eval <serv.itemdef.<ctag0.craft_item>.TAG.CRAFT_PUAN>> kadar azaldı.
+	//endif
+	ctag0.lastmake=<ctag0.craft_item>
+	ctag0.lastitem=<ctag0.craft_item>
+endif
+sdialog d_craft_menuxx
+
+[eof]

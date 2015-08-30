@@ -1,0 +1,89 @@
+
+
+[ITEMDEF i_upgrade_scroll15]
+ID=i_scroll_blank
+value 1000
+WEIGHT=1
+NAME=+15 upgrade scroll
+type=t_script
+
+ON=@Create
+tag0.magicscroll
+COLOR 0455
+attr attr_magic
+morey 100.0
+
+On=@Click
+//COLOR 0455
+message @,1,1 <amount> adet <name>
+return 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @69,1,1 Bu islem icin scroll'un cantanizda olmasi gerekiyor.
+	return 1
+endif
+
+if !(<src.restest 1 i_upgrade_scroll15>)
+src.smy Bu islem icin scroll'un cantanizda olmasi gerekiyor.
+return 1
+endif
+
+IF ( <src.blacksmithing> < 100.0 ) || !(<SRC.RESTEST 1 i_hammer_smith>)
+src.sysmessage @666,1,1 Bunu kullanmak için 100.0 Blacksmithing skill'line ve Smith's Hammer'a ihtiyaciniz vardir!
+ELSE
+TARGET @38,,1 Yukseltmek istediginiz silahi secin.
+return 1
+endif
+
+ON=@TargOn_Char
+RETURN 1
+
+ON=@TargOn_Item
+if (<SRC.TARG.ATTR>&ATTR_NEWBIE)
+	src.sys_error Newbie silahlarý upgrade edemezsiniz.
+	return 1
+endif
+IF <SRC.TARG.TOPOBJ.UID> != <SRC.UID> 
+	src.smy Hata! Item cantanizda olmali.
+	RETURN 1
+endif
+
+//if !((<src.targ.type> == t_weapon_fence) ||(<src.targ.type> == t_weapon_sword) || (<src.targ.type> == t_weapon_bow) ||(<src.targ.type> == t_weapon_xbow) || (<src.targ.type> == t_weapon_axe) || (<src.targ.type> == t_weapon_mace_staff) || (<src.targ.type> == t_weapon_mace_Smith) || (<src.targ.type> == t_weapon_mace_Sharp))
+//	src.sysmessage @38,,1 Sadece silahlara yukseltme uygulayabilirsiniz.
+//	return 1
+//endif
+
+if !(strmatch('<src.targ.tag0.magicweapon>','Power'))
+	src.smy Suan yukseltmeye calistiginiz silah bu scrolla uygun degildir.
+	return 1
+endif
+
+if (<src.targ.tag0.upgradable>) // Yükseltilebilir mi : (1(evet):0(hayir)) ==> silah scplerinde
+	if (strmatch('<src.targ.tag0.magicweapon>','Ruin') || strmatch('<src.targ.tag0.magicweapon>','Might') || strmatch('<src.targ.tag0.magicweapon>','Force') || strmatch('<src.targ.tag0.magicweapon>','Vanquishing'))
+		src.smy Suan yukseltmeye calistiginiz silah bu scrolla uygun degildir.
+		return 1
+	else
+			if rand(8)==1
+				src.targ.morey <morey>
+				src.targ.attr <attr>
+				src.targ.tag0.magicweapon Vanquishing
+        			src.targ.bounce
+				src.message @07a1,1,1 Silah Yukseltme Basarili !
+				src.effect 3,037CC,1,22,0,97,3
+				src.consume 1 i_upgrade_scroll15 
+			else
+				src.consume 1 i_upgrade_scroll15
+				src.sysmessage @07a1,1,1 Silah Yukseltme Basarisiz oldu.
+				src.EFFECT 3,03728,16,30,7,1150
+			endif
+	endif
+else
+	src.sysmessage @69,1,1 Bu esyayi yukseltemezsiniz.
+	return 1
+endif
+
+
+
+[EOF]

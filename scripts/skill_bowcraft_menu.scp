@@ -1,0 +1,727 @@
+
+[function makearrow] //itemi parametre olarak gir sadece arrow ve bolt için
+//say test
+return 1
+
+If !((<src.restest i_feather>) && (<src.restest i_arrow_shaft>))
+SRC.sysmessage @035  Bunu yapmak icin en az 1 arrow shaft ve 1 feather'a ihtiyaciniz var.
+return 1
+endif
+If ((strmatch("<args>","i_arrow")) && (<src.bowcraft><10))
+SRC.sysmessage @035  Bunu yapmak icin en az 1.0 bowcraft skilline ihtiyaciniz var.
+return 1
+elseif ((strmatch("<args>","i_xbolt")) && (<src.bowcraft><178)) 
+SRC.sysmessage @035  Bunu yapmak icin en az 17.8 bowcraft skilline ihtiyaciniz var.
+return 1
+endif
+tag.makelast bowcraft
+newitem i_atimer
+new.tag.work=<args>
+new.equip
+
+[itemdef i_atimer]
+name=timer
+id=i_memory
+type=t_eq_script
+
+ON=@Create
+Attr=attr_decay
+
+ON=@Equip
+Attr=attr_decay
+Timer 4
+
+ON=@Timer
+var.feather = <cont.rescount i_feather>
+var.shaft = <cont.rescount i_arrow_shaft>
+if !(<var.shaft>)
+cont.sysmessage @55 Cantanizda Shaft Bulunmamaktadir.
+remove
+return 1
+elseif !(<var.feather>)
+cont.sysmessage @55 Cantanizda Feather Bulunmamaktadir.
+remove
+return 1
+endif
+if (<var.feather>==<var.shaft>)
+var.urun = <var.feather>
+elseif (<var.feather>><var.shaft>)
+var.urun=<var.shaft>
+elseif (<var.feather><<var.shaft>)
+var.urun = <var.feather>
+endif
+cont.consume <eval <var.urun>> i_feather
+cont.consume <eval <var.urun>> i_arrow_shaft
+cont.newitem <tag.work>,<eval <var.urun>>
+cont.act.cont=<cont.uid>
+cont.checkbowcraft // aha skillgain
+remove
+return 1
+
+
+[function checkbowcraft]
+if ((<skilllock[8]> == 0) && (<skilltotal> < 700.0))
+	if (<bowcraft> < 30.0)
+		if (rand(3) == 1)
+			bowcraft (<bowcraft> + 1)
+		endif
+	elseif (<bowcraft> < 50.0)
+		if (rand(5) == 1)
+			bowcraft (<bowcraft> + 1)
+		endif
+	elseif (<bowcraft> < 75.0)
+		if (rand(7) == 1)
+			bowcraft (<bowcraft> + 1)
+		endif
+	elseif (<bowcraft> < 100.0)
+		if (rand(9) == 1)
+			bowcraft (<bowcraft> + 1)
+		endif
+	endif
+endif
+
+[FUNCTION f_skill_bowcraft]
+if (<src.weight> > <src.maxweight>)
+        src.sysmessage @39 Agirliginizdan dolayi kullanamazsiniz.
+        return 1
+elseif (<src.region.flags>&region_flag_ship)
+	src.sysmessage @55 Gemideyken kullanamazsiniz.
+	return 1
+else
+src.DIALOG d_skill_bowcraft
+endif
+
+[DIALOG d_skill_bowcraft]                            
+10,10
+page 0
+
+// main borders
+resizepic 0 0 2620 515 350
+checkertrans 5 5 505 340
+resizepic 155 30   3000 350 120
+
+resizepic 10  30   3000 110 24
+resizepic 10  55   3000 110 24
+resizepic 10  80   3000 110 24
+resizepic 10  105  3000 110 24
+resizepic 10  130  3000 110 24
+
+// menu buttons
+button 120 30  2118 2117 0 1 1
+button 120 55  2118 2117 0 2 2 
+button 120 80  2118 2117 0 3 3 
+button 120 105 2118 2117 0 4 4
+button 120 130 2118 2117 0 5 5 
+
+
+//button 245  150 4006 4007 1 0 99	// Make Last Button
+//button 360  150 4006 4007 1 0 9 	// Ok button
+//button 475  150 4006 4007 1 0 0 	// Cancel button
+
+//text 155  150 995 17 			// Tekar
+//text 415  150 995 15 			// Cancel
+//text 305  150 995 16 			// Tamam
+
+
+text 185 5  995 0
+text 15 32  995 1
+text 15 57  995 2
+text 15 82  995 3
+text 15 107 995 4
+text 15 132 995 5
+
+
+//---------------------------------------------------
+Page 1 // Items
+// row 1
+text 180 35  995 6
+text 280 35  995 7
+//dtext 380 35 995 Balbar's Arrow
+// row 2
+text 180 90 995 8
+text 280 90 995 9
+text 380 90 995 10
+
+// row 1
+tilepic 200 60  3553
+tilepic 300 60  3940
+//tilepichue 400 60 3903 <eval 042>
+// row 2
+tilepic 200 115 7124
+tilepic 300 115 3903
+tilepic 400 115 7163
+
+// row 1
+button 180 55 2118 2117 1 0 11
+button 280 55 2118 2117 1 0 12
+//button 380 55 2118 2117 1 0 81 // balbar's arrow // poison arrow
+// row 2
+button 180 110 2118 2117 1 0 14
+button 280 110 2118 2117 1 0 15
+button 380 110 2118 2117 1 0 16
+
+//---------------------------------------------------
+Page 2 // Normal Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+text 245 110 995 18
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 17
+button 280 60 2118 2117 1 0 18
+button 380 60 2118 2117 1 0 19
+
+//---------------------------------------------------
+Page 3 // Superior
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+text 245 110 995 19
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 20
+button 280 60 2118 2117 1 0 21
+button 380 60 2118 2117 1 0 22
+//---------------------------------------------------
+Page 4 // Exceptional
+// row 1
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+text 245 110 995 20
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 23
+button 280 60 2118 2117 1 0 24
+button 380 60 2118 2117 1 0 25
+//---------------------------------------------------
+Page 5 // Others
+// row 1
+text 180 35  995 14
+text 280 35  995 21
+//dtext 370 35 995 Balbar's Bow
+
+// row 1
+tilepichue 200 55  11550 0999//5041       //elven
+tilepichue 280 55  10224 0996//10149//5041       //yumi
+//tilepichue 400 55  5041 <eval 042> // poison bow
+
+// row 1
+button 180 60 2118 2117 1 0 26
+button 280 60 2118 2117 1 0 60
+//button 380 60 2118 2117 1 0 80 //poison bow / Balbar's Bow
+
+//---------------------
+Page 6 // Rotten Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 37
+button 280 60 2118 2117 1 0 38
+button 380 60 2118 2117 1 0 39
+//---------------------
+Page 7 // Pine Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 40
+button 280 60 2118 2117 1 0 41
+button 380 60 2118 2117 1 0 42
+//---------------------
+Page 8 // Maple Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 43
+button 280 60 2118 2117 1 0 44
+button 380 60 2118 2117 1 0 45
+//---------------------
+Page 9 // Walnut Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 46
+button 280 60 2118 2117 1 0 47
+button 380 60 2118 2117 1 0 48
+//---------------------
+Page 10 // Oak Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 49
+button 280 60 2118 2117 1 0 50
+button 380 60 2118 2117 1 0 51
+//---------------------
+Page 11 // Ebony Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 52
+button 280 60 2118 2117 1 0 53
+button 380 60 2118 2117 1 0 54
+//---------------------
+Page 12 // Yew Bows
+// row 1
+text 180 35  995 11
+text 280 35  995 12
+text 370 35  995 13
+
+// row 1
+tilepic 200 55  5041
+tilepic 300 55  3919
+tilepic 400 55  5117
+
+// row 1
+button 180 60 2118 2117 1 0 55
+button 280 60 2118 2117 1 0 56
+button 380 60 2118 2117 1 0 57
+
+
+
+//---------------------------------------------------
+[DIALOG d_skill_bowcraft text]
+<SERV.NAME> Bowcraft Menu //0
+Items 			//1 
+Normal 			//2
+Superior		//3
+Exceptional 		//4
+Others			//5
+Kindling 		//6
+Torch 			//7
+Shaft 			//8
+Arrow 			//9
+Crossbow Bolt		//10
+Bow 			//11
+CrossBow 		//12
+Heavy Crossbow 		//13
+Fast bow		//14
+Iptal 			//15
+Tamam 			//16
+Tekrar Yap 		//17
+Normal Bow Menu		//18
+Superior Bow Menu	//19
+Exceptional Bow Menu	//20
+Slayer Bow //21
+
+
+[DIALOG d_skill_bowcraft button]
+// menu 1
+onbutton=11
+IF (<SRC.BOWCRAFT> < 0.0) || !(<src.restest 1 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 1 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_KINDLING
+	src.tag.lastitem=i_KINDLING	
+ENDIF
+
+onbutton=12
+	SRC.sysmessage @035  Torch'larin sehirde kullanimi Lord British tarafindan yasaklanmistir.
+
+onbutton=14
+if !<src.canmake i_ARROW_SHAFT>
+	SRC.sysmessage @035  Bunu yapmak icin en az 9.8 Skill ve 1 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	//src.say test
+	src.makeitem=i_ARROW_SHAFT,1
+	src.tag.lastitem=i_ARROW_SHAFT
+ENDIF
+
+onbutton=15
+IF (<SRC.BOWCRAFT> < 1.0) || !(<src.restest 1 i_arrow_shaft>) || !(<src.restest 1 i_feather>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 1.0 Skill, 1 Arrow Shaft ve 1 Kus Tuyu'ne ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_arrow,1
+	src.tag.lastitem=i_arrow
+ENDIF
+
+onbutton=16
+IF (<SRC.BOWCRAFT> < 17.8)|| !(<src.restest 1 i_arrow_shaft>) || !(<src.restest 1 i_feather>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 17.8 Skill, 1 Arrow Shaft ve 1 Kus Tuyu'ne ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_xbolt,1
+	src.tag.lastitem=i_xbolt
+ENDIF
+
+// menu 2
+onbutton=17
+IF (<SRC.BOWCRAFT> < 17.8) || !(<src.restest 7 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 17.8 Skill ve 7 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_bow
+	src.tag.lastitem=i_bow
+ENDIF
+
+onbutton=18
+IF (<SRC.BOWCRAFT> < 37.8) || !(<src.restest 7 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 37.8 Skill ve 7 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_CROSSBOW
+	src.tag.lastitem=i_CROSSBOW
+ENDIF
+
+onbutton=19
+IF (<SRC.BOWCRAFT> < 57.8) || !(<src.restest 10 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 57.8 Skill ve 10 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_crossbow_heavy
+	src.tag.lastitem=i_crossbow_heavy
+ENDIF
+
+// menu 3
+onbutton=20
+IF (<SRC.BOWCRAFT> < 45.0) || !(<src.restest 8 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 45 Skill ve 8 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_BOW_SUP
+	src.tag.lastitem=i_BOW_SUP
+ENDIF
+
+onbutton=21
+IF (<SRC.BOWCRAFT> < 55.0) || !(<src.restest 8 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 55 Skill ve 8 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_XBOW_SUP
+	src.tag.lastitem=i_XBOW_SUP
+ENDIF
+
+onbutton=22
+IF (<SRC.BOWCRAFT> < 65.0) || !(<src.restest 8 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 65 Skill ve 8 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_HXBOW_SUP
+	src.tag.lastitem=i_HXBOW_SUP
+ENDIF
+
+// menu 4
+onbutton=23
+
+IF (<SRC.BOWCRAFT> < 75.5) || !(<src.restest 9 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 75.5 Skill ve 9 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_BOW_EXCEP
+	src.tag.lastitem=i_BOW_EXCEP
+ENDIF
+
+onbutton=24
+IF (<SRC.BOWCRAFT> < 85.5) || !(<src.restest 10 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 85.5 Skill ve 10 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_XBOW_EXCEP
+	src.tag.lastitem=i_XBOW_EXCEP
+ENDIF
+
+onbutton=25
+IF (<SRC.BOWCRAFT> < 95.5) || !(<src.restest 13 i_log>)
+	SRC.sysmessage @035  Bunu yapmak icin en az 95.5 Skill ve 13 Log'a ihtiyaciniz var.
+	return 1
+ELSE
+	src.makeitem=i_HXBOW_EXCEP
+	src.tag.lastitem=i_HXBOW_EXCEP
+ENDIF
+
+// menu 5
+onbutton=60
+IF !(<SRC.canmake.i_bow_npc>)
+	SRC.sysmessage @035 Bunu yapmak icin en az 98.1 Bowcraft, 90 Magery Skilli, 50 log, 20 bloodwood, 20 dragon blood gerekmektedir.
+	return 1
+ELSE
+	src.makeitem=i_bow_npc
+	src.tag.lastitem=i_bow_npc
+ENDIF
+
+onbutton=26
+IF !(<SRC.canmake.i_fast_bow>)
+	SRC.sysmessage @035 Bunu yapmak icin en az 98.1 Bowcraft, 90 Magery Skilli, 50 log, 20 frostwood, 20 dragon blood gerekmektedir.
+	return 1
+ELSE
+	src.makeitem=i_fast_bow
+	src.tag.lastitem=i_fast_bow
+ENDIF
+
+onbutton=37
+if !(<SRC.canmake.i_rotten_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 55.0 Bowcraft, 55.0 Magery, 20 Rotten Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_rotten_bow
+	src.tag.lastitem i_rotten_bow
+endif
+onbutton=38
+if !(<SRC.canmake.i_rotten_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 60.0 Bowcraft, 60.0 Magery, 25 Rotten Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_rotten_crossbow
+	src.tag.lastitem i_rotten_crossbow
+endif
+onbutton=39
+if !(<SRC.canmake.i_rotten_heavyxbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 65.0 Bowcraft, 65.0 Magery, 35 Rotten Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_rotten_heavyxbow
+	src.tag.lastitem i_rotten_heavyxbow
+endif
+
+onbutton=40
+if !(<SRC.canmake.i_pine_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 60.0 Bowcraft, 60.0 Magery, 20 Pine Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_pine_bow
+	src.tag.lastitem i_pine_bow
+endif
+onbutton=41
+if !(<SRC.canmake.i_pine_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 65.0 Bowcraft, 65.0 Magery, 25 Pine Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_pine_crossbow
+	src.tag.lastitem i_pine_crossbow
+endif
+onbutton=42
+if !(<SRC.canmake.i_pine_pine_heavyxbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 70.0 Bowcraft, 70.0 Magery, 35 Pine Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_pine_heavyxbow
+	src.tag.lastitem i_pine_heavyxbow
+endif
+
+onbutton=43
+if !(<SRC.canmake.i_maple_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 65.0 Bowcraft, 65.0 Magery, 20 maple Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_maple_bow
+	src.tag.lastitem i_maple_bow
+endif
+onbutton=44
+if !(<SRC.canmake.i_maple_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 70.0 Bowcraft, 70.0 Magery, 25 maple Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_maple_crossbow
+	src.tag.lastitem i_maple_crossbow
+endif
+onbutton=45
+if !(<SRC.canmake.i_maple_heavyxbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 75.0 Bowcraft, 75.0 Magery, 35 maple Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_maple_heavyxbow
+	src.tag.lastitem i_maple_heavyxbow
+endif
+
+onbutton=46
+if !(<SRC.canmake.i_walnut_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 70.0 Bowcraft, 70.0 Magery, 20 walnut Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_walnut_bow
+	src.tag.lastitem i_walnut_bow
+endif
+onbutton=47
+if !(<SRC.canmake.i_walnut_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 75.0 Bowcraft, 75.0 Magery, 25 walnut Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_walnut_crossbow
+	src.tag.lastitem i_walnut_crossbow
+endif
+onbutton=48
+if !(<SRC.canmake.i_walnut_heavyxbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 80.0 Bowcraft, 80.0 Magery,35 walnut Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_walnut_heavyxbow
+	src.tag.lastitem i_walnut_heavyxbow
+endif
+
+onbutton=49
+if !(<SRC.canmake.i_oak_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 75.0 Bowcraft, 75.0 Magery, 20 oak Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_oak_bow
+	src.tag.lastitem i_oak_bow
+endif
+onbutton=50
+if !(<SRC.canmake.i_oak_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 80.0 Bowcraft, 80.0 Magery, 25 oak Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_oak_crossbow
+	src.tag.lastitem i_oak_crossbow
+endif
+onbutton=51
+if !(<SRC.canmake.i_oak_heavyxbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 85.0 Bowcraft, 85.0 Magery, 35 oak Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_oak_heavyxbow
+	src.tag.lastitem i_oak_heavyxbow
+endif
+
+onbutton=52
+if !(<SRC.canmake.i_ebony_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 80.0 Bowcraft, 80.0 Magery, 20 ebony Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_ebony_bow
+	src.tag.lastitem i_ebony_bow
+endif
+onbutton=53
+if !(<SRC.canmake.i_ebony_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 85.0 Bowcraft, 85.0 Magery, 25 ebony Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_ebony_crossbow
+	src.tag.lastitem i_ebony_crossbow
+endif
+onbutton=54
+if !(<SRC.canmake.i_ebony_heavyxbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 90.0 Bowcraft, 90.0 Magery, 35 ebony Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_ebony_heavyxbow
+	src.tag.lastitem i_ebony_heavyxbow
+endif
+
+onbutton=55
+if !(<SRC.canmake.i_yew_bow>)
+	src.sysmessage @035  Bunu yapmak icin en az 85.0 Bowcraft, 85.0 Magery, 20 yew Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_yew_bow
+	src.tag.lastitem i_yew_bow
+endif
+onbutton=56
+if !(<SRC.canmake.i_yew_crossbow>)
+	src.sysmessage @035  Bunu yapmak icin en az 90.0 Bowcraft, 90.0 Magery, 25 yew Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_yew_crossbow
+	src.tag.lastitem i_yew_crossbow
+endif
+onbutton=57
+if !(<SRC.canmake.i_yew_heavyxbow>)
+	src.sysmessage @035 Bunu yapmak icin en az 95.0 Bowcraft, 95.0 Magery, 35 yew Log'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_yew_heavyxbow
+	src.tag.lastitem i_yew_heavyxbow
+endif
+
+on=80
+src.sysmessage @39 Kullanilmamaktadir.
+return 1
+if !(<SRC.canmake.i_bow_poison>)
+	src.sysmessage @035 Bunu yapmak icin en az 100.0 Bowcraft, 100.0 Magery, 25 Nightshade Log'a ve 10 tane poison scroll'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_bow_poison
+	src.tag.lastitem i_bow_poison
+endif
+
+on=81
+src.sysmessage @39 Kullanilmamaktadir.
+return 1
+
+if !(<SRC.canmake.i_arrow_poison>)
+	src.sysmessage @035 Bunu yapmak icin en az 100.0 Bowcraft, 1 shaft'a , 1 feather'e ve 1 tane deadly poison potion'a ihtiyaciniz var.
+	return 1
+else
+	src.makeitem i_arrow_poison
+	src.tag.lastitem i_arrow_poison
+endif
+
+
+onbutton=99
+src.makeitem=<src.tag.lastitem>
+
+
+
+
+[EOF]

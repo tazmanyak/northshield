@@ -1,0 +1,223 @@
+[DIALOG d_sealbook]
+0,0
+page 0
+gumppic 150 130 2202
+gumppic 0 0 2204
+dhtmlgump 195 175 100 60 0 0 <def.bfont_red><NAME>
+dhtmlgump 195 245 100 40 0 0 <def.bfont_dgray><AUTHOR>
+dhtmlgump 195 230 100 40 0 0 Yazar :
+dtext 355 180 1153 Kitabi Yaz?
+dtext 390 210 69 Evet
+dtext 390 235 025 Hayir
+dtext 405 305 1153 <PAGES> Sayfa
+
+button 355 205 2474 2473 1 0 1
+button 355 230 2474 2473 1 0 2
+
+[DIALOG d_sealbook BUTTON]
+
+ONBUTTON=1
+IF !(<TYPE> == t_book)
+SRC.SYSMESSAGE @1100 Bu bir kitap degil
+RETURN 1
+ENDIF
+
+IF (<MORE1> & 080000000)
+SRC.SYSMESSAGE @1100 Bu kitap Zaten basilmis
+RETURN 1
+ENDIF
+
+IF (<ATTR> & attr_move_never)
+SRC.SYSMESSAGE @1100 Hatali Secim
+RETURN 1
+ENDIF
+
+IF (<SRC.UID> != <TOPOBJ.UID>)
+SRC.SYSMESSAGE @1100 Kitap cantanizda degil
+RETURN 1
+ENDIF
+
+IF (<SRC.RESCOUNT i_seal_paper> < <PAGES>)
+SRC.SYSMESSAGE @1100 Kitap <PAGES> sayfa; fakat sizde <SRC.RESCOUNT i_seal_paper> sayfa mevcut...
+RETURN 1
+ENDIF
+
+local.REQINSCRIPTION=<eval <PAGES> * 10.0>
+IF (<eval <local.REQINSCRIPTION>> > 100.0)
+local.REQINSCRIPTION=100.0
+ENDIF
+local.ALWAYSSCRIBE=<eval <local.REQINSCRIPTION> * 4>
+local.ALWAYSSCRIPT=<eval <local.ALWAYSSCRIBE> / <SRC.INSCRIPTION>>
+local.CHANCESCRIBE=rand(<eval <local.ALWAYSSCRIBE>>)
+
+IF (<eval <local.REQINSCRIPTION>> > <SRC.INSCRIPTION>)
+SRC.SYSMESSAGE @1100 Bu kitabi yazmak icin gerekli beceriniz yok
+RETURN 1
+ENDIF
+
+IF (<eval <local.CHANCESCRIBE>> > <SRC.INSCRIPTION>)
+SRC.SYSMESSAGE @1100 Kitabi Yazamadiniz...
+ELSE
+SRC.SFX 79
+SRC.CONSUME <PAGES> i_seal_paper
+SRC.SYSMESSAGE Kitabi Yazdiniz...
+MORE1=080000000
+ENDIF
+
+VAR.CHANCESCRIBE=
+VAR.ALWAYSSCRIBE=
+VAR.REQINSCRIPTION=
+
+[function kitapcopy]
+IF !(<obj.MORE1> & 080000000)
+SRC.SYSMESSAGE @1100 Kitabi kopyalamak icin once yazilarini sabitleyin
+RETURN 1
+ENDIF
+
+IF (<eval <obj.pages>> < 1)
+SRC.SYSMESSAGE @1100 Bu kitap bos
+RETURN 1
+ENDIF
+
+if (<src.restest <obj.pages> i_seal_paper>)
+ IF (rand(110.0) < <SRC.INSCRIPTION>)
+ try uid.<obj>.dupe
+ try uid.<obj>.drop
+ try uid.<obj>.bounce
+ src.consume i_seal_paper <obj.pages>
+ src.sysmessage @1153 Kitabiniz kopyalandi.
+ ELSE
+ SRC.SYSMESSAGE @1100 Becemediniz
+ ENDIF
+else
+src.sysmessage @1153 Bunu icin <obj.pages> tane Kagit Olmali
+return 1
+endif
+RETURN 1
+
+[ITEMDEF i_kitapkopyala]
+id=4031
+RESOURCES=1 i_FEATHER, 1 i_INK_POT
+skillmake=tinkering 800
+WEIGHT=2
+name Kalem
+
+on=@click
+message @1153 <name>
+return 1
+
+ON=@DCLICK
+IF (<SRC.UID> != <TOPOBJ.UID>)
+SRC.SYSMESSAGE @1100 Esya cantanizda degil
+RETURN 1
+ENDIF
+
+TARGET @1153 Kopyalamak istediginiz kitabi seciniz
+RETURN 1
+
+ON=@Targon_char
+return 1
+
+ON=@Targon_ground
+return 1
+
+
+ON=@TARGON_ITEM
+obj=<src.targ.uid>
+
+IF (<obj.ATTR>&010)
+SRC.SYSMESSAGE @1100 Hatali Secim
+RETURN 1
+endif
+
+IF !(<obj.TYPE>==t_book)
+SRC.SYSMESSAGE @1100 Bu bir kitap degil
+RETURN 1
+endif
+
+//IF (<obj.MORE1> & 080000000)
+//SRC.SYSMESSAGE @1100 Bu kitap zaten basilmis
+//RETURN 1
+//ENDIF
+
+IF (<obj.ATTR> & attr_move_never)
+SRC.SYSMESSAGE @1100 Hatali secim
+RETURN 1
+ENDIF
+
+IF (<SRC.UID> != <obj.TOPOBJ.UID>)
+SRC.SYSMESSAGE @1100 Kitap cantanizda olmali
+RETURN 1
+ENDIF
+
+src.kitapcopy
+return 1
+
+
+
+[ITEMDEF i_seal_paper]
+ID=i_scroll_blank
+TYPE=t_scroll
+NAME=Kagit
+RESOURCES=2 i_scroll_blank
+SKILLMAKE=inscription 80.0
+value 50
+
+on=@create
+color 0835
+
+on=@click
+message @1153,,1 Kaðýt : <amount> adet
+return 1
+
+ON=@DClick
+IF (<SRC.UID> != <TOPOBJ.UID>)
+SRC.SYSMESSAGE @1100,,1 Eþya çantanizda deðil
+RETURN 1
+ENDIF
+
+if !(<src.findid.i_kitapkopyala>)
+src.sysmessage @1153 Bunu Kullanmak icin bir kaleme ihtiyanicin var
+return 1
+endif
+
+TARGET @1153 Kitabi seciniz
+RETURN 1
+
+ON=@Targon_char
+return 1
+
+ON=@Targon_ground
+return 1
+
+ON=@Targon_Item
+IF !(<SRC.TARG.TYPE> == t_book)
+SRC.SYSMESSAGE @1100 Bu bir kitap degil
+RETURN 1
+ENDIF
+
+IF (<SRC.TARG.MORE1> & 080000000)
+SRC.SYSMESSAGE @1100 Bu kitap zaten basilmis
+RETURN 1
+ENDIF
+
+IF (<SRC.TARG.ATTR> & attr_move_never)
+SRC.SYSMESSAGE @1100 Hatali secim
+RETURN 1
+ENDIF
+
+IF (<SRC.UID> != <SRC.TARG.TOPOBJ.UID>)
+SRC.SYSMESSAGE @1100 Kitap cantanizda olmali
+RETURN 1
+ENDIF
+
+IF (<SRC.RESCOUNT i_seal_paper> < <SRC.TARG.PAGES>)
+SRC.SYSMESSAGE @1100 Kitap <src.targ.PAGES> sayfa; fakat sizde <SRC.RESCOUNT i_seal_paper> sayfa mevcut...
+RETURN 1
+ENDIF
+
+SRC.TARG.DIALOG d_sealbook
+
+RETURN 1
+
+[EOF]

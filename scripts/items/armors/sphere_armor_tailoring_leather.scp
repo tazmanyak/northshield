@@ -1,0 +1,249 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 013c5]
+DEFNAME=i_leather_sleeves
+TYPE=t_armor_leather
+RESOURCES=4 i_hides_cut
+SKILLMAKE=TAILORING 53.9, t_sewing_kit
+WEIGHT=2.0
+FLIP=1
+REQSTR=20
+DUPELIST=013cd
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Sleeves
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 013cd]
+DUPEITEM=013c5
+
+[ITEMDEF 013c6]
+DEFNAME=i_leather_gloves
+TYPE=t_armor_leather
+RESOURCES=3 i_hides_cut
+SKILLMAKE=TAILORING 51.8, t_sewing_kit
+WEIGHT=1.0
+FLIP=1
+REQSTR=20
+DUPELIST=013ce
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Gloves
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 013ce]
+DUPEITEM=013c6
+
+[ITEMDEF 013c7]
+DEFNAME=i_leather_gorget
+TYPE=t_armor_leather
+RESOURCES=4 i_hides_cut
+SKILLMAKE=TAILORING 53.9, t_sewing_kit
+WEIGHT=1.0
+FLIP=1
+REQSTR=20
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Gorget
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 013cb]
+DEFNAME=i_leather_leggings
+TYPE=t_armor_leather
+RESOURCES=10 i_hides_cut
+SKILLMAKE=TAILORING 66.3, t_sewing_kit
+WEIGHT=4.0
+FLIP=1
+REQSTR=20
+DUPELIST=013d2
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Leggings
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 013d2]
+DUPEITEM=013cb
+
+[ITEMDEF 013cc]
+DEFNAME=i_leather_tunic
+TYPE=t_armor_leather
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 70.5, t_sewing_kit
+WEIGHT=6
+FLIP=1
+REQSTR=25
+DUPELIST=013d3
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Tunic
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 013d3]
+DUPEITEM=013cc
+
+[ITEMDEF 01db9]
+DEFNAME=i_leather_cap
+TYPE=t_armor_leather
+RESOURCES=2 i_hides_cut
+SKILLMAKE=TAILORING 6.2, t_sewing_kit
+WEIGHT=2.0
+FLIP=1
+REQSTR=20
+DUPELIST=01dba
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Cap
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 01dba]
+DUPEITEM=01db9
+
+[ITEMDEF 01c00]
+DEFNAME=i_armor_female_shorts
+TYPE=t_armor_leather
+RESOURCES=8 i_hides_cut
+SKILLMAKE=TAILORING 62.2
+WEIGHT=3.0
+FLIP=1.0
+REQSTR=20
+DUPELIST=01c01
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Shorts (Female)
+TAG.Item.Female=1
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 01c01]
+DUPEITEM=01c00
+
+[ITEMDEF 01c06]
+DEFNAME=i_armor_female_leather
+TYPE=t_armor_leather
+RESOURCES=8 i_hides_cut
+SKILLMAKE=TAILORING 62.2
+WEIGHT=1
+FLIP=1
+REQSTR=25
+DUPELIST=01c07
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Armor (Female)
+TAG.Item.Female=1
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 01c07]
+DUPEITEM=01c06
+
+[ITEMDEF 01c08]
+DEFNAME=i_armor_female_skirt
+TYPE=t_armor_leather
+RESOURCES=6 i_hides_cut
+SKILLMAKE=TAILORING 58.0, t_sewing_kit
+WEIGHT=1.0
+FLIP=1
+REQSTR=20
+DUPELIST=01c09
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Skirt (Female)
+TAG.Item.Female=1
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 01c09]
+DUPEITEM=01c08
+
+[ITEMDEF 01c0a]
+DEFNAME=i_armor_female_bustier
+TYPE=t_armor_leather
+RESOURCES=6 i_hides_cut
+SKILLMAKE=TAILORING 58.0, t_sewing_kit
+WEIGHT=1.0
+FLIP=1
+REQSTR=20
+DUPELIST=01c0b
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Armor
+DESCRIPTION=Leather Bustier
+TAG.Item.Female=1
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+armor 18 //=3
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 01c0b]
+DUPEITEM=01c0a
+
+[eof]

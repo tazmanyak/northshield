@@ -1,0 +1,407 @@
+﻿[plevel 1]
+makelast
+tekraryap
+
+[function makelast]
+
+
+
+if strmatch("<ctag0.craft.skill>","cartography")
+	drawmap <ctag0.craft.last.<ctag0.craft.skill>>
+	if rand(100)==1
+		actdiff=-10
+		else
+		actdiff=10
+	endif
+	return 1
+endif
+
+if !<ctag0.lastitem>
+	src.sysmessage @,,1 Onceden yaptiginiz bir esya bulunmuyor.
+elif <isevent.e_makelast>
+	src.sysmessage @,,1 Onceki isleminiz tamamlanmadan kullanamazsiniz.
+else
+	if <argn> == 1
+		src.tekraryap_tek
+	else
+		sdialog d_make_last
+	endif
+endif
+
+[function tekraryap_tek]
+
+if !<canmake <ctag0.lastitem>>
+		sys_error <serv.itemdef.<ctag0.lastitem>.name> uretebilecek malzemeniz veya yeteneğiniz bulunmamakta.
+	else
+		//ctag0.tekrarsayisi=<dargtxt[0]>
+		craft <ctag0.lastitem>
+		//events +e_makelast
+		//sys_normal Tekrar islemi basladı.
+		//sys_normal Tekrar sayısı: <dargtxt[0]>
+		//sys_normal İslemi iptal etmek icin savas moduna gecmeniz yeterlidir.
+	endif
+endif
+
+[function tekraryap]
+makelast
+
+[dialog d_make_last]
+0,0
+makebg 150,150,350,200
+dtext 278 130 1152 TNS Makelast
+resizepic 120 120 2620 75 75
+tilepic 125 130 <serv.itemdef.<ctag0.lastitem>.id>
+dtext 200 175 048 Eşya:
+dtext 250 175 38 <serv.itemdef.<ctag0.lastitem>.name>
+dtext 200 195 048 Üretimi için gereken malzemeler;
+dhtmlgump 180 220 300 80 1 1 - <serv.itemdef.<ctag0.lastitem>.resmake><def.br>- <qval <canmakeskill <ctag0.lastitem>>?<def.bfont_green>:<def.bfont_lred>><serv.itemdef.<ctag0.lastitem>.skillmake>
+button 180 310 4005 4007 1 0 1
+resizepic 220 305 2620 60 28
+dtextentrylimited 230 308 50 20 1152 0 3 
+dtext 290 310 1152 kere tekrarla.
+
+[dialog d_make_last button]
+on=1
+if <isempty <argtxt[0]>>
+	sys_error Tekrar sayısını girmelisiniz.
+elif !<isnumeric <argtxt[0]>>
+	sys_error Yalnızca rakam girebilirsiniz.
+elif (<dargtxt[0]> < 1) || (<dargtxt[0]> > 500)
+	sys_error Bir seferde en fazla 500 tekrar yapabilirsiniz.
+elif <isevent.e_makelast>
+	sys_error Önceki islem tamamlanmadan tekrar kullanamazsınız.
+else
+	if !<canmake <ctag0.lastitem>>
+		sys_error <serv.itemdef.<ctag0.lastitem>.name> uretebilecek malzemeniz veya yeteneğiniz bulunmamakta.
+	else
+		ctag0.tekrarsayisi=<dargtxt[0]>
+		craft <ctag0.lastitem>
+		events +e_makelast
+		//sys_normal Tekrar islemi basladı.
+		sys_normal Tekrar sayısı: <dargtxt[0]>
+		sys_normal İslemi iptal etmek icin savas moduna gecmeniz yeterlidir.
+		src.closealldialogs
+	endif
+endif
+
+[events e_makelast]
+on=@userwarmode
+ctag0.tekrarsayisi=
+sys_normal Tekrar isleminiz sona erdi.
+events -e_makelast
+
+on=@death
+ctag0.tekrarsayisi=
+sys_normal Tekrar isleminiz sona erdi.
+events -e_makelast
+
+on=@logout
+ctag0.tekrarsayisi=
+sys_normal Tekrar isleminiz sona erdi.
+events -e_makelast
+
+on=@attack
+ctag0.tekrarsayisi=
+sys_normal Tekrar isleminiz sona erdi.
+events -e_makelast
+
+on=@spellcast
+ctag0.tekrarsayisi=
+sys_normal Tekrar isleminiz sona erdi.
+events -e_makelast
+
+on=@skillfail
+if <dctag0.tekrarsayisi> < 0
+	sys_normal Tekrar isleminiz sona erdi.
+	events -e_makelast
+elif !<ctag0.lastitem>
+	events -e_makelast
+elif !<canmake <ctag0.lastitem>>
+	sys_error <serv.itemdef.<ctag0.lastitem>.name> uretebilecek malzemeniz veya yeteneğiniz bulunmuyor.
+	events -e_makelast
+	ctag0.tekrarsayisi=
+else
+	sys_normal Kalan tekrar: <dctag0.tekrarsayisi>
+	timerf 1, craft <ctag0.lastitem>	
+	
+endif
+
+on=@skillabort
+if <dctag0.tekrarsayisi> < 0
+	sys_normal Tekrar isleminiz sona erdi.
+	events -e_makelast
+elif !<ctag0.lastitem>
+	events -e_makelast
+	sys_error <serv.itemdef.<ctag0.lastitem>.name> uretebilecek malzemeniz veya yeteneğiniz bulunmuyor.
+	events -e_makelast
+	ctag0.tekrarsayisi=
+elif !<canmake <ctag0.lastitem>>
+	sys_error <serv.itemdef.<ctag0.lastitem>.name> uretebilecek malzemeniz veya yeteneğiniz bulunmuyor.
+	events -e_makelast
+	ctag0.tekrarsayisi=
+else
+	sys_normal Kalan tekrar sayısı: <dctag0.tekrarsayisi>
+	timerf 1, craft <ctag0.lastitem>
+	
+endif
+	
+on=@skillmakeitem
+ctag0.tekrarsayisi --
+if <dctag0.tekrarsayisi> <= 0
+	sys_normal Tekrar isleminiz sona erdi.
+	events -e_makelast
+elif !<ctag0.lastitem>
+	events -e_makelast
+	ctag0.tekrarsayisi=
+elif !<canmake <ctag0.lastitem>>
+	sys_error <serv.itemdef.<ctag0.lastitem>.name> uretebilecek malzemeniz veya yeteneğiniz bulunmuyor.
+	events -e_makelast
+	ctag0.tekrarsayisi=
+else
+	sys_normal Kalan tekrar sayısı: <dctag0.tekrarsayisi>
+	timerf 1, craft <ctag0.lastitem> //makeitem=<ctag0.lastitem>
+	
+endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[function ScriptCrafting]
+f_crafting_generate blacksmithing
+f_crafting_generate bowcraft
+f_crafting_generate carpentry
+f_crafting_generate tailoring
+
+[function f_crafting_generate]
+local.skill = <args>
+serv.log @CraftingGenerator :: Starting generation of <local.skill>.
+for 1 10
+	if <isempty <def.<local.skill>_material_<dlocal._for>>>
+	serv.log @CraftingGenerator :: Finished generation of <local.skill>.
+	return 1
+	endif
+	f_make_craftinglist <local.skill>,<local._for>
+	for u 1 20
+		if !<isempty <def.<local.skill>_category_<dlocal.u>_1>>
+			for y 1 100
+				if !<isempty <def.<local.skill>_category_<dlocal.u>_<dlocal.y>>>
+					if <isempty <def.<local.skill>_category_<dlocal.u>_<dlocal.y>_opt>>
+					local.colored = <getargv 2 <def.<local.skill>_options_default>>
+					else
+					local.colored = <getargv 2 <def.<local.skill>_category_<dlocal.u>_<dlocal.y>_opt>>
+					endif
+					if <local.colored> == 1
+					f_craft_item <def.<local.skill>_category_<dlocal.u>_<dlocal.y>>,<local.skill>,<local._for>
+					endif
+				endif
+			endfor
+		endif
+	endfor
+endfor
+
+[function f_make_craftinglist]
+local.skill = <argv[0]>
+local.material = <argv[1]>
+local.topen = "scripts/add-on/skillmenu/sphere_skillmenu_<local.skill>_colored.scp" // _<def.<local.skill>_material_<dlocal.material>>
+file.mode.append = 1
+if <file.open <local.topen>>
+file.writeline "[defname sphere_crafting_blacksmithing_<def.<local.skill>_material_<dlocal.material>>]"
+	for y 1 20
+		if !<isempty <def.<local.skill>_category_<dlocal.y>_1>>
+		local.items = 1
+			for z 1 100
+				if !<isempty <def.<local.skill>_category_<dlocal.y>_<dlocal.z>>>
+					if <isempty <def.<local.skill>_category_<dlocal.y>_<dlocal.z>_opt>>
+					local.colored = <getargv 2 <def.<local.skill>_options_default>>
+					else
+					local.colored = <getargv 2 <def.<local.skill>_category_<dlocal.y>_<dlocal.z>_opt>>
+					endif
+					if <local.colored> == 1
+					file.writeline <local.skill>_<dlocal.material>_category_<dlocal.y>_<dlocal.items> "<def.<local.skill>_category_<dlocal.y>_<dlocal.z>>_<def.<local.skill>_material_<dlocal.material>>"
+					local.items ++
+					endif
+				endif
+			endfor
+			if <local.items>
+			file.writeline " "
+			endif
+		endif
+	endfor
+file.writeline " "
+file.close
+endif
+
+// f_craft_item $item,$skill,$resource
+[function f_craft_item]
+local.item = <argv[0]>
+local.skill = <argv[1]>
+local.material = <argv[2]>
+serv.newitem <local.item>
+new.name = <def.<local.skill>_material_<dlocal.material>_name> <new.name>
+new.color = <def.<local.skill>_material_<dlocal.material>_color>
+	if <new.isweapon>
+	new.hitpoints = 48
+	args = <def.<local.skill>_material_<dlocal.material>_weaps_dam>
+	new.tag0.DamPhysical = <eval <new.tag0.DamPhysical> + <argv[0]>>
+	new.tag0.DamFire = <eval <new.tag0.DamPhysical> + <argv[1]>>
+	new.tag0.DamCold = <eval <new.tag0.DamPhysical> + <argv[2]>>
+	new.tag0.DamPoison = <eval <new.tag0.DamPhysical> + <argv[3]>>
+	new.tag0.DamEnergy = <eval <new.tag0.DamPhysical> + <argv[4]>>
+		if !<isempty <argv[5]>>
+			if (strmatch("<def.<local.skill>_material_<dlocal.material>_name>","heartwood"))
+			local.tocall = <argv[5]>
+			else
+			new.<argv[5]>
+			endif
+		endif
+	elif <new.isarmor>
+	new.hitpoints = 48
+	args = <def.<local.skill>_material_<dlocal.material>_armor_res>
+	new.tag0.ResPhysical = <eval <new.tag0.ResPhysical> + <argv[0]>>
+	new.tag0.ResFire = <eval <new.tag0.ResFire> + <argv[1]>>
+	new.tag0.ResCold = <eval <new.tag0.ResCold> + <argv[2]>>
+	new.tag0.ResPoison = <eval <new.tag0.ResPoison> + <argv[3]>>
+	new.tag0.ResEnergy = <eval <new.tag0.ResEnergy> + <argv[4]>>
+		if !<isempty <argv[5]>>
+			if (strmatch("<def.<local.skill>_material_<dlocal.material>_name>","heartwood"))
+			local.tocall = <argv[5]>
+			else
+			new.<argv[5]>
+			endif
+		endif
+	endif
+call f_script_item <new.uid>
+new.remove
+
+[function f_script_item]
+ref1 = <args>
+file.close
+file.mode.append = 1
+local.topen = scripts/items/crafting/sphere_crafting_<local.skill>_<def.<local.skill>_material_<dlocal.material>>.scp
+if <file.open <local.topen>>
+file.writeline "[ITEMDEF <ref1.baseid>_<def.<local.skill>_material_<dlocal.material>>]"
+file.writeline "ID=<ref1.id>"
+file.writeline "NAME=<ref1.name>"
+file.writeline "TYPE=<ref1.type>"
+args = <serv.itemdef.<ref1.baseid>.resources>
+	if <serv.itemdef.<local.item>.resources.1.key> == <def.<local.skill>_resourceid>
+	local.resources = "<eval <serv.itemdef.<local.item>.resources.1.val>> <def.<local.skill>_material_<dlocal.material>_resourceid>"
+		if <argv> > 1
+			for j 1 <eval <argv>-1>
+			local.resources .= ", <argv[<local.j>]>"
+			endfor
+		endif
+	else
+	local.resources = <argv[0]>
+		if <argv> > 1
+			for j 1 <eval <argv>-1>
+				if <serv.itemdef.<local.item>.resources.<dlocal.j>.key> == <def.<local.skill>_resourceid>
+				local.resources .= ", <serv.itemdef.<local.item>.resources.<dlocal.j>.val> <def.<local.skill>_material_<dlocal.material>_resourceid>"
+				else
+				local.resources = ", <serv.itemdef.<local.item>.resources.<dlocal.j>.val> <strtrim <serv.itemdef.<local.item>.resources.<dlocal.j>.key>>"
+				endif
+			endfor
+		endif
+	endif
+file.writeline "RESOURCES=<local.resources>"
+file.writeline "SKILLMAKE=<serv.itemdef.<ref1.baseid>.skillmake>"
+file.writeline "WEIGHT=<fval <ref1.weight>>"
+	if <ref1.tag.LowerRequeriments>
+	file.writeline "REQSTR=<muldiv <ref1.reqstr>,<ref1.tag.lowerrequeriments>,100>"
+	endif
+	if <ref1.istevent.t_iprop>
+	file.writeline "TEVENTS=t_iprop"
+		for 1 <def.itemprops>
+			if !<isempty <ref1.tag.<getargv 5 <def.itemprop_<local.x>>>>>
+			file.writeline "TAG.<getargv 5 <def.itemprop_<local.x>>=<ref1.tag0.<getargv 5 <def.itemprop_<local.x>>>>"
+			endif
+		endfor
+	endif
+	if <ref1.isweapon>
+	local.category = "Provisions - Weapons"
+	local.subsection = <qval <ref1.baseid> == <ref1.id> ? "<ref1.typedef.name>" : "<serv.itemdef.<ref1.id>.name>">
+	elif <ref1.isarmor>
+	local.category = "Provisions - Armor"
+		if (<ref1.id> > 02773) && (<ref1.id> < 027e9)
+		local.subsection = "<strarg <ref1.typedef.name>> Samurai Armor"
+		else
+		local.subsection = "<strarg <ref1.typedef.name>> Armor"
+		endif
+		if <ref1.layer> == layer_helm
+		local.subsection = "Helmets"
+		elif <ref1.layer> == layer_hand2
+		local.subsection = "Shields"
+		endif
+	elif <ref1.type> == t_weapon_arrow
+	local.category = "Provisions - Weapons"
+	local.subsection = "Ammunition"
+	else
+	serv.log @CraftingGenerator :: Cannot recognize type <ref1.type> of <ref1.typedef.name> (<ref1.baseid>)
+	endif
+file.writeline "CATEGORY=<local.category> - Colored"
+file.writeline "SUBSECTION=<def.<local.skill>_material_<dlocal.material>_name> <local.subsection>"
+file.writeline "DESCRIPTION=<ref1.name>"
+	if <ref1.tag0.Penalty.Meditation>
+	file.writeline "TAG.Penalty.Meditation=1"
+	endif
+	if <ref1.tag0.Penalty.Stealth>
+	file.writeline "TAG.Penalty.Stealth=<ref1.dtag0.Penalty.Stealth>"
+	endif
+	if <ref1.tag0.DamPhysical>
+	file.writeline "TAG.DamPhysical=<ref1.dtag0.DamPhysical>"
+	endif
+	if <ref1.tag0.DamFire>
+	file.writeline "TAG.DamFire=<ref1.dtag0.DamFire>"
+	endif
+	if <ref1.tag0.DamCold>
+	file.writeline "TAG.DamCold=<ref1.dtag0.DamCold>"
+	endif
+	if <ref1.tag0.DamPoison>
+	file.writeline "TAG.DamPoison=<ref1.dtag0.DamPoison>"
+	endif
+	if <ref1.tag0.DamEnergy>
+	file.writeline "TAG.DamEnergy=<ref1.dtag0.DamEnergy>"
+	endif
+	if <ref1.tag0.ResPhysical>
+	file.writeline "TAG.ResPhysical=<ref1.dtag0.ResPhysical>"
+	endif
+	if <ref1.tag0.ResFire>
+	file.writeline "TAG.ResFire=<ref1.dtag0.ResFire>"
+	endif
+	if <ref1.tag0.ResCold>
+	file.writeline "TAG.ResCold=<ref1.dtag0.ResCold>"
+	endif
+	if <ref1.tag0.ResPoison>
+	file.writeline "TAG.ResPoison=<ref1.dtag0.ResPoison>"
+	endif
+	if <ref1.tag0.ResEnergy>
+	file.writeline "TAG.ResEnergy=<ref1.dtag0.ResEnergy>"
+	endif
+file.writeline " "
+file.writeline "ON=@Create"
+	if !(strmatch("<local.tocall>","0"))
+	file.writeline "<local.tocall>"
+	endif
+file.writeline "HITPOINTS={<eval <ref1.hitpoints>-12> <ref1.hitpoints>}"
+file.writeline "COLOR=<ref1.color>"
+file.writeline " "
+file.close
+endif
+
+[eof]

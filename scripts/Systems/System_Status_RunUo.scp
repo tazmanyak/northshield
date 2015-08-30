@@ -1,0 +1,83 @@
+[function f_runuo_status_x]
+uid.01dc3.f_runuo_status
+
+[function f_runuo_status]
+FORPLAYERS 6144
+	if <isonline>
+		f_mysphere_set
+	endif
+endfor
+
+[function f_runuo_characters_x]
+uid.01dc3.f_runuo_characters
+
+[function f_runuo_characters]
+serv.MySqlDatabase=mysphere
+db.connect
+db.query truncate table myrunuo_characters
+//forplayers 6144
+//	
+//	ref1=<uid>
+//	ref1.f_runuo_characters_layers
+//endfor
+db.close
+serv.MySqlDatabase=sphere
+
+[Plevel 1]
+paperdoll
+
+[function paperdoll]
+f_mysphere_set
+weblink www.tns.gen.tr/Player_Database/player.php?id=<eval <uid>>
+
+[function f_mysphere_set]
+serv.MySqlDatabase=mysphere
+local.name <name> - <title>
+db.connect
+db.execute delete from myrunuo_characters where char_id='<eval <uid>>'
+db.query insert into myrunuo_characters (char_id, char_name, char_str, char_dex, char_int, char_female, char_counts, char_guild, char_guildtitle, char_nototitle, char_bodyhue, char_public) VALUES ('<eval <uid>>', '<addslashes <name>>', '<str>', '<dex>', '<int>', '<sex>', null, '<guild>', null, '<addslashes <local.name>>', '<eval <color>>', null)
+
+
+db.execute delete from myrunuo_characters_layers where char_id='<eval <uid>>'
+
+for 24
+	if <findlayer.<dlocal._for>>
+		ref1 = <findlayer.<dlocal._for>.uid>
+		db.query insert into myrunuo_characters_layers (char_id, layer_id, item_id, item_hue) VALUES ('<eval <ref1.cont.uid>>','<dlocal._for>','<eval <ref1.id>>','<eval <ref1.color>>') //
+	endif
+endfor
+//for 1 49
+//db.query INSERT INTO myrunuo_characters_skills (char_id, skill_id, skill_value) VALUES ('<eval <uid>>','<dlocal.x>','<eval <<def.player_skill_1>>>')
+//endfor
+
+db.close
+serv.MySqlDatabase=sphere
+
+
+
+
+
+[function f_runuo_characters_layers]
+ARGS = 1,2,3,4,5,6,7,8,10,12,13,14,17,18,19,20,21,22,23,24,31
+
+	for x 1 21
+		
+	endfor
+
+//if !<tag.isnotregistered_characters_layers>
+	
+
+
+
+[function f_runuo_characters_skills]
+
+
+[function f_runuo_characters_guilds]
+INSERT INTO myrunuo_guilds (guild_id, guild_name, guild_abbreviation, guild_website, guild_charter, guild_type, guild_wars, guild_members, guild_master) VALUES ({0}, '{1}', {2}, {3}, {4}, '{5}', {6}, {7}, {8})", guild.Id.ToString(), SafeString( guild.Name ), guild.Abbreviation == "none" ? "NULL" : "'" + SafeString( guild.Abbreviation ) + "'", guild.Website == null ? "NULL" : "'" + SafeString( guild.Website ) + "'", guild.Charter == null ? "NULL" : "'" + SafeString( guild.Charter ) + "'", guildType, guild.Enemies.Count.ToString(), guild.Members.Count.ToString(), guild.Leader.Serial.Value.ToString() );
+
+
+[function f_runuo_characters_guilds_wars]
+
+
+
+[EOF]

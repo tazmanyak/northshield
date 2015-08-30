@@ -1,0 +1,177 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF i_chest_hazine]
+ID=0e41
+type=2
+
+ON=@Create
+tag.ksacildi 0
+tag.hazinekasasi 1
+timer=60*10
+TYPE=2
+MORE=0515
+COLOR=0810
+attr=0850
+//LINK=0515
+
+ON=@timer
+REMOVE
+return 1
+
+[TEMPLATE tm_treasure_chest_lvl_1]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Treasure Chest Level #1
+CONTAINER=i_chest_hazine
+ITEM=i_gold,10000
+ITEM=random_jewel,3
+ITEM=random_scroll,2
+ITEM=random_scroll,2
+ITEM=random_reagent,{10 30}
+ITEM={i_potion_healgreat 1 i_potion_curegreat 1 i_potion_refreshtotal 1},1
+ITEM={i_crystal_30 1 i_Crystal_60 1 i_crystal_90 1 i_crystal_120 1},R5
+//ITEM={i_ingot_iron 4 i_ingot_dull_copper 4 i_ingot_copper 3},2
+ITEM=ruin_silah
+ITEM=i_upgrade_scroll3,R3
+
+[TEMPLATE tm_treasure_chest_lvl_2]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Treasure Chest Level #2
+CONTAINER=i_chest_hazine
+ITEM=i_gold,14000
+ITEM=random_jewel,6
+ITEM=random_scroll,2
+ITEM=random_scroll,2
+ITEM=random_scroll,2
+ITEM=random_scroll,2
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM={i_potion_healgreat 1 i_potion_curegreat 1 i_potion_refreshtotal 1},2
+ITEM={i_crystal_30 1 i_Crystal_60 1 i_crystal_90 1 i_crystal_120 1},R5
+//ITEM={i_ingot_iron 3 i_ingot_dull_copper 3 i_ingot_copper 3 i_ingot_bronze 3 i_ingot_gold 3},3
+ITEM=might_silah
+ITEM=i_upgrade_scroll6,R3
+
+[TEMPLATE tm_treasure_chest_lvl_3]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Treasure Chest Level #3
+CONTAINER=i_chest_hazine
+ITEM=i_gold,20000
+ITEM=random_jewel,9
+ITEM=random_scroll,3
+ITEM=random_scroll,3
+ITEM=random_scroll,3
+ITEM=random_scroll,3
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM={i_potion_healgreat 1 i_potion_curegreat 1 i_potion_refreshtotal 1},2
+ITEM={i_crystal_30 1 i_Crystal_60 1 i_crystal_90 1 i_crystal_120 1},R5
+//ITEM={i_ingot_iron 2 i_ingot_dull_copper 2 i_ingot_copper 2 i_ingot_bronze 2 i_ingot_gold 2 i_ingot_agapite 2 i_ingot_shadow 2 i_ingot_verite 2},4
+ITEM=force_silah,R2
+ITEM=i_upgrade_scroll9,R3
+
+[TEMPLATE tm_treasure_chest_lvl_4]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Treasure Chest Level #4
+CONTAINER=i_chest_hazine
+ITEM=i_gold,25000
+ITEM=random_jewel,6
+ITEM=random_jewel,6
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=i_upgrade_scroll6,R5
+ITEM={i_potion_healgreat 1 i_potion_curegreat 1 i_potion_refreshtotal 1},2
+ITEM={i_crystal_30 1 i_Crystal_60 1 i_crystal_90 1 i_crystal_120 1},R5
+//ITEM={i_ingot_iron 2 i_ingot_dull_copper 2 i_ingot_copper 2 i_ingot_bronze 2 i_ingot_gold 2 i_ingot_agapite 2 i_ingot_shadow 2 i_ingot_verite 2 i_ingot_valorite 2},5
+ITEM=power_silah,R3
+
+
+[TEMPLATE tm_treasure_chest_lvl_5]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Treasure Chest Level #5
+CONTAINER=i_chest_hazine
+ITEM=i_gold,30000
+ITEM=random_jewel,8
+ITEM=random_jewel,7
+ITEM=random_scroll,5
+ITEM=random_scroll,5
+ITEM=random_scroll,5
+ITEM=random_scroll,5
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM={i_potion_healgreat 1 i_potion_curegreat 1 i_potion_refreshtotal 1},2
+ITEM={i_crystal_30 1 i_Crystal_60 1 i_crystal_90 1 i_crystal_120 1},R5
+ITEM=vanq_silah,R10
+ITEM=studded_invul,R5
+
+//ITEM={i_ingot_iron 1 i_ingot_dull_copper 1 i_ingot_copper 1 i_ingot_bronze 1 i_ingot_gold 1 i_ingot_agapite 1 i_ingot_shadow 1 i_ingot_verite 1 i_ingot_valorite 1 i_ingot_mytheril 1 i_ingot_bloodrock 1 i_ingot_blackrock 1},6
+
+
+[TEMPLATE tm_treasure_chest_lvl_6]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Treasure Chest Level #6
+CONTAINER=i_chest_hazine
+ITEM=i_gold,6000
+ITEM=random_jewel,6
+ITEM=random_jewel,6
+ITEM=random_jewel,6
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_scroll,4
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+ITEM=random_reagent,{10 30}
+//ITEM=random_magic_items,60
+
+
+[TEMPLATE random_magic_items]
+CATEGORY=Item Templates
+SUBSECTION=Treasure Hunting
+DESCRIPTION=Magic Items
+ITEM=random_rich_magic_goodie
+ITEM={random_rich_magic_loot 1 random_average_magic_loot 1}
+ITEM=random_rich_magic_loot
+ITEM={random_rich_magic_loot 1 random_average_magic_loot 1}
+ITEM=random_rich_magic_loot
+ITEM=random_magic_wands,R3
+
+[eof]

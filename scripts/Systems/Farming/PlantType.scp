@@ -1,0 +1,221 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[function bGenerateType]
+local.return  <eval {1 25}>
+//serv.log <dlocal.return>
+return <dlocal.return>
+
+[Defname planttypes]
+PlantType.CampionFlowers 1
+PlantType.Poppies 2
+PlantType.Snowdrops 3 
+PlantType.Bulrushes 4
+PlantType.Lilies 5 
+PlantType.PampasGrass 6
+PlantType.Rushes 7
+PlantType.ElephantEarPlant 8
+PlantType.Fern 9
+PlantType.PonytailPalm 10
+PlantType.SmallPalm 11
+PlantType.CenturyPlant 12 
+PlantType.WaterPlant 13
+PlantType.SnakePlant 14 
+PlantType.PricklyPearCactus 15
+PlantType.BarrelCactus 16
+PlantType.TribarrelCactus 17
+PlantType.CommonGreenBonsai 18
+PlantType.CommonPinkBonsai 19
+PlantType.UncommonGreenBonsai 20
+PlantType.UncommonPinkBonsai 21
+PlantType.RareGreenBonsai 22
+PlantType.RarePinkBonsai 23
+PlantType.ExceptionalBonsai 24
+PlantType.ExoticBonsai 25
+
+PlantType_1_itemid 0c83
+planttype_1_planttype 1
+planttype_1_containsplant 0
+planttype_1_flowery 1
+planttype_1_crossable 1
+
+PlantType_2_itemid 0c86
+planttype_2_planttype 2
+planttype_2_containsplant 0
+planttype_2_flowery 1
+planttype_2_crossable 1
+planttype_2_resources_13 i_orange_petal
+
+PlantType_3_itemid 0c88
+planttype_3_planttype 3
+planttype_3_containsplant 0
+planttype_3_flowery 1
+planttype_3_crossable 1
+
+PlantType_4_itemid 0c94
+planttype_4_planttype 4
+planttype_4_containsplant 0
+planttype_4_flowery 1
+planttype_4_crossable 1
+planttype_4_resources_13 i_orange_petal
+
+PlantType_5_itemid 0c8b
+planttype_5_planttype 5
+planttype_5_containsplant 0
+planttype_5_flowery 1
+planttype_5_crossable 1
+
+PlantType_6_itemid 0ca5
+planttype_6_planttype 6
+planttype_6_containsplant 0
+planttype_6_flowery 1
+planttype_6_crossable 1
+planttype_6_resources_13 i_orange_petal
+
+PlantType_7_itemid 0ca7
+planttype_7_planttype 7
+planttype_7_containsplant 0
+planttype_7_flowery 1 
+planttype_7_crossable 1
+
+PlantType_8_itemid 0c97
+planttype_8_planttype 8
+planttype_8_containsplant 1
+planttype_8_flowery 0
+planttype_8_crossable 1
+planttype_8_resources_5 i_red_leaf
+
+PlantType_9_itemid 0c9f
+planttype_9_planttype 9
+planttype_9_containsplant 0
+planttype_9_flowery 0
+planttype_9_crossable 1
+
+PlantType_10_itemid 0ca6
+planttype_10_planttype 10
+planttype_10_containsplant 0
+planttype_10_flowery 0
+planttype_10_crossable 1
+planttype_10_resources_5 i_red_leaf
+
+PlantType_11_itemid 0c9c
+planttype_11_planttype 11
+planttype_11_containsplant 0
+planttype_11_flowery 0 
+planttype_11_crossable 1
+
+PlantType_12_itemid 0d31
+planttype_12_planttype 12
+planttype_12_containsplant 1
+planttype_12_flowery 0
+planttype_12_crossable 1
+planttype_12_resources_5 i_red_leaf
+
+PlantType_13_itemid 0d04
+planttype_13_planttype 13
+planttype_13_containsplant 1
+planttype_13_flowery 0 
+planttype_13_crossable 1
+
+PlantType_14_itemid 0ca9
+planttype_14_planttype 14
+planttype_14_containsplant 1
+planttype_14_flowery 0
+planttype_14_crossable 1
+planttype_14_resources_12 i_green_thorn
+
+PlantType_15_itemid 0d2c
+planttype_15_planttype 15
+planttype_15_containsplant 0
+planttype_15_flowery 0
+planttype_15_crossable 1
+
+PlantType_16_itemid 0d26
+planttype_16_planttype 16
+planttype_16_containsplant 0
+planttype_16_flowery 0
+planttype_16_crossable 1
+planttype_16_resources_12 i_green_thorn
+
+PlantType_17_itemid 0d27
+planttype_17_planttype 17
+planttype_17_containsplant 0
+planttype_17_flowery 0
+planttype_17_crossable 1
+
+PlantType_18_itemid 0d26
+planttype_18_planttype 18
+planttype_18_containsplant 1
+planttype_18_flowery 0
+planttype_18_crossable 0
+
+PlantType_19_itemid 028df
+planttype_19_planttype 19
+planttype_19_containsplant 1
+planttype_19_flowery 0
+planttype_19_crossable 0
+
+PlantType_20_itemid 028dd
+planttype_20_planttype 20
+planttype_20_containsplant 1
+planttype_20_flowery 0
+planttype_20_crossable 0
+
+PlantType_21_itemid 028e0
+planttype_21_planttype 21
+planttype_21_containsplant 1
+planttype_21_flowery 0
+planttype_21_crossable 0
+
+PlantType_22_itemid 028de
+planttype_22_planttype 22
+planttype_22_containsplant 1
+planttype_22_flowery 0
+planttype_22_crossable 0
+
+PlantType_23_itemid 028e1
+planttype_23_planttype 23
+planttype_23_containsplant 1
+planttype_23_flowery 0
+planttype_23_crossable 0
+
+PlantType_24_itemid 028e2
+planttype_24_planttype 24
+planttype_24_containsplant 1
+planttype_24_flowery 0
+planttype_24_crossable 0
+
+PlantType_25_itemid 028e3
+planttype_25_planttype 25
+planttype_25_containsplant 1
+planttype_25_flowery 0
+planttype_25_crossable 0
+
+[function bTypeCross]
+ref1=<argv[0]>
+ref2=<argv[1]>
+if !(<def.planttype_<ref1.dtag0.m_planttype>_crossable>) || !(<def.planttype_<ref2.dtag0.m_planttype>_crossable>)
+return 1
+endif
+local.dondur=<eval (<ref1.dtag0.m_planttype>+<ref2.dtag0.m_planttype>)/2>
+
+if ((<eval <ref1.dtag0.m_planttype>+1>==<ref2.dtag0.m_planttype>) || (<eval <ref2.dtag0.m_planttype>+1>==<ref1.dtag0.m_planttype>))
+local.dondur=<eval {<ref1.dtag0.m_planttype> 1 <ref2.dtag0.m_planttype> 1}>
+endif
+
+return <dlocal.dondur>
+
+[eof]

@@ -1,0 +1,294 @@
+[ITEMDEF 08FD]
+DEFNAME=i_dual_short_axes
+NAME=Dual Short Axes
+TYPE=t_weapon_axe
+DAM=14,16
+SKILL=swordsmanship
+REQSTR=35
+TWOHANDS=Y
+SKILLMAKE=75.0 Blacksmithing
+RESOURCES=24 i_ingot_iron
+SPEED=50
+WEIGHT=4.0
+DUPELIST=04068
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Dual Short Axes
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04068]
+DUPEITEM=08FD
+
+[ITEMDEF 08FE]
+DEFNAME=i_bloodblade
+NAME=Bloodblade
+TYPE=t_weapon_fence
+DAM=10,12
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+SKILLMAKE=44.1 Blacksmithing
+RESOURCES=8 i_ingot_iron
+SPEED=75
+WEIGHT=4.0
+DUPELIST=04072
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Bloodblade
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04072]
+DUPEITEM=08FE
+
+[ITEMDEF 0900]
+DEFNAME=i_stone_war_sword
+NAME=Stone War Sword
+TYPE=t_weapon_sword
+DAM=15,17
+SKILL=swordsmanship
+REQSTR=40
+TWOHANDS=N
+SKILLMAKE=55.0 Carpentry
+RESOURCES=18 i_granite
+SPEED=3.7
+WEIGHT=6.0
+DUPELIST=04071
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Stone War Sword
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04071]
+DUPEITEM=0900
+
+[ITEMDEF 0902]
+DEFNAME=i_gargish_dagger
+NAME=Gargish Dagger
+TYPE=t_weapon_fence
+DAM=10,11
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+SKILLMAKE=0.0 Blacksmithing
+RESOURCES=3 i_ingot_iron
+SPEED=75
+WEIGHT=1.0
+DUPELIST=0406A
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Gargish Dagger
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 0406A]
+DUPEITEM=0902
+
+[ITEMDEF 0903]
+DEFNAME=i_disc_mace
+NAME=Disc Mace
+TYPE=t_weapon_mace_smith
+DAM=12,14
+SKILL=Macefighting
+REQSTR=45
+TWOHANDS=N
+SKILLMAKE=70.0 Blacksmithing
+RESOURCES=20 i_ingot_iron
+SPEED=54
+WEIGHT=14.0
+DUPELIST=0406E
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Disc Mace
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 0406E]
+DUPEITEM=0903
+
+
+[ITEMDEF 0904]
+DEFNAME=i_dual_pointed_spear
+NAME=Dual Pointed Spear
+TYPE=t_weapon_fence
+DAM=12,13
+SKILL=Fencing
+REQSTR=40
+TWOHANDS=Y
+SKILLMAKE=47.0 Blacksmithing
+RESOURCES=12 i_ingot_iron
+SPEED=66
+WEIGHT=2.0
+DUPELIST=0406D
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Dual Pointed Spear
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 0406D]
+DUPEITEM=0904
+
+
+[ITEMDEF 0905]
+DEFNAME=i_glass_staff
+NAME=Glass Staff
+TYPE=t_weapon_mace_smith
+DAM=11,14
+SKILL=macefighting
+REQSTR=20
+TWOHANDS=Y
+SKILLMAKE=53.6 Alchemy
+RESOURCES=10 i_sand
+SPEED=66
+WEIGHT=4.0
+DUPELIST=04070
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Glass Staff
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04070]
+DUPEITEM=0905
+
+
+[ITEMDEF 0907]
+DEFNAME=i_shortblade
+NAME=Shortblade
+TYPE=t_weapon_fence
+DAM=9,13
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+SKILLMAKE=28.0 Blacksmithing
+RESOURCES=12 i_ingot_iron
+SPEED=75
+WEIGHT=4.0
+DUPELIST=04076
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Shortblade
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04076]
+DUPEITEM=0907
+
+
+[ITEMDEF 0908]
+DEFNAME=i_gargish_talwar
+NAME=Gargish Talwar
+TYPE=t_weapon_sword
+DAM=16,18
+SKILL=Swordsmanship
+REQSTR=40
+TWOHANDS=Y
+SKILLMAKE=75.0 Blacksmithing
+RESOURCES=18 i_ingot_iron
+SPEED=43
+WEIGHT=4.0
+DUPELIST=04075
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Gargish Talwar
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04075]
+DUPEITEM=0908
+
+
+[ITEMDEF 0909]
+DEFNAME=i_glaive_anim_x
+NAME=Weapon Glaive Animate
+DUPELIST=04069
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Weapon Glaive Animate
+
+[ITEMDEF 04069]
+DUPEITEM=0909
+
+[ITEMDEF 090B]
+DEFNAME=i_dread_sword
+NAME=Dread Sword
+TYPE=t_weapon_sword
+DAM=15,16
+SKILL=Swordsmanship
+REQSTR=35
+TWOHANDS=N
+SKILLMAKE=Swordsmanship
+RESOURCES=14 i_ingot_iron
+SPEED=43
+WEIGHT=7.0
+DUPELIST=04074
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Dread Sword
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04074]
+DUPEITEM=090B
+
+
+[ITEMDEF 090C]
+DEFNAME=i_glass_sword
+NAME=Glass Sword
+TYPE=t_weapon_sword
+DAM=13,15
+SKILL=Swordsmanship
+REQSTR=20
+TWOHANDS=N
+SKILLMAKE=55.0 Alchemy
+RESOURCES=14 i_sand
+SPEED=54
+WEIGHT=6.0
+DUPELIST=04073
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Stygian Abyss
+DESCRIPTION=Glass Sword
+
+ON=@Create
+ HITPOINTS={30 50}
+
+[ITEMDEF 04073]
+DUPEITEM=090C
+
+
+
+
+
+
+
+
+
+
+
+
+[eof]

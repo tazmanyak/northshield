@@ -1,0 +1,161 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: Lunes, 22 de Marzo de 2010
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Soulless - Original Script
+// ShiryuX - Updated a little for SCP
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Ethereal Mounts
+
+[ITEMDEF i_ethereal_horse]
+NAME=Ethereal Horse Statuette
+ID=i_pet_horse
+TYPE=t_figurine_ethereal
+TDATA3=c_horse_ethereal
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Horse Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_llama]
+NAME=Ethereal Llama Statuette
+ID=i_pet_llama
+TYPE=t_figurine_ethereal
+TDATA3=c_llama_ethereal
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Llama Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_ostard]
+NAME=Ethereal Ostard Statuette
+ID=i_pet_ostard_forest
+TYPE=t_figurine_ethereal
+TDATA3=c_ostard_ethereal
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Ostard Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_unicorn]
+NAME=Ethereal Unicorn Statuette
+ID=i_pet_unicorn
+TYPE=t_figurine_ethereal
+TDATA3=c_unicorn
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Unicorn Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_ridgeback]
+NAME=Ethereal Ridgeback Statuette
+ID=i_pet_ridgeback
+TYPE=t_figurine_ethereal
+TDATA3=c_ridgeback
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Ridgeback Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_kirin]
+NAME=Ethereal Kirin Statuette
+ID=i_pet_kirin
+TYPE=t_figurine_ethereal
+TDATA3=c_kirin
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Kirin Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_beetle]
+NAME=Ethereal Beetle Statuette
+ID=i_pet_giant_beetle
+TYPE=t_figurine_ethereal
+TDATA3=c_giant_beetle
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Beetle Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_swamp_dragon]
+NAME=Ethereal Swamp Dragon Statuette
+ID=i_pet_swamp_dragon
+TYPE=t_figurine_ethereal
+TDATA3=c_swamp_dragon
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Swamp Dragon Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_hiryu]
+NAME=Ethereal Hiryu Statuette
+ID=i_pet_hiryu
+TYPE=t_figurine_ethereal
+TDATA3=c_m_hiryu
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Hiryu Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_cusidhe]
+NAME=Ethereal Cu Sidhe Statuette
+ID=i_pet_wolf
+TYPE=t_figurine_ethereal
+TDATA3=c_cu_sidhe
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Cu Sidhe Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[ITEMDEF i_ethereal_polar_bear]
+NAME=Ethereal Polar Bear Statuette
+ID=i_pet_bear_polar
+TYPE=t_figurine_ethereal
+TDATA3=c_bear_polar
+CATEGORY=Miscellaneous
+SUBSECTION=Icons - Mounts - Ethereal
+DESCRIPTION=Ethereal Polar Bear Statuette
+
+ON=@Create
+COLOR=0455
+ATTR=04
+
+[eof]

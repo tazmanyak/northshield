@@ -1,0 +1,182 @@
+[defname def_tailor_items]
+// total page
+tailoring_pagesum	12
+// hats
+tailoring_0_1		i_skull_cap
+tailoring_1_1		i_bandana
+tailoring_2_1		i_hat_floppy
+tailoring_3_1		i_hat_wide_brim
+tailoring_4_1		i_hat_straw
+tailoring_5_1		i_hat_straw_tall
+tailorinG_6_1		i_bonnet
+tailoring_7_1		i_hat_feather
+tailoring_8_1		i_hat_jester
+tailoring_9_1		i_cap
+tailoring_10_1		i_hat_wizards
+tailoring_11_1		i_hat_tricorne
+tailoring_12_1		i_kasa
+// shirts
+		
+tailoring_0_2		i_cape"
+tailoring_1_2		i_cloth_ninja_jacket"
+tailoring_2_2		i_doublet"
+tailoring_3_2		i_elven_robe"
+tailoring_4_2		i_elven_shirt"
+tailoring_5_2		i_elven_shirt_dark"
+tailoring_6_2		i_dress_full"
+tailoring_7_2		i_shirt_fancy"
+tailoring_8_2		i_elven_robe_female""
+tailoring_9_2           i_kimono_female"
+tailoring_10_2          i_shirt_formal"
+tailoring_11_2          i_fur_cape"
+tailoring_12_2          i_gilded_robe
+
+tailoring_0_3          i_hakama_shita
+tailoring_1_3          i_jester_suit
+tailoring_2_3          i_jin_baori
+tailoring_3_3          i_kamishimo
+tailoring_4_3          i_kimono_male
+tailoring_5_3          i_dress_plain
+tailoring_6_3          i_robe
+tailoring_7_3          i_shirt_plain
+tailoring_8_3          i_surcoat
+tailoring_9_3          i_tunic
+
+// pants
+tailoring_0_4		i_pants_long
+tailoring_1_4		i_pants_short
+tailoring_2_4		i_kilt
+tailoring_3_4		i_skirt_long
+tailoring_4_4		i_elven_pants
+tailoring_5_4		i_fur_sarong
+tailoring_6_4		i_hakama
+tailoring_7_4		i_kilt
+tailoring_8_4		i_pants_long
+tailoring_9_4		i_pants_short
+tailoring_10_4		i_skirt_long
+tailoring_11_4		i_tattsuke_hakama
+tailoring_12_4		i_woodland_belt
+// foot
+tailoring_0_5		i_sandals
+tailoring_1_5		i_shoes_plain
+tailoring_2_5		i_boots_calf
+tailoring_3_5		i_boots_thigh
+tailoring_4_5		i_waraji_tabi
+tailoring_5_5		i_elven_boots
+tailoring_6_5		i_fur_boots
+tailoring_7_5		i_ninja_tabi
+// leather
+tailoring_0_6		i_leather_gorget
+tailoring_1_6		i_leather_cap
+tailoring_2_6		i_leather_gloves
+tailoring_3_6		i_leather_sleeves
+tailoring_4_6		i_leather_leggings
+tailoring_5_6		i_leather_tunic
+//tailoring_6_5
+
+
+tailoring_0_7		 i_leaf_arms
+tailoring_1_7		 i_leaf_gloves
+tailoring_2_7		 i_leaf_gorget
+tailoring_3_7		 i_leaf_leggings
+tailoring_4_7  		 i_leaf_tonlet
+tailoring_5_7		 i_leaf_tunic
+tailoring_6_7		 i_leather_cap
+tailoring_7_7		 i_leather_do"
+tailoring_8_7		 i_leather_gloves
+tailoring_9_7		 i_leather_gorget
+tailoring_10_7		 i_leather_haidate
+tailoring_11_7		 i_leather_leggings
+tailoring_12_7		 i_leather_mempo
+
+tailoring_0_8		 i_leather_ninja_belt
+tailoring_1_8		 i_leather_ninja_hood
+tailoring_2_8           i_leather_ninja_jacket
+tailoring_3_8           i_leather_ninja_mitts
+tailoring_4_8         	 i_leather_ninja_pants
+tailoring_5_8         	 i_leather_sleeves
+tailoring_6_8        	 i_leather_suneate
+tailoring_7_8        	 i_leather_tunic
+tailoring_8_8		i_leather_jinsaga
+tailoring_9_8		i_leather_hiro_sode
+
+
+
+
+
+// studded
+tailoring_0_9		i_studded_gorget
+tailoring_1_9		i_studded_gloves
+tailoring_2_9		i_studded_sleeves
+tailoring_3_9		i_studded_leggings
+tailoring_4_9		i_studded_tunic
+tailoring_5_9		i_spined_gloves
+tailoring_6_9		i_spined_leggings
+tailoring_7_9		i_spined_sleeves
+tailoring_8_9		i_spined_tunic
+tailoring_9_9		i_spined_gorget
+
+tailoring_0_10		i_horned_gloves
+tailoring_1_10		i_horned_leggings
+tailoring_2_10		i_horned_sleeves
+tailoring_3_10		i_horned_tunic
+tailoring_4_10		i_horned_gorget
+tailoring_5_10		i_barbed_gloves
+tailoring_6_10		i_barbed_leggings
+tailoring_7_10		i_barbed_sleeves
+tailoring_8_10		i_barbed_tunic
+tailoring_9_10		i_barbed_gorget
+
+
+
+
+// female arm.
+tailoring_0_11		i_armor_female_shorts
+tailoring_1_11		i_armor_female_skirt
+tailoring_2_11		i_armor_female_bustier
+tailoring_3_11		i_armor_female_bustier_studded
+tailoring_4_11		i_armor_female_leather
+tailoring_5_11		i_armor_female_studded
+// bags
+tailoring_6_11		i_backpack
+tailoring_7_11		i_pouch
+tailoring_8_11		i_bag
+tailoring_9_11		i_fishing_net_green
+tailoring_10_11		i_quality_yarn_ball
+tailoring_11_11		i_fishing_net_green_sarj
+
+
+// misc
+tailoring_0_12		i_sash
+tailoring_1_12		i_apron_half
+tailoring_2_12		i_apron_full
+tailoring_3_12		i_cloth_oil
+tailoring_4_12		i_hooded_shroud
+tailoring_5_12		i_protective_magerobe
+tailoring_6_12		i_pillow
+
+
+
+
+
+[EOF]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

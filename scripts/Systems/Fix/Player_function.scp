@@ -1,0 +1,161 @@
+﻿[function f_player_login] // playerlar boyle login oluyor
+
+src.tag.sorgulama_var
+src.tag.yarismapvp
+src.tag.yarismatopuk
+src.tag.yarismaexpo
+src.tag.craft_cop_aktif
+src.update 
+src.events -e_ibranice_acik
+src.events -e_manadrain
+src.events -e_macebonus
+src.events -e_spear
+src.events -e_stam
+src.events -e_bleeding
+src.events -e_disarm
+src.events -e_dismount
+src.account.tag.pinkabul 0
+
+if (0<debug>)
+	debug 0
+endif
+
+if (0<detail>)
+	detail 0
+endif
+
+if (0<hearall>)
+	hearall 0
+endif
+
+
+
+
+if !<src.isinfamily>
+	src.isim_fix
+endif
+
+
+if (<src.account.tag0.ilkpin>==0)
+	src.dialog d_pin_sistemi
+	return 1
+endif
+
+
+serv.f_option_mysql 0
+db.connect
+ if <db.connected>
+	db.query "SELECT COUNT(uid) FROM faction WHERE Uid = '<src.uid>'";
+	if <db.row.0>
+		db.query "UPDATE faction SET puan = '<src.dtag0.puan>' WHERE Uid='<src.uid>'"
+		db.query"UPDATE faction SET destek = '<addslashes <memoryfindtype.memory_guild.link.name>>' WHERE Uid='<src.uid>'"
+	endif
+ endif
+db.close
+
+/////////////////LOGOUT BURDA//////////////
+
+[function f_player_logout] // playerlar boyle logout oluyor
+if (<findid.i_rune_incognito>)
+	findid.i_rune_incognito.remove
+endif
+
+if (<findid.i_rb_delay>)    /////artık port olup alt f4 çeken kankilerim nobre oldu kivo:D
+	findid.i_rb_delay.remove
+	findid.i_rb_delay2.remove
+	f_fizzle
+endif
+
+[function f_stpublish] // staff join-part messager
+if (0<account.plevel> > 1)
+	smsgx *** <args>
+endif
+
+[function ekranitemizle]
+for 15
+sysmessage ~
+endfor
+
+[function f_staff_login] // staff boyle login oluyor
+//src.events +e_nteam
+//src.kurallar
+//src.dspeech +spk_staff
+src.events -e_manadrain
+//src.events -e_summanus
+src.events -e_macebonus
+src.events -e_spear
+src.events -e_stam
+src.events -e_bleeding
+src.events -e_disarm
+src.events -e_dismount
+src.events -e_puansistem
+//src.events -e_olmesakin2
+src.events +esyacikarmabe
+//src.events +staff_edit
+src.pinsorgula
+//ekranitemizle
+src.events +gmfix
+src.nightsight 1
+
+//if (<src.account.plevel> > 5)
+//	//src.dspeech +spk_staff
+//	//src.dspeech +spk_player
+//	//src.dspeech +spk_ship_cmds
+//endif
+
+if (0<allshow>)
+	allshow 0
+endif
+
+invul 1
+
+tag.stf_timer
+tag.sa_timer <serv.time>
+var.smsgx 0482
+smsgx Hizmet sureniz: <eval (<account.totalconnecttime> / 60)> saat.
+if (<uid.<var.pg_box>.rescount>)
+smsgx Toplam <uid.<var.pg_box>.rescount> adet page var. Liste icin: '.pg'
+else
+smg Su an page mevcut degil...
+//endif
+
+if (<account.plevel> > 2)
+privshow 1
+endif
+
+//events -fix
+
+[function f_staff_logout] // staff boyle logout oluyor
+//src.pincleaner
+if !(strmatch('<account.plevel>','7'))
+	var.smsgx 020
+	serv.allclients f_stpublish <account.name> cikti.( <cnct> Dakika )
+endif
+
+/////
+
+
+[itemdef i_fame_karma_remover]
+ID=i_bottle_7
+TYPE=t_normal
+NAME=@,,1 Fame & Karma Sıfırlama İksiri
+VALUE=100000
+
+ON=@Create
+color 0810
+
+on=@dclick
+
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @33,,1 Bunu cantanizdayken kullanabilirsiniz.
+	return 1
+endif
+
+src.sysmessage @69,,1 Fame & Karma degerleriniz sifirlandi.
+src.fame 0
+src.karma 0
+src.effect 3,i_fx_heal_effect,20,25,0
+remove
+return 1
+
+[EOF]

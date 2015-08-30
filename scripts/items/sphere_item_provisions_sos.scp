@@ -1,0 +1,127 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Swindler, Kell, Melen, syn - Original credits from original version
+// ShiryuX - Updating and adapting to 56b Sphere Community Pack
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// SOS Treasure Hunting. Oh, this reminds me a song...
+// We're a band of vicious pirates!
+// A sailin´ out to sea.
+// When you hear our gentle singing...
+// You'll be sure to turn and flee!
+// // Finally, scripting turns fun!
+
+[itemdef i_sos_tile]
+ID=i_water
+type=t_script
+name=Hazine Su
+
+on=@create
+color=color_o_sos_tile
+
+on=@destroy
+ref1=<link.uid>
+ref1.tag.removed 1
+
+[ITEMDEF i_sos_bottle]
+NAME=Message in a bottle
+ID=099f
+VALUE=2000
+CATEGORY=Treasure Hunting
+SUBSECTION=SOS Items
+DESCRIPTION=Message in a bottle
+type=t_normal
+
+ON=@Create
+ATTR=attr_decay
+TIMER=0
+
+on=@dclick
+if rand(200) == 1
+	serv.newitem i_sos_message
+	new.tag0.sos.ancient = 1
+	new.name "Ancient SOS"
+	new.color = color_o_sos_ancient
+	new.bounce
+	remove
+	return 1
+elif rand(2) == 1
+	serv.newitem i_sos_message
+	new.name "Treasure SOS"
+	new.color = color_o_sos_tile
+	new.bounce
+	remove
+	return 1
+else
+	src.sysmessage @,,1 Bos bir siseye rastladiniz.
+	remove
+	return 1
+endif
+
+[ITEMDEF i_sos_message]
+NAME=Waterstained SOS
+ID=014ed
+TYPE=t_script
+VALUE=2000
+CATEGORY=Treasure Hunting
+SUBSECTION=SOS Items
+DESCRIPTION=Waterstained SOS
+
+ON=@Create
+ATTR=attr_decay
+TIMER=0
+
+on=@dclick
+if <tag.removed>
+	src.sys_error Hazineyi vaktin açamadýðýnýz için silinmiþtir.
+	remove
+	return 1
+endif
+if <isempty <tag.sextantp>>
+f_generate_coords
+serv.newitem i_sos_tile
+new.link = <uid>
+link = <new.uid>
+new.attr = attr_static|attr_move_never|attr_decay
+new.timer 7200
+new.p = <tag0.sextantp>
+local.x = <new.p.x>
+local.y = <new.p.y>
+new.sextant
+new.fix
+endif
+src.tag0.sextantcoords = <tag0.sextantp>
+src.closealldialogs
+src.f_resenddialog d_sos_message
+//src.weblink forum.tns.gen.tr/NorthMap/index.php?zoom=5&coords=<eval <local.x>>,<eval <local.y>>
+src.arrowquest <tag0.sextantp>
+src.sysmessage @,,1 Hazineyi 2 saat içerisinde açmadýðýnýz taktirde haritanýz silinecektir.
+
+src.sysmessage @,1,1 Yonlendirme Okunu .arrowquest komutu ile kapatabilirsiniz.
+return 1
+
+
+// This is to make sure the spawns don't hang around forever, which can be a problem
+[ITEMDEF i_fishing_spawn_remover]
+NAME=Spawn Remover Memory
+ID=i_memory
+TYPE=t_eq_script
+
+on=@create
+ATTR=attr_invis|attr_newbie
+TIMER=60*60*2 //4 hours
+
+on=@timer
+cont.remove
+return 1
+
+[eof]

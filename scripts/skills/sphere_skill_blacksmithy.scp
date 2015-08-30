@@ -1,0 +1,133 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Coruja - Base script
+// ShiryuX - Updated to the pack
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Functions used for Blacksmithing Menu
+
+[SKILL 7]
+DEFNAME=SKILL_Blacksmith
+KEY=Blacksmithing
+TITLE=Blacksmith
+PROMPT_MSG=
+DELAY=1.0
+STAT_STR=95
+STAT_INT=15
+STAT_DEX=25
+BONUS_STR=75
+BONUS_DEX=20
+BONUS_INT=5
+BONUS_STATS=10
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=6.0,15.0,20.0
+//ADV_RATE=0,0,0
+
+VALUES=1,20,100
+
+on=@fail
+src.sysmessage @,,1 Basaramadiniz.
+
+ON=@Abort
+src.sysmessage @,,1 Iptal ettiniz.
+
+[function f_craft_blacksmith_checkforge]
+if !<isneartype t_forge 3>
+ctag.craft.message = <def.scp.craft_msg_needforge>
+return 1
+endif
+return 0
+
+[function f_craft_blacksmith_exceptionalbonus]
+ref5 = <args>
+name = Exceptional <name>
+if <isweapon>
+tag0.damageincrease += <eval 35 + (<ref5.armslore> / 200)>
+elif <isarmor>
+modar += <eval (<armor.high> * 15) / 100>
+endif
+
+[function f_craft_blacksmith_repair]
+targetf f_craft_blacksmith_repair_targ
+sysmessage <def.scp.craft_repair_targ>
+
+[function f_craft_blacksmith_repair_targ]
+if (!<isneartype t_forge 3>) || (!<isneartype t_anvil 3>)
+sys_error Anvil ve forge yakin olmalisiniz.
+return 1
+elif !<argo.isitem>
+sys_error Bu esya yenilenemez.
+return 1
+elif <argo.isweapon>
+sys_error Bu esya yenilenemez.
+return 1
+elif <argo.topobj> != <uid>
+sys_error Esya cantanizda degil.
+return 1
+elif (<argo.skillmake.1.key> != skill_blacksmith) || !((<argo.type> == t_armor) || (<argo.type> == t_shield) || (<argo.isweapon))
+sys_error Bunu tamir edemezsiniz.
+return 1
+elif <argo.more1l> >= <argo.more1h>
+argo.hitpoints <argo.maxhits>
+sys_error Esya zaten hasarsiz.
+return 1
+endif
+if <argo.more1h> <= 0
+sys_error Bunu tamir edemezsiniz.
+return 1
+endif
+f_loopanim 11,3,1
+f_loopsound 42,3,1
+local.difficulty = <eval ((((<argo.more1h> - <argo.more1l>) * 1250) / <argo.more1h>) - 250) / 10>
+local.decrease = <eval 30 - (<blacksmithing> / 33)>
+if <local.decrease> < 0
+local.decrease = 0
+endif
+local.decrease += <eval {2 4}>
+argo.more1h = <eval (<argo.more1h> * (100 - <local.decrease>)) / 100>
+if <local.difficulty> > <r100>
+sys_error Tamir edemediniz.
+return 1
+else
+argo.more1l = <argo.more1h>
+sys_error Basariyla tamir Ettiniz.
+endif
+
+[function f_craft_blacksmith_smelt]
+targetf f_craft_blacksmith_smelt_targ
+return 1
+//sysmessage <def.scp.craft_smelt_targ>
+
+[function f_craft_blacksmith_smelt_targ]
+if (!<isneartype t_forge 3>) // || (!<isneartype t_anvil 3>)
+sys_error Yakınızda eritme işlemi yapabileceğiniz bir şey mevcut değil.
+return 1
+elif !<argo.isitem>
+sys_error Bunu eritemezsiniz.
+return 1
+elif (<argo.type>==t_potion) || (<argo.type>==t_clothing) || (<argo.attr>&attr_magic) || !((<argo.isarmor>) || (<argo.isweapon>) || strmatch("*ingot*","<argo.resources.1>"))
+sys_error Bunu eritemezsiniz.
+return 1
+else
+	if !<argo.quality>
+	local.amount = 1
+	else
+	local.amount = <muldiv <strarg <argo.resources.1>>,60,100>
+	endif
+serv.newitem <streat <argo.resources.1>>,<dlocal.amount>
+new.cont = <uid>
+argo.remove
+sys_error Erittiniz.
+endif
+
+[eof]

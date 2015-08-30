@@ -1,0 +1,677 @@
+[events gmfix]
+
+on=@spelleffect
+If (<argn>==39) 
+return 1
+endif
+
+On=@Click
+//message @0993,4  Game Master
+
+if <account.plevel> == 7
+	if strmatch(<account.name>,tazmanyak)
+		message @0993,4 <name>
+	else
+		message @0993,4 <name>
+	endif
+elif <account.plevel> == 6
+message @0993,4 <name>
+elif <src.account.plevel> == 5
+message @0993,4 <name>
+elif <src.account.plevel> == 4
+message @0993,4 <name>
+elif <src.account.plevel> == 3
+message @0993,4 <name>
+else
+message @0993,4 <name>
+endif
+return 1
+
+
+On=@Login
+if (<account.plevel> < 2 )
+	events -gmfix
+	skillclass
+	disconnect
+	return 1
+endif
+food 999
+invul 1
+karma 0
+fame 0
+kills 0
+flags <flags>&~statf_criminal
+nightsight 1
+//privshow 1
+title North Shield Ultima Online
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Login_Logout.txt Login: Saat: (<serv.rtime>): <account> , Pos: <p>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Login_Logout.txt ---------------------------------------------------------------------------------------------------------------
+
+ON=@logout
+
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Login_Logout.txt Logout: Saat: (<serv.rtime>): <account> , Pos: <p>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Login_Logout.txt ---------------------------------------------------------------------------------------------------------------
+
+
+On=@SkillStart
+if ((<action> == id(skill_stealing)) || (<action> == skill_stealing)) // stealing fiks
+return 1
+endif
+
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Skill_Kontrol.txt Skill_Log: Saat: (<serv.rtime>): <account> , Skill: <action> , Trg: <act.name> : <act> || <targ.uid>, Pos: <p>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Skill_Kontrol.txt ---------------------------------------------------------------------------------------------------------------
+
+On=@SpellCast
+if !(<eval <argn>> == 22)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Spell_Kontrol.txt Spell_Log: Saat: (<serv.rtime>): <account> , Spell: (<argn>)[<SERV.spell.<argn>.defname>] , Trg: <act.name> : <act> || <targ.uid>, Pos: <p>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Spell_Kontrol.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+
+if (<argn> == 40)
+	if <src.account.plevel> < 6)
+	src.f_fizzle
+	return 1
+	endif
+endif
+
+on=@CHARTRADEACCEPTED
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\User_trade.txt Trade_log: Saat: (<serv.rtime>): 1.Alisverisci : <ARGO.name> | 2.Alisverisci <src.name> ..Esya :  [<ref1.uid> | <REF1.name> | <ref1.amount>] , [<ref2.uid> | <REF2.name> | <ref2.amount>] , [<ref3.uid> | <REF3.name> | <ref3.amount>] , [<ref3.uid> | <REF3.name> | <ref3.amount>] , [<ref4.uid> | <REF4.name> | <ref4.amount>] , [<ref5.uid> | <REF5.name> | <ref5.amount>] , [<ref6.uid> | <REF6.name> | <ref6.amount>] , [<ref7.uid> | <REF7.name> | <ref7.amount>] , [<ref8.uid> | <REF8.name> | <ref8.amount>] Bolge <src.region.name> 
+
+on=@itembuy
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Vendor_Buy.txt Buy_Log: Saat: (<serv.rtime>): Esya : <act.name> , Miktari : <ARGN>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Vendor_Buy.txt ---------------------------------------------------------------------------------------------------------------
+
+
+
+on=@ITEMCREATE
+
+//if ((<argo.type> == t_weapon_fence) || (<argo.type> == t_weapon_sword) || (<argo.type> == t_weapon_bow) ||(<argo.type> == t_weapon_xbow) || (<argo.type> == t_weapon_axe) || (<argo.type> == t_weapon_mace_staff) || (<argo.type> == t_weapon_mace_Smith) || (<argo.type> == t_weapon_mace_sharp))
+if strmatch(<account.name>,tazmanyak)
+	return 0
+else
+	argo.tag.gmitem 1
+	argo.tag.gmitemname <name>
+	argo.events +t_anti_edit_koruma_item
+endif
+
+
+//if (<argo.baseid> == i_upgrade_scroll3) || (<argo.baseid> == i_upgrade_scroll6) ||  (<argo.baseid> == i_upgrade_scroll9) || (<argo.baseid> == i_upgrade_scroll12) ||  (<argo.baseid> == i_upgrade_scroll15)
+//argo.tag.gmitem 1
+//argo.tag.gmitemname <name>
+//argo.events +t_anti_edit_koruma_item
+//endif
+
+//if (strmatch('<argo.type>','t_gold')) || (strmatch('<argo.type>','t_clothing'))
+//argo.tag.gmitem 1
+//argo.tag.gmitemname <name>
+//argo.events +t_anti_edit_koruma_item
+//endif
+
+
+if !(strmatch('<act.name>','mtele')) || (strmatch('<act.name>','staff horse')) || !(strmatch('<argo.name>','mtele')) 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Item_Create.txt Item_Create: Saat: (<serv.rtime>): Esya : <act.name> , <argo.name>, uid : (<act.uid>) (<argo.uid>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Item_Create.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+on=@ITEMDROPON_CHAR
+
+if (<argo.baseid> == c_m_golem_tinker)
+	if !(<act.baseid> == i_ingot_iron)
+	src.sysmessage @,,1 Sadece iron ingot ile beslenir.
+	return 1
+	endif	
+
+	if <src.tinkering> < 98.1
+	src.sysmessage @33,,1 Golemler ile ilgelenebilecek beceriye sahip degilsiniz. (Tinkering 98.1)
+	return 1
+	endif
+
+	if (<act.amount> > 1)
+	src.sysmessage @69,,1 Tek tek veriniz.
+	return 1
+	endif
+
+	if (<argo.hits> < 450)
+	argo.hits += 5
+	argo.olumlu1 * <src.name> tarafindan tedavi edilir *
+	act.remove
+	return 1
+	endif
+
+	if (<argo.food> < 25)
+	argo.food +=1
+	argo.olumlu1 * <src.name> tarafindan beslenir *
+	act.remove
+	else
+	src.sysmessage @69,,1 Golemin beslenmeye ihtiyaci yok.
+	return 1
+	endif
+endif
+
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_CHAR.txt DROPON_CHAR: Saat: (<serv.rtime>): Kimin ustune koyuldu : <argo.name> , Esya : <act.name> , Bolge : <argo.region.name>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_CHAR.txt ---------------------------------------------------------------------------------------------------------------
+
+on=@ITEMDROPON_GROUND
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_GROUND.txt ITEMDROPON_GROUND: Saat: (<serv.rtime>): Esya : <act.name> , <p>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_GROUND.txt ---------------------------------------------------------------------------------------------------------------
+
+on=@ITEMDROPON_ITEM
+
+if (<eval <src.findlayer.21.uid>>) == (<eval <argo.uid>>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_ITEM.txt ITEMDROPON_ITEM: Saat: (<serv.rtime>): Esya : <act.name> , Neyin uzerine kondu : <src.name>'in Cantasi(Kendi cantasina)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_ITEM.txt ---------------------------------------------------------------------------------------------------------------
+else
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_ITEM.txt ITEMDROPON_ITEM: Saat: (<serv.rtime>): Esya : <act.name> , Neyin uzerine kondu : <ARGO.name> 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ITEMDROPON_ITEM.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+on=@ItemPickUp_Ground
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ItemPickUp_Ground.txt ItemPickUp_Ground: Saat: (<serv.rtime>) : Yerden aldigi esya : <act.name>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ItemPickUp_Ground.txt ---------------------------------------------------------------------------------------------------------------
+
+on=@KILL
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\KILL.txt KILL: Saat: (<serv.rtime>) : Oldurdugu kisi : <ARGO.name>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\KILL.txt ---------------------------------------------------------------------------------------------------------------
+
+on=@SKILLMAKEITEM
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\SKILLMAKEITEM.txt SKILLMAKEITEM: Saat: (<serv.rtime>) : Esya : <act.name>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\SKILLMAKEITEM.txt ---------------------------------------------------------------------------------------------------------------
+
+on=@mount
+if !(strmatch("<src.account.name>","tazmanyak")
+src.sysmessage @32,,1 Sadece etheral bineklere binebilirsin :)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Mount.txt Mount: Saat: (<serv.rtime>) : Binek : <argo.name> : P : <src.p> 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Mount.txt ---------------------------------------------------------------------------------------------------------------
+src.timerf 1,SERV.WRITEFILE C:\SERVER_LOGLARI\<src.account.name>\Mount.txt <targ.name>
+return 1
+endif
+on=@environchange
+//src.f_page_bakarim_ben
+
+on=@gethit
+return 1
+
+on=@spellselect 
+if (<argn3> == 02)
+	if (<eval <argn1>> == 22)
+	src.cast 22
+	endif
+endif
+
+on=@itemDClick
+if <act.type> == t_spawn_char
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Dclick.txt Dclick: Saat: (<serv.rtime>) : Spawn : <act.name> | <act.more1> , P :<act.p>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Dclick.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+On=@ItemClick
+
+if (<act.type> == t_spawn_char) || (<act.type> == t_spawn_item)
+	act.message @07d2,,1 [Spawn]
+	act.message @064,,1 [<serv.chardef.<act.more1>.name>]
+	act.message @64,,1  [<act.more1>]
+        if <account.plevel> == 7
+        src.sysmessage @69,,1 Id : [<act.more1>]
+        src.sysmessage @69,,1 Suresi : <act.timer>
+        endif
+return 1
+endif
+
+if <account.plevel> == 7
+	if (<eval <act.tag.gmitem>> == 1)
+	sysmessage @33,,1 Gm tarafindan cikarildi.(<act.tag.gmitemname>)
+	endif
+endif
+
+on=@ItemPickUp_self
+
+REF1 <SRC.UID>
+
+FORCHARS 15
+	if <isevent.e_treasure_guardian>
+	ref1.sysmessage @33,,1 Etrafinizda korumalar varken kasayi lootlayamazsiniz.
+	return 1
+	endif
+endfor
+
+
+[SPEECH spk_staff]
+
+ON=I wish to release this
+On=release
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if <src.hits> >= <src.str>
+		SRC.TARGETF f_house_release <UID.<SRC.REGION.UID>.MORE2>
+		SRC.SYSMESSAGE @1153 Serbest birakmak istediginiz esyayi seciniz.
+	else
+		src.sysmessage @1153,,1 Yaraliyken kullanamazsiniz.
+	endif   
+   endif
+else
+src.sysmessage @1153 Yetkiniz yok.
+return 1
+ENDIF
+
+ON=I wish to lock this down
+on=lock
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if (<REF1.House_AvaibleLockdowns>)
+		SRC.TARGETF f_house_lock <REF1>
+		SRC.SYSMESSAGE @,,1 Neyi sabitlemek istiyorsunuz?
+	else
+		SRC.SYSMESSAGE @,,1 Eve esya sabitleme limiti dolmustur.
+	endif
+endif
+
+ON=I ban thee
+ON=Remove thyself
+if <src.flags>&statf_dead
+		src.sysmessage @33,,1 Oluyken olmaz.
+		return 1
+endif
+
+
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom) 
+ 
+ if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISFRIEND <SRC>>)
+
+     SRC.TARGETF f_house_eject <UID.<SRC.REGION.UID>.MORE2>
+     SRC.SYSMESSAGE @1153 Evden atmak istediginiz kisiyi seciniz.
+
+ endif
+else
+src.sysmessage @1153 Sadece ev icinde kullanabilirsiniz
+return 1
+ENDIF
+
+on=remove
+on=i wish to remove this
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+	if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+		if <src.hits> >= <src.str>
+ 			src.targetf strongboxsil
+   			src.sysmessage @1153 Silmek istediginiz strongbox u seciniz...
+   		else
+   			src.sysmessage @1153,,1 Yaraliyken kullanamazsiniz.
+   		endif
+ 	 else
+  		src.sysmessage @1153,,1 Sadece kendi evinizde kullanabilirsiniz.
+  	endif
+else
+	src.sysmessage @1153 Sadece ev icinde kullanabilirsiniz
+	return 1
+endif
+
+on=i wish to place a strongbox
+If (<src.action> == skill_necromancy)
+src.sysmessage @1153,,1 Büyü atarken konusamazsiniz.
+return 1
+endif
+If (<src.action> == skill_magery)
+src.sysmessage @1153,,1 Büyü atarken konusamazsiniz.
+return 1
+endif
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+	if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+   		src.strongboxkoy
+	endif
+else
+	src.sysmessage @1153 Sadece ev icinde kullanabilirsiniz
+	return 1
+endif
+
+on=item up
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+ if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+  
+  //if !((<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_tower) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_villa_2story) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_castle) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_keep) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble))
+  // src.sysmessage @1153,,1 Bu evde herhangi bir esyayi yükseltemezsiniz.
+  // return 1
+  //endif
+	
+  if <src.hits> >= <src.str>
+	src.targetf itemup
+  else
+  	src.sysmessage @1153,,1 Yaraliyken kullanamazsiniz.
+  endif
+ endif
+else
+src.sysmessage @1153 Sadece ev icinde kullanabilirsiniz
+return 1
+endif
+
+on=item down
+IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)  
+ if (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)
+   // if !((<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_tower) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_villa_2story) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_castle) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_keep) || (<SRC.UID.<SRC.REGION.UID>.baseid>==i_multi_house_patio_marble))
+   // src.sysmessage @1153,,1 Bu evde herhangi bir esyayi alcaltamazsin.
+   // return 1
+   // endif
+  if <src.hits> >= <src.str>
+  src.targetf itemdown
+  else
+  src.sysmessage @1153,,1 Yaraliyken kullanamazsiniz.
+  endif
+ endif
+else
+src.sysmessage @1153 Sadece ev icinde kullanabilirsiniz
+return 1
+endif
+
+ON=I wish to secure this down
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if (<REF1.House_AvaibleLockdowns>)
+		SRC.TARGETF f_house_secure <REF1>
+		SRC.SYSMESSAGE @,,1 Guvenli hale getirmek istediginiz esyayi seciniz.
+	else
+		SRC.SYSMESSAGE @,,1 Daha fazla esyayi guvenli yapamassiniz cunku guvenli yapma limitiniz dolmustur.
+	endif
+endif
+
+ON=I ban thee
+ON=Te baneo
+if !(<DEF.scp.House_BanEngine>)
+	return 0
+endif
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 2)
+	SRC.TARGETF f_house_banish <REF1>
+	SRC.SYSMESSAGE @,,1 Lutfen evden kovmak istediginiz kisiyi seciniz.
+endif
+
+ON=Remove thyself
+ON=Te expulso
+if !(<DEF.scp.House_BanEngine>)
+	return 0
+endif
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 2)
+	SRC.TARGETF f_house_eject <REF1>
+	SRC.SYSMESSAGE @,,1 Lutfen evden kovmak istediginiz kisiyi seciniz.
+endif
+
+ON=I wish to place a trash barrel
+ON=Yo quiero un tacho de basura
+if !(<DEF.scp.House_UseTrash>)
+	return 0
+endif
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+if (<REF1.HousePlayerAccess <SRC>> >= 3)
+	if ((<SRC.ISNEARTYPE t_door 1>) || (<SRC.ISNEARTYPE t_door_locked 1>))
+		SRC.SYSMESSAGE @,,1 Kapi yada tabelaya yakin bir yere cop kutusu koyamazsiniz.
+		return 0
+	else
+		foritems 40
+			if (<BASEID>==i_addon_trash_barrel) && (<UID.<REGION.UID>.MORE2>==<REF1>)
+				P=<SRC.P>
+				return 0
+			endif
+		endfor
+		SERV.NEWITEM i_addon_trash_barrel
+		NEW.P=<SRC.P>
+		NEW.LINK=<NEW.REGION.UID>
+		SRC.SYSMESSAGE @,,1 Yeni bir cop kutusuna sahipsiniz.3 dakika sonra cop kutusuna bir seyler koyabilirsiniz.Koyduklariniz bir sure sonra silinecektir. Silinen itemleri geti getirmeniz mumkun degildir.!
+	endif
+endif
+
+ON=bank
+if <def.scp.House_AllowBanking> == 0
+	return 0
+endif
+
+IF (<src.account.tag.pinkabul>==1)
+	ref1 = <uid.<src.region.uid>.more2>
+	if (<ref1.HousePlayerAccess <src.uid>> >= 1)
+		src.bankself
+	endif
+else
+	src.dialog d_pin_giris
+	return 1
+endif
+
+On=house help// evribadi ken du
+IF STRMATCH("t_multi*","<UID.<REGION.UID>.TYPE>")
+src.dialog d_h_help
+endif
+
+on=*
+if (<flags>&statf_insubstantial) || (<FLAGS>&STATF_HIDDEN) || (<FLAGS>&statf_invisible)
+	if <isevent.e_inviskonusma>
+        s <args>
+        return 1
+        else
+	sysmessage @07a1,1,1 Invisken konusamassin:) staff chat olarak konusmak icin .inviskonusma yazabilirsin.
+	return 1
+	endif
+endif
+sayua 0481,2,0,trk, <args>
+return 1
+
+if (<argn1> == 0)
+		sayua 0481,2,0,trk, <args>//sayua 060,0,0,trk <args>
+endif
+
+//if (<src.account.plevel> < 7)
+return 1
+//endif
+
+[function inviskonusma]
+if <src.isevent.e_inviskonusma>
+src.events -e_inviskonusma
+src.sysmessage @68,,1 Invis konusma kapatildi.
+else
+src.events +e_inviskonusma
+src.sysmessage @68,,1 Invis konusma acildi. Invisken konusmalariniz staff chat olarak gidecektir.
+endif
+
+[events e_inviskonusma]
+
+//ON=@UserExtCmd
+//serv.log <argn>
+
+//////////////////////////////////////////////////////////////////////ANTI EDIT
+[TYPEDEF t_anti_edit_koruma_item]
+
+
+
+on=@click
+if (<src.isplayer>)
+	if !strmatch(<name>,'Mtele')
+		SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt Time: (<serv.rtime>) Cikaran Kisi : <tag.gmitemname> | Item Name : <name> | Item Uid : <uid> | <src.name> , @pickup_ground  
+		SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt ---------------------------------------------------------------------------------------------------------------
+	endif
+endif
+on=@dclick
+if (<src.isplayer>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt Time: (<serv.rtime>) Cikaran Kisi : <tag.gmitemname> | Item Name : <name> | Item Uid : <uid> | <src.name> , @pickup_ground 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+on=@equip
+if (<src.isplayer>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt Time: (<serv.rtime>) Cikaran Kisi : <tag.gmitemname> | Item Name : <name> | Item Uid : <uid> | <src.name> , @pickup_ground 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+on=@DropOn_Ground
+if (<src.isplayer>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt Time: (<serv.rtime>) Cikaran Kisi : <tag.gmitemname> | Item Name : <name> | Item Uid : <uid> | <src.name> , @pickup_ground 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+on=@pickup_Ground
+if (<src.isplayer>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt Time: (<serv.rtime>) Cikaran Kisi : <tag.gmitemname> | Item Name : <name> | Item Uid : <uid> | <src.name> , @pickup_ground 
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\ANTI_EDIT_ITEM_LOG\<uid>_oly.txt ---------------------------------------------------------------------------------------------------------------
+endif
+
+
+[function editdegil]
+targetf editdegil_1234
+sysmessage @,,1 Editlikten kaldirmak istedigin item hangisi ustad ?
+
+[function editdegil_1234]
+obj=<argo.uid>
+obj.events -t_anti_edit_koruma_item
+obj.events -e_player_edit_kontrol
+obj.tag.gmitem
+obj
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function sistemodasi]
+go 5261,1762
+/////////////////////////////////////////////////////////////////////////////
+
+[function Pagebakicisiverbana]
+src.newitem i_oto_page_bakicisi
+src.new.equip
+new.timer 60
+
+[ITEMDEF i_oto_page_bakicisi]
+NAME=Page Acarim
+ID=i_memory
+TYPE=t_eq_script
+LAYER=30
+
+on=@create
+timer 120
+
+ON=@Timer
+//if <cont.isonline>
+	if (<uid.<var.pg_box>.rescount>)
+		cont.f_page_bakarim_ben
+	endif
+//endif
+timer 60
+return 1
+
+[function f_page_bakarim_ben]
+if (<uid.<var.pg_box>.rescount>)
+		src.dialogclose d_page_bakarim_ben
+		src.DIALOG d_page_bakarim_ben
+endif
+
+[DIALOG d_page_bakarim_ben]
+80,80
+page 0
+resizepic 30 0 9200 275 160	
+gumppictiled 40 10 255 140 2624
+
+dhtmlgump 95 65 300 20 0 0 <def.bfont_lred> <uid.<var.pg_box>.rescount> ADET PAGE VAR !
+
+
+[events e_yallah]
+
+ON=@NPCSEENEWPLAYER
+on=@NPCLookAtChar
+if (<src.isplayer>)
+	if <src.account.plevel> > 2
+	src.go occlo
+	src.sys_error Buraya giremessiniz.
+	return 1
+	endif
+endif
+
+on=@attack
+return 1
+
+on=@hittry
+on=@hit
+return 1
+
+/////////////////////////////////////////////////////////////////////////////
+[CHARDEF C_Yallah]
+NAME=Slime
+ID=C_slime
+CAN=0
+DAM=1,1
+ARMOR=200
+DESIRES=i_gold
+TEVENTS=e_yallah
+//SHELTER=r_civilization,r_GUARDPOST
+
+On=@Create
+NPC=brain_monster
+str 1
+dex 1
+int 1
+COLOR=colors_slime
+allskills 0
+TAMING=180.0
+karma -777
+
+on=@dclick
+return 1
+
+on=@gethit
+return 1
+
+on=@death
+hits 9999
+return 1
+
+[function alankontrol]
+
+if <src.region.guarded>
+src.sysmessage @69,,1 <src.region.uid> | Guard Zone
+else
+src.sysmessage @33,,1 <src.region.uid> | Guard Degil
+endif
+
+////////////////////////////////////////////////////////////////////////////
+
+[function artilibas]
+if (<args> == 3) || (<args> == 6) || (<args> == 9) || (<args> == 12) || (<args> == 15)
+else
+	sysmessage @33,,1 Yanlis komut kullandin.
+	return 1
+endif
+targetf artilibas2 <args>
+
+[function artilibas2]
+
+if (<args> == 3)
+	argo.morey 20.0
+	argo.attr attr_magic
+	argo.tag0.magicweapon Ruin
+	src.sysmessage @07a1,1,1 Silahi +3 yaptiniz.
+	return 1
+elif (<args> == 6)
+	argo.morey 40.0
+	argo.attr attr_magic
+	argo.tag0.magicweapon Might
+	src.sysmessage @07a1,1,1 Silahi +6 yaptiniz.
+	return 1
+elif (<args> == 9)
+	argo.morey 60.0
+	argo.attr attr_magic
+	argo.tag0.magicweapon Force
+	src.sysmessage @07a1,1,1 Silahi +9 yaptiniz.
+	return 1
+elif (<args> == 12)
+	argo.morey 80.0
+	argo.attr attr_magic
+	argo.tag0.magicweapon Power
+	src.sysmessage @07a1,1,1 Silahi +12 yaptiniz.
+	return 1
+elif (<args> == 15)
+	argo.morey 100.0
+	argo.attr attr_magic
+	argo.tag0.magicweapon Vanquishing
+	src.sysmessage @07a1,1,1 Silahi +15 yaptiniz.
+	return 1
+endif
+
+
+////////////////////////////////////////////////////////////////////////////
+
+[function deneme]
+
+say <src.findid.i_rune_reactive_armor.more2>
+
+[eof]

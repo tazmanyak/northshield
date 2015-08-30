@@ -1,0 +1,72 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 013bb]
+DEFNAME=i_chainmail_coif
+TYPE=T_ARMOR
+RESOURCES=10 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 14.5
+WEIGHT=7
+FLIP=1
+REQSTR=60
+DUPELIST=013c0
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Chainmail Armor
+DESCRIPTION=Chainmail Coif
+armor 30
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 013c0]
+DUPEITEM=013bb
+
+[ITEMDEF 013be]
+DEFNAME=i_chainmail_leggings
+TYPE=T_ARMOR
+RESOURCES=18 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 36.7
+WEIGHT=7
+FLIP=1
+REQSTR=60
+DUPELIST=013c3
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Chainmail Armor
+DESCRIPTION=Chainmail Leggings
+armor 30
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 013c3]
+DUPEITEM=013be
+
+[ITEMDEF 013bf]
+DEFNAME=i_chainmail_tunic
+TYPE=T_ARMOR
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 39.1
+WEIGHT=7
+FLIP=1
+REQSTR=60
+DUPELIST=013c4
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Chainmail Armor
+DESCRIPTION=Chainmail Tunic
+armor 30
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 013c4]
+DUPEITEM=013bf
+
+[eof]

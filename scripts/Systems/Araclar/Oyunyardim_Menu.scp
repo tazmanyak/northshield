@@ -1,0 +1,1062 @@
+
+[DIALOG d_cp]
+100,100
+page 0
+
+resizepic 0 0 5100 639 600
+
+
+
+dtext 20 5 0 Stats
+dtext 110 5 0 Skills
+dtext 195 5 0 Quests
+dtext 280 5 0 Guild
+dtext 370 5 0 Titles
+dtext 455 5 0 Journal
+dtext 545 5 0 Support
+dtext 100 320 5850 Hunger Level:
+
+gumppic -2  60 9002 //DRAGON BOARDER
+gumppic 341 340 1418
+
+
+page 1
+
+button 4  30 5007 5007 1 2 800
+button 92  30 5006 5007 1 2 801
+button 180 30 5006 5007 1 3 802
+button 268 30 5006 5007 1 2 803
+button 356 30 5006 5007 1 3 804
+button 444 30 5006 5007 1 2 805
+button 532 30 5006 5007 1 3 806
+
+///////ADD STUFF TO STATS PAGE
+
+text 100 180 0 7
+text 100 200 0 8
+text 100 220 0 9
+text 100 240 134 10
+text 100 260 261 11
+text 100 280 5 12
+text 100 300 1890 13
+//text 100 320 2099 14
+
+//show their stats
+text 250 180 0 015
+text 250 200 0 016
+text 250 220 0 017
+text 275 180 0 018
+text 275 200 0 019
+text 275 220 0 020
+text 250 240 0 021
+text 250 260 0 022
+text 250 280 0 023
+text 250 300 0 024
+
+
+
+
+// Sacred Pvp
+// Doneminin En kaliteli
+// Pvp Sunucusu 
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli. 
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman 
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+// 
+
+ON=0
+// Copy of Button 1
+// 
+
+ON=0
+// Button 2
+/ 
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+
+[DIALOG d_helpmenusu]
+0,0
+page 0
+resizepic 84 31 9200 630 491
+htmlgump 277 45 243 35 0 1 0
+gumppic 125 48 9000
+gumppic 602 46 9000
+
+button 378 485 2452 2451 1 0 0 // OKAY
+
+PAGE 1
+htmlgump 300 119 200 30 1 1 0
+htmlgump 119 156 560 100 2 1 1
+htmlgump 301 319 200 30 3 1 0
+htmlgump 117 356 560 100 4 1 1
+
+button 622 488 2469 2470 0 2 0 // NEXT
+
+PAGE 2
+button 622 488 2469 2470 0 3 0 // NEXT
+button 119 488 2466 2467 0 1 0 // PROVISN
+htmlgump 300 119 200 30 5 1 0
+htmlgump 119 156 560 100 6 1 1
+htmlgump 301 319 200 30 7 1 0
+htmlgump 117 356 560 100 8 1 1
+
+PAGE 3
+button 622 488 2469 2470 0 4 0 // NEXT
+button 119 488 2466 2467 0 2 0 // PROVISN
+htmlgump 300 119 200 30 9 1 0
+htmlgump 119 156 560 100 10 1 1
+htmlgump 301 319 200 30 11 1 0
+htmlgump 117 356 560 100 12 1 1
+
+PAGE 4
+button 622 488 2469 2470 0 5 0 // NEXT
+button 119 488 2466 2467 0 3 0 // PROVISN
+htmlgump 300 119 200 30 13 1 0
+htmlgump 119 156 560 100 14 1 1
+htmlgump 301 319 200 30 15 1 0
+htmlgump 117 356 560 100 16 1 1
+
+PAGE 5
+button 622 488 2469 2470 0 6 0 // NEXT
+button 119 488 2466 2467 0 4 0 // PROVISN
+htmlgump 300 119 200 30 17 1 0
+htmlgump 119 156 560 100 18 1 1
+htmlgump 301 319 200 30 19 1 0
+htmlgump 117 356 560 100 20 1 1
+
+PAGE 6
+button 622 488 2469 2470 0 7 0 // NEXT
+button 119 488 2466 2467 0 5 0 // PROVISN
+htmlgump 300 119 200 30 21 1 0
+htmlgump 119 156 560 100 22 1 1
+htmlgump 301 319 200 30 23 1 0
+htmlgump 117 356 560 100 24 1 1
+
+PAGE 7
+//button 622 488 2469 2470 0 8 0 // NEXT
+button 119 488 2466 2467 0 6 0 // PROVISN
+htmlgump 300 119 200 30 25 1 0
+htmlgump 119 156 560 100 26 1 1
+htmlgump 301 319 200 30 27 1 0
+htmlgump 117 356 560 100 28 1 1
+
+[DIALOG d_helpmenusu text]
+North Uo Yardim Sistemi Menusu
+
+Oyuna Girdiginizde !
+Oyuna girdiginizde itemleri goremiyorsaniz, oyunculari ciplak goruyorsaniz Ultima Online Age Of Shadows programini kullaniyorsunuz demektir. Sorunu duzeltmek icin Patch yapmaniz ve ya Sitemize girip 9th Anniversary (650MB) indirmeniz yeterlidir. ( www.Northuo.com )
+
+Aile Kurmak
+Aile kurmak icin Provisioner vendorundan Aile Belgesi alabilirsiniz.
+Guild Kurmak
+Guild kurmak icin 5m Gold + 5 adet cevrim ici oyuncuya ihtiyaciniz vardir. Bu kosullari sagladiginizda yetkiliye page atiniz.
+
+Kumbara Nedir?
+Kumbara paralarinizin dagilmasini engellemek dilediginizde nakit olarak cekmenizi ve ya cek yapmanizi saglayan bi aractir. Satin almak icin Provisioner vendorundan alabilirsiniz.
+Golem Yapimi
+North Uo sunucusunda 2 adet golem cesidi bulunmaktadir. Biri gelismis ve buyuk digeri normal oyutlarda normal guctedir. Golemleri yapabilmek icin Moongatedeki Monster Zone bolgesine gidip GOlem isimli yaratiklari kesmeniz ve gerekli araclari toplamaniz gerekmektedir. Golem yapimi icin Provisioner vendorundan Golem Yapim Deed almaniz yeterli.
+Nick Degistirmek
+Nick degistirmek icin Provisioner vendorundan Rename Deed alabilirsiniz. Nick degistirmek icin Aile Uyesi olmamaniz gerekmektedir.
+
+Ev Kurmak
+Ev kurmak icin Provisioner Vendorundan Ev Kurulum Durbunu almaniz yeterlidir. Fiyatlar icerisinde yazmaktadir. Sunucuda ev sistemi anahtarsiz calismaktadir giris cikislari ayarlamak icin kapiya tek tiklamaniz ve secim yapmaniz yeterlidir.
+
+Maden ve Liman
+Para kasma alanlari olan Maden ve Liman bolgelerinde normalin 2 kati hizli sekilde olta atip kazma vurabilirsiniz. Kazandiginiz Skill Pointler arttikca cantanize bonus balik veya maden dusmektedir.
+
+Treasure Zone
+Bu bolgede Giant Beetle isimli yaratiklar mevcuttur. Bu yaratiklari kestiginizde Level 1-5 arasi kasa ve koruma cikmaktadir. Bu levelli kasalarda itemler level arttikca kalite kazanmaktadir.
+
+Champion !
+Bu sisteme Moongate , Champion sekmesinden ulasilabilir. .championtakip komutu ile cevrenizde Champion varsa durumunu ogrenebilirsiniz. Championlar 16 leveldan olusmaktadir. Her levelin 4 seviyesi vardir her 4. seviyede level atlar. Level atlatmak icin cevresinde bulunan npcleri oldurmeniz gerekmektedir. Npcler oldukce yerine gelenler dahada guclu olacaktir. Champion oldugu zaman etrafina 2m Gold + 1 adet normal 1 adet Lbr binek atmaktadir.
+
+Silah Upgrade
+Safe alanda Power & Vanq Upgrade stoneleri vardir. Power upgrade 35k Vanq Upgrade 50kdir. Power Basarken silahinizin patlama olasiligi 1/6 dir, Vanq basarken ise 1/4 tur.
+
+Soket Ekleme (Gem) Kapali !
+Kapatildi !
+
+Ibranice
+Sadece Pure Mageler tarafindan kullanilir. Mage Vendordan satin alinabilir. Suresi 2 saattir. Arti olarak hazinedende cikmaktadir.
+
+Quest Sistemi
+Shine Questi 5 kisilik parti araciligi ile yapilir. Amac onunuze gelen Bosslari keserek alandan ayrilmaktir. Forest Questi tek kisiliktir amac Trollerden yumurta toplamaktir.
+
+
+[DIALOG d_helpmenusu button]
+ON=0
+// Button 1
+//
+
+ON=0
+// Copy of Button 1
+//
+
+ON=0
+// Button 2
+/
+
+
+[EOF]
+

@@ -1,0 +1,174 @@
+[CHARDEF 0f5]
+//FIXME: Paralyzing Blow Attack
+DEFNAME=c_yomotsu_warrior
+NAME=yomotsu warrior
+SOUND=snd_monster_yomotsu
+ICON=i_pet_yomotsu_warrior
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=55,65
+ARMOR=65
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores2,e_carnivores3
+FOODTYPE=40 t_fish
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=99.2
+CATEGORY=Monsters
+SUBSECTION=Yomotsu
+DESCRIPTION=Yomotsu Warrior
+RESLEVEL=3
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=4200
+   KARMA=-4200
+   STR={480 530}
+   MAXHITS={480 530}
+   DEX={150 165}
+   MAXSTAM={150 165}
+   INT={115 135}
+   MAXMANA={115 135}
+   ANATOMY={85.0 95.0}
+   MAGICRESISTANCE={80.0 90.0}
+   PARRYING={95.0 105.0}
+   SWORDSMANSHIP={95.0 105.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={98.0 108.0}
+   MODAR={0 20}
+   RESCOLD={45 65}
+   RESENERGY={30 50}
+   RESFIRE={30 50}
+   RESPOISON={40 55}
+ON=@NpcRestock
+   ITEM=loot_yomotsu_warrior
+   //600 - 700 Gold. Magic Items, 1 Pair of Footwear, Executioners Axe, Pants, Random Item, 1 Gourd, 2 Gems
+   //Special: Level 3 Treasure Map, Bonsai Seed
+ON=@GetHit
+   //Thrown Weapon Attack (daggers)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+      SRC.TARG.EFFECT 0,i_dagger,2,1
+      IF (RAND(5)==0)
+         SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+      ENDIF
+   ENDIF
+   //Lightning Strike when hurt badly
+   IF (<HITS> < <EVAL <MAXHITS>/3>) && (RAND(5)==0)
+      SRC.EFFECT 1,1
+      SRC.SOUND snd_spell_lightning
+      SRC.DAMAGE <R15,25> <DEF.dam_lightning> <UID>
+   ENDIF
+
+[CHARDEF 0fd]
+//FIXME: ability to take the shape of almost any other creature on the
+//Tokuno Islands.
+//FIXME: Lightning Strike
+DEFNAME=c_yomotsu_priest
+NAME=yomotsu priest
+ICON=i_pet_yomotsu_priest
+SOUND=snd_monster_yomotsu
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=35,45
+ARMOR=65
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_fish
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=117.4
+//TAG.Luck.Loot=FIXME
+CATEGORY=Monsters
+SUBSECTION=Yomotsu
+DESCRIPTION=Yomotsu Priest
+RESLEVEL=3
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=9000
+   KARMA=-9000
+   STR={480 530}
+   MAXHITS={480 530}
+   DEX={100 115}
+   MAXSTAM={100 115}
+   INT={120 150}
+   MAXMANA={600 675}
+   EVALUATINGINTEL={93.0 108.0}
+   MAGERY={105.0 115.0}
+   MAGICRESISTANCE={112.0 122.0}
+   MEDITATION={95.0 110.0}
+   PARRYING={55.0 60.0}
+   SWORDSMANSHIP={48.0 58.0}
+   TACTICS={55.0 60.0}
+   WRESTLING={48.0 58.0}
+   MODAR={0 20}
+   RESCOLD={45 65}
+   RESENERGY={25 50}
+   RESFIRE={30 50}
+   RESPOISON={35 55}
+ON=@NpcRestock
+   ITEM=loot_yomotsu_priest
+   //700 - 1000 Gold. Magic Items, 1 Pair of Footwear, Executioners Axe, Pants, Random Item, 4 Gems, Gourd
+   //Special: Bonsai Seed
+
+[CHARDEF 0ff]
+//FIXME: Lightning Strike
+//FIXME: Paralyzing Blow Attack
+DEFNAME=c_yomotsu_elder
+NAME=yomotsu elder
+ICON=i_pet_yomotsu_elder
+SOUND=snd_monster_yomotsu
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=80,100
+ARMOR=65
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_fish
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=200
+TAG.Barding.Diff=126.3
+//TAG.Luck.Loot=FIXME
+CATEGORY=Monsters
+SUBSECTION=Yomotsu
+DESCRIPTION=Elder Yomotsu
+RESLEVEL=3
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=12000
+   KARMA=-12000
+   STR={695 825}
+   MAXHITS={820 895}
+   DEX={250 365}
+   MAXSTAM={250 365}
+   INT={115 140}
+   MAXMANA={115 140}
+   ANATOMY={115.0 130.0}
+   MAGICRESISTANCE={100.0 115.0}
+   PARRYING={115.0 130.0}
+   SWORDSMANSHIP={110.0 130.0}
+   TACTICS={115.0 130.0}
+   WRESTLING={110.0 130.0}
+   MODAR={0 20}
+   RESCOLD={45 65}
+   RESENERGY={25 50}
+   RESFIRE={30 50}
+   RESPOISON={35 55}
+ON=@NpcRestock
+   ITEM=loot_yomotsu_elder
+   //1500 - 1800 Gold. Magic Items, 1 Pair of Footwear, Executioners Axe, Pants, Random Item, 2 Gems, Gourd
+   //Special: Bonsai Seed
+ON=@GetHit
+   //Thrown Weapon Attack (axe)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+      SRC.TARG.EFFECT 0,i_axe,2,1
+      IF (RAND(5)==0)
+         SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+      ENDIF
+   ENDIF
+
+[EOF]

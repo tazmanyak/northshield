@@ -1,0 +1,63 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - Complete Script.
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Shovel typedef to be able to dig sand out of the sand.
+// OSI-Like? Seems so.
+
+[typedef t_shovel]
+on=@dclick
+if <topobj.uid> != <src.uid>
+src.sysmessage It must be in your pack.
+return 1
+endif
+if <def.scp.SkillWaitingTimes> == 1
+	if <src.ctag0.skillrecovery> > <serv.time>
+	src.sysmessage <def.scp.skill_mustwait>
+	return 1
+	endif
+endif
+
+on=@targon_ground
+if <serv.map(<src.targp.x>,<src.targp.y>,<src.targp.m>).type> == t_sand
+	if <def.scp.Mining_AllowSand> == 0
+	return 1
+	endif
+	if <src.distance <src.targp>> >= 3
+	src.sysmessage <def.scp.mining_faraway>
+	return 1
+	endif
+	if !<src.canseelos <src.targp>>
+	src.sysmessage <def.scp.mining_canseelos>
+	return 1
+	endif
+	if <r<src.mining>> > <eval <src.mining>/2>
+	local.gem = <f_FindResourceWorldgem <src.targp>>
+		if <local.gem>
+		src.f_LoopAnim 11,3,1
+		src.timerf 3,src.f_MiningSuccess <local.gem>
+		else
+		local.createbit = <eval <serv.regiontype.r_default_sand.calcmemberindex <src.uid>>+1>
+		local.gem = <src.f_AddMiningBit <serv.regiontype.r_default_sand.resources.<local.createbit>.key>>
+		src.f_LoopAnim 11,3,1
+		src.timerf 3,f_MiningSuccess <local.gem>
+		endif
+	else
+	src.f_LoopAnim 11,3,1
+	src.timerf 3,sysmessage <def.scp.mining_sand_fail>
+	endif
+src.f_skill_delay 3.0
+return 1
+endif
+
+[eof]

@@ -1,0 +1,52 @@
+
+VERSION=0.56
+
+////////////////////// Hardcoded Stuff , Bilmiyorsan elleşme.//////////////////// Burak
+
+
+
+[DEFNAME BACKUPDEF] 
+	
+SERVUID 02432 				
+MYSQLUSER root
+MYSQLPORT 3306
+MYSQLHOST 127.0.0.1
+MYSQLPASS asdasd
+MYSQL_EXE c:\appServ\mysql\bin\mysqldump.exe
+MYSQL_SAVE c:\backup\yedekdb.sql	
+MYSQL_BAT mysql_backup.bat //C:\Users\Administrator\Documents\
+SVN_BAT Tortoise_Update.bat
+
+WINRAR  c:\progra~1\winrar\winrar.exe	
+WINPASS qweqwe
+WINNAME c:\Backup\sphere_backup		
+WINLIST backup.lst		
+
+
+MYSQL_DELETE C:\BACKUP\database_backup-04.10.2013.sql
+
+
+
+//LOCAL.OLDOBJ <OBJ.UID>
+//OBJ <DEF0.SERVUID>
+//OBJ.MAKEBACKUP
+//OBJ <LOCAL.OLDOBJ>
+
+
+[FUNCTION MAKEBACKUP]
+
+IF !(<rtime.day> == <VAR0.lastbackup>) || (<ARGN>)
+LOCAL.BACKUP <sysspawn <DEF0.WINRAR> a -r -s -m5 -k -hp<DEF0.WINPASS> -ibck -ag-YY-MM-DD <DEF0.WINNAME> @<DEF0.WINLIST>>
+//LOCAL.MYSQL_BACKUP <sysspawn <DEF0.MYSQL_BAT>>
+//LOCAL.BACKUP_MYSQL <sysspawn <DEF0.MYSQL_EXE> -h<DEF0.MYSQLHOST> -u<DEF0.MYSQLUSER> -p<DEF0.MYSQLPASS> tnsgentr_sphere <DEF0.MYSQL_SAVE>> //tnsgentr_sphere @<DEF0.MYSQL_SAVE>>
+VAR.lastbackup = <rtime.day>
+//SERV.LOG # Yedekleme Tamamlandi #
+uid.<def.SERVUID>.f_set_vendor_forum
+ENDIF
+
+[function MAKEBACKUP2]
+
+LOCAL.BACKUP <sysspawn DEL <DEF0.MYSQL_DELETE>>
+//database_backup-04.10.2013.sql
+
+[EOF]

@@ -1,0 +1,376 @@
+﻿
+///////////////////////////////////////////////////////////////
+//////// PITCHFORKS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0e87]
+DEFNAME=i_pitchfork
+TYPE=T_WEAPON_FENCE
+FLIP=1
+range 2
+RESOURCES=5 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 20.0
+DAM=12,15
+SPEED=33
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=11.0
+DUPELIST=0e88
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Pitchforks
+DESCRIPTION=Pitchfork
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+
+on=@equip
+src.events +e_dismount
+on=@unequip
+src.events -e_dismount
+
+///////////////////////////////////////////////////////////////
+//////// DAGGERS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f51]
+DEFNAME=i_dagger
+NAME=Dagger
+TYPE=T_WEAPON_FENCE
+FLIP=1
+DAM=2,3
+SPEED=57
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+WEIGHT=1
+RESOURCES=2 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 0.0
+DUPELIST=0f52
+CATEGORY=Provisions - Weapons
+SUBSECTION=Daggers
+DESCRIPTION=Dagger
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+	
+
+
+///////////////////////////////////////////////////////////////
+//////// KRYSSES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01400]
+DEFNAME=i_kryss
+WEIGHT=2
+TYPE=T_WEAPON_FENCE
+FLIP=1
+speed 50
+dam 9,11
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+DUPELIST=01401
+RESOURCES=8 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 36.7
+CATEGORY=Provisions - Weapons
+SUBSECTION=Krysses
+DESCRIPTION=Kryss
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_armorignore_fenc
+
+on=@unequip
+src.events -e_armorignore_fenc 
+
+
+///////////////////////////////////////////////////////////////
+//////// WAR FORKS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01404]
+DEFNAME=i_war_fork
+RESOURCES=12 i_ingot_iron
+WEIGHT=9
+TYPE=T_WEAPON_FENCE
+FLIP=1
+speed 41
+dam 10,14
+SKILL=Fencing
+REQSTR=45
+TWOHANDS=N
+DUPELIST=01405
+SKILLMAKE=BLACKSMITHING 42.9
+CATEGORY=Provisions - Weapons
+SUBSECTION=War Forks
+DESCRIPTION=War Fork
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_armorignore_fenc
+
+on=@unequip
+src.events -e_armorignore_fenc
+
+///////////////////////////////////////////////////////////////
+//////// SHORT SPEARS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01402]
+DEFNAME=i_spear_short
+RESOURCES=6 i_ingot_iron
+WEIGHT=4
+TYPE=T_WEAPON_FENCE
+FLIP=1
+speed 41
+dam 13,16
+SKILL=Fencing
+REQSTR=40
+TWOHANDS=N
+DUPELIST=01403
+SKILLMAKE=BLACKSMITHING 45.3
+CATEGORY=Provisions - Weapons
+SUBSECTION=Short Spears
+DESCRIPTION=Short Spear
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_spear
+
+on=@unequip
+src.events -e_spear
+
+///////////////////////////////////////////////////////////////
+//////// SPEARS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f62]
+DEFNAME=i_spear
+RESOURCES=12 i_ingot_iron
+TYPE=T_WEAPON_FENCE
+FLIP=1
+dam 13,16
+range 2
+speed 30
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=7
+SKILLMAKE=BLACKSMITHING 49.0
+DUPELIST=0f63
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Spears
+DESCRIPTION=Spear
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+
+///////////////////////////////////////////////////////////////
+//////// PIKES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026be]
+DEFNAME=i_pike
+NAME=Pike
+TYPE=t_weapon_fence
+DAM=14,16
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=8.0
+SPEED=3.0
+SKILLMAKE=BLACKSMITHING 47.0
+RESOURCES=12 i_ingot_iron
+VALUE=200
+DUPELIST=026c8
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Pikes
+DESCRIPTION=Pike
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+
+
+///////////////////////////////////////////////////////////////
+//////// LANCES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026c0]
+DEFNAME=i_lance
+NAME=Lance
+TYPE=t_weapon_fence
+SPEED=4.5
+DAM=17,18
+WEIGHT=12
+REQSTR=95
+VALUE=280
+DUPELIST=026ca
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 48.0
+CATEGORY=Provisions - Weapons
+SUBSECTION=Lances
+DESCRIPTION=Lance
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+	
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount 
+
+///////////////////////////////////////////////////////////////
+//////// DOUBLE BLADED STAVES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026bf]
+DEFNAME=i_double_bladed_staff
+NAME=Double Bladed Staff
+TYPE=t_weapon_fence
+DAM=12,13
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=2
+SPEED=2.2
+SKILLMAKE=BLACKSMITHING 45.0
+RESOURCES=16 i_ingot_iron
+RANGE=2
+VALUE=110
+DUPELIST=026c9
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Double Bladed Staves
+DESCRIPTION=Double Bladed Staff
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount  
+
+
+///////////////////////////////////////////////////////////////
+//////// BLADED STAVES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026bd]
+DEFNAME=i_bladed_staff
+NAME=Bladed Staff
+TYPE=t_weapon_sword
+DAM=14,16
+SKILL=Swordsmanship
+REQSTR=40
+TWOHANDS=Y
+WEIGHT=4
+SPEED=3.0
+SKILLMAKE=BLACKSMITHING 40.0
+RESOURCES=12 i_ingot_iron
+DUPELIST=026c7
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Bladed Staves
+DESCRIPTION=Bladed Staff
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+
+
+
+[EOF]

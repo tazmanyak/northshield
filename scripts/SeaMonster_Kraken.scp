@@ -1,0 +1,165 @@
+[function seamonster3]
+serv.newitem 03492
+new.p <p>
+ref1 <new.uid>
+new.timerf 1,ref1.deneme2
+new.timerf 1,say * Blub *
+new.timerf 3,say * Blub *
+new.timerf 5,say * Blub *
+new.timerf 7,say * Blub *
+new.timerf 9,say * Blub *
+
+
+[function seamonster2]
+serv.newnpc c_kraken
+new.color 0997
+new.home <p>
+new.homedist 5
+new.stone 1
+new.timerf 1,deneme
+new.timerf 1,anim 16
+new.timerf 2,anim 16
+new.timerf 3,anim 16
+new.timerf 4,anim 16
+new.timerf 5,stone 0
+new.timerf 5,say * Bariyerleri kirar *
+
+[function seamonster]
+SERV.NEWITEM i_multi_pentagram2
+NEW.P <p>
+NEW.MULTICREATE
+new.color 0997
+new.timerf 10,remove
+
+[ITEMDEF i_multi_pentagram2]
+id 0fea
+NAME=Pentagram3232
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=SeaMonsterPentagram1 -1 0 0
+COMPONENT=SeaMonsterPentagram2 -1 -1 0
+COMPONENT=SeaMonsterPentagram3 0 -1 0
+COMPONENT=SeaMonsterPentagram4 -1 1 0
+COMPONENT=SeaMonsterPentagram5 1 -1 0
+COMPONENT=SeaMonsterPentagram6 0 1 0
+COMPONENT=SeaMonsterPentagram7 1 1 0
+COMPONENT=SeaMonsterPentagram8 1 0 0
+
+component=SeaMonsterfirecolumn 5 0 0
+component=SeaMonsterfirecolumn 0 5 0
+component=SeaMonsterfirecolumn 0 -5 0
+component=SeaMonsterfirecolumn -5 0 0
+
+CATEGORY=Multis
+SUBSECTION=Deneme
+DESCRIPTION=Deneme
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF SeaMonster_girdap]
+id 03492
+
+on=@timer
+serv.newnpc c_kraken
+new.color 0997
+new.home <p>
+new.homedist 5
+new.stone 1
+new.timerf 1,deneme
+new.timerf 1,anim 16
+new.timerf 2,anim 16
+new.timerf 3,anim 16
+new.timerf 4,anim 16
+new.timerf 5,stone 0
+new.timerf 5,say * Bariyerleri kirar *
+remove
+return 1
+
+[ITEMDEF SeaMonsterPentagram1]
+id 0fe6
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram2]
+id 0fe7
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram3]
+id 0fe8
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram4]
+id 0fe9
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram5]
+id 0feb
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram6]
+id 0fec
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram7]
+id 0fed
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterPentagram8]
+id 0fee
+on=@create
+color 0997
+
+[ITEMDEF SeaMonsterfirecolumn]
+id i_fire_column
+on=@create
+color 0997
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 04d]
+//FIXME: Water ball ranged attack
+DEFNAME=c_kraken
+NAME=Kraken , The Sea Monster
+ICON=i_pet_kraken
+SOUND=snd_monster_seaserp1
+CAN=MT_WALK|MT_SWIM|MT_NONHUM
+DAM=73,121
+RANGE=3
+ARMOR=45
+DESIRES=r_water,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization
+FOODTYPE=75 t_fish
+RESOURCES=2 i_ribs_raw
+BLOODCOLOR=0997
+MOVERATE=150
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+
+on=@click
+say @150,,1 [ Sea Monster ]
+
+ON=@Create
+  color = 0997
+   NPC=brain_dragon
+   FAME=1000
+   KARMA=-10000
+   STR={756 780}
+   DEX={226 245}
+   INT={26 40}
+   MAGICRESISTANCE={15.0 20.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 60.0}
+
+ON=@NpcRestock
+   ITEM=loot_kraken
+
+[eof]
+

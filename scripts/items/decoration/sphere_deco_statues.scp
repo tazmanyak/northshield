@@ -1,0 +1,64 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 02d0e]
+DEFNAME=i_statue_arcanist
+NAME=Arcanist Statue
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+RESOURCES=250 i_log
+WEIGHT=255
+DUPELIST=02d0f
+CATEGORY=Decoration - Statues
+SUBSECTION=Statues
+DESCRIPTION=Arcanist Statue
+
+[ITEMDEF 02d0f]
+DUPEITEM=02d0e
+
+[ITEMDEF 02d10]
+DEFNAME=i_statue_squirrel
+NAME=Squirrel Statue
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+RESOURCES=250 i_log
+WEIGHT=255
+DUPELIST=02d11
+CATEGORY=Decoration - Statues
+SUBSECTION=Statues
+DESCRIPTION=Squirrel Statue
+
+[ITEMDEF 02d11]
+DUPEITEM=02d10
+
+[ITEMDEF 02d12]
+DEFNAME=i_statue_warrior
+NAME=Warrior Statue
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+RESOURCES=250 i_log
+WEIGHT=255
+DUPELIST=02d13
+CATEGORY=Decoration - Statues
+SUBSECTION=Statues
+DESCRIPTION=Warrior Statue
+
+[ITEMDEF 02d13]
+DUPEITEM=02d12
+
+[ITEMDEF 02d4a]
+DEFNAME=i_acorn_replica_giant
+NAME=Giant Replica Acorn
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+RESOURCES=35 i_log
+WEIGHT=1
+CATEGORY=Decoration - Statues
+SUBSECTION=Miscellaneous
+
+[eof]

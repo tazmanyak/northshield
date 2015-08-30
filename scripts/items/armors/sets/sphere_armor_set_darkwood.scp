@@ -1,0 +1,155 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Darkwood Armor Set
+
+[ITEMDEF i_darkwood_chest]
+ID=i_woodland_chest
+NAME=Darkwood Chest
+TYPE=t_armor
+RESOURCES=20 i_log, 10 i_ingredient_corruption, 10 i_ingredient_muculent, 1 i_ingredient_dread_horn_mane
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=95
+TEVENTS=t_set_darkwood
+TAG.Item.Elven=1
+TAG.HitPointIncrease=2
+TAG.DefenseChanceIncrease=5
+CATEGORY=Provisions - Armor
+SUBSECTION=Darkwood Armor
+DESCRIPTION=Darkwood Chest
+TAG.ResPhysical=8
+TAG.ResFire=5
+TAG.ResCold=5
+TAG.ResPoison=7
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={37 96}
+
+[ITEMDEF i_darkwood_gorget]
+ID=i_woodland_gorget
+NAME=Darkwood Gorget
+TYPE=t_armor
+RESOURCES=15 i_log, 10 i_ingredient_blight, 10 i_ingredient_scourge, 1 i_ingredient_diseased_bark
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=45
+TEVENTS=t_set_darkwood
+TAG.Item.Elven=1
+TAG.HitPointIncrease=2
+TAG.DefenseChanceIncrease=5
+CATEGORY=Provisions - Armor
+SUBSECTION=Darkwood Armor
+DESCRIPTION=Darkwood Gorget
+TAG.ResPhysical=8
+TAG.ResFire=5
+TAG.ResCold=5
+TAG.ResPoison=7
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={37 96}
+
+[ITEMDEF i_darkwood_gauntlets]
+ID=i_woodland_gauntlets
+NAME=Darkwood Gauntlets
+TYPE=t_armor
+RESOURCES=15 i_log, 10 i_ingredient_muculent, 10 i_ingredient_putrefaction, 1 i_ingredient_captured_essence
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=70
+TEVENTS=t_set_darkwood
+TAG.Item.Elven=1
+TAG.HitPointIncrease=2
+TAG.DefenseChanceIncrease=5
+CATEGORY=Provisions - Armor
+SUBSECTION=Darkwood Armor
+DESCRIPTION=Darkwood Gauntlets
+TAG.ResPhysical=8
+TAG.ResFire=5
+TAG.ResCold=5
+TAG.ResPoison=7
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={37 96}
+
+[ITEMDEF i_darkwood_leggings]
+ID=i_woodland_leggings
+NAME=Darkwood Leggings
+TYPE=t_armor
+RESOURCES=15 i_log, 10 i_ingredient_corruption, 10 i_ingredient_putrefaction, 1 i_ingredient_grizzled_bones
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=90
+TEVENTS=t_set_darkwood
+TAG.Item.Elven=1
+TAG.HitPointIncrease=2
+TAG.DefenseChanceIncrease=5
+CATEGORY=Provisions - Armor
+SUBSECTION=Darkwood Armor
+DESCRIPTION=Darkwood Leggings
+TAG.ResPhysical=8
+TAG.ResFire=5
+TAG.ResCold=5
+TAG.ResPoison=7
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={37 96}
+
+[ITEMDEF i_darkwood_pauldrons]
+ID=i_woodland_arms
+NAME=Darkwood Pauldrons
+TYPE=t_armor
+RESOURCES=15 i_log, 10 i_ingredient_scourge, 10 i_ingredient_taint, 1 i_ingredient_travesty_eye
+SKILLMAKE=CARPENTRY 85.0
+REQSTR=80
+TEVENTS=t_set_darkwood
+TAG.Item.Elven=1
+TAG.HitPointIncrease=2
+TAG.DefenseChanceIncrease=5
+CATEGORY=Provisions - Armor
+SUBSECTION=Darkwood Armor
+DESCRIPTION=Darkwood Pauldrons
+TAG.ResPhysical=8
+TAG.ResFire=5
+TAG.ResCold=5
+TAG.ResPoison=7
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={37 96}
+
+[ITEMDEF i_darkwood_crown]
+ID=i_helm_raven
+NAME=Darkwood Crown
+TYPE=t_armor
+RESOURCES=10 i_log, 10 i_ingredient_blight, 10 i_ingredient_taint, 1 i_ingredient_paroxysmus_lard
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+REQSTR=25
+TEVENTS=t_set_darkwood
+TAG.Item.Elven=1
+TAG.HitPointIncrease=2
+TAG.DefenseChanceIncrease=5
+CATEGORY=Provisions - Armor
+SUBSECTION=Darkwood Armor
+DESCRIPTION=Darkwood Crown
+TAG.ResPhysical=8
+TAG.ResFire=5
+TAG.ResCold=5
+TAG.ResPoison=7
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={37 96}
+
+[eof]

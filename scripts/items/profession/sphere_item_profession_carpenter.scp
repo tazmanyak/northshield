@@ -1,0 +1,41 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 01db8]
+DEFNAME=i_barrel_lid
+NAME=Barrel Lid
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 11.0, t_carpentry
+RESOURCES=1 i_log
+WEIGHT=2
+CATEGORY=Items by Professions
+SUBSECTION=Carpenter
+DESCRIPTION=Barrel Lid
+
+[ITEMDEF 01eb1]
+DEFNAME=i_barrel_staves
+NAME=Barrel Staves
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 0.0, t_carpentry
+RESOURCES=5 i_log
+WEIGHT=5
+DUPELIST=01eb2,01eb3,01eb4
+CATEGORY=Items by Professions
+SUBSECTION=Carpenter
+DESCRIPTION=Barrel Staves
+
+[ITEMDEF 01eb2]
+DUPEITEM=01eb1
+
+[ITEMDEF 01eb3]
+DUPEITEM=01eb1
+
+[ITEMDEF 01eb4]
+DUPEITEM=01eb1
+
+[eof]

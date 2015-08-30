@@ -1,0 +1,262 @@
+[ITEMDEF i_gate_maps]
+ID=i_moongate_blue
+NAME=Moongate
+DEFNAME=i_gate_maps
+TYPE=t_normal
+
+ON=@Create
+attr=attr_static
+
+ON=@Step
+if <src.findid.i_jail_timer>
+	if !<src.findid.i_jail_timer.timer> <= 0
+		src.sys_error Jail cezaniz bitmeden kullanamazsiniz.
+		return 1
+	else
+		src.findid.i_jail_timer.remove
+		src.events -e_jailed
+		return 0
+	endif
+endif
+IF (<SRC.ISPLAYER>)
+	IF !(<ARGN1>)
+		IF !(<REGION.FLAGS>&REGION_FLAG_SAFE)
+			IF !(<SRC.FLAGS>&statf_dead)
+				IF (<SRC.FLAGS>&STATF_WAR)
+				//SRC.SYSMESSAGELOC -1,501955
+				SRC.SYSMESSAGE @68,,1 Savas modundan cikmadikca gateden gecemezsiniz.
+                                LOCAL.NAOPODE=1
+				ENDIF
+			ENDIF
+		ENDIF
+		IF !(<LOCAL.NAOPODE>)
+		SDIALOG d_travel_sys 1
+		ELSE
+		SRC.DIALOGCLOSE d_travel_sys
+		ENDIF
+	ENDIF
+ENDIF
+
+ON=@Dclick
+if <src.findid.i_jail_timer>
+	if !<src.findid.i_jail_timer.timer> <= 0
+		src.sys_error Jail cezaniz bitmeden kullanamazsiniz.
+		return 1
+	else
+		src.findid.i_jail_timer.remove
+		src.events -e_jailed
+		return 0
+	endif
+endif
+IF (<SRC.ISPLAYER>)
+	IF !(<ARGN1>)
+		IF !(<REGION.FLAGS>&REGION_FLAG_SAFE)
+			IF !(<SRC.FLAGS>&statf_dead)
+				IF (<SRC.FLAGS>&STATF_WAR)
+				//SRC.SYSMESSAGELOC -1,501955
+				SRC.SYSMESSAGE @68,,1 Savas modundan cikmadikca gateden gecemezsiniz.
+                                LOCAL.NAOPODE=1
+				ENDIF
+			ENDIF
+		ENDIF
+		IF !(<LOCAL.NAOPODE>)
+		SDIALOG d_travel_sys 1
+		ELSE
+		SRC.DIALOGCLOSE d_travel_sys
+		ENDIF
+	ENDIF
+ENDIF
+return 1
+
+[DIALOG d_travel_sys]
+250,100
+src.closealldialogs
+
+PAGE 0
+//resizepic 30 15 5120 430 410
+//gumppictiled 30 15 430 410 2624
+//checkertrans 30 15 430 410
+gumppictiled 30 15 430 410 2624
+
+FOR 29
+gumppic <EVAL (<LOCAL._FOR>*15)+15> 15 0280a
+IF (<LOCAL._FOR> < 29)
+gumppic <EVAL (<LOCAL._FOR>*15)+13> 420 0280a
+ENDIF
+ENDFOR
+gumppic 445 420 0280a
+
+gumppic 415 30 203
+gumppic 415 75 203
+gumppic 415 105 203
+FOR 13
+gumppic 415 <EVAL (<LOCAL._FOR>*30)+2> 10460
+ENDFOR
+
+gumppic 30 30 202
+gumppic 30 75 202
+gumppic 30 105 202
+gumppic 29 105 0242f
+FOR 13
+gumppic 45 <EVAL (<LOCAL._FOR>*30)+2> 10460
+ENDFOR
+
+gumppic 425 300 028ac
+gumppic 425 150 028ab
+gumppic 425 0 028aa
+
+gumppic -5 10 028b5
+gumppic 25 0 028b4
+gumppic 45 130 028ab
+gumppic -22 280 028a2
+
+gumppic 368 50 0589
+gumppic 377 60 01580
+
+gumppic 85 35 0232d
+gumppictiled 125 65 150 1 9101
+
+
+dhtmlgump 155 45 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7>Moongate
+
+button 100 110 2117 2118 0 1 1
+dhtmlgump 120 110 300 20 0 0 <def.bfont_gray>Sosoria
+
+button 100 135 2117 2118 0 2 1
+dhtmlgump 120 135 300 20 0 0 <def.bfont_gray>Malas
+
+//button 100 160 2117 2118 0 0 1
+//dhtmlgump 120 160 300 20 0 0 <def.bfont_gray>Aktif degil.
+
+//button 100 185 2117 2118 0 4 1
+//dhtmlgump 120 185 300 20 0 0 <def.bfont_gray>Champion
+
+//button 100 210 2117 2118 0 5 1
+//dhtmlgump 120 210 300 20 0 0 <def.bfont_red>Action Zone
+
+//button 100 235 2117 2118 0 1 1
+//dhtmlgump 120 235 300 20 0 0 <def.bfont_gray>Sehirler
+
+//button 100 260 2117 2118 0 7 1
+//dhtmlgump 120 260 300 20 0 0 <def.bfont_gray>Dungeonlar
+
+button 85 365 4005 4006 1 0 4
+button 85 390 4005 4006 1 0 0
+
+dhtmlgump 120 365 300 20 0 0 <def.bfont_white>Tamam
+dhtmlgump 120 390 300 20 0 0 <def.bfont_red>Iptal
+
+
+
+Page 1
+//dtext 50 185 33 Sehirler
+dhtmlgump 120 110 300 20 0 0 <def.bfont_White>Sehirler
+
+//radio 220 110 210 211 0 18
+//dhtmlgump 245 110 300 20 0 0 <def.bfont_white> Britain
+
+radio 220 160 210 211 0 18
+dhtmlgump 245 160 300 20 0 0 <def.bfont_white> Britain
+
+//radio 220 135 210 211 0 19
+//dhtmlgump 245 135 300 20 0 0 <def.bfont_white> Bucaneer's Den
+
+//radio 220 160 210 211 0 20
+//dhtmlgump 245 160 300 20 0 0 <def.bfont_white> Wind
+
+radio 220 185 210 211 0 21
+dhtmlgump 245 185 300 20 0 0 <def.bfont_white> Delucia
+
+radio 220 210 210 211 0 22
+dhtmlgump 245 210 300 20 0 0 <def.bfont_white> Jhelom
+
+radio 220 235 210 211 0 23
+dhtmlgump 245 235 300 20 0 0 <def.bfont_white> Magincia 
+
+radio 220 260 210 211 0 24
+dhtmlgump 245 260 300 20 0 0 <def.bfont_white> Minoc-Vesper 
+
+radio 220 285 210 211 0 25
+dhtmlgump 245 285 300 20 0 0 <def.bfont_white> Moonglow
+
+radio 220 310 210 211 0 26
+dhtmlgump 245 310 300 20 0 0 <def.bfont_white> Skara Brae
+
+radio 220 335 210 211 0 27
+dhtmlgump 245 335 300 20 0 0 <def.bfont_white> Trinsic 
+
+radio 220 360 210 211 0 28
+dhtmlgump 245 360 300 20 0 0 <def.bfont_white> Yew
+
+//radio 220 385 210 211 0 29
+//dhtmlgump 245 385 300 20 0 0 <def.bfont_white> Nujel'm
+
+PAGE 2
+dhtmlgump 120 135 300 20 0 0 <def.bfont_white>Malas
+radio 220 160 210 211 0 30
+dhtmlgump 245 160 300 20 0 0 <def.bfont_white> Malas
+
+radio 220 185 210 211 0 31
+dhtmlgump 245 185 300 20 0 0 <def.bfont_white> Doom Dungeon
+
+[DIALOG d_travel_sys BUTTON]
+ON=4
+
+IF <src.hits> < <src.maxhits>
+src.sysmessage @,,1 Canınız az olduğu için geçemiyorsunuz.
+return 1
+endif
+
+
+//IF ((<src.hits>) > (<src.str>)) || ((<src.hits>) == (<src.str>)) 
+IF (<DISTANCE> <= 3)
+SRC.REMOVEFROMVIEW
+IF (<ARGCHK[1]>) //////////////// guvenli alanlar
+SRC.go Pazar Alani
+
+
+ELIF (<ARGCHK[18]>) //////////////////// Sehirler
+src.go Britain Moongate
+ELIF (<ARGCHK[19]>)
+src.go 2823,2121
+ELIF (<ARGCHK[20]>)
+src.go 5189,152
+ELIF (<ARGCHK[21]>)
+src.go 5282,3907,3
+ELIF (<ARGCHK[22]>)
+src.go Jhelom Moongate
+ELIF (<ARGCHK[23]>) ////// Dungeonlar
+src.go Magincia Moongate
+ELIF (<ARGCHK[24]>)
+src.go minoc-vesper moongate
+ELIF (<ARGCHK[25]>)
+src.go moonglow moongate
+ELIF (<ARGCHK[26]>)
+src.go Skara Brae moongate
+ELIF (<ARGCHK[27]>)
+src.go Trinsic Moongate
+ELIF (<ARGCHK[28]>)
+src.go Yew Moongate
+ELIF (<ARGCHK[29]>)
+dorand 2
+src.go 3567,1194
+src.go 3567,1193
+enddo
+
+ELIF (<ARGCHK[30]>)
+	src.go malas
+ELIF (<ARGCHK[31]>)
+	src.go Doom
+ENDIF
+SRC.REMOVEFROMVIEW
+//SRC.FLAGS |= statf_invisible
+//IF !(<SRC.ISGM>)
+//COLOR {0480 048d}
+//ENDIF
+SRC.FIX
+else
+endif
+//endif
+
+
+[EOF]

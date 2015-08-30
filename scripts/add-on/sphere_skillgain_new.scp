@@ -1,0 +1,411 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// New skillgain system, written according to Runuo's gain system, close to OSI's.
+
+
+//Gainfactor defnames are simple, gainfactor_x is for skills, x= skillnumber
+//Like adv_rate of sphereserver's but lower value = harder gain.
+
+//statfactor_x str,dex,int , x=skillnumber stat gain factors for skill x
+//0 = no gain for all.
+
+///FUNCTIONS
+//------------
+///CheckSkill Skilln,Chance,Nogain
+//---------
+///Checks if you are successful at Skilln with Chance (0.0 - 1.0) , it will try to
+///learn the skill if nogain=0
+
+///MobileSkillCheck Skilln,MinSkill,Maxskill,Nogain
+//-------
+///Main skillcheck function. MinSkill , MaxSkill are difficulties. If Skilln is not
+///a difficulty based skill, Minskill=0 Maxskill=120.0 (or 100.0). 
+///If Minskill is higher than your current skill, %100 fail and no skillgain check
+////If maxskill is smaller than your current skill, %100 success and no gain.
+///Function will calculate your success chance according to MinSkill and Maxskill
+///After checking chance it will execute CheckSkill function and check for success.
+///It will also check skillgains if Nogain=0
+///For skillgain checks, your skill must be between MinSkill and Maxskill
+
+///MobileSkillDirectCheck - unused, same as CheckSkill
+
+////example for usage of mobileskillcheck in @wait of a skill :
+////if (<mobileskillcheck DetectingHidden,0,1000,0>) // gain allowed
+////	-success code-
+////else
+////	-fail code-
+////endif
+
+
+////In order to implement this skillgain model, you must learn difficulty based skills first.
+///And learn difficulty ranges from Runuo script pack..
+////Example for lockpicking :
+////<mobileskillcheck Lockpicking,<eval <chestskill>-22.5>,<eval <chestskill>+22.5>,0>
+
+[comment addition]
+Skillgain in this system is affected from total skills, advancement in skill, chance to success action
+
+more chance to success, less chance to gain
+more totalskills, less chance to gain
+more advancement, less chance to gain
+
+[comment nondifficultybased]
+////There is a list of non difficulty based skill i have known :
+note : non difficulty based skills have a certain chance to success. 40.0 DetectingHidden= %40 chance
+Minskill is always 0 and MaxSkill is always 100.0 (or 120.0 if PS can be used (eval int for example))
+
+DetectingHidden
+Anatomy
+Herding
+Forensics
+EvaluatingIntel (if used directly)
+Musicianship
+Spirit Speak (if used directly)
+Animal Lore
+Arms Lore
+Begging
+Camping
+Fishing
+ItemID
+Lumberjacking
+Mining
+Remove Trap
+Snooping
+Taste Id
+Tracking
+Focus
+Cooking
+
+
+[comment difficultybasedskills]
+All other skills are difficulty based with different ways.
+Minskill and maxskill always depend on where the skill used.
+
+
+Lockpicking is based on chest's difficulty
+Stealing is based on stolen item's weight, amount
+Stealth&Hiding, wore armor
+Healing&Veterinary , if pet is poisoned or human is dead or poisoned
+Craft skills , based on item's difficulty
+Mage skills , Circle
+Combat is based on attacker's and attacked's skills
+Music skills are based on Barding Difficulty (complicated thing)
+Poisoning is based on the poison's level applied
+Magic resist, spell's circle, power
+Animal Taming, pet's skill - 22.5  + 22.5 as i know
+
+
+
+[defname GainFactor]
+gainfactor_0	0.1
+gainfactor_1	0.1
+gainfactor_2	0.1
+gainfactor_3	0.1
+gainfactor_4	0.1
+gainfactor_5	0.1
+gainfactor_6	0.1
+gainfactor_7	0.1
+gainfactor_8	0.1
+gainfactor_9	0.1
+gainfactor_10	0.1
+gainfactor_11	0.1
+gainfactor_12	0.1
+gainfactor_13	0.1
+gainfactor_14	0.1
+gainfactor_15	0.1
+gainfactor_16	0.1
+gainfactor_17	0.1
+gainfactor_18	0.1
+gainfactor_19	0.1
+gainfactor_20	0.1
+gainfactor_21	0.1
+gainfactor_22	0.1
+gainfactor_23	0.1
+gainfactor_24	0.1
+gainfactor_25	0.1
+gainfactor_26	0.1
+gainfactor_27	0.1
+gainfactor_28	0.1
+gainfactor_29	0.1
+gainfactor_30	0.1
+gainfactor_31	0.3
+gainfactor_32	0.1
+gainfactor_33	0.1
+gainfactor_34	0.1
+gainfactor_35	0.1
+gainfactor_36	0.1
+gainfactor_37	0.1
+gainfactor_38	0.1
+gainfactor_39	0.1
+gainfactor_40	0.1
+gainfactor_41	0.1
+gainfactor_42	0.1
+gainfactor_43	0.1
+gainfactor_44	0.1
+gainfactor_45	0.1
+gainfactor_46	0.1
+gainfactor_47	0.1
+gainfactor_48	0.1
+gainfactor_49	0.1
+gainfactor_50	0.1
+gainfactor_51	0.1
+gainfactor_52	0.1
+gainfactor_53	0.1
+gainfactor_54	0.1
+
+
+////////////////statgain
+
+statfactor_0	0.0,0.5,0.5
+statfactor_1	0.15,0.15,0.7
+statfactor_2	0.0,0.0,1.0
+statfactor_3	0.0,0.0,1.0
+statfactor_4	0.75,0.15,0.1
+statfactor_5	0.75,0.25,0.0
+statfactor_6	0.0,0.0,0.0
+statfactor_7	1.0,0.0,0.0
+statfactor_8	0.6,1.6,0.0
+statfactor_9	0.0,0.0,0.0
+statfactor_10	2.0,1.5,1.5
+statfactor_11	0.1
+statfactor_12	0.1
+statfactor_13	0.1
+statfactor_14	0.4,0.6,1.0
+statfactor_15	0.0,0.25,0.25
+statfactor_16	0.0,0.0,1.0
+statfactor_17	0.1
+statfactor_18	0.1
+statfactor_19	0.0,0.2,0.8
+statfactor_20	1.625,0.625,0.25
+statfactor_21	0.0,0.8,0.2
+statfactor_22	0.0,0.45,0.05
+statfactor_23	0.1
+statfactor_24	0.0,2.0,0.0
+statfactor_25	0.0,0.0,1.5
+statfactor_26	0.25,0.25,0.5
+statfactor_27	0.0,0.0,0.0
+statfactor_28	0.0,2.5,0.0
+statfactor_29	0.0,0.8,0.2
+statfactor_30	0.0,0.4,1.6
+statfactor_31	0.25,0.75,0.0
+statfactor_32	0.0,0.0,1.0
+statfactor_33	0.0,1.0,0.0
+statfactor_34	0.1
+statfactor_35	1.4,0.2,0.4
+statfactor_36	0.2,0.0,0.8
+statfactor_37	0.1
+statfactor_38	0.0,1.25,1.25
+statfactor_39	0.8,0.4,0.8
+statfactor_40	0.75,0.25,0.0
+statfactor_41	0.9,0.1,0.0
+statfactor_42	0.45,0.55,0.0
+statfactor_43	0.9,0.1,0.0
+statfactor_44	0.1
+statfactor_45	0.1
+statfactor_46	0.0,0.0,2.0
+statfactor_47	0.0,0.0,0.0
+statfactor_48	0.0,0.0,0.0
+statfactor_49	0.0,0.0,0.0
+statfactor_50	0.0,0.0,0.0
+statfactor_51	0.0,0.0,0.0
+statfactor_52	0.0,0.0,0.0
+statfactor_53	0.0,0.0,0.0
+statfactor_54	0.0,0.0,0.0
+
+
+
+[function CheckSkill]  // skill,chance
+if !(<isplayer>)
+	return 1
+endif
+
+float.chance=<argv[1]>
+local.success=0
+
+if (<float.chance> >= <randomdouble>)
+	local.success=1
+endif
+
+
+float.gc=<floatval (<eval <skillclass.skillsum> - <skilltotal>>)/<skillclass.skillsum>>
+float.gc += <floatval (<eval <skillclass.<argv[0]>> - <<argv[0]>>>) / <skillclass.<argv[0]>>>
+float.gc = <floatval <float.gc>/2>
+
+float.gc += <floatval (1.0 - <float.chance>) * (<qval <local.success> ? 0.25 : 0.08>)> /// so there will be a gain chance for fails
+float.gc = <floatval <float.gc>/2>
+
+float.gc = <floatval <float.gc>*<def0.gainfactor_<getskillnumber <dargv[0]>>>>
+
+
+if (!(<flags>&statf_dead) && (<float.gc> > <randomdouble>) && !(<argv[2]>)) || (<<argv[0]>> < 100)//&& (<allowgain <uid>,<argv[0]>,<argv[1]>>))
+	f_gainskill <argv[0]>
+endif
+
+if (<statlock[0]>==lock_up) && (<floatval <strarg <def.statfactor_<getskillnumber <argv[0]>>>>/33> > <randomdouble>)
+	if !(<statgain 0>)
+		ostr += 1
+	endif
+elif (<statlock[2]>==lock_up) && (<floatval <strarg <streat <def.statfactor_<getskillnumber <argv[0]>>>>>/33> > <randomdouble>)
+	if !(<statgain 2>)
+		odex += 1
+	endif
+elif (<statlock[1]>==lock_up) && (<floatval <strarg <streat <streat <def.statfactor_<getskillnumber <argv[0]>>>>>>/33> > <randomdouble>)
+	if !(<statgain 1>)
+		oint += 1
+	endif
+endif
+
+
+return <local.success>
+
+[function getskillnumber]
+for 0 54
+	if (<serv.skill.<local._for>.key>==<serv.skill.<argv[0]>.key>)
+		return <dlocal._for>
+	endif
+endfor
+
+[function getskillcap]
+if (<tag0.override.skillcap_<getskillnumber <argv[0]>>>)
+	return <tag0.override.skillcap_<getskillnumber <argv[0]>>>
+else
+	return 1000
+endif
+
+[function f_gainskill]
+local.gain=1
+
+if (<region.flags>&region_flag_safe) || (<region.flags>&region_antimagic_damage)
+	return 0
+endif
+
+if (<<argv[0]>> < 100) // gain 0.1 >= skills if skill < 10.0
+	local.gain=<eval rand(4)+1>
+endif
+
+if (<eval <<argv[0]>>+<local.gain>> > <getskillcap <argv[0]>>)
+	return 0
+endif
+
+IF <SKILLLOCK.<ARGv[0]>> > 0
+	RETURN 0
+ENDIF 
+
+IF <eval <SKILLTOTAL>+<local.gain>> > <SERV.SKILLCLASS.<SKILLCLASS>.SKILLSUM>
+    FOR 0 54
+        IF (<<dlocal._for>> >= <local.gain>) && (<SKILLLOCK.<dLOCAL._FOR>> == 1)
+        LOCAL.FOUND = <dLOCAL._FOR>
+        ENDIF
+    ENDFOR
+
+    IF (<LOCAL.FOUND>)
+      <dLOCAL.FOUND> = <EVAL <<LOCAL.FOUND>>-<local.gain>>
+      <argv[0]> = <eval <<argv[0]>> + <local.gain>>
+    RETURN 1
+    ENDIF
+return 1
+ENDIF
+
+<argv[0]> = <eval <<argv[0]>> + <local.gain>>
+trigger=@skillraise,2,<argv[0]>,<local.gain>  // instead of @skillgain
+
+
+[function statgain]
+IF (<TAG0.OVERRIDE.STATSUM>)
+	LOCAL.STATSUM=<TAG0.OVERRIDE.STATSUM>
+ELSE
+	LOCAL.STATSUM=<SERV.SKILLCLASS.0.STATSUM>
+ENDIF
+
+LOCAL.STATS=<EVAL <OSTR>+<ODEX>+<OINT>>
+
+if (<argn1>==0)
+	if (<ostr> >= 125)
+		return 1
+	endif
+elif (<argn1>==1)
+	if (<oint> >= 125)
+		return 1
+	endif
+else
+	if (<odex> >= 125)
+		return 1
+	endif
+endif
+
+IF (<STATLOCK[<ARGN1>]> == lock_locked)
+	src.sysmessage @,,1 <argn1> kilitli durumda.
+	RETURN 1
+ENDIF
+
+IF (<STATLOCK[<ARGN1>]> == lock_down)
+	RETURN 1
+ENDIF
+
+IF (<LOCAL.STATS> == <LOCAL.STATSUM>)
+	IF (<STATLOCK[<ARGN1>]> == lock_up)
+		FOR 0 2
+			IF (<LOCAL._FOR> != <ARGN1>)
+				IF (<STATLOCK[<dLOCAL._FOR>]> == lock_down)
+					IF (<LOCAL._FOR> == 0)
+						IF (<EVAL <OSTR>-1> > 24)
+						OSTR --
+						src.sysmessage @,,1 Str'niz 1 azaldi.
+						RETURN 0
+						ENDIF
+					ELIF (<LOCAL._FOR> == 1)
+						IF (<EVAL <OINT>-1> > 24)
+						OINT --
+						Int'iniz 1 azaldi.
+						RETURN 0
+						ENDIF
+					ELIF (<LOCAL._FOR> == 2)
+						IF (<EVAL <ODEX>-1> > 24)
+						ODEX --
+						Dex'iniz 1 azaldi.
+						RETURN 0
+						ENDIF
+					ENDIF
+				RETURN 1
+				ENDIF
+			ENDIF
+		ENDFOR	
+	RETURN 1
+	ENDIF
+endif
+
+return 0
+
+[function MobileSkillCheck]
+if (<<argv[0]>> < <argv[1]>)
+	return 0
+elif (<<argv[0]>> >= <argv[2]>)
+	return 1
+endif
+
+float.chance=<floatval (<eval <<argv[0]>> - <argv[1]>>) / (<eval <argv[2]> - <argv[1]>>)>
+
+return <CheckSkill <argv[0]>,<float.chance>,<argv[3]>>
+
+[function MobileSkillDirectCheck]
+if (<argv[1]> < <floatval 0.0>)
+	return 0
+elif (<argv[1]> >= <floatval 1.0>)
+	return 1
+endif
+
+return <CheckSkill <argv[0]>,<argv[1]>,<argv[2]>>
+
+[EOF]

@@ -1,0 +1,101 @@
+
+[FUNCTION rtime.year]
+return <strsub 0 4 <serv.rtime>>
+
+[FUNCTION rtime.month]
+return <strsub 5 2 <serv.rtime>>
+
+[FUNCTION rtime.day]
+return <strsub 8 2 <serv.rtime>>
+
+
+[FUNCTION rtime.time]
+return <strsub 11 8 <serv.rtime>>
+
+[FUNCTION DELETEFILE]
+IF !(<FILE.INUSE>)
+FILE.MODE.APPEND=1
+FILE.DELETEFILE <ARGS>
+FILE.CLOSE
+ENDIF
+
+[FUNCTION WRITEFILE]
+IF !(<FILE.INUSE>)
+FILE.MODE.CREATE=1
+FILE.MODE.APPEND=1
+FILE.MODE.WRITEFLAG=1
+IF (<FILE.OPEN <STRARG <ARGS>>>)
+FILE.WRITELINE <STREAT <ARGS>>
+FILE.CLOSE
+ENDIF
+ENDIF
+
+
+
+[function _remove]
+if !(<argo.npc>)
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt [REMOVE] <src.name> [Uid : <src.uid>] isimli kisi silme komutu kullandi.
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Zaman : <serv.rtime>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Yer : <region.name>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen itemin sahibi : <argo.topobj.name> [Uid : <argo.topobj.uid>]
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen itemin bulundugu alan : <argo.region.name>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen Itemin Adi : <argo.name> [Uid : <argo.uid>]
+if !(<argo.tag0.trade_str> == 0)
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen Bineðin Türü : <argo.tag.trade> [<argo.tag.trade_id>]
+endif
+if (<argo.type> == t_container)
+for 0 <eval <argo.rescount>-1>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen Bag'deki <eval <dlocal._for>+1>. esya : <argo.findcont.<dlocal._for>.name> [Uid : <argo.findcont.<dlocal._for>.uid>][ID : <argo.findcont.<dlocal._for>.baseid>]
+endfor
+endif
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silen Staff'in Accsi : <src.account.name> [Plevel : <src.account.plevel>]
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt -------------------------------------------------
+src.sysmessage @07a1,1,1 <argo.name> isimli esyayi sildin, loglara kayit edildi.. umarim hatali bir sey yapmamassindir.
+if !(<argo.tag0.trade_str> == 0)
+src.s <argo.tag0.trade_name> isimli binegi sildim.
+argo.remove
+return 1
+endif
+if (<argo.type> == t_container)
+src.s <argo.name> isimli çantayý sildim, içinde <argo.rescount> eþya vardý.
+argo.remove
+return 1
+endif
+argo.remove
+endif
+
+if (<argo.npc>)
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt [REMOVE] <src.name> [Uid : <src.uid>] isimli kisi silme komutu kullandi.
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Zaman : <serv.rtime>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Yer : <region.name>
+if (<argo.memoryfindtype.memory_ipet>)
+local.sahip <argo.memoryfindtype.memory_ipet.link.name> [Uid : <argo.memoryfindtype.memory_ipet.link.uid>]
+ELSE
+local.sahip Sahipsiz // sahipsiz binek.
+endif
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen NPC'nin sahibi : <local.sahip>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen NPC'nin bulunduðu alan : <argo.region.name>
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt Silinen NPC'nin adý : <argo.name> [Uid : <argo.uid>]
+src.WRITEFILE logs/silme/<src.account.name>SILME.txt -------------------------------------------------
+src.s <argo.name> isimli npc'yi sildim.
+argo.remove
+return 1
+endif
+
+
+[function yazdir]
+src.writefile logs\stafflog\<src.account.name>---<strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi.
+
+
+[function phpdeneme]
+SERV.DELETEFILE C:\ServerMagament\www\web\istatistik.php
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php <?php
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php $client="<eval <serv.clients> +12>";
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php $staf="<var.gmvaryok>";
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php $guild="<serv.guilds>";
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php $account="<serv.accounts>";
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php $page="<uid.<var.pg_box>.rescount>";
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php $npc="<serv.chars>";
+SERV.WRITEFILE C:\ServerMagament\www\web\istatistik.php ?>
+
+[EOf]

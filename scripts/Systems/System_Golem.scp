@@ -1,0 +1,157 @@
+[ITEMDEF i_pet_c_golem_tinker]
+ID=i_pet_elem_earth
+TYPE=t_figurine
+NAME=Golem
+WEIGHT=20.0
+
+SKILLMAKE=TINKERING 98.1,MAGERY 98.1
+RESOURCES=100 i_ingot_iron,3 i_crystalgolem,1 i_headgolem,1 i_scroll_summon_elem_earth
+
+On=@Create
+COLOR=0836
+MORE=c_m_golem_tinker
+
+[ITEMDEF i_pet_c_golem2]
+ID=i_pet_golem_iron
+TYPE=t_figurine
+NAME=Buyuk Golem
+WEIGHT=20.0
+
+SKILLMAKE=TINKERING 98.0,t_tinker_tools
+RESOURCES=200 i_ingot_iron,8 i_crystalgolem,2 i_headgolem,1 i_scroll_summon_elem_earth
+
+On=@Create
+COLOR=0
+
+MORE=c_m_golem2
+
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////Golemler
+///////////////////////////////////////////////
+
+
+[CHARDEF c_m_golem_tinker]
+defname c_m_golem_tinker
+NAME=Golem
+ID=c_elemental_earth_Summoned
+SOUND=snd_ELEMENTL_ERTHEL1
+ICON=i_pet_elem_earth
+DAM=50,60
+ARMOR=50
+CAN=MT_WALK|MT_USEHANDS
+AVERSIONS=r_water
+BLOODCOLOR=07a1
+//TEVENTS=e_intel_golem_tinker
+
+ON=@Create
+COLOR=0836
+STR=600
+DEX=400
+INT=1
+food 25
+
+PARRYING={90.0 100.0}
+MAGERY=0
+MAGICRESISTANCE={290.0 900.0}
+TACTICS={90.0 100.0}
+WRESTLING={90.0 100.0}
+
+NPC=brain_monster
+
+FAME=0
+KARMA=3000
+
+CATEGORY=Monsters
+SUBSECTION=Golems
+DESCRIPTION=Tinker Low
+
+ON=@SPELLEFFECT
+If (<argn>==4) || (<argn>==29) //|| (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+//sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+src.f_fizzle
+src.sysmessage @,,1 Golemlere ancak tinkerlar, iron ingot ile yardimci olabilir.
+return 1
+endif
+
+on=@click
+if (<memoryfindtype.memory_ipet>)
+	message * <memoryfindtype.memory_ipet.link.name> *
+endif
+
+
+/////////////////////////////////////////////////////////
+
+
+[CHARDEF c_m_golem2]
+NAME=Golem
+ICON=i_pet_golem_iron
+ID=c_iron_golem
+DAM=50,60
+ARMOR=30
+CAN=MT_WALK|MT_USEHANDS
+DESIRES=c_m_athena
+AVERSIONS=r_water
+BLOODCOLOR=07a1
+TEVENTS=e_intel_golem_tinker
+
+
+
+ON=@Create
+COLOR=07a1
+STR=850
+DEX=600
+INT=10
+
+FAME={1000 2000}
+KARMA={1000 2999}
+
+PARRYING=100.0
+MAGICRESISTANCE=100.0
+TACTICS=100.0
+WRESTLING=100.0
+
+npc=brain_monster
+
+/////////////////////////////////////////////////////////////////
+
+[CHARDEF c_m_golem]
+DEFNAME=c_m_golem
+NAME=Golem
+ID=c_elemental_earth_Summoned
+SOUND=snd_ELEMENTL_ERTHEL1
+ICON=i_pet_elem_earth
+DAM=35,60
+ARMOR=30
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_FIRE_IMMUNE
+//SHELTER=r_dungeon
+DESIRES=c_m_golem
+AVERSIONS=r_water
+BLOODCOLOR=0515
+TEVENTS=e_dragon
+
+ON=@Create
+COLOR=083a
+STR=800
+DEX=250
+INT=900
+
+FAME={7000 9000}
+KARMA={-6000 -6999}
+
+PARRYING={90.0 100.0}
+MAGERY={200.0 300.0}
+MAGICRESISTANCE={1290.0 1900.0}
+TACTICS={90.0 100.0}
+WRESTLING={90.0 100.0}
+EVALUATINGINTEL={70.1 80.0}
+
+npc=brain_monster
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_energy_bolt
+
+
+ON=@NpcRestock
+	ITEM=loot_golem
+[EOF]

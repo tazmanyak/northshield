@@ -1,0 +1,321 @@
+﻿
+/// Destroy Akar.
+
+[plevel 1]
+top10
+puan
+
+[function puan]
+src.sysmessage @1153,,1 <dtag0.puan> puanınız var.
+
+
+[function f_align]
+if !(<guild>)
+return Yok
+else
+return <guild.name>
+endif
+
+[function factionsistemikur]
+if !(<db.connected>)
+	db.connect
+endif
+db.execute "create table if not exists faction (id int unsigned not null auto_increment primary key,uid text,isim text,destek text,puan text)";
+db.close
+
+[defname facti]
+order1 Chaos
+chaos1 Order
+1_faction 04000c312
+2_faction 04002b749
+
+[itemdef i_faction_order]
+id = i_gravestone_17
+name = Order
+type = T_STONE_guild
+tevents t_faction
+
+ON=@create
+attr 08010
+color = 07a1
+align 1
+var.order <uid>
+
+[itemdef i_faction_chaos]
+id = i_gravestone_17
+name = Chaos
+type = T_STONE_guild
+tevents t_faction
+
+ON=@create
+attr 08010
+color = 080A
+align 2
+var.chaos <uid>
+
+[function asda]
+say <uid.<var.<def.<args>1>>.member.count>
+
+[typedef t_faction]
+
+on=@dclick
+
+
+if (<distance> > 1)
+src.sys_error Yaklaşın.
+return 1
+elif (<src.account.totalconnecttime> < 600)
+src.sys_error 10 saat online süreniz olmalı.
+return 1
+elif (<src.skilltotal> < 600)
+src.sys_error 600.0 Skill totaliniz olmalı.
+return 1
+//elif (<memberfromuid.<src.uid>.uid>!=<src.uid>) && (<src.guild>)
+//src.sys_error Siz bu Faction'a üye değilsiniz.
+//return 1
+elif <src.findid.i_factionayril>
+src.sys_error Ayrılana kadar işlem yapamazsınız.
+return 1
+elif !(<src.guild>) || strmatch('<src.guild>','<uid>')
+sdialog d_faction 1
+src.ctag0.dialogindex
+else
+src.sys_error Siz bir guild üyesisiniz, faction savaşlarına girmek için guildiniz destek yönünü değiştirmelisiniz.
+return 1
+endif
+endif
+on=@click
+msg_error [<member.count> üye]
+msg_normal <name>
+if <align> == 1
+message @95,,1 [Order]
+else
+message @38,,1 [Chaos]
+endif
+return 1
+
+
+[function top10]
+sdialog d_top10
+
+
+[DIALOG d_top10]
+50,50
+page 1
+db.connect
+db.query "select * from faction order by puan desc limit 0,10";
+
+resizepic 0 0 2620 514 300
+checkertrans 0 0 514 300
+dhtmlgump 30 30 300 30 0 0 <def.bfont_white>Sıra
+dhtmlgump 70 30 300 30 0 0 <def.bfont_white>İsim
+dhtmlgump 300 30 300 30 0 0 <def.bfont_white>Puan
+dhtmlgump 370 30 300 30 0 0 <def.bfont_white>Guild
+for a 0 10
+if <db.row.<dlocal.a>.uid>
+ref1=<addslashes <db.row.<dlocal.a>.uid>>
+local.y ((<dlocal.a>*20)+55)
+dhtmlgump 30 <dlocal.y> 300 30 0 0 <eval <dlocal.a>+1>- 
+dhtmlgump 70 <dlocal.y> 300 30 0 0 <def.bfont_lgreen><cropgump <ref1.name>> 
+dhtmlgump 300 <dlocal.y> 300 30 0 0 <def.bfont_lgreen>[<eval <db.row.<dlocal.a>.puan>> Puan] 
+dhtmlgump 370 <dlocal.y> 300 30 0 0 <def.bfont_lgreen><db.row.<dlocal.a>.destek>
+endif
+endfor
+db.close
+
+[DIALOG d_faction]
+50,50
+page 1
+
+resizepic 0 0 2620 313 237
+checkertrans 0 0 313 237
+dhtmlgump 90 25 300 30 0 0 <def.bfont_white><name> Faction Menüsü
+if !strmatch('<src.guild>','<uid>')
+dhtmlgump 70 50 300 30 0 0 <def.bfont_lgreen>Faction'a Katıl
+button 45 50 2714 2715 1 0 1
+else
+dhtmlgump 70 50 300 30 0 0 <def.bfont_lgreen>Faction'dan Ayrıl
+button 45 50 2714 2715 1 0 2
+endif
+//dhtmlgump 70 75 300 30 0 0 <def.bfont_lgreen>Oyuncu Listesi
+//button 45 75 2714 2715 0 3 0
+if strmatch('<src.guild>','<uid>')
+//dhtmlgump 70 100 300 30 0 0 <def.bfont_lgreen>En iyi 10 oyuncu Listesi
+//button 45 100 2714 2715 0 2 0
+
+dhtmlgump 70 125 300 30 0 0 <def.bfont_lgreen>Kalkan Al
+button 45 125 2714 2715 1 0 3
+endif
+
+//if !strmatch('<tag0.sonolum>',' ')
+//dhtmlgump 20 160 270 60 1 1 <def.bfont_lred>Son Ölüm: <def.bfont_dblue><tag0.sonolum>
+//endif
+page 2
+db.connect
+db.query "select * from faction where destek = '<name>' order by puan desc limit 0,9";
+resizepic 0 0 2550 314 300
+for a 0 9
+if <db.row.<dlocal.a>.uid>
+local.y ((<dlocal.a>*20)+25)
+ref1=<addslashes <db.row.<dlocal.a>.uid>>
+dhtmlgump 70 <dlocal.y> 300 30 0 0 <eval <dlocal.a>+1>- <def.bfont_dred><ref1.name> [<eval <db.row.<dlocal.a>.puan>> Puan]
+endif
+endfor
+
+
+page 3
+db.connect
+db.query "select * from faction where destek = '<name>' order by uid desc limit <eval <src.ctag0.dialogindex>>,<eval <src.ctag0.dialogindex>+7>";
+
+resizepic 0 0 2620 314 300
+checkertrans 0 0 314 300
+for a 0 6
+if <db.row.<dlocal.a>.uid>
+local.y ((<dlocal.a>*20)+25)
+ref1=<addslashes <db.row.<dlocal.a>.uid>>
+dhtmlgump 70 <dlocal.y> 300 30 0 0 <eval <dlocal.a>+1>- <def.bfont_white><ref1.name>
+endif
+endfor
+db.close
+
+db.connect
+db.query "select * from faction;"
+if (<db.row.numrows> > 7)
+button 60 230 2714 2715 1 0 99999998
+dhtmlgump 80 230 550 30 0 0 <def.BFONT_lred> İleri
+endif
+if (<src.ctag0.dialogindex> > 6)
+button 60 250 2714 2715 1 0 99999999
+dhtmlgump 80 250 580 30 0 0 <def.BFONT_lred> Geri
+endif
+db.close
+
+
+[DIALOG d_faction button]
+
+on=99999998
+src.ctag0.dialogindex += 7
+sdialog d_faction 3
+
+on=99999999
+if <src.ctag0.dialogindex> > 0
+src.ctag0.dialogindex -= 7
+endif
+sdialog  d_faction 3
+return 1
+
+
+on=1
+if !(<src.findid 1 i_factionayril>)
+  if <align> == 1
+    if (<member.count> > <eval <uid.<def.2_faction>.member.count>>)
+	src.sys_error <name> faction unda <uid.<def.2_faction>.name> den daha fazla uye var. Şu anda buraya giremezsiniz.
+	return 1
+    endif
+  else
+    if (<member.count> > <eval <uid.<def.1_faction>.member.count>>)
+	src.sys_error <name> faction unda <uid.<def.1_faction>.name> den daha fazla uye var. Şu anda buraya giremezsiniz.
+	return 1
+    endif
+  endif
+	f_factional <uid>,<src.uid>
+endif
+
+on=2
+if !(<src.findid 1 i_factionayril>)
+f_factionayril <uid>,<src.uid>
+endif
+
+on=3
+if (<align> == 1)
+		if (<src.tag0.alignshield> >= 3)
+			src.sys_error 3 defa kalkan almışsınız, daha fazla alamazsınız.
+			return 1
+		endif
+	serv.newitem i_shield_order
+	new.equip
+	new.tag.attr_04 = 1
+	src.tag0.alignshield += 1
+	src.sys_normal Kalkanınızı aldınız.<eval 3-<src.tag.alignshield>> adet kalkan alma hakkınız kaldı.
+	return 1
+	elseif (<align> == 2)
+		if (<src.tag0.alignshield> >= 3)
+			src.sys_error 3 defa kalkan almışsınız, daha fazla alamazsınız.
+			return 1
+		endif
+	serv.newitem i_shield_chaos
+	new.equip
+	new.tag.attr_04 = 1
+	src.tag0.alignshield += 1
+	src.sys_normal Kalkanınızı aldınız.<eval 3-<src.tag.alignshield>> adet kalkan alma hakkınız kaldı.
+	return 1
+	endif
+endif
+return 1
+
+
+[function factisavas]
+ref1 <uid.<argv[0]>>
+ref2 <uid.<argv[1]>>
+ref1.declarewar <ref2>
+
+[function f_factionayril]
+ref1 = <argv[0]> // The guild
+ref2 = <argv[1]> // The char
+newitem i_factionayril
+new.cont <ref2.uid>
+ref2.notice 15 dakika sonra Faction dan ayrılacaksınız.
+
+
+[itemdef i_factionayril]
+id i_memory
+type t_eq_script
+name faction cik
+
+ON=@create
+attr attr_invis|attr_newbie
+timer 900
+
+ON=@equip
+cont.sys_normal <cont.guild.name> Faction undan ayrıldınız. 15 dakika sonra tamamen ayrılıacaksınız.
+
+ON=@timer
+topobj.notice Factiondan ayrıldınız.
+try uid.<topobj.guild.uid>.resign <topobj.uid>
+db.connect
+//db.execute "UPDATE faction SET destek = '<addslashes <topobj.f_align>>' WHERE Uid='<topobj.uid>'"
+db.execute delete from faction WHERE Uid='<topobj.uid>'
+remove
+db.close
+return 1
+
+
+
+
+[function f_factional]
+ref1 = <argv[0]> // The guild
+ref2 = <argv[1]> // The char
+if !(<src.guild>)
+
+db.connect
+db.query "SELECT COUNT(uid) FROM faction WHERE Uid = '<ref2.uid>'";
+if <db.row.0>
+db.execute "UPDATE faction SET destek = '<addslashes <ref1.name>>' WHERE Uid='<ref2.uid>'"
+else
+db.execute "insert faction (uid,isim,destek,puan) VALUES ('<addslashes <ref2.uid>>','<addslashes <ref2.name>>','<ref1.name>','<ref2.tag0.puan>');"
+endif
+db.close
+
+ref1.JoinAsMember <ref2.uid>
+//if (!<ref2.isevent.<def.GUILDCONFIG_CHAREVENT_NAME>>)
+//  ref2.events +<def.GUILDCONFIG_CHAREVENT_NAME>
+//endif
+//if (!<ref2.isdspeech.<def.GUILDCFGSPEECH_NAME>>)
+//  ref2.dspeech +<def.GUILDCFGSPEECH_NAME>
+//endif
+else
+src.sys_error Zaten bir Guild in üyesisiniz.
+return 1
+endif
+
+[EOF]

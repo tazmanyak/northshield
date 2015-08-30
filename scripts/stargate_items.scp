@@ -1,0 +1,91 @@
+[itemdef i_stargate_controller]
+id=i_gravestone_18
+name=Stargate Control Device
+type=t_script
+
+on=@create
+attr=010
+color=0482
+
+on=@dclick
+if !<src.tag0.discovered_stargate_<uid>>
+src.tag0.discovered_stargate_<uid>=1
+src.sysmessage @0482 You've discovered the <region.name> Stargate!
+endif
+
+if <tag0.stargate_active>
+src.sysmessage @0482 The stargate is already actived.
+return 1
+endif
+
+if <link.isplayer>
+src.sysmessage @0482 Someone else is currently using this device.
+return 1
+endif
+
+dialog d_stargate_system 9000
+sound 1306
+link=<src>
+more1=<def0.stargate_control_timout>
+timer 3
+return 1
+
+on=@timer
+if <link>
+more1 -= 1
+if !<more1>
+link.dialogclose d_stargate_system
+link=
+endif
+sound 237
+timer 1
+color <Qval <color>==05d?060:05d>
+else
+more1=
+endif
+return 1
+
+[itemdef 01a1e]
+defname=i_stargate
+name=Stargate
+type=t_script
+
+on=@create
+attr=010
+color=05d
+timer=<def0.stargate_duration>
+
+on=@timer
+sound 552
+remove
+return 1
+
+on=@step
+if !<argn1>==1
+sound 1480
+src.p <morep>
+src.update
+endif
+
+[itemdef i_stargate_summon_effect]
+id=i_fx_explode
+name=Stargate
+type=t_script
+
+on=@create
+attr=010
+color=05e
+timerd=2
+
+on=@timer
+move e
+timerd 2
+more1 += 1
+if <more1>>=4
+remove
+endif
+return 1
+
+
+
+[EOF]

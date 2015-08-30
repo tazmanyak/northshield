@@ -1,0 +1,1180 @@
+﻿//Tag ile calisiyor
+//tag0.bilet
+
+[function hesabim]
+src.sysmessage @69,,1 Hesap Numaraniz : <src.uid>
+
+[plevel 1]
+hesabim
+
+[itemdef i_hediye_stone]
+id i_Barrel_open
+name Reward Barrel
+type t_normal
+
+on=@create
+color 0455
+attr 08000
+
+on=@click
+src.sysmessage @,,1 Biletlerinizi Değerlendirmek Icin Cift Tiklayin.
+message @07a1 <name>
+return 1
+
+on=@dclick
+src.closealldialogs
+//if  (<src.ACCOUNT.PLEVEL> < 2)
+//src.sysmessage @,,1 Guncelleniyor...
+//return 1
+//endif
+
+if (<src.account.tag.pinkabul>==0)
+	src.sysmessage @33,,1 Pin girisi yapmalisiniz.
+	src.dialog d_pin_giris
+	return 1
+endif
+
+if (<distance> > 2)
+src.sysmessage @080a Uzaksiniz.
+return 1
+else
+//src.dialogclose d_biletsistemi
+src.dialog d_hediyestok
+return 1
+endif
+
+[dialog d_hediyestok]
+0,0
+page 0
+//resizepic 190 90 9200 367 400
+//gumppictiled 200 100 350 417 2624
+
+
+resizepic 0 0 2620 530 420
+//checkertrans 5 5 520 410
+
+
+PAGE 1
+button 355 20 210 211 1 0 55
+dText 380 20 60 Online Süre Hediye
+
+button 25 50 210 211 1 0 1
+button 25 80 210 211 1 0 2
+button 25 110 210 211 1 0 3
+button 25 140 210 211 1 0 4
+button 25 170 210 211 1 0 5
+button 25 200 210 211 1 0 6
+button 25 230 210 211 1 0 7
+button 25 260 210 211 1 0 8
+button 25 290 210 211 1 0 9
+button 25 320 210 211 1 0 10
+button 25 350 210 211 1 0 11
+
+dText 50 50 800 Black Dye //(Sinirsiz)
+dtext 50 80 800 Leather Dye //(Sinirsiz)
+dtext 50 110 800 Rare Dye //(Sinirsiz)
+dtext 50 140 800 Furniture Dye //(Sinirsiz)
+dtext 50 170 800 Random Vanquishing (+15) Silah ( Iron )
+dtext 50 200 800 Random Power (+12) Silah ( Iron )
+dtext 50 230 800 Random Force (+9) Silah ( Iron )
+dtext 50 260 800 Random Might (+6) Silah ( Iron ) 
+dtext 50 290 800 Random Ruin (+3) Silah ( Iron ) 
+dtext 50 320 800 Random Weapon Upgrade (+3,+6,+9,+12,+15)
+dtext 50 350 800 Random Invulnerability Studded Set Parcasi
+dtext 230 20 69 BILET SISTEMI
+
+dtext 380 50 32 5.000.000 Bilet
+dtext 380 80 32 4.000.000 Bilet
+dtext 380 110 32 3.000.000 Bilet
+dtext 380 140 32 3.000.000 Bilet 
+dtext 380 170 32 1.500.000 Bilet
+dtext 380 200 32 750.000 Bilet
+dtext 380 230 32 350.000 Bilet
+dtext 380 260 32 150.000 Bilet
+dtext 380 290 32 50.000 Bilet
+dtext 380 320 32 400.000 Bilet
+dtext 380 350 32 60.000 Bilet
+
+button 135 390 210 211 0 2 0
+dtext 160 390 800 Bilet Transfer
+
+button 30 390 210 211 1 0 20
+dtext 55 390 800 Bilete çevir
+
+dtext 300 390 800 Bilet sayınız : <eval <src.tag0.bilet>>
+
+PAGE 2
+
+resizepic 0 0 2620 530 420
+//checkertrans 5 5 520 410
+
+
+
+dtext 230 20 800 BILET SISTEMI
+dtext 300 390 800 Bilet sayınız : <eval <src.tag0.bilet>>
+
+button 30 390 210 211 1 0 20
+dtext 55 390 800 Bilete çevir
+
+resizepic 90 100 2620 130 35
+dtextentry 97 107 90 20 990 1 0   ////////////// Bilet Miktari
+dtext 230 107 800 Yollayacaginiz miktar
+
+resizepic 90 150 2620 130 35
+dtextentry 97 157 90 20 990 2 0   ////////////// Hesap NO
+dtext 230 157 800 Hesap numarasi
+
+button 325 157 4005 4006 1 0 51
+dtext 360 157 800 Sorgula!  /////////////// Yanlis bisi yapmayak demi gulum ?
+
+button 90 210 4005 4006 1 0 50
+dtext 125 210 800 GONDER         /////////////// Atesini yolla bana ... Musti 10 ya
+
+htmlgump 90 250 345 104 0 1 0
+
+
+Page 3
+resizepic 0 0 2620 530 450
+src.tag0.otr = <EVAL <eval <src.account.totalconnecttime>/60>-<eval <src.account.tag0.connecttimeused>>>
+button 25 50 210 211 1 0 131
+button 25 80 210 211 1 0 132
+button 25 110 210 211 1 0 133
+button 25 140 210 211 1 0 134
+button 25 170 210 211 1 0 135
+button 25 200 210 211 1 0 136
+button 25 230 210 211 1 0 137
+button 25 260 210 211 1 0 138
+button 25 290 210 211 1 0 139
+button 25 320 210 211 1 0 140
+button 25 350 210 211 1 0 141
+button 25 380 210 211 1 0 142
+
+dText 50 50 800 Rare Full Spellbook
+dtext 50 80 800 Rare Runebook
+dtext 50 110 800 150k Para Odulu 
+dtext 50 140 800 Small Ship 
+dtext 50 170 800 300k Odulu
+dtext 50 200 800 Rare Dye
+dtext 50 230 800 Rare Leather Dye
+dtext 50 260 800 Rare Furniture Dye
+dtext 50 290 800 +9 Random Weapon
+dtext 50 320 800 +12 Random Weapon
+dtext 50 350 800 +15 Random Weapon
+dtext 50 380 800 Ostard Egg
+
+dtext 180 20 800 ONLINE HEDIYE SISTEMI
+
+dtext 380 50 32 50 Saat
+dtext 380 80 32 50 Saat
+dtext 380 110 32 100 saat
+dtext 380 140 32 150 saat 
+dtext 380 170 32 200 saat
+dtext 380 200 32 300 saat 
+dtext 380 230 32 300 saat
+dtext 380 260 32 500 saat
+dtext 380 290 32 100 saat
+dtext 380 320 32 350 saat
+dtext 380 350 32 650 saat
+dtext 380 380 32 1500 saat
+
+
+dtext 300 420 800 Toplam Hediye Süreniz : <eval <src.tag0.otr>>
+
+
+[dialog d_hediyestok text]
+Yollayacaginiz miktari girdikten sonra hesap numarasinida giriniz. Hesabinizda olmayan degeri yazarsaniz islem gerceklesmez. Hesap numaranizi ogrenmek icin .hesabim komutunu kullanabilirsiniz.
+
+
+
+
+[dialog d_hediyestok button]
+
+on=131
+if (<src.tag0.otr> >= 50)
+src.account.tag0.connecttimeused += 50
+serv.newitem i_full_spellbook
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @024,3,1 50 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=132
+if (<src.tag0.otr> >= 50)
+src.account.tag0.connecttimeused += 50
+serv.newitem i_runebook
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @024,3,1 50 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=133
+
+if (<src.tag0.otr> >= 100)
+src.account.tag0.connecttimeused += 100
+src.gold += 150000
+src.sys_error 150k para banka hesabiniza eklenmistir.
+src.sysmessage @024,3,1 100 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+on=134
+if (<src.tag0.otr> >= 150)
+src.account.tag0.connecttimeused += 150
+serv.newitem i_deed_ship_small_n
+src.new.bounce
+src.sysmessage @024,3,1 150 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+on=135
+
+if (<src.tag0.otr> >= 200)
+src.account.tag0.connecttimeused += 200
+src.gold += 300000
+src.sys_error 300k para banka hesabiniza eklenmistir.
+src.sysmessage @024,3,1 200 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=136
+if (<src.tag0.otr> >= 300)
+src.account.tag0.connecttimeused += 300
+serv.newitem i_rare_dye_5
+new.tag.doluluk Sinirsiz
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @024,3,1 300 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+
+
+on=137
+if (<src.tag0.otr> >= 300)
+src.account.tag0.connecttimeused += 300
+serv.newitem i_leather_dye_5
+src.new.tag.doluluk Sinirsiz
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @024,3,1 300 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=138
+if (<src.tag0.otr> >= 500)
+src.account.tag0.connecttimeused += 500
+serv.newitem i_furniture_dye_5
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @024,3,1 500 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=139
+if (<src.tag0.otr> >= 100)
+src.account.tag0.connecttimeused += 100
+serv.newitem force_silah
+src.new.bounce
+src.sysmessage @024,3,1 100 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=140
+if (<src.tag0.otr> >= 350)
+src.account.tag0.connecttimeused += 350
+serv.newitem power_silah
+src.new.bounce
+src.sysmessage @024,3,1 350 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+
+on=141
+if (<src.tag0.otr> >= 650)
+src.account.tag0.connecttimeused += 650
+serv.newitem vanq_silah
+src.new.bounce
+src.sysmessage @024,3,1 650 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+on=142
+if (<src.tag0.otr> >= 1500)
+src.account.tag0.connecttimeused += 1500
+serv.newitem i_egg_ostard
+src.new.bounce
+src.sysmessage @024,3,1 1500 saat sürenizi harcadiniz.
+else
+src.sysmessage @,3,1 Yeteri kadar harcayabilecek süreniz bulunmamaktadir.
+endif
+
+on=55
+src.dialog d_hediyestok 3
+on=1
+
+if (<eval <src.tag0.bilet>> < 5000000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 5000000
+newitem i_dye_black_5
+src.act.bounce
+src.sysmessage @07a1 Black Dye Cantanizda.
+return 1
+endif
+
+on=2
+
+if (<eval <src.tag0.bilet>> < 4000000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 4000000
+newitem i_leather_dye_5
+new.tag.doluluk Sinirsiz
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @07a1 Leather Dye Cantanizda.
+return 1
+endif
+
+on=3
+
+if (<eval <src.tag0.bilet>> < 3000000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 3000000
+newitem i_rare_dye_5
+new.tag.doluluk Sinirsiz
+DORAND 12
+	src.new.COLOR 084a
+	src.new.COLOR 084f
+	src.new.COLOR 0453
+	src.new.COLOR 0455
+	src.new.COLOR 0840
+	src.new.COLOR 07d4
+	src.new.COLOR 0846
+	src.new.COLOR 08ad
+	src.new.COLOR 0845
+	src.new.COLOR 04c3
+	src.new.COLOR 04c7
+	src.new.COLOR 0901
+ENDDO
+src.new.bounce
+src.sysmessage @07a1 Rare Dye Cantanizda.
+return 1
+endif
+
+on=4
+
+if (<eval <src.tag0.bilet>> < 3000000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 3000000
+newitem i_furniture_dye_5
+src.act.bounce
+src.sysmessage @07a1 Furniture Dye Cantanizda.
+return 1
+endif
+
+on=5
+if (<eval <src.tag0.bilet>> < 1500000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 1500000
+newitem vanq_silah
+src.act.bounce
+src.sysmessage @07a1 Vanquishing Weapon Cantanizda.
+return 1
+endif
+
+on=6
+if (<eval <src.tag0.bilet>> < 750000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 750000
+newitem power_silah
+src.act.bounce
+src.sysmessage @07a1 Power Weapon Cantanizda.
+return 1
+endif
+
+on=7
+if (<eval <src.tag0.bilet>> < 350000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 350000
+newitem force_silah
+src.act.bounce
+src.sysmessage @07a1 Force Weapon Cantanizda.
+return 1
+endif
+
+on=8
+if (<eval <src.tag0.bilet>> < 150000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 150000
+newitem might_silah
+src.act.bounce
+src.sysmessage @07a1 Might Weapon Cantanizda.
+return 1
+endif
+
+on=9
+if (<eval <src.tag0.bilet>> < 50000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 50000
+newitem ruin_silah
+src.act.bounce
+src.sysmessage @07a1 Ruin Weapon Cantanizda.
+return 1
+endif
+
+on=10
+if (<eval <src.tag0.bilet>> < 750000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 750000
+newitem {i_upgrade_Scroll3 1 i_upgrade_Scroll6 1 i_upgrade_Scroll9 2 i_upgrade_Scroll12 2 i_upgrade_Scroll15 2}
+src.act.bounce
+src.sysmessage @07a1 Upgrade Scroll  Cantanizda.
+return 1
+endif
+
+on=11
+if (<eval <src.tag0.bilet>> < 60000)
+src.sysmessage @,,1 Hesabinizda yeterince bilet bulunmuyor.
+return 1
+else
+src.tag0.bilet -= 60000
+newitem studded_invul
+src.act.bounce
+src.sysmessage @07a1 Invul Set Parcasi  Cantanizda.
+return 1
+endif
+
+on=20
+targetf=biletecevir
+src.sysmessage @,,1 Bilete çevirmek istediginiz esyayi secin.
+return 1
+
+on=50
+if !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 sayı yazmaniz gerekiyor.
+	return 1
+endif
+
+if !<uid.<argtxt[2]>.isplayer>
+src.sysmessage @,,1 Boyle bir hesap bulunamadi...
+return 1
+endif
+
+if (<strsub 0 1 <argtxt[1]>> == 0)
+	src.sysmessage @38,1,1 Ilk rakama 0 yazamazsiniz.
+elseif !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sadece rakam kullanabilirsiniz.
+elseif (<argtxt[1]> < 1)
+	src.sysmessage @38,1,1 Hatali bir rakam girdiniz.
+elseif (<argtxt[1]> > <eval <src.tag0.bilet>>)
+	src.sysmessage @38,1,1 Bilet sayıniz <argtxt[1]> 'den(dan) az.
+else
+src.tag0.bilet -= <argtxt[1]>
+uid.<argtxt[2]>.tag0.bilet += <argtxt[1]>
+uid.<argtxt[2]>.sysmessage @69,,1 Uyari: <src.name> hesabiniza ,<argtxt[1]> bilet aktardi.
+src.sysmessage @69,,1 Aktarim gerceklesti...
+endif
+
+on=51
+if !<uid.<argtxt[2]>.isplayer>
+src.sysmessage @,,1 Boyle bir hesap bulunamadi...
+src.dialog d_hediyestok
+else
+src.sysmessage @69,,1 Hesap numarasina ait kisi : <uid.<argtxt[2]>.name>
+src.dialog d_hediyestok
+endif
+
+[itemdef i_biletstok]
+defname i_biletstok
+id i_gem_star_sapphire
+type=t_normal
+name Bilet
+weight=0
+
+on=@create
+color 07a1
+attr 00004
+
+on=@click
+message @0481 <amount> Bilet
+return 1
+
+/////////////////////////////Atakanooo
+
+[FUNCTION bilettarget]
+
+IF (<ARGS> > 65000)
+src.tag0.bilet += <args>
+endif
+
+IF (<ARGS> > 0)
+//serv.newitem i_biletstok
+src.tag0.bilet += <args>
+src.sysmessage @,,1 <eval <args>> bilet kazandiniz...
+endif
+
+//IF (<ARGS> > 65000)
+//new.amount=650
+//new.bounce
+//bilettarget <eval <ARGS>-<NEW.AMOUNT>>
+//ELSE
+//new.amount=<ARGS>//100
+//new.bounce
+//ENDIF
+//ENDIF
+
+[function biletecevir]
+
+if (strmatch(´<argo.tag0.magicweapon>´,´Ruin´))
+targetf=biletecevir
+bilettarget 3000
+argo.remove
+return 1
+elseif (strmatch(´<argo.tag0.magicweapon>´,´might´))
+targetf=biletecevir
+bilettarget 5000
+argo.remove
+return 1
+elseif (strmatch(´<argo.tag0.magicweapon>´,´Force´))
+targetf=biletecevir
+bilettarget 8000
+argo.remove
+return 1
+elseif (strmatch(´<argo.tag0.magicweapon>´,´Power´))
+targetf=biletecevir
+bilettarget 10000
+argo.remove
+return 1
+elseif (strmatch(´<argo.tag0.magicweapon>´,´Vanquishing´))
+targetf=biletecevir
+bilettarget 12000
+argo.remove
+return 1
+endif
+
+if !(<argo.isitem>)
+sysmessage @70,,1 Bu Bir Esya Degil.
+elseif !(<argo.topobj.uid> == <src.uid>
+sysmessage @70,,1 Sadece Cantanizda Olan Esyalari çevirebilirsiniz
+elseif (<eval <argo.value>*<argo.amount>> > 100000)
+sysmessage @70,,1 Bu item bilete cevrilemez.
+elseif (<argo.type> == t_gold)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.type> == t_reagent)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.type> == T_SCROLL)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.type> == t_figurine)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.type> == t_deed)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif strmatch(*t_food*,<argo.type>)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.baseid> == i_backpack)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.baseid> == i_cotton)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+elseif (<argo.attr>&attr_newbie)
+sysmessage @70,,1 Newbie esyalar bilete cevrilemez.
+elseif !(<argo.value>)
+sysmessage @70,,1 Bu item degersiz.
+elseif (strmatch(´<argo.type>´,´t_potion´)) || (<argo.baseid> == i_potion_animal_relaxing)
+sysmessage @70,,1 Potionlar bilete cevrilemez.
+elseif (<argo.tag0.vendordanaldim> == 1)
+sysmessage @70,,1 Bu item vendordan alinmis. Bilete cevrilemez.
+return 1
+elseif (<argo.baseid> == i_balik)
+sysmessage @70,,1 Bunu bilete çeviremessiniz.
+return 1
+else
+bilettarget <eval <eval <argo.value> + <eval <argo.value>/4>>*<argo.amount>>
+//sysmessage @1153 Satis bedeli : <eval <argo.value>*<argo.amount>>
+targetf=biletecevir
+obj=<argo.uid>
+
+obj.remove
+endif
+
+//////////////////////Leather ve rare boya arsivi cicim :)
+
+[ITEMDEF i_rare_dye_5]
+ID=i_dye_tub
+NAME=rare dye
+TYPE=T_DYE_VAT
+WEIGHT=10
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Rare Dying Tub
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 100.0
+
+ON=@Create
+tag.doluluk Bos //<eval 10000/4*5>
+
+on=@click
+if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+	if (strmatch('<tag.doluluk>','Bos'))
+		message @33,1,1 [ Bos ]
+	elif (<eval <tag.doluluk>> < 100)
+		message @33,1,1 [ Doluluk: % 1 ]
+	else
+		message @33,1,1 [ Doluluk: % <eval <tag.doluluk>/100> ]
+	endif
+else
+	message @33,1,1 [ Limitsiz ]
+endif
+On=@DClick
+if (strmatch('<tag.doluluk>','Bos'))
+	src.sysmessage @33,,1 Boyaniz bitmis, tekrar doldurunuz.
+	return 1
+endif
+
+//if !<tag.doluluk>
+//	tag.doluluk 10000
+//endif
+
+
+
+//if (<src.tailoring> <98.0)
+//src.sysmessage @049,,1 Tailor beceriniz yetmiyor. (98.1)
+//return 1
+//else
+target Boyamak istediginiz giysiyi seciniz...
+return 1
+
+On=@TargOn_Char
+src.sms Bunu Boyayamazsiniz.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+src.sysmessage @066d,3,1 Boyayacaginiz esya uzerinizde olmali.
+elseif !((<src.targ.type> = t_clothing))
+src.sysmessage @066d,3,1 Boya esyanin uzerinden akip gitti.
+return 1
+else
+src.targ.color <color>
+src.targ.update
+if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+tag.doluluk -= 1666
+endif
+if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+	if <tag.doluluk> < 0
+		src.olumsuz1 * Boyaniz bitti *
+		tag.doluluk Bos
+		return 1
+	endif
+endif
+src.sysmessage @33,,1 Biraz boya harcadiniz.
+return 1
+endif
+
+[ITEMDEF i_leather_dye_5]
+ID=i_dye_tub
+NAME=leather dye
+TYPE=T_DYE_VAT
+WEIGHT=10
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Rare Dying Tub
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 100.0
+
+ON=@Create
+tag.doluluk Bos //<eval 10000/4*5>
+
+on=@click
+if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+if (strmatch('<tag.doluluk>','Bos'))
+	message @33,1,1 [ Bos ]
+elif (<eval <tag.doluluk>> < 100)
+	message @33,1,1 [ Doluluk: % 1 ]
+else
+	message @33,1,1 [ Doluluk: % <eval <tag.doluluk>/100> ]
+	
+endif
+else
+	message @33,1,1 [ Limitsiz ]
+endif
+On=@DClick
+if (strmatch('<tag.doluluk>','Bos'))
+	src.sysmessage @33,,1 Boyaniz bitmis, tekrar doldurunuz.
+	return 1
+endif
+
+//if !<tag.doluluk>
+//	tag.doluluk 10000
+//endif
+
+target Boyamak istediginiz deri esyayi seciniz...
+return 1
+
+On=@TargOn_Char
+src.sms Bunu Boyayamazsiniz.
+return 1
+
+On=@TargOn_Item
+if (<eval <src.targ.tag0.boyanmaz>> == 1)
+src.sysmessage @,,1 Bunu boyayamazsiniz.
+return 1
+endif
+
+if !(<src.targ.topobj.uid> == <src.uid>)
+src.sysmessage @066d,3,1 Boyayacaginiz esya uzerinizde olmali.
+elseif !((<src.targ.dispid> == i_leather_cap) || (<src.targ.dispid> == i_leather_gorget) || (<src.targ.dispid> == i_leather_gloves) || (<src.targ.dispid> == i_leather_sleeves) || (<src.targ.dispid> == i_leather_leggings) || (<src.targ.dispid> == i_leather_tunic) || (<src.targ.dispid> == i_studded_gorget) || (<src.targ.dispid> == i_studded_gloves) || (<src.targ.dispid> == i_studded_sleeves) || (<src.targ.dispid> == i_studded_leggings) || (<src.targ.dispid> == i_studded_tunic) || (<src.targ.dispid> == i_armor_female_shorts) || (<src.targ.dispid> == i_armor_female_bustier) || (<src.targ.dispid> == i_armor_female_bustier_studded) || (<src.targ.dispid> == i_armor_female_studded) || (<src.targ.dispid> == i_armor_female_skirt) || ( <src.targ.dispid> == i_armor_female_leather))
+src.sysmessage Bu bir deri esya degil.
+return 1
+else
+src.targ.color <color>
+src.targ.update
+if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+tag.doluluk -= 1666
+endif
+src.sysmessage @33,,1 Biraz boya harcadiniz.
+if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+	if (<tag.doluluk> < 0)
+		src.olumsuz1 * Boyaniz bitti *
+		tag.doluluk Bos
+		return 1
+	endif
+endif
+return 1
+endif
+
+
+[ITEMDEF i_dye_black_5]
+DEFNAME=i_dye_black_5
+name black dye
+id=i_dye_tub
+TYPE=T_DYE_VAT
+WEIGHT=1
+
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Dying Tub
+
+On=@create
+color 01
+
+on=@timer
+return 1
+
+On=@DClick
+//if (<src.tailoring> <98.0)
+//src.sysmessage @049,,1 Tailor beceriniz yetmiyor. (98.1)
+//return 1
+//else
+target Boyamak istediginiz kumasi seciniz...
+return 1
+
+On=@TargOn_Char
+return 1
+
+On=@TargOn_Item
+
+if !(<src.targ.topobj.uid> == <src.uid>)
+src.smg Boyayacaginiz esya uzerinizde olmali.
+elseif !((<src.targ.type> = 01f) || (<src.targ.baseid> == i_bag) || (<src.targ.type> = t_clothing))
+src.smg Bunu boyayamazsiniz.
+return 1
+else
+src.targ.color <color>
+src.targ.update
+endif
+return 1
+
+
+
+[ITEMDEF i_furniture_dye_duzrenk]
+ID=i_dye_tub
+NAME=furniture dye
+TYPE=T_DYE_VAT
+WEIGHT=10
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Rare Dying Tub
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 100.0
+
+ON=@Create
+color 0
+
+
+On=@DClick
+if (<src.carpentry> <98.0)
+src.sysmessage @049,,1 Tailor beceriniz yetmiyor. (98.1)
+return 1
+else
+target Boyamak istediginiz mobilyayi seciniz...
+return 1
+
+On=@TargOn_Char
+src.sms Bunu Boyayamazsiniz.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+src.sysmessage @066d,3,1 Boyayacaginiz esya cantanizda olmali.
+elseif !((<src.targ.type> == t_chair) || (<src.targ.type> == t_container) || (<src.targ.type> == t_table)
+src.sysmessage Bu bir mobilya degil.
+else
+src.targ.color <color>
+src.targ.update
+endif
+return 1
+
+
+
+[ITEMDEF i_furniture_dye_5]
+ID=i_dye_tub
+NAME=furniture dye
+TYPE=T_DYE_VAT
+WEIGHT=10
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Rare Dying Tub
+RESOURCES=50 i_log
+SKILLMAKE=CARPENTRY 100.0
+
+ON=@Create
+DORAND 12
+COLOR 084a
+COLOR 084f
+COLOR 0453
+COLOR 0455
+COLOR 0840
+COLOR 07d4
+COLOR 0846
+COLOR 08ad
+COLOR 0845
+COLOR 04c3
+COLOR 04c7
+COLOR 0901
+
+ENDDO
+
+
+On=@DClick
+if (<src.carpentry> <98.0)
+src.sysmessage @049,,1 Tailor beceriniz yetmiyor. (98.1)
+return 1
+else
+target Boyamak istediginiz mobilyayi seciniz...
+return 1
+
+On=@TargOn_Char
+src.sms Bunu Boyayamazsiniz.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+src.sysmessage @066d,3,1 Boyayacaginiz esya cantanizda olmali.
+elseif !((<src.targ.type> == t_chair) || (<src.targ.type> == t_container) || (<src.targ.type> == t_table)
+src.sysmessage Bu bir mobilya degil.
+else
+src.targ.color <color>
+src.targ.update
+endif
+return 1
+
+
+[ITEMDEF i_rare_leather]
+ID=i_dye_tub
+NAME=Boya
+TYPE=T_DYE_VAT
+WEIGHT=10
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Rare Dying Tub
+
+ON=@Create
+DORAND 12
+COLOR 084a
+COLOR 084f
+COLOR 0453
+COLOR 0455
+COLOR 0840
+COLOR 07d4
+COLOR 0846
+COLOR 08ad
+COLOR 0845
+COLOR 04c3
+COLOR 04c7
+COLOR 0901
+
+ENDDO
+
+On=@DClick
+target Neyi boyamak istiyorsunuz ?
+return 1
+
+On=@TargOn_Char
+src.sms Bunu Boyayamazsiniz.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+src.sysmessage @066d,3,1 Boyayacaginiz esya uzerinizde olmali.
+elseif !((<src.targ.dispid> == i_leather_cap) || (<src.targ.dispid> == i_leather_gorget) || (<src.targ.dispid> == i_leather_gloves) || (<src.targ.dispid> == i_leather_sleeves) || (<src.targ.dispid> == i_leather_leggings) || (<src.targ.dispid> == i_leather_tunic) || (<src.targ.dispid> == i_studded_gorget) || (<src.targ.dispid> == i_studded_gloves) || (<src.targ.dispid> == i_studded_sleeves) || (<src.targ.dispid> == i_studded_leggings) || (<src.targ.dispid> == i_studded_tunic) || (<src.targ.dispid> == i_armor_female_shorts) || (<src.targ.dispid> == i_armor_female_bustier) || (<src.targ.dispid> == i_armor_female_bustier_studded) || (<src.targ.dispid> == i_armor_female_studded) || (<src.targ.dispid> == i_armor_female_skirt) || (<src.targ.type> = t_clothing) || ( <src.targ.dispid> == i_armor_female_leather) || ( <src.targ.baseid> == i_orcs_head))
+src.sysmessage Bunu boyayamazsiniz.
+//elseif ((<src.targ.baseid> == i_elder) || (<src.targ.baseid> == i_pandaman_robe))
+//src.sysmessage @,,1 Tanrilari kizdirmakmi istiyorsun ?
+else
+src.targ.color <color>
+src.targ.update
+endif
+return 1
+
+//// LOTO ////////////
+[ITEMDEF i_LOTO_STONE]
+DEFNAME=i_LOTO_STONE
+NAME=Loto (15K)
+ID=0edc
+TYPE=0
+CATEGORY=AAA
+SUBSECTION=stone
+DESCRIPTION=Loto Stone
+
+on=@create
+color=01A7
+
+on=@click
+message @,,1 Sayısal Loto Çekiliş Bileti
+return 1
+
+ON=@DCLICK
+if <SRC.RESTEST 10000 i_GOLD>
+SRC.CONSUME 10000 i_GOLD
+SRC.NEWITEM=i_LOTTERY_TICKET
+SRC.ACT.BOUNCE
+src.sysmessage @,,1 Tesekkurler!
+SOUND 024a
+return 1
+ELSE
+src.sysmessage @,,1 Çantanızda 10k olmalıdır.
+ENDIF
+return 1
+
+[ITEMDEF i_LOTTERY_TICKET]
+DEFNAME=i_LOTTERY_TICKET
+NAME=Sayisal Loto
+ID=012a9
+TYPE=0
+CATEGORY=Yeniler
+SUBSECTION=Diğer İtemler
+DESCRIPTION=Lottory Stone
+
+on=@create
+COLOR=026
+MOREM={1 1 2 1 3 1 4 1 5 1}
+MORE1={1 1 2 1 3 1 4 1 5 1}
+
+on=@click
+message @,,1 Sayısal Loto Çekilişi
+message @69,1,1 Bilet No : <MOREM><eval {1 5}><eval {1 5}><eval {1 5}><eval {1 5}><eval {1 5}><eval {1 5}>
+return 1
+ON=@DCLICK
+local.hour=<serv.rtime.format %H>
+//if !<src.isgm>
+//IF !(<eval <local.hour>> == 00)
+//	src.sysmessage @,,1 Gece yarısı 00:00 da bilet sonucunuzu öğrenebilirsiniz.
+//	return 1
+//endif
+//endif
+IF <MOREM>==<MORE1>
+src.sys_normal Kazandiniz Tebrikler!
+	if rand(4)==1
+		serv.newitem i_egg_ostard
+		new.bounce
+		REMOVE
+		return 1
+	endif
+	
+	if rand(15)==1
+		serv.newitem i_pet_ostard_desert
+		new.bounce
+		REMOVE
+		return 1
+	endif
+	
+	if rand(15)==1
+		serv.newitem i_pet_ostard_forest
+		new.bounce
+		REMOVE
+		return 1
+	endif
+	
+	if rand(3)==1
+		serv.newitem vanq_silah
+		new.bounce
+		remove
+		return 1
+	endif
+	if rand(2)==1
+		serv.newitem power_silah
+		new.bounce
+		remove
+		return 1
+	endif
+	if rand(2)==1
+		serv.newitem force_silah
+		new.bounce
+		remove
+		return 1
+	endif
+	
+	if rand(2)==1
+		serv.newitem i_crystal_puremagerobe
+		new.bounce
+		remove
+		return 1
+	endif
+	
+	if rand(2)==1
+		serv.newitem i_pet_llama
+		new.bounce
+		remove
+		return 1
+	endif
+	dorand 5
+	src.gold +=100000
+	src.gold +=50000
+	src.gold +=75000
+	src.gold +=150000
+	src.gold +=200000
+	enddo
+	src.sys_normal Para ödülü kazandınız , bankanıza para yatırıldı. 
+	
+	
+	remove
+  
+//SRC.NEWITEM I_GOLD
+//SRC.ACT.AMOUNT 50000
+//SRC.ACT.BOUNCE
+
+RETURN 1
+
+ELSE
+src.sys_error Malesef biletinize amorti bile çıkmadı.
+REMOVE
+RETURN 1
+ENDIF
+
+[eof]

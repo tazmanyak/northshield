@@ -1,0 +1,128 @@
+[CHARDEF C_H_PALADIN]
+DEFNAME=C_H_PALADIN
+NAME=#NAMES_HUMANMALE the Paladin
+ID=C_MAN
+HIREDAYWAGE=75000
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobPaladin
+TSPEECH=jobWarrior
+TSPEECH=jobFighter
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Fighters
+DESCRIPTION=Paladin (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={96 110}
+	DEX={96 110}
+	INT={96 110}
+
+	ARMSLORE={52.0 75.0}
+	FENCING={45.0 68.0}
+	PARRYING={55.0 75.0}
+	SWORDSMANSHIP={65.0 88.0}
+	WRESTLING={55.0 78.0}
+	MACEFIGHTING={45.0 68.0}
+	MAGICRESISTANCE={35.0 55.0}
+	TACTICS={55.0 75.0}
+	HEALING={55.0 75.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_platemail_chest
+	ITEM=i_platemail_leggings
+	ITEM=i_platemail_arms
+	ITEM=i_platemail_gloves
+	ITEM=i_platemail_gorget
+	ITEM=random_helmet
+	ITEM=random_over_armor
+	ITEM=i_shield_kite_metal
+	ITEM=i_sword_viking
+	ITEM=random_boots
+	ITEM=random_coin_purse
+
+
+[CHARDEF C_H_PALADIN_F]
+// female paladins
+DEFNAME=C_H_PALADIN_F
+NAME=#NAMES_HUMANFEMALE the Paladin
+ID=C_WOMAN
+HIREDAYWAGE=80
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobPaladin
+TSPEECH=jobWarrior
+TSPEECH=jobFighter
+TSPEECH=spk_rehello
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Fighters
+DESCRIPTION=Paladin (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={96 110}
+	DEX={96 110}
+	INT={96 110}
+
+	ARMSLORE={52.0 75.0}
+	FENCING={45.0 68.0}
+	PARRYING={55.0 75.0}
+	SWORDSMANSHIP={65.0 88.0}
+	WRESTLING={55.0 78.0}
+	MACEFIGHTING={45.0 68.0}
+	MAGICRESISTANCE={35.0 55.0}
+	TACTICS={55.0 75.0}
+	HEALING={55.0 75.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_platemail_chest
+	ITEM=i_platemail_leggings
+	ITEM=i_platemail_arms
+	ITEM=i_platemail_gloves
+	ITEM=i_platemail_gorget
+	ITEM=random_helmet
+	ITEM=random_over_armor
+	ITEM=i_shield_kite_metal
+	ITEM=i_sword_viking
+	ITEM=random_boots
+	ITEM=random_coin_purse
+[EOF]

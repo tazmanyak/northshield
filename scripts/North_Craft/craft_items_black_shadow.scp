@@ -1,0 +1,45 @@
+[defname def_black_shadow_items]
+// total page
+blacksmith_shadow_pagesum	4
+// platemail
+blacksmith_shadow_0_1		i_platemail_leggings_shadow
+blacksmith_shadow_1_1		i_platemail_chest_shadow
+blacksmith_shadow_2_1		i_platemail_arms_shadow
+blacksmith_shadow_3_1		i_PLATE_HELM_SHADOW
+blacksmith_shadow_4_1		i_platemail_gorget_shadow
+blacksmith_shadow_5_1		i_platemail_gloves_shadow
+blacksmith_shadow_6_1		i_shield_heater_shadow
+blacksmith_shadow_7_1		i_ringmail_gloves_shadow
+blacksmith_shadow_8_1		i_ringmail_leggings_shadow
+blacksmith_shadow_9_1		i_ringmail_sleeves_shadow
+blacksmith_shadow_10_1		i_ringmail_tunic_shadow
+
+blacksmith_shadow_11_1		i_chainmail_coif_shadow
+blacksmith_shadow_12_1		i_chainmail_leggings_shadow
+blacksmith_shadow_13_1		i_chainmail_tunic_shadow
+// swords
+blacksmith_shadow_0_2		i_katana_shadow
+blacksmith_shadow_1_2		i_scimitar_shadow
+blacksmith_shadow_2_2		i_cutlass_shadow
+blacksmith_shadow_3_2		i_bardiche_shadow
+blacksmith_shadow_4_2		i_halberd_shadow
+blacksmith_shadow_5_2		i_sword_long_shadow
+blacksmith_shadow_6_2		i_sword_viking_shadow
+blacksmith_shadow_7_2		i_sword_broad_shadow
+
+// fence
+blacksmith_shadow_0_3		i_dagger_shadow
+blacksmith_shadow_1_3		i_kryss_shadow
+blacksmith_shadow_2_3		i_pitchfork_shadow
+blacksmith_shadow_3_3		i_spear_shadow
+blacksmith_shadow_4_3		i_spear_short_shadow
+blacksmith_shadow_5_3		i_war_fork_shadow
+// mace
+blacksmith_shadow_0_4		i_axe_war_shadow
+blacksmith_shadow_1_4		i_hammer_pick_shadow
+//blacksmith_shadow_2_4		i_hammer_war_shadow
+blacksmith_shadow_2_4		i_maul_shadow
+blacksmith_shadow_3_4		i_mace_shadow
+blacksmith_shadow_4_4		i_mace_war_shadow
+blacksmith_shadow_5_4		i_helm_closed_shadow
+[EOF]

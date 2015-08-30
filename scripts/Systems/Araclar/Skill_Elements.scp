@@ -1,0 +1,489 @@
+[chardef c_apperelem]
+id=c_man
+name=Skill Elemental
+ARMOR=0
+can=mt_nonmover
+RESOURCES=9 i_reag_bone
+FOODTYPE=15 t_meat_raw
+//TEVENTS=e_dragon
+
+ON=@CREATE
+color 0794
+str=310
+dex=0
+int=100
+tactics 300
+karma= 0
+return 1
+
+on=@attack
+return 1
+
+on=@gethit
+hits 310
+if (<flags> &statf_poisoned)
+//sayua 048,6,6,0 * Zehiri Iyilestirir *
+sound snd_spell_cure
+findid.i_rune_poison.remove
+endif
+
+if rand(20)==1
+	dorand 10
+	message @,,1 Dayak yemekten ciğerim soldu...
+	message @,,1 Tamam anladık acemisin dahada bukadar da eziyet edilmezki.
+	message @,,1 Tamam anladık esiriz de bizdeki de can. 
+	message @,,1 Yiterr, vurma daha.
+	message @,,1 Gel bak seninle anlaşalım vurma bana, Ahhh senin...
+	message @,,1 Bizim canımız yanmaz gardaş....
+	message @,,1 Kendini çok iyi sanıyorsun fakat burdan bir kurtulursam...
+	message @,,1 Buraya gelip beni dövmek için sana paramı veriyorlar...
+	message @,,1 Murtaza'yı Britte soymasaydım buralara düşmücektim...
+	message @,,1 Kader utansın. Yeni yetmelerden dayak yiyoz.
+	enddo
+endif
+
+
+on=@damage
+
+
+on=@hit
+
+
+//on=@skillstart
+//return 1
+
+//on=@skillgain
+//return 1
+
+ON=@CLICK
+//message @066d,20 [ North Uo ]
+message @0790 Skill Elemental
+return 1
+
+[chardef c_thiefelem]
+id=c_man
+name=Snooping Elemental
+ARMOR=0
+can=mt_nonmover
+RESOURCES=9 i_reag_bone
+FOODTYPE=15 t_meat_raw
+//TEVENTS=e_dragon
+
+ON=@CREATE
+color 0794
+str=3
+dex=0
+int=1
+hits 340
+allskills 0
+karma= 0
+itemnewbie i_gold
+return 1
+
+on=@gethit
+hits 340
+return 1
+
+on=@damage
+return 1
+
+on=@hit
+return 1
+
+ON=@CLICK
+//message @066d,20 [ North Uo ]
+message @0790 Snopping Elemental
+hits 120
+if (<findid.i_gold>)
+findid.i_gold.dupe 10
+return 1
+
+[chardef c_healelem]
+id=c_man
+name=Healing Elemental
+ARMOR=0
+RESOURCES=9 i_reag_bone
+FOODTYPE=15 t_meat_raw
+can mt_equip|mt_nonmover
+//TEVENTS=e_dragon
+
+ON=@CREATE
+color 0794
+str=30000
+dex=0
+int=100
+hits 1
+allskills 0
+karma= 0
+return 1
+
+on=@gethit
+hits 1
+return 1
+
+on=@damage
+return 1
+
+on=@hit
+return 1
+
+ON=@CLICK
+//message @066d,20 [ North Uo ]
+message @0790,20 Healing Dummy
+hits 120
+return 1
+
+[EVENTS e_poison_immune] // Sadece In nox u resist eder
+ON=@SpellEffect
+If (rand(3) == 1)
+If (<argn>==20)
+SAYUA 020,0,0,0 * etkilenmez *
+return 1
+endif
+endif
+
+ON=@Gethit
+IF <RESTEST i_rune_poison>
+SPELLEFFECT=s_cure,150.0,1
+endif
+findid.i_rune_poison.remove
+findid.i_bleeding.remove
+findid.i_bleeding2.remove
+
+[EVENTS e_poison_immune_plus] // Her Turlu Poisondan Kurtulur
+ON=@SPELLEFFECT
+If (rand(3) == 1)
+If (<argn>==20) || (<argn>==39)
+SAYUA 020,0,0,0 * etkilenmez *
+return 1
+endif
+endif
+
+ON=@Gethit
+IF <RESTEST i_rune_poison>
+SPELLEFFECT=s_cure,150.0,1
+endif
+
+[chardef c_veteriner]
+id=c_ostard_desert
+name=Veterinary Elemental
+ARMOR=0
+RESOURCES=9 i_reag_bone
+FOODTYPE=15 t_meat_raw
+can mt_equip|mt_nonmover
+//TEVENTS=e_dragon
+
+ON=@CREATE
+color 0794
+str=30000
+dex=0
+int=100
+hits 1
+allskills 0
+karma= 0
+TAMING=999.9
+return 1
+
+on=@gethit
+return 1
+
+
+on=@damage
+return 1
+
+on=@hit
+return 1
+
+ON=@CLICK
+//message @066d,20 [ North Uo ]
+message @0790,20 Veterinary Dummy
+hits 120
+return 1
+
+[EVENTS e_poison_immune] // Sadece In nox u resist eder
+ON=@SpellEffect
+If (rand(3) == 1)
+If (<argn>==20)
+SAYUA 020,0,0,0 * etkilenmez *
+return 1
+endif
+endif
+
+[EVENTS e_poison_immune_plus] // Her Turlu Poisondan Kurtulur
+ON=@SPELLEFFECT
+If (rand(3) == 1)
+If (<argn>==20) || (<argn>==39)
+SAYUA 020,0,0,0 * etkilenmez *
+return 1
+endif
+endif
+
+ON=@Gethit
+IF <RESTEST i_rune_poison>
+SPELLEFFECT=s_cure,150.0,1
+endif
+
+
+[ITEMDEF i_skillalanicikis]
+defname i_skillalanicikis
+name Skill Alani
+id i_moongate_red
+type t_eq_script
+
+on=@create
+attr 010
+color 0810
+return 1
+
+on=@click
+message @0481 Alandan Cikis
+return 1
+
+on=@step
+src.sysmessage @0481 Gateye Cift Tiklayiniz.
+
+on=@dclick
+src.events -e_skillkas
+src.go britain
+src.sysmessage @0481 Britain'yaya hos geldiniz.
+
+[ITEMDEF i_skillalani]
+defname i_skillalani
+name Skill Alani
+id i_moongate_red
+type t_eq_script
+
+on=@create
+attr 010
+color 0810
+return 1
+
+on=@click
+//message @50,1,1 [Dummy Alani]
+message @0481 550 Skill Cap Limitli
+return 1
+
+on=@step
+src.sysmessage @0481 Gateye Cift Tiklayiniz.
+
+on=@dclick
+if (<src.findlayer.25>)
+src.sysmessage @55,,1 Binekle giremezsiniz.
+return 1
+endif
+forchars 10
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.sysmessage @55,,1 Etrafta binegin varken bu alana giremessin.
+return 1
+endif
+endif
+endfor
+//src.sysmessage @69,1,1 Bu alana girebilmeniz icin gold uye olmaniz gereklidir.
+//if (<src.isevent.e_gold>)
+if (<src.skilltotal> <550.0)
+src.go 1395,3741,-21
+src.events +e_skillkas
+src.message @0790 Skill Alanina Hos Geldiniz
+else
+src.sysmessage @0790 Skill cap limitiniz dolmus. //Gold uye degilsiniz ya da
+return 1
+endif
+
+
+
+
+[events e_gold]
+
+on=@click
+message @50 [ Pre Gold Uye ]
+
+
+[events e_skillkas]
+on=@click
+message @69,1,1 [ Dummy Alani ]
+
+
+on=@attack
+if (<act.isplayer>)
+skill fail
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+
+on=@hittry
+if (<act.isplayer>)
+skill fail
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+
+on=@spellcast
+if (<act.isplayer>)
+if !((<ARGN>==4) || (<ARGN>==6) || (<ARGN>==7) || (<ARGN>==15) || (<ARGN>==17) || (<ARGN>==29))
+f_fizzle
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+endif
+IF (<ARGN>==24) || (<ARGN>=49) || (<ARGN>==33) || (<ARGN>==57) || (<ARGN>==43) || (<ARGN>==58) || (<ARGN>==28) || (<ARGN>==59) || (<ARGN>==39) || (<ARGN>==47) || (<ARGN>==50) || (<ARGN>==60) || (<ARGN>==61) || (<ARGN>==62) || (<ARGN>==63) || (<ARGN>==64) || (<ARGN>==45) || (<ARGN>==57) || (<ARGN>==55)
+sysmessage 
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage  
+src.sysmessage @07a1,1,1 Bu alanda bu buyuyu kullanamazsiniz.
+f_fizzle
+return 1
+endif
+
+
+on=@skillstart
+if ((<action> == id(skill_stealing)) || (<action> == skill_stealing)) // stealing fix
+skill fail
+sysmessage 
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage 
+src.sysmessage @07a1,1,1 Bu alanda bu beceriyi kullanamazsiniz.
+return 1
+endif
+
+on=@ItemDclick
+if (<act.baseid> == i_runebook)
+sysmessage @38,,1 Bu Alaninda Kullanamassiniz....
+return 1
+endif
+if (<act.baseid> == i_shrink_deed) || (<act.type> == t_figurine)
+sysmessage @38,,1 Bu alanda binege binemessiniz.
+return 1
+endif
+
+on=@Atack
+if (<act.isplayer>)
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+
+On=@hit
+if (<act.isplayer>)
+skill fail
+sysmessage 
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage 
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+
+[chardef c_tactic]
+id=c_cow_brown
+name=Skill Elemental
+ARMOR=0
+RESOURCES=9 i_reag_bone
+FOODTYPE=15 t_meat_raw
+can mt_equip|mt_nonmover
+//TEVENTS=e_dragon
+
+ON=@Create
+newitem i_heal_elem_bot
+new.equip
+color 0794r
+
+STR={400 500}
+DEX={0 0}
+INT={6 10}
+
+PARRYING={35.0 45.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+TAMING=999.0
+ANIMALLORE=999.0
+
+karma 0
+
+on=@attack
+return 1
+
+on=@gethit
+hits 610
+
+on=@damage
+
+
+on=@hit
+
+ON=@CLICK
+//message @066d,20 [ North Uo ]
+message @0790,20 Tactics Dummy
+return 1
+
+
+[itemdef i_heal_elem_bot] 
+id=i_boots_calf
+type=t_eq_script 
+name=Hp Dusurucu
+
+on=@create 
+attr 080 
+timer 1
+
+on=@Equip
+timer 1
+
+on=@timer
+cont.hits 1
+timer 2
+return 1
+
+[itemdef i_gold_timer] 
+id=i_memory 
+type=t_eq_script 
+name=Gold
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+
+on=@Equip
+timer 7200
+cont.events +e_gold
+cont.message @0484 2 Saatligine Gold Uyesiniz.
+
+on=@timer
+cont.events -e_gold
+cont.events -e_skillkas
+cont.message @0484 Gold Uyelik : Sureniz Dolmustur.
+cont.go Britain
+remove
+
+
+
+[eof]

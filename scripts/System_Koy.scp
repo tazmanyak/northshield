@@ -1,0 +1,649 @@
+﻿[function koy_alan]
+targetf f_koy_alan <argn>
+
+[function f_koy_alan]
+if <argn> != 5
+src.ctag.koy_alan_<argn> <argo.uid>
+else
+	for x 1 4
+		argo.tag.koy_alan_<dlocal.x> <src.ctag.koy_alan_<dlocal.x>>
+	endfor
+endif
+
+[function koy_region_ver]
+targetf f_koy_region_ver
+src.sys_error Köy taşını seçin.
+
+[function f_koy_region_ver]
+src.region.tag.koyuid <argo.uid>
+
+[DIALOG d_koy_kontrol]
+0,0
+page 0
+resizepic 38 5 9200 386 344
+resizepic 67 100 9200 159 116
+resizepic 238 101 9200 159 116
+resizepic 238 225 9200 159 116
+resizepic 67 223 9200 159 116
+button 90 149 2445 2445 1 0 1
+text 119 151 69 0
+button 263 147 2445 2445 1 0 2
+text 292 149 69 1
+button 91 275 2445 2445 1 0 3
+text 120 277 69 2
+text 119 151 69 3
+button 262 276 2445 2445 1 0 4
+text 291 278 69 4
+resizepic 151 20 9200 210 31
+tilepic 63 7 13905
+text 182 27 69 5
+text 126 62 0 6
+
+[DIALOG d_koy_kontrol text]
+BÖLGE 1
+BÖLGE 2
+BÖLGE 3
+BÖLGE 1
+BÖLGE 4
+Köy Alan Kontrol Paneli
+Lütfen erişmek istediğiniz alanı seçiniz.
+
+[DIALOG d_koy_kontrol button]
+ON=0
+// Button 1
+// 
+
+ON=1 4
+try uid.<tag.koy_alan_<argn>>.sdialog d_house_information
+src.sys_normal Erişim yapılan bölge : <argn>
+
+
+
+
+
+
+
+[events e_koy_uye]
+on=@click
+message @048,,1 [<uid.<tag.koyuid>.name> Köyü]
+
+[events e_koy_sahip]
+on=@click
+message @048,,1 [<uid.<tag.koyuid>.name> Muhtar]
+
+
+[itemdef i_koyden_atici]
+name=koyden atici
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+on=@create
+attr attr_decay || attr_invis || attr_newbie
+
+
+on=@equip 
+timer 0
+
+on=@timer
+cont.go 1888 1033
+remove
+return 1
+
+[itemdef i_koy_uyemiolcan]
+id i_gold
+weight 0
+type t_eq_script
+layer layer_special
+
+on=@unequip
+try src.dialog d_koy_uyeolcanmi
+
+on=@create
+timer 1
+
+on=@timer
+remove
+return 1
+
+[itemdef i_koy_uyeal]
+weight 0
+type t_eq_script
+layer layer_special
+
+on=@equip
+target
+
+on=@create
+timer 10
+
+on=@timer
+remove
+return 1
+
+on=@targon_char
+IF (<src.targ.npc>)
+
+src.sys_error Lütfen sadece oyuncuları seçin.
+return 1
+ELSEIF (<src.targ.uid>==<src.uid>)
+src.sys_error Kendinizi seçemezsiniz.
+return 1
+ELSEIF (<src.targ.isevent.e_koy_uye>)
+
+src.sys_error Seçtiğiniz kişi zaten bir köye üye.
+return 1
+ELSE
+argo.ctag.koyuid <tag.koyuid>
+src.sys_error <src.targ.name> isimli kişinin davetinizi kabul etmesi bekleniyor.
+src.newitem i_koy_uyemiolcan
+src.act.cont <src.targ.uid>
+src.act.timer 1
+return 1
+ENDIF
+
+on=@targon_item
+src.sms Lütfen sadece oyuncuları seçin.
+return 1
+
+[DIALOG d_koy_uyeolcanmi]
+100, 100
+PAGE 0
+
+resizepic 0 0 2620 500 130
+checkertrans 0 0 500 130
+
+text 40 16 1168 0
+text 73 48 1152 1
+text 73 70 1152 2
+
+button 38 48 4006 4007 1 0 1
+button 38 70 4006 4007 1 0 2
+
+
+[DIALOG d_koy_uyeolcanmi TEXT]
+<uid.<ctag.koyuid>.name> köyü üyelik teklifini kabul ediyor musunuz?
+Kabul Et
+Reddet
+
+[DIALOG d_koy_uyeolcanmi BUTTON]
+on=0
+return 1
+on=1
+
+if (<src.isevent.e_koy_uye>)
+	src.sys_error Zaten Köy Üyesisin.
+	return 1
+else
+	if (<uid.<ctag.koyuid>.morey> > 51)
+	src.sys_error <uid.<ctag.koyuid>.name> Köyünün üye limiti dolmuş.
+else
+local.loop 0
+	for x 1 50
+		if (strmatch('<uid.<ctag.koyuid>.tag0.uye<dlocal.x>>','Bos')
+			uid.<ctag.koyuid>.tag0.uye<dlocal.x>=<src.name>
+			uid.<ctag.koyuid>.tag0.uyeuid<dlocal.x>=<src.uid>
+			uid.<ctag.koyuid>.morey += 1
+			src.events +e_koy_uye
+			src.tag.koyuid <ctag.koyuid>
+			src.sys_error Artık <uid.<ctag.koyuid>.name> köyünün bir üyesisiniz.
+			local.loop 1
+			return 1
+		endif
+		if <dlocal.loop>
+			return 1
+		endif
+	endfor
+on=2
+src.sys_error Üyelik teklifini reddettiniz.
+
+[itemdef i_koy_stone]
+id i_gravestone
+name Koy
+
+on=@create
+color 0fa1
+morey 1
+for x 1 50
+	tag0.uye<dlocal.x> Bos
+endfor
+
+
+on=@click
+message @048,,1 [<name> Köyü]
+message @0bb7,,1 [<morey> Üye]
+return 1
+
+on=@dclick
+//if !<tag.ucret_odendi>
+//	src.sys_error Köy ücreti ödenmediği için şuan kullanamazsiniz. Yetkiliye ulaşınız.
+//	return 1
+//endif
+if (<distance> > 3)
+src.sms Lütfen köy taşına yaklaşın.
+return 1
+else
+if strmatch("<tag.koysahip>","<src.uid>") || (<src.account.plevel> == 7)
+sdialog d_koy_sahip
+return 1
+else
+sdialog d_koy_uyeliste
+return 1
+endif
+endif
+
+on=@timer
+tag.ucret_odendi
+uid.<tag.koysahip>.notice Köyünüzün süresi <serv.rtime> tarihinde sona ermiştir. Lütfen yeni dönem ödemesini gerçekleştirip yetkiliye ulaşınız.
+timer -1
+return 1
+endif
+
+
+[dialog d_koy_sahip]
+150,150
+
+resizepic 0 0 2620 300 230
+checkertrans 0 0 300 230
+
+text 25 15 1152 0
+text 75 53 1152 1
+text 75 73 1152 2
+text 75 93 1152 3
+text 75 113 1152 4
+text 25 133 1152 5
+text 25 153 1152 6
+text 25 173 1152 7
+text 200 53 1152 8
+
+button 38 50 4006 4005 1 0 1
+button 38 70 4006 4005 1 0 2
+button 38 90 4006 4005 1 0 3
+button 38 110 4006 4005 1 0 4
+button 160 50 4006 4005 1 0 5
+[DIALOG d_koy_sahip TEXT]
+Köy Kontrol Paneli
+Üye al
+Üye çıkar
+Üye listesi
+Köy ismi (Şuan: <name>)
+Toplam Üye: <morey>
+Köy Sahibi: <src.name>
+Ödeme (Aylık): "<tag.odeme.tarih>"
+Tasarım-İzin
+//Dönem Borcunuz: //<eval <tag.odeme_tl>> TL
+
+[DIALOG d_koy_sahip BUTTON]
+on=0
+src.sms Köy başkanı menüsü kapatıldı.
+on=1
+if (<morey> > 51)
+src.sys_error Köyünüzün üye limiti dolmuş.
+return 1
+else
+src.sysmessage @048,,1 Köyünüze almak istediğiniz kişiyi seçin.
+serv.newitem i_koy_uyeal
+new.tag.koyuid <uid>
+src.new.equip
+endif
+on=2
+if (<morey> == 1)
+src.sys_error Köyden atılacak üye yok.
+return 1
+else
+sdialog d_koy_uyeat
+endif
+on=3
+if (<morey> == 1)
+src.sys_error Köyde üye olmadığı için kullanamazsınız.
+return 1
+else
+sdialog d_koy_uyeliste
+endif
+on=4
+sdialog d_koy_isimdegis
+
+on=5
+sdialog d_koy_kontrol
+
+[dialog d_koy_isimdegis]
+100,50
+resizepic 190 175 3600 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+
+htmlgump 220 200 290 20 0 0 0		// ba$lik
+htmlgump 255 277 100 20 1 0 0		// ok
+button 220 275 4006 4007 1 0 1		// ok b
+htmlgump 435 277 100 20 2 0 0		// cancel
+button 400 275 4018 4019 1 0 0		// cancel b
+textentry 225 237 253 25 0 0 3		// isim buraya
+
+[dialog d_koy_isimdegis TEXT]
+Köyünüzün yeni ismini giriniz.
+Tamam
+Vazgeç
+<name>
+
+[dialog d_koy_isimdegis BUTTON]
+On=0
+src.sys_error İsim değiştirme işlemini iptal ettiniz.
+on=1
+if (<distance> < 3)
+name <argtxt[0]>
+src.sys_error Köyünüzün yeni ismi <name> olarak düzenlenmiştir.
+return 1
+else
+src.sys_error Köy taşına yeterince yakın değilsiniz.
+return 1
+endif
+
+[dialog d_koy_uyeliste]
+0,0
+
+resizepic 0 0 2620 600 600
+checkertrans 0 0 600 600
+
+
+text 25 10 1168 0
+text 25 30 1152 1
+text 25 50 1152 2
+text 25 70 1152 3
+text 25 90 1152 4
+text 25 110 1152 5
+text 25 130 1152 6
+text 25 150 1152 7
+text 25 170 1152 8
+text 25 190 1152 9
+text 25 210 1152 10
+text 25 230 1152 11
+text 25 250 1152 12
+text 25 270 1152 13
+text 25 290 1152 14
+text 25 310 1152 15
+text 25 330 1152 16
+text 25 350 1152 17
+text 25 370 1152 18
+text 25 390 1152 19
+text 25 410 1152 20
+text 25 430 1152 21
+text 25 450 1152 22
+text 25 470 1152 23
+text 25 490 1152 24
+text 25 510 1152 25
+text 325 30 1152 26
+text 325 50 1152 27
+text 325 70 1152 28
+text 325 90 1152 29
+text 325 110 1152 30
+text 325 130 1152 31
+text 325 150 1152 32
+text 325 170 1152 33
+text 325 190 1152 34
+text 325 210 1152 35
+text 325 230 1152 36
+text 325 250 1152 37
+text 325 270 1152 38
+text 325 290 1152 39
+text 325 310 1152 40
+text 325 330 1152 41
+text 325 350 1152 42
+text 325 370 1152 43
+text 325 390 1152 44
+text 325 410 1152 45
+text 325 430 1152 46
+text 325 450 1152 47
+text 325 470 1152 48
+text 325 490 1152 49
+text 325 510 1152 50
+
+
+[dialog d_koy_uyeliste text]
+Üye Listesi
+<tag0.uye1>
+<tag0.uye2>
+<tag0.uye3>
+<tag0.uye4>
+<tag0.uye5>
+<tag0.uye6>
+<tag0.uye7>
+<tag0.uye8>
+<tag0.uye9>
+<tag0.uye10>
+<tag0.uye11>
+<tag0.uye12>
+<tag0.uye13>
+<tag0.uye14>
+<tag0.uye15>
+<tag0.uye16>
+<tag0.uye17>
+<tag0.uye18>
+<tag0.uye19>
+<tag0.uye20>
+<tag0.uye21>
+<tag0.uye22>
+<tag0.uye23>
+<tag0.uye24>
+<tag0.uye25>
+<tag0.uye26>
+<tag0.uye27>
+<tag0.uye28>
+<tag0.uye29>
+<tag0.uye30>
+<tag0.uye31>
+<tag0.uye32>
+<tag0.uye33>
+<tag0.uye34>
+<tag0.uye35>
+<tag0.uye36>
+<tag0.uye37>
+<tag0.uye38>
+<tag0.uye39>
+<tag0.uye40>
+<tag0.uye41>
+<tag0.uye42>
+<tag0.uye43>
+<tag0.uye44>
+<tag0.uye45>
+<tag0.uye46>
+<tag0.uye47>
+<tag0.uye48>
+<tag0.uye49>
+<tag0.uye50>
+
+[dialog d_koy_uyeliste button]
+
+[dialog d_koy_uyeat]
+0,0
+resizepic 0 0 2620 600 600
+checkertrans 0 0 600 600
+
+text 200 10 1168 0
+text 30 30 1152 1
+text 30 50 1152 2
+text 30 70 1152 3
+text 30 90 1152 4
+text 30 110 1152 5
+text 30 130 1152 6
+text 30 150 1152 7
+text 30 170 1152 8
+text 30 190 1152 9
+text 30 210 1152 10
+text 30 230 1152 11
+text 30 250 1152 12
+text 30 270 1152 13
+text 30 290 1152 14
+text 30 310 1152 15
+text 30 330 1152 16
+text 30 350 1152 17
+text 30 370 1152 18
+text 30 390 1152 19
+text 30 410 1152 20
+text 30 430 1152 21
+text 30 450 1152 22
+text 30 470 1152 23
+text 30 490 1152 24
+text 30 510 1152 25
+text 330 30 1152 26
+text 330 50 1152 27
+text 330 70 1152 28
+text 330 90 1152 29
+text 330 110 1152 30
+text 330 130 1152 31
+text 330 150 1152 32
+text 330 170 1152 33
+text 330 190 1152 34
+text 330 210 1152 35
+text 330 230 1152 36
+text 330 250 1152 37
+text 330 270 1152 38
+text 330 290 1152 39
+text 330 310 1152 40
+text 330 330 1152 41
+text 330 350 1152 42
+text 330 370 1152 43
+text 330 390 1152 44
+text 330 410 1152 45
+text 330 430 1152 46
+text 330 450 1152 47
+text 330 470 1152 48
+text 330 490 1152 49
+text 330 510 1152 50
+button 15 32 2117 2118 1 0 1
+button 15 52 2117 2118 1 0 2
+button 15 72 2117 2118 1 0 3
+button 15 92 2117 2118 1 0 4
+button 15 112 2117 2118 1 0 5
+button 15 132 2117 2118 1 0 6
+button 15 152 2117 2118 1 0 7
+button 15 172 2117 2118 1 0 8
+button 15 192 2117 2118 1 0 9
+button 15 212 2117 2118 1 0 10
+button 15 232 2117 2118 1 0 11
+button 15 252 2117 2118 1 0 12
+button 15 272 2117 2118 1 0 13
+button 15 292 2117 2118 1 0 14
+button 15 312 2117 2118 1 0 15
+button 15 332 2117 2118 1 0 16
+button 15 352 2117 2118 1 0 17
+button 15 372 2117 2118 1 0 18
+button 15 392 2117 2118 1 0 19
+button 15 412 2117 2118 1 0 22
+button 15 432 2117 2118 1 0 21
+button 15 452 2117 2118 1 0 22
+button 15 472 2117 2118 1 0 23
+button 15 492 2117 2118 1 0 24
+button 15 512 2117 2118 1 0 25
+button 315 32 2117 2118 1 0 26
+button 315 52 2117 2118 1 0 27
+button 315 72 2117 2118 1 0 28
+button 315 92 2117 2118 1 0 29
+button 315 112 2117 2118 1 0 30
+button 315 132 2117 2118 1 0 31
+button 315 152 2117 2118 1 0 32
+button 315 172 2117 2118 1 0 33
+button 315 192 2117 2118 1 0 34
+button 315 212 2117 2118 1 0 35
+button 315 232 2117 2118 1 0 36
+button 315 252 2117 2118 1 0 37
+button 315 272 2117 2118 1 0 38
+button 315 292 2117 2118 1 0 39
+button 315 312 2117 2118 1 0 40
+button 315 332 2117 2118 1 0 41
+button 315 352 2117 2118 1 0 42
+button 315 372 2117 2118 1 0 43
+button 315 392 2117 2118 1 0 44
+button 315 412 2117 2118 1 0 45
+button 315 432 2117 2118 1 0 46
+button 315 452 2117 2118 1 0 47
+button 315 472 2117 2118 1 0 48
+button 315 492 2117 2118 1 0 49
+button 315 512 2117 2118 1 0 50
+
+[dialog d_koy_uyeat text]
+Üye Listesi - Üye Atma İşlemi
+<tag0.uye1>
+<tag0.uye2>
+<tag0.uye3>
+<tag0.uye4>
+<tag0.uye5>
+<tag0.uye6>
+<tag0.uye7>
+<tag0.uye8>
+<tag0.uye9>
+<tag0.uye10>
+<tag0.uye11>
+<tag0.uye12>
+<tag0.uye13>
+<tag0.uye14>
+<tag0.uye15>
+<tag0.uye16>
+<tag0.uye17>
+<tag0.uye18>
+<tag0.uye19>
+<tag0.uye20>
+<tag0.uye21>
+<tag0.uye22>
+<tag0.uye23>
+<tag0.uye24>
+<tag0.uye25>
+<tag0.uye26>
+<tag0.uye27>
+<tag0.uye28>
+<tag0.uye29>
+<tag0.uye30>
+<tag0.uye31>
+<tag0.uye32>
+<tag0.uye33>
+<tag0.uye34>
+<tag0.uye35>
+<tag0.uye36>
+<tag0.uye37>
+<tag0.uye38>
+<tag0.uye39>
+<tag0.uye40>
+<tag0.uye41>
+<tag0.uye42>
+<tag0.uye43>
+<tag0.uye44>
+<tag0.uye45>
+<tag0.uye46>
+<tag0.uye47>
+<tag0.uye48>
+<tag0.uye49>
+<tag0.uye50>
+
+[dialog d_koy_uyeat button]
+on=0
+src.sms Üye atma islemini iptal ettiniz.
+on=1 50
+if !(strmatch('<tag0.uye<argn>>','Bos')
+src.sys_error Seçtiğiniz kişinin köy üyeliğini sonlandırdınız.
+tag0.uye<argn>=Bos
+morey -= 1
+try uid.<uid.<tag0.uyeuid<argn>>>.events=-e_koy_uye
+try uid.<uid.<tag0.uyeuid<argn>>>.tag.koyuid
+try uid.<uid.<uyeuid<argn>>>.notice <name> Köyünün üyeleri arasından çıkarıldınız.
+tag0.uyeuid<argn>=0
+else
+src.sys_error Bu slot boş.
+return 1
+endif
+
+
+[function f_koyden_at]
+if <argo.region.tag.koyburasi>
+	if !(strmatch("<argo.region.tag.koyuid>","<argo.tag.koyuid>"))
+		argo.go <argo.region.tag.koydenat>
+		src.tag.i_ban_thee 1
+		src.timerf 5, src.tag.i_ban_thee
+	else
+		src.sys_error Bu kişi bir köy üyesi.
+	endif
+else
+	src.sys_error Atmak istediğiniz kişi köy içerisinde değil.
+endif
+
+[f_koyden_atx]
+[EOF]

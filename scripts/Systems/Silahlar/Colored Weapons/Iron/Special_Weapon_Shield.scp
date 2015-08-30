@@ -1,0 +1,35 @@
+[ITEMDEF i_shield_north]
+NAME=North Shield
+ID=02B01
+ARMOR=28
+REQSTR=90
+WEIGHT=8
+TEVENTS=t_shield_special
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=North Shield
+DESCRIPTION=Kite Shield
+RESOURCES=100 i_ingot_shadow,100 i_ingot_silver
+SKILLMAKE=BLACKSMITHING 100.0
+
+ON=@Create
+//COLOR=2985
+HITPOINTS=50 //=100
+
+[function fix_north_shield]
+forinstances i_shield_north
+	id 02B01
+	color 0
+	update
+endfor
+[typedef t_shield_special]
+
+
+on=@equip
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+src.events +e_Special_Pulse
+
+on=@unequip
+src.events -e_Special_Pulse
+[EOF]

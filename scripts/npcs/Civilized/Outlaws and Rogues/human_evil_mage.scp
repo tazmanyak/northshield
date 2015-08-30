@@ -1,0 +1,118 @@
+[CHARDEF C_H_EVILMAGE]
+DEFNAME=C_H_EVILMAGE
+NAME=#NAMES_HUMANMALE the Evil Mage
+ID=C_MAN
+DESIRES=i_gold,t_wand,t_reagent,t_bone
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageEvil
+TSPEECH=jobMage
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Evil Mage (Male)
+
+ON=@Create
+	COLOR=colors_skin
+	NPC=brain_human
+	KARMA={-3000 -3999}
+
+	STR={71 85}
+	DEX={81 95}
+	INT={96 110}
+
+	//ALIGNMENT=EVIL
+	//SPELLCIRCLESS=3-5
+
+	EVALUATINGINTEL={55.0 78.0}
+	INSCRIPTION={76.0 90.0}
+	MAGERY={86.0 100.0}
+	WRESTLING={20.0 60.0}
+	MAGICRESISTANCE={15.0 38.0}
+	MEDITATION={75.0 100.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_robe
+	COLOR=colors_red
+	ITEM=i_sandals
+	ITEM=random_coin_purse
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+	
+
+[CHARDEF C_H_EVILMAGE_F]
+DEFNAME=C_H_EVILMAGE_F
+NAME=#NAMES_HUMANFEMALE the Evil Mage
+ID=C_WOMAN
+DESIRES=i_gold,t_wand,t_reagent,t_bone
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageEvil
+TSPEECH=jobMage
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Evil Mage (Female)
+
+ON=@Create
+	COLOR=colors_skin
+	NPC=brain_human
+	KARMA={-3000 -3999}
+
+	STR={71 85}
+	DEX={81 95}
+	INT={96 110}
+
+	//SPELLCIRCLESS=3-5
+	//ALIGNMENT=EVIL
+
+	EVALUATINGINTEL={55.0 78.0}
+	INSCRIPTION={76.0 90.0}
+	MEDITATION={75.0 100.0}
+	MAGERY={86.0 100.0}
+	WRESTLING={20.0 60.0}
+	MAGICRESISTANCE={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_robe
+	COLOR=colors_red
+	ITEM=i_sandals
+	ITEM=random_coin_purse
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+
+[EOF]

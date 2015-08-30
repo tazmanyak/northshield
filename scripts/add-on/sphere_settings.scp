@@ -1,0 +1,743 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 22-Aug-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Included in each file.
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Main settings of every system. Switches, possibilities, etc
+// Every setting has its own description.
+//
+[DEFNAME SPHERE_COMMUNITY_PACK_SETTINGS]
+///////////////////////////////////////////////////////////////
+//////// Skills Settings
+///////////////////////////////////////////////////////////////
+// Choose if you want to use OSI skill wait times instead of sphere's default skill delays
+scp.SkillWaitingTimes=0
+
+// Choose between using new or default skills. Most of them are OSI-Like
+// If not, you can find documentation in the forums.
+scp.NewSkills_Anatomy=0
+scp.NewSkills_AnimalLore=1
+scp.NewSkills_ItemID=0
+scp.NewSkills_AnimalTaming=0
+scp.NewSkills_ArmsLore=0
+scp.NewSkills_Begging=1
+scp.NewSkills_DetectHidden=0
+scp.NewSkills_EvalInt=0
+scp.NewSkills_SpiritSpeak=1
+scp.NewSkills_ResistingSpells=1
+scp.NewSkills_Poisoning=1
+scp.NewSkills_Healing=1
+scp.NewSkills_TasteID=0
+scp.NewSkills_Hiding=0
+scp.NewSkills_Stealth=0
+scp.NewSkills_RemoveTrap=1
+scp.NewSkills_Meditation=0
+scp.NewSkills_Focus=0
+scp.NewSkills_Tracking=1
+
+// Enables, switch or disable the new barding system
+// 0 = Default. 1 = OSI-Like.
+scp.BardingSystem=1
+
+// Enable or disable a specific skill from the barding system
+// <boolean> (1 if enable, 0 if not). Default = 1
+scp.NewBarding_Peacemaking=0
+scp.NewBarding_Provocation=0 // NOT TESTED. USE AT OWN RISK. (Report bugs if any)
+scp.NewBarding_Discordance=0 // NOT DONE!!
+
+// Enables, switch or disable the new crafting system
+// 0 = Default. 1 = OSI-Like.
+scp.CraftingSystem=1
+
+// Enable or disable the crafting menu for specific skill.
+// <boolean> (1 if enable, 0 if not). Default = 1
+scp.NewCrafting_Alchemy=1
+scp.NewCrafting_Blacksmithing=1
+scp.NewCrafting_Bowcraft=1
+scp.NewCrafting_Carpentry=1
+scp.NewCrafting_Cooking=0 // NOT DONE!!
+scp.NewCrafting_Inscription=1
+scp.NewCrafting_Tailoring=1
+scp.NewCrafting_Tinkering=1
+
+// If the item needs a recipe and the player doesn't have it, display resources as "????"
+// If this is 0, it will display the skillmake/resources normally.
+scp.NewCrafting_RecipeNeeded=1
+
+///////////////////////////////////////////////////////////////
+//////// Skills Settings - Resource Gathering
+///////////////////////////////////////////////////////////////
+// Allow shovels to dig in sand?
+// <boolean> (1 if enable, 0 if not). Default = 1
+scp.Mining_AllowSand=0
+
+// The percent of resources to recover when you "re-smelt" a crafted item.
+// From 0 to 100%.
+scp.Mining_SmeltingPercent=50
+
+// Allow collect resource on ride?
+// <boolean> (1 if enable, 0 if not). Default = 0
+scp.mining_on_mount=0
+
+// Allow collect resource with poly?
+// <boolean> (1 if enable, 0 if not). Default = 0
+scp.mining_polymorph=0
+
+// Allow collect resource with no carry?
+// <boolean> (1 if enable, 0 if not). Default = 0
+scp.mining_stop_nocarry=0
+
+// Allow bonus to dig in stone?
+// <boolean> (1 if enable, 0 if not). Default = 0
+// NOT TESTED. USE AT OWN RISK. (Report bugs if any)
+scp.Mining_Bonus_1=0
+
+// minskill,chance,message,id
+scp.Mining_Bonus_1_0 0, 97.6, ,  //Nothing
+scp.Mining_Bonus_1_1 100, 0.4, 1072562, i_gem_blue_diamond
+scp.Mining_Bonus_1_2 100, 0.4, 1072567, i_gem_dark_sapphire
+scp.Mining_Bonus_1_3 100, 0.4, 1072570, i_gem_ecru_citrine
+scp.Mining_Bonus_1_4 100, 0.4, 1072564, i_gem_fire_ruby
+scp.Mining_Bonus_1_5 100, 0.4, 1072566, i_gem_perfect_emerald
+scp.Mining_Bonus_1_6 100, 0.4, 1072568, i_gem_turquoise
+
+// Allow collect granit to dig in stone?
+// <boolean> (1 if enable, 0 if not). Default = 0
+// NOT TESTED. USE AT OWN RISK. (Report bugs if any)
+scp.Mining_Granit=0
+
+// Chance for ore to granit consumer (Percent value)
+// From 0 to 100%. Default = 5
+scp.Mining_ChanceGranit=5
+
+// Minimum Mining skill at which you can ore to granit
+// From 0 to 100.0 - Default = 90.0
+scp.Mining_MinToGranit=90.0
+
+// Fishing makes a difference between coast lines and deep ocean.
+// Will use r_water as deep ocean. And r_default_water as coast lines.
+// <boolean> (1 if enable, 0 if not). Default = 1
+scp.Fishing_CoastLines=1
+
+// Allow the new SOS fishing treasure system?
+// <boolean> (1 if enable, 0 if not). Default = 1
+scp.Fishing_SOSTreasure=1
+
+// Can SeaSerpent appear when you fail at fishing?
+// <boolean> (1 if enable, 0 if not). Default = 1
+scp.Fishing_SeaSerpent=1
+
+// Minimum fishing skill at which you can disturb Sea Serpents
+// From 0 to 100.0 - Default = 80.0
+scp.Fishing_MinToDisturbSerpent=80.0
+
+// Chance to disturb a Sea Serpent when you fail.
+// From 0 to 100 (percent). Default = 5%
+scp.Fishing_ChanceSeaSerpent=5
+
+// Chance to transform a SOS into an Ancient SOS
+// From 0 to 100 (percent). Default = 4%
+scp.Fishing_ChanceToAncient=4
+
+// Minimum fishing skill to be able to open a SOS Bottle
+// Setting this to 0 disables it.
+scp.Fishing_MinToSosBottle=70
+
+///////////////////////////////////////////////////////////////
+//////// Skills Settings - Cartography Treasures
+///////////////////////////////////////////////////////////////
+// Set the minimum skill to decypher the treasures per level
+// The map level is the number at the end of the setting (_1, _2, etc)
+scp.Cartography_TMapLevel_1=27.0
+scp.Cartography_TMapLevel_2=71.0
+scp.Cartography_TMapLevel_3=81.0
+scp.Cartography_TMapLevel_4=91.0
+scp.Cartography_TMapLevel_5=100.0
+scp.Cartography_TMapLevel_6=100.0
+
+// Set the minimum skill to dig up the treasures per level
+// The map level is the number at the end of the setting (_1, _2, etc)
+scp.Lockpick_TMapLevel_1=27.0
+scp.Locpick_TMapLevel_2=71.0
+scp.Locpick_TMapLevel_3=81.0
+scp.Lockpick_TMapLevel_4=91.0
+scp.Lockpick_TMapLevel_5=100.0
+scp.Lockpick_TMapLevel_6=100.0
+
+// The default monsters that will spawn on every chest.
+// The map level is the number at the end of the setting (_1, _2, etc)
+scp.Monsters_TMapLevel_1 = {c_headless 1 c_mongbat 1 c_ratman 1 c_skeleton 1 c_zombie 1}
+scp.Monsters_TMapLevel_2 = {c_elemental_earth 1 c_gazer 1 c_gargoyle 1 c_elemental_earth 1 c_elemental_earth 1}
+scp.Monsters_TMapLevel_3 = {c_elemental_air 1 c_elemental_fire 1 c_liche 1 c_ogre_lord 1}
+scp.Monsters_TMapLevel_4 = {c_elemental_blood 1 c_gazer_elder 1 c_demon 1 c_liche 1 c_elemental_poison 1}
+scp.Monsters_TMapLevel_5 = {c_dragon_greater 1 c_demon_balron 1 c_elemental_blood 1 c_elemental_poison 1 c_titan 1}
+scp.Monsters_TMapLevel_6 = {c_dragon_greater 1 c_demon_balron 1 c_elemental_blood 1 c_elemental_poison 1 c_titan 1}
+
+///////////////////////////////////////////////////////////////
+//////// Skills Settings - Poisoning/Healing/Veterinary
+///////////////////////////////////////////////////////////////
+// Undead monsters are immune to poison
+// <boolean> (0 = No / 1 = Yes)
+scp.Poisoning_MonsterImmuneUndead=0
+
+// Poisonous monsters are immune to poison
+// <boolean> (0 = No / 1 = Yes)
+scp.Poisoning_MonsterImmunePoisonous=0
+
+// Monsters are immune to poison if they have 100 ResPoison or more
+// <boolean> (0 = No / 1 = Yes)
+scp.Poisoning_MonsterImmuneResist=1
+
+// Minimum Poisoning for monsters to required to be classed as poisonous (able to poison)
+// From 0 to 1000. Default = 200 (20.0%)
+scp.Poisoning_MonsterPoisonous=200
+
+// Two Handed weapons can be poisoned
+// <boolean> (0 = No / 1 = Yes)
+scp.Poisoning_WeaponTwoHands=1
+
+// Chance for food to poison consumer (Percent value)
+// From 0 to 100%. Default = 100
+scp.Poisoning_FoodChance=100
+
+// If a weapon is poisoned it required cleaning to be poisoned again (1 = yes, 0 = no)
+// Item for cleaning is i_cloth_oil, needs adding to a craft or vendor for use.
+scp.Poisoning_CleanWeapons=1
+
+// Weapons poison on hit (1 = yes, 0 = no) (NOTE: Turning this off will still poison the weapon)
+// Leave this on unless you plan on using things like Infectious Strike from the maneuvers system.
+scp.Poisoning_WeaponsPoison=1
+
+// Minimum Healing required to cure
+// From 0 to 1000. Default = 0 (0.0%)
+scp.Healing_MinToCure=600
+
+// Minimum Anatomy required to cure
+// From 0 to 1000. Default = 620 (62.0%)
+scp.Healing_MinAnatomyToCure=600
+
+// Is anatomy skill used in the cure chance?
+// <boolean> (0 = No / 1 = Yes)
+scp.Healing_UseAnatomy=1
+
+// Poison prevents healing from bandages
+// <boolean> (0 = No / 1 = Yes)
+scp.Healing_PoisonNoBandage=1
+
+// Healing uses your form's brain?
+// Example: if you polymorphed into a bear, you would heal with veterinary
+// <boolean> (0 = No / 1 = Yes)
+scp.Healing_BasedOnForm=0
+
+// Minimum Veterinary required to cure
+// From 0 to 1000. Default = 0 (0.0%)
+scp.Veterinary_MinToCure=0
+
+// Minimum Animal Lore required to cure
+// From 0 to 1000. Default = 620 (62.0%)
+scp.Veterinary_MinAnimalLoreToCure=620
+
+// Is animal lore skill used in the cure chance?
+// <boolean> (0 = No / 1 = Yes)
+scp.Veterinary_UseAnimalLore=1
+
+// Poison prevents veterinary healing from bandages
+// <boolean> (0 = No / 1 = Yes)
+scp.Veterinary_PoisonNoBandage=1
+
+///////////////////////////////////////////////////////////////
+//////// Skills Settings - Other Settings
+///////////////////////////////////////////////////////////////
+// Required hiding for stealth to begin
+// Defaults After SE: 50.0 Before SE: 80.0
+scp.Stealth_HidingReq=50.0
+
+///////////////////////////////////////////////////////////////
+//////// Combat System Settings
+///////////////////////////////////////////////////////////////
+// Formulas or main system used in here. It will vary from expansion to expansion.
+// 0 = Default: Use Sphere's default system.
+// 1 = Custom: Use different settings from different expansions
+// 2 = Ultima Online: Renaissance
+// 3 = Ultima Online: Age of Shadows
+scp.Combat_FormulasUsed=1
+
+// Which calculation of Hit Speed should be used?
+// 0 = Default. 1 = UO:R. 2 = AOS.
+scp.Combat_HitSpeed=0
+
+// Which calculation of Hit Chance should be used?
+// 0 = Default. 1 = UO:R. 2 = AOS.
+scp.Combat_HitChance=2
+
+// Which calculation of Hit Block Chance should be used?
+// 0 = Default. 1 = UO:R. 2 = AOS.
+scp.Combat_BlockChance=1
+
+// Which calculation of Base Damage should be used?
+// 0 = Default. 1 = UO:R. 2 = AOS.
+scp.Combat_BaseDamage=2
+
+// Which calculation of Damage Bonus should be used?
+// 0 = Default. 1 = UO:R. 2 = AOS.
+scp.Combat_DamageBonus=0
+// Use Spells Damage Bonus according to AOS?
+// 0 = No. 1 = AOS.
+scp.Combat_SpellBonus=2
+
+// Use or not the Age of Shadows Resistances.
+// Note that this will be used only if scp.Combat_FormulasUsed is 1
+// Automatically used if it is 3.
+scp.Combat_UseResistances=3
+
+// The cap for resistances used in the elemental fighting formula.
+// From 0 to 100. Default = 70 (EA-Like).
+scp.Combat_ResistancesCap=70
+
+// If set to 1, combat system will use the body's damage when polymorph
+scp.Combat_PolymorphDamage=1
+
+///////////////////////////////////////////////////////////////
+//////// NPC AI Configuration
+///////////////////////////////////////////////////////////////
+// If this is set to 1, summoned npcs will also be able to attack their creators.
+// NOTE: This only affect red creatures as blue monsters don't attack players.
+scp.NPCAI_Summon_AttackCaster=0
+
+// If this is set to 0, summoned npcs will not attack blue chars if the creator is blue.
+// NOTE: This only affect red creatures as blue monsters don't attack inocent people.
+scp.NPCAI_Summon_AttackBlue=0
+
+///////////////////////////////////////////////////////////////
+//////// General Settings
+///////////////////////////////////////////////////////////////
+// Activate or deactivate the current/max followers system
+// NOTE: Remember to set "scp.MaxFollowers" if this is activated.
+scp.Followers=0
+
+// Sets the maximum amount of followers that a player can have
+// Only used if "scp.Followers" is equal 1. Default = 5
+scp.MaxFollowers=255
+
+// Enable or disable the new page system.
+// 1 if yes, 0 if want to use the old menu system.
+scp.PageSystem=1
+
+// Delay for re-resurrection in ankhs. 0 deactivates it.
+// In seconds. Default = 60
+scp.ResurrectionDelay=60
+
+// Activate or deactivate the calculation of stats according to OSI.
+// <boolean> (1 if yes, 0 if not). Default = 1
+scp.OSIStats=0
+
+// Activate or deactivate the calculation of smelt chances according to OSI.
+// <boolean> (1 if yes, 0 if not).
+scp.OSIOreFormula=1
+
+// Set to 1 if you want to calculate the success chance of the spell according to OSI.
+// Formula is: ((CastSkill - SkillRequired) * 2.5) + 50.0
+scp.OSISpellDiff=1
+
+// Enable or disable the use of items per race.
+// This makes human not able to equip elven/gargish items and so.
+// <boolean> (1 if yes, 0 if not).
+scp.LimitationRace=1
+
+// Enable or disable the use of items per gender.
+// Makes males enable to equip female items.
+// <boolean> (1 if yes, 0 if not).
+scp.LimitationGenre=1
+
+// Setting to 1 allows players to cast from the runebook without a spellbook
+// <boolean> (0 = No / 1 = Yes)
+scp.Runebook_NoSpellBook=1
+
+// If this is 1, the runes will never fade, 0 will keep them old-style
+// NOTE: in EA the runes never fade.
+scp.Rune_NeverFade=1
+
+// Set to 1 if you want to remove the "Rune to:" prefix
+// <boolean> (0 = No / 1 = Yes)
+scp.Rune_RenameNoPrefix=1
+
+// Allow or disable the new virtue system. OSI-Like
+// <boolean> (0 = No / 1 = Yes)
+scp.VirtueSystem=1
+
+// Delay used when "casting" an ethereal mount, in seconds.
+// Default = 2.
+scp.EtherealMount_Delay=2
+
+///////////////////////////////////////////////////////////////
+//////// Item Magic Properties Settings
+///////////////////////////////////////////////////////////////
+// Enable or disable any of the Item Properties listed below
+// Please, note that the name are very descriptive, if not, drop a message on forums.
+// <boolean> (1 if yes, 0 if not).
+scp.ItemProp_BestWeaponSkill=0
+scp.ItemProp_DamageIncrease=0
+scp.ItemProp_DefenseChanceIncrease=0
+scp.ItemProp_DexterityBonus=0
+scp.ItemProp_EnhancePotion=0 // NOT DONE
+scp.ItemProp_FasterCastRecovery=0
+scp.ItemProp_FasterCasting=0
+scp.ItemProp_HitChanceIncrease=0
+scp.ItemProp_HitColdArea=0 // NOT DONE
+scp.ItemProp_HitDispel=0
+scp.ItemProp_HitEnergyArea=0 // NOT DONE
+scp.ItemProp_HitFireArea=0 // NOT DONE
+scp.ItemProp_HitFireball=0
+scp.ItemProp_HitHarm=0
+scp.ItemProp_HitLifeLeech=0
+scp.ItemProp_HitLightning=0
+scp.ItemProp_HitLowerAttack=0
+scp.ItemProp_HitLowerDefense=0
+scp.ItemProp_HitMagicArrow=0
+scp.ItemProp_HitManaLeech=0
+scp.ItemProp_HitPhysicalArea=0 // NOT DONE
+scp.ItemProp_HitPoisonArea=0 // NOT DONE
+scp.ItemProp_HitStaminaLeech=0
+scp.ItemProp_HitPointIncrease=0
+scp.ItemProp_IntelligenceBonus=0
+scp.ItemProp_LowerManaCost=0
+scp.ItemProp_LowerReagentCost=0
+scp.ItemProp_Luck=0
+scp.ItemProp_MageArmor=0
+scp.ItemProp_MageWeapon=0
+scp.ItemProp_ManaIncrease=0
+scp.ItemProp_ManaRegeneration=0
+scp.ItemProp_NightSight=0
+scp.ItemProp_ReflectPhysicalDamage=0
+scp.ItemProp_StaminaRegeneration=0
+scp.ItemProp_HitPointRegeneration=0
+scp.ItemProp_SelfRepair=0
+scp.ItemProp_SkillBonus=0
+scp.ItemProp_Slayer=0
+scp.ItemProp_SpellChanneling=0
+scp.ItemProp_SpellDamageIncrease=0
+scp.ItemProp_StaminaIncrease=0
+scp.ItemProp_StrengthBonus=0
+scp.ItemProp_SwingSpeedIncrease=0
+scp.ItemProp_CraftingBonus=0 // NOT DONE
+scp.ItemProp_CraftingExceptionalBonus=0 // NOT DONE
+scp.ItemProp_UsesRemaining=0
+
+// Determine the way of Luck to act with the NPC's Loot.
+// Setting it to 1, Chances to loot = <PlayerLuck> @ <LuckScaleFactor>
+// 2 = Compare player luck with npc luck, make a random of both.
+// 3 = Make a random of items, and with chances (explained in 1) increase items.
+scp.ItemProp_LuckLoot=0
+
+// Luck Scale Factor, works to increase/decrease chances of player
+// Formula is: <PlayerLuck> @ <LuckScaleFactor> = Chances
+scp.ItemProp_LuckScaleFactor=0.55
+
+///////////////////////////////////////////////////////////////
+//////// Jail System Settings
+///////////////////////////////////////////////////////////////
+// Enables or disables the new Jailing System.
+// <boolean> (0 = No / 1 = Yes)
+scp.JailSystem=1
+
+// Choose where the player should go when he's unjailed
+// Both P and Region Name works fine.
+scp.JailSystem_GoUnjailed=Britain
+
+///////////////////////////////////////////////////////////////
+//////// Karma/Fame Settings
+///////////////////////////////////////////////////////////////
+// Enables or disables the EA Karma/Fame System.
+// <boolean> (0 = No / 1 = Yes)
+scp.EAKarmaFame=0
+
+// Raising this value decreases gain. Lowering it increases gain.
+// Default = 100
+scp.Fame_Value=100
+
+// Raising this value decreases gain. Lowering it increases gain.
+// Default = 100
+scp.Karma_Value=100
+
+// Max Karma Limit for Players. Positive values only.
+// Default = 25000
+scp.Karma_MaxLimit=25000
+
+// Max Karma Limit for Players. Negative values only.
+// Default = -25000
+scp.Karma_MinLimit=-25000
+
+// Max Fame Limit for Players. Positive values only.
+// Default = 25000
+scp.Fame_Maxlimit=25000
+
+
+///////////////////////////////////////////////////////////////
+//////// NPCs AI Settings
+///////////////////////////////////////////////////////////////
+// Uses as percentage, will heal if hits is less than x%
+// Default is 30
+HealSelf=30
+
+// Percentage. Will run of the attacker if hits is less than x%
+// Default is 10
+FearOfDeath=10
+
+///////////////////////////////////////////////////////////////
+//////// OSI Champion System
+///////////////////////////////////////////////////////////////
+// Time to respawn the champion idol (when it's killed)
+// In seconds. Default = 2/4 hours
+scp.Champions_Respawn=60*60*{2 4}
+
+// Chance to get a champ artifact in % (0-100)
+// 100 = Always. 0 = Never.
+scp.Champions_ArtyChamp=30
+
+// Amount of monsters spawned by champion spawn.
+// Caution! Check MaxComplexity setting in sphere.ini!
+scp.Champions_MaxMonsters=128
+
+// Maximum distance from the spawn to move the monsters
+// In tiles. Default = 60
+scp.Champions_DistanceFromSpawn=60
+
+// Countdown timer for level restart or regression
+// In seconds. Example: 10*60 = 10 minutes
+scp.Champions_LevelMinutes=10*60
+
+///////////////////////////////////////////////////////////////
+//////// AOS Custom Vendor System
+///////////////////////////////////////////////////////////////
+// Max ammount of vendors that a player can own
+// 0 = Infinite
+scp.Vendor_PlayerMaxOwn=1
+
+// Max ammount of vendors that a player can rent
+// 0 = Infinite
+scp.Vendor_PlayerMaxRent=0
+
+// Max characters allowed in items description
+scp.Vendor_MaxItemDescript=40
+
+// Where the vendor search for gold on buy
+// 1 = Bag and bank / 0 = Only in bag
+scp.Vendor_GetMoneyFromBank=1
+
+// Vendors will be redeeded when dismissed?
+// <boolean> (1 = On / 0 = Off). Default = 0
+scp.Vendor_Redeed=0
+
+// Max weight that vendors can carry
+// Default = 390
+scp.Vendor_MaxWeight=390
+
+// New vendors comes with this shop name
+scp.Vendor_DefaultShopName=Henuz Isimlendirilmemis Vendor
+
+// Players can place vendors only on houses?
+// <boolean> (0 = No / 1 = Yes)
+scp.Vendor_HousingOnly=1
+
+// Name of area to permit place vendors
+// Example: "Britain" (0 = Everywhere)
+scp.Vendor_PlacementRegion=0
+
+// Basic salary per day, in gp
+scp.Vendor_SalaryBasic=5000
+
+// Raise 1gp on salary for each total of X gp's vending
+// Default = 165
+scp.Vendor_SalaryAdditional=165
+
+// How many times the salary get paid on a day? Default = 12
+// NOTE: This will just make the salary get paid on small amounts X times per day.
+scp.Vendor_SalaryPaymentDiv=12
+
+///////////////////////////////////////////////////////////////
+//////// AOS House System
+///////////////////////////////////////////////////////////////
+// When a house got demolished, you want get back your house deed or the house value in gold?
+// (0 = House Value in Gold / 1 = House Deed)
+scp.House_UseDeeds=1
+
+// Select the time to refresh and decay to use:
+// 0 = No decay, no refresh needed
+// 1 = Decay, refreshed opening the menu
+// 2 = Decay, refreshed with money through the menu.
+// 3 = Decay, refreshed with money through the menu. But the money is a % of the house value
+scp.House_DecayUse=3
+
+// House decay timer, in days.
+// 0 = Decay Off
+scp.House_DecayTimer=20
+
+// House decay fee, amount to pay for house refreshing. Will pay according time to decay
+// if scp.House_DecayUse is 2, this should be the total to pay.
+// if it is 3, this should be the percent of the value to pay (example 15%).
+scp.House_DecayFee=0
+
+// House decay timer for Demolition Pending houses, in days.
+// Houses can only be pended to demolition by a Game Master.
+scp.House_DemolitionPend=5
+
+// Max number of houses allower per account.
+scp.House_MaxPerAccount=1
+
+// All character of the house owner account will get owner access in the house?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_AccOwner=1
+
+// Enable house command to place trash barrel
+// <boolean> (0 = No / 1 = Yes)
+scp.House_UseTrash=1
+
+// Enable or disable the decay of unlocked items inside the house.
+// NOTE: If you change this, it will only affect NEW HOUSES.
+scp.House_DecayUnlockedItems=1
+
+// Minimum area distance allowed between placed houses.
+// Default = 1
+scp.House_PlaceMinDistArea=2
+
+// Minimum front distance allowed between placed houses.
+// Default = 5
+scp.House_PlaceMinDistFront=5
+
+// Allow place houses on Ilshenar facet. Default = 0
+// <boolean> (0 = No / 1 = Yes)
+scp.House_PlaceIlshenar=0
+
+// Period in days that a player must wait to place a new house before house placement.
+// Default = 7
+scp.House_PlaceWaitPeriod=0
+
+// % of house value that will be refunded on demolish
+// Default = 90
+scp.House_DemolishRefund=50
+
+// Use Global Storage Limit value or calculate it by the house area?
+// 0 = Calculate by House Area / 1 = Global Value
+scp.House_GlobalStorage=0
+
+// Global max secured storage allowed per house
+// (Secure containers + items inside secure containers)
+scp.House_GlobalSecStorage=600
+
+// Global max locked items allowed per house
+// This value will cont on Secure Storage Limit.
+scp.House_GlobalLockdown=100
+
+// Owner of the house can change the door access?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_DoorAccess=1
+
+// Max number of co-owners allowed per house
+scp.House_MaxCoowners=15
+
+// Max number of friends allowed per house
+scp.House_MaxFriends=50
+
+// Max number of bans allowed per house
+scp.House_MaxBans=50
+
+// Max number of players on access list allowed per house
+scp.House_MaxAccess=50
+
+// Allow enter on private houses only who is in access list
+// <boolean> (0 = No / 1 = Yes)
+scp.House_DepthOfField=0
+
+// Enable house ban engine?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_BanEngine=1
+
+// Enable banking from the house sign?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_AllowBanking=1
+
+// Notice player using dialog when your house decay or when it removed from the house access list
+// <boolean> (0 = No / 1 = Yes)
+scp.House_NoticeSystem=1
+
+// Only public houses can change house sign?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_SignChange=1
+
+// Enable AOS Customization system?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_AoSDesignTool=1
+
+// Price per customized component, in gp's
+// Default = 500
+scp.House_PricePerComp=500
+
+// Classic houses can be converted into custom foundations?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_AllowConvert=0
+
+// Enable house interactivity with custom vendors
+// <boolean> (0 = No / 1 = Yes)
+scp.House_UseVendors=0
+
+// Vendors can be placed only on public houses?
+// <boolean> (0 = No / 1 = Yes)
+scp.House_VendorsPublic=0
+
+// Use Global Vendor Limit or calculate it by the house area?
+// 0 = Calculate by House Area / 1 = Global Value
+scp.House_GlobalMaxVendors=0
+
+// Max number of vendors allowed per house
+scp.House_MaxVendors=10
+
+
+////////////////////////////////////////////////////////////////
+////////////// HUNGER SYSTEM SETTINGS //////////////////////////
+////////////////////////////////////////////////////////////////
+// NOTE: The system is switchable On and Off, you need only it. When you turn off the system all features are checked and disabled. When you turn on again
+//       after a turn off you can use the "F_food_drink_reset_after_switch" function to regenerate the system.
+
+//1 = ON; 0 = OFF
+SCP.HUNGER_ON_OFF 0
+
+//The max value for TAG.DRINK (normally equals to MAXFOOD)
+SCP.MAXDRINK 15
+
+//The max value for <FOOD>
+SCP.MAXFOOD 15
+
+//Change this to modify the chance of the player to get anemia or scabies -- Low value = more chance
+SCP.CHANCE_ILLINESS 100
+
+//It's the damage to the player when he has FOOD <= 5
+SCP.DAMAGE_AMOUNT_FOOD 5
+
+//Like above but for DRINK <= 3 (normally it's more than food)
+SCP.DAMAGE_AMOUNT_DRINK 7
+
+//It's the amount of stamina decreased to the player when he has FOOD <= 5 -- just set it to 0 for delete the effect
+SCP.STAMINA_AMOUNT_FOOD 5
+
+//Like above but for DRINK <= 3 (normally it's more than food)
+SCP.STAMINA_AMOUNT_DRINK 7
+
+//It's the max count for food (every 1 min) when a player lost a point of food (MAXCOUNT=25 ==> player loses 1 point of food every 25 mins)
+SCP.MAXCOUNT_FOOD 25
+
+//Like above but for drink
+SCP.MAXCOUNT_DRINK 15
+
+//ALLOWS PLAYERS TO CONTRACT MORE OF ONE ILLINESS
+SCP.MORE_ILLINESS 1
+
+[EOF]

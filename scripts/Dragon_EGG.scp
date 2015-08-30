@@ -1,0 +1,196 @@
+﻿///dfgşldfgkldf
+
+[defname kupa_opt]
+
+// Item Id
+
+d_k_1		"i_pet_ostard_zostrich"
+d_k_2		"i_pet_ostard_MID"
+d_k_3		"i_pet_ostard_desert"
+d_k_4		"i_pet_ostard_forest"
+d_k_5		"i_pet_llama"
+d_k_6		"i_fast_bow"
+d_k_7		"i_bow_npc"
+d_k_8		"i_egg_ostard"
+d_k_9		"i_deed_Castle"
+d_k_10		"i_deed_keep"
+d_k_11		"i_upgrade_scroll15"
+d_k_12		"i_upgrade_scroll12"
+d_k_13		"i_deed_house_stone_small"
+d_k_14		"i_deed_elven_oven_east"
+d_k_15		"i_aile_belgesi"
+
+// Kac Adet Kupa ?
+
+d_k_1_value	"40"
+d_k_2_value	"40"
+d_k_3_value	"20"
+d_k_4_value	"20"
+d_k_5_value	"2"
+d_k_6_value	"20"
+d_k_7_value	"20"
+d_k_8_value	"30"
+d_k_9_value	"25"
+d_k_10_value	"20"	
+d_k_11_value	"10"	
+d_k_12_value	"8"
+d_k_13_value	"5"
+d_k_14_value	"8"
+d_k_15_value	"5"
+
+////////////////////////////////////////////////////////////////////////////////////
+[DIALOG d_kupa]
+0,0
+page 0
+resizepic 30 40 2620 300 500
+dtext 50 60 33  Eşya
+dtext 265 60 33  Miktar
+
+
+
+
+dtext 50 495 69 Çantanda , <eval <src.rescount i_y_kupa>> adet dragon egg var.
+
+PAGE 1
+button 275 460 4005 4007 0 2 0
+dtext 235 460 388  Ileri
+for 1 10
+local.siralama <eval <local._for>>
+	dtext 85 <eval (<local.siralama>*36)+65> 1152 <serv.itemdef.<def.d_k_<eval <local._for>>>.name>
+	dtext 285 <eval (<local.siralama>*36)+65> 1152 <eval <def.d_k_<eval <local._for>>_value>>
+	button 50 <eval (<local.siralama>*36)+68> 2117 2118 1 0 <eval <local._for>>
+endfor
+
+PAGE 2
+button 50 460 4014 4016 0 1 0
+dtext 90 460 388  Geri
+for 11 15
+local.siralama <eval <local._for>-10>
+	dtext 85 <eval (<local.siralama>*36)+65> 1152 <serv.itemdef.<def.d_k_<eval <local._for>>>.name>
+	dtext 285 <eval (<local.siralama>*36)+65> 1152 <eval <def.d_k_<eval <local._for>>_value>>
+	button 50 <eval (<local.siralama>*36)+68> 2117 2118 1 0 <eval <local._for>>
+endfor
+
+
+
+	//button 50 650 1209 1210 1 0 16
+	//dtext 70 645 69 Yardim
+	
+
+[DIALOG d_kupa text]
+
+[DIALOG d_kupa button]
+
+
+on=1 15
+if (<DISTANCE <src>> > 3)
+	src.sysmessage @33,,1 Vendordan uzaksiniz. (En az 3 kare)
+	return 1
+endif
+
+FOR 1 15
+
+if <argn> == <eval <local._for>>
+
+local.value <eval <def.d_k_<eval <local._for>>_value>>
+
+if	<src.restest <local.value> i_y_kupa>
+	src.consume <local.value> i_y_kupa
+else
+	src.sysmessage @33,,1 Malesef cantanizda yeterli dragon egg yok.
+	return 1
+endif
+	serv.newitem <def.d_k_<eval <local._for>>>
+	src.bounce <new>
+
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Dragon_Egg\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Dragon_Egg\<src.account.name>.txt ___________________________________________Dragon_egg___________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Dragon_Egg\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Satin Alinan <new.name>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Dragon_Egg\<src.account.name>.txt 
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Dragon_Egg\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Dragon_Egg\<src.account.name>.txt ________________________________________________________________________________________________
+
+endif
+ENDFOR
+
+////////////////////////////////////////////////////////////////////////
+
+[chardef c_dragon_egg_vendor]
+name #NAMES_HUMANMALE
+id c_man
+can mt_equip|mt_nonmover
+
+On=@Create
+str 100
+dex 100
+int 100
+color 083ea
+title Dragon Hunter
+invul 1
+
+itemnewbie=random_male_hair
+COLOR=colors_hair
+
+ITEMNEWBIE=i_shield_chaos
+color 0450
+ITEMNEWBIE=i_platemail_gloves
+color 0450
+//ITEMNEWBIE=i_platemail_helm
+//color 0450
+ITEMNEWBIE=i_platemail_arms
+color 0450
+ITEMNEWBIE=i_platemail_gorget
+color 0450
+ITEMNEWBIE=i_platemail_chest
+color 0450
+ITEMNEWBIE=i_platemail_leggings
+color 0450
+ITEMNEWBIE=i_spellbook
+color 0450
+//ITEMNEWBIE=i_robe
+//color 0
+
+
+on=@gethit
+return 1
+on=@spelleffect
+return 1
+on=@death
+hits 100
+return 1
+on=@attack
+skill fail
+action -1
+return 1 
+
+on=@hit
+return 1
+
+on=@click
+messageua 0481,6,6,enu Dragon Hunter
+
+on=@dclick
+sdialog d_kupa
+
+
+
+////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_y_kupa]
+name TNS Kupa
+ID=i_fruit_coconut
+TYPE=T_script
+WEIGHT=0
+
+on=@create
+color 0913
+
+on=@dclick
+return 1
+
+on=@click
+message @69,,1 The North Shield
+message @,,1 <amount> dragon egg
+return 1
+
+[EOF]

@@ -1,0 +1,216 @@
+[CHARDEF 01b]
+//"The Dark Wolf Familiar will attack the foes that its master attacks,
+// and as an extra bonus it will allow its master to tame any wolf he meets
+// in his travels."
+//FIXME: Gives wolf training skill to summoner.
+//FIXME: Abilities: +1 stamina every 2 seconds.
+DEFNAME=c_familiar_dark_wolf
+NAME=dark wolf familiar
+ICON=i_pet_wolf_grey
+SOUND=snd_animals_wolf1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,33
+ARMOR=40
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=10000//Immune to barding
+TAG.Control.Slots=1
+TAG.Slayer=SLAYER_WOLF
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Summoned Dark Wolf Familiar
+ON=@Create
+   NPC=brain_animal
+   FAME=0
+   KARMA=0
+   STR={95 105}
+   MAXHITS={55 65}
+   DEX={85 95}
+   MAXSTAM={85 95}
+   INT={85 95}
+   MAXMANA={25 35}
+   TACTICS={45.0 55.0}
+   WRESTLING={85.0 90.0}
+   MODAR={0 10}
+   RESCOLD={25 40}
+   RESENERGY={25 40}
+   RESFIRE={25 40}
+   RESPOISON={25 40}
+
+[CHARDEF 013f]
+//These shambling mounds of decay are the result of the necromantic spell
+//of animate dead used on certain creatures
+//FIXME: Incomplete Stratics data
+DEFNAME=c_mound_maggots
+NAME=mound of maggots
+ICON=i_pet_mound_maggots
+SOUND=snd_monster_slime1
+CAN=MT_WALK|MT_NONHUM
+DAM=4,14
+ARMOR=90
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=33.0
+TAG.DamPoison=50
+TEVENTS=e_carnivores
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Mound of Maggots
+RESLEVEL=3
+RESDISPDNID=c_slime
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=1000
+   KARMA=-1000
+   STR={61 70}
+   MAXHITS={61 70}
+   DEX={60 70}
+   MAXSTAM={60 70}
+   INT={10 15}
+   MAXMANA={10 15}
+   //POISONING={45.0 55.0}
+   TACTICS={45.0 55.0}
+   WRESTLING={50.0 60.0}
+   MODAR={0 5}
+   RESCOLD=0
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON=100
+
+[CHARDEF 02ea]
+DEFNAME=c_horrific_beast
+NAME=horrific beast
+ICON=i_pet_demon_moloch
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=41,61
+ARMOR=60
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.SlayerGroup=DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Horrific Beast (Moloch)
+
+[CHARDEF 02eb]
+DEFNAME=c_vampire_form
+NAME=vampire
+ICON=i_pet_man
+SOUND=snd_monster_shadowlord
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=15,25
+ARMOR=40
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.SlayerGroup=UNDEAD
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Vampiric Embrace
+
+[CHARDEF 02ec]
+DEFNAME=c_wraith_form
+NAME=wraith
+ICON=i_pet_ghoul
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=11,18
+ARMOR=25
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.SlayerGroup=UNDEAD
+TAG.DamCold=50
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Wraith Form
+
+[CHARDEF 02ed]
+DEFNAME=c_liche_form
+NAME=liche form
+ICON=i_pet_liche
+SOUND=snd_monster_liche1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=50,55
+ARMOR=40
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=120
+TAG.SlayerGroup=UNDEAD
+TAG.DamCold=40
+TAG.DamEnergy=50
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Liche Form
+
+[CHARDEF 02ee]
+//FIXME: Cannot be provoked.
+//FIXME: Cannot be peaced.
+DEFNAME=c_revenant_summoned
+NAME=summoned revenant
+ICON=i_pet_man
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|MT_RUN|MT_GHOST|MT_USEHANDS|MT_EQUIP//|MT_PASSWALLS
+DAM=42,45
+ARMOR=60
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=10000//Immune to barding
+TAG.Control.Slots=3
+TAG.Slayer=SLAYER_UNDEAD
+CATEGORY=Spells
+SUBSECTION=Necromancy
+DESCRIPTION=Vengeful Spirit (Revenant)
+ON=@Create
+   COLOR=colors_black
+   NPC=brain_monster
+   KARMA=0
+   FAME=0
+   STR={195 205}
+   MAXHITS={195 205}
+   DEX={145 155}
+   MAXSTAM={145 155}
+   INT={145 155}
+   MAXMANA={145 155}
+   MAGICRESISTANCE={115.0 125.0}
+   SWORDSMANSHIP={95.0 105.0}
+   TACTICS={95.0 105.0}
+   MODAR={0 10}
+   RESCOLD={60 70}
+   RESENERGY={60 70}
+   RESFIRE={15 25}
+   RESPOISON=100
+ON=@NPCRestock
+   ITEMNEWBIE=i_deathshroud
+   COLOR=0497
+   ITEMNEWBIE=i_halberd
+   COLOR=0497
+
+[EOF]

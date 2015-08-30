@@ -1,0 +1,138 @@
+
+[ITEMDEF i_staff_black_frostwood]
+id=i_staff_black
+name frostwood black staff
+TYPE=T_WEAPON_MACE_STAFF
+FLIP=1
+DAM=13,18
+SPEED=27
+SKILL=MaceFighting
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=6
+SKILLMAKE=Carpentry 63.8, t_carpentry
+RESOURCES=24 i_log_frostwood
+DUPELIST=0df1
+range 2
+
+ON=@Create
+color 0482
+HITPOINTS=75
+tag0.magicweapon
+tag0.upgradable 1
+
+MOREY=10.0
+
+on=@equip
+src.events +e_stam
+src.events +e_dismount
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+src.events -e_dismount
+
+
+[ITEMDEF i_staff_black_bloodwood]
+id=i_staff_black
+name bloodwood black staff
+TYPE=T_WEAPON_MACE_STAFF
+FLIP=1
+DAM=13,18
+SPEED=27
+SKILL=MaceFighting
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=6
+SKILLMAKE=Carpentry 63.8, t_carpentry
+RESOURCES=24 i_log_bloodwood
+DUPELIST=0df1
+range 2
+
+ON=@Create
+color 0846
+HITPOINTS=100
+tag0.magicweapon
+tag0.upgradable 1
+
+MOREY=10.0
+
+on=@equip
+src.events +e_stam
+src.events +e_dismount
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+src.events -e_dismount
+
+
+
+[ITEMDEF i_staff_quarter_frostwood]
+//Quarter Staff
+id=i_staff_quarter
+name frostwood quarter staff
+TYPE=T_WEAPON_MACE_STAFF
+FLIP=1
+RESOURCES=24 i_log_frostwood
+SKILLMAKE=Carpentry 63.8, t_carpentry
+DUPELIST=0df1
+DAM=12,16
+range=2
+SPEED=4.2
+SKILL=MaceFighting
+REQSTR=20
+TWOHANDS=Y
+WEIGHT=3
+
+ON=@Create
+color 0482
+HITPOINTS=75
+tag0.magicweapon
+tag0.upgradable 1
+
+MOREY=10.0
+
+on=@equip
+//src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+
+
+[ITEMDEF i_staff_quarter_bloodwood]
+//Quarter Staff
+id=i_staff_quarter
+name bloodwood quarter staff
+TYPE=T_WEAPON_MACE_STAFF
+FLIP=1
+SKILLMAKE=Carpentry 63.8, t_carpentry
+RESOURCES=24 i_log_bloodwood
+DUPELIST=0df1
+DAM=12,16
+range=2
+SPEED=4.2
+SKILL=MaceFighting
+REQSTR=20
+TWOHANDS=Y
+WEIGHT=3
+
+ON=@Create
+color 0846
+HITPOINTS=100
+tag0.magicweapon
+tag0.upgradable 1
+
+MOREY=10.0
+
+on=@equip
+//src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+
+[EOF]

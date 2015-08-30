@@ -1,0 +1,106 @@
+[typedef t_cloth]
+
+on=@dclick
+if <amount> > 1000
+	drop
+endif
+[typedef t_food]
+on=@dclick
+if <src.findid.i_killeraclik>
+	src.findid.i_killeraclik.remove
+endif
+
+
+[typedef t_norm]
+
+on=@dclick
+if <src.findid.i_killeraclik>
+	src.findid.i_killeraclik.remove
+endif
+
+
+[typedef t_shield]
+on=@click
+message @33,1,1 [ Sağlamlık: <hitpoints> ]
+message @,,1 <name> <qval <tag.kaplama>?(Kaplama):>
+return 1
+
+on=@Equip
+src.findid.i_rune_protection.remove
+src.findid.i_rune_reactive_armor.remove
+//src.events +e_Special_Pulse
+
+on=@UnEquip
+src.events -e_Special_Pulse
+
+//[typedef t_ingot]
+//on=@dclick
+//src.findid.i_hammer_smith.equip
+//src.craftskill blacksmithing
+//return 1
+
+[typedef t_ore]
+
+
+[eof]
+on=@dclick
+if <src.map> == 3
+	if <src.isneartype t_forge 1>
+		src.sys_error Biraz daha uzaklasınız.
+		return 1
+	endif
+endif
+
+if <def.scp.OSIOreFormula> < 1
+return 0
+endif
+if <cont> != <src.findlayer.21>
+src.sysmessage @,,1 Cantanizda degil.
+elif <src.mining> >= <eval <skillmake.1.value>-100>
+	if <src.isneartype t_forge 2>
+	args = <src.isneartype.p t_forge 2>
+		//forclients 18
+		//src.smelt_fx
+		//endfor
+		src.smelt_fx
+		if <R90> <= <eval (((<src.mining> - <skillmake.1.value>)*2)+70)> // +50 idi degistirdim.
+		serv.newitem <tdata1>
+		new.amount <eval ((<amount>*(<src.mining>/10))/100)>
+			if <new.amount> < 1
+			new.amount = 1
+			endif
+		if (<src.skilltotal> < 700.0)
+			if (<src.mining> < 100.0)
+				src.mining (<src.mining> + 1)
+			endif
+		endif
+		src.sysmessage @,,1 Erittiniz.
+		src.consume <new.amount> <baseid>
+		new.cont <src.findlayer.21>
+		else
+		src.sysmessage @33,,1 Madeni yaktiniz.
+		src.consume 1 <baseid>
+		endif
+	else
+	src.sysmessage @,,1 Yakininizda forge yok.
+	endif
+else
+src.sysmessage @,,1 Eritecek kadar yeteneginiz yok.
+endif
+return 1
+
+[FUNCTION smelt_fx]
+FORITEMS 1
+IF (<TYPE>==t_forge)
+	if <src.map>==3
+	local.p <p.x>,<p.y>,<eval <p.z>+7>,3
+	else
+	local.p <p.x>,<p.y>,<eval <p.z>+7>,0
+	endif
+ //SRC.SENDPACKET 0c0 0 d0 d0 wi_fire w<P.X> w<P.Y> <eval <P.Z>+6> w<P.X> w<P.Y> <eval <P.Z>+15> 0 0 w0 1 0 d0 d1
+ENDIF
+ENDFOR
+serv.newitem i_fire
+new.p <local.p>
+local.uid <new.uid>
+src.timerf 1, uid.<local.uid>.remove

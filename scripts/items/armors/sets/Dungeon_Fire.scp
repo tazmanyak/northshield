@@ -1,0 +1,257 @@
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_Fire_Damage]
+
+on=@hit
+IF (RAND(4)==1) && <src.isplayer>
+	src.damage {5 10}
+	src.sysmessage @0813,,1 <name> size fire damage vurdu.
+	src.sysmessage @0813,,1 1 Saniyeligine dondunuz...
+	sayua 095f,0,0,0 * Fire damage *
+        src.sd 1
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 082]
+DEFNAME=c_gargoyle_fire
+NAME=fire gargoyle
+ICON=i_pet_gargoyle_fire
+SOUND=snd_monster_gargyl1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=22,45
+ARMOR=30
+DESIRES=r_desert,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores2
+TEVENTS=e_fire_Damage
+CATEGORY=Monsters
+SUBSECTION=Gargoyles
+DESCRIPTION=Gargoyle (fire)
+ON=@Create
+   DORAND 9
+      NAME=Blistering <NAME>
+      NAME=Burning <NAME>
+      NAME=Fiery <NAME>
+      NAME=Flaming <NAME>
+      NAME=Scalding <NAME>
+      NAME=Scorching <NAME>
+      NAME=Searing <NAME>
+      NAME=Smoldering <NAME>
+      NAME=Sweltering <NAME>
+   ENDDO
+   NPC=brain_dragon
+   FAME=3500
+   KARMA=-3500
+   STR={351 400}
+   MAXHITS={211 244}
+   DEX={126 145}
+   MAXSTAM={126 145}
+   INT={226 250}
+   MAXMANA={226 250}
+   ANATOMY={75.0 85.0}
+   ARCHERY={40.0 80.0}
+   EVALUATINGINTEL={90.0 105.0}
+   FENCING={40.0 80.0}
+   MACEFIGHTING={40.0 80.0}
+   MAGERY={90.0 105.0}
+   MAGICRESISTANCE={90.0 105.0}
+   MEDITATION={90.0 105.0}
+   PARRYING={80.0 100.0}
+   SWORDSMANSHIP={40.0 80.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={40.0 80.0}
+ON=@NpcRestock
+   ITEM=loot_gargoyle_fire
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_elemental_fire]
+ID=c_elemental_fire_summoned
+NAME=fire elemental
+ICON=i_pet_elem_fire
+SOUND=snd_elementl_firelem1
+CAN=MT_WALK|MT_RUN|MT_NONHUM|MT_FIRE_IMMUNE
+DAM=20,32
+ARMOR=50
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_red
+MOVERATE=100
+CATEGORY=Monsters
+TEVENTS=e_fire_Damage
+SUBSECTION=Elementals
+DESCRIPTION=Fire Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=0
+   KARMA=-3000
+   STR={195 205}
+   MAXHITS={195 205}
+   DEX={195 205}
+   MAXSTAM={195 205}
+   INT={95 105}
+   MAXMANA={95 105}
+   EVALUATINGINTEL={85.0 95.0}
+   MAGERY={85.0 95.0}
+   MAGICRESISTANCE={80.0 90.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={90.0 100.0}
+   ITEMNEWBIE=i_light_source
+   ITEMNEWBIE=i_spellbook
+   ADDSPELL=s_magic_arrow
+   ADDSPELL=s_fireball
+   ADDSPELL=s_fire_field
+   ADDSPELL=s_explosion
+   ADDSPELL=s_flamestrike
+   ADDSPELL=s_meteor_swarm
+   ADDSPELL=s_summon_elem_fire
+   
+ON=@Death
+   // Death explosion
+   SERV.NEWITEM=i_fx_explode
+   NEW.TYPE=t_explosion
+   NEW.ATTR=attr_move_never|attr_decay
+   NEW.LINK=<UID>
+   NEW.MOREX=10  // damage amount
+   NEW.MOREY=dam_fire
+   NEW.MOREZ=2   // distance
+   NEW.P=<P>     // under body
+   NEW.TIMERD=1  // immediate decay
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 05a]
+DEFNAME=c_serpent_lava
+NAME=lava serpent
+ICON=i_pet_serpent_lava
+SOUND=snd_animals_snake1
+CAN=MT_WALK|MT_FIRE_IMMUNE
+DAM=33,56
+ARMOR=35
+DESIRES=r_desert,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=4 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores2
+TEVENTS=e_fire_Damage
+CATEGORY=Monsters
+SUBSECTION=Reptiles
+DESCRIPTION=Giant Serpent (lava)
+ON=@Create
+   NPC=brain_animal
+   FAME=4500
+   KARMA=-4500
+   STR={386 415}
+   MAXHITS={232 249}
+   DEX={56 80}
+   MAXSTAM={56 80}
+   INT={66 85}
+   MAXMANA={66 85}
+   MAGICRESISTANCE={25.0 70.0}
+   TACTICS={65.0 70.0}
+   WRESTLING={60.0 80.0}
+ON=@NPCRestock
+   ITEM=loot_serpent_lava
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 0CE]
+DEFNAME=c_m_lava_lizard
+NAME=Lava Lizard
+SOUND=snd_MONSTER_LAVALIZARD1
+ICON=i_pet_croc
+DAM=2,28
+ARMOR=20
+RESOURCES=6 i_ribs_raw, 12 i_hide
+CAN=MT_WALK|MT_FIRE_IMMUNE
+FOODTYPE=5 t_meat_raw
+AVERSIONS=r_civilization
+RESLEVEL=2
+RESDISPDNID=c_alligator
+RESDISPDNHUE=1616
+TEVENTS=e_fire_Damage
+
+DESCRIPTION=Lava Lizard
+SUBSECTION=Giant Insects and Reptiles
+CATEGORY=Monsters
+
+ON=@Create
+	COLOR=1616
+	STR={125 150}
+	DEX={56 75}
+	INT={11 20}
+	//ALIGNMENT=EVIL
+	PARRYING={48.0 82.0}
+	MAGICRESISTANCE={55.0 70.0}
+	TACTICS={60.0 80.0}
+	WRESTLING={60.0 80.0}
+	TAMING=90.0
+	NPC=brain_monster
+	FAME=50
+	KARMA={-2000 -3990}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_lava_snake]
+ID=c_snake
+NAME=lava snake
+SOUND=snd_ANIMALS_SNAKE1
+DAM=1,8
+ARMOR=12
+RESOURCES=1 i_ribs_raw
+CAN=MT_WALK|MT_FIRE_IMMUNE
+DESIRES=i_gold
+DESCRIPTION=Lava Snake
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+TEVENTS=e_fire_Damage
+
+ON=@Create
+	NPC=brain_monster
+	COLOR=colors_lava
+	STR={43 55}
+	DEX={16 25}
+	INT={6 10}
+	//ALIGNMENT=EVIL
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={19.0 34.0}
+	WRESTLING={19.0 34.0}
+	FAME=40
+	KARMA={-3000 -5990}
+
+[EOF]
+

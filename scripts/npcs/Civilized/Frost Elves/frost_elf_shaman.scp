@@ -1,0 +1,58 @@
+[CHARDEF c_frost_elf_shaman]
+ID=c_elf_male
+NAME=#NAMES_ELF_MALE the Frost Elf Shaman
+//ALIGNMENT=EVIL
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_MALE
+DAM=15,20
+ARMOR={15 20}
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=045e
+
+CATEGORY=Civilized
+SUBSECTION=Frost-Elf (Evil)
+DESCRIPTION=Frost Elf Shaman
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-3000 -5000}
+	FAME={2500 4000}
+	COLOR=05d
+
+	STR={80 120}
+	DEX={81 95}
+	INT={80 100}
+
+	MAGICRESISTANCE={60.0 75.0}
+	TACTICS={70.0 90.0}
+	WRESTLING={40.0 55.0}
+	MAGERY={75.0 85.0}
+
+	ITEMNEWBIE=i_hair_krisna
+
+ON=@NPCRestock
+	ITEM=i_GOLD,{80 100}
+	ITEM=i_ROBE
+	ITEM=random_shoes
+	COLOR=01bb
+	ITEM=random_jewel
+	ITEM=random_scroll
+	ITEM=random_scroll
+	CONTAINER=i_bag
+	ITEM=i_reag_black_pearl,15
+	ITEM=i_reag_blood_moss,15
+	ITEM=i_reag_garlic,50
+	ITEM=i_reag_ginseng,15
+	ITEM=i_reag_mandrake_root,15
+	ITEM=i_reag_nightshade,15
+	ITEM=i_reag_sulfur_ash,15
+	ITEM=i_reag_spider_silk,15
+	ITEMNEWBIE=i_spellbook
+	//ADDSPELL=
+	MORE1=0ffffffff
+	MORE2=0ffffffff
+
+[EOF]

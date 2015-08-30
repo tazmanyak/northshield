@@ -1,0 +1,180 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Noob Map v1.1
+// Scripted by Mordaunt
+//
+// Simple graphical map that shows the user's position in the world (when the .map command is used)
+// Created to help players totally new to the game to navigate around a little easier
+//
+// Requires a "newer" client for all maps to show.  Tested with 7.0.30.0
+//
+// Defname setting to display moongates (or not) only works with OSI position gates if you have others you'll have to add them.
+//
+// v1.1  Added: Toggle to display players houses
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[DEFNAME noob_map]
+showgates 1
+showhouses 1
+
+
+[FUNCTION map_new]
+src.dialog d_map
+
+[FUNCTION render_houses]
+ref1=<uid>
+FORITEMS 7168
+	if (<type>==t_multi) && (<more1>==<ref1.uid>)
+ 		ref1.ctag0.housecount += 1
+   		ref1.ctag0.housep_<eval <ref1.ctag0.housecount>> = <p>
+     	endif
+ENDFOR
+
+
+[DIALOG d_map]
+90,90 
+PAGE 0 
+resizepic 0 0 2620 396 398 
+CHECKERTRANS 0 0 397 399 
+if (<src.p.m>==0) //feluccia
+	gumppic 6 7 5593
+	if (<def.showgates>)
+		gumppic <EVAL (6+((1336*100)/1337))> <EVAL (7+((1997*100)/1067))> 056ec
+		gumppic <EVAL (6+((4467*100)/1337))> <EVAL (7+((1283*100)/1067))> 056ec
+		gumppic <EVAL (6+((1499*100)/1337))> <EVAL (7+((3771*100)/1067))> 056ec
+		gumppic <EVAL (6+((771*100)/1337))> <EVAL (7+((753*100)/1067))> 056ec
+		gumppic <EVAL (6+((1828*100)/1337))> <EVAL (7+((2948*100)/1067))> 056ec
+		gumppic <EVAL (6+((643*100)/1337))> <EVAL (7+((2067*100)/1067))> 056ec
+		gumppic <EVAL (6+((3564*100)/1337))> <EVAL (7+((2140*100)/1067))> 056ec
+		gumppic <EVAL (6+((2702*100)/1337))> <EVAL (7+((692*100)/1067))> 056ec
+		gumppic <EVAL (6+((2711*100)/1337))> <EVAL (((2234*100)/1067))> 056ec
+	endif
+	if (<def.showhouses>)
+		src.render_houses
+  		if <src.ctag0.housecount>
+   			for 1 <src.ctag0.housecount>
+    				args=<src.ctag0.housep_<dlocal._for>>
+  				local.x = <argv[0]>
+    				local.y = <argv[1]>
+    				gumppic <EVAL (6+((<dlocal.x>*100)/1337))>  <EVAL (7+((<dlocal.y>*100)/1067))> 02c88
+			endfor
+		endif
+	endif
+	gumppic <eval (6+ ((<src.p.x>*100)/1337))> <eval (7+ ((<src.p.y>*100)/1067))> 2117
+		
+elif (<src.p.m>==1) //trammel
+	gumppic 6 7 5594
+	if (<def.showgates>)
+		gumppic <EVAL (6+((1336*100)/1337))> <EVAL (7+((1997*100)/1067))> 056ec
+		gumppic <EVAL (6+((4467*100)/1337))> <EVAL (7+((1283*100)/1067))> 056ec
+		gumppic <EVAL (6+((1499*100)/1337))> <EVAL (7+((3771*100)/1067))> 056ec
+		gumppic <EVAL (6+((771*100)/1337))> <EVAL (7+((753*100)/1067))> 056ec
+		gumppic <EVAL (6+((1828*100)/1337))> <EVAL (7+((2948*100)/1067))> 056ec
+		gumppic <EVAL (6+((643*100)/1337))> <EVAL (7+((2067*100)/1067))> 056ec
+		gumppic <EVAL (6+((3564*100)/1337))> <EVAL (7+((2140*100)/1067))> 056ec
+		gumppic <EVAL (6+((2702*100)/1337))> <EVAL (7+((692*100)/1067))> 056ec
+		gumppic <EVAL (6+((2711*100)/1337))> <EVAL (((2234*100)/1067))> 056ec
+	endif
+	if (<def.showhouses>)
+		src.render_houses
+  		if <src.ctag0.housecount>
+   			for 1 <src.ctag0.housecount>
+    				args=<src.ctag0.housep_<dlocal._for>>
+  				local.x = <argv[0]>
+    				local.y = <argv[1]>
+    				gumppic <EVAL (6+((<dlocal.x>*100)/1337))>  <EVAL (7+((<dlocal.y>*100)/1067))> 02c88
+			endfor
+		endif
+	endif
+	gumppic <eval (6+ ((<src.p.x>*100)/1337))> <eval (7+ ((<src.p.y>*100)/1067))> 2117
+elif (<src.p.m>==2) //ilshenar
+	gumppic 6 7 5595
+	if (<def.showgates>)
+		gumppic <EVAL (6+((1215*100)/601))> <EVAL (7+((467*100)/417))> 056ec
+		gumppic <EVAL (6+((722*100)/601))> <EVAL (7+((1366*100)/417))> 056ec
+		gumppic <EVAL (6+((752*100)/601))> <EVAL (7+((724*100)/417))> 056ec
+		gumppic <EVAL (6+((281*100)/601))> <EVAL (7+((1016*100)/417))> 056ec
+		gumppic <EVAL (6+((987*100)/601))> <EVAL (7+((1011*100)/417))> 056ec
+		gumppic <EVAL (6+((1183*100)/601))> <EVAL (7+((1287*100)/417))> 056ec
+		gumppic <EVAL (6+((1525*100)/601))> <EVAL (7+((1341*100)/417))> 056ec
+		gumppic <EVAL (6+((523*100)/601))> <EVAL (7+((217*100)/417))> 056ec
+		gumppic <EVAL (6+((1749*100)/601))> <EVAL (7+((236*100)/417))> 056ec
+	endif
+	if (<def.showhouses>)
+		src.render_houses
+  		if <src.ctag0.housecount>
+   			for 1 <src.ctag0.housecount>
+    				args=<src.ctag0.housep_<dlocal._for>>
+  				local.x = <argv[0]>
+    				local.y = <argv[1]>
+    				gumppic <EVAL (6+((<dlocal.x>*100)/601))>  <EVAL (7+((<dlocal.y>*100)/417))> 02c88
+			endfor
+		endif
+	endif
+	gumppic <eval (6+ ((<src.p.x>*100)/601))> <eval (7+ ((<src.p.y>*100)/417))> 2117
+elif (<src.p.m>==3) //malas
+	gumppic 6 7 5596
+	if (<def.showgates>)
+		gumppic <EVAL (6+(((1015-580)*100)/512))> <EVAL (7+((527*100)/535))> 056ec
+		gumppic <EVAL (6+(((1997-580)*100)/512))> <EVAL (7+((1386*100)/535))> 056ec
+	endif
+	if (<def.showhouses>)
+		src.render_houses
+  		if <src.ctag0.housecount>
+   			for 1 <src.ctag0.housecount>
+    				args=<src.ctag0.housep_<dlocal._for>>
+  				local.x = <argv[0]>
+    				local.y = <argv[1]>
+    				gumppic <EVAL (6+(((<dlocal.x>-580)*100)/512))>  <EVAL (7+((<dlocal.y>*100)/535))> 02c88
+			endfor
+		endif
+	endif
+	gumppic <eval (6+ (((<src.p.x>-580)*100)/512))> <eval (7+ ((<src.p.y>*100)/535))> 2117
+elif (<src.p.m>==4) //tokuno
+	gumppic 6 7 5597
+	if (<def.showgates>)
+		gumppic <EVAL (6+((1169*100)/383))> <EVAL (7+((998*100)/383))> 056ec
+		gumppic <EVAL (6+((270*100)/383))> <EVAL (7+((628*100)/383))> 056ec
+		gumppic <EVAL (6+((802*100)/383))> <EVAL (7+((1204*100)/383))> 056ec
+	endif
+	if (<def.showhouses>)
+		src.render_houses
+  		if <src.ctag0.housecount>
+   			for 1 <src.ctag0.housecount>
+    				args=<src.ctag0.housep_<dlocal._for>>
+  				local.x = <argv[0]>
+    				local.y = <argv[1]>
+    				gumppic <EVAL (6+((<dlocal.x>*100)/383))>  <EVAL (7+((<dlocal.y>*100)/383))> 02c88
+			endfor
+		endif
+	endif
+	gumppic <eval (6+ ((<src.p.x>*100)/383))> <eval (7+ ((<src.p.y>*100)/383))> 2117
+elif  (<src.p.m>==5) //tokuno//Tel Mur
+	gumppic 6 7 5598
+	if (<def.showgates>)
+		gumppic 100 320 2118 //539 3874
+		gumppic <eval (6+ (((851-250)*100)/275))> <eval (7+ (((3525-2750)*100)/356))> 056ec
+	endif
+	if (<def.showhouses>)
+		src.render_houses
+  		if <src.ctag0.housecount>
+   			for 1 <src.ctag0.housecount>
+    				args=<src.ctag0.housep_<dlocal._for>>
+  				local.x = <argv[0]>
+    				local.y = <argv[1]>
+    				gumppic <EVAL (6+(((<dlocal.x>-250)*100)/1337))>  <EVAL (7+(((<dlocal.y>-2750)*100)/1067))> 02c88
+			endfor
+		endif
+	endif
+	gumppic <eval (6+ (((<src.p.x>-250)*100)/275))> <eval (7+ (((<src.p.y>-2750)*100)/356))> 2117
+endif
+
+
+[DIALOG d_map BUTTON]
+ON=0
+	if <src.ctag0.housecount>
+		for 0 <eval <src.ctag0.housecount>>
+			src.ctag0.housep_<dlocal._for>=
+		endfor
+	endif
+	src.ctag0.housecount =
+[eof]

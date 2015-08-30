@@ -1,0 +1,440 @@
+[ITEMDEF i_platemail_chest_blackrock]
+NAME=blackrock platemail
+ID=i_platemail_chest
+
+ARMOR=85
+REQSTR=60
+WEIGHT=10
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 79.0
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_platemail_arms_blackrock]
+NAME=blackrock platemail arms
+ID=i_platemail_arms
+
+ARMOR=85
+REQSTR=40
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 67.5
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_platemail_leggings_blackrock]
+NAME=blackrock platemail legs
+ID=i_platemail_leggings
+
+ARMOR=85
+REQSTR=60
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 70.8
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_helm_plate_blackrock]
+NAME=blackrock plate helm
+ID=i_platemail_helm
+
+ARMOR=85
+REQSTR=40
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 62.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_platemail_gorget_blackrock]
+NAME=blackrock platemail gorget
+ID=i_platemail_gorget
+
+ARMOR=85
+REQSTR=30
+WEIGHT=2
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 54.4
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_platemail_gloves_blackrock]
+NAME=blackrock platemail gauntlets
+ID=i_platemail_gloves
+
+ARMOR=85
+REQSTR=45
+WEIGHT=2
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 57.7
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_female_platemail_blackrock]
+NAME=blackrock platemail
+ID=i_armor_female_plate
+
+ARMOR=85
+REQSTR=15
+WEIGHT=6
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 74.0
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+type t_armor
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_chainmail_coif_blackrock]
+NAME=blackrock chainmail coif
+ID=i_chainmail_coif
+
+ARMOR=50
+REQSTR=20
+WEIGHT=7
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 31.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_chainmail_leggings_blackrock]
+NAME=blackrock chainmail leggings
+ID=i_chainmail_leggings
+
+ARMOR=50
+REQSTR=20
+WEIGHT=7
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 35.1
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_chainmail_tunic_blackrock]
+NAME=blackrock chainmail tunic
+ID=i_chainmail_tunic
+
+ARMOR=50
+REQSTR=20
+WEIGHT=7
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Chainmail Tunic
+RESOURCES=25 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 47.8
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_ringmail_leggings_blackrock]
+NAME=blackrock ringmail leggings
+ID=i_ringmail_leggings
+
+ARMOR=45
+REQSTR=20
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 31.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_ringmail_sleeves_blackrock]
+NAME=blackrock ringmail sleeves
+ID=i_ringmail_sleeves
+
+ARMOR=45
+REQSTR=20
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 28.3
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_ringmail_gloves_blackrock]
+NAME=blackrock ringmail gloves
+ID=i_ringmail_gloves
+
+ARMOR=45
+REQSTR=20
+WEIGHT=2
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 21.8
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_ringmail_tunic_blackrock]
+NAME=blackrock ringmail tunic
+ID=i_ringmail_tunic
+
+ARMOR=45
+REQSTR=20
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 35.1
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_shield_buckler_blackrock]
+NAME=blackrock buckler
+ID=i_shield_buckler
+ARMOR=9
+REQSTR=15
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 9.0
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_shield_heater_blackrock]
+DEFNAME=i_blackrock_heater_shield
+NAME=blackrock heater shield
+ID=I_SHIELD_HEATER
+ARMOR=28
+REQSTR=30
+WEIGHT=8
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 44.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //=100
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_shield_metal_blackrock]
+NAME=blackrock metal shield
+ID=i_shield_round_metal
+ARMOR=13
+REQSTR=15
+WEIGHT=6
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 19.0
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_helm_closed_blackrock]
+NAME=blackrock closed helm
+ID=i_helm_closed
+
+ARMOR=72
+REQSTR=20
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 62.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_helmet_blackrock]
+NAME=blackrock helmet
+ID=i_helm_open
+
+ARMOR=72
+REQSTR=10
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 62.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_bascinet_blackrock]
+NAME=blackrock bascinet
+ID=i_bascinet
+
+ARMOR=72
+REQSTR=10
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 23.2
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_helm_nose_blackrock]
+NAME=blackrock nose helm
+ID=i_helm_nose
+
+ARMOR=72
+REQSTR=0
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=blackrock
+DESCRIPTION=Nose Helm
+
+RESOURCES=15 i_ingot_blackrock
+SKILLMAKE=BLACKSMITHING 62.6
+
+ON=@Create
+COLOR=color_o_blackrock
+HITPOINTS=100 //={101 115}
+
+
+[EOF]

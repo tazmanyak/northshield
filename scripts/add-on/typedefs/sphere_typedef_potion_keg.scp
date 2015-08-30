@@ -1,0 +1,94 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[typedef t_potion]
+on=@click
+message @,,1 (<amount>) 
+message @,,1 <name>
+return 1
+
+on=@dclick
+if strmatch(strength,<name>)
+	if <src.magery> > 0
+		src.sys_error Mage yeteneðine sahip olanlar str potion kullanamazlar.
+		return 1
+	endif
+endif
+ON=@TargOn_Ground
+if !<src.isevent.e_yarisma_expo>
+	if strmatch("*explosion*","<baseid>")
+		attr attr_move_never
+	endif
+endif
+
+
+[TYPEDEF t_potion_keg]
+ON=@Dclick
+src.sysmessage @,,1 Kegi hangi pot ile doldurmak istiyorsunuz?
+target
+return 1
+
+ON=@TargOn_Item
+if <src.action> != -1
+src.sysmessage Suanda bunu dolduramazsiniz.
+return 1
+endif
+if <argo.baseid> == i_bottle_empty
+	if <morex> < 1
+	src.sysmessage @,,1 sadasdsad
+	return 1
+	endif
+	if <argo.topobj.uid> != <src.uid>
+	src.sysmessage @,,1 Bos siseler cantanizda olmak zorundadir.
+	return 1
+	endif
+src.sysmessage @,,1 Bos bir siseyi doldurdunuz.
+sound = snd_z_end_liquid
+serv.newitem <tag0.potion.type>,1,<src.uid>
+new.more2 = <more2>
+new.attr = 0
+new.timer = -1
+morex --
+	if <morex> == 0
+	name =
+	tag.potion.type =
+	more2 = 0
+	else
+	name = a <argo.name> Keg (<morex>)
+	endif
+argo.consume 1
+return 1
+elif <argo.type> != t_potion
+src.sysmessage @,,1 That's not a potion.
+return 1
+//elif <tag0.potion.type> && (<argo.baseid> != <tag0.potion.type>)
+//src.sysmessage @,,1 asdasd
+//return 1
+elif <morex> > 99
+src.sysmessage @,,1 asdasdas
+return 1
+elif <morex> == 0
+tag.potion.type = <argo.baseid>
+elif <tag0.potion.type> != <argo.baseid>
+src.sysmessage @,,2 502236
+return 1
+endif
+more2 = <eval <more2> * <morex>>
+morex ++
+more2 = <eval <more2> + <argo.more2>>
+more2 /= <morex>
+name = <argo.name> Keg (<morex>)
+src.sound = snd_z_end_liquid
+src.sysmessage  @,,1 Kegi <argo.name> potion ile doldurdunuz!
+argo.consume 1
+serv.newitem i_bottle_empty,1,<src.uid>
+new.attr = 0
+new.timer = -1
+return 1
+
+[eof]

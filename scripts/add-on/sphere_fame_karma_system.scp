@@ -1,0 +1,208 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Khaos - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// EA Karma/Fame. Pretty much configurable anyway.
+
+[function gainfame]
+local.fame.level = <tag0.fame.level>
+if <tag0.fame.level> == 0
+argn1 = <eval <fame> + (<ctag0.fame.kill> / <def.scp.Fame_Value>)>
+else
+argn1 = <eval <fame> + (<ctag0.fame.kill> / (<def.scp.Fame_Value> * <local.fame.level>))>
+endif
+if <fame> >= <def.scp.Fame_MaxLimit>
+fame = <def.scp.Fame_MaxLimit>
+endif
+
+[function gainkarma]
+local.karma.level = <tag0.karma.level>
+if <tag0.karma.level> == 0
+argn1 = <eval <karma> + (<ctag0.karma.kill> / <def.scp.Karma_Value>)>
+else
+argn1 = <eval <karma> + (<ctag0.karma.kill> / (<def.scp.Karma_Value> * <local.karma.level>))>
+endif
+if <karma> >= <def.scp.Karma_MaxLimit>
+karma = <def.scp.Karma_MaxLimit>
+endif
+if <karma> <= <def.scp.Karma_MinLimit>
+karma = <def.scp.Karma_MinLimit>
+endif
+
+[Function FameLevelCheck]
+if <Fame> >= 10000
+ Tag.Fame.Level = 4
+elif <Fame> >= 5000 && <Fame> <= 9999
+ Tag.Fame.Level = 3
+elif <Fame> >= 2500 && <Fame> <= 4999
+ Tag.Fame.Level = 2
+elif <Fame> >=1250 && <Fame> <= 2499
+ Tag.Fame.Level = 1
+elif <Fame> <= 1249
+ Tag.Fame.Level = 0
+endif
+
+[Function KarmaLevelCheck]
+if <Karma> >= 10000
+ Tag.Karma.Level = 5
+elif <Karma> >= 5000 && <Karma> <= 9999
+ Tag.Karma.Level = 4
+elif <Karma> >= 2500 && <Karma> <= 4999
+ Tag.Karma.Level = 3
+elif <Karma> >= 1250 && <Karma> <= 2499
+ Tag.Karma.Level = 2
+elif <Karma> >= 625 && <Karma> <= 1249
+ Tag.Karma.Level = 1
+elif <Karma> >= -624 && <Karma> <= 624
+ Tag.Karma.Level = 0
+elif <Karma> <= -625 && <Karma> >= -1249
+ Tag.Karma.Level = -1
+elif <Karma> <= -1250 && <Karma> >= -2499
+ Tag.Karma.Level = -2
+elif <Karma> <= -2500 && <Karma> >= -4999
+ Tag.Karma.Level = -3
+elif <Karma> <= -5000 && <Karma> >= -9999
+ Tag.Karma.Level = -4
+elif <Karma> <= -10000
+ Tag.Karma.Level = -5
+endif
+
+[Function SetTitle]
+DoSwitch <Eval <Tag.Fame.Level>>
+ Begin
+  if <Eval <Tag.Karma.Level>> == 5
+   Title = Trustworthy
+  elif <Eval <Tag.Karma.Level>> == 4
+   Title = Honest
+  elif <Eval <Tag.Karma.Level>> == 3
+   Title = Good
+  elif <Eval <Tag.Karma.Level>> == 2
+   Title = Kind
+  elif <Eval <Tag.Karma.Level>> == 1
+   Title = Fair
+  elif <Eval <Tag.Karma.Level>> == 0
+   Title =
+  elif <Eval <Tag.Karma.Level>> == -1
+   Title = Rude
+  elif <Eval <Tag.Karma.Level>> == -2
+   Title = Unsavory
+  elif <Eval <Tag.Karma.Level>> == -3
+   Title = Scoundrel
+  elif <Eval <Tag.Karma.Level>> == -4
+   Title = Despicable
+  elif <Eval <Tag.Karma.Level>> == -5
+   Title = Outcast
+  endif
+ End
+ Begin
+  if <Eval <Tag.Karma.Level>> == 5
+   Title = Estimable
+  elif <Eval <Tag.Karma.Level>> == 4
+   Title = Commendable
+  elif <Eval <Tag.Karma.Level>> == 3
+   Title = Honorable
+  elif <Eval <Tag.Karma.Level>> == 2
+   Title = Respectable
+  elif <Eval <Tag.Karma.Level>> == 1
+   Title = Upstanding
+  elif <Eval <Tag.Karma.Level>> == 0
+   Title = Notable
+  elif <Eval <Tag.Karma.Level>> == -1
+   Title = Disreputable
+  elif <Eval <Tag.Karma.Level>> == -2
+   Title = Dishonorbable
+  elif <Eval <Tag.Karma.Level>> == -3
+   Title = Malicious
+  elif <Eval <Tag.Karma.Level>> == -4
+   Title = Dastardly
+  elif <Eval <Tag.Karma.Level>> == -5
+   Title = Wretched
+  endif
+ End
+ Begin
+  if <Eval <Tag.Karma.Level>> == 5
+   Title = Great
+  elif <Eval <Tag.Karma.Level>> == 4
+   Title = Famed
+  elif <Eval <Tag.Karma.Level>> == 3
+   Title = Admirable
+  elif <Eval <Tag.Karma.Level>> == 2
+   Title = Proper
+  elif <Eval <Tag.Karma.Level>> == 1
+   Title = Reputable
+  elif <Eval <Tag.Karma.Level>> == 0
+   Title = Prominent
+  elif <Eval <Tag.Karma.Level>> == -1
+   Title = Notorious
+  elif <Eval <Tag.Karma.Level>> == -2
+   Title = Ignoble
+  elif <Eval <Tag.Karma.Level>> == -3
+   Title = Vile
+  elif <Eval <Tag.Karma.Level>> == -4
+   Title = Wicked
+  elif <Eval <Tag.Karma.Level>> == -5
+   Title = Nefarious
+  endif
+ End
+ Begin
+  if <Eval <Tag.Karma.Level>> == 5
+   Title = Glorious
+  elif <Eval <Tag.Karma.Level>> == 4
+   Title = Illustrious
+  elif <Eval <Tag.Karma.Level>> == 3
+   Title = Noble
+  elif <Eval <Tag.Karma.Level>> == 2
+   Title = Eminent
+  elif <Eval <Tag.Karma.Level>> == 1
+   Title = Distinguished
+  elif <Eval <Tag.Karma.Level>> == 0
+   Title = Renowned
+  elif <Eval <Tag.Karma.Level>> == -1
+   Title = Infamous
+  elif <Eval <Tag.Karma.Level>> == -2
+   Title = Sinister
+  elif <Eval <Tag.Karma.Level>> == -3
+   Title = Villanious
+  elif <Eval <Tag.Karma.Level>> == -4
+   Title = Evil
+  elif <Eval <Tag.Karma.Level>> == -5
+   Title = Dread
+  endif
+ End
+ Begin
+  if <Eval <Tag.Karma.Level>> == 5
+   Title = Glorious <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == 4
+   Title = Illustrious <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == 3
+   Title = Noble <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == 2
+   Title = Eminent <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == 1
+   Title = Distinguished <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == 0
+   Title = <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == -1
+   Title = Dishonored <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == -2
+   Title = Sinister <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == -3
+   Title = Dark <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == -4
+   Title = Evil <Src.Sex Lord/Lady>
+  elif <Eval <Tag.Karma.Level>> == -5
+   Title = Dread <Src.Sex Lord/Lady>
+  endif
+  end
+EndDo
+[EOF]

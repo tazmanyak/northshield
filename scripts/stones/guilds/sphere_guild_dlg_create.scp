@@ -1,0 +1,85 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_create]
+10,10
+
+resizepic 0 0 02422 500 300
+dhtmlgump 25 20 450 25 1 0 <DEF.CENTER>GUILD MENU
+dhtmlgump 25 60 450 60 0 0 Kendi guildiniz olmadigi icin suan acmis oldugun menuden kendi guildiniz kurup uyelerinizi alabilirsiniz.
+IF !(<ISITEM>)
+ dhtmlgump 25 135 120 25 0 0 Guild Kayit Ucreti:
+ dtext 155 135 0481 <dDEF0.Guild.RegistrationFee>
+ENDIF
+dhtmlgump 25 165 120 25 0 0 Guild Ismini Yaziniz: 
+resizepic 155 160 0BB8 320 26
+dtextentry 160 163 315 21 0481 1 Guild Ismi
+dhtmlgump 25 191 120 26 0 0 Kisaltma:
+resizepic 155 186 0BB8 320 26
+dtextentry 160 189 315 21 0481 2
+button 415 217 0F7 0F8 1 0 1
+button 345 217 0F2 0F1 1 0 0
+button 20 260 <QVAL (<TAG0.IgnoreGuildInvites>)? 0D3 0D2:0D2 0D3> 1 0 2
+dhtmlgump 45 260 200 30 0 0 <DEF.I>Guild Davetiyelerini Ac / Kapat
+
+[DIALOG d_guild_create BUTTON]
+ON=1
+IF (<isempty <ARGTXT[1]>>)
+ SRC.SYSMESSAGE @,,1 Guild ismi bos olamaz !
+ return 1
+ELIF (<isempty <ARGTXT[2]>>)
+ SRC.SYSMESSAGE @,,1 Guild kisaltmasi eklemek zorundasiniz !
+ return 1
+ELIF (<eval STRLEN(<ARGTXT[1]>)> > <DEF0.Guild.NameMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Guild ismi <dDEF0.Guild.NameMaxLenght> karakterden fazla olamaz !
+ return 1
+ELIF (<eval STRLEN(<ARGTXT[2]>)> > <DEF0.Guild.AbbrevMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Guild kisaltmasi <dDEF0.Guild.AbbrevMaxLenght> karakterden fazla olamaz !
+ return 1
+ELIF !(<Guild_IsNameAvaible <ARGTXT[1]>>) || (<Guild_CheckProfanity <ARGTXT[1]>>)
+ SRC.SYSMESSAGE @,,1 Bu guild ismi musait degil, kullanilmaktadir !
+ return 1
+ELIF !(<Guild_IsAbbrevAvaible <ARGTXT[2]>>) || (<Guild_CheckProfanity <ARGTXT[2]>>)
+ SRC.SYSMESSAGE @,,1 Bu guild kisaltmasi musait degil, kullanilmaktadir !
+ return 1
+ELIF !(<ISITEM>) && (<SRC.FINDLAYER.layer_bankbox.RESCOUNT.i_gold> < <DEF0.Guild.RegistrationFee>)
+ SRC.SYSMESSAGE @,,1 Hesabinizda <dDEF0.Guild.RegistrationFee> kadar gold bulunmadigi icin guild kurulumunu gerceklestiremiyorsunuz..
+ return 1
+ENDIF
+IF (<ISITEM>)
+ REMOVE
+ELSE
+ SRC.SYSMESSAGE @,,1 <dDEF0.Guild.RegistrationFee> kadar gold hesabinizdan cekilmistir.
+ SRC.FINDLAYER.layer_bankbox.CONTCONSUME i_gold <DEF0.Guild.RegistrationFee>
+ENDIF
+SRC.SYSMESSAGE @,,1 Guildiniz kurulmustur.
+SERV.NEWITEM i_guildstone
+new.p = <src.p>
+NEW.NAME=<ARGTXT[1]>
+NEW.ABBREV=<ARGTXT[2]>
+NEW.Guild_AddMember <SRC>,1
+NEW.JoinAsMember <SRC>
+
+ON=2
+IF (<SRC.TAG0.IgnoreGuildInvites>)
+ SRC.SYSMESSAGE @,,1 Guild davetiye alimini actiniz.
+ SRC.TAG0.IgnoreGuildInvites=
+ELSE
+ SRC.SYSMESSAGE @,,1 Guild davetiye alimini kapattiniz.
+ SRC.TAG0.IgnoreGuildInvites=1
+ENDIF
+
+[Plevel 1]
+guilduyelik
+
+[function guilduyelik]
+IF (<SRC.TAG0.IgnoreGuildInvites>)
+ SRC.SYSMESSAGE @,,1 Guild davetiye alimini actiniz.
+ SRC.TAG0.IgnoreGuildInvites=
+ELSE
+ SRC.sys_error Guild davetiye alimini kapattiniz.
+ SRC.TAG0.IgnoreGuildInvites=1
+ENDIF
+
+[EOF]

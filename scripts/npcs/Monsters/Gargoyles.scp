@@ -1,0 +1,205 @@
+[CHARDEF 043]
+DEFNAME=c_gargoyle_stone
+NAME=stone gargoyle
+ICON=i_pet_gargoyle_stone
+SOUND=snd_monster_gargyl1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=25,40
+ARMOR=45
+DESIRES=r_mountains,r_ruins,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+RESOURCES=1 i_rock_plain
+FOODTYPE=25 t_meat_raw
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=71.4
+TAG.Luck.Loot=loot_gargoyle_stone_luck
+TAG.Slayer=SLAYER_GARGOYLE
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Gargoyles
+DESCRIPTION=Gargoyle (stone)
+ON=@Create
+   NPC=brain_monster
+   FAME=4000
+   KARMA=-4000
+   STR={246 275}
+   MAXHITS={148 165}
+   DEX={76 95}
+   MAXSTAM={76 95}
+   INT={81 105}
+   MAXMANA={81 105}
+   MAGICRESISTANCE={85.0 100.0}
+   PARRYING={80.0 100.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD={10 20}
+   RESENERGY={30 40}
+   RESFIRE={20 30}
+   RESPOISON={30 40}
+ON=@NpcRestock
+   ITEM=loot_gargoyle_stone
+   //250 - 325 Gold. 1-3 Gems, 6-20 Iron Ore
+   //Special: A Gargoyles Pickaxe, Level 2 Treasure Map
+
+
+[CHARDEF 02f1]
+//FIXME: Incomplete Stratics data
+DEFNAME=c_gargoyle_enslaved
+NAME=enslaved gargoyle
+ICON=i_pet_gargoyle_fire
+SOUND=snd_monster_gargyl1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=18,35
+ARMOR=30
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=70.8
+TAG.Luck.Loot=loot_gargoyle_enslaved_luck
+TAG.Slayer=SLAYER_GARGOYLE
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Gargoyles
+DESCRIPTION=Gargoyle (enslaved)
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={302 360}
+   MAXHITS={186 212}
+   DEX={76 95}
+   MAXSTAM={76 95}
+   INT={81 105}
+   MAXMANA={81 105}
+   MAGICRESISTANCE={70.0 85.0}
+   TACTICS={50.0 70.0}
+   WRESTLING={40.0 80.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={25 30}
+   RESFIRE={50 70}
+   RESPOISON={25 30}
+ON=@NpcRestock
+   ITEM=loot_gargoyle_enslaved
+   //250 - 300 Gold. 1 Gem
+   //Special: Level 1 Treasure Map, A Gargoyles Pickaxe
+
+[CHARDEF 02f2]
+DEFNAME=c_gargoyle_enforcer
+NAME=gargoyle enforcer
+ICON=i_pet_gargoyle_fire
+SOUND=snd_monster_gargyl1
+DAM=19,36
+ARMOR=40
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_USEHANDS|MT_EQUIP
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=88.0
+TAG.DamEnergy=25
+TAG.DamFire=25
+TAG.Luck.Loot=loot_gargoyle_enforcer_luck
+TAG.Slayer=SLAYER_GARGOYLE
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Gargoyles
+DESCRIPTION=Gargoyle (enforcer)
+ON=@Create
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-5000
+   STR={260 350}
+   MAXHITS={182 185}
+   DEX={76 95}
+   MAXSTAM={76 95}
+   INT={101 125}
+   MAXMANA={101 125}
+   ANATOMY={70.0 80.0}
+   EVALUATINGINTEL={70.0 100.0}
+   MAGERY={80.0 90.0}
+   MAGICRESISTANCE={120.0 130.0}
+   MEDITATION={70.0 100.0}
+   PARRYING={70.0 80.0}
+   SWORDSMANSHIP={80.0 90.0}
+   TACTICS={70.0 80.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 20}
+   RESCOLD={20 30}
+   RESENERGY={15 25}
+   RESFIRE={50 60}
+   RESPOISON={25 35}
+ON=@NpcRestock
+   ITEM=loot_gargoyle_enforcer
+   //275 - 325 Gold. 1 Medium Level Scroll, Magic Items
+   //Special: A Gargoyles Pickaxe
+
+[CHARDEF 02f3]
+DEFNAME=c_gargoyle_destroyer
+NAME=gargoyle destroyer
+ICON=i_pet_gargoyle_fire
+SOUND=snd_monster_gargyl1
+DAM=31,64
+ARMOR=40
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_USEHANDS|MT_EQUIP
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=55 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=110.8
+TAG.Luck.Loot=loot_gargoyle_destroyer_luck
+TAG.Slayer=SLAYER_GARGOYLE
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Gargoyles
+DESCRIPTION=Gargoyle (destroyer)
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=0ad
+ON=@Create
+   NPC=brain_monster
+   FAME=10000
+   KARMA=-10000
+   STR={760 850}
+   MAXHITS={482 485}
+   DEX={102 150}
+   MAXSTAM={102 150}
+   INT={152 200}
+   MAXMANA={152 200}
+   ANATOMY={50.0 100.0}
+   EVALUATINGINTEL={91.0 100.0}
+   MAGERY={91.0 100.0}
+   MAGICRESISTANCE={120.0 160.0}
+   MEDITATION={91.0 100.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 20}
+   RESCOLD={15 25}
+   RESENERGY={15 25}
+   RESFIRE={60 70}
+   RESPOISON={15 25}
+ON=@NpcRestock
+   ITEM=loot_gargoyle_destroyer
+   //750 - 950 Gold. 1 Medium Level Scroll, 2 Gems, Magic Items
+   //Special: A Gargoyles Pickaxe
+ON=@GetHit
+   //Thrown Weapon Attack (axe)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+//      SRC.TARG.EFFECT 0,i_axe,2,1
+      IF (RAND(3)==0)
+         SRC.DAMAGE <R25,35> <DEF.dam_physical> <UID>
+      ENDIF
+   ENDIF
+
+[EOF]

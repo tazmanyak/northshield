@@ -1,0 +1,1384 @@
+﻿[CHARDEF c_semidar]
+//ID=c_abyss_lord
+ID=c_Horde_Daemon_Large
+NAME=Semidar
+DAM=29,35
+CAN=MT_WALK
+MOVERATE=55
+ARMOR=20
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Semidar
+TAG.IAMACHAMPION=1
+TAG.LIFELEECH=50
+TAG.CHAMPIONSKULL.COLOR=0fd
+
+ON=@Create
+NPC=BRAIN_MONSTER
+//TAG.override.regenval_1=3 //30
+KARMA=-10000
+FAME=10000
+STR={10000 20000}
+DEX={102 200}
+INT={600 750}
+WRESTLING={90.0 105.0}
+TACTICS={90.0 105.0}
+MAGICRESISTANCE={120.0 140.0}
+MAGERY={90.0 105.0}
+MEDITATION={95.0 105.0}
+EVALUATINGINTEL={95.0 105.0}
+var.semidaruid 0
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_paralyze
+ADDSPELL=s_poison
+
+ON=@NPCRestock
+ITEM=i_gold,{6000 6500}
+
+ON=@Death
+var.semidaruid -1
+
+//newnpc {c_unicorn 1 c_kirin 1 c_swamp_dragon 1 c_armored_swamp_dragon 1 c_skeletal_mount 1 c_ridgeback 1} //c_cu_sidhe 1 c_m_hiryu 1 c_giant_beetle 1 c_savage_ridgeback 1
+//new.p <p>
+//new.home <p>
+//new.go <p>
+//new.karma -5000
+//new.homedist=3
+
+//newnpc {c_m_unicorn 1 c_m_nightmare 1 c_angels 1 c_fear 1}
+//new.p <p>
+//new.home <p>
+//new.go <p>
+//new.karma -5000
+//new.homedist=3
+
+
+//endif
+
+on=@attack
+var.semidaruid <hits>
+
+if (rand(60) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(60) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(40) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(50) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+
+
+ON=@Gethit
+var.semidaruid <hits>
+if (<act.baseid>=c_vortex)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_scorpion_giant)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_daemon)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_daemon_w_sword)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<flags> &statf_poisoned)
+sayua 048,6,6,0 * Zehiri Iyilestirir *
+sound snd_spell_cure
+findid.i_rune_poison.remove
+endif
+
+if (rand(15) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(40) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(15) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(40) == 4)
+go <src.p>
+attack <src>
+
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==51) || (<argn>==20) || (<argn>==28) || (<argn>==39) || (<argn>==47) || (<argn>==38) || (<argn>==55) || (<argn>==57) || (<argn>==46) || (<argn>==49) 
+sayua 048,6,6,0  *Etkilenmez *
+return 1
+endif
+
+IF (<src.findid.i_rune_clumsy>) || (<src.findid.i_rune_feeblemind>) || (<src.findid.i_rune_magic_arrow>) || (<src.findid.i_rune_weaken>) || (<src.findid.i_rune_poison>)) || (<src.findid.i_fx_poison_field>)) || (<src.findid.i_fx_field_fire_ns>)) || (<src.findid.i_fx_field_paralyze>))
+src.findid.i_rune_clumsy.remove
+src.findid.i_rune_feeblemind.remove
+src.findid.i_rune_magic_arrow.remove
+src.findid.i_rune_weaken.remove
+src.findid.i_rune_poison.remove
+src.findid.i_fx_poison_field.remove
+src.findid.i_fx_poison_field_fire_ns.remove
+src.findid.i_fx_field_paralyze.remove
+SPELLEFFECT=s_cure,150.0,1
+endif
+endif
+
+[CHARDEF c_Mephitis]
+ID=c_spider_lord
+NAME=Mephitis
+CAN=MT_WALK|MT_RUN
+MOVERATE=55
+DAM=60,80
+ARMOR=35
+RANGE=2
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Mephitis
+TAG.IAMACHAMPION=1
+TAG.CHAMPIONSKULL.COLOR=0114
+
+ON=@Create
+KARMA=-10000
+FAME=10000
+STR={17000 20000}
+DEX={700 800}
+INT={1 20}
+WRESTLING={90.0 105.0}
+TACTICS={90.0 105.0}
+MAGICRESISTANCE={120.0 140.0}
+MAGERY={90.0 105.0}
+MEDITATION={95.0 105.0}
+EVALUATINGINTEL={95.0 105.0}
+POISONING 990.0
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_paralyze
+ADDSPELL=s_poison
+
+ON=@NPCRestock
+ITEM=i_gold,{6000 6500}
+
+ON=@Death
+var.mephitisuid -1
+//newnpc {c_cu_sidhe 1 c_unicorn 1 c_kirin 1 c_swamp_dragon 1 c_armored_swamp_dragon 1 c_m_hiryu 1 c_giant_beetle 1 c_savage_ridgeback 1 c_skeletal_mount 1  c_ridgeback 1}
+//new.p <p>
+//new.home <p>
+//new.go <p>
+//new.karma -5000
+//new.homedist=3
+
+//newnpc {c_m_unicorn 1 c_m_nightmare 1 c_angels 1 c_fear 1}
+//new.p <p>
+//new.home <p>
+//new.go <p>
+//new.karma -5000
+//new.homedist=3
+
+
+on=@attack
+var.semidaruid <hits>
+
+if (rand(60) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(60) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(40) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(50) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+
+
+ON=@Gethit
+IF (<HITS> > 200)
+	IF (<FLOATVAL 0.07> > <RANDOMDOUBLE>)
+	LOCAL.OLDNEW=<NEW>
+		FOR 3
+			DORAND 3
+			SERV.NEWNPC c_scorpion_giant
+			SERV.NEWNPC c_terathan_warrior
+			SERV.NEWNPC c_terathan_matriarch
+			ENDDO
+		//NEW.ATTACK <SRC>
+		ENDFOR
+	NEW=<LOCAL.OLDNEW>
+	ENDIF
+ENDIF
+if (<act.baseid>=c_vortex)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_scorpion_giant)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_demon_summoned)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<flags> &statf_poisoned)
+sayua 048,6,6,0 * Zehiri Iyilestirir *
+sound snd_spell_cure
+findid.i_rune_poison.remove
+endif
+
+if (rand(15) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(40) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(15) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(40) == 4)
+go <src.p>
+attack <src>
+
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==20) || (<argn>==28) || (<argn>==39) || (<argn>==47) || (<argn>==38) || (<argn>==55) || (<argn>==57) || (<argn>==46) || (<argn>==49) 
+sayua 048,6,6,0  *Etkilenmez *
+return 1
+endif
+
+IF (<src.findid.i_rune_clumsy>) || (<src.findid.i_rune_feeblemind>) || (<src.findid.i_rune_magic_arrow>) || (<src.findid.i_rune_weaken>) || (<src.findid.i_rune_poison>)) || (<src.findid.i_fx_poison_field>)) || (<src.findid.i_fx_field_fire_ns>)) || (<src.findid.i_fx_field_paralyze>))
+src.findid.i_rune_clumsy.remove
+src.findid.i_rune_feeblemind.remove
+src.findid.i_rune_magic_arrow.remove
+src.findid.i_rune_weaken.remove
+src.findid.i_rune_poison.remove
+src.findid.i_fx_poison_field.remove
+src.findid.i_fx_poison_field_fire_ns.remove
+src.findid.i_fx_field_paralyze.remove
+SPELLEFFECT=s_cure,150.0,1
+endif
+endif
+
+
+[CHARDEF c_Rikktor]
+ID=c_reptile_lord
+NAME=Rikktor
+CAN=MT_WALK
+MOVERATE=90
+DAM=28,55
+ARMOR=70
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Rikktor
+TAG.IAMACHAMPION=1
+TAG.CHAMPIONSKULL.COLOR=0157
+
+ON=@Create
+NPC=brain_monster
+//TAG.override.regenval_1=3 //25
+KARMA=-10000
+FAME=10000
+STR={700 900}
+MAXHITS=14000
+DEX={200 350}
+INT={51 100}
+TACTICS=100.0
+WRESTLING=100.0
+MAGICRESISTANCE={140.0 160.0}
+ANATOMY=100.0
+
+ON=@NPCActFight
+IF (<FLOATVAL 0.035> > <RANDOMDOUBLE>) && (<SRC> != <UID>)
+LOCAL.RIK=<UID>
+	FORCHARS 6
+		IF ((<ISPLAYER>) || ((!(<ISPLAYER>)) && (<OWNER.ISPLAYER>))) && (<UID> != <LOCAL.RIK>)
+		DAMAGE <R50,90> <HVAL <DEF.DAM_PHYSICAL>|<DEF.DAM_DRAIN>> <LOCAL.RIK>
+		ENDIF
+	ENDFOR
+ENDIF
+
+ON=@NPCRestock
+ITEM=i_gold,{4000 5000}
+ITEM=i_hide_dragon,60
+
+ON=@Death
+RANDMAGICITEMGREAT
+
+[CHARDEF 175]
+DEFNAME=c_lord_oaks
+NAME=Lord Oaks
+CAN=MT_WALK
+MOVERATE=55
+DAM=29,36
+ARMOR=70
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Lord Oaks
+TAG.IAMACHAMPION=1
+TAG.LIFELEECH=33
+TAG.MANALEECH=33
+TAG.STAMLEECH=33
+TAG.CHAMPIONSKULL.COLOR=03e4
+//TEVENTS=e_npc_necromancer_paladin
+
+ON=@Create
+NPC=BRAIN_MONSTER
+KARMA=10000
+FAME=10000
+STR={403 850}
+MAXHITS=14000
+DEX={100 150}
+INT={503 800}
+TACTICS=100.0
+ANATOMY={80.0 100.0}
+MAGICRESISTANCE={100.0 150.0}
+WRESTLING=105.0
+MEDITATION={120.0 130.0}
+CHIVALRY=100.0
+
+ON=@GetHit
+IF (<TAG0.QUEEN> > 1)
+	IF (<FLOATVAL 0.02> > <RANDOMDOUBLE>)
+	LOCAL.OLDNEW=<NEW>
+		FOR <R2,3>
+		SERV.NEWNPC C_PIXIE
+		NEW.ATTACK <SRC>
+		ENDFOR
+	NEW=<LOCAL.OLDNEW>
+	ENDIF
+ARGN1=0
+ELIF (<TAG0.QUEEN> == 0)
+LOCAL.OLDNEW=<NEW>
+SERV.NEWNPC c_Silvani
+NEW.TAG.KING=<UID>
+TAG.QUEEN=<NEW.UID>
+NEW=<LOCAL.OLDNEW>
+ENDIF
+
+
+ON=@Death
+IF (<TAG0.QUEEN> > 1)
+TRY UID.<TAG0.QUEEN>.KILL
+ENDIF
+
+ON=@NPCRestock
+ITEM=i_gold,{3500 6000}
+
+ON=@NPCLookAtChar
+IF (<SRC.ISPLAYER>)
+	IF (<SRC.FLAGS>&STATF_DEAD)
+		IF (<NOTOGETFLAG <SRC>,0> == 1)
+		SRC.SPELLEFFECT S_RESURRECTION,120.0,<UID>
+		ENDIF
+	ENDIF
+ENDIF
+
+[CHARDEF c_Silvani]
+ID=c_forest_queen
+NAME=Silvani
+CAN=MT_WALK
+DAM=27,29
+MOVERATE=60
+ARMOR=50
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Silvani
+
+ON=@Create
+NPC=BRAIN_MONSTER
+//TAG.override.regenval_1=3 //25
+KARMA=9000
+FAME=9000
+STR={200 400}
+MAXHITS=5000
+DEX={150 850}
+INT={500 800}
+TACTICS={95.0 105.0}
+MAGICRESISTANCE={100.0 150.0}
+WRESTLING=100.0
+MAGERY=110.0
+
+ON=@GetHit
+IF (<FLOATVAL 0.02> > <RANDOMDOUBLE>)
+LOCAL.OLDNEW=<NEW>
+	FOR <R2,3>
+	SERV.NEWNPC C_PIXIE
+	NEW.ATTACK <SRC>
+	NEW.REMOVETIMER=<EVAL 60*6>
+	ENDFOR
+NEW=<LOCAL.OLDNEW>
+ENDIF
+
+ON=@Death
+UID.<TAG0.KING>.TAG.QUEEN=1
+RANDMAGICITEMGREAT
+
+ON=@NPCRestock
+ITEM=i_gold,{2000 3000}
+
+[CHARDEF c_Neira]
+ID=c_woman
+NAME=Neira the Necromancer
+CAN=MT_WALK|MT_EQUIP|MT_MOUNT
+DAM=22,35
+MOVERATE=65
+ARMOR=50
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Neira
+TAG.IAMACHAMPION=1
+TAG.CHAMPIONSKULL.COLOR=0e8
+//TEVENTS=e_npc_necromancer_paladin
+
+ON=@Create
+NPC=BRAIN_MONSTER
+//TAG.override.regenval_1=3 //25
+KARMA=-10000
+FAME=10000
+STR={300 425}
+MAXHITS=14500
+DEX={72 150}
+INT={505 750}
+TACTICS={97.0 100.0}
+MAGICRESISTANCE=150.0
+WRESTLING={97.0 100.0}
+SWORDSMANSHIP={97.0 100.0}
+MAGERY=107.5
+EVALUATINGINTEL=120.0
+NECROMANCY=110.0
+SPIRITSPEAK=120.0
+ITEMNEWBIE=i_robe
+DISPID=i_deathshroud
+COLOR=038b
+ITEMNEWBIE=i_scimitar
+COLOR=33
+
+ON=@GetHit
+IF (<FLOATVAL 0.08> > <RANDOMDOUBLE>)
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_unholy_bone
+NEW.LINK=<UID>
+NEW.P=<SRC.P>
+NEW.TIMER=10
+NEW=<LOCAL.OLDNEW>
+ENDIF
+
+ON=@NPCRestock
+ITEM=i_gold,{2500 3000}
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+ITEM=RANDOM_JEWEL
+
+[EVENTS E_UNHOLY_BONE_SUMMONED]
+ON=@Attack
+IF (!(<SRC.ISPLAYER>))
+	IF (!(<SRC.OWNER.ISPLAYER>)) && (<SRC.BASEID> != c_revenant)
+	RETURN 1
+	ENDIF
+ENDIF
+
+
+
+[CHARDEF c_Barracoon]
+ID=c_man
+NAME=Barracoon the Piper
+CAN=MT_WALK|MT_RUN
+MOVERATE=55
+DAM=60,80
+MOVERATE=35
+ARMOR=35
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Barracoon
+TAG.IAMACHAMPION=1
+TAG.CHAMPIONSKULL.COLOR=024c
+
+ON=@Create
+NPC=BRAIN_MONSTER
+//TAG.override.regenval_1=3 //30
+KARMA=-10000
+FAME=10000
+STR={25000 30000}
+DEX={700 800}
+INT={600 750}
+WRESTLING={90.0 105.0}
+TACTICS={90.0 105.0}
+MAGICRESISTANCE={120.0 140.0}
+MAGERY={90.0 105.0}
+MEDITATION={95.0 105.0}
+EVALUATINGINTEL={95.0 105.0}
+POISONING 900.0
+//var.semidaruid 0
+ITEMNEWBIE=i_cape
+COLOR=30
+ITEMNEWBIE=i_hat_jester
+COLOR=30
+ITEMNEWBIE=i_shirt_fancy
+COLOR=0242
+ITEMNEWBIE=i_pants_long
+COLOR=color_o_bronze
+ITEMNEWBIE=i_sandals
+var.Barracoonuid 0
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_paralyze
+ADDSPELL=s_poison
+
+ON=@NPCRestock
+ITEM=i_gold,{6000 6500}
+
+ON=@Death
+var.Barracoonuid -1
+
+//FOR 8
+//DORAND 3
+//SERV.NEWNPC C_RATMAN
+//SERV.NEWNPC C_RATMAN_W_SWORD
+//SERV.NEWNPC C_RATMAN_W_MACE
+//ENDDO
+//new.p <p>
+//ENDFOR
+
+on=@attack
+var.semidaruid <hits>
+
+if (rand(60) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {30 4}
+
+elseif (rand(60) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(40) == 3)
+src.bomba1
+src.damage {30 40}
+
+elseif (rand(50) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+
+
+ON=@Gethit
+var.Barracoonuid <hits>
+if rand(1000)==1
+	duyurx Barracoon (Champion) tehtit altında. Kalan Hits : <hits>
+endif
+if rand(5)==1
+	binekstabil
+endif
+if (<act.baseid>=c_vortex)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_scorpion_giant)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_demon_summoned)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_elemental_earth_summoned)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_elemental_fire_summoned)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_elemental_air_summoned)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_elemental_water_summoned)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<flags> &statf_poisoned)
+sayua 048,6,6,0 * Zehiri Iyilestirir *
+sound snd_spell_cure
+findid.i_rune_poison.remove
+endif
+
+if (rand(15) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(40) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(15) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(40) == 4)
+go <src.p>
+attack <src>
+
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==20) || (<argn>==28) || (<argn>==39) || (<argn>==47) || (<argn>==38) || (<argn>==55) || (<argn>==57) || (<argn>==46) || (<argn>==49) 
+sayua 048,6,6,0  *Etkilenmez *
+return 1
+endif
+
+IF (<src.findid.i_rune_clumsy>) || (<src.findid.i_rune_feeblemind>) || (<src.findid.i_rune_magic_arrow>) || (<src.findid.i_rune_weaken>) || (<src.findid.i_rune_poison>)) || (<src.findid.i_fx_poison_field>)) || (<src.findid.i_fx_field_fire_ns>)) || (<src.findid.i_fx_field_paralyze>))
+src.findid.i_rune_clumsy.remove
+src.findid.i_rune_feeblemind.remove
+src.findid.i_rune_magic_arrow.remove
+src.findid.i_rune_weaken.remove
+src.findid.i_rune_poison.remove
+src.findid.i_fx_poison_field.remove
+//src.findid.i_fx_poison_field_fire_ns.remove
+src.findid.i_fx_field_paralyze.remove
+SPELLEFFECT=s_cure,150.0,1
+endif
+endif
+
+
+[CHARDEF c_Ilhenir]
+ID=c_Monstrous_Interred_Grizzle
+NAME=Ilhenir
+CAN=MT_WALK
+MOVERATE=85
+DAM=28,34
+ARMOR=20
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Ilhenir
+TAG.IAMACHAMPION=1
+
+ON=@Create
+NPC=BRAIN_MONSTER
+//TAG.override.regenval_1=3 //30
+KARMA=-10000
+FAME=10000
+STR={10000 20000}
+DEX={102 200}
+INT={600 750}
+WRESTLING={90.0 105.0}
+TACTICS={90.0 105.0}
+MAGICRESISTANCE={120.0 140.0}
+MAGERY={90.0 105.0}
+MEDITATION={95.0 105.0}
+EVALUATINGINTEL={95.0 105.0}
+var.Ilheniruid 0
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_paralyze
+ADDSPELL=s_poison
+
+ON=@NPCRestock
+ITEM=i_gold,{6000 6500}
+
+ON=@Death
+var.Ilheniruid -1
+
+
+
+on=@attack
+var.Ilheniruid <hits>
+
+if (rand(15) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(40) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(15) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(40) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+
+
+ON=@Gethit
+var.Ilheniruid <hits>
+if (<act.baseid>=c_vortex)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_scorpion_giant)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_daemon)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_daemon_w_sword)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 048,6,6,0 * Büyü Etkisini Kaldırır *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+act.remove
+endif
+if (<flags> &statf_poisoned)
+sayua 048,6,6,0 * Zehiri Iyilestirir *
+sound snd_spell_cure
+findid.i_rune_poison.remove
+endif
+
+if (rand(100) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(100) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(60) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(80) == 4)
+go <src.p>
+attack <src>
+
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==51) || (<argn>==20) || (<argn>==28) || (<argn>==39) || (<argn>==47) || (<argn>==38) || (<argn>==55) || (<argn>==57) || (<argn>==46) || (<argn>==49) 
+sayua 048,6,6,0  *Etkilenmez *
+return 1
+endif
+
+IF (<src.findid.i_rune_clumsy>) || (<src.findid.i_rune_feeblemind>) || (<src.findid.i_rune_magic_arrow>) || (<src.findid.i_rune_weaken>) || (<src.findid.i_rune_poison>)) || (<src.findid.i_fx_poison_field>)) || (<src.findid.i_fx_field_fire_ns>)) || (<src.findid.i_fx_field_paralyze>))
+src.findid.i_rune_clumsy.remove
+src.findid.i_rune_feeblemind.remove
+src.findid.i_rune_magic_arrow.remove
+src.findid.i_rune_weaken.remove
+src.findid.i_rune_poison.remove
+src.findid.i_fx_poison_field.remove
+src.findid.i_fx_poison_field_fire_ns.remove
+src.findid.i_fx_field_paralyze.remove
+SPELLEFFECT=s_cure,150.0,1
+endif
+endif
+
+
+
+
+
+
+
+[CHARDEF c_Twaulo]
+ID=c_Centaur
+NAME=Twaulo of the Glade
+CAN=MT_WALK
+MOVERATE=55
+DAM=26,33
+ARMOR=60
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Twaulo of the Glade
+TAG.IAMACHAMPION=1
+
+ON=@Create
+COLOR=03b3
+NPC=BRAIN_MONSTER
+KARMA=0
+FAME=10000
+STR=964
+MAXHITS=12500
+DEX=550
+INT=344
+TACTICS=110.0
+MAGICRESISTANCE=110.0
+ANATOMY=110.0
+WRESTLING=120.0
+MUSICIANSHIP=120.0
+PEACEMAKING=120.0
+
+ON=@NPCRestock
+ITEM=i_gold,{5000 6000}
+
+ON=@NpcLookAtChar
+IF (<FLOATVAL 0.1> > <RANDOMDOUBLE>)
+	IF (0<SRC.ISFIGHTINGME <UID>>)
+		IF !(<SRC.ISEVENT.E_PEACEMAKED>)
+		FLOAT.CHANCE=<FLOATVAL (50+(2*(((<PEACEMAKING>/2)+(<MUSICIANSHIP>/2))-<SRC.BARDDIFF <UID>>)))/100>
+			IF (<FLOAT.CHANCE> > <RANDOMDOUBLE>)
+			SRC.TIMERF 1,F_CHECK_PEACEDDISTANCE
+			SRC.TAG.PEACED.PLAYER=<UID>
+			SRC.EVENTS +E_PEACEMAKED
+			SRC.FLAGS &= ~statf_war
+			SRC.REMOVEALLMEMS memory_war_targ
+				IF (!(<SRC.ISPLAYER>))
+				SRC.ACTION=06d
+				ELSE
+				SRC.ACTION=-1
+				ENDIF
+			SOUND 1419
+			REMOVEALLMEMS memory_war_targ
+			FLAGS &= ~statf_war
+			REF1=<UID>
+				FORCLIENTS 8
+				REF1.ATTACK <UID>
+				REF1.GOTO <P>
+				ENDFOR
+			ENDIF
+		ELSE
+		RETURN 1
+		ENDIF
+	ENDIF
+ENDIF
+
+[CHARDEF c_Meraktus]
+ID=c_minotaur
+NAME=Meraktus the Tormented
+CAN=MT_WALK|MT_USEHANDS
+DAM=16,30
+ARMOR=71
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Meraktus
+TAG.IAMACHAMPION=1
+MOVERATE=60
+
+ON=@Create
+COLOR=02fc
+NPC=BRAIN_MONSTER
+//TAG.override.regenval_1=3 //25
+COLOR=colors_gray
+KARMA=-10000
+FAME=10000
+STR=1500
+MAXHITS=4750
+DEX=400
+INT=131
+TACTICS=115.0
+MAGICRESISTANCE=111.0
+ANATOMY=50.0
+WRESTLING=110.0
+LOCAL.OLDNEW=<NEW>
+FOR 0 2
+SERV.NEWNPC C_TORMENTED_MINOTAUR
+	DOSWITCH <dLOCAL._FOR>
+	NEW.P=383,1928,15,3
+	NEW.P=388,1938,10,3
+	NEW.P=379,1938,10,3
+	ENDDO
+NEW.HOME=<NEW.P>
+NEW.HOMEDIST=6
+NEW.UPDATE
+ENDFOR
+NEW=<LOCAL.OLDNEW>
+
+ON=@NPCRestock
+ITEM=i_gold,{5000 6000}
+
+ON=@Hit
+IF (<SRC.FLAGS>&statf_onhorse)
+SRC.DCLICK <SRC>
+ENDIF
+IF (<FLOATVAL 0.1> > <RANDOMDOUBLE>)
+LOCAL.STOMPER=<UID>
+	FORCHARS 5
+		IF ((<ISPLAYER>) || (<FLAGS>&STATF_PET))
+		DAMAGE <R50,80> <DEF.DAM_PHYSICAL> <LOCAL.STOMPER>
+		ENDIF
+	ENDFOR
+ENDIF
+
+///////////////////////////
+
+[DIALOG d_CUSTOM_CHAMP]
+220,150
+PAGE 1
+resizepic 20 20 5054 280 240
+resizepic 30 30 5120 260 220
+checkertrans 30 30 260 220
+dtext 110 30 33 Champion Spawn
+dtext 40 60 88 MonsterGroup:
+dtext 130 60 55 <TAG0.MONSTERGROUP>
+button 260 65 015e1 015e5 0 2 0
+dtext 40 120 88 SpawnRange:
+dtextentry 130 120 100 20 55 1 <dTAG0.RANGE>
+button 260 125 015e1 015e5 1 0 12
+dtext 40 140 88 MaxSpawns:
+dtextentry 130 140 100 20 55 2 <QVAL <TAG0.MAXSPAWNS> ? <dTAG0.MAXSPAWNS>:<dDEF.TOTALMONSTERS>>
+button 260 145 015e1 015e5 1 0 13
+dtext 40 180 88 Active:
+dtext 130 180 55 <QVAL <TAG0.ACTIVE> ? Yes:No>
+button 260 185 015e1 015e5 1 0 14
+
+PAGE 2
+resizepic 20 20 5054 280 320
+resizepic 30 30 5120 260 300
+checkertrans 30 30 260 300
+dtext 110 30 33 Champion Spawn
+dtext 60 60 55 Abyss
+dtext 60 80 55 VerminHorde
+dtext 60 100 55 UnholyTerror
+dtext 60 120 55 Arachnid
+dtext 60 140 55 ForestLord
+dtext 60 160 55 ColdBlood
+dtext 60 180 55 SleepingDragon
+dtext 60 200 55 Pestilence
+dtext 60 220 55 Minotaur
+dtext 60 240 55 TwistedGlade
+dtext 60 260 0ad Random
+FOR 0 10
+button 260 <EVAL (<LOCAL._FOR>*20)+65> 015e1 015e5 1 0 <EVAL <LOCAL._FOR>+1>
+ENDFOR
+
+[DIALOG d_CUSTOM_CHAMP BUTTON]
+ON=1 11
+TAG.RANDOM=
+IF (<ARGN> == 1)
+TAG.MONSTERGROUP=Abyss
+ELIF (<ARGN> == 2)
+TAG.MONSTERGROUP=VerminHord
+ELIF (<ARGN> == 3)
+TAG.MONSTERGROUP=UnholyTerror
+ELIF (<ARGN> == 4)
+TAG.MONSTERGROUP=Arachnid
+ELIF (<ARGN> == 5)
+TAG.MONSTERGROUP=ForestLord
+ELIF (<ARGN> == 6)
+TAG.MONSTERGROUP=ColdBlood
+ELIF (<ARGN> == 7)
+TAG.MONSTERGROUP=SleepingDragon
+ELIF (<ARGN> == 8)
+TAG.MONSTERGROUP=Pestilence
+ELIF (<ARGN> == 9)
+TAG.MONSTERGROUP=Minotaur
+ELIF (<ARGN> == 10)
+TAG.MONSTERGROUP=TwistedGlade
+ELIF (<ARGN> == 11)
+TAG.RANDOM=1
+RANDOMMONSTERGROUP
+ENDIF
+UPDATE
+SDIALOG d_CUSTOM_CHAMP
+
+ON=12
+TAG.RANGE=<ARGTXT[1]>
+SDIALOG d_CUSTOM_CHAMP
+UPDATE
+
+ON=13
+TAG.MAXSPAWNS=<ARGTXT[2]>
+SDIALOG d_CUSTOM_CHAMP
+
+ON=14
+TAG.RANGE=<ARGTXT[1]>
+IF !(<TAG0.ACTIVE>)
+TIMER
+ELSE
+F_CHAMPION_TIMEOUT_RESET
+TIMERF CLEAR
+TIMER=-1
+ENDIF
+
+[FUNCTION F_CHAMPION_TIMEOUT_RESET]
+MORE1=0
+MOREX=0
+REMOVEWHITECANDLES
+IF (<TAG0.CANDLES>)
+	FOR <TAG0.CANDLES>
+	TRY UID.<TAG0.CANDLE.<dLOCAL._FOR>>.REMOVE
+	TRY TAG.CANDLE.<dLOCAL._FOR>
+	TAG0.CANDLES --
+	ENDFOR
+ENDIF
+F_REMOVEALLMINIONS
+F_SET_PENTAGRAM_COLOR 03a5
+TAG.ACTIVE=
+TAG.IDLE=
+TAG.VALORTIMES=
+TAG.CHAMPIONUP=
+TAG.CHAMPIONUP=
+TIMER=<EVAL 60*5>
+
+///////////////////////
+
+[FUNCTION SETSPAWNCOLOR]
+FORITEMS 4
+	IF (<BASEID> == i_stairs_stone)
+	COLOR=1106
+	ENDIF
+ENDFOR
+
+[PLEVEL 4]
+CREATEALTAR
+
+[FUNCTION CREATEALTAR]
+TARGETFG F_CREATEALTAR
+SYSMESSAGE @88 Where do you want to create the altar?
+
+[FUNCTION F_CREATEALTAR]
+SERV.NEWITEM i_champion_spawn
+NEW.P=<TARGP>
+NEW.MULTICREATE
+NEW.SETSPAWNCOLOR
+SERV.NEWITEM i_champion_idol
+NEW.P=<TARGP>
+NEW.Z += 5
+NEW.SDIALOG d_CUSTOM_CHAMP
+
+[FUNCTION HARROWERPOINTS]
+IF !(0<ARGN>)
+RETURN <dTAG0.HARROWERPOINTS>
+ELSE
+TAG.HARROWERPOINTS=<ARGN>
+ENDIF
+
+[FUNCTION HARROWERKILLERTITLE]
+IF (<HARROWERPOINTS> >= 100)
+RETURN Nightmare of the Harrower (10)
+ELIF (<HARROWERPOINTS> >= 50)
+RETURN Fear of the Harrower (9)
+ELIF (<HARROWERPOINTS> >= 40)
+RETURN Pain of the Harrower (8)
+ELIF (<HARROWERPOINTS> >= 30)
+RETURN Challenger of the Harrower (7)
+ELIF (<HARROWERPOINTS> >= 20)
+RETURN Anihilator of the Harrower (6)
+ELIF (<HARROWERPOINTS> >= 10)
+RETURN Executioner of the Harrower (5)
+ELIF (<HARROWERPOINTS> >= 5)
+RETURN Venom of the Harrower (4)
+ELIF (<HARROWERPOINTS> >= 3)
+RETURN Hunter of the Harrower (3)
+ELIF (<HARROWERPOINTS> >= 2)
+RETURN Opponent of the Harrower (2)
+ELIF (<HARROWERPOINTS> >= 1)
+RETURN Imp in front of the Harrower (1)
+ENDIF
+RETURN 0
+
+[TYPEDEF t_champion_title_timer]
+ON=@Timer
+TRY CONT.TAG.CHAMPION.<TAG.CHAMPION>=<EVAL <CONT.TAG0.CHAMPION.<TAG.CHAMPION>>-1>
+IF (!(<CONT.TAG0.CHAMPION.<TAG.CHAMPION>>))
+TRY CONT.TAG.CHAMPION.<TAG.CHAMPION>=
+REMOVE
+ELSE
+TIMER=<EVAL 60*60*24*3>
+ENDIF
+RETURN 1
+
+[ITEMDEF i_champion_title_c_semidar]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_semidar
+
+[ITEMDEF i_champion_title_c_mephitis]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_mephitis
+
+[ITEMDEF i_champion_title_c_rikktor]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_rikktor
+
+[ITEMDEF i_champion_title_c_lord_oaks]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_lord_oaks
+
+[ITEMDEF i_champion_title_c_barracoon]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_barracoon
+
+[ITEMDEF i_champion_title_c_neira]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_neira
+
+[ITEMDEF i_champion_title_c_serado]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_serado
+
+[ITEMDEF i_champion_title_c_ilhenir]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_ilhenir
+
+[ITEMDEF i_champion_title_c_twaulo]
+ID=i_memory
+TYPE=t_eq_script
+TEVENTS=t_champion_title_timer
+TAG.CHAMPION=c_twaulo
+
+[FUNCTION SEMIDARSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_semidar> == 1)
+RETURN Foe of the Abyss
+ELIF (<TAG0.CHAMPION.c_semidar> == 2)
+RETURN Assassin of the Abyss
+ELIF (<TAG0.CHAMPION.c_semidar> >= 3)
+RETURN Conqueror of the Abyss
+ENDIF
+RETURN 0
+
+[FUNCTION MEPHITISSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_mephitis> == 1)
+RETURN Bane of the Arachnid
+ELIF (<TAG0.CHAMPION.c_mephitis> == 2)
+RETURN Killer of the Arachnid
+ELIF (<TAG0.CHAMPION.c_mephitis> >= 3)
+RETURN Vanquisher of the Arachnid
+ENDIF
+RETURN 0
+
+[FUNCTION RIKKTORSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Rikktor> == 1)
+RETURN Blight of the Cold Blood
+ELIF (<TAG0.CHAMPION.c_Rikktor> == 2)
+RETURN Slayer of the Cold Blood
+ELIF (<TAG0.CHAMPION.c_Rikktor> >= 3)
+RETURN Destroyer of the Cold Blood
+ENDIF
+RETURN 0
+
+[FUNCTION LORDOAKSSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Lord_Oaks> == 1)
+RETURN Enemy of the Forest Lord
+ELIF (<TAG0.CHAMPION.c_Lord_Oaks> == 2)
+RETURN Curse of the Forest Lord
+ELIF (<TAG0.CHAMPION.c_Lord_Oaks> >= 3)
+RETURN Slaughterer of the Forest Lord
+ENDIF
+RETURN 0
+
+[FUNCTION BARRACOONSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Barracoon> == 1)
+RETURN Adversary of the Vermin Horde
+ELIF (<TAG0.CHAMPION.c_Barracoon> == 2)
+RETURN Subjugator of the Vermin Horde
+ELIF (<TAG0.CHAMPION.c_Barracoon> >= 3)
+RETURN Eradicator of the Vermin Horde
+ENDIF
+RETURN 0
+
+[FUNCTION NEIRASLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Neira> == 1)
+RETURN Scourge of the Unholy Terror
+ELIF (<TAG0.CHAMPION.c_Neira> == 2)
+RETURN Punisher of the Unholy Terror
+ELIF (<TAG0.CHAMPION.c_Neira> >= 3)
+RETURN Nemesis of the Unholy Terror
+ENDIF
+RETURN 0
+
+[FUNCTION SERADOSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Serado> == 1)
+RETURN Rival of the Sleeping Dragon
+ELIF (<TAG0.CHAMPION.c_Serado> == 2)
+RETURN Challenger of the Sleeping Dragon
+ELIF (<TAG0.CHAMPION.c_Serado> >= 3)
+RETURN Antagonist of the Sleeping Dragon
+ENDIF
+RETURN 0
+
+[FUNCTION ILHENIRSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Ilhenir> == 1)
+RETURN Cleanser of the Corrupt 
+ELIF (<TAG0.CHAMPION.c_Ilhenir> == 2)
+RETURN Expunger of the Corrupt 
+ELIF (<TAG0.CHAMPION.c_Ilhenir> >= 3)
+RETURN Slayer of the Corrupt 
+ENDIF
+RETURN 0
+
+[FUNCTION TWAULOSLAYERTITLE]
+IF (<TAG0.CHAMPION.c_Twaulo> == 1)
+RETURN Banisher of the Glade 
+ELIF (<TAG0.CHAMPION.c_Twaulo> == 2)
+RETURN Subjugator of the Glade
+ELIF (<TAG0.CHAMPION.c_Twaulo> >= 3)
+RETURN Enforcer of the Glade
+ENDIF
+RETURN 0
+
+[chardef 173] 
+defname=c_spider_lord
+name=Giant Black Widow
+SOUND=snd_monster_gispidr1
+//ICON=i_pet_spiderlord
+ARMOR=32
+DAM=5,17
+CAN=MT_WALK
+FOODTYPE=1 t_meat_raw 
+DESIRES=i_gold,e_notoriety,e_horses,c_man,c_woman 
+//RESDISPDNID=c_man
+//RESLEVEL=2
+RESDISPDNHUE=0ad
+CATEGORY=Novos Monstros
+SUBSECTION=LBR
+DESCRIPTION=Giant Black Widow
+
+ON=@Create 
+NPC=brain_monster
+FAME=3500 
+KARMA=-3500
+STR={76 100}
+MAXHITS={46 60}
+INT={36 60}
+DEX={96 115}
+MAGICRESISTANCE={45.0 60.0}
+TACTICS={65.0 85.0}
+WRESTLING={70.0 85.0}
+ANATOMY={30.0 75.0}
+
+ON=@NpcRestock
+ITEM=i_gold,{125 175}
+ITEM=i_reag_spider_silk,5
+ITEM=i_potion_poison
+
+[EOF]

@@ -1,0 +1,465 @@
+﻿[function pingoster]
+src.sysmessage @,,1 <eval <account.tag0.pingiris>>
+
+
+[dialog d_pin_profil]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 280 210
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 280 100 0790 Kullanici Durumunuz
+dtext 220 120 0790 Kills   : <kills> //<account.tag.pingiris>
+dtext 220 140 0790 Karma : <karma> //<account.tag.gizlisoru>
+dtext 220 160 0790 Fame   : <fame>  //<account.tag.gizlicevap>
+button 210 200 1210 1209 1 0 1
+dtext 227 197 0790 Geri
+
+[dialog d_pin_profil button]
+
+onbutton=1
+src.dialog d_pin_detayli
+return 1
+
+
+[dialog d_pin_yeni]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 260 190
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 220 100 0790 Lutfen bir pin giriniz 
+dtext 220 120 0790 Yeni Pin :
+textentry 300 120 160 16 0594 1 1
+button 210 180 1210 1209 1 0 1
+dtext 227 177 0790 Giris
+
+[dialog d_pin_yeni text]
+0
+---
+
+
+[dialog d_pin_yeni button]
+onbutton=1
+if (strmatch('*[a-z]*','<argtxt[1]>'))
+	src.sms Harf kullanamazsiniz, sadece rakam kullaniniz!
+	src.pin
+elseif (<isnum <argtxt[1]>>)
+	src.smg Pin sifreniz girilmistir.
+	src.account.tag.ilkpin 1
+	src.account.tag.pinkabul 0
+	src.account.tag.pingiris=<ARGTXT[1]>
+	//DB.EXECUTE "UPDATE smf_members SET member_pin='<ARGTXT[1]>' WHERE member_name='<account.name>'"
+	return 1
+endif
+
+
+[dialog d_pin_dogrula]
+0,0
+page 0
+
+
+resizepic 190 60 9200 260 190
+gumppictiled 200 70 240 170 2624
+//resizepic 190 60 3600 260 190
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 220 100 0790 Lutfen bir pin giriniz 
+dtext 220 120 0790 Eski Pin :
+textentry 300 120 160 16 0564 1 1
+button 210 200 1210 1209 1 0 1
+dtext 227 197 0790 Giris
+
+[dialog d_pin_dogrula text]
+0
+---
+
+
+[dialog d_pin_dogrula button]
+onbutton=1
+if strmatch('*[a-z]*','<argtxt[1]>')
+src.sms Sadece rakam kullanabilirsiniz!
+src.pin
+elseif (<isnum <argtxt[1]>>)
+	If strmatch("<argtxt[1]>","<eval <src.account.tag0.pingiris>>")
+		src.smg Pin girisiniz kabul edilmistir.
+		src.dialog d_pin_yeni
+	else 
+		src.sms Yanlis bir pin girdiniz!
+		return 1
+	endif
+endif
+
+
+[dialog d_pin_bulundu]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 290 170
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 220 100 0790 Kayip pin numaraniz dogrulandi
+dtext 220 160 0790 Pin'iniz : <account.tag.pingiris>
+
+
+
+
+[dialog d_pin_kayip]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 280 210
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 220 100 0790 Lutfen soruyu cevaplayiniz
+dtext 220 120 0790 Soru : <account.tag.gizlisoru>
+dtext 220 160 0790 Cevap : 
+textentry 290 160 160 16 0564 1 1
+button 210 200 1210 1209 1 0 1
+dtext 227 198 0790 Giris
+
+[dialog d_pin_kayip text]
+0
+---
+
+
+[dialog d_pin_kayip button]
+onbutton=1
+if strmatch('*[a-z]*','<argtxt[1]>')
+src.sms Sadece rakam kullanabilirsiniz!
+src.pin
+elseif (<isnum <argtxt[1]>>)
+	If strmatch("<argtxt[1]>","<eval <src.account.tag.gizlicevap>>")
+		src.smg Girdginiz cevap kabul edilmistir.
+		src.dialog d_pin_bulundu
+	else 
+		src.sms Yanlis bir cevap girdiniz!
+		src.pin
+		return 1
+	endif
+endif
+
+
+
+
+[dialog d_pin_detayli]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 300 240
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 250 100 0790 <serv.name> Pin Sistemi
+dtext 227 127 0790 Pin Giris
+dtext 227 147 0790 Kayip Pin
+dtext 227 167 0790 Pin Degistir
+dtext 227 187 0790 Gizli Soru
+dtext 227 207 0790 K-F-K Durumu
+dtext 227 227 0790 Sifre Degistir
+dtext 227 247 0790 Cikis
+button 210 130 1210 1209 1 0 1
+button 210 150 1210 1209 1 0 2
+button 210 170 1210 1209 1 0 3
+button 210 190 1210 1209 1 0 4
+button 210 210 1210 1209 1 0 5
+button 210 230 1210 1209 1 0 6
+button 210 250 1210 1209 1 0 7
+
+
+
+[dialog d_pin_detayli button]
+onbutton=1
+if (<src.account.tag.pinkabul>==1)
+src.sms Zaten pin numaraniz girilmis!
+else
+src.dialog d_pin_giris
+return 1
+endif
+onbutton=2
+src.dialog d_pin_kayip
+return 1
+
+onbutton=3
+if (<src.account.tag.pinkabul>==0)
+src.sms Bunun icin giris yapmalisiniz!
+else
+src.dialog d_pin_dogrula
+return 1
+endif
+onbutton=4
+if (<src.account.tag.pinkabul>==0)
+src.sms Bunun icin giris yapmalisiniz!
+else
+src.dialog d_pin_gizlisoru
+return 1
+endif
+onbutton=5
+if (<src.account.tag.pinkabul>==0)
+src.sms Bunun icin giris yapmalisiniz!
+else
+src.dialog d_pin_profil
+return 1
+endif
+
+onbutton=6
+if (<src.account.tag.pinkabul>==0)
+src.sms Bunun icin giris yapmalisiniz!
+else
+//dialog d_sifre
+src.sysmessage @69,1,1 Sifre degisikliginizi lutfen siteden gerceklestiriniz.
+return 1
+endif
+
+onbutton=7
+if (<src.account.tag.pinkabul>==0)
+src.sms Zaten giris yapilmamis!
+else
+src.account.tag.pinkabul 0
+return 1
+endif
+
+
+[dialog d_pin_gizlisoru]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 265 210
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 220 100 0790 Lutfen bir gizli soru belirtiniz
+dtext 220 120 0790 Soru : 
+dtext 220 160 0790 Cevap : 
+textentry 290 120 160 16 0564 1 1
+textentry 290 160 160 16 0564 2 1
+button 210 200 1210 1209 1 0 1
+dtext 227 198 0790 Giris
+
+[dialog d_pin_gizlisoru text]
+0
+---
+
+
+[dialog d_pin_gizlisoru button]
+onbutton=1
+//if strmatch('*[a-z]*','<argtxt[1]>')
+//src.sms Sadece rakam kullanabilirsiniz!
+//src.pin
+//elseif (<isnum <argtxt[1]>>)
+//	if !strmatch('*[a-z]*','<argtxt[2]>')
+//		src.sms Sadece harf kullanabilirsiniz!
+//		src.pin
+///	elseif ((strlen(<argtxt[1]>)) < 5)
+//		sms Soru en az 5 karakter olmalidir.
+//	elseif ((strlen(<argtxt[2]>)) < 3)
+//		sms Cevap en az 3 karakter olmalidir.
+//	else
+//		account.tag.gizlisoru=<argtxt[1]>
+//		account.tag.gizlicevap=<argtxt[2]>
+//		src.smg soru : [<account.tag.gizlisoru>] olarak ayarlanmistir.
+//		src.smg cevap : [<account.tag.gizlicevap>] olarak ayarlanmistir.
+//		src.account.tag.gizlikabul 1
+//		return 1
+//	endif
+//endif
+
+[dialog d_pin_sistemi]
+0,0
+nomove
+page 0
+resizepic 190 60 3600 300 230
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+dtext 220 100 0790 Lutfen pin numaranizi giriniz
+dtext 220 120 0790 Pin :
+dtext 220 160 0790 Lutfen gizli soru ve cevap giriniz
+dtext 220 180 0790 Soru :
+dtext 220 200 0790 Cevap :
+textentry 290 120 160 16 0564 1 1
+textentry 290 180 160 16 0564 2 1
+textentry 290 200 160 16 0564 3 1
+button 210 240 1210 1209 1 0 1
+dtext 227 237 0790 Giris
+
+[dialog d_pin_sistemi text]
+0
+---
+
+
+[dialog d_pin_sistemi button]
+onbutton=0
+//src.sysmessage @0713,1,1 Sorun olmamasi Icin Pin olusturunuz.
+src.pin
+onbutton=1
+//if strmatch('*[a-z]*','<argtxt[1]>')
+//src.sms Sadece rakam kullanabilirsiniz!
+//src.pin
+//else
+//if !strmatch('*[a-z]*','<argtxt[2]>')
+//src.sms Sadece harf kullanabilirsiniz!
+//src.pin
+//else
+//if !strmatch('*[a-z]*','<argtxt[3]>')
+//src.sms Sadece harf kullanabilirsiniz!
+//src.pin
+//else
+//if ((strlen(<argtxt[2]>)) < 5)
+//sms Soru en az 5 karakter olmalidir.
+//elseif ((strlen(<argtxt[3]>)) < 3)
+//sms Cevap en az 3 karakter olmalidir.
+//else
+//account.tag.gizlisoru=<argtxt[2]>
+//account.tag.gizlicevap=<argtxt[3]>
+//src.smg soru : [<account.tag.gizlisoru>] olarak ayarlanmistir.
+//src.smg cevap : [<account.tag.gizlicevap>] olarak ayarlanmistir.
+//src.account.tag.gizlikabul 1
+//src.smg Pin sifreniz girilmistir.
+//src.account.tag.ilkpin 1
+//src.account.tag.pinkabul 0
+//src.account.tag.pingiris=<ARGTXT[1]>
+//DB.EXECUTE "UPDATE smf_members SET member_pin='<ARGTXT[1]>' WHERE member_name='<account.name>'"
+//return 1
+//endif
+
+
+
+///////////////////////////////////
+
+[plevel 1]
+pin
+
+[function pin]
+//if <src.account.tag0.ilkpin>==0
+//src.dialog d_pin_sistemi
+//else
+//src.dialog d_pin_detayli
+//return 1
+//endif
+src.sysmessage @,,1 North Shield Forumuna giris yaparak profilden hesap ayarlari sekmesinden ayarlayabilirsiniz.
+src.weblink forum.tns.gen.tr/index.php?action=profile;area=account;u=<eval <src.account.tag.memberid>>
+
+[dialog d_pin_giris]
+0,0
+nomove
+page 0
+textentry 280 150 160 16 0 1 0
+resizepic 190 60 2620 260 190
+gumppictiled 200 70 240 170 2624
+//checkertrans 190 60 260 190
+//resizepic 200 70 3000 300 200
+//////////////////////////////////////
+resizepic 270 143 2620 130 35
+dtext 220 85 69 Yazacağınız pin güvenliğiniz icin
+dtext 220 105 69 siyah olarak gözükmektedir.
+dtext 220 150 69 Pin :
+
+//dtextentry 280 150 160 16 0 1 0
+//dtextentry 310 300 0455 0455 500 1 0
+button 220 199 1210 1209 1 0 1
+dtext 240 197 32 Gönder
+
+
+[dialog d_pin_giris text]
+0
+ 
+
+[dialog d_pin_giris button]
+onbutton=1
+if strmatch('*[a-z]*','<argtxt[1]>')
+src.sms Sadece rakam kullanabilirsiniz!
+elseif (<isnum <argtxt[1]>>)
+	If strmatch("<strsub 1 6 <argtxt[1]>>","<eval <src.account.tag0.pingiris>>") //strmatch("<strsub 1 6 <argtxt[1]>>","<eval <src.account.tag0.pingiris>>")
+		src.smg Pin girisiniz kabul edilmistir.
+		src.account.tag.pinkabul 1
+	else 
+		src.sms Yanlis bir pin girdiniz!
+		return 1
+	endif
+endif
+
+[Plevel 1]
+sifre
+
+[PLEVEL 6]
+sifreee
+
+[function sifreee]
+//src.dialog d_sifre
+src.sysmessage @69,1,1 Oyun Sifrenizi ve Pininizi Forumdan Hesap ayarlarina girerek degistirebilirsiniz.
+src.weblink forum.tns.gen.tr/index.php?action=profile;area=account;u=<eval <src.account.tag.memberid>>
+Return 1
+
+[function sifre]
+src.sysmessage @,,1 North Shield Uo Forumuna giris yaparak profilden hesap ayarlari sekmesinden ayarlayabilirsiniz.
+src.weblink forum.tns.gen.tr/index.php?action=profile;area=account;u=<eval <src.account.tag.memberid>>
+//if (<src.tag0.ilkpin>==0)
+//pin
+//return 1
+//endif
+//if (<src.tag.pinkabul>==0)
+//src.dialog d_pin_giris
+//return 1
+//endif
+//if (<src.tag.pinkabul>==1)
+//pin
+
+[DIALOG d_sifre]
+100,100
+page 0
+noclose
+nomove
+
+
+resizepic 190 175 3600 270 150
+//resizepic 220 235 3000 270 22
+//text 215 200 0790 0
+dtext 215 200 0790 Yeni sifreniz ne olsun?
+//text 255 275 0790 1
+dtext 255 275 0790 Tamam
+button 220 275 4005 4006 1 0 1
+//text 375 275 0790 2
+dtext 375 275 0790 Iptal
+button 340 275 4005 4006 1 0 0
+textentry 225 237 230 25 0564 0 1
+
+[DIALOG d_sifre TEXT]
+0
+---
+
+[DIALOG d_sifre BUTTON]
+ON=0
+SRC.smy sifre degistirme sisteminden cikis yapildi!
+ON=1
+src.hata Forumdan hesap ayarlarina girerek sifrenizi ayarlayabilirsiniz.
+//if (strmatch('<argtxt[0]>',''))
+//src.sms Bir sifre belirtmediniz!
+//return 1
+//elseif !(<isnum <argtxt[0]>>)
+//src.sms sifrenizde sadece rakam kullanabilirsiniz!
+//return 1
+//elseif ((strlen(<argtxt[0]>)) > 12)
+//src.sms sifreniz en fazla 10 karakter olabilir!
+//return 1
+//elseif ((strlen(<argtxt[0]>)) < 5)
+//        src.sms sifreniz en az 5 karakter olabilir!
+//        return 1
+//else
+//src.account.password <ARGTXT[0]>
+//local.password <ARGTXT[0]>
+//DB.EXECUTE "UPDATE smf_members SET passwd=SHA1(<account.name>,<local.password>) WHERE member_name='<account.name>'" //sha1(strtolower($username).$password)
+//src.sysmessage @69,1,1 Oyun sifreniz degistirilmistir. //Forum girisinizide yeni sifre ile gerceklestiriniz.//SET passwd=SHA1(CONCAT(LOWER('john'), '1234'))
+//RETURN 1
+//endif
+
+//src.account.password <ARGTXT[0]>
+//DB.EXECUTE "UPDATE memberlist SET userpass='<ARGTXT[0]>' WHERE username='<account.name>'"
+//src.smx Oyun sifreniz degistirilmistir ve veritabaninada kaydedilmistir.
+//RETURN 1
+//endif
+
+
+
+
+
+[eof]

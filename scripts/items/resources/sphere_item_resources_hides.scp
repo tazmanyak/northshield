@@ -1,0 +1,135 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 01078]
+DEFNAME=i_hide
+TYPE=t_hide
+TDATA1=i_hides_cut
+WEIGHT=5
+VALUE=5
+CATEGORY=Resources - Tailoring
+SUBSECTION=Hides
+DESCRIPTION=Hide
+
+
+
+[ITEMDEF i_hide_spined]
+ID=i_hide
+TYPE=t_hide
+TDATA1=i_leather_spined
+CATEGORY=Resources - Tailoring
+SUBSECTION=Hides
+DESCRIPTION=Spined Hide
+
+ON=@Create
+COLOR=color_o_spined
+
+
+on=@click
+message @,,1 [ Spined ]
+
+[ITEMDEF i_hide_horned]
+ID=i_hide
+TYPE=t_hide
+TDATA1=i_leather_horned
+CATEGORY=Resources - Tailoring
+SUBSECTION=Hides
+DESCRIPTION=Horned Hide
+
+ON=@Create
+COLOR=color_o_horned
+
+
+on=@click
+message @,,1 [ Horned ]
+
+[ITEMDEF i_hide_barbed]
+ID=i_hide
+TYPE=t_hide
+TDATA1=i_leather_barbed
+CATEGORY=Resources - Tailoring
+SUBSECTION=Hides
+DESCRIPTION=Barbed Hide
+
+ON=@Create
+COLOR=color_o_barbed
+
+
+on=@click
+message @,,1 [ Barbed ]
+
+
+[ITEMDEF 01067]
+DEFNAME=i_hides_cut
+TYPE=T_LEATHER
+RESOURCES=1 i_HIDE
+WEIGHT=1
+VALUE=5
+DUPELIST=01068,01081,01082
+CATEGORY=Resources - Tailoring
+SUBSECTION=Leather
+DESCRIPTION=Cut-up Leather
+
+on=@dclick
+if <color> == 08ac
+	newitem i_leather_spined,<amount>,<src.uid>,1
+	remove
+elif <color> == 0845
+	newitem i_leather_horned,<amount>,<src.uid>,1
+	remove
+elif <color> == 0851
+	newitem i_leather_barbed,<amount>,<src.uid>,1
+	remove
+endif
+
+[ITEMDEF 01068]
+DUPEITEM=01067
+
+[ITEMDEF 01081]
+DUPEITEM=01067
+
+[ITEMDEF 01082]
+DUPEITEM=01067
+
+[ITEMDEF i_leather_spined]
+ID=i_hides_cut
+NAME=spined Leather
+TYPE=t_leather
+RESOURCES=1 i_hide_spined
+CATEGORY=Resources - Tailoring
+SUBSECTION=Leather
+DESCRIPTION=Spined Leather
+
+ON=@Create
+COLOR=color_o_spined
+
+[ITEMDEF i_leather_horned]
+ID=i_hides_cut
+NAME=Horned Leather
+TYPE=t_leather
+RESOURCES=1 i_hide_horned
+CATEGORY=Resources - Tailoring
+SUBSECTION=Leather
+DESCRIPTION=Horned Leather
+
+ON=@Create
+COLOR=color_o_horned
+
+[ITEMDEF i_leather_barbed]
+ID=i_hides_cut
+NAME=Barbed Leather
+TYPE=t_leather
+RESOURCES=1 i_hide_barbed
+CATEGORY=Resources - Tailoring
+SUBSECTION=Leather
+DESCRIPTION=Barbed Leather
+
+ON=@Create
+COLOR=color_o_barbed
+
+[eof]

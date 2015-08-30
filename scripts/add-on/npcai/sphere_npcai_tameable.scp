@@ -1,0 +1,65 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// e_Subdued - For NPCs that must be Subdued before taming
+// e_PackMount - For mounts that can also store items
+
+[EVENTS e_Subdued]
+ON=@GetHit
+if <hits> <= <eval <maxhits> / 10>
+tag.issubdue = 1
+nomoves 16,0,<DEF.nv_t_Subdued>
+message <def.scp.taming_subdued>
+timerf 15,f_UnSubdue
+endif
+
+[EVENTS e_PackMount]
+ON=@ContextMenuRequest
+if <memoryfindtype.memory_ipet.link> == <src.uid>
+src.AddContextEntry 201,6145
+endif
+
+ON=@ContextMenuSelect
+if <argn1> == 201
+	if !<findlayer.21>
+	serv.newitem i_backpack
+	new.layer = 21
+	new.cont = <uid>
+	endif
+src.useitem <findlayer.21.uid>
+endif
+
+//ON=@ReceiveItem
+//if <memoryfindtype.memory_ipet.link> == <src.uid>
+//	if <argo.isfood>
+//	return 0
+//	endif
+//	if <eval <argo.weight> + <weight>> < <maxweight>
+//		if !<findlayer.21>
+//		serv.newitem i_backpack
+//		new.layer = 21
+//		new.cont = <uid>
+//		endif
+//	argo.cont <findlayer.21.uid>
+//	return 1
+//	endif
+//endif
+
+
+[FUNCTION f_UnSubdue]
+if <hits> > <eval <maxhits> / 10>
+tag.issubdue
+f_nomove_removeby_type <DEF.nv_t_Subdued>
+else
+nomoves 6,0,<DEF.nv_t_Subdued>
+timerf 5,f_UnSubdue
+endif
+
+[eof]

@@ -1,0 +1,200 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Tuesday, December 7, 2005
+//
+VERSION=0.56b
+
+[ITEMDEF 0e73]
+//cannon ball
+DEFNAME=i_cannon_ball
+RESOURCES=5 i_ingot_iron
+WEIGHT=5
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon Ball
+DUPELIST=0e74
+
+[ITEMDEF 0e74]
+//cannon balls
+DUPEITEM=0e73
+
+[ITEMDEF 0e8b]
+//cannon
+DEFNAME=i_cannon_full
+RESOURCES=100 i_ingot_iron, 20 I_BOARD, 1 I_AXEL
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (01/03)(S)
+DUPELIST=0e8c,0e8d,0e8e,0e8f,0e90,0e91,0e92,0e93,0e94,0e95,0e96
+
+[ITEMDEF 0e8c]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (02/03)(S)
+
+[ITEMDEF 0e8d]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (03/03)(S)
+
+[ITEMDEF 0e8e]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (01/03)(E)
+
+[ITEMDEF 0e8f]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (02/03)(E)
+
+[ITEMDEF 0e90]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (03/03)(E)
+
+[ITEMDEF 0e91]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (01/03)(N)
+
+[ITEMDEF 0e92]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (02/03)(N)
+
+[ITEMDEF 0e93]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (03/03)(N)
+
+[ITEMDEF 0e94]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (01/03)(W)
+
+[ITEMDEF 0e95]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (02/03)(W)
+
+[ITEMDEF 0e96]
+//cannon
+DUPEITEM=0e8b
+CATEGORY=Miscellaneous
+SUBSECTION=Cannons
+DESCRIPTION=Cannon (03/03)(W)
+
+[ITEMDEF 0f39]
+//Shovel (unique type of unequipable item)
+//LAYER=0
+DEFNAME=i_shovel
+TYPE=T_WEAPON_MACE_PICK
+FLIP=1
+WEIGHT=5
+SKILLMAKE=TINKERING 40.0, t_tinker_tools
+RESOURCES=4 i_ingot_iron
+DUPELIST=0f3a
+CATEGORY=Items by Professions
+SUBSECTION=Miner
+DESCRIPTION=Shovel
+TEVENTS=t_shovel
+
+ON=@Create
+	HITPOINTS=40
+	tag.saglamlik 40
+
+[ITEMDEF 0f3a]
+//shovel
+DUPEITEM=0f39
+
+[ITEMDEF 0f3f]
+//Arrow
+DEFNAME=i_arrow
+NAME=arrow%s
+TYPE=T_WEAPON_ARROW
+FLIP=1
+RESOURCES=1 i_arrow_shaft, 1 i_feather
+REPLICATE=1
+SKILLMAKE=1.0 BOWCRAFT
+WEIGHT=0.1
+DUPELIST=0f40,0f41,0f42
+CATEGORY=Items by Professions
+SUBSECTION=Archers/Bowyers
+DESCRIPTION=Arrow
+
+[ITEMDEF 0f40]
+//arrows
+DUPEITEM=0f3f
+CATEGORY=Items by Professions
+SUBSECTION=Archers/Bowyers
+DESCRIPTION=Arrows (5)
+
+[ITEMDEF 0f41]
+//arrows
+DUPEITEM=0f3f
+CATEGORY=Items by Professions
+SUBSECTION=Archers/Bowyers
+DESCRIPTION=Arrows (Many)
+
+[ITEMDEF 0f42]
+//arrow
+DEFNAME=i_arrow_x
+DUPEITEM=0f3f
+CATEGORY=Items by Professions
+SUBSECTION=Archers/Bowyers
+DESCRIPTION=Arrow (Straight)
+
+
+[ITEMDEF i_bola_ball]
+DEFNAME=i_bola_ball
+ID=i_cannon_ball
+NAME=Bola ball%s
+WEIGHT=4.0
+SKILLMAKE=TINKERING 45.0, t_tinker_tools
+RESOURCES=10 i_ingot_iron
+CATEGORY=Provisions - Miscellaneous
+SUBSECTION=Bola
+DESCRIPTION=Bola Ball
+
+ON=@Create
+COLOR=08ac
+
+[ITEMDEF i_bola]
+ID=026ac
+NAME=Bola
+TYPE=t_bola
+WEIGHT=4.0
+SKILLMAKE=TINKERING 60.0, t_tinker_tools
+RESOURCES=4 i_bola_ball, 3 i_hides_cut
+CATEGORY=Provisions - Miscellaneous
+SUBSECTION=Bola
+DESCRIPTION=Bola
+
+[EOF]

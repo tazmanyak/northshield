@@ -1,0 +1,611 @@
+[CHARDEF c_h_mageshop_Reg2]
+NAME=#NAMES_HUMANMALE
+ID=C_MAN
+DESIRES=i_gold,t_wand,t_reagent,t_bone
+//SPELLCIRCLES=3-7
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageShop
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Mage (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+
+	//NEED=i_gold
+	//NEED=i_reag_batwing
+	//NEED=i_reag_blackmoor
+	//NEED=i_reag_black_pearl
+	//NEED=i_reag_blood_moss
+	//NEED=i_reag_blood_spawn
+	//NEED=i_reag_blood_vial
+	//NEED=i_reag_bone
+	//NEED=i_reag_brimstone
+	//NEED=i_reag_daemon_bone
+	//NEED=i_reag_fertile_dirt
+	//NEED=i_reag_dragon_blood
+	//NEED=i_reag_executioners_cap
+	//NEED=i_reag_garlic
+	//NEED=i_reag_ginseng
+	//NEED=i_reag_mandrake_root
+	//NEED=i_reag_eye_of_newt
+	//NEED=i_reag_nightshade
+	//NEED=i_reag_obsidian
+	//NEED=i_reag_pig_iron
+	//NEED=i_reag_pumice
+	//NEED=i_reag_sulfur_ash
+	//NEED=i_reag_spider_silk
+	//NEED=i_reag_serpent_scale
+	//NEED=i_reag_volcanic_ash
+	//NEED=i_reag_dead_wood
+	//NEED=i_reag_worm_heart
+
+	MEDITATION={75.0 100.0}
+	INSCRIPTION={50.0 65.0}
+	MAGERY={86.0 100.0}
+	WRESTLING={15.0 38.0}
+	MAGICRESISTANCE={55.0 78.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEMnewbie=i_robe
+	COLOR=1
+	ITEM=random_shoes
+	COLOR=colors_blue
+	ITEM=random_coin_purse
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+	//SELL=VENDOR_S_MAGE_SHOP
+SELL=i_disguisekit
+
+on=@dclick
+if <src.stealing> < 100.0
+	src.sysmessage @,,1 Cabuk gozumden kaybol, ya da hirsizligimi ozeniyorsun. Biraz calis oyle gel...
+endif
+
+
+
+[CHARDEF c_h_mageshop_Reg]
+NAME=#NAMES_HUMANMALE the Reg Seller
+ID=C_MAN
+DESIRES=i_gold,t_wand,t_reagent,t_bone
+//SPELLCIRCLES=3-7
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageShop
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Mage (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+
+	//NEED=i_gold
+	//NEED=i_reag_batwing
+	//NEED=i_reag_blackmoor
+	//NEED=i_reag_black_pearl
+	//NEED=i_reag_blood_moss
+	//NEED=i_reag_blood_spawn
+	//NEED=i_reag_blood_vial
+	//NEED=i_reag_bone
+	//NEED=i_reag_brimstone
+	//NEED=i_reag_daemon_bone
+	//NEED=i_reag_fertile_dirt
+	//NEED=i_reag_dragon_blood
+	//NEED=i_reag_executioners_cap
+	//NEED=i_reag_garlic
+	//NEED=i_reag_ginseng
+	//NEED=i_reag_mandrake_root
+	//NEED=i_reag_eye_of_newt
+	//NEED=i_reag_nightshade
+	//NEED=i_reag_obsidian
+	//NEED=i_reag_pig_iron
+	//NEED=i_reag_pumice
+	//NEED=i_reag_sulfur_ash
+	//NEED=i_reag_spider_silk
+	//NEED=i_reag_serpent_scale
+	//NEED=i_reag_volcanic_ash
+	//NEED=i_reag_dead_wood
+	//NEED=i_reag_worm_heart
+
+	MEDITATION={75.0 100.0}
+	INSCRIPTION={50.0 65.0}
+	MAGERY={86.0 100.0}
+	WRESTLING={15.0 38.0}
+	MAGICRESISTANCE={55.0 78.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEMnewbie=i_robe
+	COLOR=1
+	ITEM=random_shoes
+	COLOR=colors_blue
+	ITEM=random_coin_purse
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+	//SELL=VENDOR_S_MAGE_SHOP
+	BUY=VENDOR_B_MAGE_SHOP
+SELL=i_reag_black_pearl,250
+SELL=i_reag_blood_moss,250
+SELL=i_reag_garlic,250
+SELL=i_reag_ginseng,250
+SELL=i_reag_mandrake_root,250
+SELL=i_reag_nightshade,250
+SELL=i_reag_sulfur_ash,250
+SELL=i_reag_spider_silk,250
+SELL=i_crystal_30,{4 10}
+SELL=i_crystal_60,{4 10}
+SELL=i_crystal_90,{4 10}
+SELL=i_crystal_120,{4 10}
+SELL=i_store_reg,10
+SELL=i_rune_marker,{2 10}
+SELL=i_spellbook,{2 5}
+
+
+on=@dclick
+	//if (<src.account.plevel> > 2)
+	//src.dialog d_reg_seller
+	//endif
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_h_mageshop]
+DEFNAME=C_H_MAGESHOP
+NAME=#NAMES_HUMANMALE the Mage
+ID=C_MAN
+DESIRES=i_gold,t_wand,t_reagent,t_bone
+//SPELLCIRCLES=3-7
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageShop
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Mage (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+
+	//NEED=i_gold
+	//NEED=i_reag_batwing
+	//NEED=i_reag_blackmoor
+	//NEED=i_reag_black_pearl
+	//NEED=i_reag_blood_moss
+	//NEED=i_reag_blood_spawn
+	//NEED=i_reag_blood_vial
+	//NEED=i_reag_bone
+	//NEED=i_reag_brimstone
+	//NEED=i_reag_daemon_bone
+	//NEED=i_reag_fertile_dirt
+	//NEED=i_reag_dragon_blood
+	//NEED=i_reag_executioners_cap
+	//NEED=i_reag_garlic
+	//NEED=i_reag_ginseng
+	//NEED=i_reag_mandrake_root
+	//NEED=i_reag_eye_of_newt
+	//NEED=i_reag_nightshade
+	//NEED=i_reag_obsidian
+	//NEED=i_reag_pig_iron
+	//NEED=i_reag_pumice
+	//NEED=i_reag_sulfur_ash
+	//NEED=i_reag_spider_silk
+	//NEED=i_reag_serpent_scale
+	//NEED=i_reag_volcanic_ash
+	//NEED=i_reag_dead_wood
+	//NEED=i_reag_worm_heart
+
+	MEDITATION={75.0 100.0}
+	INSCRIPTION={50.0 65.0}
+	MAGERY={86.0 100.0}
+	WRESTLING={15.0 38.0}
+	MAGICRESISTANCE={55.0 78.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_robe
+	COLOR=colors_blue
+	ITEM=random_shoes
+	COLOR=colors_blue
+	ITEM=random_coin_purse
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+	SELL=VENDOR_S_MAGE_SHOP
+	BUY=VENDOR_B_MAGE_SHOP
+
+on=@dclick
+	//if (<src.account.plevel> > 2)
+	//src.dialog d_reg_seller
+	//endif
+
+
+[CHARDEF c_h_mageshop_f]
+DEFNAME=C_H_MAGESHOP_F
+NAME=#NAMES_HUMANFEMALE the Mage
+ID=C_WOMAN
+DESIRES=i_gold,t_wand,t_reagent,t_bone
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageShop
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Mage (female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+
+	//SPELLCIRCLES=3-7
+	//NEED=i_gold
+	//NEED=i_reag_batwing
+	//NEED=i_reag_blackmoor
+	//NEED=i_reag_black_pearl
+	//NEED=i_reag_blood_moss
+	//NEED=i_reag_blood_spawn
+	//NEED=i_reag_blood_vial
+	//NEED=i_reag_bone
+	//NEED=i_reag_brimstone
+	//NEED=i_reag_daemon_bone
+	//NEED=i_reag_fertile_dirt
+	//NEED=i_reag_dragon_blood
+	//NEED=i_reag_executioners_cap
+	//NEED=i_reag_garlic
+	//NEED=i_reag_ginseng
+	//NEED=i_reag_mandrake_root
+	//NEED=i_reag_eye_of_newt
+	//NEED=i_reag_nightshade
+	//NEED=i_reag_obsidian
+	//NEED=i_reag_pig_iron
+	//NEED=i_reag_pumice
+	//NEED=i_reag_sulfur_ash
+	//NEED=i_reag_spider_silk
+	//NEED=i_reag_serpent_scale
+	//NEED=i_reag_volcanic_ash
+	//NEED=i_reag_dead_wood
+	//NEED=i_reag_worm_heart
+
+	MEDITATION={75.0 100.0}
+	INSCRIPTION={50.0 65.0}
+	MAGERY={86.0 100.0}
+	WRESTLING={15.0 38.0}
+	MAGICRESISTANCE={55.0 78.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_robe
+	COLOR=colors_blue
+	ITEM=random_shoes
+	COLOR=colors_blue
+	ITEM=random_coin_purse
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+	SELL=VENDOR_S_MAGE_SHOP
+	BUY=VENDOR_B_MAGE_SHOP
+
+on=@dclick
+	//if (<src.account.plevel> > 2)
+	//src.dialog d_reg_seller
+	//endif
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[defname reg_fiyatlari]
+fiyat_spider		"3"
+fiyat_bloodmoss		"3"
+fiyat_ginseng		"3"
+fiyat_garlic		"3"
+fiyat_mandrake		"3"
+fiyat_nighsight		"3"
+fiyat_sulphur		"3"
+fiyat_blackpearl	"3"
+
+[DIALOG d_reg_seller]
+0,0
+page 0
+resizepic 100 0 9200 320 490	
+gumppictiled 110 10 300 470 2624
+src.closealldialogs
+
+tilepic 120 60 3981 //spiders silk resmi
+tilepic 120 110 3963 //blooddmoss resmi
+tilepic 120 160 3973 //ginseng resmi
+tilepic 120 210 3972 //garlic resmi
+tilepic 120 260 3974 //mandrake root resmi
+tilepic 120 310 3976 //nightshade Ash root
+tilepic 120 360 3980 //sulphurous ash resmi 
+tilepic 120 410 3962 //black pearls resmi 
+
+dhtmlgump 190 20 300 20 0 0 <def.bfont_white> Reg Satin Alma Menusu
+
+dhtmlgump 170 60 300 20 0 0 <def.bfont_white> Spider's Silk
+dhtmlgump 170 110 300 20 0 0 <def.bfont_white> Blood Moss
+dhtmlgump 170 160 300 20 0 0 <def.bfont_white> Ginseng
+dhtmlgump 170 210 300 20 0 0 <def.bfont_white> Garlic
+dhtmlgump 170 260 300 20 0 0 <def.bfont_white> Mandrake
+dhtmlgump 170 310 300 20 0 0 <def.bfont_white> Nightsight
+dhtmlgump 170 360 300 20 0 0 <def.bfont_white> Supfurous Ash
+dhtmlgump 170 410 300 20 0 0 <def.bfont_white> Black Pearl
+
+dhtmlgump 280 60 300 20 0 0 <def.bfont_green> <eval <def.fiyat_spider>> Gp
+dhtmlgump 280 110 300 20 0 0 <def.bfont_green> <eval <def.fiyat_bloodmoss>> Gp
+dhtmlgump 280 160 300 20 0 0 <def.bfont_green> <eval <def.fiyat_ginseng>> Gp
+dhtmlgump 280 210 300 20 0 0 <def.bfont_green> <eval <def.fiyat_garlic>> Gp
+dhtmlgump 280 260 300 20 0 0 <def.bfont_green> <eval <def.fiyat_mandrake>> Gp
+dhtmlgump 280 310 300 20 0 0 <def.bfont_green> <eval <def.fiyat_nighsight>> Gp
+dhtmlgump 280 360 300 20 0 0 <def.bfont_green> <eval <def.fiyat_sulphur>> Gp
+dhtmlgump 280 410 300 20 0 0 <def.bfont_green> <eval <def.fiyat_blackpearl>> Gp
+
+dtextentrylimited 350 60 90 60 32 1 3 0
+dtextentrylimited 350 110 90 60 32 2 3 0
+dtextentrylimited 350 160 90 60 32 3 3 0
+dtextentrylimited 350 210 90 60 32 4 3 0
+dtextentrylimited 350 260 90 60 32 5 3 0
+dtextentrylimited 350 310 90 60 32 6 3 0
+dtextentrylimited 350 360 90 60 32 7 3 0
+dtextentrylimited 350 410 90 60 32 8 3 0
+
+button 230 450 2443 2444 1 0 1
+
+dhtmlgump 230 452 301 20 0 0 <def.bfont_black> Satin Al
+
+
+[DIALOG d_reg_seller text]
+
+
+[DIALOG d_reg_seller button]
+
+on=0
+
+on=1
+src.magevendoru
+
+if (<eval <src.tag.magevendoruvar>> == 0)
+src.sysmessage @,,1 Etrafinizda Mage Vendoru yok.
+src.tag.magevendoruvar
+return 1
+endif
+
+ref1 <src.uid>
+
+for 8
+
+if (strmatch('<strsub 0 1 <argtxt[<local._for>]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[<local._for>]>>','0'))
+ref1.sysmessage @,,1 Sayin <ref1.name> alacaginiz miktarin basina 0 yazmayiniz.
+return 1
+endif
+
+endfor
+
+if !(<isnum <argtxt[1]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[1]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[1]>*<def.fiyat_spider>)>)
+	src.sysmessage @,,1 <eval <argtxt[1]>> Adet Spider's Silk alabilcek paraniz yok.
+elif (<eval <argtxt[1]>> == 0)
+else
+serv.newitem i_reag_spider_silk
+new.amount <eval <argtxt[1]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[1]>*<def.fiyat_spider>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[1]>*<def.fiyat_spider>)> Gold.
+endif
+
+if !(<isnum <argtxt[2]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[2]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[2]>*<def.fiyat_bloodmoss>)>)
+	src.sysmessage @,,1 <eval <argtxt[2]>> Adet Bloodmoss alabilcek paraniz yok.
+elif (<eval <argtxt[2]>> == 0)
+else
+serv.newitem i_reag_blood_moss
+new.amount <eval <argtxt[2]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[2]>*<def.fiyat_spider>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[2]>*<def.fiyat_bloodmoss>)> Gold.
+endif
+
+if !(<isnum <argtxt[3]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[3]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[3]>*<def.fiyat_ginseng>)>)
+	src.sysmessage @,,1 <eval <argtxt[3]>> Adet Ginseng alabilcek paraniz yok.
+elif (<eval <argtxt[3]>> == 0)
+else
+serv.newitem i_reag_ginseng
+new.amount <eval <argtxt[3]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[3]>*<def.fiyat_ginseng>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[3]>*<def.fiyat_ginseng>)> Gold.
+endif
+
+if !(<isnum <argtxt[4]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[4]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[4]>*<def.fiyat_garlic>)>)
+	src.sysmessage @,,1 <eval <argtxt[4]>> Adet Garlic alabilcek paraniz yok.
+elif (<eval <argtxt[4]>> == 0)
+else
+serv.newitem i_reag_garlic
+new.amount <eval <argtxt[4]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[4]>*<def.fiyat_garlic>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[4]>*<def.fiyat_garlic>)> Gold.
+endif
+
+if !(<isnum <argtxt[5]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[5]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[5]>*<def.fiyat_mandrake>)>)
+	src.sysmessage @,,1 <eval <argtxt[5]>> Adet Mandrake alabilcek paraniz yok.
+elif (<eval <argtxt[5]>> == 0)
+else
+serv.newitem i_reag_mandrake_root
+new.amount <eval <argtxt[5]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[5]>*<def.fiyat_mandrake>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[5]>*<def.fiyat_mandrake>)> Gold.
+endif
+
+if !(<isnum <argtxt[6]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[6]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[6]>*<def.fiyat_nighsight>)>)
+	src.sysmessage @,,1 <eval <argtxt[6]>> Adet Nightshade alabilcek paraniz yok.
+elif (<eval <argtxt[6]>> == 0)
+else
+serv.newitem i_reag_Nightshade
+new.amount <eval <argtxt[6]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[6]>*<def.fiyat_nighsight>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[6]>*<def.fiyat_nighsight>)> Gold.
+endif
+
+if !(<isnum <argtxt[7]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[7]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[7]>*<def.fiyat_sulphur>)>)
+	src.sysmessage @,,1 <eval <argtxt[7]>> Adet Sulfurous Ash alabilcek paraniz yok.
+elif (<eval <argtxt[7]>> == 0)
+else
+serv.newitem i_reag_sulfur_ash
+new.amount <eval <argtxt[7]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[7]>*<def.fiyat_sulphur>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[7]>*<def.fiyat_sulphur>)> Gold.
+endif
+
+if !(<isnum <argtxt[8]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+elif (<eval <argtxt[8]>> < 0)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+elif (<eval <src.gold>> < <eval (<argtxt[8]>*<def.fiyat_blackpearl>)>)
+	src.sysmessage @,,1 <eval <argtxt[8]>> Adet Black Pearls alabilcek paraniz yok.
+elif (<eval <argtxt[8]>> == 0)
+else
+serv.newitem i_reag_black_pearl
+new.amount <eval <argtxt[8]>>
+src.new.bounce
+src.gold -=<eval (<argtxt[8]>*<def.fiyat_blackpearl>)>
+src.sysmessage @,,1 Harcanan tutar <eval (<argtxt[8]>*<def.fiyat_blackpearl>)> Gold.
+endif
+
+src.tag.magevendoruvar
+
+
+
+
+
+[function magevendoru]
+ref1 <src.uid>
+FORCHARS 3
+//if (strmatch('<baseid>','C_H_MAGESHOP'))  (strmatch('<baseid>','C_H_MAGESHOP_F'))
+
+if (strmatch('<job>','Mage'))
+	ref1.tag.magevendoruvar 1
+	else
+	ref1.tag.magevendoruvar 0
+endif
+endfor
+
+[EOF]

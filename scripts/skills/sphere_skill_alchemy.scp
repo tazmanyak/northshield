@@ -1,0 +1,50 @@
+4//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+[Skill 15]
+DEFNAME=Skill_Enticement
+KEY=Enticement
+TITLE=Bard
+PROMPT_MSG=Whom do you wish to entice?
+DELAY=2.0
+STAT_STR=15
+STAT_INT=70
+STAT_DEX=50
+BONUS_STR=0
+BONUS_DEX=50
+BONUS_INT=50
+BONUS_STATS=70
+//ADV_RATE=10.0,200.0,800.0
+
+ON=@Fail
+	src.sysmessage @38,,1 Sizi umursayan olmadi.
+	return 1
+
+[SKILL 0]
+DEFNAME=SKILL_ALCHEMY
+KEY=Alchemy
+TITLE=Alchemist
+DELAY=1.0 // per stroke.
+//ADV_RATE=10.0,200.0,800.0
+//ADV_RATE=1.0,1.0,1.0
+ADV_RATE=0,0,0
+VALUES=1,20,100
+BONUS_STATS=10
+BONUS_STR=0
+BONUS_DEX=20
+BONUS_INT=80
+STAT_STR=5
+STAT_INT=75
+STAT_DEX=40
+
+ON=@Fail
+SRC.SYSMESSAGE Basaramadiniz.
+
+ON=@Abort
+SRC.MESSAGE <def.scp.alchemy_abort>
+
+[eof]

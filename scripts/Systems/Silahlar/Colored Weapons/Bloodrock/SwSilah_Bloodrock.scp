@@ -1,0 +1,484 @@
+﻿[itemdef i_cutlass_bloodrock]
+id=i_cutlass
+Name=bloodrock Cutlass
+RESOURCES=8 i_ingot_bloodrock
+WEIGHT=8
+TYPE=T_WEAPON_SWORD
+FLIP=1
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=01441
+SKILLMAKE=BLACKSMITHING 24.3
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Cutlasses
+DESCRIPTION=Cutlass
+
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                        
+[itemdef i_sword_long_bloodrock]
+id=i_sword_long
+Name=bloodrock Long Sword
+RESOURCES=12 i_ingot_bloodrock
+TYPE=T_WEAPON_SWORD
+FLIP=1
+SKILL=Swordsmanship
+REQSTR=35
+TWOHANDS=N
+WEIGHT=7
+SKILLMAKE=BLACKSMITHING 28.0
+DUPELIST=0f61
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Longswords
+DESCRIPTION=Longsword
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding 
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                              
+[itemdef i_sword_viking_bloodrock]
+id=i_sword_viking
+Name=bloodrock Sword Viking
+RESOURCES=14 i_ingot_bloodrock
+WEIGHT=6
+TYPE=T_WEAPON_SWORD
+FLIP=1
+SKILL=Swordsmanship
+REQSTR=40
+TWOHANDS=N
+DUPELIST=013ba
+SKILLMAKE=BLACKSMITHING 24.3
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Viking Swords
+DESCRIPTION=Viking Sword
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+
+on=@unequip
+src.events -e_bleeding
+
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                            
+[itemdef i_sword_broad_bloodrock]
+id=i_sword_broad
+Name=bloodrock Broad Sword
+RESOURCES=10 i_ingot_bloodrock
+TYPE=T_WEAPON_SWORD
+FLIP=1
+SKILL=Swordsmanship
+REQSTR=30
+TWOHANDS=N
+WEIGHT=6
+SKILLMAKE=BLACKSMITHING 35.4
+DUPELIST=0f5f
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Broadswords
+DESCRIPTION=Broadsword
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+src.events +e_armorignore_Sw
+
+on=@unequip
+src.events -e_bleeding
+src.events -e_armorignore_Sw
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_scimitar_bloodrock]
+id=i_scimitar
+Name=bloodrock Scimitar
+RESOURCES=10 i_ingot_bloodrock
+WEIGHT=5
+TYPE=T_WEAPON_SWORD
+FLIP=1
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=013b6
+SKILLMAKE=BLACKSMITHING 31.7
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Scimitars
+DESCRIPTION=Scimitar
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_katana_bloodrock]
+id=i_katana
+Name=bloodrock Katana
+RESOURCES=8 i_ingot_bloodrock
+WEIGHT=5
+TYPE=T_WEAPON_SWORD
+FLIP=1
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=013ff
+SKILLMAKE=BLACKSMITHING 44.1
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Katanas
+DESCRIPTION=Katana
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding
+
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_Radiant_Scimitar_bloodrock]
+id=i_Radiant_Scimitar
+Name=bloodrock Radiant Scimitar
+TYPE=T_WEAPON_SWORD
+SKILL=Swordsmanship
+REQSTR=20
+TWOHANDS=N
+WEIGHT=9
+RESOURCES=15 i_ingot_bloodrock
+SKILLMAKE=BLACKSMITHING 75.0
+DUPELIST=02d33
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Radiant Scimitars
+DESCRIPTION=Radiant Scimitar
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////                              
+
+[itemdef i_war_cleaver_bloodrock]
+id=i_war_cleaver
+Name=bloodrock War Cleaver
+SKILLMAKE=BLACKSMITHING 70.0
+RESOURCES=18 i_ingot_bloodrock
+TYPE=T_WEAPON_SWORD
+
+SKILL=Swordsmanship
+REQSTR=15
+TWOHANDS=N
+WEIGHT=5
+DUPELIST=02d2f
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=War Cleavers
+DESCRIPTION=War Cleaver
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_rune_blade_bloodrock]
+id=i_rune_blade
+Name=bloodrock Rune Blade
+TYPE=T_WEAPON_SWORD
+SKILL=Swordsmanship
+REQSTR=30
+TWOHANDS=Y
+WEIGHT=7
+RESOURCES=15 i_ingot_bloodrock
+SKILLMAKE=BLACKSMITHING 70.0
+DUPELIST=02d32
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Rune Blades
+DESCRIPTION=Rune Blade
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding 
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_crescent_blade_bloodrock]
+id=i_crescent_blade
+NAME=bloodrock Crescent Blade
+TYPE=t_weapon_sword
+RESOURCES=14 i_ingot_bloodrock
+SKILLMAKE=BLACKSMITHING 45.0
+WEIGHT=4.0
+REQSTR=55
+DUPELIST=026cb
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Crescent Blades
+DESCRIPTION=Crescent Blade
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding
+                     
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+
+           
+[itemdef i_bardiche_bloodrock]
+id=i_bardiche
+NAME=bloodrock Bardiche
+RESOURCES=18 i_ingot_bloodrock
+TYPE=t_weapon_sword
+FLIP=1
+range=2
+SKILL=Swordsmanship
+REQSTR=45
+TWOHANDS=Y
+WEIGHT=7
+SKILLMAKE=BLACKSMITHING 31.7
+DUPELIST=0f4e
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Bardiches
+DESCRIPTION=Bardiche
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount 
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_halberd_bloodrock]
+id=i_halberd
+NAME=bloodrock Halberd
+RESOURCES=20 i_ingot_bloodrock
+WEIGHT=16
+TYPE=t_weapon_sword
+FLIP=1
+
+range=2
+SKILL=Swordsmanship
+REQSTR=85
+TWOHANDS=Y
+DUPELIST=0143f
+SKILLMAKE=BLACKSMITHING 39.1
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Halberds
+DESCRIPTION=Halberd
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount
+
+////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////// 
+                                
+[itemdef i_scythe_bloodrock]
+id=i_scythe
+NAME=bloodrock Scythe
+TYPE=t_weapon_axe
+RESOURCES=14 i_ingot_bloodrock
+SKILLMAKE=BLACKSMITHING 39.0
+WEIGHT=5
+RANGE=2
+REQSTR=45
+DUPELIST=026c4
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Scythes
+DESCRIPTION=Scythe
+
+
+ON=@Create
+  
+color color_o_bloodrock
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=100
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount 
+                        
+
+
+[EOF]

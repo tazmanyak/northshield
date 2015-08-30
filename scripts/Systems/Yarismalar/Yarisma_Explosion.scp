@@ -1,0 +1,294 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////expo - Rhodos////////////////////////////////////////////////////////////
+
+
+[defname expo_options]
+expo_player_base		"5193,2098,7"
+
+expo_katilimci_baraji		"2" // Eklenen sayidan kucukse iptal edilir
+
+expo_finish_and_go		"5322,1822"
+
+expo_open_gate_p		"5321,1813"
+expo_timer_gate			"600"
+
+
+/////////////////////////////////////////////////////////////////////////Function Start
+
+[function f_expo_open]
+serv.allclients f_expo_draw
+var.expo_katilimcisi	0
+var.expo_katilimcisi_x	0
+
+Serv.newitem i_gate_expo
+new.p <def.expo_open_gate_p>
+new.timer <def.expo_timer_gate>
+
+
+[function f_expo_start]
+if (<isevent.e_yarisma_expo>)
+invis 0
+duyur Yarisma basladi!
+endif
+
+[function f_expo_winner]
+var.son_expo <name>
+if <isevent.e_yarisma_expo>	 // winner
+go <def.expo_finish_and_go>
+say @,,1 Kazandiniz !
+f_expo_fame_karma_kill_load
+invis 0
+f_option_mysql 0
+db.connect
+db.execute "insert into son_etkinlikler (tarih, kazanan, yarisma) VALUES ('<addslashes <serv.rtime>>','<addslashes <name>>','Explosion');"
+db.close
+serv.newitem i_y_kupa
+new.cont <findlayer(layer_bankbox)>
+serv.newitem might_silah
+new.cont <findlayer(layer_bankbox)>
+new.color 07a1
+new.name Etkinlik Odulu
+account.tag0.connecttimeused -= 20
+sysmessage @,,1 Odulunuz bankaniza aktarilmistir.
+sysmessage @,,1 Might Random Magical silah ve 20 saat online sure kazandiniz.
+gold += <eval (<var.expo_katilimcisi_X>)*15000> // Katilimci sayisi X 20k gold --> Odul
+duyur Explosion, kazanan <name> olmustur.
+var.etkinlikprogramisondurum Explosion yarismasi bitti , kazanan <name> olmustur.
+
+events -e_yarisma_expo
+endif
+
+[function f_expo_loser]
+
+
+if (<eval <var.expo_katilimcisi>> == 1)
+serv.allclients f_expo_winner
+go <def.expo_finish_and_go>
+f_expo_fame_karma_kill_load
+invis 0
+
+else
+
+go <def.expo_finish_and_go>
+f_expo_fame_karma_kill_load
+say @33,,1 Kaybettiniz.
+invis 0
+
+endif
+
+[function f_expo_loser_logout]
+events -e_yarisma_expo
+var.expo_katilimcisi --
+src.invis 0
+f_expo_loser
+
+[function f_expo_draw]
+if <isevent.e_yarisma_expo>
+go <def.expo_finish_and_go>
+f_expo_fame_karma_kill_load
+events -e_yarisma_expo
+invis 0
+duyur Explosion yarismasi iptal edildi.
+endif
+
+//////////////////////////////////////////////////
+
+[function f_expo_fame_karma_kill_save]
+tag0.ctf_kill	<kills>
+tag0.ctf_fame	<fame>
+tag0.ctf_karma	<karma>
+
+[function f_expo_fame_karma_kill_load]
+kills	<eval <tag0.ctf_kill>>
+fame	<eval <tag0.ctf_fame>>
+karma	<eval <tag0.ctf_karma>>
+flags &= ~statf_criminal
+tag0.override.noto
+tag0.ctf_kill
+tag0.ctf_fame
+tag0.ctf_karma
+binekstabil
+cantalarbanka_gerial
+
+/////////////////////////////////////////////////////////////////////////function finish
+/////////////////////////////////////////////////////////////////////////Events Start
+
+[events e_yarisma_expo]
+
+on=@death
+var.expo_katilimcisi --
+events -e_yarisma_expo
+f_expo_loser
+hits 100
+return 1
+
+on=@login
+if <var.katilim>
+	src.sys_error Yarışma başlamadan yarışmadan çıkamazsınız.
+endif
+src.timerf clear
+src.stone 0
+
+on=@logout
+if !<var.katilim>
+src.timerf 10,f_expo_loser_logout
+endif
+on=@attack
+return 1
+
+on=@hit
+return 1
+
+on=@skillstart
+return 1
+
+on=@spellselect
+return 1
+
+on=@itemdclick
+if (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_backpack)
+else
+return 1
+endif
+/////////////////////////////////////////////////////////////////////////events finish
+/////////////////////////////////////////////////////////////////////////Item Start
+[itemdef i_gate_expo]
+id i_moongate_blue
+name Explosion Etkinligi
+
+on=@click
+message @0808,1,1 Explosion Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+if (<src.findlayer.25>) 
+src.sysmessage @1953,1,1,1 Binek üzerinde katılamazsınız.
+return 1
+endif
+
+local.uid1 <src.uid>
+forchars 10
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<local.uid1>)
+try uid.<local.uid1>.sysmessage @1953,1,1,1 Etrafınızda bineğiniz olduğu taktirde yarışmaya katılamazsınız.
+return 1
+endif
+endif
+endfor
+local.uid1
+if <src.findtype.t_eq_trade_window>
+	src.sys_error Trade ekraninda yarışmaya katılamazsınız.
+	return 1
+endif
+//if <src.account.plevel> > 1
+//return 1
+//endif
+src.findlayer(31).bounce
+src.hits <src.str>
+
+var.expo_katilimcisi ++
+
+src.cantalarbanka
+//src.binekolmazsaolmaz
+src.invis 1
+src.events +e_yarisma_expo
+src.go <def.expo_player_base>
+src.f_expo_fame_karma_kill_save
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+src.findid.i_rune_bless.remove
+src.findid.i_rune_agility.remvove
+src.findid.i_rune_strength.remove
+
+
+serv.allclients Yarisma_katilan <src.name> yarışmaya katıldı. Toplam katılımcı : <eval <var.expo_katilimcisi>>
+
+on=@step
+src.sysmessage @39,1,1 <src.name>, cift tiklayin.
+return 1
+
+on=@timer
+if (<eval <var.expo_katilimcisi>> < <def.expo_katilimci_baraji>)
+serv.allclients f_expo_draw
+duyur Katilimci sayisi baraji gecemedigi icin Explosion yarismasi iptal edildi.
+var.etkinlikprogramisondurum Katilimci sayisi baraji gecemedigi icin Explosion yarismasi iptal edildi.
+var.katilim 0
+remove
+return 1
+endif
+
+var.expo_katilimcisi_X <var.expo_katilimcisi>
+duyur Explosion yarismasi basliyor.Katilimci : <eval <var.expo_katilimcisi>> //, odul : <eval (<var.expo_katilimcisi_X>*5000)> Gold.
+serv.allclients f_expo_start
+var.katilim 0
+remove
+return 1
+
+/////////////////////////////////////////////////////////////////////////Item Finish
+
+[plevel 1]
+expo
+
+[function expo]
+
+if (<flags>&statf_insubstantial)
+src.sysmessage @,,1 Yarismanin baslamasini bekleyiniz.
+return 1
+endif
+
+if !<src.isevent.e_yarisma_expo>
+src.sysmessage @,,1 Yarismada kullanabilirsiniz.
+return 1
+endif
+
+
+
+
+IF <SRC.RESTEST i_expdelay>
+SRC.SYSMESSAGE @68,,1 Biraz bekleyiniz...
+RETURN 1
+endif
+
+if (<src.findid i_potion_explosiongreat>)
+src.sysmessage @68,,1 Suan elinizde...
+return 1
+endif
+
+src.newitem i_potion_explosiongreat
+src.act.bounce
+src.ctag.Expoidsi <new.uid>
+try uid.<src.ctag.expoidsi>.dclick
+
+///////////////////////////////////////////////////////////////////////////////Bilgi Deed & Dialog
+[DIALOG d_expo_bilgi_dialog]
+0,0
+page 0
+src.closealldialogs
+resizepic 250 10 9200 385 195	
+gumppictiled 260 20 365 175 2624
+
+htmlgump 270 30 345 154 0 1 1
+
+[DIALOG d_expo_bilgi_dialog text]
+Yarisma hakkinda kisa bilgiler: Amac yarismadaki herkesi elemektir.Yarismada alacaginiz Fame, Karma ve Kill degerleriniz yarisma sonunda eski haline donecektir. Son kalan kisi yarismayi kazanir.Yarisma baslamadan invis durumdayken alana yerlesebilirsiniz. Yarisma basladiginda invisliginiz kapanacaktir.Logout oldugunuzda ve ya oyundan dustugunuzde 10 saniye icerisinde tekrar girmezseniz elenirsiniz. Explosion atmak icin '.expo' komutunu kullanmak zorundasiniz. Yarisma odulu katilimci sayisi ile orantilidir.// Kaybedenlere teselli odulu verilmektedir.
+
+[itemdef i_expo_bilgi_deed]
+id i_deed
+name Explosion BILGI
+type t_normal
+
+on=@create
+attr 08000
+color 0810
+
+on=@click
+src.dialog d_expo_bilgi_dialog
+
+[eof]

@@ -1,0 +1,51 @@
+[defname def_black_blackrock_items]
+// total page
+
+blacksmith_blackrock_pagesum	4
+// platemail
+blacksmith_blackrock_0_1		i_platemail_leggings_blackrock
+blacksmith_blackrock_1_1		i_platemail_chest_blackrock
+blacksmith_blackrock_2_1		i_platemail_arms_blackrock
+blacksmith_blackrock_3_1		i_helm_plate_blackrock
+blacksmith_blackrock_4_1		i_platemail_gorget_blackrock
+blacksmith_blackrock_5_1		i_platemail_gloves_blackrock
+blacksmith_blackrock_6_1		i_shield_heater_blackrock
+blacksmith_blackrock_7_1		i_ringmail_gloves_blackrock
+blacksmith_blackrock_8_1		i_ringmail_leggings_blackrock
+blacksmith_blackrock_9_1		i_ringmail_sleeves_blackrock
+blacksmith_blackrock_10_1		i_ringmail_tunic_blackrock
+
+blacksmith_blackrock_11_1		i_chainmail_coif_blackrock
+blacksmith_blackrock_12_1		i_chainmail_leggings_blackrock
+blacksmith_blackrock_13_1		i_chainmail_tunic_blackrock
+// swords
+blacksmith_blackrock_0_2		i_katana_blackrock
+blacksmith_blackrock_1_2		i_scimitar_blackrock
+blacksmith_blackrock_2_2		i_cutlass_blackrock
+blacksmith_blackrock_3_2		i_bardiche_blackrock
+blacksmith_blackrock_4_2		i_halberd_blackrock
+blacksmith_blackrock_5_2		i_sword_long_blackrock
+blacksmith_blackrock_6_2		i_sword_viking_blackrock
+blacksmith_blackrock_7_2		i_sword_broad_blackrock
+//blacksmith_blackrock_7_2		i_axe_blackrock
+//blacksmtih_blackrock_8_2		i_sword_board_blackrock
+//blacksmith_blackrock_9_2		i_axe_battle_blackrock
+//blacksmith_blackrock_10_2		i_axe_two_hand_blackrock
+//blacksmith_blackrock_11_2		i_axe_exec_blackrock
+// fence
+blacksmith_blackrock_0_3		i_dagger_blackrock
+blacksmith_blackrock_1_3		i_kryss_blackrock
+blacksmith_blackrock_2_3		i_pitchfork_blackrock
+blacksmith_blackrock_3_3		i_spear_blackrock
+blacksmith_blackrock_4_3		i_spear_short_blackrock
+blacksmith_blackrock_5_3		i_war_fork_blackrock
+// mace
+blacksmith_blackrock_0_4		i_axe_war_blackrock
+blacksmith_blackrock_1_4		i_hammer_pick_blackrock
+//blacksmith_blackrock_2_4		i_hammer_war_blackrock
+blacksmith_blackrock_2_4		i_maul_blackrock
+blacksmith_blackrock_3_4		i_mace_blackrock
+blacksmith_blackrock_4_4		i_mace_war_blackrock
+blacksmith_blackrock_5_4		i_helm_closed_blackrock
+
+[EOF]

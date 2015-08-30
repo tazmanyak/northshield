@@ -1,0 +1,557 @@
+//Xeon
+
+// LAST UPDATED: 11.05.2014
+
+[itemdef i_champion_creator]
+id=i_wand_2
+name=Champion Creator
+
+on=@click
+  message @0b12 <name>
+return 1
+
+on=@create
+  attr=04
+
+on=@dclick
+if !<src.gm>
+  return 1
+endif
+src.sdialog d_champion_create
+return 1
+
+
+[DIALOG d_champion_create]
+0,0
+page 0
+gumppic 500 550 2500
+dtext 550 585 0 Nereye kurmak istiyorsunuz ?
+button 574 608 247 248 1 0 1
+
+[DIALOG d_champion_create button]
+ON=1
+  src.f_champion_create
+  //serv.allclients sysmessage @ic_ancient Virgo's Altar appeared in <region.name>!
+
+
+[function f_champion_create]
+serv.newitem=i_virgo_memory
+new.p=<p>
+ref1=<new.uid>
+
+serv.newitem=1007
+new.p=<ref1.p>
+new.attr=010
+new.move s
+new.color=051f
+
+serv.newitem=1008
+new.p=<ref1.p>
+new.attr=010
+new.move e
+new.color=051f
+
+serv.newitem=1009
+new.p=<ref1.p>
+new.attr=010
+new.move n
+new.color=051f
+
+serv.newitem=1010
+new.p=<ref1.p>
+new.attr=010
+new.move w
+new.color=051f
+
+serv.newitem=1011
+new.p=<ref1.p>
+new.attr=010
+new.move nw
+new.color=051f
+
+serv.newitem=1012
+new.p=<ref1.p>
+new.attr=010
+new.move se
+new.color=051f
+
+serv.newitem=1013
+new.p=<ref1.p>
+new.attr=010
+new.move ne
+new.color=051f
+
+serv.newitem=1014
+new.p=<ref1.p>
+new.attr=010
+new.move sw
+new.color=051f
+
+serv.newitem=i_virgo_candle
+new.p=<ref1.p>
+new.trigger=@create
+ref1.tag0.uid1=<new.uid>
+
+serv.newitem=i_virgo_candle
+new.p=<ref1.p>
+new.move n
+new.trigger=@create
+ref1.tag0.uid2=<new.uid>
+
+serv.newitem=i_virgo_candle
+new.p=<ref1.p>
+new.move nw
+new.trigger=@create
+ref1.tag0.uid3=<new.uid>
+
+serv.newitem=i_virgo_candle
+new.p=<ref1.p>
+new.move w
+new.trigger=@create
+ref1.tag0.uid4=<new.uid>
+
+
+[itemdef i_virgo_memory]     // more1 - counter of mobs
+ID = 1006                    // more2 - altar state; 1 - activated; 0 - deactivated
+TYPE = t_script
+NAME = Altar of Virgo
+
+ON=@Create
+  more1 = 10
+  more2 = 0
+  attr = 010
+  color = 051f
+
+ON=@Dclick
+  if (<src.account.plevel> < 3)
+    return 1
+  endif
+  dialog d_virgo_altar
+  return 1
+
+
+[DIALOG d_virgo_altar]
+0,0
+gumppic 100 100 2500
+
+dtext 135 130 0 Mini Champ'ı
+dtext 135 145 0 <qval <more2>?Deaktif:Aktif> mi etmek istiyorsunuz?
+
+button 210 210 1153 1154 1 0 1
+button 250 210 1150 1151 1 0 0
+
+[DIALOG d_virgo_altar button]
+ON = 1
+  if (!<more2>)
+    more2 = 1
+    f_spawn_champion_first <uid>
+    serv.allclients sys_error Yeni bir zindan muhafızı <region.name> civarında görüldü!
+  else
+    more2 = 0
+    // remove the altar ?
+    foritems 5
+      if (<id> == 03ee) || (<id> == 01825)
+        remove
+      endif
+    endfor
+    remove
+  endif
+  return 1
+
+[function f_spawn_champion_first]
+local.x=10
+while <local.x>
+  serv.newnpc=c_champion_first
+  new.home <new.p>
+  new.homedist 6
+  new.update
+  new.p=<p>+<r1,8>
+  new.tag0.uid=<argn>
+  local.x -=1
+endwhile
+
+
+[chardef c_champion_first]
+id=c_elemental_air_summoned
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+name=Air Elemental
+DAM=40,50
+ARMOR=155
+moverate=50
+TEVENTS=e_npc_evil
+
+on=@create
+	Karma=-10000    
+	STR={220 230}
+	DEX=70
+       Maxhits={1000 1250}
+	INT=100
+	magicresistance={90.0 95.0}
+        evaluatingintel={90.0 95.0}
+        tactics = 100.0
+       // magery={85.0 95.0}
+	NPC=brain_monster
+        tag0.lvl= 1
+        f_gain_stats_melee
+
+on=@death
+ref1=<tag0.uid>
+ref1.more1 -=1
+if !<ref1.more1>
+  region.allclients sys_error Tüm Air Elementler öldürüldü.
+  ref1.f_spawn_champion_second <ref1.uid> //<tag0.uid2> <tag0.uid3> <tag0.uid4>
+  ref1.more1=10
+  ref2=<ref1.tag0.uid1>
+  ref2.remove
+endif
+
+
+[function f_spawn_champion_second]
+local.x=10
+while <local.x>
+  serv.newnpc=c_champion_second
+  new.home <new.p>
+  new.homedist 6
+  new.update
+  new.p=<p>+<r1,8>
+  new.tag0.uid=<argn>
+  local.x -=1
+endwhile  
+
+[chardef c_champion_second]
+id=c_elemental_fire_summoned
+name=Fire Elemental
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=50,60
+ARMOR=165
+moverate=50
+TEVENTS=e_npc_evil
+
+on=@create
+	Karma=-10000    
+	STR={250 260}
+	DEX=70
+        Maxhits={1250 1450}
+	INT=100
+	magicresistance={95.0 100.0}
+        evaluatingintel={95.0 100.0}
+        tactics = 100.0
+       // magery={85.0 95.0}
+	NPC=brain_monster
+        tag0.lvl= 2
+        f_gain_stats_melee
+
+on=@death
+ref1=<tag0.uid>
+ref1.more1 -=1
+if !<ref1.more1>
+  region.allclients sys_normal Tüm Fire Elementler öldürüldü.
+  ref1.f_spawn_champion_third <ref1.uid> //<tag0.uid2> <tag0.uid3> <tag0.uid4>
+  ref1.more1=10
+  ref2=<ref1.tag0.uid2>
+  ref2.remove
+endif
+
+[function f_spawn_champion_third]
+local.x=10
+while <local.x>
+  serv.newnpc=c_champion_third
+  new.home <new.p>
+  new.homedist 6
+  new.update
+  new.p=<p>+<r1,8>
+  new.tag0.uid=<argn>
+  local.x -=1
+endwhile  
+
+[chardef c_champion_third]
+id=c_elemental_earth_summoned
+name=Earth Elemental
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=50,60
+ARMOR=165
+moverate=50
+TEVENTS=e_npc_evil
+
+on=@create
+	Karma=-10000    
+	STR={280 300}
+	DEX=70
+        Maxhits={1350 1450}
+	INT=100
+	magicresistance={95.0 100.0}
+        evaluatingintel={95.0 100.0}
+        tactics = 100.0
+       // magery={85.0 95.0}
+	NPC=brain_monster
+        tag0.lvl= 3
+        f_gain_stats_melee
+
+on=@death
+ref1=<tag0.uid>
+ref1.more1 -=1
+if !<ref1.more1>
+  region.allclients sys_normal Tüm Earth Elementler öldürüldü.
+  ref1.f_spawn_champion_fourth <ref1.uid> 
+  ref1.more1=10
+  ref2=<ref1.tag0.uid3>
+  ref2.remove
+endif
+
+
+[function f_spawn_champion_fourth]
+local.x=10
+while <local.x>
+  serv.newnpc=c_champion_fourth
+  new.home <new.p>
+  new.homedist 6
+  new.update
+  new.p=<p>+<r1,8>
+  new.tag0.uid=<argn>
+  local.x -=1
+endwhile  
+
+[chardef c_champion_fourth]
+id=c_elemental_water_summoned
+name=Earth Elemental
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=50,60
+ARMOR=165
+moverate=50
+TEVENTS=e_npc_evil
+
+on=@create
+	Karma=-10000    
+	STR={300 320}
+	DEX=70
+        Maxhits={1450 1550}
+	INT=100
+	magicresistance={100.0 110.0}
+        evaluatingintel={95.0 100.0}
+        tactics = 100.0
+       // magery={85.0 95.0}
+	NPC=brain_monster
+        tag0.lvl= 4
+        f_gain_stats_melee
+
+on=@death
+ref1=<tag0.uid>
+ref1.more1 -=1
+if !<ref1.more1>
+  region.allclients sys_normal Tüm Water Elementler öldürüldü.
+  ref1.more1=10
+  ref2=<ref1.tag0.uid4>
+  ref2.remove
+  ref1.f_spawn_boss_virgo <ref1.uid>
+endif
+
+
+[function f_spawn_boss_virgo]
+ref1=<argn>
+serv.newitem=i_virgos_symbol
+new.p=<ref1.p>
+new.trigger @create
+serv.newnpc=c_virgo
+new.p=<ref1.p>
+new.tag0.uid=<ref1.uid>
+
+
+
+[itemdef i_virgos_symbol]
+id=6181
+name=Virgo's Symbol
+
+on=@create
+attr=010
+color=0b38
+nudgeup=5
+
+
+[itemdef i_virgos_power]
+id=i_memory
+type=t_eq_script
+name=Virgo's Power
+
+on=@timer
+  sector.allclients f_effect_virgos 
+timer=8
+return 1
+
+[function f_effect_virgos]
+if <stam> > 0
+stamina -={10 17}
+endif
+effect 3,i_fx_glow_spike,10,16
+sys_error Virgo aurasından etkilendiniz.
+damage {20 40}
+
+[CHARDEF c_virgo]
+Id=c_gazer
+NAME = Virgo, the lord of elements
+DAM = 30,45
+ARMOR = 80
+CAN=MT_WALK|MT_USEHANDS
+FOODTYPE=
+BLOODCOLOR=colors_red
+
+CATEGORY = Monsters
+SUBSECTION = Boss
+DESCRIPTION = Virgo, the lord of elements
+
+ON=@Create
+  color=0a60
+  NPC = brain_monster
+  FAME = 5000
+  KARMA = -10000
+  STR = 350
+  DEX = 100
+  INT = 100
+  MAXHITS = 20000
+  MAXSTAM = 12000
+  MAXMANA = 12000
+  PARRYING = 100.0
+  MAGERY = 130.0
+  MAGICRESISTANCE = 120.0
+  TACTICS = 140.0
+  itemnewbie i_npc_decay_timer
+  timer = 20*60
+  itemnewbie=i_virgos_power
+  timer=8
+
+ON=@NPCRestock
+  itemnewbie = i_spellbook
+  addspell = s_poison
+  addspell = s_weaken
+  addspell = s_mass_dispel
+  addspell = s_paralyze
+
+
+ON=@Click
+  message @50,,1 Boss : [<hits>/<maxhits>]
+  message @042c <name> 
+  return 1
+
+ON=@GetHit
+  mana = <maxmana>
+  // Refresh decay timer
+  if <findid.i_npc_decay_timer>
+    findid.i_npc_decay_timer.timer = 20*60
+  endif
+  // Magic Resistance
+  if <argn2> & 04 
+    call f_npc_magic_resist
+  // Scripted DMG
+  elseif (<argn2> & 02) && (<argn1> >= 20) 
+    // Physical DGM modif
+    call f_npc_get_dmg_modif
+    argn2 = (<argn2> &~ 02) | 01
+  endif
+  // Show damage done
+  message @56 <argn1>
+  return 0
+
+ON=@Hit
+  argn1 = {<dam>}
+  call f_npc_dmg_modif
+  return 0
+
+ON=@SpellEffect
+  // Resist Paralize
+  if (<argn1> == 38) || (<argn1> == 47)
+    effect 3,i_fx_glow,1,10        
+    return 1
+  endif
+  return 0
+
+ON=@SpellCast
+  // Instant casts
+  argn3 = 0
+  if (<serv.time> +- <tag0.last_cast>) <= {1 20}
+    return 1
+  endif
+  tag.last_cast = <serv.time>
+  return 0
+
+ON=@DeathCorpse
+  ref1=<tag0.uid>
+  ref1.trigger @dclick
+  // Anounce boss death
+  serv.allclients sys_error Dungeon Keepers <uid.<attacker.max.uid>.name> ve yandaşları tarafından öldürüldü!
+  // Setup loot restriction
+  argo.tag.killer_uid = <f_find_max_attacker>
+  // Drop loot
+  if <r3>==1
+	serv.newitem=vanq_silah
+	new.cont <argo.uid>
+  endif
+  
+	serv.newitem=force_silah
+	new.cont <argo.uid>
+  //if <r2>==1
+	serv.newitem=power_silah
+	new.cont <argo.uid>
+	for 5
+	new.cont <argo.uid>
+	serv.newitem=i_gold
+	new.amount 50000
+	new.cont <argo.uid>
+	endfor
+	
+  //endif
+//  serv.newitem=i_virgos_candle
+//  new.cont=<argo.uid>
+  // Gain fame
+  if <attacker> > 0
+    local.fame = <fame> / <attacker>
+    for <attacker>
+      ref1 = <attacker.<eval <local._FOR> +-1>.uid>
+      ref1.fame += <local.fame>
+      ref1.sys_normal <eval <local.fame>> kadar fame kazandınız.
+    endfor
+  endif
+  return 0 
+
+ON=@EnvironChange
+ref1=<tag0.uid>
+  if <distance <ref1.uid>> > 20
+    say @,,1 Altarıma geri dönüyorum.
+    go <uid.<ref1.uid>.p>
+  endif
+
+
+[itemdef i_virgo_candle]
+id=i_candle
+name=Virgo's Candle
+
+on=@click
+  message @0b12 <name>
+return 1
+
+on=@create
+attr=010
+color=0b38
+more1=10
+nudgeup=5
+
+[itemdef i_virgos_candle]
+id=i_candle
+name=Virgo's Candle
+
+ON=@DropOn_Ground
+  cont= <src.findlayer(21).uid>
+return 1
+
+on=@click
+ message @0b12 <name>
+return 1
+
+on=@dclick
+  dispid=i_candle_lit
+  equip
+return 1
+
+
+on=@create
+color=0b38
+
+[EOF]

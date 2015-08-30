@@ -1,0 +1,42 @@
+[CHARDEF 02c1]
+DEFNAME=c_stone_form
+NAME=stone form
+ICON=i_pet_stone_form
+SOUND=snd_monster_stoneform
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=21,35
+ARMOR=35
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=-1
+MOVERATE=100
+CATEGORY=Spells
+SUBSECTION=Mysticism
+DESCRIPTION=Stone Form
+
+[CHARDEF 033d]
+//FIXME: No Stratics entry
+//"The Rising Colossus stats, skills, and duration are determined by the
+// Casters Focus or Imbuing (whichever is greater), and Mysticism skills"
+DEFNAME=c_rising_colossus
+NAME=rising colossus
+ICON=i_pet_rising_colossus
+SOUND=snd_monster_rising_colossus
+CAN=MT_WALK
+DAM=33,49
+ARMOR=45
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=88.2
+TAG.Control.Slots=5
+CATEGORY=Spells
+SUBSECTION=Mysticism
+DESCRIPTION=Rising Colossus
+
+[EOF]

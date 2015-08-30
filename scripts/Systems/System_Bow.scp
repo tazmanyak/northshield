@@ -1,0 +1,229 @@
+[itemdef i_scimitar_slayer]
+id=i_scimitar
+Name=Scimitar
+WEIGHT=5
+TYPE=T_WEAPON_SWORD
+FLIP=1
+speed 33
+dam 13,15
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=013b6
+SKILLMAKE=BLACKSMITHING 31.7
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Scimitars
+DESCRIPTION=Scimitar
+
+ON=@Create
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=500
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+if (<src.tactics> <98.0)
+src.sysmessage @077a Slayer bow'u kullanabilmek icin 90.0 tactics skilline ihtiyaciniz var.
+unequip
+return 1
+endif
+src.events +e_slayer_weapon
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_slayer_weapon
+src.events -e_bleeding
+
+
+
+[typedef t_weapon_slayer_new]
+
+on=@equiptest
+if !<tag.fastercasting>
+	if (<src.tactics> <98.0) //&& (<src.archery> <98.0)
+		src.sysmessage @077a Slayer Weapon'u kullanabilmek icin 98.0 tactics skilline ihtiyaciniz var.
+		//unequip
+		return 1
+	endif
+endif
+//src.events +e_bleeding
+
+on=@unequip
+src.events -e_slayer_weapon
+//src.events -e_bleeding
+
+on=@equip
+src.events +e_slayer_weapon
+if <tag.fastercasting>
+src.ef_spirits
+endif
+
+[ITEMDEF i_fast_bow]
+ID=i_magical_shortbow
+TYPE=T_WEAPON_BOW 
+NAME=Speed Bow
+FLIP=0 
+DAM=2,8 
+SKILL=Archery 
+REQSTR=20 
+TWOHANDS=N
+WEIGHT=4 
+RESOURCES=20 i_log_frostwood,20 i_reag_dragon_blood
+SKILLMAKE=98.1 BOWCRAFT, MAGERY 90.0 
+TDATA3=i_arrow
+VALUE=7500
+SPEED 65
+
+on=@create
+COLOR=0999
+MOREY=00
+hitpoints 100
+
+on=@equip
+if (<src.tactics> < 98.0) || (<src.archery> < 90.0) ||
+src.sysmessage @077a Kullanabilmek icin 98.0 archery , 90.0 tactics skilline ihtiyaciniz var.
+unequip
+return 1
+endif
+
+on=@click
+message @33,1,1 [ Saglamlik: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+return 1
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Slayer Bow
+
+[ITEMDEF i_bow_npc]
+ID=i_composite_bow
+TYPE=T_WEAPON_BOW 
+NAME=Slayer Bow
+FLIP=0 
+DAM=10,15 
+SKILL=Archery 
+REQSTR=20 
+TWOHANDS=N
+WEIGHT=4 
+RESOURCES=20 i_log_bloodwood,20 i_reag_dragon_blood
+SKILLMAKE=98.1 BOWCRAFT, MAGERY 90.0 
+TDATA3=i_arrow
+VALUE=7500
+SPEED 40
+
+on=@create
+COLOR=0996
+MOREY=00
+hitpoints 100
+
+on=@equip
+if (<src.tactics> <98.0) && (<src.archery> <90.0)
+src.sysmessage @077a Slayer bow'u kullanabilmek icin 98.0 archery ve 90.0 tactics skilline ihtiyaciniz var.
+unequip
+return 1
+endif
+
+src.events +e_firebow
+
+on=@unequip
+src.events -e_firebow
+
+on=@click
+message @33,1,1 [ Saglamlik: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+return 1
+
+
+[events e_firebow]
+
+On=@Hit
+if !(<src.isplayer>)
+	SRC.DAMAGE=<EVAL {40,50}> 01 <UID>
+else
+	sys_error Player uzerinde kullanamazsiniz.
+	return 1
+endif
+
+[events e_slayer_weapon]
+
+On=@Hit
+if !(<src.isplayer>)
+	local.doom 0
+	for 24
+		if <src.findlayer.<dlocal._for>>
+			if strmatch(*doom*,<src.findlayer(<dlocal._for>).baseid>)
+				local.doom 1
+			endif
+		endif
+	endfor
+	if !<local.doom>
+		SRC.DAMAGE=<EVAL {40,50}> 01 <UID>
+		if rand(8)==1
+			src.spelleffect s_fireball,1000,<uid>
+		endif
+	else
+		SRC.DAMAGE=<EVAL {100,180}> 01 <UID>
+	endif
+else
+	src.sys_error Player uzerinde kullanamazsiniz.
+	return 1
+endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////Bowlar Icin Itemler//////////////////////////////////////////////
+///////////////////// NE GEREK VAR AQ / olani kullanalim.... i_log_bloodwood
+[ITEMDEF i_bow_item]
+NAME=Magical Shaft
+ID=i_arrow_shaft
+TYPE=t_script
+
+on=@create
+color 07a1
+
+//ON=@DCLick
+//src.message @,,1 Bow yapiminda kullanilir.
+//return 1
+
+on=@dclick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu ancak cantanizda iken kullanabilirsiniz.
+	return 1
+endif
+
+DORAND 2
+
+BEGIN
+serv.newitem i_log_frostwood
+new.amount <amount>
+src.new.bounce
+remove
+END
+
+BEGIN
+serv.newitem i_log_bloodwood
+new.amount <amount>
+src.new.bounce
+remove
+END
+
+ENDDO
+Src.sysmessage @69,,1 Donusum yapildi.
+return 1
+
+[ITEMDEF i_log_magical]
+NAME=Magical Log
+ID=i_log
+TYPE=t_script
+
+on=@create
+color 07a1
+
+ON=@DCLick
+src.message @,,1 Bow yapiminda kullanilir.
+return 1
+
+
+
+[eof]

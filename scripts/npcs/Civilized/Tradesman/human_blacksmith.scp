@@ -1,0 +1,169 @@
+[CHARDEF c_h_blacksmith]
+DEFNAME=C_H_BLACKSMITH
+NAME=#NAMES_HUMANMALE the Blacksmith
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobBlacksmith
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Blacksmith (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={86 100}
+	DEX={66 80}
+	INT={61 75}
+
+	MINING={35.0 55.0}
+	ARMSLORE={65.0 88.0}
+	BLACKSMITHING={55.0 78.0}
+	FENCING={35.0 55.0}
+	PARRYING={35.0 50.0}
+	SWORDSMANSHIP={35.0 50.0}
+	WRESTLING={45.0 68.0}
+	MACEFIGHTING={35.0 50.0}
+	TACTICS={35.0 55.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=i_apron_full
+	COLOR=colors_all
+	ITEM=i_boots_calf
+	COLOR=colors_neutral
+	ITEM=random_weapon
+	ITEM=random_coin_purse
+	//	I took leather out of this section, I believe
+	//		blacksmiths deal in metals only.
+	//		feel free to add the template back in
+	//		This vendor has items that need to be assigned to the flipped item
+	//		i.e. spears, just to make it look nicer.
+	SELL=VENDOR_S_ARMORER_RING
+	SELL=VENDOR_S_ARMORER_CHAIN
+	SELL=VENDOR_S_ARMORER_PLATE
+	SELL=VENDOR_S_ARMORER_SHIELDS
+	SELL=VENDOR_S_WEAPONS_BLADED
+	SELL=VENDOR_S_WEAPONS_BLUNT
+	SELL=VENDOR_S_BLACKSMITH
+	SELL=VENDOR_S_COLOURED_ARMOR
+	SELL=VENDOR_S_MAGIC_ARMOR
+	SELL=VENDOR_S_MAGIC_WEAPONS
+	BUY=VENDOR_B_ARMORER_RING
+	BUY=VENDOR_B_ARMORER_CHAIN
+	BUY=VENDOR_B_ARMORER_PLATE
+	BUY=VENDOR_B_ARMORER_SHIELDS
+	BUY=VENDOR_B_WEAPONS_BLADED
+	BUY=VENDOR_B_WEAPONS_BLUNT
+	BUY=VENDOR_B_BLACKSMITH
+	BUY=VENDOR_B_COLOURED_ARMOR
+	BUY=VENDOR_B_MAGIC_ARMOR
+	BUY=VENDOR_B_MAGIC_WEAPONS
+
+
+[CHARDEF c_h_blacksmith_f]
+DEFNAME=C_H_BLACKSMITH_F
+NAME=#NAMES_HUMANFEMALE the Blacksmith
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobBlacksmith
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Blacksmith (female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={86 100}
+	DEX={66 80}
+	INT={61 75}
+
+	MINING={35.0 55.0}
+	ARMSLORE={65.0 88.0}
+	BLACKSMITHING={55.0 78.0}
+	FENCING={35.0 55.0}
+	PARRYING={35.0 50.0}
+	SWORDSMANSHIP={35.0 50.0}
+	WRESTLING={45.0 68.0}
+	MACEFIGHTING={35.0 50.0}
+	TACTICS={35.0 55.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=i_apron_full
+	COLOR=colors_all
+	ITEM=i_boots_calf
+	COLOR=colors_neutral
+	ITEM=random_weapon
+	ITEM=random_coin_purse
+	//	This vendor has items that need to be assigned to the flipped item
+	//		i.e. spears, just to make it look nicer.
+	SELL=VENDOR_S_ARMORER_RING
+	SELL=VENDOR_S_ARMORER_CHAIN
+	SELL=VENDOR_S_ARMORER_PLATE
+	SELL=VENDOR_S_ARMORER_SHIELDS
+	SELL=VENDOR_S_WEAPONS_BLADED
+	SELL=VENDOR_S_WEAPONS_BLUNT
+	SELL=VENDOR_S_BLACKSMITH
+	SELL=VENDOR_S_COLOURED_ARMOR
+	SELL=VENDOR_S_MAGIC_ARMOR
+	SELL=VENDOR_S_MAGIC_WEAPONS
+	BUY=VENDOR_B_ARMORER_RING
+	BUY=VENDOR_B_ARMORER_CHAIN
+	BUY=VENDOR_B_ARMORER_PLATE
+	BUY=VENDOR_B_ARMORER_SHIELDS
+	BUY=VENDOR_B_WEAPONS_BLADED
+	BUY=VENDOR_B_WEAPONS_BLUNT
+	BUY=VENDOR_B_BLACKSMITH
+	BUY=VENDOR_B_COLOURED_ARMOR
+	BUY=VENDOR_B_MAGIC_ARMOR
+	BUY=VENDOR_B_MAGIC_WEAPONS
+
+[EOF]

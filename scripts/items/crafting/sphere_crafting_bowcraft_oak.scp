@@ -1,0 +1,324 @@
+[ITEMDEF i_bow_oak]
+ID=i_bow
+NAME=Oak bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_oak
+SKILLMAKE=30.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak bow
+DESCRIPTION=Oak bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_composite_bow_oak]
+ID=i_composite_bow
+NAME=Oak Composite Bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_oak
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=5.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Composite Bow
+DESCRIPTION=Oak Composite Bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_crossbow_oak]
+ID=i_crossbow
+NAME=Oak crossbow
+TYPE=t_weapon_xbow
+RESOURCES=7 i_log_oak
+SKILLMAKE=60.0 Bowcraft
+WEIGHT=7.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak crossbow
+DESCRIPTION=Oak crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_elven_composite_longbow_oak]
+ID=i_elven_composite_longbow
+NAME=Oak Elven Composite Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_oak
+SKILLMAKE=95.0 Bowcraft
+WEIGHT=8.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Elven Composite Longbow
+DESCRIPTION=Oak Elven Composite Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_crossbow_heavy_oak]
+ID=i_crossbow_heavy
+NAME=Oak heavy crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_oak
+SKILLMAKE=80.0 Bowcraft
+WEIGHT=9.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak heavy crossbow
+DESCRIPTION=Oak heavy crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_magical_shortbow_oak]
+ID=i_magical_shortbow
+NAME=Oak Magical Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_oak
+SKILLMAKE=85.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Magical Shortbow
+DESCRIPTION=Oak Magical Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_repeating_crossbow_oak]
+ID=i_repeating_crossbow
+NAME=Oak Repeating Crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_oak
+SKILLMAKE=90.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Repeating Crossbow
+DESCRIPTION=Oak Repeating Crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_yumi_oak]
+ID=i_yumi
+NAME=Oak Yumi
+TYPE=t_weapon_bow
+RESOURCES=10 i_log_oak
+SKILLMAKE=90.0 Bowcraft
+WEIGHT=8.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Yumi
+DESCRIPTION=Oak Yumi
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_barbed_longbow_oak]
+ID=i_elven_composite_longbow
+NAME=Oak Barbed Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_oak, 1 i_gem_fire_ruby
+SKILLMAKE=95.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Elven Composite Longbow
+DESCRIPTION=Oak Barbed Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_slayer_longbow_oak]
+ID=i_elven_composite_longbow
+NAME=Oak Slayer Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_oak, 1 i_gem_brilliant_amber
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Elven Composite Longbow
+DESCRIPTION=Oak Slayer Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_frozen_longbow_oak]
+ID=i_elven_composite_longbow
+NAME=Oak Frozen Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_oak, 1 i_gem_turquoise
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Elven Composite Longbow
+DESCRIPTION=Oak Frozen Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_longbow_might_oak]
+ID=i_elven_composite_longbow
+NAME=Oak Longbow of Might
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_oak, 1 i_gem_blue_diamond
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Elven Composite Longbow
+DESCRIPTION=Oak Longbow of Might
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_ranger_shortbow_oak]
+ID=i_magical_shortbow
+NAME=Oak Ranger's Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_oak, 1 i_gem_perfect_emerald
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Magical Shortbow
+DESCRIPTION=Oak Ranger's Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_lightweight_shortbow_oak]
+ID=i_magical_shortbow
+NAME=Oak Lightweight Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_oak, 1 i_gem_white_pearl
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Magical Shortbow
+DESCRIPTION=Oak Lightweight Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_mystical_shortbow_oak]
+ID=i_magical_shortbow
+NAME=Oak Mystical Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_oak, 1 i_gem_ecru_citrine
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Magical Shortbow
+DESCRIPTION=Oak Mystical Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_assassin_shortbow_oak]
+ID=i_magical_shortbow
+NAME=Oak Assassin's Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_oak, 1 i_gem_dark_sapphire
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Magical Shortbow
+DESCRIPTION=Oak Assassin's Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[EOF]
+[ITEMDEF i_bow_oak]
+ID=013b1
+NAME=Oak bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_oak
+SKILLMAKE=30.0 Bowcraft
+WEIGHT=6.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak bow
+DESCRIPTION=Oak bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_crossbow_oak]
+ID=0f4f
+NAME=Oak crossbow
+TYPE=t_weapon_xbow
+RESOURCES=7 i_log_oak
+SKILLMAKE=60.0 Bowcraft
+WEIGHT=7.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak crossbow
+DESCRIPTION=Oak crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_crossbow_heavy_oak]
+ID=013fc
+NAME=Oak heavy crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_oak
+SKILLMAKE=80.0 Bowcraft
+WEIGHT=9.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak heavy crossbow
+DESCRIPTION=Oak heavy crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_fast_bow_oak]
+ID=02d1f
+NAME=Oak Speed Bow
+TYPE=t_weapon_bow
+RESOURCES=50 i_log_oak, 20 i_bow_item, 20 i_reag_dragon_blood
+SKILLMAKE=98.1 Bowcraft, 90.0 Magery
+WEIGHT=4.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Magical Shortbow
+DESCRIPTION=Oak Speed Bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 
+[ITEMDEF i_bow_npc_oak]
+ID=026c2
+NAME=Oak Slayer Bow
+TYPE=t_weapon_bow
+RESOURCES=50 i_log_oak, 20 i_bow_item, 20 i_reag_dragon_blood
+SKILLMAKE=98.1 Bowcraft, 90.0 Magery
+WEIGHT=4.0
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Oak Composite Bow
+DESCRIPTION=Oak Slayer Bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a6
+ 

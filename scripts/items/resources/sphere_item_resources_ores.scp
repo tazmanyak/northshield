@@ -1,0 +1,250 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, November 22, 2003
+//
+VERSION=0.56b
+
+///////////////////////////////////////////////////////////////
+//////// OSI ORES
+///////////////////////////////////////////////////////////////
+// This are the ores used in OSI. More info, read stratics.
+[ITEMDEF 019b7]
+// DEFNAME2=METAL_ORE_1
+DEFNAME=i_ore_iron
+NAME=Iron Ore
+TYPE=t_ore
+SKILLMAKE=MINING 20.0
+TDATA1=i_ingot_iron
+WEIGHT=1.0
+VALUE=4
+DUPELIST=019b8,019b9,019ba
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Iron Ore
+
+[ITEMDEF i_ore_dull_copper]
+ID=i_ore_iron
+NAME=Dull Copper Ore
+SKILLMAKE=MINING 65.0
+TDATA1=i_ingot_dull_copper
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Dull Copper Ore
+
+ON=@Create
+COLOR=color_o_dull_copper
+
+[ITEMDEF i_ore_shadow]
+ID=i_ore_iron
+NAME=Shadow Ore
+SKILLMAKE=MINING 70.0
+TDATA1=i_ingot_shadow
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Shadow Ore
+
+ON=@Create
+COLOR=color_o_shadow
+
+[ITEMDEF i_ore_copper]
+ID=i_ore_iron
+NAME=Copper Ore
+SKILLMAKE=MINING 75.0
+TDATA1=i_ingot_copper
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Iron Ore
+
+ON=@Create
+COLOR=color_o_copper
+
+[ITEMDEF i_ore_bronze]
+ID=i_ore_iron
+NAME=Bronze Ore
+SKILLMAKE=MINING 80.0
+TDATA1=i_ingot_bronze
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Copper Ore
+
+ON=@Create
+COLOR=color_o_bronze
+
+[ITEMDEF i_ore_gold]
+ID=i_ore_iron
+NAME=Gold Ore
+SKILLMAKE=MINING 85.0
+TDATA1=i_ingot_gold
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Gold Ore
+
+ON=@Create
+COLOR=color_o_gold
+
+[ITEMDEF i_ore_agapite]
+ID=i_ore_iron
+NAME=Agapite Ore
+SKILLMAKE=MINING 90.0
+TDATA1=i_ingot_agapite
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Agapite Ore
+
+ON=@Create
+COLOR=color_o_agapite
+
+[ITEMDEF i_ore_verite]
+ID=i_ore_iron
+NAME=Verite Ore
+SKILLMAKE=MINING 95.0
+TDATA1=i_ingot_verite
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Verite Ore
+
+ON=@Create
+COLOR=color_o_verite
+
+[ITEMDEF i_ore_valorite]
+ID=i_ore_iron
+NAME=Valorite Ore
+SKILLMAKE=MINING 99.0
+TDATA1=i_ingot_valorite
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Valorite Ore
+
+ON=@Create
+COLOR=color_o_valorite
+
+
+///////////////////////////////////////////////////////////////
+//////// SPHERE ORES
+///////////////////////////////////////////////////////////////
+// Ores that was used by Sphere. Stay here for backwards comp.
+[ITEMDEF i_ore_silver]
+ID=i_ore_iron
+NAME=Silver Ore
+SKILLMAKE=MINING 95.0
+TDATA1=i_ingot_silver
+VALUE=7
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Silver Ore
+
+ON=@Create
+COLOR=color_o_silver
+
+[ITEMDEF i_ore_rose]
+ID=i_ore_iron
+NAME=Rose Ore
+SKILLMAKE=MINING 87.0
+TDATA1=i_ingot_rose
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Rose Ore
+
+ON=@Create
+COLOR=color_o_rose
+
+[ITEMDEF i_ore_mytheril]
+ID=i_ore_iron
+NAME=Mytheril Ore
+SKILLMAKE=MINING 99.5
+TDATA1=i_ingot_mytheril
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Mytheril Ore
+
+ON=@Create
+COLOR=color_o_mytheril
+
+[ITEMDEF i_ore_blackrock]
+ID=i_ore_iron
+NAME=Blackrock Ore
+SKILLMAKE=MINING 100.0
+TDATA1=i_ingot_blackrock
+VALUE=18
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Blackrock Ore
+
+ON=@Create
+COLOR=color_o_blackrock
+
+[ITEMDEF i_ore_bloodrock]
+ID=i_ore_iron
+NAME=Bloodrock Ore
+SKILLMAKE=MINING 93.0
+TDATA1=i_ingot_bloodrock
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Bloodrock Ore
+
+ON=@Create
+COLOR=color_o_bloodrock
+
+[ITEMDEF i_ore_rusty]
+ID=i_ore_iron
+NAME=Rusty Ore
+SKILLMAKE=MINING 50.0
+TDATA1=i_ingot_rusty
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Rusty Ore
+
+ON=@Create
+COLOR=color_o_rusty
+
+[ITEMDEF i_ore_old_copper]
+ID=i_ore_iron
+NAME=Old Copper Ore
+SKILLMAKE=MINING 60.0
+TDATA1=i_ingot_old_copper
+VALUE=15
+CATEGORY=Resources - Mining
+SUBSECTION=Ores
+DESCRIPTION=Old Copper Ore
+
+ON=@Create
+	COLOR=color_o_oldcopper
+
+
+[COMMENT OTHER ORES]
+// other things that could be mined for .
+//	ChanceofVein, MinFindSkill,	Item, Color, Name, OrePerVein Min, Max
+//Dragon,0593,100.0,1.0,1-2,06037
+//Titan,0736,100.0,1.0,1-2,06035
+//Crystaline,0065,100.0,1.0,1-2,06039
+//Kryptonite,0170,100.0,1.0,1-2,06505
+//Vulcan,6324,100.0,1.0,1-2,06506
+//Sand Rock,0709,100.0,1.0,1-2,06507
+//Blood Crest,064e,100.0,1.0,1-2,06508
+//Steel,0540,100.0,1.0,1-2,06509
+//Elvin,0596,100.0,1.0,1-2,06510
+//Gorgan,0456,100.0,1.0,1-2,06512
+//Acid,0078,100.0,1.0,1-2,06514
+//Aqua,123982,100.0,1.0,1-2,06513
+//Eldar,04d8,100.0,1.0,1-2,06511
+
+[EOF]

@@ -1,0 +1,26 @@
+[TEMPLATE loot_level5_monster]
+CATEGORY=Item Templates
+SUBSECTION=Monster Loot Templates
+DESCRIPTION=level 5 monster
+CONTAINER=i_backpack
+ITEM=i_gold,{10600 15800}
+ITEM=random_jewelry
+ITEM=random_potion,{1 2}
+ITEM=random_wands
+ITEM=random_scroll_medium,{2 3}
+ITEM=i_treasure_map_lvl_5,R12
+//ITEM=i_upgrade_scroll15,R10
+//ITEM=power_silah,R15
+
+[TEMPLATE Vanq_Silah]
+CATEGORY=Item Templates
+SUBSECTION=Monster Loot Templates
+DESCRIPTION=Vanquishing Silahlar
+CONTAINER=i_bag
+ITEM=random_weapon_
+morey 100.0
+tag0.magicweapon Vanquishing
+attr attr_magic
+
+[EOF]
+

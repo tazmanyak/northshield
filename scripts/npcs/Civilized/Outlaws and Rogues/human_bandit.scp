@@ -1,0 +1,124 @@
+[CHARDEF c_h_bandit]
+DEFNAME=c_h_bandit
+NAME=#NAMES_HUMANMALE the Bandit
+ID=C_MAN
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK
+//ALIGNMENT=EVIL
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobBrigand
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Refuse
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Bandit (male)
+
+ON=@Create
+	COLOR=colors_skin
+	NPC=brain_thief
+	KARMA={-3000 -4000}
+	FAME={2500 4000}
+
+	STR={66 80}
+	DEX={81 95}
+	INT={61 75}
+
+	HIDING={45.0 68.0}
+	SNOOPING={75.0 90.0}
+	LockPicking={35.0 58.0}
+	STEALING={75.0 90.0}
+	PARRYING={55.0 78.0}
+	SWORDSMANSHIP={35.0 58.0}
+	WRESTLING={35.0 58.0}
+	MAGICRESISTANCE={45.0 58.0}
+	TACTICS={55.0 78.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=i_skull_cap
+	COLOR=colors_all
+	ITEM=random_sword
+	ITEM=random_coin_purse
+
+
+[CHARDEF c_h_bandit_f]
+DEFNAME=c_h_bandit_f
+NAME=#NAMES_HUMANFEMALE the Bandit
+ID=C_WOMAN
+//ALIGNMENT=EVIL
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobBrigand
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Refuse
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Bandit (female)
+
+ON=@Create
+	COLOR=colors_skin
+	NPC=brain_thief
+	KARMA={-3000 -4000}
+	FAME={2500 4000}
+
+	STR={66 80}
+	DEX={81 95}
+	INT={61 75}
+
+	HIDING={45.0 68.0}
+	SNOOPING={75.0 90.0}
+	LockPicking={35.0 58.0}
+	STEALING={75.0 90.0}
+	PARRYING={55.0 78.0}
+	WRESTLING={35.0 58.0}
+	MACEFIGHTING={35.0 58.0}
+	MAGICRESISTANCE={45.0 58.0}
+	TACTICS={55.0 78.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=i_skirt_long
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=i_skull_cap
+	COLOR=colors_all
+	ITEM=random_mace
+	ITEM=random_coin_purse
+
+[EOF]

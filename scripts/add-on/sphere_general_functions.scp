@@ -1,0 +1,1100 @@
+﻿///////////////////////
+[comment genel_fonksiyonlar]
+f_setmypet
+frozen
+duyuru
+sys_hidden 
+sys_normal
+sys_error
+asciiremove
+isWeaponMelee
+isweaponranged
+useinpack_only
+f_isHuman
+f_isElf
+f_isGarg
+f_isFemale
+f_iscursed
+giveitemmorey
+giveitemmorey_value
+ARRAYCOUNT
+ARRAY
+result
+findplayer_highest
+get_notocolor
+f_recycling_mana
+f_warrior_pvm
+f_faster_casting
+BolukAyir
+simpledist
+ColorElementalType
+isnumeric
+isalfanum
+f_MakePetOf
+f_additem
+min
+max
+abs
+ftime
+GetDispID
+f_GetColor
+f_ReturnInfo
+findplayer_highest
+getnoto_gumpcolor
+getnoto_color
+moveback
+f_freezetime_reducer
+isdeath
+f_son_uretim_sil
+addslashes
+f_kontrol_burak_log
+f_account_ban_txt
+pkyellsistemi
+
+[function f_graphical_effect]
+return 1
+
+[Plevel 1]
+duyuru
+
+[function duyuru]
+if !<src.tag.tns_duyuru>
+	src.tag.tns_duyuru 1
+	src.sysmessage @,,1 Duyuru alımını kapattınız.
+else
+	src.tag.tns_duyuru 0
+	src.sys_error Duyuru alımını açtınız.
+endif
+	
+[function sys_hidden]
+sysmessage @0,,1 <args>
+	
+[function asciiremove]
+local.ascii=<argv[0]>        //Ascii Dec value of the character we want to remove, for detailed information and IDs look http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters
+local.text=<streat <args>>    //Text to remove <local.ascii>
+local.check=<strpos 0 <dlocal.ascii> <args>>    //We check if we have any specified ascii chr to remove
+while <local.check>>0    //If so we begin
+    local.len=<eval STRLEN(<local.text>)>    //Length of the text
+    local.pos=<strpos 0 <dlocal.ascii> <local.text>>    //Position of current ascii char found
+    if (<local.pos>==0)    //If ascii is first char we make aditional IF to remove it
+        local.text=<strsub <eval <local.pos>+1> <local.len> <local.text>>    //local.text=Text except first character
+    else    //Otherwise we can do whole replacement with one line
+        local.text=<strsub 0 <local.pos> <local.text>><strsub <eval <local.pos>+1> <local.len> <local.text>>    //Text until found charText from found char (without spaces nor anything)
+    endif
+    if (<strpos 0 <dlocal.ascii> <local.text>>==-1)    //We check if we have more ascii chars to remove
+        local.check=0    //and we set to 0 if not, to stop while.
+    endif    
+endwhile
+return <local.text>        //Fixed text
+
+
+
+[function isWeaponMelee]
+	if (0)
+	elseif (<type> == t_weapon_mace_smith )
+	elseif (<type> == t_weapon_mace_sharp )
+	elseif (<type> == t_weapon_sword )
+	elseif (<type> == t_weapon_fence )
+	elseif (<type> == t_weapon_mace_staff )
+	elseif (<type> == t_weapon_mace_crook )
+	elseif (<type> == t_weapon_mace_pick )
+	elseif (<type> == t_weapon_axe )
+	else
+		return 0
+	endif
+	return 1
+
+[function isWeaponRanged]
+	if (0)
+	elseif (<type> == t_weapon_xbow )
+	elseif (<type> == t_weapon_bow )
+	else
+		return 0
+	endif
+	return 1
+
+[function useinpack_only]
+	if (<topobj.uid> != <src.uid>)
+		src.sysmessage You must have this item in your inventory.
+		return 1
+	elseif <cont.uid> != <src.findlayer.layer_pack.uid>
+		src.sysmessage You must have this item in your inventory.
+		return 1
+	endif
+	return 0
+
+[function useinpack]
+	if (<topobj.uid> != <src.uid>)
+		src.sysmessage You must have this item in your inventory.
+		return 1
+	endif
+	return 0
+
+
+
+
+[FUNCTION f_isHuman]
+IF ( (<OBODY>==c_man) || (<OBODY>==c_woman) )
+   RETURN 1
+ELSE
+   RETURN 0
+ENDIF
+
+[FUNCTION f_isElf]
+IF ( (<OBODY>==c_elf_male) || (<OBODY>==c_elf_female) )
+   RETURN 1
+ELSE
+   RETURN 0
+ENDIF
+
+[FUNCTION f_isGarg]
+IF ( (<OBODY>==c_gargoyle_male) || (<OBODY>==c_gargoyle_female) )
+   RETURN 1
+ELSE
+   RETURN 0
+ENDIF
+
+[FUNCTION f_isFemale]
+IF ( (<OBODY>==c_woman) || (<OBODY>==c_elf_female) || (<OBODY>==c_gargoyle_female) )
+   RETURN 1
+ELSE
+   RETURN 0
+ENDIF
+
+[FUNCTION f_isCursed]
+LOCAL.CurseResult=0
+FORCHARLAYER 32
+   IF (<BASEID>==i_rune_curse)
+      LOCAL.CurseResult=1
+   ENDIF
+ENDFOR
+RETURN <LOCAL.CurseResult>
+
+
+
+
+[function giveitemmorey_value]
+if strmatch(*ruin*,<args>)
+return 1
+elif strmatch(*might*,<args>)
+return 2
+elif strmatch(*force,<args>)
+return 3
+elif strmatch(*power*,<args>)
+return 4
+elif strmatch(*vanq*,<args>)
+return 5
+endif
+
+
+[function giveitemmorey]
+if strmatch(*ruin*,<tag.magicweapon>)
+return ruin
+elif strmatch(*might*,<tag.magicweapon>)
+return might
+elif strmatch(*force,<tag.magicweapon>)
+return force
+elif strmatch(*power*,<tag.magicweapon>)
+return power
+elif strmatch(*vanq*,<tag.magicweapon>)
+return vanquishing
+endif
+
+[function ARRAYCOUNT]
+return <eval <argv>>
+
+[FUNCTION ARRAY]
+LOCAL.text <EXPLODE {},<args>>
+LOCAL.id <result 3,<local.text>>
+LOCAL.type <result 4,<local.text>>
+LOCAL.argv <eval <argv> -1>
+
+IF STRREGEX(^self+$,<LOCAL.type>)
+     LOCAL.return <result <eval <LOCAL.id> + 4>,<LOCAL.text>>
+     LOCAL.return <EXPLODE =,<LOCAL.return>>
+     LOCAL.return <result 2,<LOCAL.return>>
+
+ELSEIF STRREGEX(^value+$,<LOCAL.type>)
+     LOCAL.return <result <eval <LOCAL.id> + 4>,<LOCAL.text>>
+     LOCAL.return <EXPLODE =,<LOCAL.return>>
+     LOCAL.return <result 3,<LOCAL.return>>
+     LOCAL.return <STREAT <EXPLODE .,<LOCAL.return>>>
+
+ELSEIF STRREGEX(^loop+$,<LOCAL.type>)
+     FOR <eval <LOCAL.id> + 4> <eval <LOCAL.argv> + 4>
+          LOCAL.return .= ,<result <LOCAL._for>,<LOCAL.text>>
+     ENDFOR
+     LOCAL.return <STREAT <STREAT <EXPLODE .,<LOCAL.return>>>>
+
+ELSEIF STRREGEX(^back+$,<LOCAL.type>)
+     LOCAL.return <result <eval <LOCAL.id> + 4>,<LOCAL.text>>
+     FOR <eval <LOCAL.id> + 3> 5
+          LOCAL.return .= ,<result <LOCAL._for>,<LOCAL.text>>
+     ENDFOR
+     LOCAL.return <STREAT <EXPLODE .,<LOCAL.return>>>
+
+ELSEIF STRREGEX(^[0-9]+$,<LOCAL.type>)
+     LOCAL.return <result <eval <LOCAL.id> + 4>,<LOCAL.text>>
+     LOCAL.return <EXPLODE =,<LOCAL.return>>
+     LOCAL.return <result 3,<LOCAL.return>>
+     LOCAL.return <EXPLODE .,<LOCAL.return>>
+     LOCAL.return <result <eval <LOCAL.type> + 1>,<LOCAL.return>>
+
+ELSEIF STRREGEX(^[a-z0-9]+$,<LOCAL.type>)
+     LOCAL.to <STREAT <EXPLODE to,<LOCAL.type>>>
+     FOR <eval <LOCAL.id> + 4> <eval <LOCAL.to> + 4>
+          LOCAL.return .= ,<result <LOCAL._for>,<LOCAL.text>>
+     ENDFOR
+     LOCAL.return <STREAT <STREAT <EXPLODE .,<LOCAL.return>>>>
+
+ENDIF
+IF STRREGEX(^[a-z0-9]+$,<LOCAL.return>)
+     RETURN <dLOCAL.return>
+ENDIF
+RETURN <LOCAL.return>
+
+[FUNCTION result]
+RETURN <argv[<argv[0]>]>
+
+
+
+[Function simpledist]
+local.xdif=<eval SQRT(<eval <eval <p.x>-<src.p.x>> * <eval <p.x>-<src.p.x>>>)>
+local.ydif=<eval SQRT(<eval <eval <p.y>-<src.p.y>> * <eval <p.y>-<src.p.y>>>)>
+IF (<local.xdif> > <local.ydif>
+return <eval <local.xdif>>
+ELSE
+return <eval <local.ydif>>
+ENDIF 
+
+
+
+[function isnumeric]
+if strregex(^[0-9]+$,<args>)
+  return 1
+else
+  return 0
+endif
+
+[function isalfanum]
+if strregex(^[a-zA-Z0-9]+$,<args>)
+  return 1
+else
+  return 0
+endif
+
+[function isalfa]
+if strregex(^[a-zA-Z]+$,<args>)
+  return 1
+else
+  return 0
+endif
+
+
+
+
+[function alphablack]
+gumppictiled <argv[0]> <argv[1]> 2624 <argv[2]> <argv[3]>
+checkertrans <argv[0]> <argv[1]> <argv[2]> <argv[3]>
+
+[function kalansure] // thx jeem
+LOCAL.TIMER = <ARGS>
+LOCAL.DAYs = <EVAL (<LOCAL.TIMER> / 86400)>
+LOCAL.TIMER -= <EVAL (<LOCAL.DAYS> * 86400)>
+LOCAL.HOURs = <EVAL (<LOCAL.TIMER> / 3600)>
+LOCAL.TIMER -= <EVAL (<LOCAL.HOURS> * 3600)>
+LOCAL.MINs = <EVAL (<LOCAL.TIMER> / 60)>
+LOCAL.TIMER -= <EVAL (<LOCAL.MINS> * 60)>
+LOCAL.SECs = <LOCAL.TIMER>
+IF <LOCAL.DAYS>
+   LOCAL.TIME = "<dLOCAL.DAYs> gün,"
+ENDIF
+IF <LOCAL.HOURS>
+   IF !STRCMP(<LOCAL.TIME>,0)
+      LOCAL.TIME = "<dLOCAL.HOURs> saat,"
+   ELSE
+      LOCAL.TIME .= " <dLOCAL.HOURs> saat,"
+   ENDIF
+ENDIF
+IF <LOCAL.MINS>
+   IF !STRCMP(<LOCAL.TIME>,0)
+      LOCAL.TIME = "<dLOCAL.MINs> dakika,"
+   ELSE
+      LOCAL.TIME .= " <dLOCAL.MINs> dakika,"
+   ENDIF
+ENDIF
+IF <LOCAL.SECS>
+   IF !STRCMP(<LOCAL.TIME>,0)
+      LOCAL.TIME = "<dLOCAL.SECs> saniye"
+   ELSE
+      LOCAL.TIME .= " <dLOCAL.SECs> saniye"
+   ENDIF
+ENDIF
+RETURN <LOCAL.TIME>
+
+[FUNCTION BolukAyir] // thx jeem
+// Kullanim: <BolukAyir 10000>
+IF (<EVAL STRLEN(<ARGS>)> > 3)
+   LOCAL.STRLEN=<EVAL STRLEN(<ARGS>)>
+   LOCAL.CURRENTDIGIT=<EVAL STRLEN(<ARGS>)>
+   WHILE (<LOCAL.CURRENTDIGIT> > 3)
+      ARGS=<STRSUB 0 <EVAL (<LOCAL.CURRENTDIGIT> - 3)> <ARGS>>.<STRSUB <EVAL (<LOCAL.CURRENTDIGIT> - 3)> 50 <ARGS>>
+      LOCAL.CURRENTDIGIT -= 3
+   ENDWHILE
+ENDIF
+RETURN <ARGS>
+
+
+
+[function makebg]
+if (<argv[2]> > 200)
+  resizepic <eval (<argv[0]> + ((<argv[2]>-170))/2)> <eval (<argv[1]>-20)> 2620 170 30
+endif
+resizepic <argv[0]> <argv[1]> 2620 <argv[2]> <argv[3]>
+//alphablack <eval <argv[0]>+10> <eval <argv[1]>+10> <eval <argv[2]>-20> <eval <argv[3]>-20>
+
+[function msg_normal]
+messageua 040,6,6,0 <args>
+
+[function msg_error]
+messageua 38,6,6,0 <args>
+
+[function say_normal]
+sayua 040,6,6,0 <args>
+
+[function say_error]
+sayua 38,6,6,0 <args>
+
+[function sys_normal]
+sysmessageua 042,6,6,0 <args>
+
+[function sys_error]
+sysmessageua 38,6,6,0 <args>
+
+
+[function ColorElementalType]
+local.max = 50
+if <tag0.DamFire> > <local.max>
+local.hue = <eval 1255 + ((<tag0.DamFire> - 50) / 10)>
+local.max = <tag0.DamFire>
+endif
+if <tag0.DamCold> > <local.max>
+local.hue = <eval 1261 + ((<tag0.DamCold> - 50) / 10)>
+endif
+if <tag0.DamPoison> > 50
+local.hue = <eval 1267 + ((<tag0.DamPoison> - 50) / 10)>
+local.max = <tag0.DamPoison>
+endif
+if <tag0.DamEnergy> > <local.max>
+local.hue = <eval 1273 + ((<tag0.DamEnergy> - 50) / 10)>
+local.max = <tag0.DamEnergy>
+endif
+return <local.hue>
+
+[function ishuman]
+if (<body> == c_man) || (<body> == c_woman)
+return 1
+endif
+return 0
+
+[function isgargoyle]
+if (<body> == c_gargoyle_male) || (<body> == c_gargoyle_female)
+return 1
+endif
+return 0
+
+[function iselven]
+if (<body> == c_elf_male) || (<body> == c_elf_female)
+return 1
+endif
+return 0
+
+[function ismale]
+if (<body> == c_gargoyle_male) || (<body> == c_elf_male) || (<body> == c_man)
+return 1
+endif
+return 0
+
+[function isfemale]
+if (<body> == c_gargoyle_female) || (<body> == c_elf_female) || (<body> == c_woman)
+return 1
+endif
+return 0
+
+[FUNCTION ishumanaid]
+if (<ismale> || <isfemale>)
+RETURN 1
+endif
+RETURN 0
+
+[function f_resenddialog]
+src.closealldialogs
+src.dialogclose <ARGV[0]>
+sdialog <ARGS>
+
+[function f_resources]
+return <ARGV>
+
+[function f_loopanim]
+if <argv[1]>>1
+	for <eval (<argv[1]>-1)>
+	timerf <eval (<local._for>*<argv[2]>)>,anim <eval <argv[0]>>
+	endfor
+endif
+anim <argv[0]>
+
+[function f_loopsound]
+if <argv[1]>>1
+	for <eval (<argv[1]>-1)>
+	timerf <eval (<local._for>*<argv[2]>)>,sound <eval <argv[0]>>
+	endfor
+endif
+sound <argv[0]>
+
+// <pet uid>.f_MakePetOf <owner uid>
+[function f_MakePetOf]
+serv.newitem i_memory
+new.color = memory_ipet
+new.more1 = 04
+new.more2 = <serv.time>
+new.morep = <p>
+new.link = <args>
+new.cont = <uid>
+
+// Check if the introduced argument is a spell number
+// Arguments = spell
+[function isdamagespell]
+IF ((<ARGN1> == 5) || (<ARGN1> == 12) || (<ARGN1> == 18) || (<ARGN1> == 30) || (<ARGN1> == 42) || (<ARGN1> == 49) || (<ARGN1> == 51) || (<ARGN1> == 55))
+RETURN 1
+ENDIF
+RETURN 0
+
+// Close all dialogs of the player
+[FUNCTION closealldialogs]
+IF (<DIALOGLIST.COUNT>)
+FOR 0 <EVAL <DIALOGLIST.COUNT>-1>
+DIALOGCLOSE <DIALOGLIST.<dLOCAL._FOR>.ID> <ARGN2>
+ENDFOR
+ENDIF
+
+// New ADDITEM function with works with 65000+ items pile
+// Arguments = id,amount
+[function f_additem]
+IF (0<DEF.<ARGV[0]>>)
+IF (0<ARGV[1]>)
+LOCAL.AMOUNT=<ARGV[1]>
+ELSE
+LOCAL.AMOUNT=1
+ENDIF
+WHILE <LOCAL.AMOUNT>
+SERV.NEWITEM=<ARGV[0]>
+IF (<SERV.ITEMDEF.<ARGV[0]>.CAN>&CAN_I_PILE)
+IF (<LOCAL.AMOUNT> > 64999)
+NEW.AMOUNT=65000
+ELSE
+NEW.AMOUNT=<LOCAL.AMOUNT>
+ENDIF
+ENDIF
+LOCAL.AMOUNT -= <NEW.AMOUNT>
+IF (0<ARGV[2]>)
+NEW.CONT=<ARGV[2]>
+ELSE
+BOUNCE <NEW>
+ENDIF
+ENDWHILE
+ENDIF
+
+[FUNCTION f_skill_delay]
+if !<isplayer>
+return 0
+endif
+if <def.scp.SkillWaitingTimes> == 1
+	if <args> != -1
+	ctag.skillrecovery = <eval <serv.time> + <args>>
+		if <serv.time> > <ctag.skillrecovery>
+		ctag.skillrecovery =
+		endif
+	endif
+endif
+
+[FUNCTION max]
+RETURN <QVAL <ARGN2> < <ARGN1>? <ARGN1> : <ARGN2>>
+
+[FUNCTION min]
+RETURN <QVAL <ARGN2> < <ARGN1>? <ARGN2> : <ARGN1>>
+
+[FUNCTION FTIME]
+IF (<ARGS> > 86400)
+  return <EVAL <ARGS>/86400> gun , <EVAL (<ARGS>%86400)/3600> saat, <EVAL ((<ARGS>%86400)%3600)/60> dakika, <EVAL ((<ARGS>%86400)%3600)%60> saniye
+ELIF (<ARGS> > 3600)
+  return <EVAL <ARGS>/3600> saat, <EVAL (<ARGS>%3600)/60> dakika, <EVAL (<ARGS>%3600)%60> saniye
+ELIF (<ARGS> > 60)
+  return <EVAL <ARGS>/60> dakika, <EVAL <ARGS>%60> saniye
+ELSE
+  return <ARGS> saniye
+ENDIF
+
+[function getargv]
+local.toret = <strarg <args>>
+args = <streat <args>>
+return <argv[<local.toret>]>
+
+[function isdialogopen]
+for 0 <eval <dialoglist.count> - 1>
+	if strmatch("<dialoglist.<dlocal._for>.id>","<args>")
+	return 1
+	endif
+endfor
+return 0
+
+[function GetDispID]
+serv.newitem <args>
+local.disp = <new.dispid>
+new.remove
+return <local.disp>
+
+[function f_GetColor]
+serv.new<argv[0]> <argv[1]>
+local.color = <new.color>
+new.remove
+return <local.color>
+
+[function f_ReturnInfo]
+serv.new<argv[0]> <argv[1]>
+local.<argv[3]> = <eval <new.<argv[2]>>>
+new.remove
+
+[function abs] // Absolute value: <abs x>
+if <argn1> < 0
+	return <eval (<argn1> * -1)>
+endif
+return <argn1>
+
+[function getpinpos] // Original position of pin. <getpinpos Pin#>
+local.dX = <eval (<more2h> - <more1h>)>
+local.dY = <eval (<more2l> - <more1l>)>
+
+local.mapX = <qval (<tdata1>) ? <tdata1>:200>
+local.mapY = <qval (<tdata2>) ? <tdata2>:200>
+
+float.x = <floatval (((<dlocal.dX> / <dlocal.mapX>) * <strarg <pin.<argn1>>>) + <more1h>)>
+float.y = <floatval (((<dlocal.dY> / <dlocal.mapY>) * <streat <pin.<argn1>>>) + <more1l>)>
+
+return <feval <float.x>>,<feval <float.y>>
+
+[function emoteloc] // emoteloc self_cliloc_id, others_cliloc_id, color1(optional), color2 (optional - color1 can be used if not set), args for 2nd cliloc (@ : seperator)
+ref1=<uid>
+local.color1 = <qval ((<argv> < 3) || (<argv[2]> == 0)) ? 03b2:<argv[2]>>
+local.color2 = <qval ((<argv> < 4) || (<argv[3]> == 0)) ? <local.color1>:<argv[3]>>
+trysrc <ref1> uid.<ref1>.message @<local.color1>,,2 <argv[0]>
+forclients
+	if <ref1> != <uid>
+		trysrc <uid> uid.<ref1>.message @<local.color2>,,2 <argv[1]>,<explode @,<argv[4]>>
+	endif
+endfor
+
+[FUNCTION moveback]
+DOSWITCH <DIR>
+BEGIN
+IF (<CANMOVE S>)
+MOVE S
+ENDIF
+END
+BEGIN
+IF (<CANMOVE SW>)
+MOVE SW
+ENDIF
+END
+BEGIN
+IF (<CANMOVE W>)
+MOVE W
+ENDIF
+END
+BEGIN
+IF (<CANMOVE NW>)
+MOVE NW
+ENDIF
+END
+BEGIN
+IF (<CANMOVE N>)
+MOVE N
+ENDIF
+END
+BEGIN
+IF (<CANMOVE NE>)
+MOVE NE
+ENDIF
+END
+BEGIN
+IF (<CANMOVE E>)
+MOVE E
+ENDIF
+END
+BEGIN
+IF (<CANMOVE SE>)
+MOVE SE
+ENDIF
+END
+BEGIN
+IF (<CANMOVE S>)
+MOVE S
+ENDIF
+END
+enddo
+
+
+
+[function findplayer_highest]
+for 0 <eval <serv.clients>-1>
+ref1=<serv.client.<dlocal._for>.uid>
+  //serv.log <ref1.name> <dlocal._for>
+  if <ref1.account.plevel>==1
+  if (<ref1.<args>> > <ref2.<args>>) || (<ref2>==0)
+  ref2=<ref1>
+  endif
+  endif
+endfor
+return <ref2>
+
+[function getnoto_color]
+ref1=<args>
+if (<ref1.flags>&statf_invul)			//yellow (invulnerable)
+return 035
+elseif <ref1.notogetflag>==1		//blue (innocent)
+return 059
+elseif <ref1.notogetflag>==2		//green (ally)
+return 03f
+elseif <ref1.notogetflag>==3		//grey (nuetral)
+return 03b2
+elseif <ref1.notogetflag>==4		//grey (criminal)
+return 03b2
+elseif <ref1.notogetflag>==5		//orange (enemy)
+return 090
+elseif <ref1.notogetflag>==6		//red (murderer)
+return 022
+endif
+
+[function getnoto_gumpcolor] 	//for gump pic colors
+ref1=<args>
+if (<ref1.flags>&statf_invul)		
+return 52
+elseif (<ref1.notogetflag>==1)
+return 99
+elseif (<ref1.notogetflag>==2)
+return 68			
+elseif (<ref1.notogetflag>==3)
+return 946
+elseif (<ref1.notogetflag >==4)
+return 946
+elseif (<ref1.notogetflag>==5)
+return 43
+elseif (<ref1.notogetflag>==6)
+return 38
+endif
+
+[function f_faster_casting]
+
+//Works under @spellcast
+
+///////////////////// FASTER CASTING /////////////////////////////
+if <src.findlayer.2.TAG.FASTERCASTING>
+	ref1 = <src.findlayer.2.uid>
+	local.fc 1
+elif <src.findlayer.1.TAG.FASTERCASTING>
+	ref1 = <src.findlayer.1.uid>
+	local.fc 1
+elif <src.findlayer.8.TAG.FASTERCASTING> 
+	ref1 = <src.findlayer.8.uid>
+	local.fc 1
+elif <src.findlayer.14.TAG.FASTERCASTING> 
+	ref1 = <src.findlayer.14.uid>
+	local.fc 1
+elif <src.findlayer.10.TAG.FASTERCASTING> 
+	ref1 = <src.findlayer.10.uid>
+	local.fc 1
+elif <src.findlayer.18.TAG.FASTERCASTING>
+	ref1 = <src.findlayer.18.uid>
+	local.fc 1
+endif
+	
+	
+if <local.fc>	
+	
+	if (strmatch("<ref1.tag0.magicweapon>","Ruin"))
+		if <r12> == 1
+			ARGN3 -=0.1
+			sayua 0451,0,0,0 * Faster Casting *
+		endif
+	endif 
+
+	if (strmatch("<ref1.tag0.magicweapon>","Might"))
+		if <r9> == 1
+			ARGN3 -=0.1
+			sayua 0451,0,0,0 * Faster Casting *
+		endif
+	endif 
+
+	if (strmatch("<ref1.tag0.magicweapon>","Force"))
+			ARGN3 -=0.2
+			sayua 0451,0,0,0 * Faster Casting *
+			src.sysmessage @,,1 Faster Casting
+	endif
+
+	if (strmatch("<ref1.tag0.magicweapon>","Power"))
+		if <r4> == 1
+			ARGN3 -=0.3
+			sayua 0451,0,0,0 * Faster Casting *
+		endif
+	endif 
+
+	if (strmatch("<ref1.tag0.magicweapon>","Vanquishing"))
+		if <r2> == 1
+			ARGN3 -=0.4
+			sayua 0451,0,0,0 * Faster Casting *
+		endif
+	endif
+	if <ref1.isevent.t_weapon_slayer_new> //|| <ref2.isevent.t_weapon_slayer_new>
+		if !((<argn> == 22) || (<argn> == 28) || (<argn> == 50) || (<argn> == 47) || (<argn> == 24) || (<argn> == 39) || (<argn> == 44)) // Relpor Check
+			if <src.uid> == <act.uid>
+				ARGN3 -=2.0
+				sayua 0451,0,0,0 * Faster Casting *
+			elseif !<act.isplayer>
+				ARGN3 -=2.0
+				sayua 0451,0,0,0 * Faster Casting *
+			endif
+		endif
+		
+	endif
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// 
+
+
+//////////RECYCLING OF MANA
+
+[function f_recycling_mana]
+// Works under spellselect.
+
+if (<src.puremage>) && (<src.account.plevel> < 2)
+
+	if (<argn3> == 02) && (rand(5) == 1)
+	src.sysmessage @69,,1 Recycling of mana : <argn2>
+	src.mana += <argn2>
+	//src.sayua 095f,0,0,0 * Recycling of mana *
+
+	elseif (<argn3> == 00) && (rand(4) == 1)
+	src.sysmessage @69,,1 Recycling of mana : <argn2>
+	src.mana += <argn2>
+	//src.sayua 095f,0,0,0 * Recycling of mana *
+	endif
+
+endif
+
+//////// Warrior PVM/////////////
+
+[function f_warrior_pvm]
+//// Under @Gethit
+
+
+///////////////////Freezetime Reducer//////////////////
+[function f_freezetime_reducer]
+//Spell Select
+if <src.findlayer.1>
+	if <src.findlayer.1.TAG.FASTERCASTING>
+		ref2 <src.findlayer.1.uid>
+		local.fr 1
+	endif
+elif <src.findlayer.2>
+	if <src.findlayer.2.TAG.FASTERCASTING>
+		ref2 <src.findlayer.2.uid>
+		local.fr 1
+	endif
+endif
+		
+if <local.fr>
+
+	
+	if strmatch("<ref2.tag0.magicweapon>","Power") || strmatch("<ref2.tag0.magicweapon>","Vanquishing")
+		sd <argn1>
+		sayua 0451,0,0,0 * Freezetime Reduced *
+	elseif <r3>==1
+		sd <argn1>
+		sayua 0451,0,0,0 * Freezetime Reduced *
+	else
+		sd <argn2>
+	endif
+else
+	sd <argn2>
+endif
+
+
+/////General Drop Rates//////////
+[function f_general_drops]
+IF ( <STR> > 50 ) && ( <STR> < 150 )
+	IF <R5> == 1
+			serv.newitem ruin_silah
+			new.cont <argo.uid>
+	ENDIF
+ELSEIF ( <STR> > 150 ) && ( <STR> < 350 )
+	IF <R8> == 1
+		serv.newitem might_silah
+		new.cont <argo.uid>
+	ENDIF
+ELSEIF ( <STR> > 350 ) && ( <STR> < 550 )
+	IF <R10> == 1
+		serv.newitem force_silah
+		new.cont <argo.uid>
+	ENDIF
+ELSEIF ( <STR> > 550 ) && ( <STR> < 2000 )
+	IF (<ID> == c_m_kraken) || (<ID> == c_m_frost_ettin)
+		IF <R20> == 1
+			serv.newitem power_silah
+			new.cont <argo.uid>
+		ENDIF
+	else
+		IF <R12> == 1
+			serv.newitem power_silah
+			new.cont <argo.uid>
+		ENDIF
+	endif
+ELSEIF ( <STR> > 2001 )
+	IF <R15> == 1
+		serv.newitem vanq_silah
+		new.cont <argo.uid>
+	ENDIF
+ENDIF
+
+[function f_parry_chances]
+if strmatch(*blackrock*,<args>)
+	local.parrychance = 2
+elseif strmatch(*bloodrock*,<args>)
+	local.parrychance = 2
+elseif strmatch(*mytheril*,<args>)
+	local.parrychance = 3
+elseif strmatch(*valorite*,<args>)
+	local.parrychance = 4
+elseif strmatch(*verite*,<args>)
+	local.parrychance = 4
+elseif strmatch(*agapite*,<args>)
+	local.parrychance = 5
+elseif strmatch(*shadow*,<args>)
+	local.parrychance = 5
+elseif strmatch(*gold*,<args>)
+	local.parrychance = 6
+elseif strmatch(*bronze*,<args>)
+	local.parrychance = 7
+elseif strmatch(*copper*,<args>)
+	local.parrychance = 8
+elseif strmatch(*dullcopper*,<args>)
+	local.parrychance = 9
+endif
+return <dlocal.parrychance>
+
+[function f_son_uretim_sil]
+// Under @skillmakeitem
+if <eval <src.tag.craft_cop_aktif>> == 1
+		src.ctag.son_urun <act.uid>
+		src.timerf 1, uid.<src.ctag.son_urun>.remove
+		src.sysmessage @,,1 Urettiginiz urun silinmistir.
+endif
+
+
+
+[function isdeath]
+if (<flags>&STATF_DEAD)
+	return 1
+else
+	return 0
+endif
+
+
+[function addslashes]
+local.str=<asc <args>>
+local.string=s
+for i 0 strlen(<local.str>)
+    local.check=<strarg <local.str>>
+    local.last=<local.check>
+    if (<local.check> == 00)
+        return <strsub 1 <eval strlen(<local.string>)-2> <local.string>>
+    endif
+    if (<local.check>=<asc \>)
+        local.last=<asc \>
+        local.string <strsub 0 <eval strlen(<local.string>)-1> <local.string>>\\s
+    elif (<local.check>=<asc '>)
+        local.string <strsub 0 <eval strlen(<local.string>)-1> <local.string>>\'s
+    else
+        local.string <strsub 0 <eval strlen(<local.string>)-1> <local.string>><chr <local.check>>s
+    endif
+    local.str=<streat <local.str>>
+endfor
+return <strsub 1 <eval strlen(<local.string>)-2> <local.string>>
+
+
+[FUNCTION isamulti]
+IF ((<TYPE>==T_MULTI) || (<TYPE>==T_MULTI_CUSTOM))
+RETURN 1
+ELSE
+RETURN 0
+ENDIF
+
+
+
+
+[FUNCTION ISDAMAGESPELL]
+IF ((<ARGN1> == 5) || (<ARGN1> == 12) || (<ARGN1> == 18) || (<ARGN1> == 30) || (<ARGN1> == 42) || (<ARGN1> == 49) || (<ARGN1> == 51) || (<ARGN1> == 55))
+RETURN 1
+ENDIF
+RETURN 0
+
+[FUNCTION ISRESISTSPELL]
+IF ((<ARGN1> == 1) || (<ARGN1> == 46) || (<ARGN1> == 3) || (<ARGN1> == 8) || (<ARGN1> == 27) || (<ARGN1> == 31) || (<ARGN1> == 53) || (<ARGN1> == 38) || (<ARGN1> == 47) || (<ARGN1> == 39) || (<ARGN1> == 20))
+RETURN 1
+ENDIF
+RETURN 0
+
+[FUNCTION SpellCircle]
+IF (<ARGN1> >= 1) && (<ARGN1> <= 8)
+RETURN 1
+ELIF (<ARGN1> >= 9) && (<ARGN1> <= 16)
+RETURN 2
+ELIF (<ARGN1> >= 17) && (<ARGN1> <= 24)
+RETURN 3
+ELIF (<ARGN1> >= 25) && (<ARGN1> <= 32)
+RETURN 4
+ELIF (<ARGN1> >= 33) && (<ARGN1> <= 40)
+RETURN 5
+ELIF (<ARGN1> >= 41) && (<ARGN1> <= 48)
+RETURN 6
+ELIF (<ARGN1> >= 49) && (<ARGN1> <= 56)
+RETURN 7
+ELIF (<ARGN1> >= 57) && (<ARGN1> <= 64)
+RETURN 8
+ENDIF
+RETURN 4
+
+[FUNCTION iscriminal]
+IF (<ISPLAYER>)
+IF (<FLAGS>&statf_criminal) || (<karma> <= -2000)
+RETURN 1
+ELSE
+RETURN 0
+ENDIF
+ENDIF
+IF ((<FLAGS>&statf_criminal) || (<karma> <= 0)) && (<NPC>!=brain_human)
+RETURN 1
+ELSE
+RETURN 0
+ENDIF
+
+
+[function f_ay_kontrol]
+if (<rtime.month> != <var.this_month>)  // Spawn Takip Ay Kontrol
+	serv.f_aylar_gunler
+	var.this_month <rtime.month>
+	serv.log #Ay kontrol edildi.
+endif
+
+
+[function f_kontrol_burak_log]
+ref1=<argv[1]>
+local.file C:\Sphere\accounts\account_ban_serial\multi.txt
+file.close <local.file>
+local.onay = 0
+if <uid> != <ref1.uid>
+
+  if <file.open <local.file>>   // Listeden multiye izin verilip verilmediğini kontrol et
+	for 0 <file.filelines <local.file>>
+		if strmatch("<file.readline <dlocal._for>>","<account.name>")
+			local.onay 1
+		endif
+	endfor
+  file.close
+  
+  if !<local.onay>
+	if strmatch(<account.tag.seri_no>,<argv[0]>)
+		serv.log Multi acan : <account.name> - <ref1.account.name> - <account.tag.seri_no> - <argv[0]>
+		ref1.sys_error Birden fazla client ile giris yapamazsiniz.
+		ref1.sendpacket 0d1 01 //ref1.sendpacket 082 04
+	endif
+  endif
+endif
+
+[function f_account_ban_txt]
+file.close <local.file>
+if <file.open <local.file>>
+	for 0 <file.filelines <local.file>>
+		if (strmatch("<file.readline <dlocal._for>>","<argv[1]>"))
+			//src.sysmessage @,,1 Sunucuya girişiniz yasaklanmıştir.Yetkili ile görüşünüz.
+			serv.log <src.account.name> - ERISIM ENGELLI
+			sendpacket 0d1 01
+			findid.i_accountlang.timer
+			return 0
+		endif
+	endfor
+file.close
+endif
+
+[function puremage]
+if (<tactics> > 0) || (<wrestling> > 0) || (<swordsmanship> > 0) || (<fencing> > 0) || (<macefighting> > 0)
+	return 0
+elseif (<meditation> < 99.9) || (<MAGERY> < 99.9) || (<EVALUATINGINTEL> < 99.9)
+	return 0
+else
+	return 1
+endif
+
+[function frozen]
+if (<src.hits> == 0)
+	if (<src.flags> <src.flags>|04)
+		src.flags <src.flags>&~04
+		src.sysmessage @0481,,1 Frozenliginiz giderildi.
+	else
+		src.sysmessage @0481,,1 Frozen hatasi bulunmuyor...
+		return 1
+	endif
+else
+	src.sysmessage @0481,,1 Frozen hatasi bulunmuyor...
+endif
+
+[FUNCTION f_setmypet]
+//args
+serv.newitem i_memory
+new.attr 04
+new.more1 04
+new.more2 <serv.time>
+new.color memory_ipet
+new.link <args>
+new.cont <uid>
+flags <flags>&statf_pet
+
+
+
+[function pkyellsistemi]
+if (<src.region.guarded>)
+//src.region.allclients sysmessage @33,,1 ----------------------------------------
+src.region.allclients sysmessage @33,,1 Dikkat : <src.name> isimli katil bulunduğunuz şehrin yakınlarında görülmüştür.
+//src.region.allclients sysmessage @33,,1 ----------------------------------------
+var.guard.yell 0
+endif
+
+[function post_message]
+if (<eval <list.<account.name>_message.COUNT>> < 1000)
+	list.<account.name>_message.0.insert <args>
+	list.<account.name>_sender.0.insert 03efa6
+	list.<account.name>_time.0.insert <serv.rtime.format %c>
+	if !(<isonline>)
+		tag.mesaj_var 1
+	endif
+	trysrc <uid> TRIGGER @MsgPending
+//else
+//	src.sysmessage @,,1 Kisinin mesaj kutusu dolu oldugu icin mesajınız gonderilemedi!
+endif
+
+[function post_message_all]
+forplayers 7144
+	post_message <args>
+endif
+
+[eof]

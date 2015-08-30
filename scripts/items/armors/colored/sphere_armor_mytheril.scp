@@ -1,0 +1,438 @@
+[ITEMDEF i_PLATEMAIL_chest_mytheril]
+NAME=mytheril platemail
+ID=i_platemail_chest
+
+ARMOR=78
+REQSTR=60
+WEIGHT=10
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 79.0
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=51
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_PLATEMAIL_ARMS_mytheril]
+
+NAME=mytheril platemail arms
+ID=i_platemail_arms
+
+ARMOR=78
+REQSTR=40
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 67.5
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=51
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_PLATEMAIL_leggings_mytheril]
+NAME=mytheril platemail legs
+ID=i_platemail_leggings
+
+ARMOR=78
+REQSTR=60
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 73.8
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=51
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_helm_PLATE_mytheril]
+NAME=mytheril plate helm
+ID=i_platemail_helm
+
+ARMOR=78
+REQSTR=40
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 65.6
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=46
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_PLATEMAIL_GORGET_mytheril]
+NAME=mytheril platemail gorget
+ID=i_platemail_gorget
+
+ARMOR=78
+REQSTR=30
+WEIGHT=2
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 57.4
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=51
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_PLATEMAIL_gloves_mytheril]
+NAME=mytheril platemail gauntlets
+ID=i_platemail_gloves
+
+ARMOR=78
+REQSTR=30
+WEIGHT=2
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 60.7
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=51
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_FEMALE_PLATEMAIL_mytheril]
+NAME=mytheril platemail
+ID=i_armor_female_plate
+
+ARMOR=78
+REQSTR=15
+WEIGHT=6
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 77.0
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=51
+
+ON=@EQUIP
+type t_armor
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_CHAINMAIL_COIF_mytheril]
+NAME=mytheril chainmail coif
+ID=i_chainmail_coif
+
+ARMOR=78
+REQSTR=20
+WEIGHT=7
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 34.6
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //=36
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_mytheril]
+NAME=mytheril chainmail leggings
+ID=i_chainmail_leggings
+
+ARMOR=46
+REQSTR=20
+WEIGHT=7
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 38.1
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={46 58}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_CHAINMAIL_TUNIC_mytheril]
+NAME=mytheril chainmail tunic
+ID=i_chainmail_tunic
+
+ARMOR=46
+REQSTR=20
+WEIGHT=7
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Chainmail Tunic
+RESOURCES=20 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 50.8
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={46 58}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_RINGMAIL_LEGGINGS_mytheril]
+NAME=mytheril ringmail leggings
+ID=i_ringmail_leggings
+
+ARMOR=43
+REQSTR=20
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 34.6
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={41 51}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_RINGMAIL_SLEEVES_mytheril]
+NAME=mytheril ringmail sleeves
+ID=i_ringmail_sleeves
+
+ARMOR=43
+REQSTR=20
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 31.3
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={41 51}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_RINGMAIL_GLOVES_mytheril]
+NAME=mytheril ringmail gloves
+ID=i_ringmail_gloves
+
+ARMOR=43
+REQSTR=20
+WEIGHT=2
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 24.8
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={41 51}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_RINGMAIL_TUNIC_mytheril]
+NAME=mytheril ringmail tunic
+ID=i_ringmail_tunic
+
+ARMOR=43
+REQSTR=20
+WEIGHT=15
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 38.1
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={41 51}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_RINGMAIL_TUNIC_mytheril]
+NAME=mytheril buckler
+ID=i_shield_buckler
+ARMOR=9
+REQSTR=15
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 12.0
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_HEATER_mytheril]
+NAME=mytheril heater shield
+ID=I_SHIELD_HEATER
+ARMOR=26
+REQSTR=30
+WEIGHT=8
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 47.6
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={31 37}
+
+ON=@EQUIP
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+[ITEMDEF i_SHIELD_METAL_mytheril]
+NAME=mytheril metal shield
+ID=i_shield_round_metal
+ARMOR=13
+REQSTR=15
+WEIGHT=6
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 22.0
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_helm_CLOSED_mytheril]
+NAME=mytheril closed helm
+ID=i_helm_closed
+
+ARMOR=70
+REQSTR=20
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 63.6
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELMET_mytheril]
+NAME=mytheril helmet
+ID=i_helm_open
+
+ARMOR=70
+REQSTR=10
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 63.6
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_BASCINET_mytheril]
+NAME=mytheril bascinet
+ID=i_bascinet
+
+ARMOR=70
+REQSTR=10
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 26.2
+
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_helm_NOSE_mytheril]
+NAME=mytheril nose helm
+ID=i_helm_nose
+
+ARMOR=70
+REQSTR=0
+WEIGHT=5
+
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Mytheril
+DESCRIPTION=Nose Helm
+
+RESOURCES=15 i_ingot_mytheril
+SKILLMAKE=BLACKSMITHING 63.6
+ON=@Create
+COLOR=color_o_mytheril
+HITPOINTS=100 //={101 115}
+
+[EOF]

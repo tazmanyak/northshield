@@ -1,0 +1,81 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_advanced_search]
+10,10
+
+page 0
+Guild_RenderMainDialog
+
+dhtmlgump 431 43 110 26 0 0 <DEF.Guild.DialogFont.DarkBlue>Diplomasi
+dhtmlgump 65 80 480 26 1 0 <DEF.Guild.DialogFont.DarkBlue><DEF.I>Gelismis Arama Ayarlari
+IF (<SRC.CTAG0.GuildDiplomacy.OnlyRelationship>)
+ ARGS=Iliskili oldugunuz guildleri goster
+ELIF (<SRC.CTAG0.GuildDiplomacy.OnlyAwaytingAction>)
+ ARGS=Beklemede Olan Guildler
+ELSE
+ ARGS=Tum Guildleri Goster
+ENDIF
+dhtmlgump 65 110 480 26 0 0 <DEF.Guild.DialogFont.DarkBlue><ARGS>
+
+radio 75 140 0D2 0D3 0 2
+dhtmlgump 105 140 200 26 0 0 Iliskili oldugunuz guildleri goster
+radio 75 170 0D2 0D3 0 1
+dhtmlgump 105 170 200 26 0 0 Beklemede olan guildler
+radio 75 200 0D2 0D3 0 0
+dhtmlgump 105 200 200 26 0 0 Tum Guildleri Goster
+
+resizepic 450 370 02486 100 26
+button 455 375 0845 0846 1 0 1
+dhtmlgump 480 373 60 26 0 0 TAMAM
+resizepic 340 370 02486 100 26
+button 345 375 0845 0846 1 0 0
+dhtmlgump 370 373 60 26 0 0 IPTAL
+
+
+[function f_guild_db_set]
+//Guild Database	
+f_option_mysql 0
+db.connect
+db.query truncate table guild_list
+FOR 0 <eval <SERV.GUILDS>-1>
+	REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+	db.execute INSERT INTO guild_list SET guild_name='<addslashes <ref1.name>>', guild_puan='<eval <ref1.tag.gpuan>>', guild_master='<addslashes <ref1.master>>', guild_abrv='<ref1.abbrev>' //ON DUPLICATE KEY UPDATE guild_name='<ref1.name>'  
+ENDFOR
+db.close
+[DIALOG d_guild_advanced_search BUTTON]
+ON=0
+SDIALOG d_guild_diplomacy
+
+ON=1
+SRC.ClearCTAGS GuildDiplomacy
+IF (<ARGCHK[1]>)
+  SRC.CTAG0.GuildDiplomacy.OnlyAwaytingAction=1
+  FOR 0 <eval <SERV.GUILDS>-1>
+   REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+   IF ((<GuildFromUID.<REF1>.WeWar>) || (<GuildFromUID.<REF1>.TheyWar>)) && !(<IsWarRing <REF1>>)
+    SRC.CTAG0.GuildDiplomacy.Search .= ,<dLOCAL._FOR>
+    SRC.CTAG0.GuildDiplomacy.SearchTotal ++
+   ENDIF
+  ENDFOR
+ELIF (<ARGCHK[2]>)
+  SRC.CTAG0.GuildDiplomacy.OnlyRelationship=1
+  FOR 0 <eval <SERV.GUILDS>-1>
+   REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+   IF (<IsWarRing <REF1>>)
+    SRC.CTAG0.GuildDiplomacy.Search .= ,<dLOCAL._FOR>
+    SRC.CTAG0.GuildDiplomacy.SearchTotal ++
+   ENDIF
+  ENDFOR
+ENDIF
+SRC.CTAG0.GuildDiplomacy.Search=<STREAT <SRC.CTAG0.GuildDiplomacy.Search>>
+IF ((<ARGCHK[1]>) || (<ARGCHK[2]>)) && !(<SRC.CTAG0.GuildDiplomacy.SearchTotal>)
+ SRC.CTAG0.GuildDiplomacy.SearchTotal=1
+ENDIF
+SDIALOG d_guild_diplomacy
+
+ON=100 102
+Guild_RenderMainDialogButton <ARGN>
+
+[EOF]

@@ -1,0 +1,234 @@
+
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Based on sphere_skillmenu.scp
+//
+
+[DEFNAME sphere_crafting_tailoring_leather]
+tailoring_marking		"1" // 1 or 0
+tailoring_firstmaterial		"1" // 1 or 0
+tailoring_secondmaterial	"0" // 1 or 0
+tailoring_options_default	"1,1,0,0,0"
+
+tailoring_smelt			""
+tailoring_repair		""
+tailoring_check			""
+tailoring_check_notice		""
+tailoring_chanceatmin		"100.0"
+tailoring_exceptional_bonus	""
+tailoring_aftercraft		""
+
+tailoring_category_1_name	"1049149"	// Bone Armor
+tailoring_category_2_name	"Female Armor"	// Cloth Armor
+tailoring_category_3_name	"Footwear"	// Female Armor
+tailoring_category_4_name	"Hats"	// Footwear
+tailoring_category_5_name	"Leather Armor"	// Hats
+tailoring_category_6_name	"Pants" // Leather Armor
+tailoring_category_7_name	"Shirts"	// Miscellaneous
+tailoring_category_8_name	"Deri Setler"	// Pants
+tailoring_category_9_name	"Eklentiler"	// Shirts
+tailoring_category_10_name	"Mage's Robe"	// Studded Armor
+
+tailoring_category_1_1		"i_bone_arms"
+tailoring_category_1_2		"i_bone_chest"
+tailoring_category_1_3		"i_bone_gloves"
+tailoring_category_1_4		"i_bone_helmet"
+tailoring_category_1_5		"i_bone_leggings"
+
+tailoring_category_2_1		"i_armor_female_leather"
+tailoring_category_2_2		"i_armor_female_bustier"
+tailoring_category_2_3		"i_armor_female_shorts"
+tailoring_category_2_4		"i_armor_female_skirt"
+tailoring_category_2_5          "i_armor_female_studded"
+tailoring_category_2_6		"i_armor_female_bustier_studded"
+
+tailoring_category_3_1		"i_boots_calf"
+tailoring_category_3_2		"i_fur_boots"
+tailoring_category_3_3		"i_elven_boots"
+tailoring_category_3_4		"i_ninja_tabi"
+tailoring_category_3_5		"i_sandals"
+tailoring_category_3_6          "i_shoes_plain"
+tailoring_category_3_7          "i_boots_thigh"
+tailoring_category_3_8          "i_waraji_tabi"
+tailoring_category_3_9		"i_apron_half"
+
+tailoring_category_4_1		"i_bandana"
+tailoring_category_4_2		"i_bonnet"
+tailoring_category_4_3		"i_cap"
+tailoring_category_4_4		"i_cloth_ninja_hood"
+tailoring_category_4_5		"i_hat_feather"
+tailoring_category_4_6		"i_hat_floppy"
+tailoring_category_4_7		"i_flower_garland"
+tailoring_category_4_8		"i_hat_wide_brim"
+tailoring_category_4_9		"i_kasa"
+tailoring_category_4_10         "i_skull_cap"
+tailoring_category_4_11         "i_hat_wizards"
+tailoring_category_4_12         "i_hat_straw"
+tailoring_category_4_13         "i_hat_straw_tall"
+tailoring_category_4_14         "i_hat_tricorne"
+tailoring_category_4_15         ""
+
+
+tailoring_category_5_1		"i_leaf_arms"
+tailoring_category_5_2		"i_leaf_gloves"
+tailoring_category_5_3		"i_leaf_gorget"
+tailoring_category_5_4		"i_leaf_leggings"
+tailoring_category_5_5		"i_leaf_tonlet"
+tailoring_category_5_6		"i_leaf_tunic"
+tailoring_category_5_7		"i_leather_cap"
+tailoring_category_5_8		"i_leather_do"
+tailoring_category_5_9		"i_leather_gloves"
+tailoring_category_5_10		"i_leather_gorget"
+tailoring_category_5_11		"i_leather_haidate"
+tailoring_category_5_12		"i_leather_leggings"
+tailoring_category_5_13		"i_leather_mempo"
+tailoring_category_5_14		"i_leather_ninja_belt"
+tailoring_category_5_15		"i_leather_ninja_hood"
+tailoring_category_5_16         "i_leather_ninja_jacket"
+tailoring_category_5_17         "i_leather_ninja_mitts"
+tailoring_category_5_18         "i_leather_ninja_pants"
+tailoring_category_5_19         "i_leather_sleeves"
+tailoring_category_5_20         "i_leather_suneate"
+tailoring_category_5_21         "i_leather_tunic"
+tailoring_category_5_22         ""
+tailoring_category_5_23         ""
+
+tailoring_category_6_1		"i_elven_pants"
+tailoring_category_6_2		"i_fur_sarong"
+tailoring_category_6_3		"i_hakama"
+tailoring_category_6_4		"i_kilt"
+tailoring_category_6_5		"i_pants_long"
+tailoring_category_6_6		"i_pants_short"
+tailoring_category_6_7		"i_skirt_long"
+tailoring_category_6_8		"i_tattsuke_hakama"
+tailoring_category_6_9		"i_woodland_belt"
+tailoring_category_6_10		""
+tailoring_category_6_11		""
+tailoring_category_6_12		""
+tailoring_category_6_13		""
+tailoring_category_6_14		""
+tailoring_category_6_15		""
+tailoring_category_6_16		""
+tailoring_category_6_17		""
+tailoring_category_6_18		""
+tailoring_category_6_19		""
+tailoring_category_6_20		""
+tailoring_category_6_21		""
+tailoring_category_6_22		""
+tailoring_category_6_23		""
+tailoring_category_6_24		""
+tailoring_category_6_25		""
+
+
+tailoring_category_7_1		"i_cape"
+tailoring_category_7_2		"i_cloth_ninja_jacket"
+tailoring_category_7_3		"i_doublet"
+tailoring_category_7_4		"i_elven_robe"
+tailoring_category_7_5		"i_elven_shirt"
+tailoring_category_7_6		"i_elven_shirt_dark"
+tailoring_category_7_7		"i_dress_full"
+tailoring_category_7_8		"i_shirt_fancy"
+tailoring_category_7_9		"i_elven_robe_female""
+tailoring_category_7_10         "i_kimono_female"
+tailoring_category_7_11         "i_shirt_formal"
+tailoring_category_7_12         "i_fur_cape"
+tailoring_category_7_13         ""
+tailoring_category_7_14         ""
+tailoring_category_7_15         "i_gilded_robe"
+tailoring_category_7_16         "i_hakama_shita"
+tailoring_category_7_17         "i_jester_suit"
+tailoring_category_7_18         "i_jin_baori"
+tailoring_category_7_19         "i_kamishimo"
+tailoring_category_7_20         "i_kimono_male"
+tailoring_category_7_21         "i_dress_plain"
+tailoring_category_7_22         "i_robe"
+tailoring_category_7_23         "i_shirt_plain"
+tailoring_category_7_24         "i_surcoat"
+tailoring_category_7_25         "i_tunic"
+tailoring_category_7_26         ""
+
+tailoring_category_8_1		"i_studded_gloves"
+tailoring_category_8_2		"i_studded_leggings"
+tailoring_category_8_3		"i_studded_sleeves"
+tailoring_category_8_4		"i_studded_tunic"//"i_hide_pauldrons"
+tailoring_category_8_5		"i_studded_gorget"
+tailoring_category_8_6		""//"i_studded_do"
+
+tailoring_category_8_7		"i_spined_gloves"//"i_studded_mempo"
+tailoring_category_8_8		"i_spined_leggings"//"i_studded_suneate"
+tailoring_category_8_9		"i_spined_sleeves"//"i_studded_haidate"
+tailoring_category_8_10		"i_spined_tunic"//"i_studded_hiro_side"
+tailoring_category_8_11		"i_spined_gorget"
+tailoring_category_8_12		""
+tailoring_category_8_13		"i_horned_gloves"
+tailoring_category_8_14         "i_horned_leggings"
+tailoring_category_8_15         "i_horned_sleeves"
+tailoring_category_8_16         "i_horned_tunic"
+tailoring_category_8_17         "i_horned_gorget"
+tailoring_category_8_18         ""
+tailoring_category_8_19         "i_barbed_gloves"
+tailoring_category_8_20         "i_barbed_leggings"
+tailoring_category_8_21         "i_barbed_sleeves"
+tailoring_category_8_22         "i_barbed_tunic"
+tailoring_category_8_23         "i_barbed_gorget"
+
+
+tailoring_category_9_1		"i_fishing_net_green" //""//"i_hide_gloves"
+tailoring_category_9_2		"i_quality_yarn_ball"//"i_hide_gorget"
+tailoring_category_9_3		"i_fishing_net_green_sarj"//"i_hide_pants"
+tailoring_category_9_4		"i_cloth_oil"//"i_hide_tunic"
+tailoring_category_9_5		""//"i_craft_gloves_farmer"
+tailoring_category_9_6		""///"i_craft_gloves_tinkering"//"i_studded_gloves_ice"
+tailoring_category_9_7		""//"i_craft_gloves_tailor"//"i_studded_leggings_ice""
+tailoring_category_9_8		""//"i_craft_gloves_alchemy"//"i_studded_sleeves_ice"
+tailoring_category_9_9		""//"i_craft_gloves_carpentry"////"i_studded_tunic_ice"
+tailoring_category_9_10		""//"i_craft_gloves_inscription"//"i_studded_gorget_ice"
+tailoring_category_9_11		""//"i_craft_gloves_blacksmithing"
+tailoring_category_9_12		""//"i_studded_leggings_fire"
+tailoring_category_9_13		""//"i_studded_sleeves_fire"
+tailoring_category_9_14		""//"i_studded_tunic_fire"
+tailoring_category_9_15		""//"i_studded_gorget_fire"
+tailoring_category_9_16	""
+tailoring_category_9_17	""
+tailoring_category_9_18	""
+tailoring_category_9_19	""
+tailoring_category_9_20	""
+tailoring_category_9_21	""
+
+tailoring_category_10_1 "i_hooded_shroud"
+tailoring_category_10_2 "i_protective_magerobe"
+tailoring_category_10_3 ""//"i_robe_warlock"
+tailoring_category_10_4 ""//"i_robe_warrior"
+tailoring_category_10_5 ""
+tailoring_category_10_6 ""
+tailoring_category_10_7 ""
+tailoring_category_10_8  ""
+tailoring_category_10_9  ""
+tailoring_category_10_10  ""
+tailoring_category_10_11 ""
+tailoring_category_10_12 ""
+tailoring_category_10_13 ""
+
+
+[defname sphere_crafting_tailoring_colored]
+tailoring_material_0		""
+tailoring_material_0_name	"LEATHER"
+tailoring_material_0_skill	"Tailoring 0.0"
+tailoring_resourceid		"i_hides_cut"
+
+
+
+[eof]
+

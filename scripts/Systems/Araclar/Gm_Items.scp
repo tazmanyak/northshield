@@ -1,0 +1,620 @@
+/////////////////////////////
+//  TNS Scripts///////////
+//  Guncelleme:
+/////////////////////////////
+VERSION=0.56b
+
+////Oly GM ROBE /////////////
+[typedef t_lootsuz_pvp]
+
+on=@click
+message @33,,1 Loot yaptirmaz
+message @33,,1 Ceset Kestirmez
+message @33,,1 20 Kare
+return 1
+
+on=@dclick
+return 1
+
+on=@pickup_ground
+src.sysmessage @32,,1 Bu islem loglara gecti.
+return 1
+
+[ITEMDEF i_lootsuz_pvp]
+NAME=Anti House
+ID=i_deed
+WEIGHT=5.0
+TYPE=t_lootsuz_pvp
+
+On=@Create
+color 0ba9
+attr 080
+/////////////////////////////
+[ITEMDEF oly_gm_Robe]
+// GM Robe
+id=i_robe_gm
+TYPE=T_CLOTHING
+NAME=Gm Robe
+ARMOR=500
+DYE=1
+DESCRIPTION=GM Robes
+SUBSECTION=GM Robes
+CATEGORY=Provisions - GM Items
+
+ON=@Create
+HITPOINTS=-1
+ATTR=04
+
+ON=@Click
+MESSAGE <NAME>
+MESSAGE Created by <LINK.NAME>
+RETURN 1
+
+ON=@Equip
+link <src.uid>
+color 0455
+IF (<SRC.ACCOUNT.PLEVEL> < 2)
+	remove
+return 1
+endif
+
+on=@dclick
+if <src.account.plevel> > 1
+src.invis
+endif
+
+on=@unequip
+color 0455
+
+ON=@Pickup_Pack
+IF (<SRC.ACCOUNT.PLEVEL> < 2)
+	REMOVE
+	RETURN 1
+ENDIF
+
+////END OF oly GM ROBE /////////////
+
+
+//// STAFF HORSE /////////////
+/// Staff Horse 
+
+[plevel 3]
+bin
+
+[function bin]
+if (strmatch("<args>","unicorn")
+	local.binek=i_mt_unicorn
+
+elif (strmatch("<args>","llama")
+	local.binek=i_mt_llama
+
+elif (strmatch("<args>","zostrich")
+	local.binek=i_mt_ostard_zostrich
+
+elif (strmatch("<args>","reptalon")
+	local.binek=i_mt_reptalon
+
+elif (strmatch("<args>","cu_sidhe")
+	local.binek=i_mt_cu_sidhe
+
+elif (strmatch("<args>","armor_steed")
+	local.binek=i_mt_armor_steed
+
+elif (strmatch("<args>","hiryu")
+	local.binek=i_mt_hiryu
+
+elif (strmatch("<args>","kirin")
+	local.binek=i_mt_kirin
+
+elif (strmatch("<args>","ridgeback")
+	local.binek=i_mt_savage_ridgeback
+
+elif (strmatch("<args>","skeletal_mount")
+	local.binek=i_mt_skeletal_mount
+
+elif (strmatch("<args>","beetle")
+	local.binek=i_mt_giant_beetle
+else
+	sysmessage @33,,1 Binegin adini yanlis girdin sanirim.
+	return 1
+endif
+
+if !((<src.body> == c_man) || (<src.body> == c_woman) || (<src.body> == c_man_gm))
+	src.sysmessage @55,3,1 sadece insan seklinde biniliyo buna
+elseif !(<src.findlayer(25)>)
+	src.newitem i_mt_horse_staff
+	src.act.link <src.uid>
+	src.act.more2 <src.uid>
+	src.act.more1 c_staff_horse
+		if <src.findid.oly_gm_robe>
+			src.act.color <src.findid.oly_gm_robe.color>
+		endif
+	src.act.dispid <local.binek>
+	src.act.equip
+	src.update
+else 
+	src.sysmessage @55,3,1 Zaten binek uzerindesin.
+endif
+return 1
+
+
+
+[itemdef i_staff_horse] 
+name staff horse
+id i_pet_horse_brown_lt
+type t_script 
+
+On=@Create 
+color 0455
+attr 14
+On=@DClick
+
+
+if !((<src.body> == c_man) || (<src.body> == c_woman) || (<src.body> == c_man_gm))
+	src.sysmessage @55,3,1 sadece insan seklinde biniliyo buna
+elseif !(<src.findlayer(25)>)
+	src.newitem i_mt_horse_staff
+	src.act.link <src.uid>
+	src.act.more2 <src.uid>
+	src.act.more1 c_staff_horse
+		if <src.findid.oly_gm_robe>
+			src.act.color <src.findid.oly_gm_robe.color>
+		endif
+	src.act.dispid i_mt_horse_brown_dk
+	src.act.equip
+	src.update
+	remove
+else 
+	src.sysmessage @55,3,1 Zaten binek uzerindesin.
+endif
+return 1
+
+[itemdef i_mt_horse_staff] 
+name staff horse
+id i_pet_horse_brown_lt
+type t_eq_horse
+layer 25
+tdata3 c_staff_horse
+
+On=@Equip
+//color 0455
+cont.events +e_staff_horse
+//renkleri_ayarla
+	//if strmatch('<cont.name>','Rhodos') 
+	//	color 1
+	//endif
+
+On=@UnEquip
+cont.newitem i_staff_horse
+cont.act.bounce
+cont.events -e_staff_horse
+return 1
+
+[events e_staff_horse]
+On=@Dclick
+if (<findid.i_mt_horse_staff>)
+	if (<findid.i_mt_horse_staff.link>==<src.uid>)
+		findid.i_mt_horse_staff.remove
+	endif
+endif
+
+[chardef c_staff_horse]
+name staff horse
+icon=i_pet_horse_brown_lt
+SOUND=snd_ANIMALS_HORSE1
+ID=c_horse_brown_dk
+DAM=1,2
+CAN=MT_WALK|MT_RUN|MT_FLY
+
+on=@create
+color 0455
+
+On=@SkillStart 
+remove 
+return 1
+
+On=@EnvironChange
+remove
+return 1
+
+////END OF oly STAFF HORSE ////////////////////////////
+
+
+////oly STAFF STAFF :P /////////////
+
+[itemdef i_oly_staff]
+id=i_staff_black
+name= gm staff
+//type=t_normal
+weight=0
+
+On=@Create
+ATTR=04
+
+ON=@Equip
+more1l 65000
+more1h 65000
+link <src.uid>
+IF (<SRC.ACCOUNT.PLEVEL> < 2)
+	SRC.SYSMESSAGE Silindi...
+        name Created by <src.name>
+	REMOVE
+	RETURN 1
+endif
+
+DORAND 1
+	dispid i_staff_black
+	update
+ENDDO
+
+on=@Unequip
+color 0455
+
+On=@DClick
+if (<src.findid.i_xtelex>)
+	src.findid.i_xtelex.remove
+endif
+local.actttt <src.act>
+src.newitem i_xtelex
+src.act.equip
+src.act <local.actttt>
+return 1
+
+[itemdef i_xtelex]
+id=i_memory
+name xtelex
+type=t_eq_script
+layer=layer_special
+weight=0
+
+On=@create
+color 0751
+attr=attr_newbie|attr_decay|attr_invis
+more=0
+
+On=@Equip
+color 0751
+attr=attr_newbie|attr_decay|attr_invis
+if (<src.account.plevel> > 2)
+	src.sysmessage @91,3,1 Sec bakalim tasiyacagin seyi.
+	target
+else
+	src.sysmessage @38,3,1 test surusunde daha.
+	remove
+endif
+return 1
+
+On=@Targon_char
+if (<more> == 0)
+	if (<cont.account.plevel> < 5)
+		if !(<cont.targ.npc>) && !(<cont.targ.account.plevel> > 1)
+			link=<cont.targ.uid>
+			more=1
+			cont.sysmessage @91,3,1 Gonder bakalim nereye gonderiyorsan.
+			targetg
+	
+		else
+			cont.sysmessage @38,3,1 Bu mereti teleport etmeye yetkiniz yok.
+			remove
+		endif
+	else
+		link=<cont.targ.uid>
+		more=1
+		cont.sysmessage @91,3,1 Gonder bakalim nereye gonderiyorsan.
+		targetg
+	endif
+else
+	cont.sysmessage @38,3,1 Birseyi baska birseyin ustune gonderemezsin. Yer sec.
+	targetg
+endif
+return 1
+
+On=@Targon_ground
+if (<more> == 1)
+	if (<cont.account.plevel> < 6)
+		cont.s Teleported: <link.name> (<link.uid>) -> From : <link.p> To: <cont.targp>
+	endif
+	link.p <cont.targp>
+	link.update
+	//serv.log Cmd:Halberd_tele, SRC:[<cont.account>]<cont.name>(<cont.uid>), Trg:<link.name>(<link.uid>) ->From: <link.p> TO: <cont.targp>
+	remove
+else
+	cont.sysmessage @38,3,1 once gonderecegin seyi sec.
+	targetg
+endif
+return 1
+
+On=@Targon_Item
+if (<more> == 0)
+	cont.sysmessage @38,3,1 Esya olmaz.
+	target
+else
+	cont.sysmessage @38,3,1 Birseyi baska birseyin ustune gonderemezsin. Yer sec.
+	targetg
+endif
+return 1
+
+On=@Timer
+remove
+return 1
+
+////END OF oly STAFF STAFF  /////////////
+
+////oly STAFF BOOK /////////////
+
+[itemdef i_oly_staffbook]
+id= i_spellbook
+name= unnamed spellbook
+type= t_spellbook
+weight= 0
+
+On=@Create
+ATTR=attr_newbie|attr_decay
+more 0ffffffff
+more2 0ffffffff
+
+On=@Dclick
+link <src.uid>
+//bookduzelt src
+equip
+
+On=@Equip
+link <src.uid>
+//bookduzelt src
+
+on=@Unequip
+//bookduzelt src
+
+On=@Pickup_pack
+link <src.uid>
+//bookduzelt src
+
+On=@Pickup_ground
+link <src.uid>
+//bookduzelt src
+
+//[function bookduzelt]
+//IF (<<args>.ACCOUNT.PLEVEL> > 2)
+//	NAME Gm Spell Book
+//	color 0455 // 
+//	more 0ffffffff
+//	more2 0ffffffff
+//ELSE	
+//	remove
+//	return 1
+//ENDIF
+
+////END OF oly STAFF BOOK /////////////
+
+
+//oly YENI STAFF AYARLAYICISI 
+
+[itemdef i_yenistaff]
+id=i_deed
+name=North Staff Creator
+weight=0
+type=t_script
+
+On=@create
+attr=attr_newbie|attr_decay
+color 021
+
+On=@Click
+if (<src.account.plevel> < 2)
+	remove
+	return 1
+endif
+
+On=@Dclick
+if (<topobj.uid> != <src.uid>)
+	src.sysmessage @38,3,1 cantanda olmasi lazim
+	return 1
+endif
+if (<src.account.plevel> < 2)
+	remove
+	src.sysmessage @38,3,1 Bu sizi asiyor.
+	return 1
+elseif (<src.account.plevel> > 2)
+	src.allskills 100.0
+	src.str 900
+	src.dex 900
+	src.int 900
+	src.genelayarlar
+	src.color <src.oskin>
+	src.findlayer.21.color 0455
+	src.update
+endif
+return 1
+
+On=@Timer
+remove
+return 1
+
+[function genelayarlar]
+ustbastemizligi
+if (<account.plevel> > 3)
+	gm 1
+endif
+newitem oly_gm_Robe
+new.equip
+findid.i_staff_horse.remove
+newitem i_staff_horse
+new.bounce
+newitem i_oly_staffbook
+new.equip
+newitem i_oly_staff
+new.equip
+if (<account.plevel> >2)
+	newitem tm_bag_of_magic
+	new.bounce
+	findid.i_spellbook.remove
+endif
+flags 000001009 // invul - invis - spirit speak
+nightsight 1
+
+[function ustbastemizligi]
+for 1 24
+	findlayer.<local._for>.remove
+endfor
+
+if (<findid.i_mt_horse_staff>)
+	findid.i_mt_horse_staff.remove
+endif
+
+//END OF oly STAFF AYARLAYICISI
+
+///////////////////////////////////////////
+[itemdef i_crystal_inlorstepheal]
+name=Healing Crystal
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=08000
+timer=5
+
+on=@dclick
+if <src.findid.i_rune_night_sight>
+	src.sysmessage @69,,1 Nighsight sureniz uzatildi.
+	src.findid.i_rune_night_sight.timer 360
+	src.hits 100
+else
+	src.spelleffect s_night_sight,100,0
+	src.hits 100
+	src.sysmessage @69,,1 Aydinlandiniz.
+endif
+return 1
+
+on=@click
+message @,,1 <name>
+if <src.findid.i_rune_night_sight>
+	src.sysmessage @69,,1 Nighsight sureniz uzatildi.
+	src.findid.i_rune_night_sight.timer 360
+	src.hits 100
+else
+	src.spelleffect s_night_sight,100,0
+	src.sysmessage @69,,1 Aydinlandiniz.
+	src.hits 100
+endif
+return 1
+
+
+[itemdef i_crystal_inlorstep]
+name=Nightsight Crystal
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=08000
+timer=5
+
+on=@dclick
+if <src.findid.i_rune_night_sight>
+	src.sysmessage @69,,1 Nighsight sureniz uzatildi.
+	src.findid.i_rune_night_sight.timer 360
+else
+	src.spelleffect s_night_sight,100,0
+	src.sysmessage @69,,1 Aydinlandiniz.
+endif
+return 1
+
+on=@click
+message @,,1 <name>
+if <src.findid.i_rune_night_sight>
+	src.sysmessage @69,,1 Nighsight sureniz uzatildi.
+	src.findid.i_rune_night_sight.timer 360
+else
+	src.spelleffect s_night_sight,100,0
+	src.sysmessage @69,,1 Aydinlandiniz.
+endif
+return 1
+
+///////////////////////////////////////////
+
+[function bineksizolsun]
+targetf bineksizolsun123
+sysmessage @,,1 Hangi teleport itemine binek engeli koyacaksiniz ?
+
+[function bineksizolsun123]
+
+if <argo.type> = t_telepad
+obj=<argo.uid>
+obj.events +t_bineksiz_telepad
+src.sysmessage @33,,1 Eklenti kaydedildi.
+else
+src.sysmessage @33,,1 Bu bir gate degil.
+endif
+
+obj
+
+[typedef t_bineksiz_telepad]
+on=@step
+
+if (<src.findlayer.25>)
+src.sysmessage @55,,1 Binekle giremezsiniz.
+return 1
+endif
+
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.sysmessage @55,,1 Etrafta binegin varken bu alana giremessiniz.
+return 1
+endif
+endif
+endfor
+
+///////////////////////////////////////////
+
+[DIALOG d_etkinlik_staff]
+0,0
+page 0
+resizepic 160 0 9200 335 210	
+gumppictiled 170 10 315 190 2624
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_lgray> Yil: <rtime.year> | Ay: <rtime.month> | Gun: <rtime.day> | Saat: <rtime.time>
+
+dhtmlgump 180 40 300 20 0 0 <def.bfont_white> <serv.name> Etkinlik Programi
+dhtmlgump 390 40 300 20 0 0 <def.bfont_lgreen> Online : <eval <serv.clients>>
+
+dhtmlgump 220 80 300 20 0 0 <def.bfont_white> Exploison
+dhtmlgump 220 110 300 20 0 0 <def.bfont_white> Gm Topuk
+dhtmlgump 220 140 300 20 0 0 <def.bfont_white> Last Man Standing
+dhtmlgump 220 170 300 20 0 0 <def.bfont_white> Capture The Flag
+
+button 190 80 4005 4006 1 0 1
+button 190 110 4005 4006 1 0 2
+button 190 140 4005 4006 1 0 3
+button 190 170 4005 4006 1 0 4
+
+[DIALOG d_etkinlik_staff button]
+on=0
+on=1
+if (<src.account.plevel> < 4)
+	src.sysmessage @33,,1 Yetkin yok.
+	return 1
+endif
+serv.f_expo_open
+
+on=2
+if (<src.account.plevel> < 4)
+	src.sysmessage @33,,1 Yetkin yok.
+	return 1
+endif
+serv.f_topuk_open
+
+on=3
+if (<src.account.plevel> < 4)
+	src.sysmessage @33,,1 Yetkin yok.
+	return 1
+endif
+serv.f_LMS_open
+
+on=4
+if (<src.account.plevel> < 4)
+	src.sysmessage @33,,1 Yetkin yok.
+	return 1
+endif
+//serv.f_ctf_open
+
+[eof]

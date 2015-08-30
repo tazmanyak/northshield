@@ -1,0 +1,1857 @@
+
+// ----------------------------
+version 0.56b Nightly
+
+// Yeni Stone Craft Menüsü //
+[events e_stonecrafter]
+
+[dialog d_skill_stonecrafting]
+0,0
+page 0
+
+// Arka Plan
+resizepic 0 0 2620 515 320
+checkertrans 5 5 505 310
+
+// Diger Arka Planlar
+resizepic 10 30 3000 110 24
+resizepic 10 55 3000 110 24
+resizepic 10 80 3000 110 24
+resizepic 10 130 3000 110 24
+resizepic 10 155 3000 110 24
+resizepic 10 180 3000 110 24
+resizepic 10 205 3000 110 24
+resizepic 10 230 3000 110 24
+
+text 185 5  38 0 // Baslik
+
+text 15 32 0845 1 // Statues
+text 15 57 0845 8 // Vase
+text 15 82 0845 11 // Misc
+
+text 15 132 0845 13 // Normal
+text 15 157 0845 14 // Gold
+text 15 182 0845 15 // Shadow
+text 15 207 0845 16 // Verite
+text 15 232 0845 17 // Valorite
+
+button 120 30 4006 4007 0 1 1
+button 120 55 4006 4007 0 2 2
+button 120 80 4006 4007 0 3 3
+
+radio 120 130 4006 4007 1 1
+radio 120 155 4006 4007 0 2 
+radio 120 180 4006 4007 0 3 
+radio 120 205 4006 4007 0 4 
+radio 120 230 4006 4007 0 5
+
+// -- Statue Bölümü
+Page 1 // Birinci sayfa
+
+text 180 35 0845 2
+text 280 35 0845 3
+text 380 35 0845 4
+text 180 100 0845 5
+text 280 100 0845 6
+text 380 100 0845 7
+
+tilepic 200 60 5018
+tilepic 300 60 5019
+tilepic 395 60 5020
+tilepic 200 115 4824
+tilepic 300 115 4825
+tilepic 400 119 5021
+
+button 180 55 210 211 1 0 101
+button 280 55 210 211 1 0 102
+button 380 55 210 211 1 0 103
+button 180 120 210 211 1 0 104
+button 280 120 210 211 1 0 105
+button 380 120 210 211 1 0 106
+
+// -- Vase Bölümü
+Page 2 // Ikinci sayfa
+
+text 180 35 0845 9
+text 280 35 0845 10
+
+tilepic 200 60 2886
+tilepic 300 60 2885
+
+button 180 55 210 211 1 0 107
+button 280 55 210 211 1 0 108
+
+// -- Misc Bölümü
+Page 3 // Üçüncü sayfa
+
+text 180 35 0845 12
+
+tilepic 200 60 4633
+
+button 180 55 210 211 1 0 109
+
+[dialog d_skill_stonecrafting text]
+TNS UO Stonecraft Menu
+Statue
+Small Statue
+Small Statue 2
+Small Statue 3
+Statue
+Statue 2
+Pegasus Statue
+Vase
+Small Vase
+Large Vase
+Miscellaneous
+Stone Chair
+Normal
+Gold
+Shadow
+Verite
+Valorite
+
+[dialog d_skill_stonecrafting button]
+on=101
+if !(<restest i_manchi>)
+	sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_smst1_no
+		craft i_smst1_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_smst1_go
+		craft i_smst1_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_smst1_sh
+		craft i_smst1_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_smst1_ve
+		craft i_smst1_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_smst1_va
+		craft i_smst1_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=111
+if !(<restest i_manchi>)
+	sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+else
+	craft i_smst1_no
+endif
+
+On=121
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_smst1_go
+endif
+dialog d_skill_stonecrafting
+
+On=131
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_smst1_sh
+endif
+dialog d_skill_stonecrafting
+
+On=141
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+else
+	craft i_smst1_ve
+endif
+dialog d_skill_stonecrafting
+
+On=151
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_smst1_va
+endif
+dialog d_skill_stonecrafting
+
+On=102
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_smst2_no
+		craft i_smst2_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_smst2_go
+		craft i_smst2_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_smst2_sh
+		craft i_smst2_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_smst2_ve
+		craft i_smst2_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_smst2_va
+		craft i_smst2_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=112
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+else
+	craft i_smst2_no
+endif
+dialog d_skill_stonecrafting
+
+On=122
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_smst2_go
+endif
+dialog d_skill_stonecrafting
+
+On=132
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_smst2_sh
+endif
+dialog d_skill_stonecrafting
+
+On=142
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+else
+	craft i_smst2_ve
+endif
+dialog d_skill_stonecrafting
+
+On=152
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_smst2_va
+endif
+dialog d_skill_stonecrafting
+
+On=103
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 Small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 3)
+		src.sysmessage @55 Small statue yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_smst3_no
+		craft i_smst3_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_smst3_go
+		craft i_smst3_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_smst3_sh
+		craft i_smst3_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_smst3_ve
+		craft i_smst3_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 3)
+		src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_smst3_va
+		craft i_smst3_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=113
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+else
+	craft i_smst3_no
+endif
+dialog d_skill_stonecrafting
+
+On=123
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_smst3_go
+endif
+dialog d_skill_stonecrafting
+
+On=133
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_smst3_sh
+endif
+dialog d_skill_stonecrafting
+
+On=143
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+else
+	craft i_smst3_ve
+endif
+dialog d_skill_stonecrafting
+
+On=153
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 3)
+	src.sysmessage @55 small statue yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_smst3_va
+endif
+dialog d_skill_stonecrafting
+
+On=104
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt1_no
+		craft i_yenistt1_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt1_go
+		craft i_yenistt1_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt1_sh
+		craft i_yenistt1_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt1_ve
+		craft i_yenistt1_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt1_va
+		craft i_yenistt1_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=114
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(normal)' gerekli.
+else
+	var.notice small statue yapmaya basladiniz.
+	craft i_yenistt1_no
+endif
+dialog d_skill_stonecrafting
+
+On=124
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_yenistt1_go
+endif
+dialog d_skill_stonecrafting
+
+On=134
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_yenistt1_sh
+endif
+dialog d_skill_stonecrafting
+
+On=144
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(verite)' gerekli.
+else
+	craft i_yenistt1_ve
+endif
+dialog d_skill_stonecrafting
+
+On=154
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_yenistt1_va
+endif
+dialog d_skill_stonecrafting
+
+On=105
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt2_no
+		craft i_yenistt2_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt2_go
+		craft i_yenistt2_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt2_sh
+		craft i_yenistt2_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt2_ve
+		craft i_yenistt2_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 8)
+		src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_yenistt2_va
+		craft i_yenistt2_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=115
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(normal)' gerekli.
+else
+	var.notice small statue yapmaya basladiniz.
+	craft i_yenistt2_no
+endif
+dialog d_skill_stonecrafting
+
+On=125
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_yenistt2_go
+endif
+dialog d_skill_stonecrafting
+
+On=135
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_yenistt2_sh
+endif
+dialog d_skill_stonecrafting
+
+On=145
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(verite)' gerekli.
+else
+	craft i_yenistt2_ve
+endif
+dialog d_skill_stonecrafting
+
+On=155
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 100.0)
+	src.sysmessage @55 statue yapimi icin %100.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 8)
+	src.sysmessage @55 statue yapimi icin 8 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_yenistt2_va
+endif
+dialog d_skill_stonecrafting
+
+On=106
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 pegasus statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 4)
+		src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_pega_no
+		craft i_pega_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 4)
+		src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_pega_go
+		craft i_pega_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 4)
+		src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_pega_sh
+		craft i_pega_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 4)
+		src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_pega_ve
+		craft i_pega_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 4)
+		src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_pega_va
+		craft i_pega_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=116
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 pegasus statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 4)
+	src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(normal)' gerekli.
+else
+	craft i_pega_no
+endif
+dialog d_skill_stonecrafting
+
+On=126
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 pegasus statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 4)
+	src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_pega_go
+endif
+dialog d_skill_stonecrafting
+
+On=136
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 pegasus statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 4)
+	src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_pega_sh
+endif
+dialog d_skill_stonecrafting
+
+On=146
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 pegasus statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 4)
+	src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(verite)' gerekli.
+else
+	craft i_pega_ve
+endif
+dialog d_skill_stonecrafting
+
+On=156
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 pegasus statue yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 4)
+	src.sysmessage @55 pegasus statue yapimi icin 4 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_pega_va
+endif
+dialog d_skill_stonecrafting
+
+On=107
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 1)
+		src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_vase_no
+		craft i_vase_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 1)
+		src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_vase_go
+		craft i_vase_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 1)
+		src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_vase_sh
+		craft i_vase_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 1)
+		src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_vase_ve
+		craft i_vase_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 1)
+		src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_vase_va
+		craft i_vase_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=117
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 1)
+	src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(normal)' gerekli.
+else
+	craft i_vase_no
+endif
+dialog d_skill_stonecrafting
+
+On=127
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 1)
+	src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_vase_go
+endif
+dialog d_skill_stonecrafting
+
+On=137
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 1)
+	src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_vase_sh
+endif
+dialog d_skill_stonecrafting
+
+On=147
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 1)
+	src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(verite)' gerekli.
+else
+	var.notice small vase yapmaya basladiniz.
+	craft i_vase_ve
+endif
+dialog d_skill_stonecrafting
+
+On=157
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 small vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 1)
+	src.sysmessage @55 small vase yapimi icin 1 adet 'high quality stone(valorite)' gerekli.
+else
+	craft i_vase_va
+endif
+dialog d_skill_stonecrafting
+
+On=108
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 large vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 3)
+		src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_lvase_no
+		craft i_lvase_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 3)
+		src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_lvase_go
+		craft i_lvase_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 3)
+		src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_lvase_sh
+		craft i_lvase_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 3)
+		src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_lvase_ve
+		craft i_lvase_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 3)
+		src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+	else
+		src.tag.lastitem=i_lvase_va
+		craft i_lvase_va
+	endif
+endif
+dialog d_skill_stonecrafting
+
+On=118
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 large vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 3)
+	src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(normal)' gerekli.
+else
+	craft i_lvase_no
+endif
+dialog d_skill_stonecrafting
+
+On=128
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 large vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 3)
+	src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(gold)' gerekli.
+else
+	craft i_lvase_go
+endif
+dialog d_skill_stonecrafting
+
+On=138
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 large vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 3)
+	src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(shadow)' gerekli.
+else
+	craft i_lvase_sh
+endif
+dialog d_skill_stonecrafting
+
+On=148
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 large vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 3)
+	src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(verite)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_lvase_ve
+endif
+
+On=158
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 large vase yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 3)
+	src.sysmessage @55 large vase yapimi icin 3 adet 'high quality stone(valorite)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_lvase_va
+endif
+
+On=109
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 stone chair yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<argchk[1]>)
+	if (<rescount i_stone_normal> < 4)
+		src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(normal)' gerekli.
+	else
+		src.tag.lastitem=i_schair_no
+		craft i_schair_no
+	endif
+elseif (<argchk[2]>)
+	if (<rescount i_stone_gold> < 4)
+		src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(gold)' gerekli.
+	else
+		src.tag.lastitem=i_schair_go
+		craft i_schair_go
+	endif
+elseif (<argchk[3]>)
+	if (<rescount i_stone_shadow> < 4)
+		src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(shadow)' gerekli.
+	else
+		src.tag.lastitem=i_schair_sh
+		craft i_schair_sh
+	endif
+elseif (<argchk[4]>)
+	if (<rescount i_stone_verite> < 4)
+		src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(verite)' gerekli.
+	else
+		src.tag.lastitem=i_schair_ve
+		craft i_schair_ve
+	endif
+elseif (<argchk[5]>)
+	if (<rescount i_stone_valorite> < 4)
+		src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(valorite)' gerekli.
+else
+		src.tag.lastitem=i_schair_va
+		craft i_schair_va
+	endif
+endif
+
+On=119
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 stone chair yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_normal> < 4)
+	src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(normal)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_schair_no
+endif
+
+On=129
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 stone chair yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_gold> < 4)
+	src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(gold)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_schair_go
+endif
+
+On=139
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 stone chair yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_shadow> < 4)
+	src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(shadow)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_schair_sh
+endif
+
+On=149
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 stone chair yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_verite> < 4)
+	src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(verite)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_schair_ve
+endif
+
+On=159
+if !(<restest i_manchi>)
+	src.sysmessage @38 Yaninizda mallet and chisels yok.
+	return 1
+endif
+
+if (<carpentry> < 98.0)
+	src.sysmessage @55 stone chair yapimi icin %98.0 carpentry bilmeniz gerekli.
+elseif (<rescount i_stone_valorite> < 4)
+	src.sysmessage @55 stone chair yapimi icin 4 adet 'high quality stone(valorite)' gerekli.
+src.dialog d_skill_stonecrafting
+else
+	craft i_schair_va
+endif
+
+
+[itemdef i_book_stone]
+name making valuables with stonecrafting
+id i_book_open
+value 115000
+
+On=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kitap cantanizda olmali.
+elseif (<src.isevent.e_stonecrafter>)
+	src.sysmessage @,,1 Stonecrafting konusunda zaten bilgi sahibisiniz.
+elseif (<src.carpentry> >= 98.0)
+	src.events +e_stonecrafter
+	src.sysmessage @,,1 Stonecrafting konusunda bir nebze bilgi sahibi oldunuz.
+	remove
+else
+	src.sysmessage @,,1 Kitapta yazilanlari anlamiyorsunuz henuz carpenter bilginiz bile yeteri kadar yok.
+endif
+return 1
+
+[itemdef i_manchi]
+name mallet and chisels
+id 012b3
+weight 2
+type t_normal
+layer 0
+value 756
+
+On=@DClick
+if !(<src.isevent.e_stonecrafter>)
+	src.sysmessage Bunu nasil kullanacaginiz hakkinda bir fikriniz yok.
+else
+	var.notice yaninizdaki 'high quality stone' adedi: <eval (<src.rescount i_stone_normal> + <src.rescount i_stone_gold> + <src.rescount i_stone_shadow> + <src.rescount i_stone_verite> + <src.rescount i_stone_valorite>)>, carpentry bilginiz: %<src.carpentry>
+	if (strmatch('<src.tag.stonecrafting>',''))
+		src.tag.stonecrafting 1
+	endif
+	src.dialog d_skill_stonecrafting
+endif
+return 1
+
+[itemdef i_stone_normal]
+name granite
+id 01773 // stone
+weight 4
+type t_normal
+value 21
+
+On=@Create
+name high quality stone
+color color_o_copper
+
+On=@DClick
+return 1
+
+[itemdef i_stone_gold]
+name granite
+id 01773 // stone
+weight 4
+type t_normal
+value 42
+
+On=@Create
+name high quality stone
+color color_o_gold
+
+On=@DClick
+return 1
+
+[itemdef i_stone_shadow]
+name granite
+id 01773 // stone
+weight 4
+type t_normal
+value 84
+
+On=@Create
+name high quality stone
+color color_o_shadow
+
+On=@DClick
+return 1
+
+[itemdef i_stone_sand]
+name granite
+id 01773 // stone
+weight 4
+type t_normal
+value 336
+
+On=@Create
+name Trine
+color 0fa
+
+On=@DClick
+return 1
+
+[itemdef i_stone_verite]
+name granite
+id 01773 // stone
+weight 4
+type t_normal
+value 168
+
+On=@Create
+name high quality stone
+color color_o_verite
+
+On=@DClick
+return 1
+
+[itemdef i_stone_valorite]
+name granite
+id 01773 // stone
+weight 4
+type t_normal
+value 336
+
+On=@Create
+name high quality stone
+color color_o_valorite
+
+On=@DClick
+return 1
+
+// CRAFTABLES
+
+[itemdef i_smst1_no]
+name small statue
+id 0139a
+weight 1
+type t_normal
+
+resources 3 i_stone_normal
+skillmake carpentry 60.0
+
+[itemdef i_smst1_go]
+name small statue
+id 0139a
+weight 1
+type t_normal
+
+resources 3 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_smst1_sh]
+name small statue
+id 0139a
+weight 1
+type t_normal
+
+resources 3 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_smst1_ve]
+name small statue
+id 0139a
+weight 1
+type t_normal
+
+resources 3 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_smst1_va]
+name small statue
+id 0139a
+weight 1
+type t_normal
+
+resources 3 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+[itemdef i_smst2_no]
+name small statue
+id 0139b
+weight 1
+type t_normal
+
+resources 3 i_stone_normal
+skillmake carpentry 60.0
+
+[itemdef i_smst2_go]
+name small statue
+id 0139b
+weight 1
+type t_normal
+
+resources 3 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_smst2_sh]
+name small statue
+id 0139b
+weight 1
+type t_normal
+
+resources 3 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_smst2_ve]
+name small statue
+id 0139b
+weight 1
+type t_normal
+
+resources 3 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_smst2_va]
+name small statue
+id 0139b
+weight 1
+type t_normal
+
+resources 3 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+[itemdef i_smst3_no]
+name small statue
+id 0139c
+weight 1
+type t_normal
+
+resources 3 i_stone_normal
+skillmake carpentry 60.0
+
+[itemdef i_smst3_go]
+name small statue
+id 0139c
+weight 1
+type t_normal
+
+resources 3 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_smst3_sh]
+name small statue
+id 0139c
+weight 1
+type t_normal
+
+resources 3 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_smst3_ve]
+name small statue
+id 0139c
+weight 1
+type t_normal
+
+resources 3 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_smst3_va]
+name small statue
+id 0139c
+weight 1
+type t_normal
+
+resources 3 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+[itemdef i_vase_no]
+name small vase
+id 0b46
+weight 1
+type t_normal
+
+resources 1 i_stone_normal
+skillmake carpentry 60.0
+
+[itemdef i_vase_go]
+name small vase
+id 0b46
+weight 1
+type t_normal
+
+resources 1 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_vase_sh]
+name small vase
+id 0b46
+weight 1
+type t_normal
+
+resources 1 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_vase_ve]
+name small vase
+id 0b46
+weight 1
+type t_normal
+
+resources 1 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_vase_va]
+name small vase
+id 0b46
+weight 1
+type t_normal
+
+resources 1 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+[itemdef i_lvase_no]
+name large vase
+id 0b45
+weight 2
+type t_normal
+
+resources 3 i_stone_normal
+skillmake carpentry 60.0
+
+[itemdef i_lvase_go]
+name large vase
+id 0b45
+weight 2
+type t_normal
+
+resources 3 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_lvase_sh]
+name large vase
+id 0b45
+weight 2
+type t_normal
+
+resources 3 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_lvase_ve]
+name large vase
+id 0b45
+weight 2
+type t_normal
+
+resources 3 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_lvase_va]
+name large vase
+id 0b45
+weight 2
+type t_normal
+
+resources 3 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+[itemdef i_pega_no]
+name pegasus statue
+id 0139d
+weight 2
+type t_normal
+
+resources 4 i_stone_normal
+skillmake carpentry 60.0
+
+on=@dropon_ground
+return 1
+
+[itemdef i_pega_go]
+name pegasus statue
+id 0139d
+weight 2
+type t_normal
+
+resources 4 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_pega_sh]
+name pegasus statue
+id 0139d
+weight 2
+type t_normal
+
+resources 4 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_pega_ve]
+name pegasus statue
+id 0139d
+weight 2
+type t_normal
+
+resources 4 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_pega_va]
+name pegasus statue
+id 0139d
+weight 2
+type t_normal
+
+resources 4 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+[itemdef i_schair_no]
+name stone chair
+id 01218
+weight 5
+type t_normal
+dupelist 01219,0121a,0121b
+
+resources 4 i_stone_normal
+skillmake carpentry 60.0
+
+[itemdef i_schair_go]
+name stone chair
+id 01218
+weight 5
+type t_normal
+dupelist 01219,0121a,0121b
+
+resources 4 i_stone_gold
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_schair_sh]
+name stone chair
+id 01218
+weight 5
+type t_normal
+dupelist 01219,0121a,0121b
+
+resources 4 i_stone_shadow
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_schair_ve]
+name stone chair
+id 01218
+weight 5
+type t_normal
+dupelist 01219,0121a,0121b
+
+resources 4 i_stone_verite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_schair_va]
+name stone chair
+id 01218
+weight 5
+type t_normal
+dupelist 01219,0121a,0121b
+
+resources 4 i_stone_valorite
+skillmake carpentry 60.0
+
+On=@Create
+color color_o_valorite
+
+// Eklenenler buradalar //
+
+// Yeni Itemler //
+
+[itemdef i_yenistt1_no]
+name Statue
+id 4824
+weight 20
+type t_normal
+
+resources 8 i_stone_normal
+skillmake carpentry 100.0
+
+[itemdef i_yenistt1_go]
+name Statue
+id 4824
+weight 20
+type t_normal
+
+resources 8 i_stone_gold
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_yenistt1_sh]
+name Statue
+id 4824
+weight 20
+type t_normal
+
+resources 8 i_stone_shadow
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_yenistt1_ve]
+name Statue
+id 4824
+weight 20
+type t_normal
+
+resources 8 i_stone_verite
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_yenistt1_va]
+name Statue
+id 4824
+weight 20
+type t_normal
+
+resources 8 i_stone_valorite
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_valorite
+
+//
+
+[itemdef i_yenistt2_no]
+name Statue
+id 4825
+weight 20
+type t_normal
+
+resources 8 i_stone_normal
+skillmake carpentry 100.0
+
+[itemdef i_yenistt2_go]
+name Statue
+id 4825
+weight 20
+type t_normal
+
+resources 8 i_stone_gold
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_gold
+
+[itemdef i_yenistt2_sh]
+name Statue
+id 4825
+weight 20
+type t_normal
+
+resources 8 i_stone_shadow
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_shadow
+
+[itemdef i_yenistt2_ve]
+name Statue
+id 4825
+weight 20
+type t_normal
+
+resources 8 i_stone_verite
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_verite
+
+[itemdef i_yenistt2_va]
+name Statue
+id 4825
+weight 20
+type t_normal
+
+resources 8 i_stone_valorite
+skillmake carpentry 100.0
+
+On=@Create
+color color_o_valorite
+
+[eof]

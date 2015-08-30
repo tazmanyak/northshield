@@ -1,0 +1,66 @@
+[CHARDEF c_h_dread_lord_captain]
+DEFNAME=c_h_dread_lord_captain
+ID=C_MAN
+NAME=#NAMES_DREAD_LORD the Dread Lord Captain
+SOUND=snd_HUMAN_M_DIE_01
+DAM=10,20
+ARMOR=30
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+//ALIGNMENT=EVIL
+
+TSPEECH=spk_human_prime
+TSPEECH=jobMageEvil
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+
+CATEGORY=Civilized
+SUBSECTION=Dread Lords
+DESCRIPTION=Dread Lord Captain
+
+ON=@Create
+	COLOR=colors_skin
+	NPC=brain_monster
+	FAME=9999
+	KARMA=-9999
+
+	STR={350 400}
+	DEX={200 250}
+	INT={200 250}
+
+	PARRYING={85.0 98.0}
+	SWORDSMANSHIP={90.0 95.0}
+	WRESTLING={67.0 90.0}
+	MAGICRESISTANCE={65.0 88.0}
+	TACTICS={90.0 98.0}
+	POISONING={90.0 100.0}
+	MAGERY={90.0 100.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_platemail_gloves
+	ITEM=i_platemail_helm
+	ITEM=i_platemail_arms
+	ITEM=i_platemail_gorget
+	ITEM=i_platemail_chest
+	ITEM=i_platemail_leggings
+	ITEM=i_sword_viking
+	ITEM=i_CAPE
+	COLOR=020
+	ITEM=i_SASH
+	COLOR=020
+	ITEM=i_apron_half
+	COLOR=020
+	ITEM={ random_jewel 1 0 1 }
+	ITEM={ random_jewel 1 0 1 }
+	ITEM={ random_jewel 1 0 1 }
+	ITEM={ random_jewel 1 0 1 }
+	ITEM=i_gold,{400 600}
+	ITEM=random_upper_scroll
+	ITEM=random_upper_scroll
+[EOF]

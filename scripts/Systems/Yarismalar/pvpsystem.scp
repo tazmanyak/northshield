@@ -1,0 +1,728 @@
+﻿
+
+//////////////////////////////////////OTO PVP --  Burak Demirsoy !///////////////////////////////////
+[Function kafesle_duel_pvp] // Geri sayım ve pot verme zımbırtıları.-- Potları sildirme ve potlar ek scp de..
+cpvp_pot_pack_remove
+hits <maxhits>
+timerf 2,cpvp_weapon_poison_remove
+timerf 1,say 20 saniye sonra basliyor...
+timerf 17,say  Basla 
+timerf 17,go <def.c_pvp_player_baslat<argn>>
+
+
+
+
+// --------------------------------------------
+-----------------------------------------------------
+
+// ...::: AYARLAR :::... \\
+
+[defname cpvp_ayarlar]
+cpvp_giris_1 2367,1143,-90,3
+cpvp_giris_2 2368,1143,-90,3
+cpvp_giris_3 2367,1112,-90,3
+cpvp_giris_4 2368,1112,-90,3
+
+cpvp_p1 5311,2076	// Pvp npcsinin duracagi koordinat.
+
+cpvp_p2_1 2349,1136,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_2 2349,1135,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_3 2349,1134,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_4 2349,1133,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_5 2349,1132,-90,3   // Playerlarin bekleyecekleri yer.
+cpvp_p2_6 2349,1131,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_7 2349,1130,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_8 2349,1129,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_9 2349,1128,-90,3	// Playerlarin bekleyecekleri yer.
+cpvp_p2_10 2349,1127,-90,3	// Playerlarin bekleyecekleri yer.
+
+cpvp_p3 2367,1107,-90,3	// Pvp yapicak 1. playerin duracagi yer.
+cpvp_p4 2367,1148,-90,3	// Pvp yapicak 2. playerin duracagi yer.
+cpvp_p5 2359,1126,-90,3 //2367,1145,-70,3	// Seyircilerin duracagi yer.
+
+c_pvp_player_baslat1 2367,1142,-90,3
+c_pvp_player_baslat2 2367,1113,-90,3
+cpvp_pgate1 5320,1813	// Pvp'ye girmek için gatein açilacagi yer.
+
+cpvp_gateseyirci 5322,1813	// Seyircilerin geçecegi gate'in koordinati.
+cpvp_pbitis 5322,1825	// Pvp Bittiginde seyircinin gidecegi yer.
+
+cpvp_periyot ""		// Kaç saatte bir pvp düzenlenecegi.
+cpvp_gatesuresi 10		// Pvpye katilmak için gatelerin açik kalacagi süre. (dakika)
+cpvp_pvpbasliyor 20		// 2 kisi alana atildiginda geri sayim saniyesi.
+cpvp_lootsuresi 60		// Loot için beklenecek süre.(saniye)
+
+cpvp_girisparasi 25000		// Katilmak için gereken altin.
+cpvp_seyirciparasi 10000		// Seyircilerin verecegi para.
+
+//-----------------------------------------------------------------------------------------
+
+//Npcs
+
+[chardef c_cpvpci]
+name #NAMES_HUMANMALE
+id c_man
+can mt_equip|mt_nonmover
+
+On=@Create
+str 9500
+dex 25
+int 25
+color colors_skin
+speechcolor 0481
+food 990
+item=i_cpvpci
+itemnewbie random_male_hair
+color colors_hair
+itemnewbie random_facial_hair
+color match_hair
+
+itemnewbie i_halberd
+
+on=@gethit
+return 1
+on=@spelleffect
+return 1
+on=@death
+hits 100
+return 1
+on=@attack
+return 1
+on=@hit
+return 1
+
+on=@dclick
+//cpvpplayer
+
+
+
+
+// Items
+
+[itemdef i_cpvpci]
+id i_memory
+type t_eq_script
+name pvpci
+
+on=@create
+attr 04
+
+on=@timer
+cont.tag.player 
+cont.tag.gold 
+//timer <eval <def.cpvp_periyot>*3600>
+timer -1
+cpvp_gate <cont.uid>
+//serv.newitem i_cpvpyapici
+//new.timer 60*<eval <def.cpvp_gatesuresi>>
+//new.link <cont.uid>
+//new.cont <cont.uid>
+var.katilim 1
+duyur Pvp Turnuvasi baslamistir. Katilmak isteyenler <eval <def.cpvp_gatesuresi>> dakika icinde .katilim ile katilabilirler. Ziyaretciler içinde ayrı bir gate açılacaktır.Turnuvayı izlemek isteyen alana gidebilir.
+duyurx Pvp Turnuvasi baslamistir. Katilmak isteyenler <eval <def.cpvp_gatesuresi>> dakika icinde .katilim ile katilabilirler. Ziyaretciler içinde ayrı bir gate açılacaktır.Turnuvayı izlemek isteyen alana gidebilir.
+//serv.allclients sysmessage @54,,1 Izleyici olarak katilmak isteyenlerde Safe'daki gateden alana gidebilirler.
+return 1
+
+[function f_pvp_start]
+local.uid 018f31
+try uid.<local.uid>.tag.player
+try uid.<local.uid>.tag.gold
+var.katilim 1
+uid.<DEF.SERVUID>.cpvp_gate <local.uid>
+
+
+
+
+[itemdef i_cpvp_cikis]
+id i_moongate_blue
+type t_script
+name Seyirci Alanından Çıkış
+
+on=@create
+attr 010
+
+on=@click
+if (<timer> <60)
+messageua 035,6,6,enu [<name>]
+return 1
+
+on=@dclick
+if <distance> < 3
+	if <src.tag.pvp_seyirci>
+		src.go 5320,1813
+		src.tag.pvp_seyirci
+		src.events -e_cpvp
+		src.invis 0
+		return 1
+	else
+		src.sys_error Bu gate sadece seyirçiler içindir.
+		return 1
+	endif
+else
+	src.sys_error Çok uzaktasınız.
+	return 1
+endif
+return 1
+
+on=@step
+return 1
+
+
+[itemdef i_cpvpgate]
+id i_moongate_blue
+type t_script
+name Pvp Gate
+
+on=@create
+attr 010
+
+on=@click
+if (<timer> <60)
+	messageua 035,6,6,enu [Toplam : <eval <link.tag.player>> oyuncu]
+	messageua 035,6,6,enu [<timer> saniye]
+else
+	messageua 035,6,6,enu [Toplam : <eval <link.tag.player>> oyuncu]
+	messageua 035,6,6,enu [<eval <timer>/60> dakika]
+endif
+
+messageua 035,6,6,enu Pvp Gate
+return 1
+
+on=@dclick
+sdialog d_cpvp_katil
+return 1
+
+on=@step
+sdialog d_cpvp_katil
+return 1
+
+on=@timer
+uid.018f31.cpvpplayer
+var.katilim 0
+duyur Arena'ya katılım bitmiştir. Herkese başarılar...
+remove
+return 1
+
+[itemdef i_cpvpgateseyirci]
+id i_moongate_blue
+type t_script
+name Pvp Gate
+
+on=@create
+attr 010
+
+on=@click
+messageua 035,6,6,enu [Katılım: <eval <def.cpvp_seyirciparasi>> gp]
+messageua 035,6,6,enu Pvp Seyirci Gate
+return 1
+
+on=@dclick
+sdialog d_cpvp_katil 2
+return 1
+
+on=@step
+sdialog d_cpvp_katil 2
+return 1
+
+on=@timer
+remove
+return 1
+
+[itemdef i_cpvpyapici]
+id i_memory
+type t_eq_script
+name pvp yapici
+
+on=@timer
+if (<morex>==0)
+cont.cpvpplayer
+endif
+remove
+return 1
+
+[itemdef i_cpvpbasliyor]
+id i_memory
+type t_eq_script
+name pvp baslatici
+
+on=@timer
+morex -=1
+timer 1
+if (<morex> >1)
+link.say ~~
+link.say ~~
+link.say ~~
+link.say <eval <morex>-1>
+endif
+if (<morex>==1)
+link.say ~~
+link.say ~~
+link.say ~~
+link.say May the odds be ever in your favor!
+//cont.go <tag_pvp_baslat>
+endif
+if (<morex> <1)
+link.invis 1
+remove
+endif
+return 1
+
+
+
+[itemdef i_cpvp_oldumgonder]
+id i_memory
+type t_eq_script
+name oldum gonder
+
+on=@timer
+cont.go <cont.tag.cpvp_katildim>
+remove
+return 1
+
+[itemdef i_cpvp_lootbekle]
+id i_memory
+type t_eq_script
+name loot bekle
+
+on=@timer
+dorand 10
+cont.go <def.cpvp_p2_1>
+cont.go <def.cpvp_p2_2>
+cont.go <def.cpvp_p2_3>
+cont.go <def.cpvp_p2_4>
+cont.go <def.cpvp_p2_5>
+cont.go <def.cpvp_p2_6>
+cont.go <def.cpvp_p2_7>
+cont.go <def.cpvp_p2_8>
+cont.go <def.cpvp_p2_9>
+cont.go <def.cpvp_p2_10>
+enddo
+cont.stone 1
+link.cpvpplayer
+remove
+return 1
+
+
+
+//Functions
+
+[function cpvp_gate] // Gate açici
+
+for 1 1
+serv.newitem i_cpvpgate
+new.timer 60*<eval <def.cpvp_gatesuresi>>
+new.link <args>
+new.p <def.cpvp_pgate<eval <local._for>>>
+endfor
+serv.newitem i_cpvpgateseyirci
+new.timer 60*<eval <def.cpvp_gatesuresi>>
+new.link <args>
+new.p <def.cpvp_gateseyirci>
+
+
+[function factionoldu]
+obj.kills <eval <obj.tag.kills>> 
+
+[function cpvpplayer] 
+invis 0
+foritems 50
+	if (<type>==t_corpse)
+		remove
+	endif
+endfor
+
+if (<eval <tag.player>>==1)
+	obj <tag.player1>
+	obj.events -e_cpvp
+	obj.tag.pvpci 
+	//obj.cekverpvp <eval <tag.gold>>
+	obj.sys_error Tebrikler. Turnuvada 1. oldunuz. Ödülünüz bankanıza aktarılmıştır.
+	serv.newitem i_y_kupa
+	new.amount 15
+	new.cont <obj.findlayer(layer_bankbox)>
+	obj.criminal 0
+	//obj.cpvp_pot_pack_remove
+	//uid.040008e1e.name <obj.name> - <serv.rtime>
+	f_option_mysql 0
+	db.connect
+	db.execute "insert into son_etkinlikler (tarih, kazanan, yarisma) VALUES ('<addslashes <serv.rtime>>','<addslashes <obj.name>>','Pvp Turnuva');"
+	db.close
+	serv.duyur Pvp turnuvasini <obj.name> kazandı, kendisini tebrik ediyoruz.
+	serv.duyurx Pvp turnuvasını <obj.name> kazandı, kendisini tebrik ediyoruz.
+	obj.tag.cpvp_win <eval <obj.tag.cpvp_win>> +1
+	obj.go 5333,1825
+	obj.fame <eval <obj.tag.fame>>
+	obj.karma <eval <obj.tag.karma>>
+	obj.kills <eval <obj.tag.kills>>
+	obj.binekstabil
+	if (<obj.memoryfindtype.memory_sawcrime>)
+		obj.memoryfindtype.memory_sawcrime.remove
+	endif
+	obj.stone 0
+	return 1
+elif (<eval <tag.player>> > 1)
+  if !(<uid.<tag.player1>.isonline>) // 1.ci pvpci test
+	playerat 1 // kura çekimi
+	cpvpplayer //başa dön
+	return 1
+  endif
+  if !(<uid.<tag.player2>.isonline>) // 2.ci pvpci test
+	playerat 2 //kura çekimi
+	cpvpplayer //başa dön
+	return 1
+  endif
+  
+  // PLAYER 1 //
+
+  try uid.<tag.player1>.go <def.cpvp_p3>
+  try uid.<tag.player1>.kafesle_duel_pvp 2
+  try uid.<tag.player1>.tag.cpvprakip <uid.<tag.player2>.uid>
+  try uid.<tag.player1>.stone 0
+  try uid.<tag.player1>.findlayer.1.cont <uid.<tag.player1>.findlayer.21>
+  try uid.<tag.player1>.findlayer.2.cont <uid.<tag.player1>.findlayer.21>
+  if (<uid.<tag.player1>.findid.i_cpvpbasliyor>)
+	try uid.<tag.player1>.findid.i_cpvpbasliyor.remove
+  endif
+  serv.newitem i_cpvpbasliyor
+  new.morex <eval <def.cpvp_pvpbasliyor>>
+  new.timer 1
+  new.link <uid>
+  new.cont <uid.<tag.player1>.uid>
+
+  // PLAYER 2 //
+  try uid.<tag.player2>.go <def.cpvp_p4>
+  try uid.<tag.player2>.kafesle_duel_pvp 1
+  try uid.<tag.player2>.tag.cpvprakip <uid.<tag.player1>.uid>
+  try uid.<tag.player2>.stone 0
+  try uid.<tag.player2>.findlayer.1.cont <uid.<tag.player2>.findlayer.21>
+  try uid.<tag.player2>.findlayer.2.cont <uid.<tag.player2>.findlayer.21>
+  if (<uid.<tag.player2>.findid.i_cpvpbasliyor>)
+	try uid.<tag.player2>.findid.i_cpvpbasliyor.remove
+  endif
+  serv.newitem i_cpvpbasliyor
+  new.morex <eval <def.cpvp_pvpbasliyor>>
+  new.timer 1
+  new.link <uid>
+  new.cont <uid.<tag.player2>.uid>
+
+  2playerat // 2 kişi sıra kaydır
+  tag.player <eval <tag.player>> -2 // totalden azalt
+endif
+
+
+[function playerat] // Player atma fonksiyonu
+obj <tag.player<argn1>>
+obj.events -e_cpvp
+obj.tag.pvpci 
+obj.fame <eval <obj.tag.fame>>
+obj.karma <eval <obj.tag.karma>>
+obj.kills <eval <obj.tag.kills>>
+obj.binekstabil
+obj.stone 0
+obj.go <obj.tag.cpvp_katildim>
+for <argn1> <eval <tag.player>>
+	try tag.player<eval <local._for>> <tag.player<eval <local._for>+1>>
+endfor
+tag.player <eval <tag.player>> -1
+
+[function 2playerat]
+for 1 <eval <tag.player>>
+try tag.player<eval <local._for>> <tag.player<eval <local._for>+2>>
+endfor
+
+[plevel 1]
+profilim
+
+[function profilim]
+src.sys_normal <eval <src.tag.cpvp_win>> turnuva kazandiniz. <eval <src.tag.cpvp_kills>> kez oldurdunuz. <eval <src.tag.cpvp_deaths>> kez oldunuz.
+
+
+//Events
+
+[events e_cpvp]
+on=@gethit
+if <tag.pvp_seyirci>
+return 1
+endif
+
+on=@ItemPickUp_self
+if (<act.type>==t_corpse) && !(<act.link>==<src.uid>)
+	if <tag.pvp_seyirci>
+		return 1
+	endif
+endif
+	//if (<src.ISNEARTYPE t_lootsuz_pvp 20>)
+	//src.sysmessage @33,,1 Lootlamak yasaktir..
+	//return 1
+	//endif
+//endif
+
+on=@personalspace
+return 1
+on=@attack
+if (<findid.i_cpvpbasliyor>) || <tag.pvp_seyirci>
+sys_error Suan bu işlemi gerçekleştiremezsiniz.
+return 1
+endif
+on=@hit
+if (<findid.i_cpvpbasliyor>) || <tag.pvp_seyirci>
+sys_error Suan bu işlemi gerçekleştiremezsiniz.
+return 1
+endif
+on=@spellcast 
+if (<src.findid.i_cpvpbasliyor>) && !(<src.uid>==<act.uid>)
+src.sys_error Suan bu işlemi gerçekleştiremezsiniz.
+return 1
+endif
+if <tag.pvp_seyirci>
+	src.sys_error Suan bu işlemi gerçekleştiremezsiniz.
+	return 1
+endif
+if (<argn>==45) || (<argn>==32) || (<argn>==52) || (<argn>==28) || (<argn>==24)
+src.sysmessage @55,,1 Pvpde bu buyuleri kullanamazsiniz
+f_fizzle
+skill fail
+return 1
+endif
+
+on=@itemdclick
+if (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosionless)
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_egg_ostard_olgun) 
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_shrink_deed) 
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_shrink_new) 
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse) 
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse_brown_dk)
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_runebook) 
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.type> == t_figurine)
+src.sys_error Bu bolgede kullanilmaz..
+return 1
+endif
+
+on=@logout
+
+//src.message @,,1 Oyundan çıktı, 30 saniye sonra yarışmadan elenecektir.
+if !<src.tag.pvp_seyirci>
+//src.timerf 20, src.kill
+else
+src.go 5320,1813
+src.tag.pvp_seyirci
+src.events -e_cpvp
+endif
+
+on=@login
+src.timerf clear
+
+on=@death
+if !<tag.pvp_seyirci>
+src.f_cpvp_death
+endif
+
+[function f_cpvp_death]
+act <tag.cpvprakip>
+obj <tag.pvpci>
+serv.allclients sys_error <act.name> Pvp'de <name>'i malup etti.
+act.tag.cpvp_kills <eval <act.tag.cpvp_kills>> +1
+tag.cpvp_deaths <eval <act.tag.cpvp_deaths>> +1
+serv.newitem i_cpvp_oldumgonder
+new.timer 1
+new.cont <uid>
+serv.newitem i_cpvp_lootbekle
+new.timer <eval <def.cpvp_lootsuresi>>
+new.link <obj>
+new.cont <act.uid>
+act.tag.cpvprakip 
+act.sys_error Tebrikler Kazandiniz.
+act.binekstabil
+act.criminal 0
+obj.tag.player <eval <obj.tag.player>> +1
+act.tag.pvpsirasi <eval <obj.tag.player>>
+try uid.<obj.uid>.tag.player<eval <obj.tag.player>> <tag.cpvprakip>
+tag.pvpsirasi 
+tag.pvpci 
+tag.cpvprakip 
+events -e_cpvp
+binekstabil
+criminal 0
+fame <eval <tag.fame>>
+karma <eval <tag.karma>>
+kills <eval <tag.kills>>
+
+[function c_pvp_random_gonder]
+dorand 10
+go <def.cpvp_p2_1>
+go <def.cpvp_p2_2>
+go <def.cpvp_p2_3>
+go <def.cpvp_p2_4>
+go <def.cpvp_p2_5>
+go <def.cpvp_p2_6>
+go <def.cpvp_p2_7>
+go <def.cpvp_p2_8>
+go <def.cpvp_p2_9>
+go <def.cpvp_p2_10>
+enddo
+stone 1
+
+
+
+
+[function f_cpvp_logout]
+if !(<src.flags>&statf_stone)
+	act <tag.cpvprakip>
+	obj <tag.pvpci>
+	act.tag.cpvprakip 
+	dorand 10
+		act.go <def.cpvp_p2_1>
+		act.go <def.cpvp_p2_2>
+		act.go <def.cpvp_p2_3>
+		act.go <def.cpvp_p2_4>
+		act.go <def.cpvp_p2_5>
+		act.go <def.cpvp_p2_6>
+		act.go <def.cpvp_p2_7>
+		act.go <def.cpvp_p2_8>
+		act.go <def.cpvp_p2_9>
+		act.go <def.cpvp_p2_10>
+	enddo
+	act.stone 1
+	act.sysmessage @0481 Rakibiniz ciktigi icin hukmen kazandiniz
+	obj.tag.player <eval <obj.tag.player>> +1
+	act.tag.pvpsirasi <eval <obj.tag.player>>
+	try uid.<obj.uid>.tag.player<eval <obj.tag.player>> <tag.cpvprakip>
+	tag.pvpsirasi 
+	tag.pvpci 
+	tag.cpvprakip 
+	go <tag.cpvp_katildim>
+	events -e_cpvp
+	obj.cpvpplayer
+	hits <str>
+	return 1
+endif
+
+
+
+// Dialogs
+[dialog d_cpvp_katil]
+0,0
+
+
+resizepic 200 100 5120 250 200
+resizepic 210 110 9350 230 180
+page 1
+dhtmlgump 253 250 200 20 0 0 Turnuvaya katılmak istiyorum
+button 220 250 4023 4025 1 0 1
+
+dhtmlgump 220 120 230 120 0 0 KURALLAR<def.br>Loot Serbesttir.<def.br>Poisonlu silah serbesttir.<def.br>Pvp sırasinda logout olan diskalifiye olur.<def.br>Pvp alaninda banka açamazsınız.
+
+page 2
+dhtmlgump 253 250 200 20 0 0 Seyirci olmak istiyorum.
+button 220 250 4023 4025 1 0 2
+
+dhtmlgump 220 120 230 120 0 0 KURALLAR<def.br>Oyuncuları kışkırtmak yasaktır.<def.br>Flood yapmak yasaktır.<def.br>Küfür,tahrik edici söz söyleminde ceza işlemi uygulanır.<def.br>Hiç bir oyuncuya saldıramazsınız.
+
+[dialog d_cpvp_katil button]
+onbutton 1
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda yarışmaya katılamazsınız.
+	return 1
+endif
+if (<src.findid.i_cloth_oil>) || (<src.findtype.t_potion>) || (<src.findid.i_bandage>) || (<src.findtype.t_crystal_ball>) ||(<src.findtype.t_reagent>
+	src.sys_error Yanınızdaki potion,reg,bag ve bandajı lütfen bırakınız.
+	return 1
+endif
+if <src.findtype.t_eq_trade_window>
+		src.sys_error Trade ekranında yarışmaya katılamazsınız.
+		return 1
+endif
+if !<src.isevent.e_spr>
+		src.sys_error Statlarınız korumada ve ayarlı değil. Bu şekilde katılamazsınız.
+		return 1
+endif
+
+src.binekolmazsaolmaz
+if (<src.restest <eval <def.>> i_gold>)
+	src.tag.cpvp_katildim <src.p>
+	src.food 15
+	dorand 10
+		src.go <def.cpvp_p2_1>
+		src.go <def.cpvp_p2_2>
+		src.go <def.cpvp_p2_3>
+		src.go <def.cpvp_p2_4>
+		src.go <def.cpvp_p2_5>
+		src.go <def.cpvp_p2_6>
+		src.go <def.cpvp_p2_7>
+		src.go <def.cpvp_p2_8>
+		src.go <def.cpvp_p2_9>
+		src.go <def.cpvp_p2_10>
+	enddo
+	serv.allclients sys_normal <src.name> Pvp'ye katıldı.
+	src.consume <eval <def.cpvp_girisparasi>> i_gold
+	src.stone 1
+	src.tag.karma <src.karma>
+	src.tag.fame <src.fame>
+	src.tag.kills <src.kills>
+	src.events +e_cpvp
+	src.tag.pvpci <link>
+	link.tag.player <eval <link.tag.player>> +1
+	src.tag.pvpsirasi <eval <link.tag.player>>
+	link.tag.gold <eval <link.tag.gold>> + <eval <def.cpvp_girisparasi>>
+	try link.tag.player<eval <link.tag.player>> <src.uid>
+else
+	src.sys_error Yanınızda <eval <def.cpvp_girisparasi>> altın yok
+endif
+
+onbutton 2
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda yarışmaya katılamazsınız.
+	return 1
+endif
+if (<src.findid.i_cloth_oil>) || (<src.findtype.t_potion>) || (<src.findid.i_bandage>) || (<src.findtype.t_crystal_ball>) ||(<src.findtype.t_reagent>
+	src.sys_error Yanınızdaki potion,reg,bag ve bandajı lütfen bırakınız.
+	return 1
+endif
+if <src.findtype.t_eq_trade_window>
+	src.sys_error Trade ekranında yarışmaya katılamazsınız.
+	return 1
+endif
+
+src.binekolmazsaolmaz
+if (<src.restest <eval <def.cpvp_seyirciparasi>> i_gold>)
+src.go <def.cpvp_p5>
+src.tag.pvp_seyirci 1
+src.invis 1
+src.events +e_cpvp
+src.consume <eval <def.cpvp_seyirciparasi>> i_gold
+link.tag.seyirci <eval <link.tag.seyirci>> +1
+try link.tag.seyirci<eval <link.tag.seyirci>> <src.uid>
+link.tag.gold <eval <link.tag.gold>> + <eval <def.cpvp_seyirciparasi>>
+else
+src.sys_error Yaninizda <eval <def.cpvp_seyirciparasi>> altin yok
+endif
+
+[eof]

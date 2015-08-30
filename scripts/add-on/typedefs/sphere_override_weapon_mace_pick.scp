@@ -1,0 +1,114 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[TYPEDEF t_weapon_mace_pick]
+ON=@TargOn_Item
+
+if <argo.type> == t_treasure_tile
+	if <src.distance <argo.uid>> < <eval <src.lockpicking> / 250>
+	src.sysmessage <def.scp.tmap_toofaraway>
+	endif
+	if <src.lockpicking> < <def.scp.Locpick_TMapLevel_<argo.dtag.map.level>>
+	src.sysmessage Yeterli seviyede lockpicking bilmiyorsunuz. Bu harita icin min skill : <def.scp.Locpick_TMapLevel_<argo.dtag.map.level>
+	return 1
+	endif
+	if <src.skillusequick lockpicking <r<def.scp.Lockpick_TMapLevel_<argo.dtag.map.level>>>>
+	serv.newitem tm_treasure_chest_lvl_<argo.dtag.map.level>
+	new.p = <argo.p>
+	new.morey = 2 //<r3,4>
+	new.events +t_treasure_chest
+	new.timer 600
+	//new.events +t_trapped
+	new.tag.map.level = <argo.tag.map.level>
+	local.chest = <new.uid>
+	src.tag.hazinekasam <new.uid>
+		//if <r3> > 0
+			//for 1 <r1,2>
+			//serv.newnpc <eval <def.scp.Monsters_TMapLevel_<argo.dtag.map.level>>
+			//new.attack <src.uid>
+			//uid.<local.chest>.morey --
+			//endfor
+		//endif
+	src.sysmessage <def.scp.tmap_digup>
+	argo.remove
+	endif
+return 1
+endif
+
+on=@targon_ground
+//if <src.isneartype t_container 6>
+//	src.sayua 0481,2,0,trk, Hmm, yakinlarimda hazine kasasi olsa gerek...Baska zamana denemeliyim...
+//	return 1
+//endif
+//local.p = <src.p>
+//if <isneartype t_treasure_tile 6>
+//	src.sayua 0481,2,0,trk, Bu lanet kasalar, sanirim ciceklerin altinda, kazmayi ciceklere vurmam lazim  !
+//endif
+//	foritems 10
+//		if <type> == t_treasure_tile
+//			if !strmatch("<local.p>","<p>") && !<tag.yuzeyde>
+//				p <src.p>
+//				tag.yuzeyde 1
+//			endif
+//		endif
+//	endfor
+//endif
+
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Saðlamlýk: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+src.sys_error Damage:<dam> - Hýz:<speed> 
+return 1
+
+
+on=@equiptest
+if ((<twohands>) && <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error Cift el silahlari mage seviyeniz 40.0 üzerinde zehirli olarak kullanamazsýnýz.
+		return 1
+	endif
+endif
+if <hitpoints> > <eval <maxhits>>
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+
+if <hitpoints> <= 1 
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+if ((<twohands>) && (!<def0.scp.poisoning_weapontwohands>) && (!<tag0.override.poisonable>))
+  if <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error 40 magery ustu poisonlu olarak cift el silah kullanamazsiniz.
+		return 1
+	endif
+  endif
+endif
+[eof]

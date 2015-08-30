@@ -1,0 +1,50 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 05-Dec-2009
+VERSION=0.56b
+[SKILL 21]
+DEFNAME=Skill_Hiding
+KEY=Hiding
+TITLE=Rogue
+PROMPT_MSG=
+DELAY=2.0
+//ADV_RATE=1.0,1.0,1.0
+
+on=@start
+	if (<isplayer>)
+		if <ac> > 25//(<eval (<ac> * 100)> > <eval (<hiding> + 195)>)
+			sysmessage @38 Asiri zirhlisiniz.
+			skill fail
+			return 1			
+		elseif (<flags>&statf_onhorse)
+			sysmessage @38 Binek uzerinde saklanamazsiniz.
+			skill fail
+			return 1
+		endif
+	endif
+	
+on=@success
+	if (<isplayer>)
+		if <ac> > 25 //if (<eval (<ac> * 100)> > <eval (<hiding> + 195)>)
+			src.sysmessage @38 Asiri zirhlisiniz.
+			src.flags <src.flags>&~statf_hidden
+			src.update			
+		endif
+	endif
+        if (<flags>&statf_onhorse)
+			sysmessage @38 Binek uzerinde saklanamazsiniz.
+			skill fail
+			return 1
+		endif
+	
+
+ON=@Fail
+	src.sysmessage @38,,1 Burada gizlenemediniz.
+
+ON=@Abort
+	SRC.SYSMESSAGE @38,,1 Gizlenmeye calismaktan vazgectiniz.
+
+[eof]

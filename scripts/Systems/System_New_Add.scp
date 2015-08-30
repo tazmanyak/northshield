@@ -1,0 +1,540 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+//New .add dialog	 version 1.4
+//The first you have to check is that you have this in your sphere.ini:
+//
+//[RESOURCELIST]
+// ITEMDEF
+// CHARDEF
+//
+//To install it type .f_add_setup
+//To see the dialog type .add1
+//To 'reset' data, type .f_add_clear and then .f_add_setup again
+//
+//Note: As it is reading items/chars placed and no placed in the world, you may get some errors in console regarding to these items/chars
+////////////////////////////////////////////////////////////////////////////////////////////
+
+//v1.1 Lists modified to use numbers instead of names, so there are not needed the functions to fix their names and thei are now seen 100% like in the scripts
+//WARNING: To update the script you must type f_add_update otherwise the dialog wont show anything if you dont update the lists or you will have useless lists if you do not clear the old ones.
+//
+//v1.2 Removed tilepics from items/chars and placed a button that adds a new block with information about them, also a 'spawner' for chars.
+//
+//v1.3 Using tags instead of args to  create the lists, so categories,etc with commas doesn't get fucked up in the proccess (This fixes some categories wrong sorted).
+// Now each block is showing 1 entry less so it shows a header of the menu you are on and a count of entry/total entries and page/totalpages in the items/chars section, also removed this from the top of the dialog in preparation for search box
+//
+//v1.4 Added search function, it's heavy so not recommended to use with players in the server since it will stop sphere for 3 seconds aprox. (It comes with a def so you can disable it via script and any staff member use it)
+
+
+[DEFNAME adddef]
+adddialog_search=1		//Set this to 0 if you do not want the dialog to be able to search items.
+
+[FUNCTION f_oncommand]	//Remove the 'COMMENT' word from here if you want to use .add ingame instead of .add1 (Note: this needs CommandTrigger=f_oncommand in sphere.ini)
+IF (STRMATCH("add","<args>")==1)
+	add1
+	return 1
+endif
+
+[function add1]
+dialogclose d_add
+sdialog d_add
+
+[function f_add_setup]
+local.cat_1=Item
+local.cat_2=Char
+for cat 1 2 
+	local.type=<local.cat_<dlocal.cat>>def		//Itemdef / Chardef
+	serv.log Looping through <deflist.<local.type>.count> <local.type>s.
+	for 0 <eval <deflist.<local.type>.count>-1>
+		local.obj=<deflist.<local.type>.<dlocal._for>>		//deflist are lists, so we have to store the value first in a local to remove the "quotes", or the id wont be passed to next function
+		f_newadd_categorization <local.cat_<dlocal.cat>>,<local.obj>
+		tag.add_lastitem=<local._for>
+	endfor
+	serv.log <local.type> categorization done.
+	tag.add_lastitem
+	tag.add_cat
+endfor
+
+[function f_add_update]
+f_add_clear_old
+f_add_setup
+
+[function f_newadd_categorization]
+local.type=<argv[0]>def
+local.list=<argv[0]>s
+local.obj=<argv[1]>
+if (<isempty <serv.<local.type>.<argv[1]>.category>>)		//If item has category ( and then its supossed to have subsection and description) we proceed adding it to the lists and creating them if needed
+	local.cat=unsorted
+	local.sub=all
+else
+	local.cat=<serv.<local.type>.<argv[1]>.category>
+	local.sub=<serv.<local.type>.<argv[1]>.subsection>
+endif
+IF (STRMATCH("00","<local.cat>")==1)
+	serv.log ERROR item without cat <eval <tag0.add_lastitem>+1>.
+	return 1
+endif
+tag.add_cat=<local.cat>
+local.cat=<f_newadd_add_cat <local.list>>
+tag.add_cat=<local.sub>
+local.sub=<f_newadd_add_cat <local.list>,<dlocal.cat>>
+tag.add_cat=<local.obj>
+f_newadd_add_cat <local.list>,<dlocal.cat>,<dlocal.sub>
+
+[function f_add_clear]
+local.mode_1=items
+local.mode_2=chars
+for mode 1 2
+	local.type=<local.mode_<dlocal.mode>>
+	for cat 0 <eval <serv.list.<local.type>.count>-1>
+		for sub 0 <eval <serv.list.<local.type>_<dlocal.cat>.count>-1>
+			serv.list.<local.type>_<dlocal.cat>_<dlocal.sub>.clear
+		endfor
+		serv.list.<local.type>_<dlocal.cat>.clear
+	endfor
+	serv.list.<local.type>.clear
+endfor
+
+[function f_add_search]
+local.items=itemdef
+local.chars=chardef
+local.list=<local.<ctag.adddialog_mode>>
+if (<isnum <args>>)
+	local.id=<argn>
+	args=<ctag.adddialog_search>
+	local.obj=<argv[<dlocal.id>]>
+	if <local.obj>
+		ctag.adddialog_search_id=<local.id>
+		local.cat=<serv.list.<ctag.adddialog_mode>.findelem "<serv.<local.list>.<local.obj>.category>">
+		ctag.adddialog_page=<eval <local.cat>/14>
+		ctag.adddialog_cat=<local.cat>
+		local.sub=<serv.list.<ctag.adddialog_mode>_<dlocal.cat>.findelem "<serv.<local.list>.<local.obj>.subsection>">
+		ctag.adddialog_cat_page=<eval <local.sub>/14>
+		ctag.adddialog_sub=<local.sub>
+		local.desc=<serv.list.<ctag.adddialog_mode>_<dlocal.cat>_<dlocal.sub>.findelem <local.obj>>
+		ctag.adddialog_sub_page=<eval <local.desc>/14>
+		ctag.adddialog_show=<local.desc>
+		if (<ctag.adddialog_page>==0)
+			ctag.adddialog_page
+		endif
+		if (<ctag.adddialog_cat_page>==0)
+			ctag.adddialog_cat_page
+		endif
+		if (<ctag.adddialog_sub_page>==0)
+			ctag.adddialog_sub_page
+		endif
+		dialogclose d_Add
+		dialog d_add
+	endif
+else 
+	local.string=<args>
+	serv.log start at <serv.rtime>
+	local.ret=0
+	local.count=0
+	for 0 <eval <deflist.<local.list>.count>-1>
+		local.item=<deflist.<local.list>.<dlocal._for>>
+		// serv.log <local.item> (<serv.<local.list>.<local.item>.name>) == STRMATCH("<serv.<local.list>.<local.item>.name>","<local.string>")
+		if (STRMATCH("<serv.<local.list>.<local.item>.name>","<local.string>")==1)
+			local.ret=<local.ret>,<local.item>
+			local.count ++
+		endif
+	endfor
+	serv.log finished at <serv.rtime>: readed <dlocal.count> items.
+	if (<local.count>>0)
+		ctag.adddialog_search=<streat <local.ret>>
+		f_add_search 0
+	endif
+	dialogclose d_Add
+	dialog d_add
+endif
+
+[function f_add_clear_old]		//Do not use unless you have version 1.0 lists created.
+local.mode_1=items
+local.mode_2=chars
+for c 1 2
+	for a 0 <eval <serv.list.<local.mode_<dlocal.c>>.count>-1>
+		local.list=<serv.list.<local.mode_<dlocal.c>>.<dlocal.a>>
+		for b 0 <eval <serv.list.<local.mode_<dlocal.c>>_<local.list>.count>-1>
+			local.listlist=<serv.list.<local.mode_<dlocal.c>>_<local.list>.<dlocal.b>>
+			for 0 <eval <serv.list.<local.mode_<dlocal.c>>_<local.list>_<local.listlist>.count>-1>
+				serv.list.<local.mode_<dlocal.c>>_<local.list>_<local.listlist>.clear
+				serv.list.<local.mode_<dlocal.c>>_<local.list>_<local.listlist>_id.clear
+			endfor
+			serv.list.<local.mode_<dlocal.c>>_<local.list>.clear
+		endfor
+	endfor
+	serv.list.<local.mode_<dlocal.c>>.clear
+endfor
+
+[function f_newadd_add_cat]
+doswitch <argv>
+	Serv.Log ARGS error
+	local.list=<argv[0]>
+	local.list=<argv[0]>_<dargv[1]>
+	local.list=<argv[0]>_<dargv[1]>_<dargv[2]>
+enddo
+local.cat=<tag.add_cat>
+if <serv.list.<local.list>.count>
+	if <serv.list.<local.list>.findelem "<local.cat>">==-1
+		serv.list.<local.list>.add <local.cat>
+		return <eval <serv.list.<local.list>.count>-1>
+	else
+		return <eval <serv.list.<local.list>.findelem "<local.cat>">>
+	endif
+else
+	serv.list.<local.list>.add <local.cat>
+	return <eval <serv.list.<local.list>.count>-1>
+endif
+
+[dialog d_add]
+6,32
+IF (<isempty <ctag.adddialog_mode>>)
+	//Img
+	resizepic 0 0 9200 230 137   // background border
+	gumppictiled 10 10 210 117 2624   // darker background
+	checkertrans 10 10 210 117   // transparency layer
+	//Modes
+	dtext 90 30 0480 Items
+	button 50 30 4005 4007 <qval <isempty <serv.list.items.count>>?0:1> 0 1		//No references in list? no click on buttons
+	dtext 90 90 0480 Npcs
+	button 50 90 4005 4007 <qval <isempty <serv.list.chars.count>>?0:1> 0 2
+else
+	//img
+	if !(<isempty <ctag.adddialog_show>>)
+		resizepic 0 0 9200 800 587   // background border
+		gumppictiled 10 10 780 567 2624   // darker background
+		gumppictiled 10 32 780 5 5058   // 1 grey separators - start here
+		gumppictiled 230 37 5 400 5058   // 1
+		gumppictiled 510 37 5 400 5058   // 2
+		gumppictiled 10 32 510 5 5058   // 4 
+		gumppictiled 10 432 780 5 5058   // 5
+		gumppictiled 120 432 5 150 5058   // 5
+		checkertrans 10 10 780 567   // transparency layer
+	elseif !(<isempty <ctag.adddialog_sub>>)		//Dynamic gump, more info = more gump, no modules, no different dialogs for the same.
+		resizepic 0 0 9200 800 437   // background border
+		gumppictiled 10 10 780 417 2624   // darker background
+		gumppictiled 10 32 780 5 5058   // 1 grey separators - start here
+		gumppictiled 230 37 5 400 5058   // 1
+		gumppictiled 510 37 5 400 5058   // 2
+		gumppictiled 10 32 510 5 5058   // 4 
+		checkertrans 10 10 780 417   // transparency layer
+	elseif !(<isempty <ctag.adddialog_cat>>)
+		resizepic 0 0 9200 530 437   // background/border
+		gumppictiled 10 10 510 417 2624   // darker background
+		gumppictiled 10 32 510 5 5058   // 1 grey separators - start here
+		gumppictiled 230 37 5 400 5058   // 2
+		checkertrans 10 10 510 417   // transparency layer
+	else
+		resizepic 0 0 9200 250 437   // background/border
+		gumppictiled 10 10 230 417 2624   // darker background
+		gumppictiled 10 32 230 5 5058   // 1 grey separators - start here
+		checkertrans 10 10 230 417   // transparency layer
+	endif
+	//Header
+	dtext 40 10 0480 <ctag.adddialog_mode> 
+	button 10 10 4014 4045 1 0 3		//Change between items/npcs
+	if (<def.adddialog_search>==1)
+		dtext 170 10 0480 Search
+		button 140 10 4011 4012 1 0 10		//Change between items/npcs
+	endif
+	if !(<isempty <ctag.adddialog_search>>)
+		local.max=<eval <f_argv <ctag.adddialog_search>>-1>
+		if (<ctag.adddialog_search_id><<local.max>)
+			dtext 480 10 0480 Search Next
+			button 555 10 4005 4007 1 0 11
+		endif
+		if (<ctag.adddialog_search_id>>0)
+			dtext 350 10 0480 Search Previous
+			button 310 10 4014 4045 1 0 12
+		endif
+	endif
+	//Categories
+	local.cx=41	//Category X
+	local.cy=70	//Category Y
+	local.header=<serv.list.<ctag.adddialog_mode>.<dctag.adddialog_cat>>
+	if (<eval STRLEN(<local.header>)>>25)
+		local.header=<strsub 0 25 <local.header>>
+	endif
+	dtext 10 45 0480 <qval <isempty <ctag.adddialog_cat>>==0?<local.header> (<dctag.adddialog_cat>/<eval <serv.list.<ctag.adddialog_mode>.count>-1>):>
+	local.list=<ctag.adddialog_mode>	//To avoid confusion, its better to store 'list structure' in one local and then get it out
+	local.index=<eval 14*<ctag0.adddialog_page>>//We get FOR data from items_per_page*page_number
+	for 0 13
+		local.num=<local.index>+<local._for>
+		if !(<isempty <serv.list.<local.list>.<dlocal.num>>>)
+			local.text=<serv.list.<local.list>.<dlocal.num>>
+			if (<eval STRLEN(<local.text>)>>28)
+				local.text=<strsub 0 28 <local.text>>
+			endif
+			dtext <dlocal.cx> <dlocal.cy> 0480 <local.text>
+			button <eval <local.cx>-30> <dlocal.cy> 4005 4007 1 0 <eval 100+<dlocal._for>>
+			local.cy +=23
+		endif
+	endfor
+	if <serv.list.<local.list>.count>	//I check this alone first to avoid console errors
+		IF (<serv.list.<local.list>.count> > <eval <local.index>+15>)
+			button 200 400 4005 4007 1 0 4
+			dtext 130 400 0480 Next Page
+		endif
+	endif
+	if (<ctag0.adddialog_page>> 0)
+		button 10 400 4014 4045 1 0 5
+		dtext 40 400 0480 Previous Page
+	endif
+	//Subsection
+	IF !(<isempty <ctag.adddialog_cat>>)
+		local.sx=266	//Subsection X
+		local.sy=70	//Subsection Y
+		local.header=<serv.list.<ctag.adddialog_mode>_<dctag.adddialog_cat>.<dctag.adddialog_sub>>
+		dtext 236 45 0480 <qval <isempty <ctag.adddialog_sub>>==0?<local.header> (<dctag.adddialog_sub>/<eval <serv.list.<ctag.adddialog_mode>_<dctag.adddialog_cat>.count>-1>):>
+		local.index=<eval 14*<ctag.adddialog_cat_page>>
+		local.list=<ctag.adddialog_mode>_<dctag.adddialog_cat>
+		for 0 13
+			local.num=<local.index>+<local._for>
+			if <dlocal.num>< <serv.list.<local.list>.count>		
+				local.text=<serv.list.<local.list>.<dlocal.num>>
+				if (<eval STRLEN(<local.text>)>>38)
+					local.text=<strsub 0 38 <local.text>>
+				endif
+				dtext <dlocal.sx> <dlocal.sy> 0480 <local.text>
+				button <eval <dlocal.sx>-30> <dlocal.sy> 4005 4007 1 0 <eval 200+<dlocal._for>>		//boton aceptar
+				local.sy +=23
+			endif
+		endfor
+		if <serv.list.<local.list>.count>
+			IF (<serv.list.<local.list>.count> > <eval <local.index>+13>)
+				button 480 400 4005 4007 1 0 6
+				dtext 410 400 0480 Next Page	
+			endif
+		endif
+		if (<ctag0.adddialog_cat_page>> 0)
+			button 236 400 4014 4045 1 0 7
+			dtext 271 400 0480 Previous Page
+		endif
+	endif
+	//Description
+	IF !(<isempty <ctag.adddialog_sub>>)
+		local.dx=546	//Subsection X
+		local.dy=70	//Subsection Y
+		if (<ctag0.adddialog_sub_page>)
+			local.index=<eval 14*<ctag.adddialog_sub_page>>
+		else
+			local.index=0
+		endif
+		local.header=<serv.list.<ctag.adddialog_mode>_<dctag.adddialog_cat>.<dctag.adddialog_sub>>
+		dtext 516 45 0480 Page (<dctag.adddialog_sub_page>/<eval <serv.list.<ctag.adddialog_mode>_<dctag.adddialog_cat>_<dctag.adddialog_sub>.count>/14>)
+		local.list=<ctag.adddialog_mode>_<dctag.adddialog_cat>_<dctag.adddialog_sub>
+		for 0 13
+			local.num=<local.index>+<local._for>
+			local.id=<serv.list.<local.list>.<dlocal.num>>
+			IF (STRMATCH("items","<ctag.adddialog_mode>")==1)
+				local.pic <serv.itemdef.<local.id>.id>
+				if (<isempty <serv.itemdef.<local.id>.description>>)
+					local.desc=<serv.itemdef.<local.id>.name>
+				else
+					local.desc=<serv.itemdef.<local.id>.description>
+				endif
+			else
+				local.pic <serv.itemdef.<serv.chardef.<local.id>.icon>.id>
+				local.char=1
+				if (<isempty <serv.chardef.<local.id>.description>>)
+					local.desc=<serv.chardef.<local.id>.name>
+				else
+					local.desc=<serv.chardef.<local.id>.description>
+				endif
+			endif
+			if !(<isempty <serv.list.<local.list>.<dlocal.num>>>)
+				dtext <dlocal.dx> <dlocal.dy> 0480 <local.desc>
+				button 760 <dlocal.dy> 4005 4007 1 0 <eval 1000+<dlocal._for>>
+				button 516 <dlocal.dy> 4011 4012 1 0 <eval 1100+<dlocal._for>>
+				local.dy +=23
+			endif
+		endfor
+		if <serv.list.<local.list>.count>
+			IF (<serv.list.<local.list>.count> > <eval <local.index>+14>)
+				button 760 400 4005 4007 1 0 8
+				dtext 690 400 0480 Next Page
+			endif				
+		endif
+		if !(<isempty <ctag.adddialog_sub_page>>)
+			button 515 400 4014 4045 1 0 9
+			dtext 550 400 0480 Previous page
+		endif
+	endif
+	//Obj Show
+	IF !(<isempty <ctag.adddialog_show>>)
+		local.id=<serv.list.<ctag.adddialog_mode>_<dctag.adddialog_cat>_<dctag.adddialog_sub>.<dctag.adddialog_show>>
+		if (STRMATCH("<ctag.adddialog_mode>","items")==1)
+			dtext 126 440 0480 ID: <local.id> <qval <serv.itemdef.<local.id>.defname>?(<serv.itemdef.<local.id>.defname>):>
+			dtext 126 460 0480 Name: <serv.itemdef.<local.id>.name>
+			dtext 126 480 0480 Type: <serv.itemdef.<local.id>.type>
+			if !(<isempty <serv.itemdef.<local.id>.tevents>>)
+				dtext 126 500 0480 Tevents: <serv.itemdef.<local.id>.tevents>
+			endif
+			local.y=440
+			if !(<isempty <serv.itemdef.<local.id>.skillmake>>)
+				dtext 366 <dlocal.y> 0480 Skillmake: <serv.itemdef.<local.id>.skillmake>
+				local.y +=20
+			endif
+			if !(<isempty <serv.itemdef.<local.id>.resources>>)
+				dtext 366 <dlocal.y> 0480 Resources: <serv.itemdef.<local.id>.resources>
+				local.y +=20
+			endif
+			if (<serv.itemdef.<local.id>.tag0.GargoyleOnly>==1)
+				dtext 366 <dlocal.y> 0480 Gargoyle Item
+				local.y +=20
+			endif
+			tilepic 30 440 <serv.itemdef.<local.id>.id>
+			button 126 554 4005 4007 1 0 <eval 1000+<ctag.adddialog_show>>
+			dtext 156 554 0480 Create
+		else
+			dtext 126 440 0480 ID: <local.id>
+			dtext 126 460 0480 Name: <serv.chardef.<local.id>.name>
+			dtext 126 480 0480 //Tevents: <serv.chardef.<local.id>.tevents>
+			dtext 126 500 0480 
+			local.y=440
+			tilepic 30 440 <serv.chardef.<local.id>.icon>
+			button 126 554 4005 4007 1 0 <eval 1000+<ctag.adddialog_show>>
+			dtext 156 554 0480 Create
+			dtext 626 440 0480 Create spawn
+			dtext 600 460 0480 Amount
+			dtextentry 680 460 20 20 33 1 1 
+			dtext 600 480 0480 Min Time
+			dtextentry 680 480 20 20 33 2 5 
+			dtext 600 500 0480 Max Time
+			dtextentry 680 500 20 20 33 3 15 
+			dtext 600 520 0480 Max Distance
+			dtextentry 680 520 20 20 33 4 15 
+			button 600 554 4005 4007 1 0 <eval 1200+<ctag.adddialog_show>>
+			dtext 630 554 0480 Create Spawn
+		endif
+	endif
+endif
+
+[DIALOG d_add BUTTON]
+ON=1
+ctag.adddialog_mode=items
+dialog d_add
+
+ON=2
+ctag.adddialog_mode=chars
+dialog d_Add
+
+ON=3
+ctag.adddialog_show
+ctag.adddialog_page
+ctag.adddialog_mode
+ctag.adddialog_cat
+ctag.adddialog_sub
+ctag.adddialog_cat_page
+ctag.adddialog_sub_page
+ctag.adddialog_search
+ctag.adddialog_search_id
+dialog d_add
+
+ON=4
+ctag0.adddialog_page +=1
+dialog d_add
+ON=5
+ctag0.adddialog_page -=1
+dialog d_add
+
+ON=6
+ctag0.adddialog_cat_page +=1
+dialog d_add
+ON=7
+ctag0.adddialog_cat_page -=1
+dialog d_add
+
+ON=8
+ctag0.adddialog_sub_page +=1
+dialog d_add
+ON=9
+ctag0.adddialog_sub_page -=1
+dialog d_add
+ON=10
+sysmessage=Type the text to search.
+promptconsole f_add_search
+
+ON=11
+f_add_search <eval <ctag.adddialog_search_id>+1>
+ON=12
+f_add_search <eval <ctag.adddialog_search_id>-1>
+
+ON=100 115	//categories
+if (<ctag0.adddialog_page>)
+	local.index=<eval 14*<ctag.adddialog_page>>
+else
+	local.index=0
+endif
+local.num=<eval (<argn>-100)+<local.index>>
+ctag.adddialog_cat=<local.num>
+ctag.adddialog_cat_page
+ctag.adddialog_sub
+ctag.adddialog_sub_page
+ctag.adddialog_show
+ctag.adddialog_search
+ctag.adddialog_search_id
+dialog d_Add
+
+ON=200 215
+if (<ctag0.adddialog_cat_page>)
+	local.index=<eval 14*<ctag.adddialog_cat_page>>
+else
+	local.index=0
+endif
+local.num=<eval (<argn>-200)+<local.index>>
+ctag.adddialog_sub=<local.num>
+ctag.adddialog_sub_page
+ctag.adddialog_show
+ctag.adddialog_search
+ctag.adddialog_search_id
+dialog d_Add
+
+ON=1000 1015
+if (<ctag0.adddialog_sub_page>)
+	local.index=<eval 14*<ctag.adddialog_sub_page>>
+else
+	local.index=0
+endif
+local.listid=<ctag.adddialog_mode>_<dctag.adddialog_cat>_<dctag.adddialog_sub>
+local.id=<serv.list.<local.listid>.<eval <local.index>+(<argn>-1000)>>
+if (STRMATCH("ITEMS","<ctag.adddialog_mode>")==1)
+	if (<serv.itemdef.<local.id>.id>)
+		add <local.id>
+	endif
+elseif (STRMATCH("chars","<ctag.adddialog_mode>")==1)
+	if (<serv.chardef.<local.id>>)
+		addnpc <local.id>
+	endif
+endif
+
+ON=1100 1115
+if (<ctag0.adddialog_sub_page>)
+	local.index=<eval 14*<ctag.adddialog_sub_page>>
+else
+	local.index=0
+endif
+ctag.adddialog_show=<eval <local.index>+(<argn>-1100)>
+dialog d_add
+
+ON=1200 1215
+if (<ctag0.adddialog_sub_page>)
+	local.index=<eval 14*<ctag.adddialog_sub_page>>
+else
+	local.index=0
+endif
+local.listid=<ctag.adddialog_mode>_<dctag.adddialog_cat>_<dctag.adddialog_sub>
+local.id=<serv.list.<local.listid>.<eval <local.index>+(<argn>-1200)>>
+targetfg f_createspawn <local.id>,<argtxt[1]>,<argtxt[2]>,<argtxt[3]>,<argtxt[4]>
+sysmessage=Where do you want to place the spawn?
+
+[FUNCTION f_argv]
+RETURN <ARGV>
+
+[function f_createspawn]
+serv.newitem=i_worldgem_bit
+new.more=<argv[0]>
+new.amount=<argv[1]>
+new.morep=<argv[2]>,<argv[3]>,<argv[4]>
+new.p=<p>
+new.p=<targp>
+new.dclick
+[EOF]

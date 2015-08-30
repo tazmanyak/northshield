@@ -1,0 +1,96 @@
+[CHARDEF C_H_PRISONER]
+DEFNAME=C_H_PRISONER
+NAME=#NAMES_HUMANMALE the Prisoner
+ID=C_MAN
+//SHELTER=r_JAIL
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobprisoner
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Prisoner (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={11 25}
+	DEX={11 25}
+	INT={31 45}
+
+	WRESTLING={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_pants_short
+	COLOR=colors_all
+	ITEM=backpack_poor
+
+
+[CHARDEF C_H_PRISONER_F]
+DEFNAME=C_H_PRISONER_F
+NAME=#NAMES_HUMANFEMALE the Prisoner
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+//SHELTER=r_JAIL
+
+TSPEECH=spk_human_prime
+TSPEECH=jobprisoner
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Prisoner (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={11 25}
+	DEX={11 25}
+	INT={31 45}
+
+	WRESTLING={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=backpack_poor
+
+[EOF]

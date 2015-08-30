@@ -1,0 +1,236 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+// Shrinked animals
+
+[ITEMDEF i_shrink_new]
+id i_deed
+NAME=Shrink Deed
+ID=i_deed
+WEIGHT=20.0
+TYPE=t_script
+VALUE=100
+tag.trade Shrink Deed
+
+CATEGORY=Custom Items
+SUBSECTION=Deeds
+DESCRIPTION=Animal Trading Contract
+
+On=@Create
+tag.trade Shrink Deed
+color 08ac
+timer -1
+
+On=@Click
+if (<more2>)
+//message @38,,1 [<tag.trade>] //
+//message @256,,1 Trade :: [<tag.trade>]
+message @039,,1 [Str :: <eval <tag.trade_str>> Dex :: <eval <tag.trade_dex>>]
+endif
+message @95,,1 [<tag.trade>]
+return 1
+
+On=@DClick
+if <src.action> == skill_magery
+	src.sysmessage @38,,1 Buyu yaparken kullanamazsiniz.
+	return 1
+endif
+if <src.tag.ellesme>
+	src.sysmessage @,,1 Suanlik bu islemi gerceklestiremezsiniz.
+	return 1
+endif
+
+
+if !(<color> = 08ac) && (strmatch("<src.region.name>","Nujel'm"))
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.sysmessage @55,,1 Etrafta binegin varken cikartamazsin.
+return 1
+endif
+endif
+endfor
+endif
+
+if (<topobj.uid> != <src.uid>
+src.sysmessage @95,,1 Bunu kullanabilmeniz icin cantanizda olmali.
+return 1
+elseif (<more2>
+if (<src.flags>&statf_hidden) || (<src.flags>&statf_invisible)
+src.sysmessage @95,,1 Gizlenmis durumdayken bunu kullanamazsiniz.
+return 1
+endif
+try src.newnpc <tag.trade_id>
+link <src.act.uid>
+link.name <tag.trade_name>
+link.karma <tag.trade_karma>
+link.fame <tag.trade_fame>
+link.str <tag.trade_str>
+link.hits <tag.trade_str>
+link.dex <tag.trade_dex>
+link.int <tag.trade_int>
+link.food <tag.trade_food>
+link.color <color>
+link.magicresistance <tag.trade_resist>
+link.parrying <tag.trade_parrying>
+link.tactics <tag.trade_tactics>
+link.wrestling <tag.trade_wrestling>
+
+
+if (<link.color> == 0835)
+link.color 0481
+endif
+link.oskin <link.color>
+link.memorydel <src.uid>
+link.newitem i_memory
+link.act.attr 04
+link.act.more1 04
+link.act.more2 <serv.time>
+link.act.morep <link.p>
+link.act.color memory_ipet
+link.act.timer -1
+link.act.link <src.uid>
+link.act.cont <link.uid>
+link.flags <link.flags>&statf_pet
+link.update
+link.anim 5
+link.bark 3
+remove
+else
+target Kucultulecek hayvani secin.
+endif
+return 1
+
+On=@TargOn_Item
+src.sysmessage @95,,1 Esyalari kucultemezsiniz?
+target Kucultulecek hayvani secin.
+return 1
+
+On=@TargOn_Char
+if (<src.targ.findid.i_rune_bless>) || (<src.targ.findid.i_rune_protection>) || (<src.targ.findid.i_rune_reactive_armor>) || (<src.targ.findid.i_rune_agility>) || (<src.targ.findid.i_rune_strength>)
+src.sysmessage @38,,1 Bu hayvanin uzerinde buyu var.
+return 1
+endif
+if !(<src.targ.npc>
+src.sysmessage Oyunculari kucultemezsiniz.
+elseif !(<src.targ.ismypet>
+src.sysmessage @95,,1 Bu hayvan size ait degil.
+elseif (<src.targ.findid.i_rune_summon_creature>
+src.sysmessage @95,,1 Buyu ile yaratilmis hayvanlari kucultemezsiniz.
+return 1
+elseif (<src.targ.flags>&statf_stone) || (<src.targ.flags>&statf_freeze)
+src.sysmessage @95,,1 Hayvani su anki durumunda kucultemezsiniz.
+return 1
+elseif ((<src.targ.body> == c_man) || (<src.targ.body> == c_woman))
+src.sysmessage Sadece hayvanlari kucultebilirsiniz.
+return 1
+elseif (<src.targ.flags>&statf_invul) || (<src.targ.color> == 07fff)
+src.sysmessage @95,,1 Bu hayvani kucultemezsiniz.
+return 1
+elseif (<src.targ.memoryfindtype.memory_war_targ>
+src.sysmessage @95,,1 Hayvan su anda cok kizgin.
+return 1
+elseif <argo.isevent.e_pet_donation>
+src.sys_error Bunu küçültemezsiniz.
+return 1
+//elseif ((<src.targ.id> == c_llama_pack) || (<src.targ.id> == c_horse_pack))
+//src.sysmessage @95,,1 Pack hayvanlari kucultemezsiniz.
+//return 1
+elseif (<src.targ.food> < 6)
+src.sysmessage @95,,1 Bu hayvan acikmis.
+return 1
+elseif (<src.targ.hits> < <src.targ.maxhits>
+src.sysmessage @95,,1 Bu hayvan yaralanmis.
+return 1
+elseif (<src.targ.findid.i_rune_poison>
+src.sysmessage @95,,1 Bu hayvan zehirlenmis.
+return 1
+elseif !(<src.targ.canseelos>
+src.sysmessage @95,,1 Hayvana ulasamiyorsunuz.
+return 1
+elseif (<src.targ.distance> > 1)
+src.sysmessage @95,,1 Hayvana yeterince yakin degilsiniz.
+return 1
+elseif (<src.targ.id> == c_m_golem_tinker)
+src.newitem i_pet_c_golem_tinker
+src.act.name <src.targ.name>
+src.act.bounce
+src.targ.remove
+remove
+
+elseif (<src.targ.id> == c_m_golem2)
+src.newitem i_pet_c_golem2
+src.act.name <src.targ.name>
+src.act.bounce
+src.targ.remove
+remove
+
+else
+local.uid <argo.uid>
+src.targ.SPELLEFFECT s_dispel,100.0
+//src.memorydel <src.uid>
+//src.targ.REMOVEESCORTOWNER
+src.targ.binekstabil
+if <argo.findid.i_removetimer_mem>	
+	argo.findid.i_removetimer_mem.remove
+endif
+src.targ.bark 3
+src.targ.shrink
+
+foritems 10
+	if (<type> == t_figurine)
+		if (<local.uid> == <more2>)
+			cont <src.findlayer.layer_pack.uid>
+		endif
+	endif
+endfor
+remove
+//new.bounce
+//name <src.targ.name>
+//attr 00
+//more2 1
+//color <src.targ.color>
+//if (<color> == 0481)
+//color 0835
+//endif
+//tag.trade <src.targ.job>
+//tag.trade_id <src.targ.id>
+//tag.trade_name <src.targ.name>
+//tag.trade_str <src.targ.str>
+//tag.trade_dex <src.targ.dex>
+//tag.trade_int <src.targ.int>
+//tag.trade_karma <src.targ.karma>
+//tag.trade_fame <src.targ.fame>
+//tag.trade_food <src.targ.food>
+//tag.trade_resist <src.targ.magicresistance>
+//tag.trade_parrying <src.targ.parrying>
+//tag.trade_tactics <src.targ.tactics>
+//tag.trade_wrestling <src.targ.wrestling>
+//src.targ.bark 2
+//src.targ.remove
+//src.sysmessage @95,,1 [<tag.trade>]: kontrat haline getirildi.
+endif
+return 1
+
+
+
+
+[typedef t_figurine]
+
+on=@click
+ref1 = <more2>
+message @33,,1 [Str: <ref1.str> | Dex: <ref1.dex>]
+message @,,1 <name>
+return 1
+//message @33,,1 [Str: <eval <tag.str>> | Dex: <eval <tag.dex>>]
+//message @69,,1 <name>
+//return 1
+
+
+
+[eof]

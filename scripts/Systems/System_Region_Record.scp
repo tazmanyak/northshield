@@ -1,0 +1,112 @@
+[PLEVEL 7]
+regionrecord
+
+[Function RegionRecord]
+SDIALOG d_Region_Record
+
+[DIALOG d_Region_Record]
+0,0
+page 0
+
+resizepic 0 0 9260 350 220
+dtext 20 20 1166 Region Record
+
+dtext 40 50 55 Top Left: <ctag0.Region.Record.topleft>
+dtext 40 50 1166 Top Left:
+button 20 53 11400 11401 1 0 1
+
+dtext 40 70 55 Bottom Right: <ctag0.Region.Record.bottomright>
+dtext 40 70 1166 Bottom Right:
+button 20 73 11400 11401 1 0 2
+
+dtext 40 100 55 Area Name: <ctag0.Region.Record.name>
+dtext 40 120 1166 Area Name:
+button 20 123 11400 11401 1 0 7
+
+dtext 40 140 55 Area P: <ctag0.Region.Record.p>
+dtext 40 140 1166 Area P:
+button 20 143 11400 11401 1 0 9
+
+dtext 40 170 55 Create Area
+button 20 173 11400 11401 1 0 10
+
+[DIALOG d_Region_Record button]
+ON=0 
+
+ON=1 //Top Left
+Sysmessage @,,1 Target the top left position of the arena
+Targetfg Region_Record_C1
+
+ON=2 //Bottom Right
+Sysmessage @,,1 Target the bottom right position of the arena
+Targetfg Region_Record_C2
+
+ON=7 //Area Name
+Sysmessage @,,1 Type in a name for the arena (as if speaking it)
+PROMPTCONSOLE Region_Record_C7
+
+ON=9 //Area P
+Sysmessage @,,1 Target the spot where the announcer for the match appears.
+Targetfg Region_Record_C9
+
+ON=10 //Create
+Region_Record_C10 <ctag0.Region.Record.name>
+
+[Function Region_Record_C1]
+ctag.Region.Record.topleft = <TARGP.X>,<TARGP.Y>
+SDIALOG d_Region_Record
+
+[Function Region_Record_C2]
+ctag0.Region.Record.bottomright = <Eval <TARGP.X>+1>,<Eval <TARGP.Y>+1>
+SDIALOG d_Region_Record
+
+[FUNCTION Region_Record_C7]
+If <ISEMPTY <ARGS>>
+Src.Sysmessage @34,,1 You did not enter a name!
+SDIALOG d_Region_Record
+ElseIf !<ISEMPTY <Def.<ARGS>>>
+Src.Sysmessage @34,,1 This area is already taken.
+SDIALOG d_Region_Record
+Else
+ctag.Region.Record.name = <ARGS>
+SDIALOG d_Region_Record
+Endif
+
+[Function Region_Record_C8]
+ctag.Region.Record.exit = <TARGP>
+SDIALOG d_Region_Record
+
+[Function Region_Record_C9]
+ctag.Region.Record.p = <TARGP>
+SDIALOG d_Region_Record
+
+[FUNCTION Region_Record_C10]
+ctag.region_rect = <ctag0.Region.Record.topleft>,<ctag0.Region.Record.bottomright>
+If <ISEMPTY <ARGS>>
+Src.Sysmessage @34,,1 You did not enter a name!
+SDIALOG d_Region_Record
+Return 1
+ElseIf !<ISEMPTY <Def.<ARGS>>>
+Src.Sysmessage @34,,1 This area is already taken.
+SDIALOG d_Region_Record
+Return 1
+Else
+Src.Sysmessage @,,1 Creating Area in /scripts/maps/sphere_map_region_recordings.scp...
+Endif
+FILE.MODE.APPEND	
+FILE.MODE.SETDEFAULT
+Local.File = <FILE.OPEN scripts/maps/sphere_map0.scp>
+If <Local.File>		
+	FILE.WRITELINE " "
+	FILE.WRITELINE [AREADEF <ARGS>]
+	FILE.WRITELINE EVENTS = r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass,r_spawn_areas
+	FILE.WRITELINE NAME = <region.name>
+	FILE.WRITELINE FLAGS = <region.flags>
+	FILE.WRITELINE GROUP = <region.group>
+	FILE.WRITELINE P = <ctag0.Region.Record.p>
+	FILE.WRITELINE RECT = <ctag0.region_rect>
+	FILE.CLOSE
+	SERV.RESYNC
+Endif
+
+[EOF]

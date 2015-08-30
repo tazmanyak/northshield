@@ -1,0 +1,30 @@
+[ITEMDEF i_yenimenu]
+NAME=Sacred
+ID=i_grave_stone
+TYPE=t_script
+
+on=@create
+attr 08000
+color 0
+	
+ON=@Click
+message @68,1,1 <serv.name> Yeni Help Menumuz / Rhodos
+return 1 
+
+ON=@DCLick
+
+
+src.dialog d_yenimenu
+
+return 1
+
+
+
+
+
+
+
+
+
+
+[eof]

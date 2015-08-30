@@ -1,0 +1,145 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0e9c]
+DEFNAME=i_drum
+TYPE=T_MUSICAL
+TDATA1=04c
+TDATA2=04d
+WEIGHT=3
+RESOURCES=20 i_log, 10 i_cloth
+SKILLMAKE=Carpentry 57.8, t_carpentry
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Drum
+
+[ITEMDEF 0e9d]
+DEFNAME=i_tambourine
+TYPE=T_MUSICAL
+TDATA1=052
+TDATA2=053
+WEIGHT=1
+RESOURCES=15 i_log, 10 i_cloth
+SKILLMAKE=Carpentry 57.8, t_carpentry
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Tambourine
+
+[ITEMDEF 0e9e]
+DEFNAME=i_tambourine_tassel
+TYPE=T_MUSICAL
+TDATA1=052
+TDATA2=053
+WEIGHT=1
+RESOURCES=15 i_log, 15 i_cloth
+SKILLMAKE=Carpentry 57.8, t_carpentry
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Tambourine (Tassel)
+
+[ITEMDEF 0eb1]
+DEFNAME=i_harp_standing
+TYPE=T_MUSICAL
+TDATA1=045
+TDATA2=046
+RESOURCES=35 i_log, 15 i_cloth
+SKILLMAKE=Carpentry 78.9, t_carpentry
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Standing Harp
+
+[ITEMDEF 0eb2]
+DEFNAME=i_harp_lap
+TYPE=T_MUSICAL
+TDATA1=045
+TDATA2=046
+WEIGHT=10
+RESOURCES=20 i_log, 10 i_cloth
+SKILLMAKE=Carpentry 63.1, t_carpentry
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Lap Harp
+
+[ITEMDEF 0eb3]
+DEFNAME=i_lute
+TYPE=T_MUSICAL
+TDATA1=04c
+TDATA2=04d
+WEIGHT=5
+RESOURCES=25 i_log, 10 i_cloth
+SKILLMAKE=Carpentry 68.4, t_carpentry
+DUPELIST=0eb4
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Lute
+
+[ITEMDEF 0eb4]
+DUPEITEM=0eb3
+
+[ITEMDEF 0eb6]
+DEFNAME=i_music_stand_short
+NAME=Short Music Stand
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 78.9, t_carpentry
+RESOURCES=15 i_log
+DUPELIST=0eb8
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Music Stand (Short)
+
+[ITEMDEF 0eb8]
+DUPEITEM=0eb6
+
+[ITEMDEF 0ebb]
+DEFNAME=i_music_stand_tall
+NAME=Tall Music Stand
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 81.5, t_carpentry
+RESOURCES=20 i_log
+DUPELIST=0ebc
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Music Stand (Tall)
+
+[ITEMDEF 0ebc]
+DUPEITEM=0ebb
+
+[ITEMDEF 02805]
+DEFNAME=i_flute_bamboo
+TYPE=t_musical
+TDATA1=05b9
+TDATA2=05ba
+WEIGHT=5
+RESOURCES=15 i_log
+SKILLMAKE=Carpentry 80.0, t_carpentry
+DUPELIST=02807
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Bamboo Flute
+
+[ITEMDEF 02807]
+DUPEITEM=02805
+
+[ITEMDEF 0403b]
+DEFNAME=i_aud_char
+TYPE=t_musical
+TDATA1=045
+TDATA2=046
+WEIGHT=10
+RESOURCES=35 i_log//, 15 i_granite
+SKILLMAKE=Carpentry 78.9, t_carpentry
+DUPELIST=0403c
+CATEGORY=Items by Professions
+SUBSECTION=Bard
+DESCRIPTION=Aud Char
+
+[ITEMDEF 0403c]
+DUPEITEM=0403b
+
+
+[eof]

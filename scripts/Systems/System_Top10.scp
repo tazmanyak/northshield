@@ -1,0 +1,1798 @@
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10 
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+   dtext 130 <hval <local.c>*20> 50 <obj.name>
+   dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+   dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+   dtext 65 20 38 1.Isim:                       
+   dtext 65 40 38 2.Isim:                       
+   dtext 65 60 38 3.Isim: 
+   dtext 65 80 38 4.Isim:                         
+   dtext 65 100 38 5.Isim: 
+   dtext 65 120 38 6.Isim: 
+   dtext 65 140 38 7.Isim: 
+   dtext 65 160 38 8.Isim: 
+   dtext 65 180 38 9.Isim: 
+   dtext 65 200 38 10.Isim:
+   dtext 450 20 38 Puan:                       
+   dtext 450 40 38 Puan:                         
+   dtext 450 60 38 Puan:
+   dtext 450 80 38 Puan:                           
+   dtext 450 100 38 Puan:
+   dtext 450 120 38 Puan:
+   dtext 450 140 38 Puan:
+   dtext 450 160 38 Puan:
+   dtext 450 180 38 Puan:
+   dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[itemdef i_ranktasrex]
+id i_grave_stone
+type=t_script
+name=ranking
+
+on=@create
+attr 080
+
+on=@timer
+serv.deletefile C:\AppServ\www\web\olumgunce.php
+serv.allclients sysmessage @69,1,1 Istatistik Duyurusu :
+serv.allclients sysmessage @0790,1,1 [.istatistik] - [.guildpuanlari] - [.duellist] - [.duelgalib]
+serv.allclients sysmessage @0790,1,1 Bu komutlarla istatistikleri gorebilirsiniz.
+serv.isimleridiz
+serv.puanlaridiz
+serv.duelyazdir
+serv.fisheryazdir
+serv.mineryazdir
+timer 600
+return 1
+
+on=@pickup_ground
+src.sysmessage @066d,3,1 Lutfen bu tasi silmeyin veya yerinden oynatmayin.
+return 1
+
+on=@click
+message @69,1,1 Top 10 Stone
+message @0790,1,1 [Update : <eval <timer>/60> Dakika Var.]
+return 1
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[itemdef i_top10_stone]
+defname=i_top10_stone
+id=i_grave_stone
+weight=999
+type=t_eq_script
+name=Top 10 Listesi
+
+
+on=@create
+attr=010
+color=07a1
+
+
+
+on=@click
+Message @07a1 <serv.name>
+message @50 <name>
+return 1
+
+on=@dclick
+src.dialog errg
+return 1
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakýyoruz...
+2. Olarak : .rankkur (uid) yazýyoruz.
+3. Olarak : on=@login'in altýna e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+
+[function dbtopver]
+//db.execute "INSERT INTO olum (olen, olduren, yer, saat) VALUES('<name>','<act.name>','<region.name>','<serv.rtime>')"
+DB.EXECUTE "INSERT INTO top10(id, account, name, kills, fame, karma)VALUES('NULL','<ACCOUNT>','<NAME>','<KILLS>','<FAME>','<KARMA>')"
+
+[function dbtopkur]
+DB.EXECUTE "create table top10(id int unsigned not null auto_increment primary key,account varchar(25),name varchar(25),kills int,fame int,karma int);"
+
+
+[Plevel 2]
+puan
+
+[function puan]
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+
+[FUNCTION xxtop10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+
+[FUNCTION xxtop10list]
+var.panim=<eval <tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+foryuk
+agro.sysmessage @1993 Sayin <name> Suan, <eval <local.x>>. siradasiniz ve <eval <tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+return 1
+endif
+endfor
+foryerles
+sysmessage @0810 Siralamaya Koyuluyor...
+
+
+[function foryerles]
+for b 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.b>>>>
+if (<eval <obj.tag0.pan>> < <eval <var.panim>>)
+var.cnntq=<eval (<eval <local.b>> +1)>
+var.numper=<eval <local.b>>
+src.forfo
+return 1
+endif
+endfor
+
+
+[FUNCTION foryuk]
+for y <eval <var.cnnt>> 10
+try uid.<var.ranktas>.tag0.sira<eval <local.y> - 1> = <uid.<var.ranktas>tag0.sira<eval <local.y>>>
+endfor
+src.foryerles
+
+
+
+[dialog errg]
+0,0
+resizepic 20 0 2600 550 300
+gumppic -15 -10 10440
+gumppic 530 -10 10441
+//gumppic 20 69 10452
+//resizepic 50 0 3500 500 250//ARka Fon
+//resizepic 50 250 3500 260 45//Zamazingo
+resizepic 60 20 9300 480 20////Liste Cizgileri
+resizepic 60 40 9300 480 20////Liste Cizgileri
+resizepic 60 60 9300 480 20////Liste Cizgileri
+resizepic 60 80 9300 480 20////Liste Cizgileri
+resizepic 60 100 9300 480 20////Liste Cizgileri
+resizepic 60 120 9300 480 20////Liste Cizgileri
+resizepic 60 140 9300 480 20////Liste Cizgileri
+resizepic 60 160 9300 480 20////Liste Cizgileri
+resizepic 60 180 9300 480 20////Liste Cizgileri
+resizepic 60 200 9300 480 20////Liste Cizgileri
+page 0
+for c 1 10
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+dtext 130 <hval <local.c>*20> 50 <obj.name>
+dtext 500 <hval <local.c>*20> 50 <eval <obj.tag0.pan>>
+dtext 85 260 1152 Puaniniz = <eval <src.tag0.pan>>
+dtext 65 20 38 1.Isim:
+dtext 65 40 38 2.Isim:
+dtext 65 60 38 3.Isim:
+dtext 65 80 38 4.Isim:
+dtext 65 100 38 5.Isim:
+dtext 65 120 38 6.Isim:
+dtext 65 140 38 7.Isim:
+dtext 65 160 38 8.Isim:
+dtext 65 180 38 9.Isim:
+dtext 65 200 38 10.Isim:
+dtext 450 20 38 Puan:
+dtext 450 40 38 Puan:
+dtext 450 60 38 Puan:
+dtext 450 80 38 Puan:
+dtext 450 100 38 Puan:
+dtext 450 120 38 Puan:
+dtext 450 140 38 Puan:
+dtext 450 160 38 Puan:
+dtext 450 180 38 Puan:
+dtext 450 200 38 Puan:
+endfor
+//for c 1 10
+//obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+//IF (<FILE.OPEN C:\AppServ\www\web\deneme.php>)
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#FF0000 <var.ebesi>Puan:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> <var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>body text=#000000 bgcolor=#C3C1B4<var.ebesi>
+//file.writeline <var.ebe>/font<var.ebesi>
+//file.writeline <var.ebe>p<var.ebesi>
+//file.close
+//endif
+//endfor
+
+[FUNCTION forfo]
+for y 10 <eval <var.cnntq>>
+try uid.<var.ranktas>.tag0.sira<eval <local.y>> = <eval <uid.<var.ranktas>tag0.sira<eval <local.y> - 1>>>
+endfor
+try uid.<var.ranktas>.tag0.sira<eval <var.numper>> = <src.uid>
+
+
+[function puansisteminisil]
+for c 1 1000
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+obj.tag0.pan
+endfor
+
+
+[function isimleridiz]
+serv.deletefile C:\AppServ\www\Web\isimdiz.php
+serv.writefile C:\AppServ\www\Web\isimdiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\isimdiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function puanlaridiz]
+serv.deletefile C:\AppServ\www\Web\puandiz.php
+serv.writefile C:\AppServ\www\Web\puandiz.php
+for c 1 5
+obj = <uid.<uid.<var.ranktas>.tag.sira<eval <local.c>>>>
+IF (<FILE.OPEN C:\AppServ\www\Web\puandiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><eval <obj.tag0.pan>><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function rankkur]
+var.ranktas=<args>
+serv.allclients sysmessage @0810 Kurulum Basariyla Tamamlandi: <var.ranktas> [SIRALAMA]
+return 1
+
+[Plevel 2]
+istatistik
+
+[Events e_puansistem]
+
+
+[FUNCTION top10]
+var.panim=<eval <src.tag0.pan>>
+FOR X 1 10
+obj = <uid.<uid.<var.ranktas>.tag0.sira<eval <local.x>>>>
+if (<obj> = <src.uid>)
+var.cnnt=<eval (<eval <local.x>> +1)>
+var.numper=<eval <local.x>>
+src.foryuk
+src.sysmessage @1993 Sayin <src.name> Suan, <eval <local.x>>. siradasiniz ve <eval <src.tag0.pan>> kadar puana sahipsiniz. <serv.name>...
+src.dialog errg
+return 1
+endif
+endfor
+src.foryerles
+src.sysmessage @0810 Siralamaya Koyuluyor...
+src.sysmessage @0823 [NOT: Daha once kimseyi oldurmediyseniz siralamaya giremezsiniz.]
+
+
+[FUNCTION istatistik]
+src.dialog errg
+src.sysmessage @1153,,1 Best Of Murderer Siralama Menusu
+
+[function istadizgi]
+serv.deletefile C:\AppServ\www\web\istatilbilgi.php
+SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php "<name>" ,"<eval <src.tag0.pan>>"
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php <?php
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $name="<name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php $point="<eval <tag0.pan>>";
+//SERV.WRITECHR C:\AppServ\www\web\istatilbilgi.php $guild="<memoryfindtype.memory_guild.link.name>";
+//SERV.WRITEFILE C:\AppServ\www\web\istatilbilgi.php ?>
+//say <eval <tag.istnuma>>
+
+[EOF]
+
+::KURULUM::
+1. Olarak :.add i_ranktasrex i istedigimiz yere koyuyoruz, koydugumuz tasa .info diyip uid ine bakï¿½yoruz...
+2. Olarak : .rankkur (uid) yazï¿½yoruz.
+3. Olarak : on=@login'in altï¿½na e_puan i ekliyoruz...
+4. Olarak : .top10 yazip siralamamiza bakiyoruz...
+
+
+

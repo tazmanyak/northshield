@@ -1,0 +1,90 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Swindler, Kell, Melen, syn - Original credits from original version
+// ShiryuX - Updating and adapting to 56b Sphere Community Pack
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Functions used in the SOS. Such as sextant coordinates and others.
+
+[function f_generate_coords]
+local.coords = "<eval {2304 5008}>,<eval {1344 3696}>"
+if <serv.map(<local.coords>).type> != t_water
+f_generate_coords
+else
+tag.sextantp = <local.coords>//,255,0
+endif
+
+[function sextant]
+local.lat = <p.y> //<eval ((<p.y> - 1624) * 360 * 60) / 4096>
+local.lng = <p.x> //<eval ((<p.x> - 1323) * 360 * 60) / 5120>
+//local.latd = <eval <local.lat> / 60>
+//local.latm = <eval <local.lat> - (<local.latd> * 60)>
+//local.lngd = <eval <local.lng> / 60>
+//local.lngm = <eval <local.lng> - (<local.lngd> * 60)>
+//absval latd
+//absval latm
+//absval lngd
+//absval lngm
+//local.latc = "N"
+//if <local.lat> > 0
+//local.latc = "S"
+//endif
+//local.lngc = "W"
+//if <local.lng> > 0
+//local.lngc = "E"
+//endif
+link.tag.coords = <dlocal.lat>,<dlocal.lng>//"<dlocal.latd>o<dlocal.latm>'<local.latc>, <dlocal.lngd>o<dlocal.lngm>'<local.lngc>"
+
+[function absval]
+if <local.<args>> < 0
+local.<args> = <eval 0 - <local.<args>>>
+endif
+
+[function f_disturb_seamonster]
+// npc that shows up when you *accidentaly* disturb the waters
+serv.newnpc c_sea_serpent
+new.p = <args>
+new.attack <uid>
+local.seamon = <new.uid>
+serv.newitem i_fishing_spawn_remover
+uid.<local.seamon>.equip <new.uid>
+sector.allclients update
+
+[function f_pullout_treasure]
+// finally got the treasure chest in your hands!
+local.treasure = <qval (<uid.<args>.link.tag0.sos.ancient> == 1) ? tm_sos_treasure_ancient : tm_sos_treasure>
+sysmessage <def.scp.fishing_treasure>
+if <r4> == 1
+f_disturb_seamonster <uid.<args>.p>
+endif
+serv.newitem <local.treasure>
+new.attr |= attr_decay
+new.timer 300
+new.p = <p>
+uid.<args>.link.remove
+uid.<args>.remove
+
+[function f_fishing_bones]
+// got useless body parts, which may work for decoration
+serv.newitem tm_sos_bodyparts
+new.attr |= attr_decay
+new.timer 300
+new.p = <p>
+
+[function f_fishing_items]
+// catch up painting or pillows from the treasure tile
+serv.newitem {tm_sos_paintings 1 tm_sos_pillows 1}
+new.attr |= attr_decay
+new.timer 300
+new.p = <p>
+
+[eof]

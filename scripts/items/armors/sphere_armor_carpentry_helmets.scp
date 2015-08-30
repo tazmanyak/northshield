@@ -1,0 +1,87 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 02b71]
+DEFNAME=i_helm_raven
+NAME=Raven Helm
+TYPE=t_armor
+RESOURCES=10 i_log, 25 i_feather, 4 i_ingredient_diseased_bark
+SKILLMAKE=CARPENTRY 65.0, t_carpentry
+WEIGHT=5
+FLIP=1
+REQSTR=25
+DUPELIST=03168
+CATEGORY=Provisions - Armor - Carpentry
+SUBSECTION=Helmets
+DESCRIPTION=Raven Helm
+TAG.Item.Elven=1
+TAG.ResPhysical=5
+TAG.ResFire=1
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 03168]
+DUPEITEM=02b71
+
+[ITEMDEF 02b72]
+DEFNAME=i_helm_vulture
+NAME=Vulture Helm
+TYPE=t_armor
+RESOURCES=10 i_log, 25 i_feather, 4 i_ingredient_diseased_bark
+SKILLMAKE=CARPENTRY 63.9, t_carpentry
+WEIGHT=5
+FLIP=1
+REQSTR=25
+DUPELIST=03169
+CATEGORY=Provisions - Armor - Carpentry
+SUBSECTION=Helmets
+DESCRIPTION=Vulture Helm
+TAG.Item.Elven=1
+TAG.ResPhysical=5
+TAG.ResFire=1
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 03169]
+DUPEITEM=02b72
+
+[ITEMDEF 02b73]
+DEFNAME=i_helm_winged
+NAME=Winged Helm
+TYPE=t_armor
+RESOURCES=10 i_log, 60 i_feather, 4 i_ingredient_diseased_bark
+SKILLMAKE=CARPENTRY 58.4, t_carpentry
+WEIGHT=5
+FLIP=1
+REQSTR=25
+DUPELIST=0316a
+CATEGORY=Provisions - Armor - Carpentry
+SUBSECTION=Helmets
+DESCRIPTION=Winged Helm
+TAG.Item.Elven=1
+TAG.ResPhysical=5
+TAG.ResFire=1
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 0316a]
+DUPEITEM=02b73
+
+[eof]

@@ -1,0 +1,113 @@
+[CHARDEF C_H_FIGHTER]
+DEFNAME=C_H_FIGHTER
+NAME=#NAMES_HUMANMALE the Fighter
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobFighter
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Fighters
+DESCRIPTION=Fighter (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={86 100}
+	DEX={81 95}
+	INT={61 75}
+
+	FENCING={50.0 70.0}
+	PARRYING={50.0 70.0}
+	SWORDSMANSHIP={50.0 70.0}
+	WRESTLING={50.0 70.0}
+	MACEFIGHTING={50.0 70.0}
+	TACTICS={50.0 70.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_ringmail_tunic
+	ITEM=i_ringmail_leggings
+	ITEM=i_ringmail_sleeves
+	ITEM=i_ringmail_gloves
+	ITEM=i_chainmail_coif
+	ITEM=i_leather_gorget
+	ITEM=i_shield_wood
+	ITEM=i_sword_broad
+	ITEM=i_boots_calf
+	ITEM=random_coin_purse
+
+
+[CHARDEF C_H_FIGHTER_F]
+DEFNAME=C_H_FIGHTER_F
+NAME=#NAMES_HUMANFEMALE the Fighter
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobFighter
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Fighters
+DESCRIPTION=Fighter (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={86 100}
+	DEX={81 95}
+	INT={61 75}
+
+	FENCING={50.0 70.0}
+	PARRYING={50.0 70.0}
+	SWORDSMANSHIP={50.0 70.0}
+	WRESTLING={50.0 70.0}
+	MACEFIGHTING={50.0 70.0}
+	TACTICS={50.0 70.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_ringmail_tunic
+	ITEM=i_ringmail_leggings
+	ITEM=i_ringmail_sleeves
+	ITEM=i_ringmail_gloves
+	ITEM=i_chainmail_coif
+	ITEM=i_leather_gorget
+	ITEM=i_shield_wood
+	ITEM=i_boots_calf
+	ITEM=i_sword_broad
+	ITEM=random_coin_purse
+[EOF]

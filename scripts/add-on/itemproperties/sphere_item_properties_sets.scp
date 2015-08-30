@@ -1,0 +1,138 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: Sábado, 05 de Junio de 2010
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Typedefs for Armor/Weapon SETS
+
+[defname sets_list]
+t_set_darkwood.pieces	6
+t_set_virtue.pieces	8
+t_set_marksman.pieces	2
+t_set_juggernaut.pieces	2
+
+
+[TYPEDEF t_set_darkwood]
+on=@equip
+f_getset_pieces_equip t_set_darkwood
+
+on=@unequip
+f_getset_pieces_unequip t_set_darkwood
+
+ON=@SetEquip
+src.ModStr += 10
+src.Luck += 100
+src.TAG0.ReflectPhysicalDamage += 25
+
+ON=@SetUnEquip
+src.ModStr -= 10
+src.Luck -= 100
+src.TAG0.ReflectPhysicalDamage -= 25
+
+ON=@ItemSetEquip
+COLOR = color_o_darkwood_set
+TAG.SelfRepair = 3
+src.ModAr += 2
+src.ResFire += 5
+src.ResCold += 5
+src.ResPoison += 3
+src.ResEnergy += 5
+
+ON=@ItemSetUnequip
+COLOR = 0
+TAG.SelfRepair = 0
+src.ModAr -= 2
+src.ResFire -= 5
+src.ResCold -= 5
+src.ResPoison -= 3
+src.ResEnergy -= 5
+
+
+[TYPEDEF t_set_virtue]
+on=@equip
+f_getset_pieces_equip t_set_virtue
+
+on=@unequip
+f_getset_pieces_unequip t_set_virtue
+
+ON=@ItemSetEquip
+COLOR = 0
+TAG.SelfRepair = 3
+src.ModAr += 5
+src.ResFire += 5
+src.ResCold += 5
+src.ResPoison += 5
+src.ResEnergy += 5
+
+ON=@ItemSetUnequip
+COLOR = color_o_virtue_set
+TAG.SelfRepair = 5
+src.ModAr -= 5
+src.ResFire -= 5
+src.ResCold -= 5
+src.ResPoison -= 5
+src.ResEnergy -= 5
+
+
+[TYPEDEF t_set_marksman]
+on=@equip
+f_getset_pieces_equip t_set_marksman
+
+on=@unequip
+f_getset_pieces_unequip t_set_marksman
+
+ON=@SetEquip
+src.ModDex += 8
+src.TAG0.HitChanceIncrease += 15
+src.TAG0.SwingSpeedIncrease += 30
+
+ON=@SetUnEquip
+src.ModDex -= 8
+src.TAG0.HitChanceIncrease -= 15
+src.TAG0.SwingSpeedIncrease -= 30
+
+ON=@ItemSetEquip
+COLOR = 946
+TAG.SelfRepair = 3
+
+ON=@ItemSetUnequip
+COLOR = 0
+TAG.SelfRepair = 0
+
+
+[TYPEDEF t_set_juggernaut]
+on=@equip
+f_getset_pieces_equip t_set_juggernaut
+
+on=@unequip
+f_getset_pieces_unequip t_set_juggernaut
+
+ON=@SetEquip
+src.ModStr += 10
+src.TAG0.DefenseChanceIncrease += 10
+src.TAG0.SwingSpeedIncrease += 35
+
+ON=@SetUnEquip
+src.ModStr -= 10
+src.TAG0.DefenseChanceIncrease -= 10
+src.TAG0.SwingSpeedIncrease -= 35
+
+ON=@ItemSetEquip
+COLOR = 0900
+
+ON=@ItemSetUnequip
+COLOR = 0
+
+
+
+
+
+[eof]

@@ -1,0 +1,39 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 29]
+DEFNAME=Skill_Musicianship
+KEY=Musicianship
+TITLE=Bard
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=20
+STAT_INT=50
+STAT_DEX=70
+BONUS_STR=0
+BONUS_DEX=80
+BONUS_INT=20
+BONUS_STATS=10
+//ADV_RATE=0,0,0
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+
+ON=@Fail
+	SRC.SYSMESSAGE You play poorly, and there is no effect.
+
+ON=@Abort
+	SRC.SYSMESSAGE You put down your instrument.
+
+
+[typedef t_musical]
+
+on=@dclick
+src.skillgain_Musicianship
+//return 1
+
+[eof]

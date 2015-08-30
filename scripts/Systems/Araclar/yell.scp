@@ -1,0 +1,100 @@
+[function spawnsil]
+foritems 65000
+if (<id>==0)
+remove
+endif
+endfor
+
+[function webmd]
+sysmessage @1153,1,1 Webmod:<args>
+
+
+[function say_k1nq]
+sayua 0bb7,6,6,0 <args>
+
+
+[function sys_duello]
+sysmessage @0785,,1 <args>
+
+[function sys_trk]
+sysmessage @01153,,1 <args>
+
+[FUNCTION anons]
+return 1
+var.smsgx 0835
+serv.allclients anons_target <args>
+
+[function anons_target]
+
+if !<isevent.e_house_customize>
+	src.sysmessage @0481  <name> : <ARGS>
+endif
+
+[FUNCTION yell]
+return 1
+var.smsgx 0819,4
+serv.allclients smsgx * North Uo Duyuru * : <ARGS>
+
+[plevel 2]
+duyur
+
+
+[function duyurx]
+serv.allclients duyurx_x <args>
+
+[function duyurx_x]
+if !<tag.tns_duyuru>
+	sysmessage @38,1,1 [ TNS DUYURU ]
+	sysmessage @69,1,1 <args>
+endif
+
+[function duyur]
+serv.allclients post_message <args>
+// if (strmatch("<args>",""))
+// src.sysmessage @38,,1 Mesaj yazmadiniz.
+// return 1
+// else
+// var.duyuru <args>
+// //src.dongu
+// //var.ismim <src.name>
+// serv.allclients notice <var.duyuru>//DIALOG_UP d_duyurcam 
+// //serv.allclients dialogclose d_duyurcam
+// return 1
+// endif
+
+[function duyur_duyur]
+dialog d_duyurcam
+
+[function dongu]
+if (<src.account.plevel> = 07)
+var.plevelim Owner
+return 1
+elseif (<src.account.plevel> = 06)
+var.plevelim Admin
+return 1
+elseif (<src.account.plevel> = 05)
+var.plevelim Developer
+return 1
+elseif (<src.account.plevel> = 04)
+var.plevelim Game Master
+return 1
+elseif (<src.account.plevel> = 03)
+var.plevelim Seer
+return 1
+elseif (<src.account.plevel> = 02)
+var.plevelim Counselor
+return 1
+endif
+
+[dialog d_duyurcam]
+-195,-175
+//nomove
+
+
+resizepic 190 195 5054 613 60
+resizepic 208 221 3000 590 26
+//dtext 450 185 99 | Yetkili Duyurusu |
+dtext 210 202 38 North Uo Duyuru//<var.plevelim> <var.ismim>:
+dtext 211 225 0 <var.duyuru>
+
+[eof]

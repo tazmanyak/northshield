@@ -1,0 +1,44 @@
+w//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[TYPEDEF t_scissors]
+
+on=@targon_item
+IF !(<argo.CONT.UID>==<SRC.FINDLAYER(21).UID>)
+	src.sysmessage @,,1 Cantanizda olmali.
+	return 1
+endif
+if <argo.type> == t_cloth)
+	return 0
+elif (<argo.type> == t_cloth_bolt)
+	if <argo.amount> >= 15
+		local.amount <argo.amount>
+		argo.remove
+		serv.newitem i_cloth
+		new.amount <dlocal.amount>*50
+		new.drop
+		return 1
+	else
+		return 0
+	endif
+elif <argo.type> == t_hide
+	if <argo.topobj.uid> == <src.uid>
+		if <argo.TDATA1>
+		serv.newitem <argo.tdata1>,<argo.amount>,<src.uid>
+		src.consume <argo.amount> <argo.baseid>
+		endif
+	else
+	src.sysmessage <def.scp.tailor_cut_inpack>
+	return 1
+	endif
+else
+src.sysmessage <def.scp.tailor_cut_invalid>
+return 1
+endif
+
+[eof]

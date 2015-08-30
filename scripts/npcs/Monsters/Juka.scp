@@ -1,0 +1,140 @@
+[CHARDEF 02fc]
+DEFNAME=c_juka_warrior
+NAME=juka warrior
+ICON=i_pet_juka_warrior
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=20,26
+ARMOR=40
+DESIRES=r_ruins,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=85.6
+TAG.Slayer=SLAYER_REPTILE
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Juka
+DESCRIPTION=Juka Warrior
+ON=@Create
+   NPC=brain_monster
+   FAME=10000
+   KARMA=-10000
+   STR={251 350}
+   MAXHITS={151 210}
+   DEX={61 80}
+   MAXSTAM={61 80}
+   INT={101 150}
+   MAXMANA={101 150}
+   ANATOMY={80.0 90.0}
+   MAGICRESISTANCE={120.0 130.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 10}
+   RESCOLD={25 35}
+   RESENERGY={10 20}
+   RESFIRE={30 40}
+   RESPOISON={10 20}
+ON=@NpcRestock
+   ITEM=loot_juka_warrior
+   //175 - 225 Gold. 1 Gem
+
+[CHARDEF 02fd]
+//FIXME: Heals nearby Juka Lords
+DEFNAME=c_juka_mage
+NAME=juka mage
+ICON=i_pet_juka_mage
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=11,27
+ARMOR=20
+DESIRES=r_ruins,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=96.3
+TAG.Slayer=SLAYER_REPTILE
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Juka
+DESCRIPTION=Juka Mage
+ON=@Create
+   NPC=brain_monster
+   FAME=10000
+   KARMA=-15000
+   STR={201 300}
+   MAXHITS={121 180}
+   DEX={71 90}
+   MAXSTAM={71 90}
+   INT={201 250}
+   MAXMANA={451 500}
+   ANATOMY={80.0 90.0}
+   EVALUATINGINTEL={80.0 100.0}
+   MAGERY={80.0 100.0}
+   MAGICRESISTANCE={140.0 150.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={35 45}
+   RESFIRE={35 45}
+   RESPOISON={10 20}
+ON=@NpcRestock
+   ITEM=loot_juka_mage
+
+
+[CHARDEF 02fe]
+//FIXME: Needs healing and archery AI
+DEFNAME=c_juka_lord
+NAME=juka lord
+ICON=i_pet_juka_warrior
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=52,63
+ARMOR=40
+DESIRES=r_ruins,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=89.0
+TAG.Slayer=SLAYER_REPTILE
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Juka
+DESCRIPTION=Juka Lord
+ON=@Create
+   NPC=brain_monster
+   FAME=15000
+   KARMA=-15000
+   STR={401 500}
+   MAXHITS={241 300}
+   DEX={81 100}
+   MAXSTAM={81 100}
+   INT={151 200}
+   MAXMANA={151 200}
+   ANATOMY={90.0 100.0}
+   ARCHERY={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGICRESISTANCE={120.0 130.0}
+   PARRYING={95.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={95.0 100.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={40 50}
+   RESFIRE={45 50}
+   RESPOISON={20 25}
+ON=@NpcRestock
+   ITEM=loot_juka_lord
+   //400 - 500 Gold. 1 Gem, 10-30 Bandages, 50-70 Arrows, Magic Items
+   //Special: Juka Slayer Bow, 1 Arcane Gem
+
+[EOF]

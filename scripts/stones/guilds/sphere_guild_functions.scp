@@ -1,0 +1,296 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[FUNCTION GuildCheckWarsTime]
+FOR 0 <eval <SERV.GUILDS>-1>
+ REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+ IF !(<REF1.MEMBER.COUNT>)
+  REF1.REMOVE
+ ELIF (<REF1.TAGCOUNT>)
+  FOR x 0 <eval <REF1.TAGCOUNT>-1>
+   IF !STRCMP("war","<STRSUB 0 3 <REF1.TAGAT.<LOCAL.X>.KEY>>")
+    REF2=<STRSUB 4 0 <REF1.TAGAT.<LOCAL.X>.KEY>>
+    IF (<REF1.IsWarRing <REF2>>)
+     ARGS=<STRARG <REF1.TAGAT.<LOCAL.X>.VAL>>
+     IF (<ARGS> != -1) && (<SERV.TIME> > <ARGS>)
+      IF (<REF1.TAG0.War.<REF2>.Kills> > <REF2.TAG0.War.<REF1>.Kills>)
+       LOCAL.Win=1
+       LOCAL.Lose=2
+      ELIF (<REF1.TAG0.War.<REF2>.Kills> < <REF2.TAG0.War.<REF1>.Kills>)
+       LOCAL.Win=2
+       LOCAL.Lose=1
+      ELSE
+       LOCAL.Win=<R1,2>
+       LOCAL.Lose=<QVAL (<LOCAL.Win>==1)? 2:1>
+      ENDIF
+      REF2.DeclarePeace <REF1>
+      REF1.DeclarePeace <REF2>
+      TRY REF<dLOCAL.Lose>.Guild_SendMessage <REF<dLOCAL.Win>.NAME> ile olan savasi kaybettiniz !
+      TRY REF<dLOCAL.Win>.Guild_SendMessage <REF<dLOCAL.Lose>.NAME> ile olan savasi kazandiniz !
+      TRY REF1.TAG.War.<REF2>=
+      TRY REF1.TAG.War.<REF2>.Kills=
+      TRY REF2.TAG.War.<REF1>=
+      TRY REF2.TAG.War.<REF1>.Kills=
+     ENDIF
+    ENDIF
+   ENDIF
+  ENDFOR
+ ENDIF
+ENDFOR
+
+
+[FUNCTION Guild_WarCount]
+FOR 0 <eval <SERV.GUILDS>-1>
+ REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+ IF (<IsWarRing <REF1>>)
+  LOCAL.R ++
+ ENDIF
+ENDFOR
+return <dLOCAL.R>
+
+[FUNCTION IsWarRing]
+REF1=<ARGS>
+IF (<GuildFromUID.<REF1>.IsEnemy>) && (<REF1.GuildFromUID.<UID>.IsEnemy>)
+ return 1
+ENDIF
+return 0
+
+
+[FUNCTION Guild_IsNameAvaible]
+FOR 0 <eval <SERV.GUILDSTONES.COUNT>-1>
+ REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+ IF !STRCMPI("<REF1.NAME>","<ARGS>")
+  return 0
+ ENDIF
+ENDFOR
+return 1
+
+[FUNCTION Guild_IsAbbrevAvaible]
+FOR 0 <eval <SERV.GUILDSTONES.COUNT>-1>
+ REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+ IF !STRCMPI("<REF1.ABBREV>","<ARGS>")
+  return 0
+ ENDIF
+ENDFOR
+return 1
+
+[FUNCTION Guild_CheckProfanity] //!STRREGEX("[\w\s]+","<ARGS>") 
+IF STRMATCH("*invul*","<ARGS>") || STRMATCH("*criminal*","<ARGS>") || STRMATCH("*frozen*","<ARGS>") || STRMATCH("*jailed*","<ARGS>") || STRMATCH("*young*","<ARGS>") || STRMATCH("*staff*","<ARGS>")
+ return 1
+ENDIF
+return 0
+
+
+[FUNCTION Guild_SetCharter_CallBack]
+IF (<eval STRLEN(<ARGS>)> > <DEF.Guild.CharterMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Guild tuzugunuz en fazla <dDEF.Guild.CharterMaxLenght> karakter olabilir.
+ELSE
+ UID.<GUILD>.CHARTER=<ARGS>
+ SRC.SYSMESSAGE @,,1 Yeni guild tuzugunu olusturdunuz.
+ENDIF
+
+[FUNCTION Guild_SetWebsite_CallBack]
+IF (<eval STRLEN(<ARGS>)> > <DEF.Guild.WebsiteMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Guild web siteniz en fazla <dDEF.Guild.WebsiteMaxLenght> karakter olabilir.
+ELSE
+ UID.<GUILD>.WEBPAGE=<ARGS>
+ SRC.SYSMESSAGE @,,1 Guild web sitenizi olusturdunuz.
+ENDIF
+
+[FUNCTION Guild_SetName_CallBack]
+IF (<UID.<GUILD>.TAG0.Delay.ChangeName> > <SERV.TIME>)
+ SRC.SYSMESSAGE @,,1 Guild ismini degistirmek icin bir sure beklemelisiniz.
+ return 1
+ELIF (<isempty <ARGS>>)
+ SRC.SYSMESSAGE @,,1 Guild ismi bos olamaz.
+ return 1
+ELIF (<eval STRLEN(<ARGS>)> > <DEF0.Guild.NameMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Guild ismi en fazla <dDEF0.Guild.NameMaxLenght> karakter olabilir.
+ return 1
+ELIF !(<Guild_IsNameAvaible <ARGS>>) || (<Guild_CheckProfanity <ARGS>>)
+ SRC.SYSMESSAGE @,,1 Bu guild ismi musait degil.
+ return 1
+ENDIF
+UID.<GUILD>.NAME=<ARGS>
+UID.<GUILD>.TAG0.Delay.ChangeName=<eval <SERV.TIME>+<DEF0.Guild.NameChangeDelay>>
+SRC.SYSMESSAGE @,,1 Yeni guild ismini olusturdunuz.
+
+[FUNCTION Guild_SetAbbrev_CallBack]
+IF (<UID.<GUILD>.TAG0.Delay.ChangeAbbrev> > <SERV.TIME>)
+ SRC.SYSMESSAGE @,,1 Guild kisaltmasini degistirmek icin bir sure beklemelisiniz.
+ return 1
+ELIF (<isempty <ARGS>>)
+ SRC.SYSMESSAGE @,,1 Guild kisaltmasi olusturmak zorundasiniz.
+ return 1
+ELIF (<eval STRLEN(<ARGS>)> > <DEF0.Guild.AbbrevMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Guild kisaltmasi en fazla <dDEF0.Guild.AbbrevMaxLenght> karakter olabilir.
+ return 1
+ELIF !(<Guild_IsAbbrevAvaible <ARGS>>) || (<Guild_CheckProfanity <ARGS>>)
+ SRC.SYSMESSAGE @,,1 Bu kisaltma musait degil.
+ return 1
+ENDIF
+UID.<GUILD>.ABBREV=<ARGS>
+UID.<GUILD>.TAG0.Delay.ChangeAbbrev=<eval <SERV.TIME>+<DEF0.Guild.AbbrevChangeDelay>>
+SRC.SYSMESSAGE @,,1 Yeni guild kisaltmasini girdiniz.
+
+[FUNCTION Guild_SetTitle_CallBack]
+REF1=<SRC.CTAG.Guild.Temp.SetTitle>
+SRC.CTAG.Guild.Temp.SetTitle=
+IF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanSetMemberTitle>) || ((<GUILD.MemberFromUID.<REF1>.PRIV> >= <GUILD.MemberFromUID.<SRC>.PRIV>) && (<SRC> != <REF1>))
+ SRC.SYSMESSAGE @,,1  Bunu yapmak icin izniniz yoktur. //<QVAL (<isempty <GUILD.MemberFromUID.<REF1>.GuildTitle>>)? icin izne sahip degilsiniz:permission to change this> member's guild title.
+ELIF (<eval STRLEN(<ARGS>)> > <DEF.Guild.PlayerTitleMaxLenght>)
+ SRC.SYSMESSAGE @,,1 Bu unvan cok uzun.
+ELIF (<Guild_CheckProfanity <ARGS>>)
+ SRC.SYSMESSAGE @,,1 Bu unvan uygun degildir.
+ELSE
+ IF !STRCMPI("none","<ARGS>")
+  UID.<SRC.GUILD>.MemberFromUID.<REF1>.GuildTitle=
+  ref1.tag.guild_title
+ ELSE
+  UID.<SRC.GUILD>.MemberFromUID.<REF1>.GuildTitle=<ARGS>
+  ref1.tag.guild_title <ARGS>
+
+ ENDIF
+ SRC.SYSMESSAGE @,,1 <REF1.NAME> icin guild bilgileri guncellendi.
+ENDIF
+
+
+[FUNCTION Guild_InvitePlayer_CallBack]
+IF (<GUILD.MEMBERFROMUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanInvitePlayer>)
+ SRC.SYSMESSAGE @,,1 Bunu yapmak icin izniniz bulunmamaktadir.
+ return 1
+ELIF !(<ARGO.ISPLAYER>)
+ SRC.SYSMESSAGE @,,1 Bu gecerli bir oyuncu degil.
+ return 1
+ELIF (<ARGO.TAG0.IgnoreGuildInvites>)
+ SRC.SYSMESSAGE @,,1 <ARGO.NAME> guild davetiyesini kabul etmiyor.
+ argo.sysmessage @,,1 <src.name> size guild davetiyesi yaptı fakat guild uyeliğiniz aktif değil.(.guilduyelik ile açabilirsiniz)
+ return 1
+ELIF (<ARGO.GUILD>==<SRC.GUILD>)
+ SRC.SYSMESSAGE @,,1 <ARGO.NAME> zaten guildin bir uyesi !
+ return 1
+ELIF (<ARGO.GUILD>)
+ SRC.SYSMESSAGE @,,1 <ARGO.NAME> zaten guildin bir uyesi !
+ return 1
+ELIF (<ARGO.ISDIALOGOPEN.d_guild_invitation>) || (<ARGO.ISDIALOGOPEN.d_guild_create>)
+ SRC.SYSMESSAGE @,,1 <ARGO.NAME> suan baska bir guild davetiyesiyle ilgileniyor.
+ return 1
+ENDIF
+SRC.SYSMESSAGE @,,1 <ARGO.NAME> tarafinizindan guilde davet edildi.
+TRYSRC <ARGO> SDIALOG d_guild_invitation
+return 1
+
+[FUNCTION Guild_AddMember]
+//No checks here, everything should be checked before calling this functions
+REF1=<ARGV[0]>
+LOCAL.ForceAdd=<ARGV[1]>
+IF (<LOCAL.ForceAdd>)
+ ApplyToJoin <REF1>		//Internal function
+ ToggleAbbreviation <REF1>	//Internal function
+ REF1.EVENTS +<DEF0.Guild.CharGenericEvent>
+ REF1.DSPEECH +spk_guild
+ELSE
+ REF1.TIMERF 1,SDIALOG d_guild_recruit
+ENDIF
+
+[FUNCTION Guild_RemoveMember]
+//No checks here, everything should be checked before calling this functions
+REF1=<ARGV[0]>
+REF1.EVENTS -<DEF0.Guild.CharGenericEvent>
+REF1.DSPEECH -spk_guild
+Resign <REF1>
+IF (<MEMBER.COUNT>)
+ WHILE (<MasterUID>==<REF1>)
+  MasterUID=<MEMBER.<eval <LOCAL._WHILE>-1>.UID>	//Oldest Member
+ ENDWHILE
+ELSE
+ IF (<DEF0.Guild.DisbandRefundPercent>)
+  LOCAL.Refund=<eval (<DEF0.Guild.RegistrationFee>*<DEF0.Guild.DisbandRefundPercent>)/100>
+  REF1.GOLD += <dLOCAL.Refund>
+  REF1.UPDATEX
+  REF1.SYSMESSAGE @,,1 <dLOCAL.Refund> kadar altin hesabinizdan cekilmistir.
+ ENDIF
+ REMOVE
+ENDIF
+REF1.TIMERF 1,DIALOGCLOSE d_guild_main
+REF1.TIMERF 1,DIALOGCLOSE d_guild_roster
+REF1.TIMERF 1,DIALOGCLOSE d_guild_diplomacy
+REF1.TIMERF 1,DIALOGCLOSE d_guild_info
+REF1.TIMERF 1,DIALOGCLOSE d_guild_member_info
+
+
+[FUNCTION Guild_SendMessage]
+IF (<TYPE> != t_stone_guild) || (<isempty <ARGS>>)
+ return 0
+ENDIF
+AllMembers -1,SYSMESSAGE @,,1 Guild Message: <ARGS>
+
+
+[FUNCTION Guild_HasRelationship]
+IF (<IsWarRing <ARGS>>) || (<GuildFromUID.<ARGS>.WeWar>) || (<GuildFromUID.<ARGS>.TheyWar>)
+ return 1
+ENDIF
+return 0
+
+
+[FUNCTION ReturnClockFormat]
+IF (<ARGS> < 0)
+ return 00:00
+ENDIF
+ARGS=<eval <ARGS>/60>,<eval <ARGS>%60>
+IF (<ARGV1>==60)
+ ARGS=<eval <ARGV0>+1>,00
+ENDIF
+IF (<ARGV0> < 10)
+ ARGS=0<ARGV0>,<ARGV1>
+ENDIF
+IF (<ARGV1> < 10)
+ ARGS=<ARGV0>,0<ARGV1>
+ENDIF
+return <ARGV0>:<ARGV1>
+
+
+// ------------------------------------------------------
+// -------   Hardcoded functions called by Sphere  ------
+// ------------------------------------------------------
+
+// Called to check If a stone is at war (If commented sphere will use its internal check)
+// I -> Stone
+// ARGO -> Stone to check against
+// return -> 0: not an enemy
+//           1: an enemy
+//           2: use sphere internal check
+[COMMENT FUNCTION f_stonesys_internal_isatwarwith]
+IF (<TYPE> == t_stone_guild) && (<ARGO.TYPE> == t_stone_guild)
+ IF (<ALIGN> && <ARGO.ALIGN>)
+  return (<ALIGN> != <ARGO.ALIGN>)
+ ELIF (<GuildFromUID.<ARGO>.IsEnemy> && <ARGO.GuildFromUID.<UID>.IsEnemy>) //(<IsWarRing <ARGO>>)
+  return 1
+ ENDIF
+ return 0
+ELIF (<TYPE> == t_stone_town) && (<ARGO.TYPE> == t_stone_town)
+ IF (<GuildFromUID.<ARGO>.IsEnemy> && <ARGO.GuildFromUID.<UID>.IsEnemy>) //(<IsWarRing <ARGO>>)
+  return 1
+ ENDIF
+ return 0
+ENDIF
+return 2
+
+
+// Called to check If a stone is allied (If commented sphere will use its internal check)
+// I -> Stone
+// ARGO -> Stone to check against
+// return -> 0: not an ally
+//           1: an ally
+//           2: use sphere internal check
+[COMMENT FUNCTION f_stonesys_internal_isalliedwith]
+IF (<TYPE> == t_stone_guild) && (<ARGO.TYPE> == t_stone_guild)
+ IF (<ALIGN> && <ARGO.ALIGN>)
+  return (<ALIGN>==<ARGO.ALIGN>)
+ ENDIF
+ return 0
+ENDIF
+return 2
+
+[EOF]

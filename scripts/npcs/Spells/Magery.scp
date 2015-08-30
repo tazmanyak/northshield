@@ -1,0 +1,246 @@
+[CHARDEF 023d]
+//"Not visible with some clients, if so, set BODY=c_elemental_air
+// in the ON=@Create trigger."
+
+
+
+[CHARDEF 09]
+DEFNAME=c_demon_summoned
+NAME=daemon
+ICON=i_pet_demon
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_FLY
+DAM=33,49
+ARMOR=45
+BLOODCOLOR=colors_blood
+MOVERATE=120
+//TSPEECH=spk_demon
+CATEGORY=Spells
+SUBSECTION=Magery
+DESCRIPTION=Summon Daemon
+ON=@Create
+   NAME=#NAMES_DEMON
+   TITLE=summoned daemon
+   COLOR=colors_demon
+   NPC=brain_monster
+   FAME=0
+   KARMA=-5000
+   STR={390 400}
+   DEX={100 160}
+   INT={140 150}
+   EVALUATINGINTEL={90.0 100.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={90.0 100.0}
+   MEDITATION={90.0 100.0}
+   TACTICS={99.0 101.0}
+   WRESTLING={98.0 99.0}
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+[CHARDEF 0d]
+DEFNAME=c_elemental_air_summoned
+NAME=summoned air elemental
+ICON=i_pet_elem_air
+SOUND=snd_elementl_airelem1
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=13,20
+ARMOR=40
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_white
+MOVERATE=100
+TAG.Barding.Diff=77.1
+TAG.Control.Slots=2
+TAG.DamEnergy=50
+TAG.Slayer=SLAYER_AIRELEM
+CATEGORY=Spells
+SUBSECTION=Magery
+DESCRIPTION=Summoned Air Elemental
+ON=@Create
+   COLOR=04fff
+   NPC=brain_monster
+   FAME=0
+   KARMA=-2500
+   STR={195 205}
+   MAXHITS={145 155}
+   DEX={195 205}
+   MAXSTAM={45 55}
+   INT={95 105}
+   MAXMANA={95 105}
+   EVALUATINGINTEL={65.0 75.0}
+   MAGERY={65.0 75.0}
+   MAGICRESISTANCE={55.0 65.0}
+   MEDITATION={85.0 95.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={75.0 85.0}
+   MODAR={0 10}
+   RESCOLD={35 45}
+   RESENERGY={70 80}
+   RESFIRE={30 40}
+   RESPOISON={50 60}
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+[CHARDEF 0e]
+DEFNAME=c_elemental_earth_summoned
+NAME=summoned earth elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=31,49
+ARMOR=65
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_brown
+MOVERATE=100
+TAG.Barding.Diff=68.3
+TAG.Control.Slots=2
+TAG.Slayer=SLAYER_EARTHELEM
+CATEGORY=Spells
+SUBSECTION=Magery
+DESCRIPTION=Summoned Earth Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=0
+   KARMA=-2500
+   STR={195 205}
+   MAXHITS={175 185}
+   DEX={65 75}
+   MAXSTAM={65 75}
+   INT={65 75}
+   MAXMANA={65 75}
+   MAGICRESISTANCE={60.0 70.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={85.0 95.0}
+   MODAR={0 10}
+   RESCOLD={0 10}
+   RESENERGY={50 60}
+   RESFIRE={70 80}
+   RESPOISON={50 60}
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+[CHARDEF 0f]
+DEFNAME=c_elemental_fire_summoned
+NAME=summoned fire elemental
+ICON=i_pet_elem_fire
+SOUND=snd_elementl_firelem1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=20,32
+ARMOR=50
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_red
+MOVERATE=100
+TAG.Barding.Diff=83.1
+TAG.Control.Slots=4
+TAG.DamFire=100
+TAG.Slayer=SLAYER_FIREELEM
+CATEGORY=Spells
+SUBSECTION=Magery
+DESCRIPTION=Summoned Fire Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=0
+   KARMA=-2500
+   STR={195 205}
+   MAXHITS={195 205}
+   DEX={195 205}
+   MAXSTAM={195 205}
+   INT={95 105}
+   MAXMANA={95 105}
+   EVALUATINGINTEL={85.0 95.0}
+   MAGERY={85.0 95.0}
+   MAGICRESISTANCE={80.0 90.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 10}
+   RESCOLD={0 10}
+   RESENERGY={50 60}
+   RESFIRE={70 80}
+   RESPOISON={50 60}
+   ITEMNEWBIE=i_light_source
+   ITEMNEWBIE=i_spellbook
+   ADDSPELL=s_magic_arrow
+   ADDSPELL=s_fireball
+   ADDSPELL=s_fire_field
+   ADDSPELL=s_explosion
+   ADDSPELL=s_flamestrike
+   ADDSPELL=s_meteor_swarm
+   ADDSPELL=s_summon_elem_fire
+   //ADDSPELL=s_fire_bolt
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+[CHARDEF 010]
+DEFNAME=c_elemental_water_summoned
+NAME=summoned water elemental
+ICON=i_pet_elem_water
+SOUND=snd_elementl_watrel1
+CAN=MT_WALK|MT_SWIM|MT_NONHUM
+DAM=35,45
+ARMOR=50
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_blue
+MOVERATE=100
+TAG.Barding.Diff=79.4
+TAG.Control.Slots=3
+TAG.DamCold=100
+TAG.Slayer=SLAYER_WATERELEM
+CATEGORY=Spells
+SUBSECTION=Magery
+DESCRIPTION=Summoned Water Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=0
+   KARMA=-2500
+   STR={195 205}
+   MAXHITS={160 175}
+   DEX={65 75}
+   MAXSTAM={65 75}
+   INT={95 105}
+   MAXMANA={95 105}
+   EVALUATINGINTEL={75.0 85.0}
+   MAGERY={75.0 85.0}
+   MAGICRESISTANCE={70.0 80.0}
+   MEDITATION={85.0 95.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 10}
+   RESCOLD={70 80}
+   RESENERGY={40 50}
+   RESFIRE={20 30}
+   RESPOISON={45 55}
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+[EOF]

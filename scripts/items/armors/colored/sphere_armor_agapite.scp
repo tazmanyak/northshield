@@ -1,0 +1,351 @@
+[ITEMDEF i_platemail_chest_agapite]
+NAME=Agapite Platemail
+ID=i_platemail_chest
+ARMOR= 56
+REQSTR=60
+WEIGHT=10
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 78.0
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_platemail_arms_agapite]
+NAME=Agapite Platemail Arms
+ID=i_platemail_arms
+ARMOR= 56
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 66.5
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_platemail_leggings_agapite]
+NAME=Agapite Platemail Legs
+ID=i_platemail_leggings
+ARMOR= 56
+REQSTR=60
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 69.8
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_platemail_helm_agapite]
+NAME=Agapite Plate Helm
+ID=i_platemail_helm
+ARMOR= 56
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 61.6
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_platemail_gorget_agapite]
+NAME=Agapite Platemail Gorget
+ID=i_platemail_gorget
+ARMOR= 56
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 53.4
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_platemail_gloves_agapite]
+NAME=Agapite Platemail Gauntlets
+ID=i_platemail_gloves
+ARMOR= 56
+REQSTR=45
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 56.7
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_platemail_female_agapite]
+NAME=Agapite Female Platemail
+ID=i_armor_female_plate
+ARMOR= 20
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 73.0
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_CHAINMAIL_COIF_AGAPITE]
+NAME=Agapite Chainmail Coif
+ID=i_chainmail_coif
+ARMOR= 24
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 30.6
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={36 44}
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_AGAPITE]
+NAME=Agapite Chainmail Leggings
+ID=i_chainmail_leggings
+ARMOR= 24
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 34.1
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_CHAINMAIL_TUNIC_AGAPITE]
+NAME=Agapite Chainmail Tunic
+ID=i_chainmail_tunic
+ARMOR= 24
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Chainmail Tunic
+RESOURCES=20 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 46.8
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_RINGMAIL_LEGGINGS_AGAPITE]
+NAME=Agapite Ringmail Leggings
+ID=i_ringmail_leggings
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 30.6
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_SLEEVES_AGAPITE]
+NAME=Agapite Ringmail Sleeves
+ID=i_ringmail_sleeves
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 27.3
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_GLOVES_AGAPITE]
+NAME=Agapite Ringmail Gloves
+ID=i_ringmail_gloves
+ARMOR= 20
+REQSTR=20
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 20.8
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_TUNIC_AGAPITE]
+NAME=Agapite Ringmail Tunic
+ID=i_ringmail_tunic
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 34.1
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_BUCKLER_AGAPITE]
+NAME=Agapite Buckler
+ID=i_shield_buckler
+ARMOR= 9
+REQSTR=15
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 8.0
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_HEATER_AGAPITE]
+NAME=Agapite Heater Shield
+ID=I_SHIELD_HEATER
+ARMOR= 19
+REQSTR=30
+WEIGHT=8
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 43.6
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={31 37}
+
+[ITEMDEF i_SHIELD_METAL_AGAPITE]
+NAME=Agapite Metal Shield
+ID=i_shield_round_metal
+ARMOR= 13
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 18
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_HELM_CLOSED_AGAPITE]
+NAME=Agapite Closed Helm
+ID=i_helm_closed
+ARMOR=24
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 61.6
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELM_OPEN_AGAPITE]
+NAME=Agapite Helmet
+ID=i_helm_open
+ARMOR= 24
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 61.6
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_BASCINET_AGAPITE]
+NAME=Agapite Bascinet
+ID=i_bascinet
+ARMOR= 24
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 22.2
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELM_NOSE_AGAPITE]
+NAME=Agapite Nose Helm
+ID=i_helm_nose
+ARMOR= 24
+REQSTR=0
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Agapite
+DESCRIPTION=Nose Helm
+RESOURCES=15 i_ingot_agapite
+SKILLMAKE=BLACKSMITHING 61.6
+
+
+ON=@Create
+	COLOR=color_o_agapite
+	HITPOINTS=100 //={101 115}
+[EOF]

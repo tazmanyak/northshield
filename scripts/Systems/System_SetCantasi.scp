@@ -1,0 +1,2589 @@
+
+
+
+///////////////////////////////////////////////////Sabaha kadar yazdm aq iflaaam kurudu
+
+
+
+[itemdef i_pouch_set]
+NAME=set kutusu
+ID=i_pouch
+TYPE=t_normal
+
+on=@create
+color 0809
+tag0.parcasayisi
+
+on=@click
+tag0.parcasayisi
+For 7
+if !(strmatch('<tag.set<eval <local._for>>>',''))
+tag0.parcasayisi +=1
+endif
+endfor
+
+message @68,,1 (7 / <eval <tag0.parcasayisi>>)
+message @,,1 <name>
+return 1
+
+on=@dclick
+src.sysmessage @,,1 Aciliyor...
+src.ctag.pouch_set_uid <uid>
+
+tag.sibop <cont.uid>
+
+
+for 7
+src.ctag.setbaseid<eval <local._for>> <tag.setbaseid<eval <local._for>>>
+
+src.ctag.set<eval <local._for>> <tag.set<eval <local._for>>>
+
+src.ctag.sethasar<eval <local._for>> <tag.sethasar<eval <local._for>>>
+
+src.ctag.setcolor<eval <local._for>> <tag.setcolor<eval <local._for>>>
+
+endfor
+
+src.timerf 1,sdialog d_pouch_set
+return 1
+
+[DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540	
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid> 
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>  
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>  
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>  
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>  
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>  
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid> 
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF][DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF]
+[DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF][DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF]
+[DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF][DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF]
+[DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF][DIALOG d_pouch_set]
+0,0
+page 0
+src.closealldialogs
+resizepic 160 0 9200 520 540
+gumppictiled 170 10 500 520 2624
+
+dhtmlgump 380 20 300 20 0 0 <def.bfont_white> Set Cantasi
+
+FOR 7
+
+dhtmlgump 200 <eval <local._for>*65> 300 25 1 0 <def.bfont_black> <src.ctag0.set<eval <local._for>>>
+
+dhtmlgump 500 <eval <local._for>*65> 300 20 0 0 <def.bfont_gray> Saglamlik :
+dhtmlgump 580 <eval <local._for>*65> 50 25 1 0 <def.bfont_black> %<eval <src.ctag.sethasar<eval <local._for>>>>
+
+if <uid.<src.ctag.pouch_set_uid>tag.sibop> == <SRC.FINDLAYER(21).uid>
+
+button 200 <eval (<local._for>*65)+29> 4005 4006 1 0 <local._for>
+button 300 <eval (<local._for>*65)+29> 4005 4006 1 0 <eval <local._for>+7>>
+
+dhtmlgump 230 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Cikart
+dhtmlgump 330 <eval (<local._for>*65)+29> 300 20 0 0 <def.bfont_gray> Yerlestir
+
+endif
+
+endfor
+
+[DIALOG d_pouch_set text]
+
+
+[DIALOG d_pouch_set button]
+on=0
+src.ctag.pouch_set_uid
+
+for 7
+src.ctag0.set<local._for>
+src.ctag0.sethasar<local._for>
+src.ctag0.setbaseid<eval <local._for>>
+endfor
+
+//////////////////////////////////////////////////////////////Cikart
+
+on=1
+if (strmatch('<src.ctag.set1>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid1>
+new.hitpoints <eval <src.ctag.sethasar1>>
+new.color <eval <src.ctag.setcolor1>>
+new.name <src.ctag.set1>
+src.new.bounce
+src.sysmessage <src.ctag.set1> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1
+uid.<src.ctag.pouch_set_uid>.tag.set1
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=2
+if (strmatch('<src.ctag.set2>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid2>
+new.hitpoints <eval <src.ctag.sethasar2>>
+new.color <eval <src.ctag.setcolor2>>
+new.name <src.ctag.set2>
+src.new.bounce
+src.sysmessage <src.ctag.set2> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2
+uid.<src.ctag.pouch_set_uid>.tag.set2
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=3
+if (strmatch('<src.ctag.set3>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid3>
+new.hitpoints <eval <src.ctag.sethasar3>>
+new.color <eval <src.ctag.setcolor3>>
+new.name <src.ctag.set3>
+src.new.bounce
+src.sysmessage <src.ctag.set3> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3
+uid.<src.ctag.pouch_set_uid>.tag.set3
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=4
+if (strmatch('<src.ctag.set4>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid4>
+new.hitpoints <eval <src.ctag.sethasar4>>
+new.color <eval <src.ctag.setcolor4>>
+new.name <src.ctag.set4>
+src.new.bounce
+src.sysmessage <src.ctag.set4> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4
+uid.<src.ctag.pouch_set_uid>.tag.set4
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=5
+if (strmatch('<src.ctag.set5>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid5>
+new.hitpoints <eval <src.ctag.sethasar5>>
+new.color <eval <src.ctag.setcolor5>>
+new.name <src.ctag.set5>
+src.new.bounce
+src.sysmessage <src.ctag.set5> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5
+uid.<src.ctag.pouch_set_uid>.tag.set5
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=6
+if (strmatch('<src.ctag.set6>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid6>
+new.hitpoints <eval <src.ctag.sethasar6>>
+new.color <eval <src.ctag.setcolor6>>
+new.name <src.ctag.set6>
+src.new.bounce
+src.sysmessage <src.ctag.set6> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6
+uid.<src.ctag.pouch_set_uid>.tag.set6
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+on=7
+if (strmatch('<src.ctag.set7>',''))
+src.sysmessage Bu slot bos.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+src.newitem <src.ctag.setbaseid7>
+new.hitpoints <eval <src.ctag.sethasar7>>
+new.color <eval <src.ctag.setcolor7>>
+new.name <src.ctag.set7>
+src.new.bounce
+src.sysmessage <src.ctag.set7> cikarttiniz.
+
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7
+uid.<src.ctag.pouch_set_uid>.tag.set7
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+
+
+//////////////////////////////////////////////////////////////Yerlestir
+
+on=8
+if !(strmatch('<src.ctag.set1>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 8
+
+on=9
+if !(strmatch('<src.ctag.set2>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 9
+
+on=10
+if !(strmatch('<src.ctag.set3>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 10
+
+on=11
+if !(strmatch('<src.ctag.set4>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 11
+
+on=12
+if !(strmatch('<src.ctag.set5>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 12
+
+on=13
+if !(strmatch('<src.ctag.set6>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 13
+
+on=14
+if !(strmatch('<src.ctag.set7>',''))
+src.sysmessage @33,,1 Once esyayi cikartmalisin.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+src.targetf f_pouch_set 14
+
+
+
+
+[function f_pouch_set]
+
+if <argo.topobj.uid> != <src.uid>
+src.sysmessage @,,1 Cantanizdaki ve ya uzerinizdeki setleri ekleyebilirsiniz.
+return 1
+endif
+
+if (<argo.type> == t_armor_leather) || (<argo.type> == t_armor) || (<argo.type> == t_shield)
+
+if <args> == 8
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid1 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set1 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar1 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor1 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 9
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid2 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set2 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar2 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor2 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 10
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid3 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set3 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar3 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor3 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+
+if <args> == 11
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid4 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set4 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar4 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor4 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 12
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid5 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set5 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar5 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor5 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 13
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid6 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set6 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar6 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor6 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+if <args> == 14
+uid.<src.ctag.pouch_set_uid>.tag.setbaseid7 <argo.baseid>
+uid.<src.ctag.pouch_set_uid>.tag.set7 <argo.name>
+uid.<src.ctag.pouch_set_uid>.tag.sethasar7 <argo.hitpoints>
+uid.<src.ctag.pouch_set_uid>.tag.setcolor7 <argo.color>
+src.sysmessage @69,,1 Seti yerlestirdiniz...
+argo.remove
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+endif
+
+else
+src.sysmessage @,,1 Bu bir set parcasi degil.
+src.dclick <uid.<src.ctag.pouch_set_uid>>
+return 1
+endif
+
+[EOF]

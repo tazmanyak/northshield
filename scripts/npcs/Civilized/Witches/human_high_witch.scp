@@ -1,0 +1,52 @@
+[CHARDEF c_h_witch_high]
+DEFNAME=c_h_witch_high
+NAME=#NAMES_HUMANFEMALE the High Witch
+ID=C_WOMAN
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_FEMALE
+DAM=15,20
+ARMOR=15,20
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+CATEGORY=Civilized
+SUBSECTION=Witches (Evil)
+DESCRIPTION=High Witch
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-3000 -5000}
+	FAME={2000 4000}
+	COLOR=0599
+
+	//ALIGNMENT=EVIL
+
+	STR={90 110}
+	DEX={81 95}
+	INT={80 100}
+
+	MAGICRESISTANCE={90.0 95.0}
+	TACTICS={80.0 90.0}
+	WRESTLING={40.0 55.0}
+	MACEFIGHTING={75.0 95.0}
+	MAGERY={75.0 95.0}
+
+	ITEMNEWBIE=i_hair_long
+	COLOR=color_gray_dk
+
+ON=@NPCRestock
+	ITEM=i_dress_plain
+	//COLOR=1
+	ITEM=i_hat_wizards
+	//COLOR=1
+	ITEM=i_boots_calf
+	//COLOR=1
+	ITEM=random_potion
+	ITEM=random_potion
+	ITEM=i_reag_BATWING
+	ITEM=i_reag_BATWING
+	ITEM=i_reag_eye_of_newt,{ 1 5 }
+	ITEM=I_STAFF_BLACK
+	ITEM=i_gold,{100 200}
+
+[EOF]

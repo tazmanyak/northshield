@@ -1,0 +1,70 @@
+[FUNCTION regs]
+DIALOG d_regs_slayer
+
+[DIALOG d_regs_slayer]
+164,159
+PAGE 0
+//resizepic 0 0 9200 400 300	
+//gumppictiled 10 10 380 280 2624
+
+resizepic 0 0 2620 400 300
+checkertrans 5 5 390 290
+
+gumppic 22 85 2444
+text 39 87 270 0
+text 47 63 10 1
+text 50 117 10 2
+gumppic 21 143 2444
+text 40 143 270 3
+text 51 171 10 4
+gumppic 22 196 2444
+text 42 197 270 5
+text 52 224 10 6
+gumppic 24 252 2444
+text 44 253 270 7
+gumppic 260 86 2444
+text 279 55 10 8
+text 281 86 270 9
+gumppic 261 141 2444
+text 284 112 10 10
+text 283 142 270 11
+text 285 173 10 12
+gumppic 261 195 2444
+text 285 197 270 13
+text 288 228 10 14
+gumppic 264 253 2444
+text 282 255 270 15
+tilepic 10 65 3981 //spiders silk resmi
+tilepic 10 122 3963 //blooddmoss resmi
+tilepic 10 176 3973 //ginseng resmi
+tilepic 10 233 3972 //garlic resmi
+tilepic 245 60 3974 //mandrake root resmi
+tilepic 245 119 3976 //nightshade Ash root
+tilepic 245 175 3980 //sulphurous ash resmi 
+tilepic 245 236 3962 //black pearls resmi 
+gumppic 100 40 12 //adam resmi
+gumppic 100 40 50987 //gm robesi
+gumppic 100 40 50984 //solsaki spellbook
+gumppic 100 40 50985 //sagdaki spellbook
+text 153 265 270 16
+
+[DIALOG d_regs_slayer TEXT]
+<src.rescount(3981).amount>
+Spider's Silk
+Blood Moss
+<src.rescount(3963).amount>
+Ginseng
+<src.rescount(3973).amount>
+Garlic
+<src.rescount(3972).amount>
+Mandrake Root
+<src.rescount(3974).amount>
+Nightshade
+<src.rescount(3976).amount>
+Sulphurous Ash
+<src.rescount(3980).amount>
+Black Pearls
+<src.rescount(3962).amount>
+North Shield
+
+[EOF]

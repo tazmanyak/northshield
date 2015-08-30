@@ -1,0 +1,37 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0ec6]
+DEFNAME=i_dress_form
+TYPE=t_normal
+WEIGHT=5
+SKILLMAKE=CARPENTRY 63.1, TAILORING 65.0, t_carpentry, t_sewing_kit
+RESOURCES=25 i_log, 10 i_cloth
+DUPELIST=0ec7
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Dress Form
+
+[ITEMDEF 0ec7]
+DUPEITEM=0ec6
+
+[ITEMDEF 02dd9]
+DEFNAME=i_elven_spinning_wheel
+NAME=Elven Spinning Wheel
+TYPE=t_spinwheel
+SKILLMAKE=CARPENTRY 75.0, TAILORING 65.0, t_carpentry, t_sewing_kit
+RESOURCES=60 i_log, 40 i_cloth
+DUPELIST=02dda
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Spinning Wheel (Elven)
+
+[ITEMDEF 02dda]
+DUPEITEM=02dd9
+
+[eof]

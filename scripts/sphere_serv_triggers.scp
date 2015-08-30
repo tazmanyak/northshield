@@ -1,0 +1,441 @@
+﻿//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: 16-Nov-2006
+VERSION=0.56b
+
+//
+// This file contains function that are used as serv triggers.
+//
+
+
+
+
+[function f_generate_online]
+FOR 0 4
+newnpc c_man
+//serv.log making additional chars
+new.account = <args>
+new.go 5196,1774
+
+//serv.login taz4 123
+endfor
+
+[function resoperator]
+if !<src.tag.operator>
+	SRC.FLAGS=<SRC.FLAGS>|04
+	src.tag.operator 1
+else
+	src.FLAGS=<src.flags>&~04
+	src.tag.operator 0
+endif
+
+[function f_telnet_resync_block]// Request war Mode.
+
+
+[PLEVEL 7]
+f_create_on_login
+f_onaccount_login
+f_onaccount_delete
+f_onchar_create
+f_onchar_delete
+f_onserver_start
+f_onserver_save
+f_onserver_save_ok
+f_onserver_save_fail
+f_onserver_save_finished
+f_onserver_exit
+f_onserver_blockip
+
+// This function is called after client entered the password.
+// ARGS --> username of the client logging in
+// ARGO --> the client logging in
+// RETURN
+//	  0 --> normal action (login)
+//	  1 --> disconnect the client
+
+
+[function f_create_on_login]
+//serv.newitem i_gold,5000,<args>,1
+//new.attr |= attr_invis
+serv.newitem i_dagger,1,<args>,1
+new.attr |= attr_newbie
+serv.newitem i_robe,1,<args>,1
+new.attr |= attr_newbie
+new.color=colors_all
+serv.newitem random_boots,1,<args>,1
+new.attr |= attr_newbie
+serv.newitem i_spellbook,1,<args>,1
+new.addcircle=3,1
+new.attr |= attr_newbie
+//new.bounce
+serv.newitem i_crystal_30,1,<args>,1
+uid.<args>.events +e_start_event
+//src.openpaperdoll
+uid.<args>.tag0.totalgp=10000
+uid.<args>.go 1107,394,-75,2
+//uid.<args>.invul 1
+
+[function f_duzelt_isim_login]
+forplayers 6144
+	if strmatch("<name>","---")
+		name Bos Slot
+	endif
+endfor
+
+[FUNCTION f_onaccount_login]
+IF (STRMATCH(*.*,<ARGS>))
+SERV.LOG Illegal account name (contains .)!
+RETURN 1
+ENDIF
+
+
+//IF (STRMATCH(taz,<ARGS>))
+if !<serv.account.<args>.chars> //I have 0 players, create 5 of them
+//code for creating the newplayers here
+    FOR 0 4
+          newnpc c_man //CHARDEF of the "New Character"
+	  new.name Bos Slot
+          new.go 1107,394,-75,2 //Send NPC to "Character Creation Room"
+          new.account = <args> //Assign NPC to account logging in.
+          serv.f_create_on_login <new.uid>
+	  //uid.<new.uid>.disconnect // "Disconnect" the NPC, if you don't do this the NPC, even though attached to the account, will wander around aimlessly in the room.
+          //serv.log New Player <local._for> for Account <args> created // Log notification
+    ENDFOR
+else
+    
+    if (<serv.account.<args>.chars> < 5)
+        newnpc c_man
+	new.name Bos Slot
+        //serv.log making additional chars
+        new.go 1107,394,-75,2
+        new.account = <args>
+	serv.f_create_on_login <new.uid>
+        //uid.<new.uid>.disconnect
+    endif
+
+    //serv.log Chars already created // Log notification
+endif
+//endif
+//if ( <DB.connected> )
+//	if <account.<args>.tag0.memberid>
+//		local.charuid = <account.<args>.LASTIP>
+//		local.member = <account.<args>.tag0.memberid>
+//		local.name = <account.<args>.name>
+//		local.mac_adres = <account.<args>.tag.last_mac>
+//		if <account.<args>.plevel> > 1
+//			DB.QUERY UPDATE smf_members SET PREVELANGE='1' WHERE id_member='<eval <local.member>>'
+//			DB.QUERY UPDATE smf_members SET STAFFPIN='<account.<args>.tag.pinimbu>' WHERE id_member='<eval <local.member>>'
+//		else
+//			DB.QUERY UPDATE smf_members SET PREVELANGE='0' WHERE id_member='<eval <local.member>>'
+//		endif
+//		//DB.QUERY UPDATE smf_themes SET value='<local.mac_adres>' WHERE id_member='<eval <local.member>>' and variable='cust_macadr'
+//		DB.QUERY UPDATE smf_members SET charuid='<local.charuid>' WHERE id_member='<eval <local.member>>' //and variable='cust_oyunku'
+//		DB.QUERY UPDATE smf_members SET accountname=lower('<local.name>') WHERE id_member='<eval <local.member>>'
+//		//DB.QUERY UPDATE smf_themes SET value='*****' WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+//
+//serv.log @<account.<args>.name> - ip guncellendi...
+//	endif
+//endif
+//IF (<SERV.ACCOUNT.<ARGS>.TAG0.MAXCONNECTIONS>)
+//LOCAL.TOTALALLOWED=<SERV.ACCOUNT.<ARGS>.TAG0.MAXCONNECTIONS>
+//ELSE
+//LOCAL.TOTALALLOWED=1
+//ENDIF
+//FOR 1 <EVAL <SERV.CLIENTS>>
+//	IF (<SERV.CLIENT.<dLOCAL._FOR>.ISONLINE>)
+//		IF (!(STRCMPI(<SERV.CLIENT.<dLOCAL._FOR>.ACCOUNT.LASTIP>,<SERV.ACCOUNT.<ARGS>.LASTIP>)))
+//		LOCAL.TOTALCONNECTED ++
+//		ENDIF
+//		IF (<LOCAL.TOTALCONNECTED> >= <LOCAL.TOTALALLOWED>)
+//		SERV.LOG <ARGS> -> already logged with max number of accounts (<dLOCAL.TOTALALLOWED>)
+//		RETURN 1
+//		ENDIF
+//	ENDIF
+//ENDFOR
+
+
+
+
+// This function is called before an account is being deleted.
+// ARGS --> username of the account being deleted.
+// RETURN
+//	  0 --> normal action (delete)
+//	  1 --> account not deleted
+[FUNCTION f_onaccount_delete]
+
+
+// This function is called after client have created a new char.
+// SRC   --> char being created
+// ARGN1 --> flags
+// ARGN2 --> profession chosen
+// ARGN3 --> race (1=human, 2=elf, 3=gargoyle)
+// ARGS  --> account name
+// ARGO  --> the client creating the character
+[FUNCTION f_onchar_create]
+SERV.LOG ### CHAR CREATE
+SERV.LOG account:<src.account>, char:<src.name>
+SERV.LOG ###
+serv.newitem i_dagger,1,<src>,1
+new.attr |= attr_newbie
+serv.newitem i_robe,1,<src>,1
+new.attr |= attr_newbie
+new.color=colors_all
+serv.newitem random_boots,1,<src>,1
+new.attr |= attr_newbie
+serv.newitem i_spellbook
+new.addcircle=3,1
+new.attr |= attr_newbie
+new.bounce
+serv.newitem i_crystal_30,1,<src>,1
+src.events +e_start_event
+src.openpaperdoll
+src.tag0.totalgp=10000
+src.go 1107,394,-75,2
+//src.invul 1
+sdialog d_start_show
+src.spelleffect s_night_sight,100,0
+
+//SRC.EVENTS +e_tutorial
+
+//SRC.TAG.TUTORIALSTARTP=<SRC.P>
+//SRC.FLAGS |= statf_freeze|statf_invul|statf_invisible|statf_insubstantial
+//SRC.REMOVEFROMVIEW
+//SRC.MOVETO 2507,598,0,1
+//SRC.UPDATE
+//SRC.TAG.TUTORIALPAGE=1
+//SRC.EVENTS +e_tutorial
+
+// This function is called before client is going to delete a character.
+// SRC  --> char being deleted
+// ARGO --> the client deleting the character
+// RETURN
+//	  0 --> normal action (delete char)
+//	  1 --> denyes deletion
+[FUNCTION f_onchar_delete]
+serv.log <src.name> (<src>) (C: <src.account.name>)
+SRC.remove_invalid_houses
+serv.LIST.player_names.<LIST.player_names.FINDELEM "<src.name>">.REMOVE
+LIST.<ARGS>_message.CLEAR
+LIST.<ARGS>_sender.CLEAR
+LIST.<ARGS>_time.CLEAR
+LIST.<ARGS>_friends.CLEAR
+
+// This function is called on server startup
+[FUNCTION f_onserver_start]
+//uid.0a492.f_set_spawn_timer // Spawnların süreleri fix..
+//uid.<def.ph_stone>.aktif // ADV_RATE RELOAD.
+
+//for 0 49
+//try serv.skill.<eval <local._for>>.adv_rate <def.phder1>> //try
+//endfor
+
+//uid.<var.topukuid>.timer <eval <var.yarismatopuksure>>
+//uid.<var.expouid>.timer <eval <var.yarismaexposure>>
+
+// This function is called before server is going to save.
+// ARGN1 --> save is forced (writable)
+// ARGN2 --> save stage (for backgroud save goes 1 to 6146 [sector count + 2])
+// RETURN
+//	  0 --> normal action (save)
+//	  1 --> denyes save
+[FUNCTION f_onserver_save]
+//SERv.ALLCLIENTS DIALOG_UP D_SAVING_DLG
+//f_update_acc_protection
+
+
+//var.yarismatopuksure <eval <uid.<var.topukuid>.timer>>
+//var.yarismaexposure <eval <uid.<var.expouid>.timer>>
+
+// This function is called after server has saved correctly (once per stage with background save).
+[FUNCTION f_onserver_save_ok]
+
+
+
+[FUNCTION f_onserver_save_fail]
+
+
+[FUNCTION f_onserver_save_finished]
+//var.sonsave <serv.rtime>
+//var.savetime Dunya <args> saniyede kaydedildi.
+//serv.allclients sysmessage @,,1 Dunya <args> saniyede kaydedildi.
+//SERV.ALLCLIENTS CLOSESAVINGDLG
+//serv.save // initiate et
+serv.savestatics
+//serv.allclients sys_normal Bağlantı güncellendi.
+
+
+[FUNCTION f_onserver_exit]
+//serv.allclients binekstabil
+
+
+[FUNCTION f_onserver_blockip]
+
+
+[FUNCTION f_onserver_timer]
+
+
+
+
+
+serv.shrinkmem
+uid.<var.spawnstoneuid2>.SPAWN_SYSTEM
+
+uid.04002c9ae.timerf 720, f_yeni_anons // Anons
+
+OBJ <DEF0.SERVUID>
+
+
+
+local.hour=<serv.rtime.format %H>
+// IF (<eval <local.hour>> == 10) // Zengin check ve  Shrink Memory
+	// //OBJ <DEF0.SERVUID>
+	// //OBJ.zenginkontrol
+	// SERV.SHRINKMEM
+// ENDIF
+
+if (<eval <local.hour>>  == {1 23})
+	OBJ <DEF0.SERVUID>
+	OBJ.balik_reset
+	OBJ.f_ay_kontrol
+	//OBJ.f_reset_dc
+endif
+
+
+if (<eval <local.hour>> == 02)
+	LOCAL.OLDOBJ <OBJ.UID>
+	OBJ <DEF0.SERVUID>
+	OBJ.MAKEBACKUP
+	OBJ <LOCAL.OLDOBJ>
+	
+endif
+
+serv.f_option_mysql 0
+db.connect
+if <db.connected>
+	f_status_query_update onlinedurum,players,<eval <serv.clients>+25>
+	f_status_query_update onlinedurum,guild,<eval <serv.guilds>>
+	f_status_query_update onlinedurum,guild,<eval <serv.guilds>>
+	f_status_query_update onlinedurum,chars,<eval <serv.chars>>
+	f_status_query_update onlinedurum,accounts,<eval <serv.accounts>>
+	f_status_query_update onlinedurum,items,<eval <serv.items>>
+	f_status_query_update onlinedurum,page,<uid.<var.pg_box>.rescount>
+	f_status_query_update onlinedurum,maxonline,<eval <eval <VAR.clirecord>>+20>
+	f_status_query_update onlinedurum,uptime,<addslashes <ftime <serv.timeup>>>
+	f_status_query_update onlinedurum,staff,<onlinestaff>
+	f_status_query_update onlinedurum,age,<serv.age>
+	f_status_query_update onlinedurum,bilgiguncel,<addslashes <serv.rtime>>
+	f_status_query_update onlinedurum,savetime,<addslashes <var.savetime>>
+	f_status_query_update onlinedurum,sonsave,<addslashes <var.sonsave>>
+	f_status_query_update onlinedurum,etk_son_durum,<addslashes <var.etkinlikprogramisondurum>>
+	serv.f_guild_db_set
+db.close
+endif
+
+
+
+[function f_status_query_update]
+DB.QUERY UPDATE <argv[0]> SET <argv[1]> ='<argv[2]>'
+
+
+[function memory_delete]
+targetf memory_deletex
+
+[function memory_deletex]
+argo.binekstabil
+
+[function binekstabil]
+FORCHARMEMORYTYPE memory_war_targ
+  remove
+  ENDFOR
+FORCHARMEMORYTYPE memory_fight
+  remove
+  ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+  remove
+  ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+  remove
+  ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+  remove
+  ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+  remove
+  ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+  remove
+  ENDFOR
+return 1
+
+///////////////////////////////
+///Auto save and reboot///////
+/////////////////////////////
+
+[ITEMDEF i_reboot_system]
+ID=i_crystal_ball
+NAME=Auto Reboot [SAKIN SILME]
+WEIGHT=1000
+TYPE=t_eq_script
+
+ON=@create
+ATTR=attr_move_never
+TIMER=60
+DISPID=i_grave_stone
+COLOR=0482
+MOREX=00
+
+ON=@click
+MESSAGEUA 0482,0,0,0 <name>
+RETURN 1
+
+ON=@Dclick
+LOCAL.ZAMAN=<SERV.RTIME>
+MESSAGEUA 0482,0,0,0 Tarih ve Zaman: <LOCAL.ZAMAN>
+MESSAGEUA 0482,0,0,0 Server Uptime: <EVAL(<SERV.TIMEUP>/3600)> saat <EVAL(<EVAL(<SERV.TIMEUP>%3600)>/60)> dk
+message @,,1 Hergün sabah 6 da restart atar. //<SERV.RTICKS.FORMAT [2012,,,0]>
+RETURN 1
+
+ON=@PickUp_Ground
+RETURN 1
+
+ON=@Timer
+LOCAL.HOUR=<SERV.RTIME.FORMAT %H>              //sorun duzeltildi.
+say <eval <local.hour>>
+IF ((<eval <LOCAL.HOUR>> == 00) || (<eval <MOREX>>==2))
+	if ((<eval <MOREX>> == 0) || (<eval <MOREX>>==2))
+		//ev_listesi_ver
+		//duyur Sunucuya otomatik olarak restart atilmak uzeredir...
+		//TIMER 180
+		//MOREX 1
+		//SERV.SAVESTATICS
+		//SERV.SAVE
+		//SERV.SHUTDOWN 1
+		
+		//LOCAL.SPAWN=<SYSSPAWN C:\Windows\System32\shutdown.exe -r -t 120> //gerek yok buna
+	endif
+ELSE
+	IF (<MOREX> == 1)
+		MOREX=00
+	ENDIF
+ENDIF
+TIMER 180
+RETURN 1
+
+[function reboot_timer_fix]
+UID.040002242.TIMER 180  //UID.0401ee8b2.TIMER 180 
+
+
+
+
+[EOF]
+
+
+
+

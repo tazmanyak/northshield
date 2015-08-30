@@ -1,0 +1,175 @@
+﻿//noxier 23 şubat 2014 00:59 , i'm back :P
+//
+//
+//more1		 -> kazan kaynamaya başladıysa 1 olur. işlem tamamlanınca 0 olur ve kazan kullanıma açılır
+//morex 	 -> dolu kazanda ne kadar pot kaldı
+//morey 	 -> ne kadar reagent ekli tag.
+//tag.reagent 	 -> hangi reagent ekli 
+//tag.potion 	 -> hangi potion var 
+
+
+
+[itemdef i_kazan_alchemy]
+id=i_kettle
+weight 10
+type t_script
+name=Alchemy Kazanı
+RESOURCES=60 i_ingot_bronze, 60 i_ingot_copper, 60 i_ingot_dull_copper, 60 i_ingot_shadow, 60 i_ingot_agapite
+SKILLMAKE=tinkering 98.1, MAGERY 98.1
+TAG.CRAFT_PUAN 50
+
+on=@create
+color 50
+attr=02
+tag.reagent=0
+tag.potion=0
+
+on=@timer
+if <dmore1>
+ more1=0 // işlem bitti
+/////////////////
+ if strmatch('<tag0.reagent>','i_reag_spider_silk')
+  local.potion=i_potion_nightsight
+ elseif strmatch('<tag0.reagent>','i_reag_sulfur_ash')
+  local.potion=i_potion_explosiongreat
+ elseif strmatch('<tag0.reagent>','i_reag_nightshade')
+  local.potion=i_potion_poisondeadly
+ elseif strmatch('<tag0.reagent>','i_reag_mandrake_root')
+  local.potion=i_potion_strengthgreat
+ elseif strmatch('<tag0.reagent>','i_reag_ginseng')
+  local.potion=i_potion_healgreat
+ elseif strmatch('<tag0.reagent>','i_reag_garlic')
+  local.potion=i_potion_curegreat
+ elseif strmatch('<tag0.reagent>','i_reag_blood_moss')
+  local.potion=i_potion_agilitygreat
+ elseif strmatch('<tag0.reagent>','i_reag_black_pearl')
+  local.potion=i_potion_refreshtotal
+ else
+  local.potion=i_potion_heal // bi sorun olursa heal yapsın amık içerler :D
+  serv.log hata olustu alchemy_kazan.scp <tag0.reagent> gibi bir girdi var kontrol et
+ endif
+
+ local.x=<local.potion>
+////////////////
+ //serv.b <local.x>
+ tag.potion=<local.x>
+ say Potion hazir
+ tag.reagent=0 //hangi reg ekli silindi
+ morey=0 //regler silindi
+ morex={990 1000}
+ timer -1
+endif
+return 1
+
+on=@click
+if <more1>
+message @1153,,1 (<ftime <timer>> saniye sonra hazır)
+endif
+if !<dmorey>
+message @1153,,1 Kazan <qval <dmorex> == 0 ? (Boş):(<dmorex> adet <serv.itemdef.<tag0.potion>.name>)>
+else
+message @1153,,1 Kazan (<dmorey> adet <serv.itemdef.<tag0.reagent>.name> ekli)
+endif
+return 1
+
+on=@dclick
+
+if !<isevent.t_locked_down>
+	src.sys_error Evinize sabitlemeden kullanamazsınız.
+	return 1
+endif
+
+if <dmore1>
+src.sysmessage @1153,,1 Potionlar hazırlanıyor <f_zamangoster <timer>> sonra kullanabilirsiniz.
+return 1
+endif
+
+
+ if !<dmorex> // bitti yani kazan bişi kalmadı boş
+  if <src.alchemy> < 1000
+   src.sysmessage @1153,,1 Bu eşyayı kullanabilmeniz için alchemy yeteneğiniz 100.0 olmalı
+   return 1
+  endif
+  if <src.magery> < 1000
+   src.sysmessage @1153,,1 Bu eşyayı kullanabilmeniz için magery yeteneğiniz 100.0 olmalı
+   return 1
+  endif
+  if (<src.alchemy> < 98.0)
+	src.sysmessage @1153 Bu eşyayı kullanabilmeniz için alchemy yeteneğiniz 100.0 olmalı
+	return 1
+	endif
+
+  target @1153,,1 Lütfen eklemek istediginiz regi seçiniz
+ else
+  if <morex> > 0
+   if <src.restest i_bottle_empty>
+    serv.newitem <tag0.potion>
+    src.bounce <new>
+    morex -=1
+    src.sysmessage @1153,,1 <qval <dmorex> == 0 ? Bu kazan artık boş:<dmorex> adet <serv.itemdef.<tag0.potion>.name> kaldı>
+    src.consume 1 i_bottle_empty
+     if !<dmorex>
+      morex=0
+      tag.potion=0
+      morey=0
+     endif
+   else
+    src.sysmessage @1153,,1 Çantanızda boş şişe yok
+   endif
+  endif
+ endif
+
+return 1
+
+on=@targon_item
+ref1=<src.targ.uid>
+
+if strmatch('<uid>','<ref1.uid>')
+ if <dmorey> == 7000
+ timer={14400 20000} // normalde 7000 - 8000 sn arasında yapılıyo
+ more1=1
+ else
+ src.sysmessage @1153,,1 İşlemi başlatmak için kazana <eval 7000-<dmorey>> adet <serv.itemdef.<tag0.reagent>.name> eklemelisiniz.
+ endif
+return 1
+endif
+
+
+if !(<ref1.topobj.uid> == <src.uid>)
+ src.sysmessage @1153,,1 Seçtiğiniz eşya çantanızda olmalı
+ return 1
+endif
+
+if !(strmatch('<ref1.type>','t_reagent'))
+ src.sysmessage @1153,,1 Lütfen geçerli bir reagent ekleyiniz
+ return 1
+endif
+
+if <tag0.reagent>
+ if !(strmatch('<tag0.reagent>','<ref1.baseid>')
+  src.sysmessage @1153,,1 Bu kazana daha önce <serv.itemdef.<tag0.reagent>.name> eklenmis. Baska bir reagent ekleyemezsiniz.
+  return 1
+ endif
+endif
+
+if <dmorey> > 6999
+ src.sysmessage @1153,,1 Daha fazla <serv.itemdef.<tag0.reagent>.name> ekleyemezsiniz.
+ return 1
+endif
+
+ local.gerekli=<eval 7000-<dmorey>> 
+if <ref1.amount> > <dlocal.gerekli>
+ tag.reagent=<ref1.baseid>
+ morey +=<dlocal.gerekli>
+ src.consume <dlocal.gerekli> <tag0.reagent>
+ src.sysmessage @1153,,1 Kazana <dlocal.gerekli> adet <ref1.name> eklediniz.
+else
+ tag.reagent=<ref1.baseid>
+ morey +=<ref1.amount>
+ ref1.remove
+ src.sysmessage @1153,,1 Kazana <ref1.amount> adet <ref1.name> eklediniz.
+endif
+return 1
+
+
+[EOF]

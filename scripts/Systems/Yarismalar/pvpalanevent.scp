@@ -1,0 +1,11 @@
+[events e_pvpalani]
+on=@click
+message @38,1,1 [Pvp Turnuvasi] 
+
+on=@ItemDclick
+if (<act.baseid> == i_ethereal_llama) || (<act.baseid> == i_ethereal_ostard) || (<act.baseid> == i_ethereal_horse) || (<act.baseid> == i_runebook) || (<act.baseid> == i_shrink_deed) || (<act.type> == t_figurine)
+sysmessage @38,,1 Gm Topuk Alaninda Yasaktir....
+return 1
+endif
+
+[EOF]

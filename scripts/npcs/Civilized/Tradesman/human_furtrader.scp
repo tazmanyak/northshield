@@ -1,0 +1,122 @@
+[CHARDEF c_h_furtrader]
+DEFNAME=C_H_FURTRADER
+NAME=#NAMES_HUMANMALE the Fur Trader
+ID=C_MAN
+//DAM=
+//ARMOR=
+DESIRES=i_gold,e_notoriety,t_FUR
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobfurtrader
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Fur Trader (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={66 80}
+	DEX={51 65}
+	INT={41 55}
+
+	ANIMALLORE={65.0 88.0}
+	CAMPING={55.0 78.0}
+	FENCING={15.0 38.0}
+	PARRYING={45.0 68.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	TACTICS={55.0 78.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_brown
+	ITEM=random_pants
+	COLOR=colors_black
+	ITEM=random_boots
+	ITEM=i_knife_skinning
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_FURTRADER
+	BUY=VENDOR_B_FURTRADER
+
+
+[CHARDEF c_h_furtrader_f]
+DEFNAME=C_H_FURTRADER_F
+NAME=#NAMES_HUMANFEMALE the Fur Trader
+ID=C_WOMAN
+//DAM=
+//ARMOR=
+DESIRES=i_gold,e_notoriety,t_FUR
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobfurtrader
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Fur Trader (female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={66 80}
+	DEX={51 65}
+	INT={41 55}
+
+	ANIMALLORE={65.0 88.0}
+	CAMPING={55.0 78.0}
+	FENCING={15.0 38.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={55.0 78.0}
+	TACTICS={55.0 78.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_brown
+	ITEM=random_pants
+	COLOR=colors_black
+	ITEM=random_boots
+	ITEM=i_knife_skinning
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_FURTRADER
+	BUY=VENDOR_B_FURTRADER
+
+[EOF]

@@ -1,0 +1,799 @@
+﻿[plevel 1]
+arkadas_list_sil
+arkadaslar
+mesajlar
+
+[function mesajlar]
+SRC.DIALOG d_inbox
+
+[function arkadaslar]
+src.dialog d_friends
+[function f_check_arkadas]
+
+for x 1 5
+	ref1 = <SRC.TAG.FRIENDS_<dlocal.x>>
+	if strmatch(<ref1.name>,<args>)
+		return 1
+	endif
+endfor
+
+
+
+[Plevel 1]
+arkadasekle
+
+/////////////////////////////////////////////////////////////////////////////////////////
+[function f_write_bots]
+forchars 20
+	serv.writefile C:\bots.txt bot<dlocal._for> <uid>
+endfor
+//for x 0 19
+//	serv.write
+
+[defname msg_toggles]
+gm_one_way	0		//Can players use reply to GM messages? 1 = no 0 = yes
+msg_self	0		//players can message themselves? handy for reminders 1= yes 0 = no
+list_staff	0		//Do staff show to players on the list? 1=yes 0=no
+bot0 01c99f
+bot1 01c502
+bot2 01c511
+bot3 01c516
+bot4 01c518
+bot5 01c522
+bot6 01c523
+bot7 01c526
+bot8 01c527
+bot9 01c53e
+bot10 01c541
+bot11 01c542
+bot12 01c544
+bot13 01c54c
+bot14 01c55c
+bot15 01c565
+bot16 01c569
+bot17 01c56a
+bot18 01c56d
+bot19 01cb5e
+max_friends 	30
+
+
+
+ 
+
+
+
+[plevel 1]
+list 
+reply
+private
+
+[function list]
+if <account.plevel> < 2
+	return 1
+endif
+ctag.list_numplayers=
+ctag.list_page=1
+local.uid=<uid>
+local.hour=<serv.rtime.format %H>
+
+
+if <eval <tag.sorgulama_var>> != 1
+for x 0 <eval <serv.clients> -1>
+  if <SERV.CLIENT.<dlocal.x>.isonline>
+	if (<serv.client.<local.x>>)
+		
+		//if !(<var.private_on>) 
+		if (<eval <tag.sorgulama_var>> != 1) || (<eval <tag.arkadaslarim_var>> != 1)
+ 		 if ( <eval <tag.sorgulama_var>> != 1) || (<eval <tag.arkadaslarim_var>> != 1)
+			if !(<def0.list_staff>)
+				if (<serv.client.<local.x>.account.plevel> <= <account.plevel>)
+					ctag0.list_numplayers += 1
+					ctag.list_p<dctag0.list_numplayers>=<serv.client.<local.x>.uid>
+					
+
+					//if <dlocal.x> < <eval <var.botsayisi>> // botlar�da att�k tamamd�r.
+					//	ctag0.list_numplayers += 1
+					//	ctag.list_p<dctag0.list_numplayers>=<uid.<def.bot<dlocal.x>>>
+					//endif
+				endif
+			
+			
+
+			else
+				ctag0.list_numplayers += 1
+				ctag.list_p<dctag0.list_numplayers>=<serv.client.<local.x>.uid>
+			endif
+		  endif
+		endif	
+		//endif
+		
+	endif
+  endif
+endfor
+
+else
+	for x 0 <eval <serv.clients> +-1>
+		if <SERV.CLIENT.<dlocal.x>.isonline>	
+			if strmatch(*<src.tag.arama_var>*,<serv.client.<dlocal.x>.name>)
+				ctag0.list_numplayers += 1 //<dlocal.y>
+				ctag.list_p<dctag0.list_numplayers>=<serv.client.<local.x>.uid>
+			endif
+		endif
+	endfor
+
+	//for y 0 19
+	//	if strmatch(*<src.tag.arama_var>*,<uid.<def.bot<dlocal.y>>.name>)
+	//		ctag0.list_numplayers += 1 //<dlocal.y>
+	//		ctag.list_p<dctag0.list_numplayers>=<uid.<def.bot<dlocal.y>>>
+	//	endif
+	//endfor
+endif
+
+
+
+ctag.list_numpages=<eval (((<ctag0.list_numplayers>-1) / 10) + 1)> // 10 players per page
+dialogclose d_spherelist
+trysrc <uid> dialog d_spherelist
+
+[function list_getplayers_list]
+// Function I used to list page system
+for x 1 50
+	ctag.list_p<dlocal.x>=1
+end
+ctag.list_numplayers=50
+
+[dialog d_spherelist]
+100,100
+
+page 0 // Basic layout
+
+resizepic 0 0 2620 680 550
+resizepic 0 0 2620 680 490
+resizepic 0 0 2620 680 410
+resizepic 0 0 2620 680 360
+resizepic 0 0 2620 680 310
+resizepic 0 0 2620 680 90
+resizepic 0 0 2620 680 50
+checkertrans 0 0 680 550
+//checkertrans 5 5 670 510
+//gumppic 0 12 2520
+//gumppic 38 12 2521
+//gumppic 200 12 2522
+//gumppic 0 50 2523
+//gumppic 38 50 2524
+//gumppic 200 50 2525
+//gumppic 0 160 2523
+//gumppic 38 160 2524
+//gumppic 200 160 2525
+//gumppic 0 210 2523
+//gumppic 38 210 2524
+//gumppic 200 210 2525
+//gumppic 0 300 2526
+//gumppic 38 300 2527
+//gumppic 200 300 2528 
+//gumppic 10 10 027 // Background
+
+///////////Search Player//////////
+resizepic 40 420 2620 130 35
+						//if <ref11.ctag.arama_var>
+dtextentry 47 427 90 20 990 2 <tag.arama_var>  ////////////// Hesap NO
+
+
+
+if !<eval <tag.sorgulama_var>>
+dtext 40 55 1152  Online Clients:  <eval <ctag.list_numplayers>> // / <serv.clients>
+else
+dtext 40 55 1152 Asagida sorgulayacaginiz kisiler listelenecektir.
+endif
+button 185 427 4005 4006 1 0 51 // sorgulama ac/kapat
+//button 185 467 4005 4006 1 0 53 // arkadas listesi a� / kapat
+
+if <tag.sorgulama_var>
+	dtext 400 427 69 Sorgula!
+	button 370 427 4005 4006 1 0 52 //sorgula
+endif
+
+if !<tag.sorgulama_var>
+	dtext 220 427 800 Sorgulamayi ac !
+else
+	dtext 220 427 38 Sorgulamayi kapat !
+endif
+
+
+if !<eval <tag.sorgulama_var>>
+dtext 600 20 38 MESAJLAR
+
+
+//if !<tag.arkadaslarim_var>
+//	dtext 220 467 800 Arkadaslari goster !
+//else
+////	dtext 220 467 38 Arkadaslari gosterme !
+//endif
+
+if (<eval <tag.gosterge>> == 1)
+	dtext 60 370 65 Yerimi online listede gösterme ! ( Şuan gözüküyorsunuz )
+else
+	dtext 60 370 55 Yerimi online listede göster ! ( Şuan gözükmüyorsunuz )
+endif
+
+
+dtext 60 20 38 Herhangi bir oyuncudan mesaj almak istemiyorsaniz .private yazınız. 
+
+//button 20 45 4005 4006 3 0 1
+button 28 370 4014 4015 1 0 33 // Yer Göster
+button 560 20 4014 4015 1 0 34 // Chat Log
+
+dtext 40 493 69 Arkadaş listesine oyuncu eklemek için .arkadasekle komutunu kullanınız.
+dtext 585 493 69 ARKADASLAR
+button 545 493 4014 4015 1 0 35
+endif
+
+ref11=<uid>
+page 1
+ // Player data
+//dtext 30 80 1152 Mesaj
+//dtext 75 80 1152 Oyuncu
+for x 1 <ctag0.list_numplayers>
+	if (<dlocal.x> > <eval (<ctag0.list_page> - 1) * 10>) && (<dlocal.x> < <eval (<ctag0.list_page> * 10) + 1>)
+		if (<uid.<ctag0.list_p<dlocal.x>>.ischar>)
+			if (<uid.<ctag0.list_p<dlocal.x>>.isonline>)
+				if (<uid.<ctag0.list_p<dlocal.x>>.notogetflag <uid>>==1)
+					local.hue=98
+				elseif (<uid.<ctag0.list_p<dlocal.x>>.notogetflag <uid>>==2)
+					local.hue=68
+				elseif (<uid.<ctag0.list_p<dlocal.x>>.notogetflag <uid>>==5)
+					local.hue=48
+				elseif (<uid.<ctag0.list_p<dlocal.x>>.notogetflag <uid>>==6)
+					local.hue=38
+				else
+					local.hue=966
+				endif
+			//
+				if (<ctag0.list_p<dlocal.x>>==<uid>) 
+				    if (<eval <tag.arkadaslarim_var>> == 1) || (<eval <tag.sorgulama_var>> == 1)			
+				    else
+						
+						ref1=<ctag0.list_p<dlocal.x>>
+						dtext 75 <eval 100 +<local.y>> 0779 <qval <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito> ? <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito.name> : <uid.<ctag0.list_p<dlocal.x>>.name>> <qval <isempty <tag.name.suffix>> ? <uid.<ctag0.list_p<dlocal.x>>.tag.name.suffix> : > <qval <ref1.tag0.private> ? (Gizlisiniz) : >//suffix
+						if <REF1.memoryfindtype.memory_guild>
+							dtext 200 <eval 100 +<local.y>> 1152 G: <REF1.memoryfindtype.memory_guild.link.name>
+						else
+							dtext 200 <eval 100 +<local.y>> 69 G: Yok
+						endif
+						if (<eval <ref1.tag.gosterge>> == 1)
+							dtext 340 <eval 100 +<local.y>> 69 Bölge: <ref1.region.name>
+						else
+							dtext 340 <eval 100 +<local.y>> 1152 Bölge: Gizli
+						endif
+						//dtext 180 <eval 100 +<local.y>> 1152 G: <REF1.memoryfindtype.memory_guild.link.name>
+						
+				    endif
+				    
+					
+				else
+					ref1=<ctag0.list_p<dlocal.x>>
+					//if (<uid.<ctag0.list_p<dlocal.x>>.account>)
+					//if <ref1.isplayer>
+					//if (<uid.<ctag0.list_p<dlocal.x>>.account.plevel> > <account.plevel>) 
+					//	dtext 75 <eval 100 +<local.y>> <local.hue> <qval <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito> ? <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito.name> : <uid.<ctag0.list_p<dlocal.x>>.name>> <qval <isempty <tag.name.suffix>> ? <uid.<ctag0.list_p<dlocal.x>>.tag.name.suffix> : >//suffix
+					//	if <REF1.memoryfindtype.memory_guild>
+					//		dtext 200 <eval 100 +<local.y>> 1152 G: <REF1.memoryfindtype.memory_guild.link.name>
+					//	else
+					//		dtext 200 <eval 100 +<local.y>> 69 G: Yok
+					//	endif
+					//	if (<eval <ref1.tag.gosterge>> == 1)
+					//		dtext 340 <eval 100 +<local.y>> 69 Bölge: <ref1.region.name>
+					//	else
+					//		dtext 340 <eval 100 +<local.y>> 1152 Bölge: Gizli
+					//	endif
+					//endif
+					//else
+						
+						if <ref11.tag.arkadaslarim_var>
+						    if <ref11.f_check_arkadas <ref1.name>>
+
+						     
+							dtext 75 <eval 100 +<local.y>> <local.hue> <qval <uid.<ctag0.list_p<dlocal.x>>.tag0.private> ? Gizli : <qval <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito> ? <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito.name> : <uid.<ctag0.list_p<dlocal.x>>.name>> <qval <isempty <tag.name.suffix>> ? <uid.<ctag0.list_p<dlocal.x>>.tag.name.suffix> : >>//suffix
+						   
+							if !<uid.<ctag0.list_p<dlocal.x>>.tag0.private>
+							button 10 <eval 104 +<local.y>> 1209 1210 1 0 <eval (7000 + <local.x>)> // Duello Button
+							button 30 <eval 100 +<local.y>> 4011 4013 1 0 <eval (1000 + <local.x>)> // Chat Button
+							endif
+						
+							if !<ref1.tag0.private>
+							if <REF1.memoryfindtype.memory_guild>
+								dtext 200 <eval 100 +<local.y>> 1152 G: <REF1.memoryfindtype.memory_guild.link.name>
+							else
+								dtext 200 <eval 100 +<local.y>> 69 G: Yok
+							endif
+							if (<eval <ref1.tag.gosterge>> == 1)
+								dtext 340 <eval 100 +<local.y>> 69 Bölge: <ref1.region.name>
+							else
+								dtext 340 <eval 100 +<local.y>> 1152 Bölge: Gizli
+							endif
+						        endif
+						    endif	
+						
+						elseif <ref11.tag.sorgulama_var>
+						   if strmatch(*<ref11.ctag.arama_var>*,<ref1.name>)
+						    if !<uid.<ctag0.list_p<dlocal.x>>.tag0.private>
+							button 10 <eval 104 +<local.y>> 1209 1210 1 0 <eval (7000 + <local.x>)> // Duello Button
+							button 30 <eval 100 +<local.y>> 4011 4013 1 0 <eval (1000 + <local.x>)> // Chat Button
+							endif
+						
+							
+							dtext 75 <eval 100 +<local.y>> <local.hue> <qval <uid.<ctag0.list_p<dlocal.x>>.tag0.private> ? Gizli : <qval <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito> ? <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito.name> : <uid.<ctag0.list_p<dlocal.x>>.name>> <qval <isempty <tag.name.suffix>> ? <uid.<ctag0.list_p<dlocal.x>>.tag.name.suffix> : >>//suffix
+						     
+						    	if !<ref1.tag0.private>
+							if <REF1.memoryfindtype.memory_guild>
+								dtext 200 <eval 100 +<local.y>> 1152 G: <REF1.memoryfindtype.memory_guild.link.name>
+							else
+								dtext 200 <eval 100 +<local.y>> 69 G: Yok
+							endif
+							if (<eval <ref1.tag.gosterge>> == 1)
+								dtext 340 <eval 100 +<local.y>> 69 Bölge: <ref1.region.name>
+							else
+								dtext 340 <eval 100 +<local.y>> 1152 Bölge: Gizli
+							endif
+							endif
+						    
+						   endif
+						elseif !<ref11.tag.sorgulama_var>
+						    if !<uid.<ctag0.list_p<dlocal.x>>.tag0.private> 
+							button 10 <eval 104 +<local.y>> 1209 1210 1 0 <eval (7000 + <local.x>)> // Duello Button
+							button 30 <eval 100 +<local.y>> 4011 4013 1 0 <eval (1000 + <local.x>)> // Chat Button
+							endif
+						
+						     	
+							dtext 75 <eval 100 +<local.y>> <local.hue> <qval <uid.<ctag0.list_p<dlocal.x>>.tag0.private> ? Gizli : <qval <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito> ? <uid.<ctag0.list_p<dlocal.x>>.findid.i_rune_incognito.name> : <uid.<ctag0.list_p<dlocal.x>>.name>> <qval <isempty <tag.name.suffix>> ? <uid.<ctag0.list_p<dlocal.x>>.tag.name.suffix> : >>//suffix
+						        if !<ref1.tag0.private>
+							if <REF1.memoryfindtype.memory_guild>
+								dtext 200 <eval 100 +<local.y>> 1152 G: <REF1.memoryfindtype.memory_guild.link.name>
+							else
+								dtext 200 <eval 100 +<local.y>> 69 G: Yok
+							endif
+							if (<eval <ref1.tag.gosterge>> == 1)
+								dtext 340 <eval 100 +<local.y>> 69 Bölge: <ref1.region.name>
+							else
+								dtext 340 <eval 100 +<local.y>> 1152 Bölge: Gizli
+							endif
+							endif
+						    
+						endif
+
+					//endif
+				endif
+				local.y += 20
+			endif
+		endif
+	endif
+endfor
+if (<ctag0.list_page> > 1)
+	// Back button
+	button 28 315 4014 4015 1 0 1
+endif
+if (<ctag0.list_page> < <ctag0.list_numpages>)
+	// Forward button
+	button 210 315 4005 4006 1 0 2
+endif
+dtext 95 315 1152 Sayfa <dctag0.list_page> / <dctag0.list_numpages>
+
+
+
+
+
+[dialog d_spherelist BUTTON]
+on=0
+src.tag.sorgulama_var
+
+on=53
+
+if <src.tag.sorgulama_var>
+	src.sys_error Sorgulama açıkken arkadaş listenizi acamazsiniz.
+	src.online
+	return 1
+endif
+
+if !<src.tag.arkadaslarim_var>
+	src.tag.arkadaslarim_var 1
+	src.online
+	src.sys_error Suanda sadece arkadaslarinizi gorebilirsiniz.
+else
+	src.tag.arkadaslarim_var
+	src.sys_error Arkadas listeniz kapatilmistir.
+	src.online
+endif
+
+on=52
+IF (<EVAL STRLEN(<argtxt[2]>)> < 3)
+	src.sys_error En az 3 karakter ile sorgulama yapabilirsiniz.
+	src.online
+	return 1
+else
+	src.ctag.arama_var <argtxt[2]>
+	src.tag.arama_var <argtxt[2]>
+	src.online
+endif
+
+
+
+on=51
+
+if <src.tag.arkadaslarim_var>
+	src.sys_error Arkadas listeniz aktif iken sorgulama yapamazsiniz.
+	return 1
+endif
+
+if !<src.tag.sorgulama_var>
+	src.sys_error Sorgulamayi aktif ettiniz.
+	src.tag.sorgulama_var 1
+	src.ctag.arama_var <argtxt[2]>
+	src.online
+else
+	src.tag.sorgulama_var
+	src.sys_error Sorgulamayi de-aktif ettiniz.
+	src.tag.arama_var Arat !
+	src.online
+endif
+
+//FOR 0 <EVAL <SERV.CLIENTS>-1>
+//	if <SERV.CLIENT.<dLOCAL._FOR>.ACCOUNT.>
+//		REF1=<SERV.CLIENT.<dLOCAL._FOR>.UID>
+//		if strmatch(*<argtxt[2]>*,<ref1.name>
+			
+
+
+
+
+on=1 // Back button
+ctag.list_page -= 1
+if (<dctag0.list_page> < 1)
+	// Bad! And shouldnt happen
+	sysmessage Error: list_page value went too low, please report (<dctag0.list_page> / <dctag0.list_numpages>)
+	ctag.list_page=1
+endif
+dialog d_spherelist
+
+on=2 // Forward button
+ctag.list_page += 1
+if (<dctag0.list_page> > <dctag0.list_numpages>)
+	// Bad! Should also not happen
+	sysmessage Error: list_page value went too high, please report (<dctag0.list_page> / <dctag0.list_numpages>)
+	ctag.list_page=<ctag0.list_numpages>
+endif
+dialog d_spherelist
+
+on=33
+if (<eval <tag.gosterge>> == 1)
+	src.tag.gosterge
+	src.sysmessage @69,,1 Artik yeriniz gozukmuyor.
+	src.online
+else
+	src.tag.gosterge 1
+	src.sysmessage @69,,1 Yeriniz artik gozukuyor.
+	src.online
+endif
+
+
+
+
+on=34
+//src.sys_error Gecici sureligine devre disidir.
+SRC.DIALOG d_inbox
+on=1001,2001 //65535 // Player buttons
+ctag.receiver=<ctag0.list_p<eval <argn> - 1000>>
+ref1 = <ctag.receiver>
+//src.sysmessage @,,1 <ref1.name>
+trysrc <uid> uid.<ctag0.list_p<eval <argn> - 1000>>.dialog d_playermsg, 2
+
+on=35
+src.dialog d_friends
+
+//on=2002,3002
+on=7001,8001
+ref1 = <ctag0.list_p<eval <argn> - 7000>>
+if <ref1.tag.duelloda>
+	src.sysmessage @,,1 Şuanda bu kişi duelloda.
+	return 1
+else
+	src.ctag.duel_opponent = <ctag0.list_p<eval <argn> - 7000>>
+	src.dialog d_duel_alan
+	if <src.findid.i_duellocu>
+		src.findid.i_duellocu.remove
+	endif
+endif
+
+
+[dialog d_playermsg]
+100,100
+//noclose
+page 0
+gumppictiled 0 0 410 340 0a40
+//
+resizepic 1 1 2620 408 338
+checkertrans 1 1 408 338
+dtext 50 30 69 Kime: <uid.<src.ctag0.receiver>.name>
+dtextentry 38 90 300 300 38 0
+button 35 280 4005 4006 1 0 1
+dtext 70 280 38 Gonder
+
+[dialog d_playermsg button] 
+on=0
+src.ctag0.receiver=
+if <def.perisitent_notification>
+	if <LIST.<src.account>_message.COUNT>
+		src.dialog d_pm_notify
+	endif
+endif
+return 1
+
+on=1 
+local.recipient= <uid.<src.ctag0.receiver>.account>
+if (<src.tag0.private>)
+	src.tag.private=
+	src.sysmessage @,,1 "Private" mode kapatıldı.
+endif
+if !(<isempty <argtxt[0]>>)
+	if (<eval <list.<uid.<src.ctag0.receiver>.account>_message.COUNT>> < 1000)
+		src.sysmessage @,,1 Mesaj gönderildi!
+		//src.ctag.page_helper
+		if !(<src.isgm>)
+			list.<uid.<src.ctag0.receiver>.account>_message.add <argtxt[0]> 
+			list.<uid.<src.ctag0.receiver>.account>_sender.add <src.uid>
+			list.<uid.<src.ctag0.receiver>.account>_time.add <serv.rtime.format %c>
+		else
+			if <list.<uid.<src.ctag0.receiver>.account>_message.COUNT>
+				list.<uid.<src.ctag0.receiver>.account>_message.0.insert <argtxt[0]> 
+				list.<uid.<src.ctag0.receiver>.account>_sender.0.insert <src.uid>
+				list.<uid.<src.ctag0.receiver>.account>_time.0.insert <serv.rtime.format %c>
+			else
+				list.<uid.<src.ctag0.receiver>.account>_message.add <argtxt[0]> 
+				list.<uid.<src.ctag0.receiver>.account>_sender.add <src.uid>
+				list.<uid.<src.ctag0.receiver>.account>_time.add <serv.rtime.format %c>
+			endif
+		endif
+
+		if !(<isonline>)
+			try uid.<src.ctag0.receiver>.tag.mesaj_var 1
+			src.sysmessage @,,1 <uid.<src.ctag0.receiver>.name> suanda oyunda degil, oyuna girdigi zaman mesajiniz kendisine ulastirilacaktir.
+		endif
+		trysrc <src.ctag0.receiver> TRIGGER @MsgPending
+	else
+		src.sysmessage @,,1 Kisinin mesaj kutusu dolu oldugu icin mesajınız gonderilemedi!
+	endif
+else
+	sysmessage @,,1 Göndermek için herhangi bir sey yazmadınız.
+	dialog d_playermsg
+endif
+src.ctag.receiver=
+if <def.perisitent_notification>
+	if <LIST.<src.account>_message.COUNT>
+		src.dialog d_pm_notify
+	endif
+endif
+
+
+
+[function private]
+if (<tag0.Private>)
+	tag.private=
+	sys_error Privacy kapalı
+else
+	tag.private=1
+	sys_error Privacy açık
+	sys_error Private modda mesaj atamaz ve alamazsınız.
+endif
+
+[DIALOG d_pm_notify]
+50,50
+SRC.SOUND 0234
+NOCLOSE
+PAGE 0
+DTEXT 21 0 38  Mesajınız
+button 20 20 01e 01e 1 0 1
+DTEXT 38 41 38 Var
+
+[DIALOG d_pm_notify BUTTON]
+ON=1
+SRC.DIALOG d_inbox
+
+
+//inbox
+[DIALOG d_inbox]
+
+30,30
+
+page 0
+gumppictiled 0 0 410 448 0a40
+
+resizepic 1 1 2620 408 446
+checkertrans 1 1 408 446
+dtext 180 12 38 Mesaj Kutusu
+if <LIST.<account>_message.COUNT>
+page 1
+    for 0 <eval (<LIST.<account>_message.COUNT> - 1)>
+        if (<local._for> >= 5) && (<eval (<local._for> % 5)> == 0)
+        	button 368 12 0fa5 0fa7 0 <eval ((<local._for> / 5) + 1)>
+        	dtext 305 12 38 İleri
+        	page <eval ((<local._for> / 5) + 1)>
+        	button 12 12 0fae 0fb0 0 <eval (<local._for> / 5))>
+        	dtext 42 12 38 Geri
+        endif
+		if <uid.<LIST.<src.account>_sender.<dlocal._for>>.tag.page_helper>
+		dhtmlgump 12 <eval (44 + ((<local._for> % 5) * 80)> 350 70 1 1 <def.BFONT_RED>[Page Helper] <list.<account>_time.<dlocal._for>> <LIST.<account>_message.<dlocal._for>>
+		list.<account>_message.<dlocal._for>.remove 
+		list.<account>_sender.<dlocal._for>.remove 
+		list.<account>_time.<dlocal._for>.remove
+		else
+    	dhtmlgump 12 <eval (44 + ((<local._for> % 5) * 80)> 350 70 1 1 <QVAL (<uid.<LIST.<src.account>_sender.<dlocal._for>>.account.plevel> < 2)? [<uid.<LIST.<account>_sender.<dlocal._for>>.name>]:<def.BFONT_RED>[<uid.<LIST.<account>_sender.<dlocal._for>>.name>]> <list.<account>_time.<dlocal._for>> <LIST.<account>_message.<dlocal._for>>
+        endif
+		if (<uid.<LIST.<src.account>_sender.<dlocal._for>>.account.plevel> < 2)
+        	button 370 <eval ((24 + ((<local._for> % 5) * 80)) + 24)> 0fa5 0fa7 1 0 <eval (<local._for> + 1)> //reply
+			button 370 <eval ((44 + ((<local._for> % 5) * 80)) + 44)> 4017 4018 1 0 <eval (<local._for> + 1001)> //delete
+	else		
+		if !<def.gm_one_way>
+        		button 370 <eval ((24 + ((<local._for> % 5) * 80)) + 24)> 0fa5 0fa7 1 0 <eval (<local._for> + 1)> //reply
+			button 370 <eval ((44 + ((<local._for> % 5) * 80)) + 44)> 4017 4018 1 0 <eval (<local._for> + 1001)> //delete
+		else
+			button 370 <eval ((44 + ((<local._for> % 5) * 80)) + 44)> 4017 4018 1 0 <eval (<local._for> + 1001)> //delete	
+		endif			
+        endif
+    endfor
+else
+dtext 12 44 2100 Hiç bir mesajınız bulunmuyor.
+endif
+
+[DIALOG d_inbox BUTTON]
+ON=0
+if <def.perisitent_notification>
+	if <LIST.<src.account>_message.COUNT>
+		src.dialog d_pm_notify
+	endif
+endif
+
+ON=1,999 //reply
+if (<uid.<LIST.<src.account>_sender.<eval (<argn>-1)>>>==0)
+	list.<src.account>_message.<eval (<argn>-1)>.remove 
+	list.<src.account>_sender.<eval (<argn>-1)>.remove 
+	list.<src.account>_time.<eval (<argn>-1)>.remove
+	src.sysmessage @,,1 Böyle bir kullanıcı bulunmamaktadır.
+	return 1
+else
+	src.ctag0.receiver=<uid.<list.<src.account>_sender.<eval (<argn>-1)>>>
+	src.dialog d_playermsg
+endif
+if <def.perisitent_notification>
+	if <LIST.<src.account>_message.COUNT>
+		src.dialog d_pm_notify
+	endif
+endif
+
+if (<uid.<src.ctag0.receiver>.account.plevel> > 1) || <def.reply_delete>
+	list.<src.account>_message.<eval (<argn>-1)>.remove 
+	list.<src.account>_sender.<eval (<argn>-1)>.remove 
+	list.<src.account>_time.<eval (<argn>-1)>.remove 
+endif
+
+ON=1001,2001 //delete
+list.<src.account>_message.<eval (<argn>-1001)>.remove 
+list.<src.account>_sender.<eval (<argn>-1001)>.remove 
+list.<src.account>_time.<eval (<argn>-1001)>.remove 
+if <LIST.<src.account>_message.COUNT>
+		src.dialog d_inbox
+endif
+
+
+///////////////FRIENDLIST PLUGIN
+
+[function friends]
+src.dialog d_friends
+
+[DIALOG d_friends]
+100,100
+nomove
+
+page 0 // Basic layout
+gumppictiled 0 0 410 340 0a40
+
+resizepic 1 1 2620 408 338
+checkertrans 1 1 408 338
+dtext 180 20 69 <serv.servname>  
+dtext 120 55 38  Arkadas Listesi: <qval <isempty <LIST.<account>_friends.COUNT>> ? 0: <LIST.<account>_friends.COUNT>> / <ddef.max_friends>
+
+page 1 // Player data
+dtext 30 80 69 Mesaj
+dtext 75 80 69 Karakter ismi
+dtext 350 80 38 Sil
+if <LIST.<account>_friends.COUNT>
+page 1
+    for 0 <eval (<LIST.<account>_friends.COUNT> - 1)>
+        if (<local._for> >= 5) && (<eval (<local._for> % 5)> == 0)
+        	button 368 12 0fa5 0fa7 0 <eval ((<local._for> / 5) + 1)>
+        	dtext 305 12 38 Ileri
+        	page <eval ((<local._for> / 5) + 1)>
+        	button 12 12 0fae 0fb0 0 <eval (<local._for> / 5))>
+        	dtext 42 12 38 Geri
+        endif
+    	dtext 75 <eval 100 +<local.y>> 38 <uid.<LIST.<account>_friends.<dlocal._for>>.name> 
+       	button 30 <eval 100 +<local.y>> 0fa5 0fa7 1 0 <eval (<local._for> + 1)> //msg
+	button 350 <eval 100 +<local.y>> 4017 4018 1 0 <eval (<local._for> + 101)> //rmv friend
+	local.y += 20
+    endfor
+else
+dtext 80 150 2100 Henuz bir arkadasiniz bulunmuyor
+endif
+
+[DIALOG d_friends BUTTON]
+ON=1,99 //msg
+src.ctag0.receiver=<uid.<list.<src.account>_friends.<eval (<argn>-1)>>>
+src.dialog d_playermsg
+
+ON=101,199 //remove
+local.defriend=<uid.<list.<src.account>_friends.<eval (<argn>-101)>>>
+LIST.<src.account>_friends.<eval (<argn>-101)>.REMOVE
+LIST.<uid.<local.defriend>.account>_friends.<LIST.<uid.<local.defriend>.account>_friends.FINDELEM <src.uid>>.REMOVE
+src.sysmessage @,,1 <uid.<local.defriend>.name> arkadas listenizden cikartildi
+src.sysmessage @,,1 Bu kisiye offline olarak mesaj gondermeniz bundan sonra mumkun olmayacaktir.
+src.dialog d_friends
+
+[function arkadasekle]
+targetf f_friend <src.uid>
+src.sysmessage @,,1 Arkadas eklemek istediginiz kisiyi seciniz.
+
+[FUNCTION f_friend]
+local.request=<args>
+if (<argo.uid>==<local.request>)
+	src.sysmessage @,,1 Kendinizi arkadas ekleyecek kadar mi yanlizsiniz?
+	return 1
+endif
+if (<eval <LIST.<src.account>_friends.COUNT>-1> < <ddef.max_friends>)
+	if (<serv.LIST.<src.account>_friends.FINDELEM <argo.uid>> == -1)
+		src.sysmessage @,,1 <argo.name> zaten sizin arkadas listenizde bulunmaktadir.
+		return 1
+	else
+		src.sysmessage @,,1 Arkadas istegi gonderildi!
+		argo.ctag0.friend_request <local.request>
+		trysrc <argo.uid> dialog d_friend_request
+	endif
+else
+	src.sysmessage @,,1 Arkadas listeniz dolu !
+	src.sysmessage @,,1 Tekrar arkadas ekleyebilmeniz icin listenizden bazi kisileri silmeniz gerekmektedir.
+	return 1
+endif
+
+[DIALOG d_friend_request]
+100,100
+noclose
+page 0 // Basic layout
+gumppictiled 0 0 310 180 0a40
+//
+resizepic 1 1 2620 308 178
+checkertrans 1 1 308 178
+dtext 85 20 69 Arkadaşlik Isteğiniz var !
+dtext 60 50 38 Arkadaşlık isteği gönderen kişi:
+dtext 140 80 69 <uid.<src.ctag0.friend_request>.name>
+button 80 130 0fa5 0fa5 1 0 1 
+dtext 110 130 38 Kabul Et
+button 180 130 4017 4018 1 0 0 
+dtext 210 130 38 Reddet
+
+[DIALOG d_friend_request BUTTON]
+on=0
+trysrc <src.ctag0.friend_request> sysmessage @,,1 Arkadaşlık isteğiniz reddedilmiştir.
+ON=1
+if (<eval <LIST.<account>_friends.COUNT>-1> < <ddef.max_friends>)
+	LIST.<src.account>_friends.add <src.ctag0.friend_request>
+	list.<uid.<src.ctag0.friend_request>.account>_friends.add <src.uid>
+	src.sysmessage @,,1 <uid.<src.ctag0.friend_request>.name> arkadasiniz olarak eklendi.
+	src.sysmessage @,,1 Bu kişiye offline olarak mesaj gonderebilirsiniz.
+	trysrc <src.ctag0.friend_request> sysmessage @,,1 Arkadaşlık isteğiniz kabul edilmiştir.
+	trysrc <src.ctag0.friend_request> sysmessage @,,1 Bu kisiye artik offline olarakta mesaj gonderebilirsiniz.	
+else
+	src.sysmessage @,,1 Arkadaş listeniz dolu!
+	src.sysmessage @,,1 Daha fazla arkadaş eklemek için listenizden bazı kişileri silmeniz gerekmektedir.
+	return 1
+endif
+
+[EOF]
+
+

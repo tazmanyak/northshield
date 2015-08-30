@@ -1,0 +1,489 @@
+
+[function balik_reset]
+IF !(<rtime.day> == <VAR0.last_stok_reset>)
+	VAR.last_stok_reset <rtime.day>
+	var.balik_satilan 0
+	var.balik_fiyat 5
+	var.balik_reset <serv.rtime>
+	duyurx Tüccar birliği balık stoklarının tükendiğini bildirdi.
+	serv.log <serv.rtime> - Balik Stok Restart atildi.
+endif
+
+
+[DIALOG d_stok_balik]
+0,0
+page 0
+resizepic 8 35 9200 390 242
+checkertrans 8 35 390 242
+text 73 47 50 0
+gumppictiled 58 70 316 5 9278
+text 114 86 38 1
+text 112 146 38 2
+text 121 211 38 3
+gumppictiled 54 112 316 5 9278
+gumppictiled 55 172 316 5 9278
+gumppictiled 56 233 316 5 9278
+text 176 124 69 4
+text 196 188 69 5
+text 136 247 69 6
+
+[DIALOG d_stok_balik text]
+North Shield Tüccar Birliği Genel Stok Takibi
+Gün boyu satılan balık miktarı:
+Güncel pişmiş balık satış fiyatı
+Son stok resetlenme zamanı:
+<bolukayir <eval <var.balik_satilan>>> adet
+<eval <var.balik_fiyat>> gp
+<var.balik_reset>
+
+[DIALOG d_stok_balik button]
+
+
+[function balik_stock_reset]
+var.balik_satilan 0
+var.balik_fiyat 7
+var.balik_reset <serv.rtime>
+
+
+
+
+[function seller_sistem_kurulum]
+ctag.serverpara 0
+var.toppara 0
+f_option_mysql 0
+db.connect
+db.execute "create table seller_sistem (id int unsigned not null auto_increment primary key,uid text,hesap text,isim text,aktifsure text,toplampara int);"
+sysmessage @07ad Seller Vendor Sistemi Kuruldu...
+db.close
+
+[function guncelle]
+f_option_mysql 0
+db.connect
+ctag.aktifsure <eval (<account.totalconnecttime> / 60)>
+db.query "update seller_sistem set toplampara=<eval <tag0.mypara>>, hesap='<account.name>', aktifsure=<eval <ctag0.aktifsure>>, isim='<name>' where uid='<uid>'"
+ctag.aktifsure
+db.close
+
+
+[function guncelle_general]
+
+for x 0 <eval <serv.accounts> -1>
+	for y 0 5
+		serv.account.<dlocal.x>.char.<dlocal.y>.guncelle
+	endfor
+endfor
+
+[function seller]
+if <isgm>
+  src.seller_menu_ac
+endif
+src.sys_error Neyi satmak istiyorsunuz ?
+src.targetf=muro_satis
+return 1
+if <isgm>
+  src.seller_menu_ac
+  return 1
+endif
+if (<eval <tag0.tablogirdisi>==1>
+src.seller_menu_ac
+else
+ctag.aktifsure <eval (<account.totalconnecttime> / 60)>
+ctag.toplampara 0
+f_option_mysql 0
+db.connect
+db.execute "insert into seller_sistem (id, uid, hesap, isim, aktifsure, toplampara) VALUES (NULL, '<uid>', '<account.name>', '<name>', '<eval <ctag0.aktifsure>>', '<eval <ctag0.toplampara>>');"
+sysmessage @07ad Tuccar Sistemine Kayit Edildiniz...
+tag.tablogirdisi 1
+src.seller_menu_ac
+db.close
+return 1
+endif
+
+[function seller_menu_ac]
+if <isempty <ctag.listele>>
+src.ctag.listele toplampara
+endif
+src.ctag.anasayfa 0
+sdialog d_seller_menu
+
+[dialog d_seller_menu]
+50, 10
+page 0
+resizepic 0 0 9200 560 460	
+gumppictiled 10 10 540 440 2624
+
+resizepic 110 50 5120 5 295 
+resizepic 300 50 5120 5 295
+resizepic 420 50 5120 5 295
+resizepic 30 50 5120 5 345
+resizepic 520 50 5120 5 345
+
+resizepic 30 85 5120 495 5
+resizepic 30 50 5120 495 5
+resizepic 30 340 5120 495 5
+resizepic 30 365 5120 495 5
+resizepic 30 390 5120 495 5
+
+dtext 150 20 0b6 <serv.servname> Tuccar Birligi En Cok Satanlar
+dtext 60 60 09b Sira
+dtext 180 60 09b Oyuncu
+dtext 345 60 09b Satis
+dtext 430 60 09b Aktif Sure
+
+
+if (strlen(<eval <var0.toppara>>) = 9)
+  dtext 40 345 03a Tuccarlar toplamda yaklasik <strsub 0 3 <eval <var0.toppara>>> m altinlik alis yapmistir.
+endif
+
+
+if (strlen(<eval <tag0.mypara>>) = 4)
+  dtext 40 370 03a Tuccarlar sizden <strsub 0 1 <eval <tag0.mypara>>> k <strsub 1 4 <eval <tag0.mypara>>> gp altinlik alis yapmistir
+
+elif (strlen(<eval <tag0.mypara>>) = 5)
+  dtext 40 370 03a Tuccarlar sizden <strsub 0 2 <eval <tag0.mypara>>> k <strsub 2 5 <eval <tag0.mypara>>> gp altinlik alis yapmistir
+
+elif (strlen(<eval <tag0.mypara>>) = 6)
+  dtext 40 370 03a Tuccarlar sizden <strsub 0 3 <eval <tag0.mypara>>> k <strsub 3 6 <eval <tag0.mypara>>> gp altinlik alis yapmistir
+
+elif (strlen(<eval <tag0.mypara>>) = 7)
+  dtext 40 370 03a Tuccarlar sizden <strsub 0 1 <eval <tag0.mypara>>> m <strsub 1 3 <eval <tag0.mypara>>> k <strsub 3 6 <eval <tag0.mypara>>> gp altinlik alis yapmistir
+
+elif (strlen(<eval <tag0.mypara>>) = 8)
+  dtext 40 370 03a Tuccarlar sizden <strsub 0 2 <eval <var0.toppara>>> m <strsub 2 3 <eval <var0.toppara>>> k <strsub 5 7 <eval <var0.toppara>>> gp altinlik alis yapmistir
+else
+  dtext 40 370 03a Tuccarlar sizden <eval <tag0.mypara>> gp altinlik alis yapmistir
+endif
+
+//dtext 40 370 03a Tuccarlar sizden <eval <tag0.mypara>> /1000> k Altinlik Alis Yapmistir.
+
+
+
+
+f_option_mysql 0
+db.connect
+db.query "select * from seller_sistem order by <ctag.listele> desc limit <eval <ctag.anasayfa>>,<eval <ctag.anasayfa>+15>";
+
+for k 0 14
+local.x=((<dlocal.k>*15)+90)
+dtext 40 <dlocal.x> 023a <eval <dlocal.k>+1>.
+endfor
+
+for z 0 15
+if <db.row.<dlocal.z>.uid>
+local.x=((<dlocal.z>*15)+90)
+//dtext 40 //<dlocal.x> 023a <db.row.<dlocal.z>.uid>
+dtext 120 <dlocal.x> 023a <db.row.<dlocal.z>.isim>
+
+var.satis_isim_<dlocal.z> <db.row.<eval <local.z>-1>.isim>
+
+
+
+if (strlen(<eval <db.row.<dlocal.z>.toplampara>>) = 4)
+  dtext 310 <dlocal.x> 023a <strsub 0 1 <eval <db.row.<dlocal.z>.toplampara>>> k //<strsub 1 4 <eval <db.row.<dlocal.z>.toplampara>>> gp
+  var.satis_parasi_<dlocal.z> <strsub 0 1 <eval <db.row.<eval <local.z>-1>.toplampara>>> k
+elif (strlen(<eval <db.row.<dlocal.z>.toplampara>>) = 5)
+  dtext 310 <dlocal.x> 023a <strsub 0 2 <eval <db.row.<dlocal.z>.toplampara>>> k //<strsub 2 5 <eval <db.row.<dlocal.z>.toplampara>>> gp
+  var.satis_parasi_<dlocal.z> <strsub 0 2 <eval <db.row.<eval <local.z>-1>.toplampara>>> k
+elif (strlen(<eval <db.row.<dlocal.z>.toplampara>>) = 6)
+  dtext 310 <dlocal.x> 023a <strsub 0 3 <eval <db.row.<dlocal.z>.toplampara>>> k //<strsub 3 6 <eval <db.row.<dlocal.z>.toplampara>>> gp
+  var.satis_parasi_<dlocal.z> <strsub 0 3 <eval <db.row.<eval <local.z>-1>.toplampara>>> k
+elif (strlen(<eval <db.row.<dlocal.z>.toplampara>>) = 7)
+  dtext 310 <dlocal.x> 023a <strsub 0 1 <eval <db.row.<dlocal.z>.toplampara>>> m <strsub 1 3 <eval <db.row.<dlocal.z>.toplampara>>> k //<strsub 4 7 <eval <db.row.<dlocal.z>.toplampara>>> gp
+  var.satis_parasi_<dlocal.z> <strsub 0 1 <eval <db.row.<eval <local.z>-1>.toplampara>>> m <strsub 1 3 <eval <db.row.<eval <local.z>-1>.toplampara>>> k
+elif (strlen(<eval <db.row.<dlocal.z>.toplampara>>) = 8)
+  dtext 310 <dlocal.x> 023a <strsub 0 2 <eval <var0.toppara>>> m <strsub 2 3 <eval <var0.toppara>>> k // <strsub 5 7 <eval <var0.toppara>>> gp
+  var.satis_parasi_<dlocal.z> <strsub 0 2 <eval <var0.toppara>>> m <strsub 2 3 <eval <var0.toppara>>> k
+else
+  dtext 310 <dlocal.x> 023a <eval <db.row.<dlocal.z>.toplampara>> gp
+  var.satis_parasi_<dlocal.z> <eval <db.row.<eval <local.z>-1>.toplampara>>
+endif
+
+
+
+dtext 430 <dlocal.x> 023a <db.row.<dlocal.z>.aktifsure> saat
+var.satis_aktifsure_<dlocal.z> <db.row.<eval <local.z>-1>.aktifsure> saat
+ctag0.bakalim <eval <db.row.<dlocal.3>.toplampara>>
+endif
+endfor
+
+//button 240 410 4015 4016 1 0 1
+//button 290 410 4006 4007 1 0 2
+button 30 410 4012 4013 1 0 3
+//dtext 200 410 09b Geri
+//dtext 330 410 09b Ileri
+dtext 65 410 09b Satis Yap
+db.close
+[dialog d_seller_menu button]
+on=0
+src.sysmessage @0810 Satis Menusu Kapandi...
+
+on=1
+if <ctag.anasayfa> > 0
+ctag.anasayfa -=15
+endif
+sdialog d_seller_menu
+return 1
+on=2
+ctag.anasayfa +=15
+sdialog d_seller_menu
+return 1
+on=3
+targetf=muro_satis
+src.sysmessage @07ad Neyi Satacaksin?
+
+[chardef c_tuccar_muro]
+defname c_tuccar_muro
+name Kevin , The Item Buyer
+id c_man
+desires=i_gold,t_wand,t_reagent,t_bone
+tspeech=tuccarmuro
+tspeech=spk_human_prime
+tspeech=spk_human_default
+
+on=@click
+message @038,1,1 [ Item Alici ]
+message @0812 <name>
+return 1
+
+on=@hunger
+return 1
+
+on=@dclick
+if (<distance><=3)
+src.closealldialogs
+src.dialog d_stok_balik
+src.seller
+return 1
+else
+src.sysmessage @,,1 Biraz yaklaşın lütfen. 
+return 1
+endif
+
+
+
+return 1
+
+On=@Create
+npc 1
+str 500
+dex 0
+int 0
+stam 0
+invul 1
+color=0841c
+speechcolor=0810
+food=500
+taming={1000.5 1000.6}
+
+itemnewbie=i_robe
+color=0455
+itemnewbie=i_hair_short
+color=01
+itemnewbie=i_beard_short_med
+color=01
+itemnewbie=i_torch_lit
+itemnewbie=random_shoes
+color=0455
+
+[function muro_satis]
+ref1=<src.targ.uid>
+
+if !<argo.isitem>
+	if (<argo.body>==c_man) || (<argo.body>==c_woman)
+		//src.sysmessage @33,,1 Imkansiz.
+		return 1
+	endif
+
+if (<argo.memoryfindtype.memory_ipet>)
+	if (<argo.memoryfindtype.memory_ipet.link>==<src.uid>)
+		local.degeri = <eval (<argo.hits>+<argo.stam>)*2>
+		
+		if (<eval <local.degeri>> > 5000)
+			local.degeri = 5000
+		endif
+
+		serv.writefile C:\North_Player_Log_Arsivi\Hayvan_Satisi\<src.account>.txt <eval <local.degeri>> Gold degerinde satis yapti, Npc= <argo.name> , Karakter adi <src.name>
+		serv.writefile C:\North_Player_Log_Arsivi\Hayvan_Satisi\<src.account>.txt Tarih: <serv.rtime>  ---- Yer: <src.p> (<src.region.name>)
+		serv.writefile C:\North_Player_Log_Arsivi\Hayvan_Satisi\<src.account>.txt ---------------------------------------------------------------------------
+
+		ctag.mipara 	<eval <local.degeri>>
+		tag.mypara 	<eval <ctag0.mipara>+<tag0.mypara>>
+		var.toppara 	<eval <ctag0.mipara>+<var0.toppara>>
+
+		paramiz 	<eval <local.degeri>>
+		sysmessage @,,1 Hayvanına <eval <local.degeri>> altin verdim...
+
+		src.guncelle
+		if <distance> < 15
+		targetf=muro_satis
+		endif
+		obj=<argo.uid>
+		obj.remove
+
+		return 1
+	else
+		src.sysmessage @,,1 Bu size ait değil.
+		return 1
+	endif
+else
+	sysmessage @,,1 Evcilleştirilmemiş.
+	return 1
+endif
+
+endif
+
+
+if (<argo.uid> == <src.findlayer.29.uid>)
+	src.sysmessage @,,1 Bankadan satış yapamazsınız.
+	return 1
+elseif !(<argo.topobj.uid> == <src.uid>)
+src.sysmessage @,,1 Eşya çantanızda olmalı.
+//return 1
+elseif !(<argo.isitem>
+sysmessage @,,1 Alabileceğim türden bir eşya değil...
+elseif (<argo.type> == t_gold)
+sysmessage @,,1 Para karşılığı item satmıyorum.Item karşılığı para veriyorum...
+elseif (<argo.baseid> == i_backpack)
+sysmessage @,,1 Çantanızı satarsanız siz ne yapacaksınız?
+elseif (<argo.baseid> == i_robe)
+sysmessage @,,1 Maalesef bunu alamam.
+//elseif (<argo.type> == t_potion)
+//sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_figurine)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.baseid> == i_kulucka)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_armor)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_figurine)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_container)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_reagent)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_bandage)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.type> == t_fruit)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.dispid> == i_bandage)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.dispid> == i_deed)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.dispid> == i_rune_marker)
+sysmessage @,,1 Maalesef bunu alamam.
+elseif (<argo.baseid> == i_kulucka)
+sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.baseid> == i_arrow)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.baseid> == i_pickaxe)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_ore)
+//sysmessage @0810 Eritip satsan daha cok kazanirsin.
+
+//elseif (<argo.type> == t_weapon_fence)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_sword)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_bow)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_xbow)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_axe)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_mace_staff)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_mace_Smith)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+//elseif (<argo.type> == t_weapon_mace_Sharp)
+//sysmessage @,,1 Maalesef bunu alamam.
+
+
+
+elseif (<argo.attr>&attr_newbie)
+sysmessage @,,1 Prensip gereği newbie eşyaları alamıyorum...
+elseif !(<argo.value>)
+sysmessage @,,1 Beş para etmez eşyaları satmaya utanmıyor musun?..
+elseif (<eval <argo.amount>> > 5000)
+sysmessage @,,1 Tek seferde 5000 adet eşyadan daha fazlasını alamam..
+elseif (<eval <argo.value>*<argo.amount>> > 65000)
+sysmessage @,,1 Bir seferde 65k'dan fazla tutan mal alışlarını yapmıyorum...
+return 1
+else
+if <argo.baseid> == i_fish_cut_cooked
+var.balik_satilan += <argo.amount>
+endif
+
+if <eval <var.balik_satilan>> < 500000
+	var.balik_fiyat 5
+endif
+
+if (<eval <var.balik_satilan>> > 500000) && (<eval <var.balik_satilan>> < 1000000)
+	var.balik_fiyat 3
+endif
+
+if (<eval <var.balik_satilan>> > 1000000) && (<eval <var.balik_satilan>> < 2000000)
+	var.balik_fiyat 2
+endif
+
+if (<eval <var.balik_satilan>> > 2000000)
+	var.balik_fiyat 1
+endif
+
+if <argo.baseid> == i_fish_cut_cooked
+paramiz <eval <var.balik_fiyat>>*<argo.amount>
+sysmessage @0810 Mallariniza <eval <var.balik_fiyat>>*<argo.amount> altin verdim...
+else
+paramiz <eval <argo.value>*<argo.amount>>
+sysmessage @0810 Mallariniza <eval <argo.value>*<argo.amount>> altin verdim...
+endif
+ctag.mipara <eval <argo.value>*<argo.amount>>
+tag.mypara <eval <ctag0.mipara>+<tag0.mypara>>
+var.toppara <eval <ctag0.mipara>+<var0.toppara>>
+//src.guncelle
+targetf=muro_satis
+obj=<argo.uid>
+obj.remove
+
+
+serv.writefile C:\Sphere\Tuccar\<src.account>.txt <eval <argo.value>*<argo.amount>> degerinde satis yapti, Esya= <argo.name> , Karakter adi <src.name>
+serv.writefile C:\Sphere\Tuccar\<src.account>.txt Tarih: <serv.rtime>  ---- Yer: <src.p> (<src.region.name>)
+serv.writefile C:\Sphere\Tuccar\<src.account>.txt ---------------------------------------------------------------------------
+
+endif
+
+[speech tuccarmuro]
+on=*sell*
+//if (<src.tag.ellesme>)
+//src.sysmessage @69,1,1 Cakalligin sirasi deil kizdirma beni / Avatar.
+//return 1
+//endif
+src.seller
+On=*sat*
+src.seller
+
+
+
+[FUNCTION paramiz]
+if (<args> > 0)
+serv.newitem i_gold
+if (<args> > 65000)
+new.amount=65000
+new.bounce
+paramiz <eval <args>-<new.amount>>
+else
+new.amount=<args>
+new.bounce
+endif
+endif
+
+[EOF]

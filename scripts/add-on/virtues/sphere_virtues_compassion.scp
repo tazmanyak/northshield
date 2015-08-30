@@ -1,0 +1,23 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+// Fired on the player when it completes and escort
+// Should add Compassion points in here.
+[function f_compassion_escort]
+if <tag0.virtue_2> >= 20000
+sysmessage 1053003 // You have achieved the highest path of compassion and can no longer gain any further.
+endif
+
+local.path = <gainvirtue 2,200>
+if <local.path>
+sysmessage @,,2 1053005 // You have achieved a path in compassion!
+else
+sysmessage @,,2 1053002 // You have gained in compassion.
+endif
+
+[eof]

@@ -1,0 +1,80 @@
+﻿
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[typedef t_yem]
+on=@dclick
+src.sysmessage @,,1 Tohumu ekmek istediginiz saksiyi seciniz. // select a bowl etc. etc.
+target
+return 1
+
+on=@targon_item
+if (<src.targ.type>==t_plant_base)
+	if !(<src.targ.tag0.m_dirt>) && !(<src.targ.tag0.m_fertiledirt>)
+	src.targ.message @,,2 1061919 // no dirt wtf etc..
+	return 1
+	endif
+	if (<src.targ.tag0.m_status>)
+	src.targ.message @03c1,6,1,1 Saksida zaten tohum mevcut.
+	return 1
+	endif
+	if (<src.targ.tag0.m_water> < 2)
+	src.targ.message @,,1 Topgragin yumusatilmasi gerekiyor.// dirt must be softened.
+	return 1
+	endif
+	if (<src.targ.topobj.uid> == <src.uid>)
+	src.targ.message @03c1,6,1,1 Evinize saksiyi sabitlemeniz gerekmektedir.
+	return 1
+	endif
+	if (<src.targ.distance> > 2)
+	src.targ.message @,,1 Ulasamiyorsunuz. // too far away.
+	return 1
+	endif
+	if !(<src.targ.isaccessible>)
+	src.targ.message @03c1,6,1,1 Bunu yapmaya yetkiniz yok.// YOU HAVE NO ACCESS TO THIS.
+	return 1
+	endif
+src.targ.tag0.m_indicator=2
+src.targ.tag0.m_status += 1
+src.targ.tag0.m_planttype=<tag0.m_planttype>
+src.targ.tag0.m_planthue=<tag0.m_planthue>
+src.targ.tag0.m_leftseeds <eval <tag0.m_leftseeds>+8>
+src.targ.tag0.m_leftresources <eval <tag0.m_leftresources>+8>
+src.targ.bhits=<src.targ.bmaxhits>
+src.targ.timer=60*60*23
+src.targ.morez=0
+src.sysmessage @,,1 Tohumu saksiya ektiniz. // you plant it etc.
+remove
+return 1
+endif
+
+
+[itemdef i_Seed_plain]
+id=0dcf
+name=plain seed
+type=t_yem
+
+on=@create
+tag0.m_planttype=<bgeneratetype>
+tag0.m_planthue=<bGenerateHue>
+color=<def.planthue_<dtag0.m_planthue>_hue>
+
+on=@click
+if (<tag0.showtype>)
+message [Special <def.planthue_<dtag0.m_planthue>_name> seed]
+endif
+
+[eof]

@@ -1,0 +1,20 @@
+﻿[DIALOG d_SAVING_DLG]
+180,340
+noclose
+nomove
+
+PAGE 0
+resizepic 10 10 5120 280 100
+checkertrans 10 10 280 100
+tilepic 30 30 4168
+dtext 80 25 55 Dünya kaydediliyor...
+dtext 80 45 55 Bu işlem biraz zaman
+dtext 80 65 55 alabilir.
+
+[FUNCTION CLOSESAVINGDLG]
+TRYSRC <UID> SRC.DIALOGCLOSE D_SAVING_DLG
+
+
+[FUNCTION CLOSESECMELIDLG]
+TRYSRC <UID> SRC.DIALOGCLOSE d_oto_etkinlik_secim
+[EOF]

@@ -1,0 +1,14 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: Sábado, 08 de Mayo de 2010
+VERSION=0.56b
+
+[TYPEDEF t_treasure_tile]
+@destroy
+ref1=<link.uid>
+ref1.tag.removed 1
+
+[eof]

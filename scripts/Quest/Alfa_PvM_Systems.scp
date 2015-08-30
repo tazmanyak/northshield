@@ -1,0 +1,2422 @@
+// All stuff related to PvM like NPC events, damage functions
+// etc is stored here. 
+
+// 12.05.2009, SomeBody: file created
+// 16.05.2009, SomeBody: enhancements to increase difference in attack between monster levels
+//  7.06.2009, SomeBody: boss summon delay decreased to 12h
+//  1.10.2009, SomeBody: Treasure Map system added
+// 28.11.2009, SomeBody: NPC damage/defence penalty/bonus added
+
+// LAST UPDATED: 07.12.2010
+
+// !!!!!!!!TODO : VERNUT DELAY BOSSA  (2 mesta)
+
+[DEFNAME def_pvm_delays]
+boss_summon_delay    432000  // 12h (in tenths of a sec)
+
+[DEFNAME def_treasure_maps]
+treasure_map_tiles  {01777 1  0177b 1  01773 1  0177c 1  01778 1  01774 1}
+
+
+//================================== Types =====================================
+[TYPEDEF t_pvm_treasure_map]
+ON=@Dclick
+  if !(0<cont> == <src.findlayer(21).uid>) && !(<src.isgm>)
+    src.sysmessage @55 This must be in your pack to use!
+    return 1
+  endif
+  if <more>  // already configured
+    return 0
+  endif
+  if (<more2> < 1) || (<more2> > 5)
+    src.sysmessage @55 This map is broken
+    serv.log 'WARNING' Treasure map UID=<uid> is broken!
+    return 1
+  endif
+  // Place treasure
+  serv.newitem <def0.treasure_map_tiles>
+  more2 -= 1
+  new.type = t_pvm_treasure_chest
+  doswitch <more2>
+    new.more2 = 1
+    new.more2 = 2
+    new.more2 = 3
+    new.more2 = 4
+    new.more2 = 5
+  enddo
+  new.timer = -1
+  new.p = <morep>
+  new.z = <serv.map(<morex>,<morey>).terrain.z>
+  new.attr = attr_static | attr_move_never
+  new.link = <uid>
+  // Link map to treasure. Map will be removed if treasure is lost...
+  link = <new.uid>
+  // Draw map
+  more1l = <morey> +- 200 // top left Y
+  more1h = <morex> +- 200 // top left X
+  more2l = <morey> + 200  // bottom right Y
+  more2h = <morex> + 200 // bottom right X
+  pin = 100,100
+  return 0
+
+
+[TYPEDEF t_pvm_treasure_chest]  // more2 - chest level
+ON=@DClick
+  if <distance> > 2
+    return 1
+  endif
+  if (<link> == 04fffffff) 
+    return 1
+  endif
+  if !(0<link.cont> == <src.findlayer(21).uid>)
+    return 1
+  endif
+  if (<src.findlayer(1).baseid> == i_pickaxe_new)
+    f_add_treasure_chest <more2>
+    link.remove
+  endif
+  return 1
+
+
+//================================= Events =====================================
+[EVENTS e_npc_evil]
+ON=@Click
+  local.hue = 026
+  if <tag0.elite>
+    local.hue = 0445
+  endif
+  if <tag0.lvl>
+    message @50,,1 lvl <eval <tag0.lvl>> : [<hits>/<maxhits>]
+  else
+    message @50,,1 [<hits>/<maxhits>]
+  endif
+  message @<local.hue> <name> 
+  return 1
+
+ON=@GetHit
+  // Lower damage from poison
+  if (<argn2> = 04088) || (<argn2> = 088)
+    argn1 = {5 10}
+  endif
+  // Fix for poison not revealing
+  if <argn2> & 04000 
+    argn2 = <argn2> &~ 04000
+  endif
+  // Magic Resistance
+  if <argn2> & 04 
+    call f_npc_magic_resist
+  // Scripted DMG
+  elseif (<argn2> & 02) && (<argn1> >= 20) 
+    // Physical DGM modif
+    call f_npc_get_dmg_modif
+    argn2 = (<argn2> &~ 02) | 01
+  endif
+  // Show damage done
+  message @56 <argn1>
+  return 0
+
+ON=@Hit
+  argn1 = {<dam>}
+  call f_npc_dmg_modif
+  return 0
+
+ON=@SpellEffect
+  // Resist Paralize Field & Invisibility
+  if (<argn1> == 47) || (<argn1> == 44)
+    effect 3,i_fx_glow,1,10        
+    return 1
+  // Resist Paralize for lvl 4+ mobs. For lvl 1-3 mobs paralyze time = 10s
+  elseif (<argn1> == 38)
+    if (<tag0.lvl> >= 4)
+      effect 3,i_fx_glow,1,10        
+      return 1
+    else
+      if <findid.i_npc_paralyze_remover>
+        findid.i_npc_paralyze_remover.timer = 8
+      else
+        serv.newitem i_npc_paralyze_remover
+        new.cont = <uid>
+      endif
+    endif
+  // Resist Poison field, earthquake and explosion
+  elseif (<argn1> == 39) || (<argn1> == 57) || (<argn1> == 43)
+    return 1
+  endif
+  return 0
+
+ON=@DeathCorpse
+  // Set timer for spawn item
+  if <memoryfindtype.memory_ispawned>
+    memoryfindtype.memory_ispawned.link.timer = ({<memoryfindtype.memory_ispawned.link.morex> <memoryfindtype.memory_ispawned.link.morey>} * 60)
+  endif
+  // Setup loot restriction
+  argo.tag.killer_uid = <f_find_max_attacker>
+  // Drop loot
+  if (<tag0.lvl>) && !(<tag0.no_loot>)
+    if <tag0.elite>
+      f_alfa_generic_elite_loot <argo.uid> <tag0.lvl>
+      if <def0.NY_EVENTS>
+        f_alfa_ny_elite_loot <argo.uid> <tag0.lvl>
+      endif
+    else
+      f_alfa_generic_loot <argo.uid> <tag0.lvl>
+    endif
+  endif
+  return 0 
+ 
+
+//===================== Zone Specific Loot events/funcs ========================
+//---- Moonglow: Cemetery ----
+[EVENTS e_moonglow_cemetary_loot]
+ON=@DeathCorpse
+  f_moonglow_cemetary_loot <argo.uid> <tag0.elite>
+  return 0 
+
+
+[FUNCTION f_moonglow_cemetary_loot] // argn1 - container uid; argn2 = 1 - elite, 0 - not elite
+if <argn2>
+  serv.newitem moonglow_cemetary_loot_elite
+else
+  serv.newitem moonglow_cemetary_loot
+endif
+new.cont = <argn1>
+return 1
+
+[FUNCTION f_moonglow_cemetary_loot_boss] // argn1 - container uid
+serv.newitem alfa_generic_boss_loot
+new.cont = <argn1>
+serv.newitem moonglow_cemetary_loot_boss_low
+new.cont = <argn1>
+serv.newitem moonglow_cemetary_loot_boss_high
+new.cont = <argn1>
+return 1
+
+
+//---- Moonglow: Pirates ----
+[EVENTS e_moonglow_pirates_loot]
+ON=@Death
+  if (<act.tag0.sq_merchant>) && !(<act.findid.i_sq_treasure_map>) && !(<act.findlayer(29).findid.i_sq_treasure_map>)
+    if <act.tag0.sq_merchant> <= 1
+      tag.drop_sq_merchant = 1
+      act.tag0.sq_merchant = <R5,10> // just for the case the map will not be looted 
+    else
+      act.tag0.sq_merchant -= 1
+    endif
+  endif
+  return 0
+
+ON=@DeathCorpse
+  // Drop quest treasure map
+  if <tag0.drop_sq_merchant>
+    serv.newitem i_sq_treasure_map
+    new.cont = <argo.uid>
+  endif
+  return 0 
+
+
+//---- Cyclops Valley ----
+[EVENTS e_cyclop_titan_loot]
+ON=@DeathCorpse
+  f_cyclop_titan_loot <argo.uid> <tag0.elite>
+  return 0 
+
+
+[FUNCTION f_cyclop_titan_loot] // argn1 - container uid; argn2 = 1 - elite, 0 - not elite
+if <argn2>
+  serv.newitem cyclop_titan_loot_elite
+  new.cont = <argn1>
+endif
+return 1
+
+
+[FUNCTION f_cyclop_valley_loot_boss] // argn1 - container uid
+serv.newitem alfa_generic_boss_loot
+new.cont = <argn1>
+serv.newitem cyclop_valley_loot_boss_low
+new.cont = <argn1>
+serv.newitem cyclop_valley_loot_boss_high
+new.cont = <argn1>
+return 1
+ 
+
+//=============================== Functions ====================================
+// Spawn treasure chest
+[FUNCTION f_add_treasure_chest]	// <argn> - level of treasure
+src.anim 11
+sfx 0126
+src.message @55 Treasure!!!
+src.sysmessage @55 What a lucky day! You have found a treasure!
+if <argn> == 5
+  serv.newitem tm_loot_5 //Treasure map random poor loot
+elseif <argn> == 4
+  serv.newitem tm_loot_4
+elseif <argn> == 3
+  serv.newitem tm_loot_3
+elseif <argn> == 2
+  serv.newitem tm_loot_2
+else
+  serv.newitem tm_loot_1
+endif
+new.p=<src.p>
+doswitch <src.dir>
+  src.move=0,1
+  src.move=-1,1
+  src.move=-1,0
+  src.move=-1,-1
+  src.move=0,-1
+  src.move=1,-1
+  src.move=1,0
+  src.move=1,1
+enddo
+remove
+return 1
+
+// Set treasure map coordinates: Moonglow
+[FUNCTION f_set_treasure_coords_moonglow]
+dorand 16
+  morep = <R4574,4615>,<R1297,1360> // spawn area 1
+  morep = <R4590,4634>,<R1371,1418> // spawn area 2
+  morep = <R4543,4548>,<R1407,1447> // spawn area 3
+  morep = <R4440,4519>,<R1415,1457> // spawn area 4 
+  morep = <R4454,4519>,<R1301,1341> // spawn area 5
+  morep = <R4441,4479>,<R1250,1273> // spawn area 6
+  morep = <R4509,4534>,<R1154,1241> // spawn area 7
+  morep = <R4584,4658>,<R1142,1164> // spawn area 8
+  morep = <R4666,4702>,<R1148,1162> // spawn area 9
+  morep = <R4592,4611>,<R1178,1225> // spawn area 10
+  morep = <R4502,4521>,<R1101,1141> // spawn area 11
+  morep = <R4454,4506>,<R970,1037>  // spawn area 12
+  morep = <R4522,4570>,<R972,1031>  // spawn area 13
+  morep = <R4507,4530>,<R878,926>   // spawn area 14
+  morep = <R4311,4349>,<R1025,1092> // spawn area 15
+  morep = <R4370,4388>,<R1192,1249> // spawn area 16
+enddo
+
+// Check if char is in PvM zone
+[FUNCTION f_is_pvm]
+if (<region.flags> & region_alfa_pvm_zone)
+  return 1
+else
+  return 0
+endif
+
+// Check if char is in Settlement zone
+[FUNCTION f_is_settlement]
+if (<region.flags> & region_alfa_settlement)
+  return 1
+else
+  return 0
+endif
+
+// Disable/enable group loot
+[FUNCTION group_loot]
+if !<isinparty>
+  return 0
+endif
+if <party.master.uid> != <uid>
+  sysmessage @55 You are not the party leader!
+  return 0
+endif
+if <party.tag0.disable_group_loot>
+  party.tag.disable_group_loot =
+else
+  party.tag.disable_group_loot = 1
+endif
+for <party.members>
+  ref1 = <party.member.<eval <local._FOR> +- 1>>
+  ref1.sysmessage @042c,,1 [PARTY] Group loot <qval <party.tag0.disable_group_loot> ? OFF : ON>
+endfor
+
+
+// Roll from 1 to 100. Anounce to party
+[FUNCTION roll]
+if !<isinparty>
+  sysmessage @55 You should be in a party to roll!
+  return 0
+endif
+local.roll = <R1,100>
+for <party.members>
+  ref1 = <party.member.<eval <local._FOR> +- 1>>
+  ref1.sysmessage @0445,,1 [PARTY] <qval (<ref1.uid>==<uid>)?You roll:<name> rolls> <dlocal.roll>
+endfor
+return <dlocal.roll>
+
+
+// Group roll on item
+[FUNCTION f_group_roll_item] // argn - uid of the killer
+attr = <attr> | 010 // lock item
+ref1 = <topobj.uid> // corpse
+// place group loot timer for 30 sec
+serv.newitem i_group_roll_timer
+new.link = <uid>
+new.p = <ref1.p>
+// initiate group roll
+tag.looters = 0
+for <uid.<argn>.party.members>
+  ref2 = <uid.<argn>.party.member.<eval <local._FOR> +- 1>> // party member
+  // check if party member is close enough to the corpse
+  if (<ref2.distance <ref1.uid>> < 25)
+    trysrc <ref2.uid> dialog d_roll
+    tag.looters += 1
+    if <ref2.findid.i_roll_timer>
+      ref2.findid.i_roll_timer.timer = 30
+    else
+      serv.newitem i_roll_timer
+      ref2.equip <new.uid>
+    endif
+  endif
+endfor
+return 1
+
+
+// Checks whether all rolled or timer expired and give item to winner
+[FUNCTION f_group_roll_item_check]
+tag0.rolled += 1
+if (<tag0.rolled> >= <tag0.looters>) || (<tag0.expired>)
+
+  if <tag0.winner>
+    ref1 = <tag0.winner>
+    // give item to the winner
+    cont = <ref1.findlayer(21).uid>
+    // announce winner's name 
+    if <ref1.isinparty>
+      for <ref1.party.members>
+        ref2 = <ref1.party.member.<eval <local._FOR> +- 1>>
+        ref2.sysmessage @0445,,1 [PARTY] <qval (<ref2.uid>==<ref1.uid>)?You:<ref1.name>> won <name>
+      endfor
+    endif
+  endif
+
+  attr = <attr> &~ 010
+  tag.max_roll =
+  tag.winner = 
+  tag.rolled = 
+  tag.looters = 
+  tag.expired =
+endif
+
+
+[FUNCTION f_alfa_generic_loot] // argn1 - container uid; argn2 - mob level
+if <argn2> == 5                // lvl 1 loot if argn2 is not specified
+  serv.newitem alfa_generic_loot_5
+elseif <argn2> == 4
+  serv.newitem alfa_generic_loot_4
+elseif <argn2> == 3
+  serv.newitem alfa_generic_loot_3
+elseif <argn2> == 2
+  serv.newitem alfa_generic_loot_2
+else
+  serv.newitem alfa_generic_loot_1
+endif
+new.cont = <argn1>
+return 1
+
+
+[FUNCTION f_alfa_generic_elite_loot] // argn1 - container uid; argn2 - mob level
+if <argn2> == 5                      // lvl 1 loot if argn2 is not specified
+  serv.newitem alfa_generic_elite_loot_5
+elseif <argn2> == 4
+  serv.newitem alfa_generic_elite_loot_4
+elseif <argn2> == 3
+  serv.newitem alfa_generic_elite_loot_3
+elseif <argn2> == 2
+  serv.newitem alfa_generic_elite_loot_2
+else
+  serv.newitem alfa_generic_elite_loot_1
+endif
+new.cont = <argn1>
+return 1
+
+
+[FUNCTION f_alfa_ny_elite_loot]      // argn1 - container uid; argn2 - mob level;
+dorand 2
+  return 1 // 50% drop rate
+enddo
+serv.newitem i_tm_snowflake
+if (<argn2> > 3)
+  new.amount = 2
+endif
+new.cont = <argn1>
+return 1
+
+
+[FUNCTION f_npc_magic_resist] // NPC Magic Resistance function
+//Random modif:
+argn1 += (<argn1> * rand(10)) / 100
+//Magery modfi:
+argn1 += (<argn1> * (<src.magery> +- 1000)) / 1000
+//Resist modif:
+if <magicresistance> > 1000 // min resist for NPC is 100.0
+  argn1 -= (<argn1> * (<magicresistance> +- 1000)) / 1000
+endif
+//EvalInt modif:
+if <src.evaluatingintel> > <evaluatingintel>
+  if <evaluatingintel> >= 850 
+    argn1 += (<argn1> * (<src.evaluatingintel> +- <evaluatingintel>)) / 2000
+  else
+    argn1 += (<argn1> * (<src.evaluatingintel> +- 850)) / 2000
+  endif
+endif
+return 1
+
+
+[FUNCTION f_npc_dmg_modif] // NPC Damage modification
+argn1 += (<argn1> * (<str> +- 100)) / 100
+argn1 = <argn1> +- ((<argn1> * <act.ac>) / 255) + 5
+if (<act.flags> & statf_reactive)
+  argn1 = (<argn1> * 90) / 100
+endif
+if <act.tactics> < <tactics>
+  argn1 = <argn1> + ((<argn1> * (<tactics> +- 1000)) / 2000)
+endif
+
+// Amazon & Necromancer gets +33% damage
+//if ((<act.tag0.class> & c_damned_soul) || (<act.tag0.class> & c_child_of_nature) && !(<act.tag0.class> & c_not_able))
+//  argn1 += <argn1> / 3
+//endif
+
+//If player has a shield -33% damage
+if (<act.findlayer(2).type> == t_shield)
+  argn1 -= <argn1> / 2
+endif
+return 1
+
+
+[FUNCTION f_npc_get_dmg_modif]
+if (<src.findlayer(2).type> != t_weapon_bow) && (<src.findlayer(2).type> != t_weapon_xbow) 
+  argn1 += <argn1> / 2
+endif
+
+
+[FUNCTION f_elite]
+if (0<argv[0]> == 1) || (<R1,25> < 2)
+  tag0.elite=1
+  maxhits = <maxhits> * 4
+  evaluatingintel += (<evaluatingintel> / 10)
+  tactics += (<tactics> / 10)
+  str += (<str> / 10)
+endif
+
+
+// Formula: X = Lvl - 1
+// Magic Resistance: +5% * X
+// Tactics: +20% * X
+// Str: +15% * X 
+[FUNCTION f_gain_stats_melee]
+swordsmanship = 10000
+archery = 10000
+wrestling = 10000
+if <tag0.lvl> < 2
+  return 1
+endif
+local.bonus = <eval <tag0.lvl> +- 1>
+magicresistance += <eval <local.bonus> * <magicresistance> / 20>
+tactics += <eval (<local.bonus> * <tactics> * 20) / 100>
+str += <eval (<local.bonus> * <str> * 15) / 100>
+
+// Formula: X = Lvl - 1
+// Magic Resistance, EvalInt: +10% * X
+// Magery: +15% * X
+// Str: +5% * X 
+[FUNCTION f_gain_stats_mage]
+wrestling = 10000
+if <tag0.lvl> < 2
+  return 1
+endif
+local.bonus = <eval <tag0.lvl> +- 1>
+magicresistance += <eval <local.bonus> * <magicresistance> / 10>
+evaluatingintel += <eval <local.bonus> * <evaluatingintel> / 10>
+magery += <eval (<local.bonus> * <magery> * 15) / 100>
+str += <eval <local.bonus> * <str> / 20>
+
+
+// Determines attacker (player) who did most damage
+// it is needed in case <attacker.max> is NPC
+[FUNCTION f_find_max_attacker]
+if (<uid.<attacker.max.uid>.isPlayer> && <uid.<attacker.max.uid>.isOnline>)
+  return <attacker.max.uid>
+endif
+if <attacker> < 1
+  return 0
+endif
+local.dam = 0
+local.max_damager = 0
+for <attacker>
+  ref1 = <attacker.<eval <local._FOR> +- 1>.uid>
+  if (<attacker.<eval <local._FOR> +- 1>.dam> > <local.dam>) && (<ref1.isPlayer>) && (<ref1.isOnline>)
+    local.dam = <attacker.<eval <local._FOR> +- 1>.dam>
+    local.max_damager = <ref1.uid>
+  endif
+endfor
+return <hval <local.max_damager>>
+
+
+// Count damage for each group (sum) / single player from attackers list
+// retunrs uid of max damager (player uid / party master uid)
+[FUNCTION f_get_max_group_damage]
+if <attacker> < 1
+  return 0
+endif
+local.dam = 0
+local.max_damager = 0
+for <attacker>
+  ref1 = <attacker.<eval <local._FOR> +- 1>.uid>
+  if <ref1.isPlayer>
+
+    if <ref1.isinparty> // in a party 
+      // Sum group damage
+      if <local.dam_<ref1.party.master.uid>>
+        <local.dam_<ref1.party.master.uid>> += <attacker.<eval <local._FOR> +- 1>.dam>
+      else
+        <local.dam_<ref1.party.master.uid>> = <attacker.<eval <local._FOR> +- 1>.dam>
+      endif
+      // Check group damage is more than local.dam
+      if (<local.dam_<ref1.party.master.uid>> > <local.dam>)
+        local.dam = <local.dam_<ref1.party.master.uid>>
+        local.max_damager = <ref1.party.master.uid>
+      endif
+    else              // not in a party
+      // Check if person's damage is more than local.dam
+      if (<attacker.<eval <local._FOR> +- 1>.dam> > <local.dam>)
+        local.dam = <attacker.<eval <local._FOR> +- 1>.dam>
+        local.max_damager = <ref1.uid>
+      endif
+    endif
+
+  endif
+endfor
+return <hval <local.max_damager>>
+
+
+//============================ Loot Templates ==================================
+// Rules: 5 levels of loot. Loot level corresponds to mob level. Three types of 
+// loor common for all mobs: generic_loot, generic_elite_loot, generic_boss_lot. 
+// And many type of specific loot depending on type of mob (lizard, orge, human etc)
+
+[DEFNAME def_alfa_generic_loot]      
+alfa_generic_loot_1 {t_loot_diamonds_1 30  i_rune_marker 30  t_loot_credits_1 350  t_loot_nothing 1000} 
+alfa_generic_loot_2 {t_loot_diamonds_2 30  i_rune_marker 30  t_loot_credits_2 350  t_loot_nothing  950} 
+alfa_generic_loot_3 {t_loot_diamonds_3 30  i_rune_marker 30  t_loot_credits_3 350  t_loot_nothing  900} 
+alfa_generic_loot_4 {t_loot_diamonds_4 30  i_rune_marker 30  t_loot_credits_4 450  t_loot_nothing  850} 
+alfa_generic_loot_5 {t_loot_diamonds_5 30  i_rune_marker 30  t_loot_credits_5 450  t_loot_nothing  800}                                                                    
+
+
+//------ Empty loot -------
+[TEMPLATE t_loot_nothing]
+
+
+//------ Generic loot level 1 -------
+[TEMPLATE t_loot_diamonds_1]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = 1
+
+[TEMPLATE t_loot_credits_1]
+ITEM = i_prize_check
+more = {1 3}
+color = 0428
+
+
+//------ Generic loot level 2 -------
+[TEMPLATE t_loot_diamonds_2]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {1 2}
+
+[TEMPLATE t_loot_credits_2]
+ITEM = i_prize_check
+more = {1 5}
+color = 0428
+
+
+//------ Generic loot level 3 -------
+[TEMPLATE t_loot_diamonds_3]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {1 3}
+
+[TEMPLATE t_loot_credits_3]
+ITEM = i_prize_check
+more = {2 6}
+color = 0428
+
+
+//------ Generic loot level 4 -------
+[TEMPLATE t_loot_diamonds_4]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {1 4}
+
+[TEMPLATE t_loot_credits_4]
+ITEM = i_prize_check
+more = {3 6}
+color = 0428
+
+
+//------ Generic loot level 5 -------
+[TEMPLATE t_loot_diamonds_5]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {2 4}
+
+[TEMPLATE t_loot_credits_5]
+ITEM = i_prize_check
+more = {4 6}
+color = 0428
+
+
+[DEFNAME def_alfa_generic_elite_loot]      
+alfa_generic_elite_loot_1 {t_loot_diamonds_e_1 80   i_rune_marker 30  t_loot_credits_e_1 450  t_loot_nothing 50} 
+alfa_generic_elite_loot_2 {t_loot_diamonds_e_2 80   i_rune_marker 30  t_loot_credits_e_2 450  t_loot_nothing 40} 
+alfa_generic_elite_loot_3 {t_loot_diamonds_e_3 100  i_rune_marker 30  t_loot_credits_e_3 450  t_loot_nothing 40} 
+alfa_generic_elite_loot_4 {t_loot_diamonds_e_4 100  i_rune_marker 30  t_loot_credits_e_4 450  t_loot_nothing 30} 
+alfa_generic_elite_loot_5 {t_loot_diamonds_e_5 100  i_rune_marker 30  t_loot_credits_e_5 450  t_loot_nothing 30}                                                                    
+
+//------ Generic elite loot level 1 -------
+[TEMPLATE t_loot_diamonds_e_1]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = 2
+
+[TEMPLATE t_loot_credits_e_1]
+ITEM = i_prize_check
+more = {2 6}
+color = 0428
+
+
+//------ Generic elite loot level 2 -------
+[TEMPLATE t_loot_diamonds_e_2]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {2 4}
+
+[TEMPLATE t_loot_credits_e_2]
+ITEM = i_prize_check
+more = {2 10}
+color = 0428
+
+
+//------ Generic elite loot level 3 -------
+[TEMPLATE t_loot_diamonds_e_3]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {2 6}
+
+[TEMPLATE t_loot_credits_e_3]
+ITEM = i_prize_check
+more = {4 12}
+color = 0428
+
+
+//------ Generic elite loot level 4 -------
+[TEMPLATE t_loot_diamonds_e_4]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {2 8}
+
+[TEMPLATE t_loot_credits_e_4]
+ITEM = i_prize_check
+more = {6 12}
+color = 0428
+
+
+//------ Generic elite loot level 5 -------
+[TEMPLATE t_loot_diamonds_e_5]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {4 8}
+
+[TEMPLATE t_loot_credits_e_5]
+ITEM = i_prize_check
+more = {8 12}
+color = 0428
+
+[DEFNAME def_alfa_generic_elite_boss]      
+alfa_generic_boss_loot {t_loot_diamonds_boss 300  t_loot_credits_boss  300} 
+
+//------ Generic boss loot -------
+[TEMPLATE t_loot_diamonds_boss]
+//CONTAINER = i_bag
+ITEM = i_cr_diamond
+amount = {30 50}
+
+[TEMPLATE t_loot_credits_boss]
+ITEM = i_prize_check
+more = {70 100}
+color = 0428
+
+[DEFNAME def_moonglow_cemetary_loot]      
+moonglow_cemetary_loot        {i_necro_scroll_corpse_drain 5  i_necro_scroll_bone_armor 5  i_necro_scroll_leech_energy 5  t_loot_nothing 1000} 
+moonglow_cemetary_loot_elite  {i_necro_scroll_drain_3 50  i_necro_scroll_poison_strike_2 120  i_necro_scroll_leech_energy_2 100  t_book_of_knowledge_cemetary 100  i_necro_scroll_corpse_drain 150  i_necro_scroll_leech_energy 150  t_loot_nothing 1200} 
+moonglow_cemetary_loot_boss_low  {i_necro_scroll_poison_strike_3 300  i_necro_scroll_leech_energy_3 300  i_necro_scroll_drain_4 300  i_necro_scroll_animate_dead 100} 
+moonglow_cemetary_loot_boss_high {i_conjure_und_horse 1  i_conjure_last_wish 2  i_conjure_helmet_dead_freak 8  i_conjure_ring_immaril 10  i_conjure_tunic_fallen 10  i_conjure_corruption_crystal 20  t_loot_nothing 80} 
+
+
+[DEFNAME def_cyclop_valley_loot]      
+cyclop_titan_loot_elite   {i_conjure_ring_of_might 1  i_conjure_wrong_door_key 10  t_loot_nothing 500}
+cyclop_valley_loot_boss_low  {i_rune_fire 5  i_rune_earth 5  i_rune_air 5  i_rune_water 5  i_titan_skinning_knife 10} 
+cyclop_valley_loot_boss_high {i_conjure_storm_bringer 10  i_conjure_spiked_shield 40  i_conjure_shaman_trick 50  i_conjure_cape_of_vanish 50  i_art_book_of_elements 100  i_conjure_brute_force_crystal 100  i_conjure_gem_of_relief 100  t_loot_nothing 400}
+
+
+//------ BoK ------
+[TEMPLATE t_book_of_knowledge_cemetary]
+ITEM = i_book_of_knowledge
+tag.value = 1
+more = {16 1  27 1} // EvalInt or Tactics
+
+
+//------- Battle Camp -------
+[DEFNAME def_alfa_battle_camp_loot]      
+alfa_battle_camp_loot_low 	{t_loot_battle_camp_diamonds 5  t_loot_battle_camp_steelskin 5  t_loot_battle_camp_ench_ingot 5  i_attack_deed 2  t_book_of_knowledge_battle_camp 1} 
+alfa_battle_camp_loot_high 	{i_conjure_orcish_boots 4  i_conjure_orcish_amulet 4  i_conjure_ring_warchief 3  i_conjure_helm_warchief 1} 
+
+
+[TEMPLATE t_loot_battle_camp_diamonds]
+ITEM = i_cr_diamond
+amount = 25
+
+[TEMPLATE t_book_of_knowledge_battle_camp]
+ITEM = i_book_of_knowledge
+tag.value = 2
+more = {40 1  27 1} // Swordsmanship or Tactics
+
+[TEMPLATE t_loot_battle_camp_steelskin]
+CONTAINER = i_pouch
+COLOR = 0488
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+ITEM = i_potion_steelskin
+
+[TEMPLATE t_loot_battle_camp_ench_ingot]
+//CONTAINER = i_pouch
+//COLOR = 0488
+ITEM = i_ingot_enchanted
+amount = 10
+
+
+
+//============================= Common Items ===================================
+[ITEMDEF i_npc_decay_timer]
+ID = i_memory
+NAME = NPC decay timer
+TYPE = t_eq_script
+
+ON=@Create
+  timer = 15*60
+
+ON=@Timer
+  cont.remove
+  remove
+  return 1
+
+[ITEMDEF i_npc_home_teleport]
+ID = i_memory
+TYPE = t_eq_script
+NAME = NPC home teleporter
+
+ON=@Create
+  timer = 120
+
+ON=@Timer
+  cont.go <cont.home>
+  remove
+  return 1
+
+[ITEMDEF i_npc_paralyze_remover]
+ID = i_memory
+TYPE = t_eq_script
+NAME = NPC paralyze remover
+
+ON=@Create
+  timer = 8
+
+ON=@Timer
+  if <cont.flags> & 04
+    cont.f_remove_paralyze
+  endif
+  remove
+  return 1
+
+// Closes all d_roll dialogs when timer expires
+[ITEMDEF i_roll_timer]
+ID = i_memory
+NAME = Roll timer
+TYPE = t_eq_script
+
+ON=@Create
+  timer = 30
+
+ON=@Timer
+  trysrc <cont.uid> dialogclose d_roll
+  remove
+  return 1
+
+[ITEMDEF i_group_roll_timer] // link - link to item being rolled
+ID = i_memory
+NAME = Group roll timer
+TYPE = t_script
+
+ON=@Create
+  timer = 30
+  attr = 080 // invis
+
+ON=@Timer
+  if (<link.attr> & 010) // still locked
+    link.tag.expired = 1
+    link.f_group_roll_item_check
+  endif
+  remove
+  return 1
+
+//============================= NPC Weapon ===================================
+[ITEMDEF i_npc_cutlass]
+ID = i_cutlass
+WEIGHT=8.5
+TYPE=T_WEAPON_SWORD
+FLIP=0
+DAM=11,13
+//SPEED=44
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+
+ON=@Create
+  HITPOINTS={50 60}
+
+
+[ITEMDEF i_npc_crossbow]
+ID = i_crossbow
+TYPE=T_WEAPON_XBOW
+FLIP=0
+DAM=18,20
+//SPEED=24
+RANGE=1,8
+SKILL=Archery
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=8
+TDATA3=i_xbolt
+TDATA4=i_xbolt_x
+
+ON=@Create
+  HITPOINTS={50 60}
+
+
+//================================= Dialogs ====================================
+[DIALOG d_roll]
+50 <eval 20 + <src.isdialogopen d_roll> * 120>
+noclose
+resizepic 0 0 83 220 100 
+dhtmlgump 95 10 50 20 0 0 <def0.H4><def0.BFONT_LGRAY>ROLL<def0.BFONTE><def0.H4E>
+tilepic 10 30 <id>
+if <baseid> == i_book_of_knowledge
+  dhtmlgump 70 40 130 40 0 0 <def0.bfont_iq_<dtag0.iq>><f_get_bok_name><def0.bfonte>
+else
+  dhtmlgump 70 40 130 40 0 0 <def0.bfont_iq_<dtag0.iq>><name><def0.bfonte>
+endif
+
+button 150 96 1153 1154 1 0 1
+button 180 96 1150 1151 1 0 2
+
+[DIALOG d_roll button]
+ON=1
+  if !(<attr> & 010) // too late to roll
+    return 0
+  endif
+  if <src.isinparty>
+    local.roll = <R1,100>
+    if <eval <local.roll>> > <eval <tag0.max_roll>>
+      tag.max_roll = <eval <local.roll>>
+      tag.winner = <src.uid>
+    endif
+    for <src.party.members>
+      ref1 = <src.party.member.<eval <local._FOR> +- 1>>
+      ref1.sysmessage @0445,,1 [PARTY] <qval (<ref1.uid>==<src.uid>)?You roll:<src.name> rolls> <eval <local.roll>> on <name>
+    endfor
+  endif
+  f_group_roll_item_check
+
+ON=2
+  if !(<attr> & 010) // too late to roll
+    return 0
+  endif
+  if <src.isinparty>
+    for <src.party.members>
+      ref1 = <src.party.member.<eval <local._FOR> +- 1>>
+      ref1.sysmessage @0445,,1 [PARTY] <qval (<ref1.uid>==<src.uid>)?You:<src.name>> passed on <name>
+    endfor
+  endif
+  f_group_roll_item_check
+                                                                             
+//====================== Moonglow Cemetary Quest Items =========================
+[ITEMDEF i_bone_skeleton]
+ID = i_reag_daemon_bone
+TYPE = t_script
+NAME = Skeletal Bone
+
+ON=@Create
+  color=047e
+
+ON=@Click
+  message @ic_quest <amount> <name>
+  return 1
+
+ON=@Dclick
+  if <amount> > 49
+    target Target the ankh on the coffin!
+  else
+    src.sysmessage @55 You don't have enough bones to use!
+  endif
+  return 1
+
+ON=@TargOn_Item
+  if (0<cont.uid> != <src.findlayer(21).uid>)
+    src.sysmessage @55 It must be in your pack to use
+    return 1
+  endif
+  if (<argo.baseid> != i_coffin1) && (<argo.baseid> != i_coffin2)
+    src.message @55 You must target the ankh on the coffin!
+    return 1
+  endif 
+  if <argo.more1>
+    src.message @55 You can't summon the lich now!
+    return 1
+  endif
+  argo.more1=1
+  argo.timer=15*60
+  serv.newnpc=c_liche_cemetary
+  doswitch <argo.more2>-1
+    new.name=Israfel
+    new.name=Kalimus
+    new.name=Athrax
+  enddo
+  new.tag0.id=<argo.more2>
+  new.home = <argo.p>
+  new.homedist = 1
+  new.p=<argo.p>
+  new.update
+  new.tag0.uid=<argo.uid>
+  argo.link=<new.uid>
+  src.consume 50 i_bone_skeleton
+  return 1
+
+[ITEMDEF i_coffin1]
+ID = 7234
+NAME = coffin
+
+ON=@Create
+  attr=010
+
+ON=@Timer
+  link.remove
+  link = 04fffffff
+  more1=0
+  timer = -1
+  return 1
+
+[ITEMDEF i_coffin2]
+ID = 7248
+NAME = coffin
+
+ON=@Create
+  attr=010
+
+ON=@Timer
+  link.remove
+  link = 04fffffff
+  more1=0
+  timer = -1
+  return 1
+
+[ITEMDEF i_skull_israfel]
+id=6884
+NAME = Israfel Skull
+
+ON=@Create
+  attr=04
+  color=0b2c
+  tag.iq = iq_quest
+
+ON=@Click
+  message @ic_quest <name>
+  return 1
+
+ON=@Dclick
+  if (0<cont.uid> != <src.findlayer(21).uid>)
+    src.sysmessage @55 It must be in your pack to use
+    return 1
+  endif
+  if <src.findid.i_skull_kalimus> && <src.findid.i_skull_athrax> && <src.findid.i_skull_israfel>
+    target Target the altar.
+  endif
+  return 1
+
+ON=@TargOn_Char
+  target Target the altar.
+  return 1
+
+ON=@TargOn_Ground
+  target Target the altar.
+  return 1
+
+ON=@TargOn_Item
+if !(<src.findid.i_skull_kalimus> && <src.findid.i_skull_athrax> && <src.findid.i_skull_israfel>)
+  return 1
+endif
+if <argo.id> == 0120e
+  if <argo.region.tag0.boss_delay> > <serv.time>
+    src.message @55 You cannot summon the boss for more <f_convert_time_to_string <eval (<argo.region.tag0.boss_delay> +- <serv.time>)/10>>
+    return 1
+  endif
+  src.findid.i_skull_kalimus.remove
+  src.findid.i_skull_athrax.remove
+  src.findid.i_skull_israfel.remove
+  // Set delay for boss summon
+  argo.region.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+  //SUMMON BOSS
+  serv.newnpc c_boss_necromancer
+  new.tag.altar_uid = <argo.uid>
+  new.home = <argo.p>
+  new.homedist = 5
+  new.p = <argo.p>
+  new.update
+else
+  target Target the altar.
+endif
+return 1
+
+[ITEMDEF i_skull_kalimus]
+ID = 6884
+NAME = Kalimus Skull
+
+ON=@Create
+  attr=04
+  color=0b2c
+  tag.iq = iq_quest
+
+ON=@Click
+  message @ic_quest <name>
+  return 1
+
+ON=@Dclick
+  if (0<cont.uid> != <src.findlayer(21).uid>)
+    src.sysmessage @55 It must be in your pack to use
+    return 1
+  endif
+  if <src.findid.i_skull_kalimus> && <src.findid.i_skull_athrax> && <src.findid.i_skull_israfel>
+    target Target the altar.
+  endif
+  return 1
+
+ON=@targon_char
+  target Target the altar.
+  return 1
+
+ON=@targon_ground
+  target Target the altar.
+  return 1
+
+on=@targon_item
+if !(<src.findid.i_skull_kalimus> && <src.findid.i_skull_athrax> && <src.findid.i_skull_israfel>)
+  return 1
+endif
+if <argo.id> == 0120e
+  if <argo.region.tag0.boss_delay> > <serv.time>
+    src.message @55 You cannot summon the boss for more <f_convert_time_to_string <eval (<argo.region.tag0.boss_delay> +- <serv.time>)/10>>
+    return 1
+  endif
+  src.findid.i_skull_kalimus.remove
+  src.findid.i_skull_athrax.remove
+  src.findid.i_skull_israfel.remove
+  // Set delay for boss summon
+  argo.region.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+  //SUMMON BOSS
+  serv.newnpc c_boss_necromancer
+  new.tag.altar_uid = <argo.uid>
+  new.home = <argo.p>
+  new.homedist = 5
+  new.p = <argo.p>
+  new.update
+else
+  target Target the altar.
+endif
+return 1
+
+[ITEMDEF i_skull_athrax]
+id=6884
+name=Athrax Skull
+
+ON=@create
+  attr=04
+  color=0b2c
+  tag.iq = iq_quest
+
+ON=@click
+message @ic_quest <name>
+return 1
+
+ON=@dclick
+  if (0<cont.uid> != <src.findlayer(21).uid>)
+    src.sysmessage @55 It must be in your pack to use
+    return 1
+  endif
+  if <src.findid.i_skull_kalimus> && <src.findid.i_skull_athrax> && <src.findid.i_skull_israfel>
+    target Target the altar.
+  endif
+  return 1
+
+ON=@targon_char
+  target Target the altar.
+return 1
+
+ON=@targon_ground
+  target Target the altar.
+return 1
+
+ON=@targon_item
+if !(<src.findid.i_skull_kalimus> && <src.findid.i_skull_athrax> && <src.findid.i_skull_israfel>)
+  return 1
+endif
+if <argo.id> == 0120e
+  if <argo.region.tag0.boss_delay> > <serv.time>
+    src.message @55 You cannot summon the boss for more <f_convert_time_to_string <eval (<argo.region.tag0.boss_delay> +- <serv.time>)/10>>
+    return 1
+  endif
+  src.findid.i_skull_kalimus.remove
+  src.findid.i_skull_athrax.remove
+  src.findid.i_skull_israfel.remove
+  // Set delay for boss summon
+  argo.region.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+  //SUMMON BOSS
+  serv.newnpc c_boss_necromancer
+  new.tag.altar_uid = <argo.uid>
+  new.home = <argo.p>
+  new.homedist = 5
+  new.p = <argo.p>
+  new.update
+else
+  target Target the altar.
+endif
+return 1
+
+//================================ Bosses ======================================
+[CHARDEF 013]
+DEFNAME = c_ancient_dragon
+NAME=Ancient Dragon
+SOUND = snd_MONSTER_DRAGON1
+ANIM=082A//028d1
+ICON = i_pet_dragon
+CAN = MT_WALK|MT_FLY|MT_RUN
+DAM = 9,33
+ARMOR = 30
+FOODTYPE = 80 t_meat_raw
+DESIRES = i_gold
+RESOURCES = 99 i_ribs_raw,8 i_reag_dragon_blood,20 i_hide
+//SHELTER==r_caves,r_dungeon
+AVERSIONS=r_civilization,r_water
+
+CATEGORY = Monsters
+SUBSECTION = Boss
+DESCRIPTION = Ancient Dragon
+
+ON=@Create
+  NPC=brain_dragon
+  STR={795 825}
+  DEX={86 105}
+  INT={385 425}
+  //ALIGNMENT=EVIL
+  //SPELL_CIRCLE=7,8
+  PARRYING={55.0 95.0}
+  MAGERY={99.0 100.0}
+  MAGICRESISTANCE={99.0 100.0}
+  TACTICS={99.0 100.0}
+  WRESTLING={90.0 93.0}
+  TAMING=200.0
+  FAME={3000 9000}
+  KARMA={-4999 -5999}
+
+
+// Undead Boss
+// Has 3 phases on 70% goes into phase 2 - periodiacally casts Fire Circle, players
+// have few seconds to step back, everyone closer than X meters will die.  On 30% goes 
+// into phase 3 - summons 2 servant and goes into immortal state, player have to kill 
+// servants, after killing servants boss goes into normal state and can be killed
+[CHARDEF 025]
+DEFNAME = c_boss_necromancer
+NAME = Death Priest Immaril
+SOUND = snd_MONSTER_LICHE1
+ICON = i_pet_LICH
+ANIM = 0Fe6
+DAM = 5,10
+ARMOR = 100
+CAN=MT_WALK|MT_USEHANDS
+FOODTYPE=
+DESIRES=t_bone,i_gold,t_wand,t_reagent
+BLOODCOLOR=colors_green
+
+CATEGORY = Monsters
+SUBSECTION = Boss
+DESCRIPTION = Death Priest Immaril
+
+ON=@Create
+  NPC = brain_monster
+  FAME = 6000
+  KARMA = -10000
+  STR = 500
+  DEX = 100
+  INT = 100
+  MAXHITS = 15000
+  MAXSTAM = 15000
+  MAXMANA = 15000
+  PARRYING = 100.0
+  MAGERY = 150.0
+  MAGICRESISTANCE = 130.0
+  TACTICS = 100.0
+  serv.newitem i_say_item
+  new.tag.text = Who dared to intrude on my privacy!? 
+  new.cont = <uid>
+  new.timer = 1
+  itemnewbie i_npc_decay_timer
+  timer = 20*60
+  itemnewbie i_npc_self_poison_timer
+  timer = 5*60
+
+ON=@NPCRestock
+  itemnewbie = i_spellbook
+  addspell = s_flamestrike
+  addspell = s_poison
+  addspell = s_weaken
+  addspell = s_earthquake
+  addspell = s_mass_dispel
+
+
+ON=@Click
+  message @50,,1 Boss : [<hits>/<maxhits>]
+  message @042c <name> 
+  return 1
+
+ON=@GetHit
+  mana = <maxmana>
+  // Refresh decay timer
+  if <findid.i_npc_decay_timer>
+    findid.i_npc_decay_timer.timer = 20*60
+  endif
+  if <findid.i_npc_self_poison_timer>
+    findid.i_npc_self_poison_timer.timer = 5*60
+  endif
+  // Check spectral form
+  if <color> == color_spectral
+    effect 3,i_fx_glow,1,10        
+    return 1
+  endif
+  // Check phase
+  if (!<tag0.phase>) && (<hits> <= 10000)
+    tag.phase = 2
+    say @npc_speech_evil You are boring... Wanna see my real power?
+  elseif (<tag0.phase> == 2) && (<src.uid> != <uid>) 
+    if (<hits> > 5000)
+      dorand 10
+        f_necromancer_burn
+        f_necromancer_enrage
+      endif
+    else
+      tag.phase = 3
+      color = color_spectral
+      serv.newitem i_say_item
+      new.tag.text = Ahaha! You cannot kill me wretched fools!
+      equip <new.uid>
+      // Clear weaken tag. On servant death weaken +1. If weaken = 2, return 
+      // from spectral form
+      tag.weaken = 0
+      serv.newnpc c_necromancer_servant
+      new.tag.boss_uid = <uid>
+      new.home = <p>
+      new.homedist = 3
+      new.p = <p>
+      new.update
+      serv.newnpc c_necromancer_servant
+      new.tag.boss_uid = <uid>
+      new.home = <p>
+      new.homedist = 3
+      new.p = <p>
+      new.update
+    endif
+  endif
+  // Poison restoration
+  if (<argn2> = 04088) || (<argn2> = 088)
+    effect 3,i_fx_heal_effect,1,17
+    hits += {50 75}
+    if <hits> > <maxhits>
+      hits = <maxhits>
+      spelleffect s_cure 1000
+    endif
+    return 1
+  endif
+  // Magic Resistance
+  if <argn2> & 04 
+    call f_npc_magic_resist
+  // Scripted DMG
+  elseif (<argn2> & 02) && (<argn1> >= 20) 
+    // Physical DGM modif
+    call f_npc_get_dmg_modif
+    argn2 = (<argn2> &~ 02) | 01
+  endif
+  // Show damage done
+  message @56 <argn1>
+  return 0
+
+ON=@Hit
+  argn1 = {<dam>}
+  call f_npc_dmg_modif
+  return 0
+
+ON=@SpellEffect
+  // Resist Paralize & Invisibility
+  if (<argn1> == 38) || (<argn1> == 47) || (<argn1> == 44)
+    effect 3,i_fx_glow,1,10        
+    return 1
+  endif
+  return 0
+
+ON=@SpellCast
+  // Instant casts
+  argn3 = 0
+  if (<serv.time> +- <tag0.last_cast>) <= {1 20}
+    return 1
+  endif
+  tag.last_cast = <serv.time>
+  return 0
+
+ON=@DeathCorpse
+  // Anounce boss death
+  serv.allclients sysmessage @ic_ancient Undead boss <name> has been slain by <uid.<attacker.max.uid>.name> and his fellows!
+  // Setup loot restriction
+  argo.tag.killer_uid = <f_find_max_attacker>
+  // Drop loot
+  f_moonglow_cemetary_loot_boss <argo.uid>
+  // Set delay for summoning
+  if <tag0.altar_uid>
+    ref1 = <tag0.altar_uid>
+    ref1.region.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+  endif
+  // Gain fame
+  if <attacker> > 0
+    local.fame = <fame> / <attacker>
+    for <attacker>
+      ref1 = <attacker.<eval <local._FOR> +-1>.uid>
+      ref1.fame += <local.fame>
+      ref1.sysmessage You have gained <eval <local.fame>> fame
+    endfor
+  endif
+  return 0 
+
+ON=@EnvironChange
+  if <src.tag0.altar_uid>
+    if <distance <src.tag0.altar_uid>> > 20
+      src.say @npc_speech_evil Cemetary is my home!
+      src.go <uid.<src.tag0.altar_uid>.p>
+    endif
+  endif
+
+[ITEMDEF i_say_item] // more - new color
+ID = i_memory
+NAME = Change color item
+TYPE = t_eq_script
+
+ON=@Equip
+  timerd = 1
+
+ON=@Timer
+  cont.say @npc_speech_evil <tag.text>
+  remove
+  return 1
+
+[FUNCTION f_necromancer_burn]
+if <findid.i_necromancer_burn>
+  return 1
+endif
+dorand 2
+  say @npc_speech_evil Burn, my sweety, burn! Bwahaha!
+  say @npc_speech_evil Burn!
+enddo
+newitem i_necromancer_burn
+equip <new.uid>
+
+[ITEMDEF i_necromancer_burn]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Necro burn item
+
+ON=@Equip
+  timer = 2
+ 
+ON=@Timer
+  sector.allclients f_necromancer_burn_effect <cont.uid>
+  remove
+  return 1
+ 
+[FUNCTION f_necromancer_burn_effect] // argn - uid of boss
+if (<distance <argn>> <= 6) && (<account.plevel> < 2) && !(<flags> & statf_dead)
+  if (<flags> & statf_reflection)
+    consume i_rune_magic_reflection
+    flags = <flags> &~ 0200
+    effect 3,i_fx_glow,1,10
+    sysmessage @55 Magic Reflection saved you from death
+    if <hits> > 50
+      hits = 50
+    endif
+  else
+    effect 3,03715,6,15,1   
+    hits = 0
+  endif
+endif
+
+
+[FUNCTION f_necromancer_enrage]
+if <findid.i_necromancer_enrage>
+  return 1
+endif
+say @npc_speech_evil Uus Mani
+newitem i_necromancer_enrage
+equip <new.uid>
+
+[ITEMDEF i_necromancer_enrage] // more number of ticks + 1
+ID = i_memory
+TYPE = t_eq_script
+NAME = Necro enrage item
+
+ON=@Equip
+  timer = 1
+  more = 4 
+  src.events +e_necromancer_enrage
+
+ON=@Timer
+  more -= 1
+  cont.effect 3,i_fx_heal_effect,1,17
+  cont.hits += {70 100}
+  if <cont.hits> > <cont.maxhits>
+    cont.hits = <cont.maxhits>
+  endif
+  if <more> <= 1
+    cont.events -e_necromancer_enrage
+    remove
+  endif
+  timer = 1
+  return 1
+
+[EVENTS e_necromancer_enrage]
+ON=@GetHit
+  if <src.isPlayer>
+    say @npc_speech_evil Fool!
+    src.sysmessage @55 You have interrupted <name>'s regeneration and made him very angry
+    events -e_necromancer_enrage
+    findid.i_necromancer_enrage.remove
+    src.f_necromancer_suicide <uid>    
+  endif
+
+[FUNCTION f_necromancer_suicide]
+if <flags> & statf_dead
+  return 0
+endif
+src.effect 2,03997,7,12,1  
+src.effect 3,03997,7,12,1  
+if <account.plevel> < 2
+    hits = 0
+endif
+
+
+// poisons self, recovering hitpoits
+[ITEMDEF i_npc_self_poison_timer]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Self Poison item
+
+ON=@Timer
+  if <cont.hits> < <cont.maxhits>
+    cont.spelleffect s_poison 1000
+    timer = 60*1
+  else
+    timer = 60*5
+  endif
+  return 1
+  
+
+//================================ Adds ======================================
+[CHARDEF c_necromancer_servant]
+NAME = Immaril's Servant
+SOUND = snd_MONSTER_GHOST1
+ICON = i_pet_GHOUL
+ID = c_SPECTRE
+FOODTYPE=
+CAN=MT_GHOST|MT_WALK|MT_RUN
+DAM = 65,75
+ARMOR=150
+TEVENTS=e_npc_evil,e_poison_resist
+MOVERATE = 40
+
+ON=@Create
+  NPC = brain_monster
+  COLOR = 047e
+  STR = 250
+  DEX = 100
+  INT = 100
+  maxhits = 2500
+  PARRYING = 150.0 
+  TACTICS = 100.0
+  WRESTLING = 100.0
+  karma = -10000 
+  tag.elite = 1
+  tag.lvl = 5
+
+ON=@DeathCorpse
+  // Weaken the boss
+  ref1 = <tag0.boss_uid>
+  ref1.tag0.weaken += 1
+  if <ref1.tag0.weaken> >= 2
+    ref1.color = 0
+    ref1.say @npc_speech_evil You'll pay for this!
+  else
+    ref1.say @npc_speech_evil Nooo! My poor servant.. I feel weakness
+  endif
+
+
+[CHARDEF c_liche_cemetary]
+NAME=liche
+ID=c_liche
+DAM=70
+ARMOR=140
+moverate=40
+TEVENTS=e_npc_evil 
+
+CATEGORY = Monsters
+SUBSECTION = Moonglow
+DESCRIPTION = Liche Israfel
+
+ON=@Create  
+  Karma=-10000 
+  STR=600
+  DEX=500
+  Maxhits=6500
+  INT=100
+  maxmana = 10000
+  magicresistance=1200
+  evaluatingintel=1200
+  wrestling=1200
+  magery=2000
+  NPC=brain_monster
+  tag0.lvl=4
+  tag0.elite=1
+  itemnewbie = i_spellbook
+  addspell = s_flamestrike
+  addspell = s_fireball
+
+ON=@SpellCast
+  // Instant casts
+  argn3 = 0
+  if (<serv.time> +- <tag0.last_cast>) <= {10 20}
+    return 1
+  endif
+  tag.last_cast = <serv.time>
+  return 0
+
+ON=@GetHit
+  mana = <maxmana>
+  uid.<tag0.uid>.timer=15*60
+
+ON=@DeathCorpse
+  doswitch <dtag0.id>-1
+    serv.newitem=i_skull_israfel
+    serv.newitem=i_skull_kalimus
+    serv.newitem=i_skull_athrax
+  enddo
+  new.cont = <argo.uid>
+  uid.<tag0.uid>.timer=-1
+  uid.<tag0.uid>.more1 = 0
+  uid.<tag0.uid>.link = 04fffffff
+
+
+//==============================================================================================================
+//============================== Cyclops Valley Boss (Titan Shaman) ============================================
+//==============================================================================================================
+
+[ITEMDEF i_titan_campfire]
+ID = 3555
+TYPE = t_script
+
+ON=@Create
+  attr=010
+
+ON=@Timer
+  dispid = 3555
+  update
+  if <link.tag0.summon_titan> > 0
+    link.tag0.summon_titan -= 1
+  endif
+  timer = -1
+  return 1
+
+ON=@Dclick
+  if (<src.isgm>) && (<link> == 04fffffff)
+    target Target an altar to link
+  endif
+  return 1
+ 
+ON=@TargOn_Char
+  return 1
+ 
+ON=@TargOn_Item
+  link = <argo.uid>
+  src.sysmessage @55 Successfully linked
+  return 1
+
+
+[ITEMDEF i_titan_pitcher]
+ID=0ff8
+NAME=Pitcher full of water
+TYPE=t_quest_item
+
+ON=@Create
+  attr=04
+  tag.no_relink = 1
+
+ON=@Dclick
+  target Select a target
+  return 1
+
+ON=@TargOn_Char
+  src.sysmessage @55 Incorrect target
+  return 1
+
+ON=@TargOn_Ground
+  src.sysmessage @55 Incorrect target
+  return 1
+
+ON=@TargOn_Item
+  if !(<argo.baseid> == i_titan_campfire)
+    return 1
+  endif
+  if !(<argo.dispid> == i_campfire)
+    return 1
+  endif
+  if <argo.tag0.no_use>
+    src.message @55 You cannot extinguish the fire right now!
+    return 1
+  endif
+  if <argo.link.tag0.boss_delay> > <serv.time>
+    src.message @55 You cannot summon the boss for more <f_convert_time_to_string <eval (<argo.link.tag0.boss_delay> +- <serv.time>)/10>>
+    return 1
+  endif
+  argo.link.tag0.summon_titan +=1
+  argo.dispid = 3561
+  argo.timer = 60
+  argo.update
+  src.emote extinguish the fire
+  sfx 280
+  if (<argo.link.tag0.summon_titan> > 7) //SUMMON TITAN
+    foritems 15
+      if <baseid> == i_titan_campfire
+        dispid = 3555
+        update
+        tag0.no_use=1
+      endif
+    endfor
+    serv.newitem=i_fx_vortex
+    new.attr=010
+    new.timerf 3,remove
+    new.p=<argo.p>
+    serv.newnpc c_boss_titan
+    new.effect 3,i_fx_vortex,1,10
+    new.tag0.altar_uid = <argo.link.uid>
+    new.home = <argo.p>
+    new.homedist = 5
+    new.p = <argo.p>
+    new.update
+//    argo.link.link = <new.uid>
+    argo.link.tag0.summon_titan=
+    // Set boss summon delay
+    // !!!!!! argo.link.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+  endif
+  remove
+  return 1
+
+
+[ITEMDEF i_titan_altar]
+ID = i_campfire
+TYPE = t_script
+
+ON=@Create
+  attr=010
+
+on=@dclick
+  if !(<src.gm>)
+    return 1
+  endif
+  src.message Refreshed.
+  tag0.boss_delay =
+  foritems 15
+    if <baseid> == i_titan_campfire
+      timer = 0
+      tag0.no_use=
+    endif
+  endfor
+  timer = 1
+  if (<link> != 04fffffff)
+    link = 04fffffff
+  endif
+  return 1
+
+ON=@Timer
+  tag0.summon_titan =
+  timer = -1
+  return 1
+
+[FUNCTION f_make_campfires]		
+foritems 15
+  if <baseid> == i_titan_campfire
+    timer = 0
+    tag0.no_use=
+  endif
+endfor
+
+
+// Titan Shaman Boss
+// ?????? ????: ???????????? ??????? ?????????????, ??????? ?? ????? ??????????
+// ??????? ????? ????? ? ???????.
+// ?????? ????: ???????????? ? ?????, ???????? ? ?????, ???????? ?????? 20% ????? 
+// ?? ?????. ???????????? ??????? ???? ?????
+// ?????? ????: ???????????? ??????? ? ??????, ???????????? ??????? ???? ??????? ?
+// ?????? ??????, ??????? ??????? ??? ?????? ????? ??? ?????? ????? ????????. ?? ???????
+// ???? ?????????? ???? ? ????? ?? 50%, ?????????? ? ??? ?????? ?? 50%
+[CHARDEF c_boss_titan]
+ID = c_titan
+NAME = Momo Chago, the Shaman
+DAM = 40,50
+ARMOR = 80
+CAN = MT_WALK|MT_USEHANDS
+FOODTYPE =
+BLOODCOLOR=colors_red
+
+CATEGORY = Monsters
+SUBSECTION = Boss
+DESCRIPTION = Momo Chago ,the Shaman
+
+ON=@Create
+  color=0a68
+  NPC = brain_monster
+  FAME = 5000
+  KARMA = -10000
+  STR = 400
+  DEX = 100
+  INT = 100
+  MAXHITS = 15000
+  MAXSTAM = 10000
+  MAXMANA = 10000
+  PARRYING = 100.0
+  MAGERY = 130.0
+  MAGICRESISTANCE = 130.0
+  TACTICS = 150.0
+  // Passive Regeneration
+  tag.override.regen_0 = (<serv.regen0> / 10) +- 1
+  tag.override.regenval_0 = 25
+  // Say on summon
+  serv.newitem i_say_item
+  new.tag.text = Stupid humans! 
+  new.cont = <uid>
+  new.timer = 1
+
+ON=@NPCRestock
+  itemnewbie = i_spellbook
+  addspell = s_weaken
+  addspell = s_mass_dispel
+  addspell = s_lightning
+
+ON=@Click
+  message @50,,1 Boss : [<hits>/<maxhits>]
+  message @042c <name> 
+  return 1
+
+ON=@GetHit
+  mana = <maxmana>
+  // Refresh decay timer
+  if <findid.i_npc_decay_timer>
+    findid.i_npc_decay_timer.timer = 20*60
+  endif
+  // Lower damage from poison
+  if (<argn2> = 04088) || (<argn2> = 088)
+    argn1 = {5 10}
+  endif
+  // Phase I
+  if (!<tag0.phase>)
+    if (<R1,8> < 3) && (!<findid.i_titan_earthquake>)
+      serv.newitem i_titan_earthquake
+      equip <new.uid>
+    endif
+    // Change phase to 2
+    if (<hits> < 9000)
+      findlayer(42).remove
+      effect 3,i_fx_smoke,1,10 
+      tag0.phase = 2
+      body = c_wisp_titan
+      update
+      events +e_titan_phase2
+      sfx 481
+      say @npc_speech_evil You are too weak to defeat me mortals!
+      // Disable passive regeneration
+      tag.override.regen_0 = 
+      tag.override.regenval_0 = 
+    endif
+  // Phase II
+  elseif (<tag0.phase> == 2)
+    if (<R1,8> < 3)
+      if (<distance> <= 18)
+        go <src.p>
+      endif
+      sector.allclients effect 1,1
+      sector.allclients damage <eval {55 65}> 1 <uid>
+      sector.allclients plight=-26
+      sector.allclients timerf 5 plight 0
+    endif
+    // Change phase to 3
+    if (<hits> < 6000)
+      effect 3,i_fx_smoke,1,10
+      body = c_boss_titan
+      tag0.phase = 3
+      events -e_titan_phase2
+      events +e_titan_phase3
+      sfx 481
+      update		
+      say @npc_speech_evil Stop that! You are enraging me!
+    endif
+  // Phase III
+  elseif (<tag0.phase> == 3)
+    if (<src.uid> != <uid>) && (<R1,6> < 3)
+      sector.allclients spelleffect s_paralyze,1000
+      if (<distance> <= 18)
+        f_rock_effect <src.uid>
+        src.damage <eval <distance> * 15> 1 <uid>
+      endif
+    endif
+    if (<R1,10> == 4) && (!<tag0.servant>)
+      serv.newnpc c_gazer_servant
+      new.tag.boss_uid = <uid>
+      new.home = <p>
+      new.homedist = 3
+      new.p = <p>
+      new.update
+      tag.servant = 1
+      say @npc_speech_evil I call for your aid my servant!
+    endif
+  endif
+  // Magic Resistance
+  if <argn2> & 04 
+    call f_npc_magic_resist
+  // Scripted DMG
+  elseif (<argn2> & 02) && (<argn1> >= 20) 
+    // Physical DGM modif
+    call f_npc_get_dmg_modif
+    argn2 = (<argn2> &~ 02) | 01
+  endif
+  // Show damage done
+  message @56 <argn1>
+  return 0
+
+ON=@Hit
+  argn1 = {<dam>}
+  call f_npc_dmg_modif
+  return 0
+
+ON=@SpellEffect
+  // Resist Paralize & Invisibility
+  if (<argn1> == 38) || (<argn1> == 47) || (<argn1> == 44)
+    effect 3,i_fx_glow,1,10        
+    return 1
+  endif
+  return 0
+
+ON=@SpellCast
+  // Instant casts
+  argn3 = 0
+  if (<serv.time> +- <tag0.last_cast>) <= {20 30}
+    return 1
+  endif
+  tag.last_cast = <serv.time>
+  return 0
+
+ON=@DeathCorpse
+  // Anounce boss death
+  argo.tag.boss_leather=1
+  serv.allclients sysmessage @ic_ancient Titan boss <name> has been slain by <uid.<attacker.max.uid>.name> and his fellows!
+  // Setup loot restriction
+  argo.tag.killer_uid = <f_find_max_attacker>
+  // Drop loot
+  f_cyclop_valley_loot_boss <argo.uid>
+  // Set delay for summoning
+  if <tag0.altar_uid>
+    ref1 = <tag0.altar_uid>
+//!!!!    ref1.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+    ref1.f_make_campfires
+    ref1.timer=1
+  endif
+  // Gain fame
+  if <attacker> > 0
+    local.fame = <fame> / <attacker>
+    for <attacker>
+      ref1 = <attacker.<eval <local._FOR> +-1>.uid>
+      ref1.fame += <local.fame>
+      ref1.sysmessage You have gained <eval <local.fame>> fame
+    endfor
+  endif
+  return 0 
+
+ON=@EnvironChange
+  if <src.tag0.altar_uid>
+    if <distance <src.tag0.altar_uid>> > 20
+      src.say @npc_speech_evil I feel bad.
+      src.go <uid.<src.tag0.altar_uid>.p>
+    endif
+  endif
+
+
+[CHARDEF c_wisp_titan]
+Id=c_wisp
+NAME = Momo Chago, the Shaman
+DAM = 40,50
+ARMOR = 80
+CAN=MT_WALK|MT_USEHANDS
+FOODTYPE=
+BLOODCOLOR=colors_red
+
+CATEGORY = Monsters
+SUBSECTION = Boss
+DESCRIPTION = Momo Chago, the Shaman Wisp
+
+ON=@Create
+  color=0a68
+  NPC = brain_monster
+  FAME = 5000
+  KARMA = -10000
+  STR = 400
+  DEX = 100
+  INT = 100
+  MAXHITS = 15000
+  MAXSTAM = 10000
+  MAXMANA = 10000
+  PARRYING = 100.0
+  MAGERY = 130.0
+  MAGICRESISTANCE = 130.0
+  TACTICS = 150.0
+
+ON=@NPCRestock
+  itemnewbie = i_spellbook
+  addspell = s_weaken
+  addspell = s_mass_dispel
+  addspell = s_lightning
+
+ON=@Click
+  message @50,,1 Boss : [<hits>/<maxhits>]
+  message @042c <name> 
+  return 1
+
+ON=@GetHit
+  mana = <maxmana>
+  // Refresh decay timer
+  if <findid.i_npc_decay_timer>
+    findid.i_npc_decay_timer.timer = 20*60
+  endif
+  // Lower damage from poison
+  if (<argn2> = 04088) || (<argn2> = 088)
+    argn1 = {5 10}
+  endif
+  // Phase I
+  if (!<tag0.phase>)
+    if (<R1,8> < 3) && (!<findid.i_titan_earthquake>)
+      serv.newitem i_titan_earthquake
+      equip <new.uid>
+    endif
+    // Change phase to 2
+    if (<hits> < 9000)
+      findlayer(42).remove
+      effect 3,i_fx_smoke,1,10 
+      tag0.phase = 2
+      body = c_wisp_titan
+      update
+      events +e_titan_phase2
+      sfx 481
+      say @npc_speech_evil You are too weak to defeat me mortals!
+      // Disable passive regeneration
+      tag.override.regen_0 = 
+      tag.override.regenval_0 = 
+    endif
+  // Phase II
+  elseif (<tag0.phase> == 2)
+    if (<R1,8> < 3)
+      if (<distance> <= 18)
+        go <src.p>
+      endif
+      sector.allclients effect 1,1
+      sector.allclients damage <eval {55 65}> 1 <uid>
+      sector.allclients plight=-26
+      sector.allclients timerf 5 plight 0
+    endif
+    // Change phase to 3
+    if (<hits> < 6000)
+      effect 3,i_fx_smoke,1,10
+      body = c_boss_titan
+      tag0.phase = 3
+      events -e_titan_phase2
+      events +e_titan_phase3
+      sfx 481
+      update		
+      say @npc_speech_evil Stop that! You are enraging me!
+    endif
+  // Phase III
+  elseif (<tag0.phase> == 3)
+    if (<src.uid> != <uid>) && (<R1,6> < 3)
+      sector.allclients spelleffect s_paralyze,1000
+      if (<distance> <= 18)
+        f_rock_effect <src.uid>
+        src.damage <eval <distance> * 15> 1 <uid>
+      endif
+    endif
+  endif
+  // Magic Resistance
+  if <argn2> & 04 
+    call f_npc_magic_resist
+  // Scripted DMG
+  elseif (<argn2> & 02) && (<argn1> >= 20) 
+    // Physical DGM modif
+    call f_npc_get_dmg_modif
+    argn2 = (<argn2> &~ 02) | 01
+  endif
+  // Show damage done
+  message @56 <argn1>
+  return 0
+
+ON=@Hit
+  argn1 = {<dam>}
+  call f_npc_dmg_modif
+  return 0
+
+ON=@SpellEffect
+  // Resist Paralize & Invisibility
+  if (<argn1> == 38) || (<argn1> == 47) || (<argn1> == 44)
+    effect 3,i_fx_glow,1,10        
+    return 1
+  endif
+  return 0
+
+ON=@SpellCast
+  // Instant casts
+  argn3 = 0
+  if (<serv.time> +- <tag0.last_cast>) <= {10 20}
+    return 1
+  endif
+  tag.last_cast = <serv.time>
+  return 0
+
+ON=@DeathCorpse
+  // Anounce boss death
+  serv.allclients sysmessage @ic_ancient Titan boss <name> has been slain by <uid.<attacker.max.uid>.name> and his fellows!
+  // Setup loot restriction
+  argo.tag.killer_uid = <f_find_max_attacker>
+  // Drop loot
+  f_cyclop_valley_loot_boss <argo.uid>
+  // Set delay for summoning
+  if <tag0.altar_uid>
+    ref1 = <tag0.altar_uid>
+    ref1.tag.boss_delay = <serv.time> + <def0.boss_summon_delay>
+    ref1.f_make_campfires 
+    ref1.timer=1
+  endif
+  // Gain fame
+  if <attacker> > 0
+    local.fame = <fame> / <attacker>
+    for <attacker>
+      ref1 = <attacker.<eval <local._FOR> +-1>.uid>
+      ref1.fame += <local.fame>
+      ref1.sysmessage You have gained <eval <local.fame>> fame
+    endfor
+  endif
+  return 0 
+
+ON=@EnvironChange
+  if <src.tag0.altar_uid>
+    if <distance <src.tag0.altar_uid>> > 20
+      src.say @npc_speech_evil I feel bad.
+      src.go <uid.<src.tag0.altar_uid>.p>
+    endif
+  endif
+
+
+[CHARDEF c_gazer_servant]
+NAME = Gazer, the Servant
+ID = c_gazer
+TEVENTS=e_npc_evil
+
+ON=@Create
+  NPC = brain_monster
+  COLOR = 0a68
+  STR={120 150}
+  DEX=100
+  INT = 100
+  maxhits = 500
+  maxmana = 0
+  magicresistance={150.0 160.0}
+  evaluatingintel= 110.0
+  magery={125.0 130.0}
+  karma = -10000 
+  tag.elite = 1
+  tag.lvl = 5
+  itemnewbie = i_gazer_servant_timer
+
+ON=@Attack
+  return 1
+
+
+[ITEMDEF i_gazer_servant_timer]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Gazer Servant timer
+
+ON=@Create
+  timer = 15
+  more = 5
+
+ON=@Timer
+  if <more>
+    cont.say @0a68 <dmore>
+    more -= 1
+    timer = 1
+  else
+    cont.f_gazer_boom
+    remove
+  endif
+  return 1
+
+
+[FUNCTION f_gazer_boom]
+forclients 18
+  if (<account.plevel> < 2) && !(<flags> & statf_dead)
+    spelleffect s_explosion,10000
+  endif
+endfor
+if <tag0.boss_uid>
+  ref1 = <tag0.boss_uid>
+  if <ref1.hits> < 6000
+    ref1.hits = 6000
+  endif
+  ref1.tag.servant =
+endif
+say @(0a68,,0) *BOOM*
+timerf 0,remove
+
+
+[FUNCTION f_rock_effect]
+serv.newitem i_rock_effect
+new.link = <args>
+equip <new.uid>
+ 
+[ITEMDEF i_rock_effect]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Rock Effect
+ 
+ON=@Equip
+  link.effect 0,4534,10,16  
+  timer = 1
+ 
+ON=@Timer
+  remove
+  return 1
+
+
+[EVENTS e_titan_phase2]
+ON=@SpellEffect
+  return 1
+
+ON=@GetHit
+  if (<argn2> & dam_physical)
+    if (<src.findlayer(2).type> == t_weapon_bow) || (<src.findlayer(2).type> == t_weapon_xbow)
+      argn1 = <argn1> / 5
+    endif
+  endif
+  return 0
+
+
+[EVENTS e_titan_phase3]
+ON=@GetHit
+  if (<argn2> & dam_physical)
+    argn1 -= <argn1> / 2
+  elseif (<argn2> & dam_magic)
+    argn1 += <argn1> / 2
+  endif
+  return 0
+
+
+[ITEMDEF i_titan_earthquake]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Titan Earthquake
+
+ON=@Equip
+  src.say @npc_speech_evil Die mortals!!!
+  src.anim 5
+  src.timerf 1,f_boss_eq
+  timer = 1
+
+ON=@Timer
+  remove
+  return 1
+
+[FUNCTION f_boss_eq]
+forclients 14
+  f_earthquake
+endfor
+
+[FUNCTION f_earthquake]
+if (<account.plevel> > 1) || (<flags> & statf_dead)
+  return 0
+endif
+anim = 22
+damage <eval {70 85}> 1
+if (<flags> & statf_onhorse) && (!<tag0.ethernal_mount_id>)
+  f_horse_bump
+endif
+serv.newitem = i_memory_earthquake
+new.link = <uid>
+new.p = <p>
+new.f_eqs
+new.more1=<eval {5 7}>
+new.timerd=<eval {1 3}>
+
+
+[ITEMDEF i_memory_earthquake]
+NAME = Earthquake effect memory
+ID = i_memory
+TYPE = t_eq_script
+
+ON=@Create
+  attr = attr_move_never|attr_invis
+
+ON=@Timer
+  more2 += 1
+  if (<more1> > <more2>)
+    link.f_eqs
+    timerd=<eval {1 3}>
+  else
+    remove
+  endif
+  return 1
+
+[FUNCTION f_eqs]
+local.x=<eval {-2 2}>
+local.y=<eval {-2 2}>
+local.uid=<uid>
+forclients 18
+  sendpacket 0c0 00 00 00 00 00 00 00 00 00 w{ i_rock_plain 1 01364 1 i_rock_plain_x 1 i_rock_7 1 0136b 1 0136a 1 01369 1 i_rock_3 1 } w<eval <uid.<local.uid>.p.x> +<local.x>> w<eval <uid.<local.uid>.p.y> +<local.y>> b<eval <uid.<local.uid>.z> +100> w<eval <uid.<local.uid>.p.x> +<local.x>> w<eval <uid.<local.uid>.p.y> +<local.y>> b<uid.<local.uid>.z> b5 00 00 00 b0 b0 d0 d0
+endfor
+
+
+[ITEMDEF i_brain_gazer]
+ID = 7408
+NAME = Gazer's Brain
+TYPE = t_quest_item
+
+ON=@Create
+  attr=04
+  tag.no_relink = 1
+
+ON=@Dclick
+  src.sfx 60
+  src.emote ate the <name>
+  if !<src.findid.i_brain_gazer_timer>
+    serv.newitem=i_brain_gazer_timer
+    new.timer=3
+    new.cont=<src.uid>
+    src.events +e_brain_gazer
+    src.emote feel very bad
+  endif
+  remove
+  return 1
+
+[ITEMDEF i_brain_gazer_timer]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Brain Gazer timer
+
+ON=@Timer
+  cont.damage <eval {5 15}> 1
+  timer=3
+  return 1
+
+[EVENTS e_brain_gazer]
+ON=@Death
+  src.findid.i_brain_gazer_timer.remove
+  src.events -e_brain_gazer
+
+
+[ITEMDEF i_pot_quest]
+ID=2421
+
+ON=@Create
+  attr=010
+
+ON=@Dclick
+  if <src.findid.i_brain_gazer>
+    src.findid.i_brain_gazer.remove
+    serv.newitem=i_brain_gazer_cooked
+    new.cont=<src.uid>
+    src.emote cooked the gazer's brain
+  endif
+  return 1
+
+
+[ITEMDEF i_brain_gazer_cooked]
+ID = 7408
+NAME = Cooked Gazer's Brain
+TYPE = t_quest_item
+
+ON=@Create
+  color = 0a4d
+  attr = 04
+  tag.no_relink = 1
+
+ON=@Dclick
+  if <serv.time> < <tag0.cooldown> 
+    src.message You can't use it for more <f_convert_time_to_string <eval (<tag0.cooldown> +- <serv.time>) >>
+    return 1
+  endif
+  serv.newitem=i_brain_gazer_timer2
+  new.timer=1*60
+  new.cont=<src.uid>
+  src.maxmana +=100
+  src.sysmessage @056b Your maximum mana is increased by 100, its now <src.maxmana>
+  tag0.cooldown=<eval <serv.time> +1800>
+  src.sfx 60
+  src.emote ate the <name>
+  remove
+  return 1
+
+[ITEMDEF i_brain_gazer_timer2]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Brain Gazer timer
+
+ON=@Timer
+  cont.maxmana =
+  cont.sysmessage @55 Your maximum mana is decreased by 100, it's now <cont.maxmana>
+  remove
+  return 1
+
+
+[function plight] 
+sendpacket 04e D<uid> <hval <args>>
+
+[EOF]

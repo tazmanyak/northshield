@@ -1,0 +1,52 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[PLEVEL 1]
+GuildMenu
+gc
+pt
+
+
+[FUNCTION GuildMenu]	//Do not name this function as 'GUILD', it will crash the server
+IF !(<SRC.GUILD>)
+ if <src.tag.guildmaster>
+  SDIALOG d_guild_create
+ else
+  src.sys_error Guild kurulumu icin yetkiliye danismaniz gerekmektedir.
+ endif
+else
+  UID.<SRC.GUILD>.SDIALOG d_guild_main
+endif
+
+
+[FUNCTION gc]
+REF1=<GUILD>
+IF !(<GUILD>) || !(<DEF0.Guild.EnableGuildChat>)
+RETURN 1
+ELIF (<GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanUseChat>)
+SRC.SYSMESSAGE @,,1 Guild chati kullanacak kadar izniniz bulunmuyor.
+RETURN 1
+ELIF (<CTAG0.Guild.ChatDelay> < <SERV.TIME>)
+	for 0 <eval <guild.member.count> - 1>
+	//TRYSRC <GUILD.MEMBER.<dlocal._for>.UID> MESSAGEUA 00,13,00,ENU,<ARGS>
+	ref1 = <GUILD.MEMBER.<dlocal._for>.UID>
+	ref1.sysmessage @69,1,1 [GC] | <name> | : <ARGS>
+	//TRYSRC <GUILD.MEMBER.<dlocal._for>.UID> 
+	endfor
+CTAG.Guild.ChatDelay = <SERV.TIME>+<DEF0.Guild.ChatDelay>
+ENDIF
+
+[function pt]
+IF (<SRC.ISINPARTY>)
+	FOR 0 <EVAL <SRC.PARTY.MEMBERS>-1>
+		REF1=<SRC.PARTY.MEMBER.<dLOCAL._FOR>.UID>
+		ref1.sysmessage @69,1,1 [Party] | <name> | : <ARGS>
+	endfor
+else
+	src.sys_error Suan bir partide degilsiniz.
+	return 1
+endif
+
+
+[EOF]

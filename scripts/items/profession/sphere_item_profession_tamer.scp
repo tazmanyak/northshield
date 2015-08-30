@@ -1,0 +1,39 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 04513]
+DEFNAME=i_chicken_coop
+NAME=Chicken Coop
+TYPE=t_chicken_coop
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+RESOURCES=150 i_log
+WEIGHT=20
+DUPELIST=04514
+CATEGORY=Items by Professions
+SUBSECTION=Animal Tamer
+DESCRIPTION=Chicken Coop
+
+[ITEMDEF 04514]
+DUPEITEM=04513
+
+[ITEMDEF 0407c]
+DEFNAME=i_incubator
+NAME=Incubator
+TYPE=t_incubator
+SKILLMAKE=CARPENTRY 90.0, t_carpentry
+RESOURCES=100 i_log
+WEIGHT=10
+DUPELIST=0407d
+CATEGORY=Items by Professions
+SUBSECTION=Animal Tamer
+DESCRIPTION=Incubator
+
+[ITEMDEF 0407d]
+DUPEITEM=0407c
+
+[eof]

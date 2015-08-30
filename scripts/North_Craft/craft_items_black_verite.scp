@@ -1,0 +1,46 @@
+[defname def_black_verite_items]
+// total page
+blacksmith_verite_pagesum	4
+// platemail
+blacksmith_verite_0_1		i_platemail_leggings_verite
+blacksmith_verite_1_1		i_platemail_chest_verite
+blacksmith_verite_2_1		i_platemail_arms_verite
+blacksmith_verite_3_1		i_plate_helm_verite
+blacksmith_verite_4_1		i_platemail_gorget_verite
+blacksmith_verite_5_1		i_platemail_gloves_verite
+blacksmith_verite_6_1		i_shield_heater_verite
+blacksmith_verite_7_1		i_ringmail_gloves_verite
+blacksmith_verite_8_1		i_ringmail_leggings_verite
+blacksmith_verite_9_1		i_ringmail_sleeves_verite
+blacksmith_verite_10_1		i_ringmail_tunic_verite
+
+blacksmith_verite_11_1		i_chainmail_coif_verite
+blacksmith_verite_12_1		i_chainmail_leggings_verite
+blacksmith_verite_13_1		i_chainmail_tunic_verite
+// swords
+blacksmith_verite_0_2		i_katana_verite
+blacksmith_verite_1_2		i_scimitar_verite
+blacksmith_verite_2_2		i_cutlass_verite
+blacksmith_verite_3_2		i_bardiche_verite
+blacksmith_verite_4_2		i_halberd_verite
+blacksmith_verite_5_2		i_sword_long_verite
+blacksmith_verite_6_2		i_sword_viking_verite
+blacksmith_verite_7_2		i_sword_broad_verite
+
+// fence
+blacksmith_verite_0_3		i_dagger_verite
+blacksmith_verite_1_3		i_kryss_verite
+blacksmith_verite_2_3		i_pitchfork_verite
+blacksmith_verite_3_3		i_spear_verite
+blacksmith_verite_4_3		i_spear_short_verite
+blacksmith_verite_5_3		i_war_fork_verite
+// mace
+blacksmith_verite_0_4		i_axe_war_verite
+blacksmith_verite_1_4		i_hammer_pick_verite
+//blacksmith_verite_2_4		i_hammer_war_verite
+blacksmith_verite_2_4		i_maul_verite
+blacksmith_verite_3_4		i_mace_verite
+blacksmith_verite_4_4		i_mace_war_verite
+blacksmith_verite_5_4		i_helm_closed_verite
+
+[EOF]

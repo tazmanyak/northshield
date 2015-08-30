@@ -1,0 +1,58 @@
+// Created 05.02.2012 23:59:10, with Gump Studio.
+// Exported with with SphereExporter ver 1.1.
+// Script for 0.56/Revisions
+
+[DIALOG d_homehome]
+0,0
+
+resizepic 33 13 9200 409 200
+text 200 112 37 0
+text 90 111 37 1
+htmlgump 42 21 394 83 2 1 1
+button 364 160 247 248 1 0 1
+text 321 113 37 3
+
+radio 61 113 9722 9723 0 1
+radio 166 113 9722 9723 0 2
+radio 286 113 9722 9723 1 3
+text 45 162 0 4
+
+[DIALOG d_homehome text]
+Britain
+Delucia
+Henuz bir kordinat ayarlamadiysaniz lutfen " .isaretle" yazarak oldugunuzde " home home home " kullanabilmek icin gideceginiz yeri belirtiniz. Herhangi bir guilde uye oldugunuzda " home kordinati degiseceginden lutfen tekrar ayarlamayi unutmayiniz." Eger kordinat ayarlamadiysaniz ve olu durumdaysaniz, Delucia yada Britain seceneklerini secim " OK " diyerek konuma ulasabilirsiniz.
+Home
+Gideceginiz yeri lutfen yukaridan seciniz.
+
+[DIALOG d_homehome button]
+ON=0
+
+on=1
+if <argchk[1]>
+	if <src.flags>&statf_dead
+		src.go 5317,3972,15
+		src.newitem i_homehome_suresi
+		src.new.equip
+	endif
+elif <argchk[2]>
+	if <src.flags>&statf_dead
+		src.go britain
+		src.newitem i_homehome_suresi
+		src.new.equip
+	endif
+elif <argchk[3]>
+	if <src.flags>&statf_dead
+		src.go <home>
+		src.newitem i_homehome_suresi
+		src.new.equip
+	endif
+endif
+
+[Plevel 1]
+isaretle
+
+[function isaretle]
+src.home <src.p>
+
+
+[EOF]

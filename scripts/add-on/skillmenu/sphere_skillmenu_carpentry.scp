@@ -1,0 +1,425 @@
+﻿
+
+
+// Taxiderm Kit
+// Taxiderm kit, kisinin seçtigi OBJE'nin öncelikle ceset olup olmadigina bakar. 
+// Sonra taxiderm cesedin bizim istedigimiz ceset türünden olmadigini AMOUNT'una bakarak test eder.
+// Eger istediklerimizden biriyse, src.TAG.TRP ye bu cesedin, thropy sinin idsini koyar. 
+// Bu id  TELEPic x,y <eval <tag.trp>> ile GUMP menüye basilir. 
+// Eger kisi sorunsuz olarak esyayi yapmayi basarmis ise, CESEDIN Timer'i 1 yapilir. DECAY edilir. 
+// Baliklar için seçilen OBJE'nin type t_fish olmasina bakilir. 
+
+// POSSIBLE BUG LIST
+// type t_fish in  baliklardan baska bir sey verilip verilmedigi check edilmeli. 
+// src.TARG.TIMER=1    cesedin timer'ini 1 yapan bu seçenek kontrol edilmeli.
+// UZAKTAN (cesetten uzaklasarak) kullanilmasi
+
+// TO DO LIST
+// Düzgün ID BULUNACAK
+// FIYATI BELIRLENECEK
+// VENDOR A KONACAK
+
+
+[itemdef i_taxi_kit]
+defname i_taxi_kit
+name taxidermy kit
+id i_toolcase
+type t_script
+weight 25
+value 95000
+
+On=@Create
+attr 04
+
+On=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sys_normal Bu esyayi kullanabilmeniz icin cantanizda olmali.
+	return 1
+endif
+target @,,1 Trophy yaratmak isteginiz cesedi secin.
+return 1
+
+On=@TargOn_Char
+return 1
+
+On=@TargOn_Item
+if (0<src.targ.cont>)
+	src.sys_normal Ceset yerde olmali.
+	return 1
+endif
+if <argo.isevent.t_locked_down>
+	src.sysmessage @,,1 Sabit eşyalarda bunu kullanamazsınız.
+	return 1
+endif
+if ((<src.targ.type> == t_fish) && (<src.targ.amount> == 1)) // fishz
+	src.tag.trp 01e62
+	src.dialog d_taxidermy
+	return 1
+endif
+
+if !(<src.targ.baseid> == i_corpse)
+	src.sysmessage @38 Bundan trophy yapamazsiniz.
+	return 1
+elseif strmatch(*bear*,"<argo.name>") // bear
+	src.tag.trp 01e60
+	src.dialog d_taxidermy
+	return 1
+elseif strmatch(*deer*,"<argo.name>") // deer
+	src.tag.trp 01e61
+	src.dialog d_taxidermy
+	return 1
+elseif strmatch(*gorilla*,"<argo.name>") // gorilla
+	src.tag.trp 01e63
+	src.dialog d_taxidermy
+	return 1
+elseif strmatch(*polar*,"<argo.name>") // polar
+	src.tag.trp 01e65
+	src.dialog d_taxidermy
+	return 1
+elseif strmatch(*dragon*,"<argo.name>") // dragon
+        src.tag.trp 02235
+        src.dialog d_taxidermy
+        return 1
+elseif strmatch(*orc*,"<argo.name>") // orcz
+	src.tag.trp 01e64
+	src.dialog d_taxidermy
+	return 1
+elseif strmatch(*troll*,"<argo.name>") // trollz
+	src.tag.trp 01e66
+	src.dialog d_taxidermy
+	return 1
+else
+	src.sys_error Bu cesetten trophy yapamazsiniz.
+	return 1
+endif
+
+[dialog d_taxidermy]
+150,75
+nomove
+noclose
+resizepic 0 0 5054 265 150
+tilepic 110 55 <eval <tag.trp>>
+text 81 21 9 0
+text 80 20 449 0
+button 50 100 1153 1155 1 0 1
+button 185 100 1150 1152 1 0 0
+text 48 78 450 1
+text 180 78 450 2
+
+[dialog d_taxidermy text]
+Trophy yapimi
+Evet
+Hayir
+
+[dialog d_taxidermy button]
+On=0
+tag.trp
+
+On=1
+if (<carpentry> < 100.0) && (<tailoring> < 60.0)
+	src.sys_normal Thropy yaratabilmeniz icin 100 carpentry ve 60.0 tailoring gerekmektedir. 
+	return 1
+elseif !(<restest 10 i_log>)
+	src.sys_normal Thropy yaratabilmeniz icin 10 log gerekmektedir.
+	return 1
+else
+	src.consume 10 i_log 
+	src.newitem <src.tag.trp>
+	src.act.bounce
+	targ.timer 0
+	tag.trp
+	return 1
+endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+//
+[defname sphere_crafting_carpentry_default]
+carpentry_marking		"1" // 1 or 0
+carpentry_materials		"1" // 1 or 0
+carpentry_options_default	"1,1,0,0,0"
+
+carpentry_smelt			""
+carpentry_repair		""
+carpentry_check			"f_craft_carpentry_checkboard"
+carpentry_check_notice		""
+carpentry_chanceatmin		"80.0"
+carpentry_exceptional_bonus	""
+carpentry_aftercraft		""	// function called on the item AFTER you craft it (if success only).
+
+
+carpentry_category_1_name	Silah & Araclar  // Weapons and Armor
+carpentry_category_2_name	Demircilik // Blacksmithing
+carpentry_category_3_name	Konteynirlar // Containers
+carpentry_category_4_name	Mobilyalar // Furniture
+carpentry_category_5_name	Ensturmanlar // Instruments
+carpentry_category_6_name	Eklentiler // Misc. Add-Ons
+carpentry_category_7_name	Digerleri // Other
+carpentry_category_8_name	Tailor & Cook // Tailoring and Cooking
+carpentry_category_9_name	Yataklar & Halilar // Training
+
+carpentry_category_1_1		"i_staff_quarter"
+carpentry_category_1_2		"i_staff_gnarled"
+carpentry_category_1_3		"i_staff_black"
+carpentry_category_1_4		"i_shepherds_crook"
+carpentry_category_1_5		""
+carpentry_category_1_6		""
+carpentry_category_1_7		""
+carpentry_category_1_8		""
+carpentry_category_1_9		""
+carpentry_category_1_10		""
+carpentry_category_1_11		""
+carpentry_category_1_12		""
+carpentry_category_1_13		""
+carpentry_category_1_14		""
+carpentry_category_1_15		""
+carpentry_category_1_16		""
+carpentry_category_1_17		""
+carpentry_category_1_18		""
+carpentry_category_1_19		""
+carpentry_category_1_20		""
+carpentry_category_1_21		""
+carpentry_category_1_22		""
+carpentry_category_1_23		""
+carpentry_category_1_24		""
+carpentry_category_1_25		""
+carpentry_category_1_26		""
+carpentry_category_1_27		""
+carpentry_category_1_28		""
+carpentry_category_1_29		""
+carpentry_category_1_30		""
+carpentry_category_1_31		""
+carpentry_category_1_32		""
+
+carpentry_category_2_1		"i_deed_anvil_east"
+carpentry_category_2_2		"i_deed_anvil_south"
+carpentry_category_2_3		"i_deed_forge_elven"
+carpentry_category_2_4		"i_deed_forge_large_east"
+carpentry_category_2_5		"i_deed_forge_large_south"
+carpentry_category_2_6		"i_deed_forge_small"
+
+carpentry_category_3_1		"i_bookshelf_arcane"
+carpentry_category_3_2		"i_armoire_lt"
+carpentry_category_3_3		"i_armoire_dk"
+carpentry_category_3_4		"i_armoire_cherry"
+carpentry_category_3_5		"i_box_decorative"
+carpentry_category_3_6		"i_armoire_elegant"
+carpentry_category_3_7		"i_armoire_elven_fancy"
+carpentry_category_3_8		"i_armoire_elven_simple"
+carpentry_category_3_9		"i_deed_elven_dresser_east"
+carpentry_category_3_10		"i_deed_elven_dresser_south"
+carpentry_category_3_11		"i_deed_elven_washbasin_east"
+carpentry_category_3_12		"i_deed_elven_washbasin_south"
+carpentry_category_3_13		"i_chest_wooden_finished"
+//carpentry_category_3_14	"i_chest_gargoyle"
+carpentry_category_3_14		"i_chest_wooden_gilded"
+carpentry_category_3_15		"i_keg_small"
+carpentry_category_3_16		"i_crate_lg"
+carpentry_category_3_17		"i_armoire_maple"
+carpentry_category_3_18		"i_crate_md"
+carpentry_category_3_19		"i_deed_ornate_elven_chest_east"
+carpentry_category_3_20		"i_deed_ornate_elven_chest_south"
+carpentry_category_3_21		"i_chest_wooden_ornate"
+carpentry_category_3_22		"i_chest_wooden_plain"
+carpentry_category_3_23		"i_chest_rarewood"
+carpentry_category_3_24		"i_armoire_red"
+carpentry_category_3_25		"i_cabinet_short"
+carpentry_category_3_26		"i_crate_small"
+carpentry_category_3_27		"i_cabinet_tall"
+carpentry_category_3_28		"i_box_wood"
+carpentry_category_3_29		"i_chest_wooden_brass"
+carpentry_category_3_30		"i_footlocker_wooden"
+carpentry_category_3_31		"i_shelf_wooden"
+
+carpentry_category_4_1		"i_chair_wood"//i_chicken_coop
+carpentry_category_4_2		"i_chair_elven_cozy"
+carpentry_category_4_3		"i_table_low_elegant"
+carpentry_category_4_4		"i_podium_elven"
+carpentry_category_4_5		"i_chair_stool"
+carpentry_category_4_6		"i_deed_hardwood_table_east"
+carpentry_category_4_7		"i_deed_hardwood_table_south"
+carpentry_category_4_8		"i_chair_wood_rough_dark"
+carpentry_category_4_9		"i_table_wood_rough_small"
+carpentry_category_4_10		"i_chair_throne"
+carpentry_category_4_11		"i_chair_elven_ornate"
+carpentry_category_4_12		"i_table_ornate"
+carpentry_category_4_13		"i_table_low_plain"
+carpentry_category_4_14		"i_table_nightstand"
+carpentry_category_4_15		"i_chair_stool_bar"
+carpentry_category_4_16		"i_chair_wood_bamboo"
+carpentry_category_4_17		"i_table_writing"//i_chair_ter_mur
+carpentry_category_4_18		"i_table_wood_rough_board""//i_table_ter_mur
+carpentry_category_4_19		"i_chair_wood_cushion"
+carpentry_category_4_20		"i_chair_wood_fancy_cushion"
+carpentry_category_4_21		"i_bench_wood_dark"
+carpentry_category_4_22		""
+carpentry_category_4_23		""
+carpentry_category_4_24		""
+carpentry_category_4_25		""
+
+carpentry_category_5_1		"i_tambourine_tassel" //i_aud_char
+carpentry_category_5_2		"i_flute_bamboo"
+carpentry_category_5_3		"i_drum"
+carpentry_category_5_4		"i_harp_lap"
+carpentry_category_5_5		"i_harp_standing"
+carpentry_category_5_6		"i_lute"
+carpentry_category_5_7		"i_tambourine"
+carpentry_category_5_8		""
+
+carpentry_category_6_1		"i_deed_abbatoir"
+carpentry_category_6_2		"i_deed_alchemist_table_east"
+carpentry_category_6_3		"i_deed_alchemist_table_south"
+carpentry_category_6_4		"i_deed_arcane_circle"
+carpentry_category_6_5		"i_bulletin_board"
+carpentry_category_6_6		"i_dartboard"
+carpentry_category_6_7		"i_deed_elven_bed_east"
+carpentry_category_6_8		"i_deed_elven_bed_south"
+carpentry_category_6_9		"i_deed_elven_loveseat_east"
+carpentry_category_6_10		"i_deed_elven_loveseat_south"
+carpentry_category_6_11		"i_deed_gargish_couch_east"
+carpentry_category_6_12		"i_deed_gargish_couch_south"
+carpentry_category_6_13		"i_deed_large_bed_east"
+carpentry_category_6_14		"i_deed_large_bed_south"
+carpentry_category_6_15		""//"i_deed_long_table_east"
+carpentry_category_6_16		""//"i_deed_long_table_south"
+carpentry_category_6_17		"i_deed_parrot_perch_east"
+carpentry_category_6_18		"i_deed_parrot_perch_south"
+carpentry_category_6_19		"i_deed_pentagram"
+carpentry_category_6_20		"i_deed_short_table"
+carpentry_category_6_21		"i_deed_small_bed_east"
+carpentry_category_6_22		"i_deed_small_bed_south"
+carpentry_category_6_23		"i_deed_tall_elven_bed_east"
+carpentry_category_6_24		"i_deed_tall_elven_bed_south"
+carpentry_category_6_25		"i_kulucka"
+carpentry_category_6_26		"i_saddle"
+carpentry_category_6_27 	"i_deed_ankh"
+//carpentry_category_6_27		"i_deed_ship_small_n"	
+
+//carpentry_category_7_1		"i_board"
+carpentry_category_7_1		"i_deed_arcanist_statue_east"
+carpentry_category_7_2		"i_deed_arcanist_statue_south"
+carpentry_category_7_3		"i_bamboo_screen"
+carpentry_category_7_4		"i_barrel_lid"
+carpentry_category_7_5		"i_barrel_staves"
+//carpentry_category_7_6	"i_board"
+carpentry_category_7_6		"i_easel_with_canvas"
+carpentry_category_7_7		"i_fishing_pole"
+carpentry_category_7_8		"i_lantern_hanging_white"//i_banner_gargish
+carpentry_category_7_9		"i_acorn_replica_giant"
+carpentry_category_7_10		"i_mounted_dread_horn"
+carpentry_category_7_11		"i_lantern_hanging_red"
+carpentry_category_7_12		"i_shoji_screen"
+carpentry_category_7_13		"i_music_stand_short"
+carpentry_category_7_14		"i_deed_squirrel_statue_east"
+carpentry_category_7_15		"i_deed_squirrel_statue_south"
+carpentry_category_7_16		"i_music_stand_tall"
+carpentry_category_7_17		"i_deed_warrior_statue_east"
+carpentry_category_7_18		"i_deed_warrior_statue_south"
+carpentry_category_7_19		"i_rare_dye_5"
+carpentry_category_7_20		"i_leather_dye_5"
+carpentry_category_7_21		"i_lantern"
+
+carpentry_category_8_1		"i_dress_form"
+carpentry_category_8_2		"i_deed_wheel_n"//"i_deed_elven_oven_east"
+carpentry_category_8_3		"i_deed_elven_spinning_wheel_east"
+carpentry_category_8_4		"i_deed_elven_spinning_wheel_south"
+carpentry_category_8_5		"i_deed_loom_w"
+carpentry_category_8_6		"i_deed_loom_n"
+carpentry_category_8_7		"i_deed_elven_oven_east"
+carpentry_category_8_8          ""
+//carpentry_category_8_
+//carpentry_category_8_
+//carpentry_category_8_
+//carpentry_category_8_
+
+carpentry_category_9_1		"i_deed_small_bed_n"
+carpentry_category_9_2		"i_deed_small_bed_w"
+carpentry_category_9_3		"i_deed_large_bed_n"
+carpentry_category_9_4		"i_deed_large_bed_w"
+carpentry_category_9_5		"i_deed_carpet_bluebrown"
+carpentry_category_9_6		"i_deed_carpet_bluered"
+
+[defname sphere_crafting_carpentry_colored]
+carpentry_material_0		""
+carpentry_material_0_name	"LOG"
+carpentry_material_0_skill	"Carpentry 0.0"
+carpentry_resourceid		"i_log"
+
+carpentry_material_1		"oak"
+carpentry_material_1_name	"Oak"
+carpentry_material_1_skill	"Carpentry 65.0"
+carpentry_material_1_armor_res	"3,3,0,2,3,f_colored_armor_oak"
+carpentry_material_1_shield_res	"1,1,1,1,1"
+carpentry_material_1_weaps_dam	"0,0,0,0,0,f_colored_weaps_oak"
+carpentry_material_1_color	"color_o_oak"
+carpentry_material_1_resourceid	"i_log_oak"
+
+carpentry_material_2		"ash"
+carpentry_material_2_name	"Ash"
+carpentry_material_2_skill	"Carpentry 80.0"
+carpentry_material_2_armor_res	"4,2,4,1,6,f_colored_armor_ash"
+carpentry_material_2_shield_res	"0,0,0,0,3,f_colored_armor_ash"
+carpentry_material_2_weaps_dam	"0,0,0,0,0,f_colored_weaps_ash"
+carpentry_material_2_color	"color_o_ash"
+carpentry_material_2_resourceid	"i_log_ash"
+
+carpentry_material_3		"yew"
+carpentry_material_3_name	"Yew"
+carpentry_material_3_skill	"Carpentry 95.0"
+carpentry_material_3_armor_res	"6,3,3,0,3,f_colored_armor_yew"
+carpentry_material_3_shield_res	"3,0,0,0,0,f_colored_armor_yew"
+carpentry_material_3_weaps_dam	"0,0,0,0,0,f_colored_weaps_yew"
+carpentry_material_3_color	"color_o_yew"
+carpentry_material_3_resourceid	"i_log_yew"
+
+carpentry_material_4		"bloodwood"
+carpentry_material_4_name	"Bloodwood"
+carpentry_material_4_skill	"Carpentry 100.0"
+carpentry_material_4_armor_res	"3,8,1,3,3,f_colored_armor_bloodwood"
+carpentry_material_4_shield_res	"0,3,0,0,0,f_colored_shield_bloodwood"
+carpentry_material_4_weaps_dam	"0,0,0,0,0,f_colored_weaps_bloodwood"
+carpentry_material_4_color	"color_o_bloodwood"
+carpentry_material_4_resourceid	"i_log_bloodwood"
+
+carpentry_material_5		"heartwood"
+carpentry_material_5_name	"Heartwood"
+carpentry_material_5_skill	"Carpentry 100.0"
+carpentry_material_5_armor_res	"2,3,2,7,2,f_colored_armor_heartwood"
+carpentry_material_5_shield_res	"0,0,0,0,0,f_colored_armor_heartwood"
+carpentry_material_5_weaps_dam	"0,0,0,0,0,f_colored_weaps_heartwood"
+carpentry_material_5_color	"color_o_heartwood"
+carpentry_material_5_resourceid	"i_log_heartwood"
+
+carpentry_material_6		"frostwood"
+carpentry_material_6_name	"Frostwood"
+carpentry_material_6_skill	"Carpentry 100.0"
+carpentry_material_6_armor_res	"2,1,8,3,4"
+carpentry_material_6_shield_res	"0,0,3,0,0,f_colored_shield_frostwood"
+carpentry_material_6_weaps_dam	"0,0,40,0,0,f_colored_weaps_frostwood"
+carpentry_material_6_color	"color_o_frostwood"
+carpentry_material_6_resourceid	"i_log_frostwood"
+
+[eof]

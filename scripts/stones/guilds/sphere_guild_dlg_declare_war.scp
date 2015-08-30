@@ -1,0 +1,47 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_war_declaration]
+0,0
+
+resizepic 0 0 024AE 500 340
+resizepic 65 50 02486 370 30
+dhtmlgump 75 55 370 26 0 0 <DEF.BFONT_dRED><DEF.CENTER><DEF.I>Savas Ilani
+gumppic 410 45 0232C
+dhtmlgump 65 95 200 20 0 0 <DEF.Guild.DialogFont.DarkBlue><DEF.I>Savas Suresi
+dhtmlgump 65 120 400 20 0 0 Savasin kac saat surecegini yaziniz
+resizepic 65 150 02486 40 30
+dtextentry 70 154 50 30 0481 1 0
+dhtmlgump 65 195 200 20 0 0 <DEF.Guild.DialogFont.DarkBlue><DEF.I>Zafer Durumu
+dhtmlgump 65 220 400 20 0 0 Kac kill ile kazanan belli olucak:
+resizepic 65 250 02486 40 30
+dtextentry 70 254 50 30 0481 2 0
+resizepic 190 270 02486 130 26
+button 195 275 0845 0846 1 0 0
+dhtmlgump 220 273 90 26 0 0 IPTAL
+resizepic 330 270 02486 130 26
+button 335 275 0845 0846 1 0 1
+dhtmlgump 360 273 90 26 0 0 <DEF.BFONT_RED>Savasi Bildir!
+
+
+[DIALOG d_guild_war_declaration BUTTON]
+ON=0
+SDIALOG d_guild_info
+
+ON=1
+IF (<SRC.GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanControlWarStatus>)
+ SRC.SYSMESSAGE @,,1 Savas anlasmasi yapmak icin izniniz yok.
+ELIF (<SRC.GUILD.IsWarRing <UID>>)
+ return 1
+ENDIF
+//IF (<SRC.GUILD.GuildFromUID.<UID>.TheyWar>)
+// DeclarePeace <SRC.GUILD>
+//ENDIF
+TRY TAG.War.<SRC.GUILD> = <ARGTXT[1]>,<ARGTXT[2]>		//Time Limit, Kills Limit
+TRY UID.<SRC.GUILD>.TAG.War.<UID> = <ARGTXT[1]>,<ARGTXT[2]>	//Time Limit, Kills Limit
+Guild_SendMessage @,,1 <SRC.GUILD.NAME> savasi baslatti.
+UID.<SRC.GUILD>.DeclareWar <UID>	//Internal function
+SRC.SYSMESSAGE @,,1 Savas ilani <NAME>'e gonderildi.
+
+[EOF]

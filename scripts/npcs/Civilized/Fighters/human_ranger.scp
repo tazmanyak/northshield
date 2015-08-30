@@ -1,0 +1,122 @@
+[CHARDEF C_H_RANGER]
+DEFNAME=C_H_RANGER
+NAME=#NAMES_HUMANMALE the Ranger
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobRanger
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Fighters
+DESCRIPTION=Ranger (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={71 85}
+	DEX={76 90}
+	INT={61 75}
+
+	ANIMALLORE={55.0 78.0}
+	ARCHERY={55.0 78.0}
+	CAMPING={55.0 78.0}
+	HERDING={45.0 68.0}
+	HIDING={45.0 68.0}
+	TRACKING={45.0 68.0}
+	FENCING={35.0 58.0}
+	PARRYING={65.0 88.0}
+	SWORDSMANSHIP={35.0 58.0}
+	WRESTLING={35.0 58.0}
+	TACTICS={65.0 88.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_green
+	ITEM=random_pants
+	COLOR=colors_brown
+	ITEM=random_footwear
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+	ITEM=i_bow
+	ITEM=i_arrow,{5 20}
+
+
+[CHARDEF C_H_RANGER_F]
+DEFNAME=C_H_RANGER_F
+NAME=#NAMES_HUMANFEMALE the Ranger
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobRanger
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Fighters
+DESCRIPTION=Ranger (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={71 85}
+	DEX={76 90}
+	INT={61 75}
+
+	ANIMALLORE={55.0 78.0}
+	ARCHERY={55.0 78.0}
+	CAMPING={55.0 78.0}
+	HERDING={45.0 68.0}
+	HIDING={45.0 68.0}
+	TRACKING={45.0 68.0}
+	FENCING={35.0 58.0}
+	PARRYING={65.0 88.0}
+	SWORDSMANSHIP={35.0 58.0}
+	WRESTLING={35.0 58.0}
+	TACTICS={65.0 88.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_green
+	ITEM=random_skirt
+	COLOR=colors_brown
+	ITEM=random_footwear
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+	ITEM=i_bow
+	ITEM=i_arrow,{5 20}
+[EOF]
+

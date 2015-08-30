@@ -1,0 +1,272 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[function f_remove_ship_items]
+ref1=<args>
+forobjs
+	if <isitem>
+	  if (<REGION.UID>==<REF1>)
+		REMOVE
+	   endif
+	endif
+endfor
+timerf 2, ref1.remove
+
+[TYPEDEF t_ship_tiller]
+on=@dropon_self
+if <argo.type> == t_map_blank
+	say @,,2 502575 // Ar, that is not a map, tis but a blank piece of paper!
+	return 1
+elif <argo.type> == t_map
+	if !<argo.pins>
+		say @,,1 502576 // Arrrr, this map has no course on it!
+	else
+		link.stopmovement
+		for <argo.pins>
+			if <serv.map(<argo.getpinpos <dlocal._for>>,<argo.morem>).type> == t_water
+				link.add_destination <argo.getpinpos <dlocal._for>>
+			endif
+		endfor
+		say @,,1 502577 // A map!
+	endif
+	return 1
+endif
+
+on=@dclick
+ref1=<link>
+forcont <src.findlayer(layer_pack)>
+	if <type> == t_key
+		if <link> == <ref1>
+			local.key = 1
+		endif
+	endif
+endfor
+
+if <local.key>
+	
+	if <link.timer> < 900
+	  src.sys_error
+	  //link.timer 60*60*12
+	  src.sys_error Geminiz yenilendi.
+	 // src.sys_error Kalan sure : <ftime <link.timer>>
+	  return 1
+	else
+	  //src.sys_error Henuz yenileyemezsiniz. Kalan sure : <ftime <link.timer>>
+	  return 1
+        endif
+else
+	src.sys_error Gemimin sahibi degilsiniz...
+	return 1
+endif	
+
+on=@timer
+
+
+if <link.timer> == -1
+
+ref1=<link>
+//ref1.remove	
+//ref2=<uid.01dc3>
+
+//ref2.f_remove_ship_items <link.uid>
+return 1
+endif
+timer 60
+say @,,1 Kalan sure : <ftime <link.timer>>
+return 1
+
+on=@click
+//if <link.owner>
+//	message @,,1 Sahibi : <link.owner>
+//endif
+if (<src.findid i_rune_poison>)
+	src.sysmessage @0481,,1 Uzerinizde zehir Varken bunu yapamazsiniz.
+	return 1
+elseif (<src.hits> < <src.str>)
+	src.sysmessage @0481,,1 Yaraliyken Kullanamazsiniz.
+	return 1
+endif
+
+if <src.isgm>
+	f_ResendDialog d_DryDocking
+	return 1
+endif
+if <region.uid> != <src.region.uid>
+	ref1=<link>
+	forcont <src.findlayer(layer_pack)>
+		if <type> == t_key
+			if <link> == <ref1>
+				local.key = <uid>
+			endif
+		endif
+	endfor
+	forobjs
+		if <region.uid> == <ref1>
+			if <isitem>
+				if <link> == <ref1> && <uid> != <ref1>
+					local.item ++
+				endif
+			else
+				local.char ++
+			endif
+		endif
+	endfor
+	if <src.flags>&statf_dead
+		src.sysmessage @,,1 Suan olu gibisiniz. // You appear to be dead.
+	elif !<local.key>
+		src.sysmessage @,,1 Gemiyi kurabilmek icin geminin anahtarina ihtiyaciniz var. // You must have a key to the ship to dock the boat.
+	//elif !<link.tag0.anchor>
+	//	src.sysmessage @,,1 Anchor'i assagi indirmelisiniz. // You must lower the anchor to dock the boat.
+	elif <local.char>
+		src.sysmessage @,,1 Geminin icindeyken nasil gemiyi kaldirmayi dusunuyorsun ! // You cannot dock the ship with beings on board!
+	elif <local.item>
+		src.sysmessage @,,1 Gemiyi darmadagin guverteden nasil kaldirmayi dusunuyorsun ! // You cannot dock the ship with a cluttered deck.
+	elif <ref1.hatch.count>
+		src.sysmessage @,,1 Gemi kasasinin bos oldugundan emin olun. // Make sure your hold is empty, and try again!
+	else
+		f_ResendDialog d_DryDocking
+	//endif
+	return 1
+endif
+
+[dialog d_drydocking]
+150,200
+
+page 0
+resizepic 0 0 5054 220 170
+resizepic 10 10 3000 200 150
+
+dhtmlgump 20 20 180 70 0 0 <DEF.BFONT_white> Gemiyi Kaldirmak Istediginizden Emin Misiniz?
+//xmfhtmlgump 20 20 180 70 1018319 1 0 // Do you wish to dry dock this boat?
+
+dhtmlgump 55 100 140 25 0 0 <DEF.BFONT_white> EVET
+//xmfhtmlgump 55 100 140 25 1011011 0 0 // CONTINUE
+button 20 100 4005 4007 1 0 1
+
+dhtmlgump 55 125 140 25 0 0 <DEF.BFONT_white> IPTAL
+//xmfhtmlgump 55 125 140 25 1011012 0 0 // CANCEL
+button 20 125 4005 4007 1 0 0
+
+[dialog d_drydocking button]
+on=1
+if <src.isgm>
+	ref1=<link>
+	forcont <src.findlayer(layer_pack)>
+			if <type> == t_key
+				if <link> == <ref1>
+					remove
+				endif
+			endif
+		endfor
+		forcont <src.findlayer(layer_bankbox)>
+			if <type> == t_key
+				if <link> == <ref1>
+					remove
+				endif
+			endif
+		endfor
+		//forobjs
+	  	//	if (<REGION.UID>==<REF1>)
+		//	//	//if !(<ISSTORAGE>)
+		//		REMOVE
+	 	//	endif
+		//	//endif
+		//endfor
+		
+		
+		serv.newitem i_deed_ship
+		new.more1 = <ref1.baseid>
+		new.name = Deed to a <ref1.name>
+		new.bounce
+		ref1.remove
+	return 1
+endif
+if <region.uid> != <src.region.uid>
+	ref1=<link>
+	forcont <src.findlayer(layer_pack)>
+		if <type> == t_key
+			if <link> == <ref1>
+				local.key = <uid>
+			endif
+		endif
+	endfor
+	forobjs
+		if <region.uid> == <ref1>
+			if <isitem>
+				if <link> == <ref1> && <uid> != <ref1>
+					local.item ++
+				endif
+			else
+				local.char ++
+			endif
+		endif
+	endfor
+	if <src.flags>&statf_dead
+		src.sysmessage @,,1 Suan olu gibisiniz. // You appear to be dead.
+	elif !<local.key>
+		src.sysmessage @,,1 Gemiyi kaldirabilmek icin geminin anahtarina ihtiyaciniz var. // You must have a key to the ship to dock the boat.
+	//elif !<link.tag0.anchor>
+	//		src.sysmessage @,,1 Anchor'i assagi indirmelisiniz. // You must lower the anchor to dock the boat.
+	elif <local.char>
+		src.sysmessage @,,1 Geminin icindeyken nasil gemiyi kaldirmayi dusunuyorsun ? // You cannot dock the ship with beings on board!
+	elif <local.item>
+		src.sysmessage @,,1 Gemiyi darmadagin guverteden nasil kaldirmayi dusunuyorsun ? // You cannot dock the ship with a cluttered deck.
+	elif <ref1.hatch.count>
+		src.sysmessage @,,1 Gemi kasasinin bos oldugundan emin olun. // Make sure your hold is empty, and try again!
+	elif (<src.distance <ref1.hatch>> > 10)
+		src.sysmessage @,,1 Gemiden uzaktasiniz.
+	else
+
+	local.1=<strarg <streat <streat <ref1.multiregion>>>>
+	local.2=<strarg <streat <streat <streat <ref1.multiregion>>>>>
+	If (<dlocal.1> > <dlocal.2>)
+		local.radius = <local.1>
+	else
+		local.radius = <local.2>
+	endif
+	//forobjs
+	//  if (<REGION.UID>==<REF1>)
+	//	//if !(<ISSTORAGE>)
+	//	REMOVE
+	//  endif
+	//endif
+	//endfor
+	//foritems <dlocal.radius>
+        //      //REF2=<uid> //the items checked
+        //      //if !(STRCMPI(<REF2.region.tag0.sign>,<REF1.region.tag0.sign>))
+        //      remove
+        //      //endif
+	//endfor		
+		forcont <src.findlayer(layer_pack)>
+			if <type> == t_key
+				if <link> == <ref1>
+					remove
+				endif
+			endif
+		endfor
+		forcont <src.findlayer(layer_bankbox)>
+			if <type> == t_key
+				if <link> == <ref1>
+					remove
+				endif
+			endif
+		endfor
+
+
+		
+
+		serv.newitem i_deed_ship
+		new.more1 = <ref1.baseid>
+		new.name = Deed to a <ref1.name>
+		new.bounce
+		ref1.remove
+	endif
+	return 1
+endif
+
+[eof]

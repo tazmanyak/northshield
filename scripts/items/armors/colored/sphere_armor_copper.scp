@@ -1,0 +1,350 @@
+[ITEMDEF i_PLATEMAIL_ARMS_COPPER]
+NAME=Copper Platemail Arms
+ID=i_platemail_arms
+ARMOR= 40
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 63.5
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_leggings_COPPER]
+NAME=Copper Platemail Legs
+ID=i_platemail_leggings
+ARMOR= 40
+REQSTR=60
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 66.8
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATE_HELM_COPPER]
+NAME=Copper Plate Helm
+ID=i_platemail_helm
+ARMOR= 40
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_GORGET_COPPER]
+NAME=Copper Platemail Gorget
+ID=i_platemail_gorget
+ARMOR= 40
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 50.4
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_GLOVES_COPPER]
+NAME=Copper Platemail Gauntlets
+ID=i_platemail_gloves
+ARMOR= 40
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 53.7
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_PLATEMAIL_chest_COPPER]
+NAME=Copper Platemail
+ID=i_platemail_chest
+ARMOR= 40
+REQSTR=60
+WEIGHT=10
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 75.0
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+	
+[ITEMDEF i_PLATEMAIL_FEMALE_COPPER]
+NAME=Copper Female Platemail
+ID=i_armor_female_plate
+ARMOR= 15
+REQSTR=15
+WEIGHT=4
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 70.0
+
+
+ON=@Create
+	HITPOINTS=100
+	COLOR=color_o_copper
+
+[ITEMDEF i_CHAINMAIL_COIF_COPPER]
+NAME=Copper Chainmail Coif
+ID=i_chainmail_coif
+ARMOR= 23
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 27.6
+
+
+ON=@Create
+	HITPOINTS=100
+	COLOR=color_o_copper
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_COPPER]
+NAME=Copper Chainmail Leggings
+ID=i_chainmail_leggings
+ARMOR=23
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 31.1
+
+ON=@Create
+	HITPOINTS=100
+	COLOR=color_o_copper
+
+[ITEMDEF i_RINGMAIL_LEGGINGS_COPPER]
+NAME=Copper Ringmail Leggings
+ID=i_ringmail_leggings
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 27.6
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_SLEEVES_COPPER]
+NAME=Copper Ringmail Sleeves
+ID=i_ringmail_sleeves
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 24.3
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_GLOVES_COPPER]
+NAME=Copper Ringmail Gloves
+ID=i_ringmail_gloves
+ARMOR= 20
+REQSTR=20
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 17.8
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_RINGMAIL_TUNIC_COPPER]
+NAME=Copper Ringmail Tunic
+ID=i_ringmail_tunic
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 31.1
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_SHIELD_BUCKLER_COPPER]
+NAME=Copper Buckler
+ID=i_shield_buckler
+ARMOR= 7
+REQSTR=15
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 5.0
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_SHIELD_METAL_COPPER]
+NAME=Copper Metal Shield
+ID=i_shield_round_metal
+ARMOR= 11
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 15.0
+
+ON=@Create
+	HITPOINTS=100
+	COLOR=color_o_copper
+
+[ITEMDEF i_CHAINMAIL_TUNIC_COPPER]
+NAME=Copper Chainmail Tunic
+ID=i_chainmail_tunic
+ARMOR= 23
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Chainmail Tunic
+RESOURCES=20 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 43.8
+
+ON=@Create
+	HITPOINTS=100
+	COLOR=color_o_copper
+
+[ITEMDEF i_SHIELD_HEATER_COPPER]
+NAME=Copper Heater Shield
+ID=I_SHIELD_HEATER
+ARMOR= 23
+REQSTR=30
+WEIGHT=8
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 40.6
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+	
+[ITEMDEF i_HELM_CLOSED_COPPER]
+NAME=Copper Closed Helm
+ID=i_helm_closed
+ARMOR= 30
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_HELM_OPEN_COPPER]
+NAME=Copper Helmet
+ID=i_helm_open
+ARMOR=30
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_BASCINET_COPPER]
+NAME=Copper Bascinet
+ID=i_bascinet
+ARMOR= 30
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 19.2
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+
+[ITEMDEF i_HELM_NOSE_COPPER]
+NAME=Copper Nose Helm
+ID=i_helm_nose
+ARMOR= 30
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Copper
+DESCRIPTION=Nose Helm
+RESOURCES=15 i_ingot_copper
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_copper
+	HITPOINTS=100
+	
+[eof]

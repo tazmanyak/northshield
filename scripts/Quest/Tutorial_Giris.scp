@@ -1,0 +1,180 @@
+[DEFNAME HIKAYER]
+HIKAYE_1 Ah evet, iste buradasin.Buraya gel.Biraz saskin gozukuyorsun ? Buraya gelirken bu herkese olur.Goruyorsun,oncedende sen buradaydin kucucukten bana emanet edilmistin.Soyledigim gibi hepimiz bu yoldan geceriz.Hala saskin misin ? Aciklamama izin ver.
+HIKAYE_2 Uzun zaman once , biz bir topluluk olarak var olduk.Ve sonra o gun o yikim gunu geldiginde Mondain'in bize emanet ettigi olumsuzluk gemi kirildi ve butun gucu yikim getirdi.Bunun sebebi irklar arasindaki catismanin sonucuydu.Fakat simdi biz hepimiz bu dunyada dostca yasamayi deniyoruz.Ruhsal ve fiziksel olarak ayni olmasakta deniyoruz.Ancak bazi zamanlar bir degisiklik oluyor.Insanlar ornegin senin gibi insanlar gerceklerden kacmayi tercih ediyor.Iste bu gercekler.
+HIKAYE_3 Sana etrafindaki yeni yerleri gostermeme izin ver.Bak bu yakinindaki cyristal ball senden oncekinindi.Bu seni baska bir yerden baska bir diyara goturmeyi saglar.Bu senin gelceginin bir parcasi olacak.Ben seninle herzaman ruhani olarak varligimi yaninda surdurecegim.Baskalarini gorebilirsin tipki senin gibi.Fakat onlar seni goremeyebilirler.Britain'yayi gormeye hazirmisin.
+HIKAYE_4 Burasi britain,Britainnia daki en buyuk sehir.Cok prestijli ve kapsamli ana bankasi burasidir.Sehir merkezi banka gibi yerleri kolalikla bulabilirsin yada kime bakmak istiyorsun aradigin kisiyide bulabilirsin.Ne zaman ihtiyacin olan bir esyayi bulamassan saticilardan kendin yapmayi deneyebilirsin.
+HIKAYE_5 Bu Haven.Oradaki Maden Eriticiyi goruyormusun.Her sehirde ondan en az bir tane vardir.Blacksmith burda basit zirh ve silahlari satiyor.Fakat kaliteli silah yapmayi sende ogrenebilirsin.Bunu tavsiye ederim.Bir gun sende bir terzi buyucu iksirci ve daha aklina gelen diger seylerden birisi olacaksin.Bu saydiklarimin hepsini ogrenemeyebilirsin ama en iyisi en guzel yapabildigindir.
+HIKAYE_6 Suan Luna da bulunuyorsun.Paladin sehrinde.Buradaki yapilar britain halkinindir.Gordugun gibi bu evleri yapan sehir sakinleri usta bir zanaatkar.Digerleri zamanlarini ejderha avlamakla ve gizemli seylerin pesinde kosmakla harciyor.Ev sahipleri esya satmak icin sana hizmet sunabilir bir kira karsiliginda.Bazi evler dizaynlariyla unludur ve tarihleri vardir.
+HIKAYE_7 Burasi Hedge Maze , yani bir bolumu gordugun yer.Burasi Relvinian tarafindan ustun gucu ve buyusu ile yapildi.O ejderhalardan cok etkilenen birisiydi.Onun bazi ejderleri hala canli.Buradaki kurbanlarini bekliyor tam maze nin merkezinde.Hic kimse kesin olarak Relvinian'a ne oldugunu bilmiyor.Onun bu yok olusu hala bu gunlerde gizemini surduruyor.Daha biraz anlaticaklarim var sikilmadin umarim ?
+HIKAYE_8 Heartwood asla gizli tutulmadi burasi dunyanin kalbidir tam merkezidir.Fakat buraya gelis ne yazikki gem kirildiginde ulasilamaz hale geldi.Burasi Sosoria daki Elf lerin evidir.Kulturleri farklidir.Fakat biz onlarlar yasamayi tekrar ogrendik.Goruyorsun hala Mondain'in mezhepleri varligini surduruyor.Elfler kendilerini Cult of The Fallen olarak adlandiriyorlar.Onlar hakkinda daha fazla bilgi almak icin britainnia'da tarih kitaplarini okuyabilirsin.
+HIKAYE_9 Evet burasida bizim bizim son yolculugumuzunun oldugu yer.Suan DOOM un tam ortasinda bulunuyorsun.Britannia daki var olmus en teklikeli bolgedir.Fakat suan guvendesin ancak bir daha donerken iyi dusun.Buradaki yaratiklar bir daha sana tolerans gostermicektik.Ne sana nede bana.
+HIKAYE_10 Yillar once , Gem paramparca olmadan once biz buradakilerle dostluk ve dayanisma icerisindeydik.Burada cok fazla tuzaga yakalandim ve burayi yok etme andi ictim.Yanliz sen tabikide dunyanin heryerini gezmekte ozgursun.Bizler dusman degiliz bunu biliyorsun.Fakat sennin sahip oldugun sey ne buldugundur.Senin ozgurlugun benim ozgurlugum olacak.Iste bu yuzden seni buraya getirdim elime bir firsat gectigi icin.
+HIKAYE_11 Ben sabirliyim ve seni bekleyecegim buraya bir kilicla ve zirhinla geri donecegine eminim.Ve senin buradaki duellon tarihe kazinacak bunu biliyorum.Neyse artik senin dunyaya atilma vaktin geldi.Calis ve guclu biri ol.Dikkatli bir sekilde calis ve plan yap ve baskalariyla tanis ve yuzles.Buraya kadar, iyi günler.
+
+
+[SPEECH spk_tutorial]
+ON=**
+sysmessageloc -1,500168
+RETURN 1
+
+[EVENTS e_tutorial]
+ON=@Login
+src.dialog d_tutorial
+src.invis 1
+src.spelleffect s_night_sight,100,0
+
+
+[DIALOG d_tutorial]
+350,230
+noclose
+
+PAGE 0
+gumppic 0 0 2702
+gumppic 0 46 2702
+gumppic 0 92 2702
+gumppic 8 0 2702
+gumppic 8 46 2702
+gumppic 8 92 2702
+
+resizepic 12 260 9200 270 40
+
+FOR 19
+IF (<LOCAL._FOR> <= 18)
+gumppic <EVAL (<LOCAL._FOR>*15)> 0 0280a
+gumppic <EVAL (<LOCAL._FOR>*15)> 286 0280a
+ENDIF
+gumppic 0 <EVAL (<LOCAL._FOR>*15)> 027dd
+gumppic 277 <EVAL (<LOCAL._FOR>*15)> 027dd
+ENDFOR
+
+gumppic 0 286 02841
+gumppic 277 286 02843
+
+gumppic 0 0 0283f
+gumppic 277 0 0283d
+
+PAGE 1
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_1>
+//xmfhtmlgumpcolor 23 25 248 228 1075466 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 2
+
+PAGE 2
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_2>
+//xmfhtmlgumpcolor 23 25 248 228 1075467 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 3
+
+PAGE 3
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_3>
+//xmfhtmlgumpcolor 23 25 248 228 1075468 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 4
+
+PAGE 4
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_4>
+//xmfhtmlgumpcolor 23 25 248 228 1075469 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 5
+
+PAGE 5
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_5>
+//xmfhtmlgumpcolor 23 25 248 228 1075470 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 6
+
+PAGE 6
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_6>
+//xmfhtmlgumpcolor 23 25 248 228 1075471 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 7
+
+PAGE 7
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_7>
+//xmfhtmlgumpcolor 23 25 248 228 1075472 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 8
+
+PAGE 8
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_8>
+//xmfhtmlgumpcolor 23 25 248 228 1075474 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 9
+
+PAGE 9
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_9>
+//xmfhtmlgumpcolor 23 25 248 228 1075475 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 10
+
+PAGE 10
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_10>
+//xmfhtmlgumpcolor 23 25 248 228 1075476 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1043353 0 0 1
+xmfhtmlgumpcolor 165 265 50 20 1006045 0 0 1
+//button 130 262 4019 4018 1 0 1
+button 20 262 4005 4006 1 0 11
+
+PAGE 11
+dhtmlgump 23 25 248 228 1 1 <DEF.HIKAYE_11>
+//xmfhtmlgumpcolor 23 25 248 228 1075477 0 1 26574
+xmfhtmlgumpcolor 55 265 50 20 1052072 0 0 1
+button 20 262 0fb9 0fb8 1 0 12
+
+[DIALOG d_tutorial BUTTON]
+ON=1
+//SDIALOG d_TUTORIAL_SAIR
+
+ON=2 11
+TAG.TUTORIALPAGE=<ARGN1>
+SDIALOG d_TUTORIAL <ARGN1>
+IF ((<ARGN1> >= 4) && (<ARGN1> <= 9))
+REMOVEFROMVIEW
+IF (<ARGN1> == 4)
+MOVETO 1437,1698,6
+ELIF (<ARGN1> == 5)
+MOVETO 1427,1559,30
+ELIF (<ARGN1> == 6)
+MOVETO 926,510,-90,3
+ELIF (<ARGN1> == 7)
+MOVETO 1234,2281
+ELIF (<ARGN1> == 8)
+MOVETO 7038,403,6
+ELIF (<ARGN1> == 9)
+MOVETO 377,139,2,3
+ENDIF
+UPDATEX
+ENDIF
+
+ON=12
+invis 0
+FLAGS &= ~statf_freeze
+FLAGS &= ~statf_invul
+FLAGS &= ~statf_insubstantial
+GO britain
+FLAGS &= ~statf_invisible
+TAG.TUTORIALSTARTP
+TAG.TUTORIALPAGE
+//EVENTS -e_tutorial
+DSPEECH -spk_tutorial
+src.f_isimdegis
+
+[EOF]

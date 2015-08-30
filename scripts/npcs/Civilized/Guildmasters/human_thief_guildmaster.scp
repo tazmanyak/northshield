@@ -1,0 +1,129 @@
+[CHARDEF C_H_GUILD_THIEF]
+DEFNAME=C_H_GUILD_THIEF
+NAME=#NAMES_HUMANMALE the Guildmaster Thief
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobThiefMaster
+TSPEECH=spk_master
+TSPEECH=jobThief
+TSPEECH=spk_rehello
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Guildmasters
+DESCRIPTION=Guildmaster Thief (male)
+
+ON=@Create
+	NPC=brain_thief
+	COLOR=colors_skin
+
+	STR={91 105}
+	DEX={91 105}
+	INT={91 105}
+
+	STEALTH={70.0 100.0}
+	DETECTINGHIDDEN={55.0 78.0}
+	HIDING={70.0 100.0}
+	LockPicking={65.0 88.0}
+	POISONING={65.0 88.0}
+	SNOOPING={65.0 88.0}
+	STEALING={70.0 100.0}
+	FENCING={35.0 55.0}
+	PARRYING={35.0 55.0}
+	SWORDSMANSHIP={35.0 55.0}
+	WRESTLING={35.0 55.0}
+	MACEFIGHTING={35.0 55.0}
+	TACTICS={35.0 55.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_all
+	ITEM=i_pants_long
+	COLOR=colors_all
+	ITEM=random_footwear
+	ITEM=i_dagger
+	ITEM=random_coin_purse
+	ITEM=i_lockpick
+
+
+
+[CHARDEF C_H_GUILD_THIEF_F]
+DEFNAME=C_H_GUILD_THIEF_F
+NAME=#NAMES_HUMANFEMALE the Guildmaster Thief
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobThiefMaster
+TSPEECH=spk_master
+TSPEECH=jobThief
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Guildmasters
+DESCRIPTION=Guildmaster Thief (female)
+
+ON=@Create
+	NPC=brain_thief
+	COLOR=colors_skin
+
+	STR={91 105}
+	DEX={91 105}
+	INT={91 105}
+
+	STEALTH={70.0 100.0}
+	DETECTINGHIDDEN={55.0 78.0}
+	HIDING={70.0 100.0}
+	LockPicking={65.0 88.0}
+	POISONING={65.0 88.0}
+	SNOOPING={65.0 88.0}
+	STEALING={70.0 100.0}
+	FENCING={35.0 55.0}
+	PARRYING={35.0 55.0}
+	SWORDSMANSHIP={35.0 55.0}
+	WRESTLING={35.0 55.0}
+	MACEFIGHTING={35.0 55.0}
+	TACTICS={35.0 55.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_fancy
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=random_footwear
+	ITEM=i_dagger
+	ITEM=random_coin_purse
+	ITEM=i_lockpick
+
+[EOF]

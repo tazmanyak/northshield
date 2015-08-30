@@ -1,0 +1,202 @@
+
+
+
+[DIALOG d_zaretkinlik]
+0, 0
+PAGE 0
+resizepic 209 96 3500 250 250
+text 280 119 162 0
+text 281 201 270 1
+text 285 285 270 2
+
+dtextentry 310 180 90 20 990 1 Sayi Gir
+
+button 302 256 249 248 1 0 1
+
+[DIALOG d_zaretkinlik TEXT]
+Zar Etkinlik Sistemi
+Katilim Ucreti (Gold)
+Yarismayi Baslat
+
+
+[DIALOG d_zaretkinlik BUTTON]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.zarkatilimucreti <eval <argtxt[1]>>
+serv.newitem i_zar_gate 
+new.p 5161,2065
+serv.newitem i_bag
+new.p 5158,2060,12
+new.attr 08000
+var0.zarodulid <new.uid>
+endif
+
+/////////////////////////////////////////////////////////////////////////////////////////Gate Event Vs.
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+[itemdef i_zar_gate]
+ID=i_moongate_blue
+name zar
+
+on=@create
+timer 300
+color 080a
+
+on=@click
+message @07a1,1,1 [K.Ucreti <eval <var0.zarkatilimucreti>> Gold]
+message @07a1,1,1 [Zar Turnuvasi]
+message @07a1,1,1 [Kapanmasina:<timer> Saniye]
+return 1
+
+on=@dclick
+src.sysmessage @07a1,1,1 Lutfen ustunden gecin.
+return 1
+
+On=@step
+if !(<src.findlayer(25)>==0)
+src.sysmessage @38,,1 Binek ile katilamazsiniz.
+return 1
+endif
+
+if !(<src.restest <eval <var0.zarkatilimucreti>> i_gold>) 
+	SRC.SYSMESSAGE @33,,1  Cantanizda <eval <var0.zarkatilimucreti>> Gold bulunmamaktadir.
+	return 1
+endif
+
+
+if (<src.isgm>)
+src.sysmessage @38,1,1 Gmler Katilamaz.
+src.star
+else
+src.go 5158,2055,7
+src.consume <eval <var0.zarkatilimucreti>> i_gold
+src.stone 1
+src.zarparalaribaga
+endif
+
+[function zarparalaribaga]
+src.newitem i_gold
+new.amount <eval <var0.zarkatilimucreti>>
+new.cont <uid.<eval <var0.zarodulid>>>
+var0.zartoplamodul +=<eval <var0.zarkatilimucreti>>
+
+
+[itemdef i_zar_cikis]
+ID=i_floor_marble
+name Kazananlar Icin
+
+on=@create
+timer 500
+color 080a
+
+on=@click
+message @0823,1,1 En Son Kazanan Kisi <var0.ensonzarikazananbenim>
+return 1
+
+
+on=@dclick
+src.sysmessage @38,1,1 Lutfen ustunden gecin
+return 1
+
+on=@step
+if (<src.isgm>)
+src.sysmessage @38,1,1 Gmler gecemez!
+src.move s 1
+else
+src.bounce <uid.<eval <var0.zarodulid>>>
+try uid.<uid.<eval <var0.zarodulid>>>.attr 00
+src.go 5164,2065
+serv.allclients sysmessage @69,,1 Zar Turnuvasi Duyuru : Zar yarismasini <src.name> kazandi. Odul : <eval <var0.zartoplamodul>> Gold.
+var0.ensonzarikazananbenim <src.name>
+var0.zartoplamodul
+var0.zarodulid
+endif
+
+
+///////////////////////////////////////////////////////////////////////////////////////// Etkinlik Zari VE Kitabi
+/////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_zar_etkinlik_kitabi]
+defname i_zar_etkinlik_kitabi
+id=i_book_sm
+name Zar ETkinligi Kitabi
+WEIGHT=1
+
+ON=@Create
+color=0995
+
+on=@click
+message @0810 <name>
+Return 1
+
+on=@dclick
+
+if <src.isgm>
+src.dialog d_zaretkinlik
+return 1
+else
+src.sysmessage @,,1 Yetkin yok !
+src.stone 1
+return 1
+endif
+
+[itemdef i_zar_etkinlik]
+defname i_zar_etkinlik
+id=4007
+name Etkinlik Zari
+WEIGHT=1
+
+ON=@Create
+color=0957
+
+on=@click
+message @0810 <name>
+Return 1
+
+ON=@DCLICK
+
+if (<src.findid.i_etknlkzarsuresi>)
+	src.sysmessage @69,1,1 Tekrar atmak icin <src.findid.i_etknlkzarsuresi.timer> saniye beklemelisiniz.
+	return 1
+endif
+
+
+local.deger <EVAL(RAND(6)+1)>
+local.deger2 <EVAL(RAND(6)+1)>
+
+local.more1 <eval <dlocal.deger>+<dlocal.deger2>>
+
+src.sayua 0445,6,0,enu [<dlocal.deger>,<dlocal.deger2>]
+src.sayua 0482,6,0,enu Toplam : <eval <dlocal.deger>+<dlocal.deger2>>
+
+src.newitem i_etknlkzarsuresi
+src.act.equip
+new.more1 <local.more1>
+
+
+return 1
+
+
+[ITEMDEF i_etknlkzarsuresi]
+NAME=Monstros Tesouro Mem
+ID=i_memory
+TYPE=t_eq_script
+LAYER=30
+
+on=@equip
+timer 6
+
+ON=@Timer
+remove
+return 1
+
+
+[eof]

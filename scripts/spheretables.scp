@@ -1,0 +1,390 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// NOTE: This is loaded 2nd after SPHERE.INI watch out for order of dependancies ! (keyword DEFNAME)
+VERSION=0.56
+
+[RESOURCES]
+// sphere.ini and spheretable.scp are automatic.
+// All the other scripts we want to load.
+scripts/sphere_defs.scp
+scripts/add-on/sphere_pack_defs.scp
+scripts/sphere_types.scp
+scripts/sphere_book.scp
+scripts/sphere_backward_compatibility.scp
+scripts/sphere_events_human.scp
+scripts/sphere_events_npcs.scp
+scripts/npcs/
+scripts/npcs/Animals/
+scripts/npcs/Civilized/Fighters/
+scripts/npcs/Civilized/Arts and Music/
+scripts/npcs/Civilized/Guards and Law/
+scripts/npcs/Civilized/Guildmasters/
+scripts/npcs/Civilized/Misc/
+scripts/npcs/Civilized/Religious/
+scripts/npcs/Civilized/Tradesman/
+scripts/npcs/Civilized/Villagers/
+scripts/npcs/Civilized/Outlaws and Rogues/
+scripts/npcs/Civilized/Dark Elves/
+scripts/npcs/Civilized/Barbarians/
+scripts/npcs/Civilized/Dread Lords/
+scripts/npcs/Civilized/Frost Elves/
+scripts/npcs/Civilized/Sprite Elves/
+scripts/npcs/Civilized/Wood Elves/
+scripts/npcs/Civilized/Witches/
+scripts/npcs/Civilized/Miscellaneous.scp
+scripts/npcs/Monsters/
+scripts/npcs/Mounts/
+scripts/npcs/Spells/
+scripts/sphere_admin.scp
+scripts/sphere_dialog.scp
+// -----------------------------------
+scripts/items/sphere_item_resources.scp
+scripts/items/
+scripts/items/armors/
+scripts/items/armors/colored/
+scripts/items/armors/sets/
+scripts/items/building/
+scripts/items/crafting/
+scripts/items/decoration/
+scripts/items/multis/
+scripts/items/profession/
+scripts/items/resources/
+scripts/items/weapons/
+scripts/items/artifacts/
+// -----------------------------------
+scripts/sphere_region_resources.scp
+scripts/sphere_region.scp
+// -----------------------------------
+//scripts/maps/
+
+// -----------------------------------
+//          	Maps
+// -----------------------------------
+scripts/maps/sphere_map0.scp
+scripts/maps/sphere_map0_ml.scp
+scripts/maps/sphere_map1.scp
+scripts/maps/sphere_map2.scp
+scripts/maps/sphere_map3.scp
+scripts/maps/sphere_map4.scp
+// scripts/maps/sphere_map5.scp
+scripts/maps/sphere_map_points0.scp
+scripts/maps/sphere_map_points0_ml.scp
+scripts/maps/sphere_map_points1.scp
+scripts/maps/sphere_map_points2.scp
+scripts/maps/sphere_map_points3.scp
+scripts/maps/sphere_map_points4.scp
+// scripts/maps/sphere_map_points5.scp
+// -----------------------------------
+
+
+
+// -----------------------------------
+scripts/sphere_menu.scp
+scripts/sphere_name.scp
+scripts/sphere_skillmenu.scp
+scripts/sphere_spawns.scp
+scripts/sphere_speech.scp
+scripts/skills/
+scripts/sphere_skills.scp
+scripts/spells/
+scripts/sphere_newb.scp
+scripts/sphere_template.scp
+scripts/sphere_template_loot.scp
+scripts/sphere_template_vend.scp
+scripts/sphere_triggers.scp
+scripts/sphere_serv_triggers.scp
+scripts/speech/
+// -----------------------------------
+scripts/stones/
+scripts/stones/guilds/
+scripts/stones/towns/
+// -----------------------------------
+scripts/add-on/
+//scripts/add-on/champions/
+scripts/add-on/combat/
+scripts/add-on/crafting/
+scripts/add-on/itemproperties/
+scripts/add-on/npcai/
+scripts/add-on/skillmenu/
+scripts/add-on/treasures/
+scripts/add-on/typedefs/
+scripts/add-on/virtues/
+scripts/add-on/specialmoves/
+
+/////////////////////////////////////////////////////////////////
+scripts/Systems/
+scripts/Systems/Farming/
+scripts/Systems/Fix/
+scripts/Systems/Araclar/
+scripts/Systems/Yarismalar/
+scripts/Systems/Silahlar/
+scripts/Systems/Silahlar/Colored Weapons/Agapite/
+scripts/Systems/Silahlar/Colored Weapons/Blackrock/
+scripts/Systems/Silahlar/Colored Weapons/Bloodrock/
+scripts/Systems/Silahlar/Colored Weapons/Bronze/
+scripts/Systems/Silahlar/Colored Weapons/Copper/
+scripts/Systems/Silahlar/Colored Weapons/DullCopper/
+scripts/Systems/Silahlar/Colored Weapons/Gold/
+scripts/Systems/Silahlar/Colored Weapons/Iron/
+scripts/Systems/Silahlar/Colored Weapons/Mytheril/
+scripts/Systems/Silahlar/Colored Weapons/Shadow/
+scripts/Systems/Silahlar/Colored Weapons/Valorite/
+scripts/Systems/Silahlar/Colored Weapons/Verite/
+scripts/Systems/Silahlar/Colored Weapons/Iron/
+scripts/Systems/Silahlar/Upgrades/
+scripts/Systems/Acc/
+scripts/Quest/
+scripts/Quest/Champion/
+scripts/Quest/OsiQuests/
+scripts/Quest/OsiQuests/Peerless/
+scripts/North_Spawnlar/Spawnlar/
+scripts/North_Spawnlar/Templates/
+scripts/North_Factions/
+scripts/North_Craft/
+scripts/
+
+
+
+[OBSCENE]
+
+[FAME]
+0,2000,6000
+Anonymous
+Known
+Famous
+
+[KARMA]
+-10000,-6000,-2000,2001,6001
+Wicked
+Belligerent
+Neutral
+Kindly
+Goodhearted
+
+[NOTOTITLES] // NotoTitles
+9999,5000,2500,1250,625,-625,-1250,-2500,-5000,-9999    // karma levels
+1250,2500,5000,9999                                    // fame levels
+
+// highest karma
+Trustworthy
+Estimable
+Great
+Glorious
+Glorious
+
+Honest
+Commendable
+Famed
+Illustrious
+Illustrious
+
+Good
+Honorable
+Admirable
+Noble
+Noble
+
+Kind
+Respectable
+Proper
+Eminent
+Eminent
+
+Fair
+Upstanding
+Reputable
+Distinguished
+Distinguished
+
+<none>
+Notable
+Prominent
+Renowned
+Renowned
+
+Rude
+Disreputable
+Notorious
+Imfamous
+Dishonored
+
+Unsavory
+Dishonorable
+Ignoble
+Sinister
+Sinister
+
+Scoundrel
+Malicious
+Vile
+Villainous
+Dark
+
+Despicable
+Dastardly
+Wicked
+Evil
+Evil
+
+Outcast
+Wretched
+Nefarious
+Dread
+Dread
+
+
+[RUNES]
+An
+Bet
+Corp
+Des
+Ex
+Flam
+Grav
+Hur
+In
+Jux
+Kal
+Lor
+Mani
+Nox
+Ort
+Por
+Quas
+Rel
+Sanct
+Tym
+Uus
+Vas
+Wis
+Xen
+Ylem
+Zan
+
+[PLEVEL 1]	// extra player commands.
+AFK
+frozen
+WHERE
+HUNGRY
+CAST
+SUICIDE
+SELF
+LAST
+HELP
+EMAIL
+HelpPage
+OpenQuestLog
+GuildMenu
+GC
+TC
+STAT
+
+
+[PLEVEL 2]
+suicide
+TELE	// extra counselor commands.
+ANIM
+DETAIL
+SLEEP
+UNDERWEAR
+BARK
+FIX
+RESEND
+PAGE
+GO
+GOUID
+GOCHAR
+GOSOCK
+GOCLI
+XGO
+FORGIVE
+STONE
+xstone
+color
+xcolor
+x color
+ color
+pg
+invul
+INVIS
+s
+dondur
+//NUKE
+
+[PLEVEL 3]
+admin
+CHARLIST
+
+[PLEVEL 4]
+BADSPAWN
+LINK
+GOTYPE
+GONAME
+gm
+remove
+add
+LOCK
+KILL
+info
+xstr
+xdes
+xint
+xfame
+xkarma
+TILE
+NUKE
+
+[plevel 5]
+INFO
+allshow
+
+[PLEVEL 6]
+ACCOUNT
+SETPRIV
+DIALOG
+BLOCKIP
+TOME
+infos
+spawn
+edit
+xedit
+dupe
+xdupe
+[PLEVEL 7]
+save
+gospawn
+PASSWORD
+EXTRACT
+UNEXTRACT
+EXPORT
+IMPORT
+SERV.CLEARVARS
+SRC
+OBJ
+NEW
+DB
+FILE
+TRY
+TRYP
+TRYSRC
+TRYSRV
+PLEVEL
+events
+event
+serv
+account
+jail
+control
+xcontrol
+editdegil
+
+[EOF]
+
+

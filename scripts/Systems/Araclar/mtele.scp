@@ -1,0 +1,12 @@
+[function mtele]
+targetfg mtele1
+
+[function mtele1]
+go <targp>
+mtele
+
+[PLEVEL 2]
+mtele
+
+
+[eof]

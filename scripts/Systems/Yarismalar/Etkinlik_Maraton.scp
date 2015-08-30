@@ -1,0 +1,510 @@
+[Plevel 1]
+maraton
+maratonquit
+/////////////////////////////////////////////////////////////////
+//
+// Britain-Yew	 	
+// Minoc-Trinsic	 	
+//    
+//
+//////////////////////////////////////////////////////////////////
+
+[defname Maraton_Opt]
+Maraton_Odul_1		"300000"
+Maraton_Odul_2		"200000"
+Maraton_Odul_3		"100000"
+
+d_m_aciklama		"Yarismadan cikmak icin .maratonquit yazmaniz yeterlidir. Yarismayi bitirdiginizde basladiginiz noktaya gate acilacaktir. Yarismaya bineksiz bir halde katiliniz. Yarismaya ayni karkaterle 2.kez katilamazsiniz. 10 gun sonra yarisma sifirlandiginda tekrar ayni karkater ile katilabilirsiniz."
+
+//////////////////////////////////////////////////////////////////
+[EVENTS e_Kosucu]
+
+on=@RegionEnter
+
+if	strmatch("<tag0.BaslangicYeri>","Britain")
+
+	if	strmatch("<argo.name>","Yew")
+		src.say @,,1 Yarismayi Bitirdiniz !
+		src.f_maraton_gate Britain
+		local.time <src.tag.KosuSuresi> 
+		src.sysmessage @69,,1 Bitiris Sureniz : <eval <local.time>/60> dk. <eval <local.time>-(60*<eval <local.time>/60)>)> sn.
+		src.events -e_Kosucu
+		src.events -e_nouse
+		src.f_KosucuTopList_BritainYew
+		list.f_b_top_kosucu.add <src>
+		db.connect
+		db.execute "insert into son_etkinlikler (isim, nereden, nereye, sure) VALUES ('<addslashes <src.name>','Britain','Yew','<addslashes <ftime <local.time>>>');"
+		serv.allclients sys_error <src.name>, Britain-Yew arasi kosuyu <ftime <local.time>> sn de tamamladi.
+		db.close
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt ___________________________________________Britain-Yew__________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | <ftime <local.time>> Surede tamamladi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt 
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt ________________________________________________________________________________________________
+
+	endif
+
+endif
+
+if	strmatch("<tag0.BaslangicYeri>","Minoc")
+
+	if	strmatch("<argo.name>","Trinsic")
+		src.say @,,1 Yarismayi Bitirdiniz !
+		src.f_maraton_gate Minoc
+		local.time <src.tag.KosuSuresi> 
+		src.sysmessage @69,,1 Bitiris Sureniz : <eval <local.time>/60> dk. <eval <local.time>-(60*<eval <local.time>/60)>)> sn.
+		src.events -e_Kosucu
+		src.events -e_nouse
+		src.f_KosucuTopList_MinocTrinsic
+		list.f_m_top_kosucu.add <src>
+		db.connect
+		db.execute "insert into maraton (isim, nereden, nereye, sure) VALUES ('<addslashes <src.name>','Minoc','Trinsic','<addslashes <ftime <local.time>>>');"
+		db.close
+		serv.allclients sys_error <src.name>, Minoc-Trinsic arasi kosuyu <ftime <local.time>> sn de tamamladi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt ___________________________________________Minoc-Trinsic________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | <ftime <local.time>> Surede tamamladi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt 
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Maraton\<src.account.name>.txt ________________________________________________________________________________________________
+
+ 
+	endif
+
+endif
+
+on=@dclick
+if <src.findtype.t_eq_trade_window>
+	src.sys_error Trade ekraninda yarismaya katilmazsiniz.
+	return 1
+endif
+
+if (<act.baseid> == i_runebook) || (<act.baseid> == i_shrink_deed) || (<act.type> == t_figurine) || (<act.baseid> == i_gate_maps) || (<act.baseid> == i_runebook)
+src.sysmessage @,,1 Yarismada bu islem yapilamaz.
+return 1
+endif
+
+if (<act.type> == t_telepad)
+src.sysmessage @,,1 Yarismada bu islem yapilamaz.
+return 1
+endif
+
+on=@spellcast
+if (<argn> == 22)
+src.f_fizzle
+src.sysmessage @33,,1 Maratonda kurallara aykiridir.
+action -1
+return 1
+endif
+
+on=@mount
+return 1
+
+on=@death
+sysmessage @33,,1 Malesef elendiniz.
+events -e_Kosucu
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[chardef c_Kosucu]
+name #NAMES_HUMANMALE
+id c_man
+can mt_equip|mt_nonmover
+
+On=@Create
+str 100
+dex 100
+int 100
+color 083ea
+title Racer
+invul 1
+
+ITEMNEWBIE=i_cape
+color 0373
+ITEMNEWBIE=i_shoes_plain
+color 0373
+ITEMNEWBIE=i_pants_short
+color 0373
+ITEMNEWBIE=i_shirt_plain
+color 0373
+ITEMNEWBIE=i_bandana
+color 0373
+
+on=@gethit
+return 1
+on=@spelleffect
+return 1
+on=@death
+hits 100
+return 1
+on=@attack
+skill fail
+action -1
+return 1 
+
+on=@hit
+return 1
+
+on=@click
+messageua 0481,6,6,enu Racer
+
+on=@dclick
+if strmatch("<region.name>","Britain")
+	sdialog d_Maraton_Katilim_BY
+	return 1
+endif
+if strmatch("<region.name>","Minoc")
+	sdialog d_Maraton_Katilim_MT
+	return 1
+endif
+////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////// Gumps
+
+[DIALOG d_kosucu]
+0,0
+page 0
+resizepic 34 43 2620 762 512
+//resizepic 49 103 9200 730 170
+gumppic 150 60 52
+gumppic 530 60 52
+//resizepic 49 274 9200 730 170
+resizepic 60 130 2620 366 120
+resizepic 445 130 2620 325 51
+resizepic 60 300 2620 364 120
+resizepic 445 300 2620 327 51
+gumppic 437 191 9005
+gumppic 440 360 9005
+
+dtext 370 65 32 Maraton Kosusu
+
+dtext 200 65 1152 Ilk 3 (10 Gunluk)
+dtext 580 65 1152 Tum Zamanlarin
+
+//dtext 520 215 33 Britian --> Yew
+//dtext 520 385 33 Minoc --> Trinsic
+
+dtext 375 105 1152 Britain - Yew
+dtext 375 275 1152 Minoc - Trinsic
+
+dtext 505 195 68 1.Olana, 3 Dragon Egg odul.
+dtext 505 215 68 2.Olana, 2 Dragon Egg odul.
+dtext 505 235 68 3.Olana, 1 Dragon Egg odul.
+
+dtext 505 365 68 1.Olana, 4 Dragon Egg odul.
+dtext 505 385 68 2.Olana, 3 Dragon Egg odul.
+dtext 505 405 68 3.Olana, 2 Dragon Egg odul.
+
+dtext 60 450 1152 * Yarismadan cikmak icin .maratonquit yaziniz.
+dtext 60 470 1152 * Ayni parkurda, ayni karakter ile 2.kez kosamazsiniz. Ancak yarisma sifirlandiginda katilabilirsiniz.
+dtext 60 490 1152 * Yarisma hakkinda sikayet veya onerilerinizi page yoluyla degil forum araciligi ile belirtiniz.
+
+for 3   // HAFTALIK ILK 3
+	if <serv.LIST.Kosucu_BY.COUNT>
+		dtext 75 <eval (<local._for>*36)+105> 1152 <eval <local._for>>. <uid.<list.Kosucu_BY.<local._for>>.name> 	// Brit-Yew NAME
+	endif
+
+	if <serv.LIST.Kosucu_MT.COUNT>
+		dtext 75 <eval (<local._for>*36)+275> 1152 <eval <local._for>>. <uid.<list.Kosucu_MT.<local._for>>.name>	// Minoc-Trinsic NAME
+	endif
+
+	if <serv.LIST.Kosucu_BYSure.COUNT>
+		local.time <eval <list.Kosucu_BYSure.<local._for>>>
+		dtext 315 <eval (<local._for>*36)+105> 69  <eval <local.time>/60> dk. <eval <local.time>-(60*<eval <local.time>/60)>)> sn.	// Brit-Yew TIME
+	endif
+
+	if <serv.LIST.Kosucu_MTSure.COUNT>
+		local.time <eval <list.Kosucu_MTSure.<local._for>>>
+		dtext 315 <eval (<local._for>*36)+275> 69  <eval <local.time>/60> dk. <eval <local.time>-(60*<eval <local.time>/60)>)> sn.	// Minoc-Trinsic TIME
+	endif
+endfor
+
+	// TUM ZAMANLARIN SAMPIYONU
+
+	dtext 460 145 1152 <uid.<var.BY_Champ>.name>		// Brit-Yew
+	
+	dtext 460 315 1152 <uid.<var.MT_Champ>.name>		// Minoc-Trinsic
+
+	local.time <eval <var.BY_Champ_Time>>
+	dtext 670 145 69 <eval <local.time>/60> dk. <eval <local.time>-(60*<eval <local.time>/60)>)> sn.		// Brit-Yew TIME
+	local.time <eval <var.MT_Champ_time>>
+	dtext 670 315 69 <eval <local.time>/60> dk. <eval <local.time>-(60*<eval <local.time>/60)>)> sn.		// Minoc-Trinsic TIME
+
+
+
+[DIALOG d_kosucu text]
+
+[DIALOG d_kosucu button]
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[DIALOG d_Maraton_Katilim_BY]
+0,0
+page 0
+resizepic 129 2 2620 402 314
+button 150 220 4005 4007 1 0 1
+text 185 220 1152 0
+button 150 260 4005 4007 1 0 2
+text 185 260 1152 1
+htmlgump 149 19 365 187 2 1 1
+
+[DIALOG d_Maraton_Katilim_BY text]
+Britan - Yew Arasi Kosmak Istiyorum
+Istatistikler (.Maraton)
+
+<def.d_m_aciklama>
+
+[DIALOG d_Maraton_Katilim_BY button]
+ON=1
+if <src.isevent.e_kosucu>
+	src.sys_error Su anda zaten etkinliktesiniz.
+	return 1
+endif
+if (<src.findlayer.25>)
+	src.sysmessage @55,,1 Binekle giremezsiniz.
+	return 1
+endif
+
+if (<DISTANCE <src>> > 2)
+	src.sysmessage @33,,1 Vendordan uzaksiniz. (En az 2 kare)
+	return 1
+endif
+
+if <src.findid.i_rb_delay>
+	src.sysmessage @33,,1 Bu sekilde olmaz.
+	return 1
+endif
+
+if <src.f_b_top_kosucu>
+	return 1
+endif
+
+src.BY_Ver  
+
+ON=2
+src.Maraton
+ 
+[DIALOG d_Maraton_Katilim_MT]
+0,0
+page 0
+resizepic 129 2 2620 402 314
+button 150 220 4005 4007 1 0 1
+text 185 220 1152 0
+button 150 260 4005 4007 1 0 2
+text 185 260 1152 1
+htmlgump 149 19 365 187 2 1 1
+
+[DIALOG d_Maraton_Katilim_MT text]
+Minoc - Trinsic Arasi Kosmak Istiyorum
+Istatistikler (.Maraton)
+
+<def.d_m_aciklama>
+
+[DIALOG d_Maraton_Katilim_MT button]
+ON=1
+if <src.isevent.e_kosucu>
+	src.sys_error Su anda zaten etkinliktesiniz.
+	return 1
+endif
+if (<src.findlayer.25>)
+	src.sysmessage @55,,1 Binekle giremezsiniz.
+	return 1
+endif
+
+if (<DISTANCE <src>> > 2)
+	src.sysmessage @33,,1 Vendordan uzaksiniz. (En az 2 kare)
+	return 1
+endif
+
+if <src.findid.i_rb_delay>
+	src.sysmessage @33,,1 Bu sekilde olmaz.
+	return 1
+endif
+
+if <src.f_m_top_kosucu>
+	return 1
+endif
+
+src.MT_Ver 
+
+
+ON=2
+src.Maraton
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////// Items
+
+[itemdef i_kosucu_sayaci]
+ID=i_memory
+TYPE=t_eq_script
+name Kosu Sayac
+
+on=@create
+attr= attr_can_decay|attr_invis
+timer=1
+
+on=@equip
+timer=1
+
+on=@timer
+if !<cont.isevent.e_Kosucu>
+	cont.tag.kosusuresi
+	cont.tag.baslangicyeri
+	cont.findid.i_kosucu_sayaci.remove
+	return 1
+endif
+
+if !<cont.tag.kosusuresi>
+	cont.tag0.kosusuresi 0
+endif
+	cont.tag0.kosusuresi ++
+	cont.sysmessage @,,1 <eval <cont.tag.kosusuresi>>
+	timer 1
+return 1
+
+
+[itemdef i_maraton_tasi]
+ID=i_grave_stone
+TYPE=t_eq_script
+name Maraton Sayaci
+
+on=@create
+attr= attr_can_decay|attr_invis
+timer=60
+
+on=@timer
+timer 120
+local.day=<serv.rtime.format %d>
+
+if (<eval <local.day>> == 1 || <eval <local.day>> == 10 || <eval <local.day>> == 20)
+	timer 86400
+	serv.KosuyuYenile
+endif
+
+return 1
+
+on=@click
+message @33,,1 Dokunmassan svnrm cnm ok by
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////// Functions
+
+[Function f_Maraton_Odullerini_Ver]
+
+FOR 3
+if	(<eval <local._for>> == 1)
+	uid.<list.Kosucu_BY.<eval <local._for>>>.f_m_paramiver 3
+	uid.<list.Kosucu_MT.<eval <local._for>>>.f_m_paramiver 4
+elif	(<eval <local._for>> == 2)
+	uid.<list.Kosucu_BY.<eval <local._for>>>.f_m_paramiver 2
+	uid.<list.Kosucu_MT.<eval <local._for>>>.f_m_paramiver 3
+elif	(<eval <local._for>> == 3)
+	uid.<list.Kosucu_BY.<eval <local._for>>>.f_m_paramiver 1
+	uid.<list.Kosucu_MT.<eval <local._for>>>.f_m_paramiver 2
+endif
+ENDFOR
+
+/////////
+
+[function BY_Ver]
+src.message @69,,1 Kosu basladi! Hedefin Yew!
+src.newitem i_kosucu_sayaci
+src.events +e_kosucu
+src.events +e_nouse
+src.act.equip
+src.tag0.BaslangicYeri Britain
+src.closealldialogs
+
+[function MT_Ver]
+src.message @69,,1 Kosu basladi! Hedefin Trinsic!
+src.newitem i_kosucu_sayaci
+src.events +e_kosucu
+src.events +e_nouse
+src.act.equip
+src.tag0.BaslangicYeri Minoc
+src.closealldialogs
+
+/////////
+
+[function Maraton]
+src.sysmessage @33,,1 Bir sureligine kullanimdan kaldirilmistir.
+return 1
+//src.dialog d_kosucu
+
+/////////
+
+[function KosuyuYenile]
+serv.f_Maraton_Odullerini_Ver
+
+list.f_b_top_kosucu.clear
+list.f_m_top_kosucu.clear
+
+list.f_b_top_kosucu.add 0fc10
+list.f_m_top_kosucu.add 0fc10
+
+list.Kosucu_BY.CLEAR
+list.Kosucu_BYSure.CLEAR
+
+list.Kosucu_MT.CLEAR
+list.Kosucu_MTSure.CLEAR
+
+FOR 0 3
+list.Kosucu_BY.ADD 0fc10
+list.Kosucu_BYSure.ADD 3599
+
+list.Kosucu_MT.ADD 0fc10
+list.Kosucu_MTSure.ADD 3599
+ENDFOR
+
+[function maratonquit]
+if <src.isevent.e_Kosucu>
+	src.events -e_Kosucu
+	src.events -e_nouse
+	src.sysmessage @33,,1 Maratondan ayrildiniz.
+	return 1
+else
+	src.sysmessage @33,,1 Yarismada degilsiniz.
+	return 1
+endif
+
+[function f_maraton_gate]
+serv.newitem i_moongate_black
+new.type t_telepad
+new.update
+if strmatch("<args>","Britain")
+	new.name Britain
+	new.morep 1476,1626,20
+endif
+if strmatch("<args>","Minoc")
+	new.name Minoc
+	new.morep 2517,565
+endif
+
+new.message @33,,1 Gate 10 saniye icerisinde kapanacak!
+new.attr	010
+new.p		<src.p>
+new.timerf 10,remove
+new.update
+
+[function f_m_paramiver]
+serv.newitem i_y_kupa,<args>,<findlayer.29>
+
+[function f_b_top_kosucu]
+if (<serv.list.f_b_top_kosucu.FINDELEM <src>> > -1)
+       	src.sysmessage @33,,1 Bu karakter daha once Britain - Yew parkurunda kosmus, kosu listesi yenilendiginde tekrar deneyin.
+	return 1
+else
+	return 0
+endif
+
+[function f_m_top_kosucu]
+if (<serv.list.f_m_top_kosucu.FINDELEM <src>> > -1)
+       	src.sysmessage @33,,1 Bu karakter daha once Minoc - Trinsic parkurunda kosmus, kosu listesi yenilendiginde tekrar deneyin.
+	return 1
+else
+	return 0
+endif
+
+[EOF]

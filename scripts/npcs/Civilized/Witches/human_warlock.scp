@@ -1,0 +1,59 @@
+[CHARDEF c_h_warlock]
+DEFNAME=c_h_warlock
+NAME=#NAMES_HUMANMALE the Warlock
+ID=C_MAN
+DAM=20,35
+ARMOR=15,20
+//ALIGNMENT=EVIL
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_MALE
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+CATEGORY=Civilized
+SUBSECTION=Witches (Evil)
+DESCRIPTION=Warlock
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-3000 -5000}
+	FAME={2500 4000}
+	COLOR=0599
+
+	STR={80 120}
+	DEX={81 95}
+	INT={80 100}
+
+	MAGICRESISTANCE={90.0 95.0}
+	TACTICS={70.0 90.0}
+	WRESTLING={40.0 55.0}
+	MAGERY={95.0 100.0}
+
+	ITEMNEWBIE=i_hair_long
+	COLOR=0
+	ITEMNEWBIE=i_spellbook
+	//ADDSPELL=
+	MORE1=0ffffffff
+	MORE2=0ffffffff
+
+ON=@NPCRestock
+	ITEM=i_robe
+	//COLOR=1
+	ITEM=i_hat_wizards
+	//COLOR=1
+	ITEM=i_boots_calf
+	//COLOR=1
+	ITEM=random_jewel
+	ITEM=random_upper_scroll
+	ITEM=random_scroll
+	CONTAINER=i_bag
+	ITEM=i_reag_black_pearl,{ 1 15 }
+	ITEM=i_reag_blood_moss,{ 1 15 }
+	ITEM=i_reag_garlic,{ 1 15 }
+	ITEM=i_reag_ginseng,{ 1 15 }
+	ITEM=i_reag_mandrake_root,{ 1 15 }
+	ITEM=i_reag_nightshade,{ 1 15 }
+	ITEM=i_reag_sulfur_ash,{ 1 15 }
+	ITEM=i_reag_spider_silk,{ 1 15 }
+
+[EOF]

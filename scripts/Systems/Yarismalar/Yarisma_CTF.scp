@@ -1,0 +1,1101 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////CTF - Rhodos////////////////////////////////////////////////////////////
+
+
+[defname ctf_options]
+ctf_player_base_red		"6332,55,-21"
+ctf_player_base_white		"6361,142,-20"
+ctf_flag_base_red		"6332,55,-20"
+ctf_flag_base_white		"6359,143,-20"
+
+ctf_finish_and_go		"5322,1823"
+
+ctf_open_gate_p			"5321,1813"
+ctf_timer_gate			"300"
+
+ctf_kill_point			"2"
+ctf_kill_point_flagowner	"10"
+ctf_captureflag_point		"100"
+ctf_finish_point		"750"
+
+
+//ctf_value_katilim		"5000" // ilerde aktif edilcek
+//ctf_value_odul		"25000"// degiscek
+
+ctf_flag_uid_white		"04000e2e2"
+ctf_flag_uid_red		"0400055be"
+
+/////////////////////////////////////////////////////////////////////////Function Start
+
+[function f_ctf_start]
+
+if (<eval <var.ctf_player_white>> < 2)
+serv.f_ctf_bitir
+duyur Katilimci sayisi baraji gecemedigi icin CTF yarismasi iptal edildi.
+var.etkinlikprogramisondurum Katilimci sayisi baraji gecemedigi icin CTF yarismasi iptal edildi.
+return 1
+endif
+
+
+if (<isevent.e_ctf_red>)
+stone 0
+f_ctf_skor_guncelleme
+endif
+
+if (<isevent.e_ctf_white>)
+stone 0
+f_ctf_skor_guncelleme
+endif
+
+[function f_ctf_bitir]
+serv.allclients f_ctf_diskalifiye
+var.ctf_point_white
+var.ctf_point_red
+var.ctf_player_white
+var.ctf_player_red
+
+[function f_ctf_open]
+serv.allclients f_ctf_diskalifiye
+var.ctf_point_white
+var.ctf_point_red
+var.ctf_player_white
+var.ctf_player_red
+
+serv.newitem i_gate_ctf
+new.p <def.ctf_open_gate_p>
+new.timer <def.ctf_timer_gate>
+var.ctf_gate_uid <new.uid>
+duyur Capture the Flag etkinliği düzenlenmektedir. Katılmak için lütfen .katilim kullanınız.
+var.katilim 1
+
+[function f_ctf_finish]
+if <args> == 1
+	serv.allclients f_ctf_win_or_lose 1  // White WINNER
+elif <args> == 2
+	serv.allclients f_ctf_win_or_lose 2  // Red WINNER
+endif
+
+[function f_ctf_diskalifiye]
+if (<isevent.e_ctf_red>)
+var.ctf_player_red -=1
+stone 0
+events -e_ctf_red
+f_ctf_fame_karma_kill_load
+uzerimdekiherseyisil
+go <def.ctf_finish_and_go>
+endif
+
+if (<isevent.e_ctf_white>)
+var.ctf_player_white -=1
+stone 0
+events -e_ctf_white
+f_ctf_fame_karma_kill_load
+uzerimdekiherseyisil
+go <def.ctf_finish_and_go>
+endif
+
+/////////////////////////////////////////////
+
+[function f_ctf_win_or_lose]
+if <args> == 1
+	var.son_ctf <name>
+	if <isevent.e_ctf_white>	 // winner
+	go <def.ctf_finish_and_go>
+	f_ctf_fame_karma_kill_load
+	f_ctf_winner_hediye
+	say @,,1 Kazandiniz !
+	elseif <isevent.e_ctf_red>	 // Loser
+	go <def.ctf_finish_and_go>
+	f_ctf_fame_karma_kill_load
+	say @,,1 Kaybettiniz !
+	f_ctf_loser_hediye
+	endif
+elseif <args> == 2
+	if <isevent.e_ctf_red>	  // Winner
+	go <def.ctf_finish_and_go>
+	f_ctf_fame_karma_kill_load
+	say @,,1 Kazandiniz !
+	f_ctf_winner_hediye
+	elseif <isevent.e_ctf_white> // Loser
+	go <def.ctf_finish_and_go>
+	f_ctf_fame_karma_kill_load
+	say @,,1 kaybettiniz !
+	f_ctf_loser_hediye
+	endif
+endif
+
+/////////////////////////////////////////////
+
+
+[function f_ctf_skor_guncelleme]
+if (<isevent.e_ctf_red>)
+f_dialog_open_ctf_Scor
+endif
+
+if (<isevent.e_ctf_white>)
+f_dialog_open_ctf_Scor
+endif
+
+[function f_dialog_open_ctf_Scor]
+//trysrc <uid> dialogclose d_ctf_score_table
+trysrc <uid> dialog d_ctf_score_table
+
+/////////////////////////////////////////////
+
+[function f_skor_kontrol]
+if <eval <var.ctf_point_white>> >= <eval <def.ctf_finish_point>>
+	serv.allclients f_ctf_win_or_lose 1
+elseif <eval <var.ctf_point_red>> >= <eval <def.ctf_finish_point>>
+	serv.allclients f_ctf_win_or_lose 2
+endif
+
+/////////////////////////////////////////////
+
+[function f_go_base]
+if <isevent.e_ctf_red>
+	hits <str>
+	stam <dex>
+	mana <int>
+	f_pot_bandaj_guncelle
+	go <def.ctf_player_base_red>
+	f_ctf_skor_guncelleme
+	f_pot_bandaj_guncelle2
+	serv.f_skor_kontrol
+	//serv.allclients f_ctf_skor_guncelleme
+RETURN 1	
+elif <isevent.e_ctf_white>
+	hits <str>
+	stam <dex>
+	mana <int>
+	f_pot_bandaj_guncelle
+	go <def.ctf_player_base_white>
+	f_ctf_skor_guncelleme
+	f_pot_bandaj_guncelle2
+	serv.f_skor_kontrol
+	//serv.allclients f_ctf_skor_guncelleme
+RETURN 1
+endif
+
+[function f_all_go_base]
+if (strmatch('<args>','REDSCOR'))
+	var.ctf_point_red +=100
+	serv.f_skor_kontrol
+		serv.allclients f_go_base
+		serv.allclients f_ctf_skor_guncelleme
+	uid.<def.ctf_flag_uid_white>.p <def.ctf_flag_base_white>
+	uid.<def.ctf_flag_uid_red>.p <def.ctf_flag_base_red>
+	uid.<def.ctf_flag_uid_white>.tag.owner 0
+	uid.<def.ctf_flag_uid_red>.tag.owner 0
+endif
+if (strmatch('<args>','WHITESCOR'))
+	var.ctf_point_white +=100
+	serv.f_skor_kontrol
+		serv.allclients f_go_base
+		serv.allclients f_ctf_skor_guncelleme
+	uid.<def.ctf_flag_uid_white>.p <def.ctf_flag_base_white>
+	uid.<def.ctf_flag_uid_red>.p <def.ctf_flag_base_red>
+	uid.<def.ctf_flag_uid_white>.tag.owner 0
+	uid.<def.ctf_flag_uid_red>.tag.owner 0
+endif
+
+
+
+/////////////////////////////////////////////
+
+[function f_ctf_select_class]
+
+if (<eval <var.ctf_player_red>>) > (<eval <var.ctf_player_white>>) // kirmizi fazla ise
+src.f_ctf_select_class_katil white
+elseif (<eval <var.ctf_player_white>>) > (<eval <var.ctf_player_red>>)
+(<eval <var.ctf_player_white>>) > (<eval <var.ctf_player_red>>) // beyaz fazla ise
+src.f_ctf_select_class_katil red
+elseif (<eval <var.ctf_player_red>> == <eval <var.ctf_player_white>>) // takimlar esit ise
+dorand 2
+src.f_ctf_select_class_katil red
+src.f_ctf_select_class_katil white
+enddo
+endif
+
+if (strmatch('<args>','warlock'))
+src.cantalarbanka
+src.binekolmazsaolmaz
+src.sysmessage @,,1 Warlock oldunuz.
+src.f_pot_bandaj_guncelle
+src.f_ctf_fame_karma_kill_save
+src.f_ctf_giyim_warlock
+src.stone 1
+	if <src.isevent.e_ctf_white>
+	src.go <def.ctf_player_base_white>
+	elseif <src.isevent.e_ctf_red>
+	src.go 	<def.ctf_player_base_red>
+	endif
+elif (strmatch('<args>','mage'))
+src.cantalarbanka
+src.binekolmazsaolmaz
+src.sysmessage @,,1 Mage oldunuz.
+src.f_pot_bandaj_guncelle
+src.f_ctf_fame_karma_kill_save
+src.f_ctf_giyim_mage
+src.stone 1
+	if <src.isevent.e_ctf_white>
+	src.go <def.ctf_player_base_white>
+	elseif <src.isevent.e_ctf_red>
+	src.go 	<def.ctf_player_base_red>
+	endif
+elif (strmatch('<args>','warrior'))
+src.cantalarbanka
+src.binekolmazsaolmaz
+src.sysmessage @,,1 Warrior oldunuz.
+src.f_pot_bandaj_guncelle
+src.f_ctf_fame_karma_kill_save
+src.f_ctf_giyim_warrior
+src.stone 1
+	if <src.isevent.e_ctf_white>
+	src.go <def.ctf_player_base_white>
+	elseif <src.isevent.e_ctf_red>
+	src.go 	<def.ctf_player_base_red>
+	endif
+endif
+
+[function f_ctf_select_class_katil]
+if (strmatch('<args>','red'))
+src.events +e_ctf_red
+var.ctf_player_red +=1
+
+elif (strmatch('<args>','white'))
+src.events +e_ctf_white
+var.ctf_player_white +=1
+endif
+
+////////////////////////////////////////////////////////////////
+
+[function f_ctf_fame_karma_kill_save]
+tag0.ctf_kill	<kills>
+tag0.ctf_fame	<fame>
+tag0.ctf_karma	<karma>
+
+[function f_ctf_fame_karma_kill_load]
+kills	<eval <tag0.ctf_kill>>
+fame	<eval <tag0.ctf_fame>>
+karma	<eval <tag0.ctf_karma>>
+flags &= ~statf_criminal
+tag0.ctf_kill
+tag0.ctf_fame
+tag0.ctf_karma
+binekstabil
+/////////////////////////////////////////////////////////////////////////function finish
+/////////////////////////////////////////////////////////////////////////Events Start
+
+[events e_ctf_red]
+on=@login
+timerf clear
+
+on=@logout
+timerf 45,f_ctf_diskalifiye
+
+on=@skillstart
+if (<action> == (skill_hiding)) || (<action> == id(skill_hiding)) || (<action> == id(skill_stealth)) || (<action> == (skill_stealth))
+src.smsx Hide olamazsiniz..
+skill fail
+return 1
+endif
+
+on=@itemdclick
+
+on=@ItemDropOn_Ground
+act.bounce
+return 1
+
+
+on=@spelleffect
+if (<serv.spell.<argn>.flags>&SPELLFLAG_HARM) || (<serv.spell.<argn>.flags>&spellflag_field)
+if <src.isevent.e_ctf_red>
+src.sysmessage @07a1,1,1 Yandaslariniza zararli buyu atamazsiniz!
+return 1
+endif
+endif
+
+on=@attack
+if <src.isevent.e_ctf_red>
+sysmessage @07a1,1,1 Yandaslariniza saldiramazsiniz!
+return 1
+endif
+
+on=@mount
+return 1
+
+on=@hit
+if <src.isevent.e_ctf_red>
+sysmessage @07a1,1,1 Yandaslariniza saldiramazsiniz!
+return 1
+endif
+
+on=@spellcast
+if (<serv.spell.<argn>.flags>&SPELLFLAG_SUMMON) || (<serv.spell.<argn>.flags>&spellflag_field)
+src.f_fizzle
+action -1
+return 1
+endif
+
+if (<argn> == 40) || (<argn> == 22)
+src.f_fizzle
+action -1
+return 1
+endif
+
+
+on=@gethit
+if <src.isevent.e_ctf_red>
+src.sysmessage @07a1,1,1 Yandaslariniza saldiramazsiniz!
+return 1
+endif
+
+on=@click
+message @33,,1 [Kirmizi Takim]
+message @155,,1 <name>
+return 1
+
+on=@death
+//if <eval <uid.<def.ctf_flag_uid_white>.owner>> == <eval <src.uid>>
+
+if <src.isevent.e_bayrakbende>
+	events -e_bayrakbende
+	uid.<def.ctf_flag_uid_white>.tag.owner 0
+	serv.allclients sysmessage @07a1,1,1 <act.name> 
+	var.ctf_point_white +=<def.ctf_kill_point_flagowner>
+	src.f_go_base
+	serv.allclients f_ctf_skor_guncelleme
+	return 1
+else
+	var.ctf_point_white +=<def.ctf_kill_point>
+	src.f_go_base
+	events -e_bayrakbende
+	serv.allclients f_ctf_skor_guncelleme
+	return 1
+endif
+
+///////////////////////////////////////
+
+[events e_ctf_white]
+on=@login
+timerf clear
+
+on=@logout
+timerf 45,f_ctf_diskalifiye
+
+on=@skillstart
+if (<action> == (skill_hiding)) || (<action> == id(skill_hiding)) || (<action> == id(skill_stealth)) || (<action> == (skill_stealth))
+src.smsx Hide olamazsiniz..
+skill fail
+return 1
+endif
+
+on=@itemdclick
+
+on=@spelleffect
+if (<serv.spell.<argn>.flags>&SPELLFLAG_HARM)
+if <src.isevent.e_ctf_white>
+src.sysmessage @07a1,1,1 Yandaslariniza zararli buyu atamazsiniz!
+return 1
+endif
+endif
+
+on=@attack
+if <src.isevent.e_ctf_white>
+sysmessage @07a1,1,1 Yandaslariniza saldiramazsiniz!
+return 1
+endif
+
+on=@mount
+return 1
+
+on=@hit
+if <src.isevent.e_ctf_white>
+sysmessage @07a1,1,1 Yandaslariniza saldiramazsiniz!
+return 1
+endif
+
+on=@spellcast
+if (<serv.spell.<argn>.flags>&SPELLFLAG_SUMMON)
+src.f_fizzle
+action -1
+return 1
+endif
+
+if (<argn> == 40) || (<argn> == 22)
+src.f_fizzle
+action -1
+return 1
+endif
+
+
+on=@gethit
+if <src.isevent.e_ctf_white>
+src.sysmessage @07a1,1,1 Yandaslariniza saldiramazsiniz!
+return 1
+endif
+
+on=@click
+message @07a1,1,1 [Beyaz Takim]
+message @155,,1 <name>
+return 1
+
+on=@death
+
+if <src.isevent.e_bayrakbende>
+	events -e_bayrakbende
+	uid.<def.ctf_flag_uid_red>.tag.owner 0
+	serv.allclients sysmessage @07a1,1,1 <act.name> 
+	var.ctf_point_red +=<def.ctf_kill_point_flagowner>
+	src.f_go_base
+	serv.allclients f_ctf_skor_guncelleme
+	return 1
+else
+	var.ctf_point_red +=<def.ctf_kill_point>
+	src.f_go_base
+	events -e_bayrakbende
+	serv.allclients f_ctf_skor_guncelleme
+	return 1
+endif
+
+
+[events e_bayrakbende]
+
+
+/////////////////////////////////////////////////////////////////////////events finish
+/////////////////////////////////////////////////////////////////////////Dialog Open
+
+[dialog d_ctf_score_table]
+0,0
+nomove
+//noclose
+src.closealldialogs
+obj <def.cs>
+resizepic 810 5 5120 190 165
+resizepic 820 15 3000 170 145
+resizepic 830 40 3000 150 2
+resizepic 830 85 3000 150 2
+resizepic 830 135 3000 150 2
+dhtmlgump 828 20 200 20 0 0 <def.bfont_lred>CTF Durum Tablosu
+dhtmlgump 828 45 200 20 0 0 <def.bfont_black>Kirmizi Takim : <eval <var.ctf_player_red>> Kisi
+dhtmlgump 828 65 200 20 0 0 <def.bfont_black>Beyaz Takim : <eval <var.ctf_player_white>> Kisi
+dhtmlgump 828 92 200 20 0 0 <def.bfont_dgreen>Kirmizi Takim Skor: <eval <var.ctf_point_red>>
+dhtmlgump 828 112 200 20 0 0 <def.bfont_dgreen>Beyaz Takim Skor: <eval <var.ctf_point_white>>
+dhtmlgump 828 140 200 20 0 0 <def.bfont_dred>Bitis Skoru : <eval <def.ctf_finish_point>>
+
+
+//////////////////////////////////////////////////////
+
+[DIALOG d_ctf_class_select]
+0, 0
+
+//resizepic 250 10 5120 230 115
+//resizepic 260 20 3000 210 95
+
+//resizepic 160 0 9200 450 450	
+//gumppictiled 170 10 430 430 2624
+
+resizepic 250 10 9200 230 200	
+gumppictiled 260 20 210 180 2624
+
+
+dhtmlgump 320 23 200 20 0 0 <def.bfont_white>Class Seciniz...
+
+dhtmlgump 290 47 200 20 0 0 <def.bfont_lgreen>Warlock <def.bfont_lred>Olacagim
+dhtmlgump 290 67 200 20 0 0 <def.bfont_lgreen>Warrior <def.bfont_lred>Olacagim.
+dhtmlgump 290 87 200 20 0 0 <def.bfont_lgreen>P.Mage <def.bfont_lred>Olacagim.
+
+dhtmlgump 270 147 200 20 0 0 <def.bfont_white>Beyaz Takim : <def.bfont_lgray> <eval <var.ctf_player_white>> Kisi
+dhtmlgump 270 167 200 20 0 0 <def.bfont_lred>Kirmizi Takim : <def.bfont_lgray> <eval <var.ctf_player_red>> Kisi
+
+button 270 48 55 56  1 1153 1
+button 270 68 55 56 1 38 2
+button 270 88 55 56 1 1156 3
+
+
+[DIALOG d_ctf_class_select button]
+on=1
+if (<eval <var.ctf_player_red>> == 20) && (<eval <var.ctf_player_white>> == 20)
+src.sysmessage @,,1 Malesef takimlar dolmus.
+return 1
+endif
+src.f_ctf_select_class Warlock
+on=2
+if (<eval <var.ctf_player_red>> == 20) && (<eval <var.ctf_player_white>> == 20)
+src.sysmessage @,,1 Malesef takimlar dolmus.
+return 1
+endif
+src.f_ctf_select_class Warrior
+on=3
+if (<eval <var.ctf_player_red>> == 20) && (<eval <var.ctf_player_white>> == 20)
+src.sysmessage @,,1 Malesef takimlar dolmus.
+return 1
+endif
+src.f_ctf_select_class Mage
+
+
+[DIALOG d_ctf_bilgi_dialog]
+0,0
+page 0
+src.closealldialogs
+resizepic 250 10 9200 385 195	
+gumppictiled 260 20 365 175 2624
+
+htmlgump 270 30 345 154 0 1 1
+
+[DIALOG d_ctf_bilgi_dialog text]
+Yarisma hakkinda kisa bilgiler: Amac karsi tarafin bayragini kendi bayraginizin ustune koymaktir. Takim puaniniz <eval <def.ctf_finish_point>> oldugunda kazanirsiniz. Oyun icerisindeki puanlama soyle: Karsi tarafin oyuncusunu oldurdugunuzde <eval <def.ctf_kill_point>> puan , bayraginizi kaciran kisiyi oldurdugunuzde <eval <def.ctf_kill_point_flagowner>> puan , karsi tarafin bayragini getirdiginizde <eval <def.ctf_captureflag_point>> alirsiniz. Yarisma esnasinda kill, fame , karma degerleriniz oyun bittiginde geri alinacaktir. Oldugunuzde potion , reg , bandaj tekrar verilmektedir.Yarismadan cikmak icin logout olup 45 saniye beklemeniz yeterlidir.
+
+[itemdef i_ctf_bilgi_deed]
+id i_deed
+name CTF BILGI
+type t_normal
+
+on=@create
+attr 08000
+color 0810
+
+on=@click
+src.dialog d_ctf_bilgi_dialog
+
+/////////////////////////////////////////////////////////////////////////dialog finish
+/////////////////////////////////////////////////////////////////////////Item Start
+
+[itemdef i_ctf_flag]
+id 01613
+name Bayrak
+type t_normal
+
+on=@create
+attr 010
+tag.owner 0
+timer 1
+
+on=@click
+if <eval <tag.red>> == 1
+message @33,,1 [Kirmizi Takim]
+endif
+
+if <eval <tag.white>> == 1
+message @07a1,1,1 [Beyaz Takim]
+endif
+
+message @154,,1 <name>
+return 1
+
+on=@dclick
+if (<DISTANCE> > 3)
+src.sysmessage @,,1 Uzaktasiniz...
+return 1
+endif
+
+if (<eval <tag.red>> == 1) && (<src.isevent.e_ctf_white>)
+	if <tag.owner> == 0
+	tag.owner <src.uid>
+	src.events +e_bayrakbende
+	serv.allclients sysmessage @33,,1 <src.name> kirmizi takimin bayragini kacirdi !
+	endif
+	return 1
+endif	
+
+if (<eval <tag.red>> == 1) && (<src.isevent.e_ctf_red>)
+	local.x <strsub 0 4 <def.ctf_flag_base_red>>
+	local.y <strsub 5 9 <def.ctf_flag_base_red>>
+	if !strmatch('<p.x><p.y>','<dlocal.x><dlocal.y>')
+p <def.ctf_flag_base_red>
+serv.allclients sysmessage @69,,1 <src.name> kirmizi takimin bayragini basesine geri dondurdu.
+return 1
+	endif
+endif
+
+if (<eval <tag.white>> == 1) && (<src.isevent.e_ctf_red>)
+	if <tag.owner> == 0
+	tag.owner <src.uid>
+	src.events +e_bayrakbende
+	serv.allclients sysmessage @33,,1 <src.name> beyaz takimin bayragini kacirdi !
+	endif
+endif
+	
+if (<eval <tag.white>> == 1) && (<src.isevent.e_ctf_white>) 
+	local.x <strsub 0 4 <def.ctf_flag_base_white>>
+	local.y <strsub 5 9 <def.ctf_flag_base_white>>
+	if !strmatch('<p.x><p.y>','<dlocal.x><dlocal.y>')
+p <def.ctf_flag_base_white>
+serv.allclients sysmessage @69,,1 <src.name> beyaz takimin bayragini basesine geri dondurdu.
+return 1
+	endif
+endif
+
+return 1
+
+on=@timer
+if <eval <tag.red>> == 1
+color 0932
+elif <eval <tag.white>> == 1
+color 07a1
+endif
+
+ref1 <uid>
+
+foritems 2
+	if (<eval <tag.whitebase>> == 1) && (<eval <ref1.tag.red>> == 1) 
+	serv.allclients sysmessage @69,,1 Beyaz takim bayragi basesine goturdu. Tebrikler <uid.<ref1.tag.owner>.name>!
+	serv.f_all_go_base WHITESCOR
+	serv.allclients f_ctf_skor_guncelleme
+	endif
+
+	if (<eval <tag.redbase>> == 1) && (<eval <ref1.tag.white>> == 1)
+	serv.allclients sysmessage @69,,1 Kirmizi takim bayragi basesine goturdu. Tebrikler <uid.<ref1.tag.owner>.name>!
+	serv.f_all_go_base REDSCOR
+	serv.allclients f_ctf_skor_guncelleme
+	endif
+endfor
+
+if  !(<eval <tag.owner>> == 0)
+p <uid.<tag.owner>.p>
+else
+tag.owner 0
+endif
+
+timer 1
+return 1
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_gate_ctf]
+id i_moongate_blue
+name CTF Etkinligi
+
+on=@click
+message @0808,1,1 CTF Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+//if <src.account.plevel> > 1
+//return 1
+//endif
+
+
+src.sdialog d_Ctf_class_Select
+return 1
+
+on=@step
+src.sysmessage @39,1,1 <src.name>, cift tiklayin.
+return 1
+
+
+on=@timer
+serv.allclients sys_error Capture The Flag (CTF) basliyor.
+serv.allclients f_ctf_start
+var.katilim 0
+remove
+return 1
+
+/////////////////////////////////////////////////////////////////////////item finish
+/////////////////////////////////////////////////////////////////////////Giyim Fonk.
+
+///////////////////////////////////////////////////////////////////////Warrior
+[function f_ctf_giyim_warrior]
+if <isevent.e_ctf_red>
+local.color 0932
+local.name Kirmizi Takim
+elseif <isevent.e_ctf_white>
+local.color 07a1
+local.name Beyaz Takim
+endif
+
+serv.newitem i_katana
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Katana
+new.color <local.color>
+new.bounce
+
+serv.newitem i_spear
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Spear
+new.color <local.color>
+new.bounce
+
+serv.newitem i_bardiche
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Bardiche
+new.color <local.color>
+new.bounce
+
+serv.newitem i_kryss
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Kryss
+new.color <local.color>
+new.bounce
+
+serv.newitem i_halberd
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Halberd
+new.color <local.color>
+new.bounce
+
+serv.newitem i_axe_war
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF War Axe
+new.color <local.color>
+new.bounce
+
+serv.newitem i_staff_black
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Black Staff
+new.color <local.color>
+new.bounce
+
+serv.newitem i_bow
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Bow
+new.color <local.color>
+new.bounce
+
+serv.newitem i_platemail_arms
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_platemail_leggings
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_platemail_helm
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_platemail_gorget
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_platemail_gloves
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_platemail_chest
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_shield_heater
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+
+///////////////////////////////////////////////////////////////////////Warlock
+
+[function f_ctf_giyim_warlock]
+
+if <isevent.e_ctf_red>
+local.color 0932
+local.name Kirmizi Takim
+elseif <isevent.e_ctf_white>
+local.color 07a1
+local.name Beyaz Takim
+endif
+
+serv.newitem i_full_Spellbook
+new.bounce
+
+serv.newitem i_katana
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Katana
+new.color <local.color>
+new.bounce
+
+serv.newitem i_spear
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Spear
+new.color <local.color>
+new.bounce
+
+serv.newitem i_bardiche
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Bardiche
+new.color <local.color>
+new.bounce
+
+serv.newitem i_kryss
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Kryss
+new.color <local.color>
+new.bounce
+
+serv.newitem i_halberd
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Halberd
+new.color <local.color>
+new.bounce
+
+serv.newitem i_axe_war
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF War Axe
+new.color <local.color>
+new.bounce
+
+serv.newitem i_staff_black
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Black Staff
+new.color <local.color>
+new.bounce
+
+serv.newitem i_bow
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Bow
+new.color <local.color>
+new.bounce
+
+serv.newitem i_robe
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name <local.name>
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_gorget
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_leggings
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_sleeves
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_gloves
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_tunic
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_boots_calf
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_apron_half
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+///////////////////////////////////////////////////////////////////////Pure Mage
+[function f_ctf_giyim_mage]
+
+if <isevent.e_ctf_red>
+local.color 0932
+local.name Kirmizi Takim
+elseif <isevent.e_ctf_white>
+local.color 07a1
+local.name Beyaz Takim
+endif
+
+serv.newitem i_full_Spellbook
+new.bounce
+
+serv.newitem i_robe
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name <local.name>
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_gorget
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_leggings
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_sleeves
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_gloves
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_studded_tunic
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_boots_calf
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Armor
+new.color <local.color>
+new.equip
+
+serv.newitem i_hat_wizards
+new.tag.saglamlik 100
+new.hitpoints 100
+new.name CTF Mage Hat
+new.color <local.color>
+new.equip
+
+
+
+[function uzerimdekiherseyisil]
+stone 1
+
+findlayer(1).remove
+findlayer(2).remove
+findlayer(3).remove
+findlayer(4).remove
+findlayer(5).remove
+findlayer(6).remove
+findlayer(7).remove
+findlayer(8).remove
+findlayer(10).remove
+findlayer(12).remove
+findlayer(13).remove
+findlayer(14).remove
+findlayer(17).remove
+findlayer(18).remove
+findlayer(19).remove
+findlayer(20).remove
+findlayer(22).remove
+findlayer(23).remove
+findlayer(24).remove
+findlayer(25).remove
+findlayer(21).remove
+findlayer(31).remove
+timerf 2,stone 0
+update
+return 1
+
+[function f_pot_bandaj_guncelle2]
+trysrc <uid> f_pot_bandaj_guncelle
+
+[function f_pot_bandaj_guncelle]
+
+FOR 240
+findtype.t_potion.remove
+findtype.t_reagent.remove
+findtype.t_crystal_ball.remove
+findid.i_bag.remove
+endfor
+
+serv.newitem hazir_pot_cantasi
+new.bounce
+
+serv.newitem i_crystal_120
+new.bounce
+serv.newitem i_crystal_120
+new.bounce
+
+[TEMPLATE hazir_pot_cantasi]  
+CONTAINER=i_bag
+ITEM=i_potion_healgreat,10
+p 29,34
+ITEM=i_potion_curegreat,10
+p 76,35
+ITEM=i_potion_bleed,10
+p 30,86
+ITEM=i_potion_refreshtotal,10
+p 73,86
+ITEM=i_potion_agilitygreat,10
+p 88,62
+ITEM=i_bandage,10
+p 56,86
+ITEM=i_arrow,100
+p 29,59
+
+
+[function f_ctf_winner_hediye]
+serv.newitem i_gold
+new.amount 65000
+new.cont <findlayer.layer_bankbox.uid>
+serv.newitem i_y_kupa
+new.cont <findlayer(layer_bankbox)>
+serv.newitem might_silah
+new.cont <findlayer(layer_bankbox)>
+new.color 07a1
+new.name Etkinlik Odulu
+
+[function f_ctf_loser_hediye]
+serv.newitem i_gold
+new.amount 20000
+new.cont <findlayer.layer_bankbox.uid>
+
+[EOF]

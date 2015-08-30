@@ -1,0 +1,121 @@
+// ----------------------------
+// Ibranice.SCP 
+// 
+// ----------------------------
+//version 0.56b Scriter Rhodos // Olypmus Uo
+
+[ITEMDEF i_ibranice_ring]
+id=i_ring_gold
+type=t_jewelry
+weight=0.1
+name=Ibranice Ring ( Man )
+SUBSECTION=Jewelry
+DESCRIPTION=Ring
+RESOURCES=16 i_reag_dragon_blood, 2 i_reag_wyrm_heart, 10 i_ingot_mytheril
+SKILLMAKE=TINKERING 100.0,t_tinker_tools,MAGERY 100.0
+VALUE=20000
+
+on=@create
+color=0995
+
+on=@click
+//message @0995,,1 ( Man )
+message @,,1 [Ibranice]
+message ring of hebred
+src.sysmessage @,,1 Bu takiyi sadece erkekler kullanabilir.
+return 1
+
+on=@equip
+
+if <src.BODY> == c_woman
+src.sysmessage @33,,1 Sadece baylar takabilir.
+unequip
+return 1
+endif
+
+//if (<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0)
+if !(<src.puremage>)
+src.sysmessage @69,,1 Ibranice Kapandi
+src.sysmessage @69,,1 Not: Pure Mage olmalisiniz.
+src.events -e_ibranice_acik
+unequip
+return 1
+else
+
+src.events +e_ibranice_acik
+src.sysmessage @69,,1 Ibranice Acildi.
+endif
+
+on=@unequip
+src.events -e_ibranice_acik
+src.sysmessage @69,,1 Ibranice Kapandi.
+
+
+[ITEMDEF i_ibranice_earrings]
+id=i_earrings_gold
+type=t_jewelry
+weight=0.1
+name=Ibranice Earrings ( Woman )
+SUBSECTION=Jewelry
+DESCRIPTION=Earring
+RESOURCES=16 i_reag_dragon_blood, 2 i_reag_wyrm_heart, 10 i_ingot_mytheril
+SKILLMAKE=TINKERING 100.0,t_tinker_tools,MAGERY 100.0
+VALUE=20000
+
+on=@create
+color=0995
+
+on=@click
+//message @0995,,1 ( Woman )
+message @,,1 [Ibranice]
+message earring of hebred
+src.sysmessage @,,1 Bu takiyi sadece bayanlar kullanabilir.
+return 1
+
+on=@equip
+
+if <src.BODY> == c_man
+src.sysmessage @33,,1 Sadece bayanlar takabilir.
+unequip
+return 1
+endif
+
+//if (<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0)
+if !(<src.puremage>)
+src.sysmessage @69,,1 Ibranice Kapandi
+src.sysmessage @69,,1 Not: Pure Mage olmalisiniz.
+src.events -e_ibranice_acik
+unequip
+return 1
+else
+
+src.events +e_ibranice_acik
+src.sysmessage @69,,1 Ibranice Acildi.
+endif
+
+on=@unequip
+src.events -e_ibranice_acik
+src.sysmessage @69,,1 Ibranice Kapandi.
+
+
+/////////////////////////////////////////////////////////
+
+[EVENTS e_ibranice_acik]
+on=@death
+src.events -e_ibranice_acik
+src.sysmessage @69,,1 Ibranice Kapandi.
+
+on=@spellselect
+
+//if (<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0)
+if !(<src.puremage>)
+src.sysmessage @69,,1 Ibranice Kapandi
+src.sysmessage @69,,1 Not: Pure Mage olmalisiniz.
+src.events -e_ibranice_acik
+return 1
+endif
+
+
+
+
+[EOF]

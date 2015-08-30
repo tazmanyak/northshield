@@ -1,0 +1,452 @@
+
+[ITEMDEF i_spellbook32] 
+ID=i_spellbook
+TYPE=t_spellbook
+VALUE=3000
+WEIGHT=0.1
+NAME=Spellbook
+RESOURCES=64 i_scroll_blank , 1 i_crystal_90 , 64 i_scroll_recall , 1 i_pen_and_ink
+SKILLMAKE=INSCRIPTION 100.0, MAGERY 100.0
+
+ON=@CREATE 
+ATTR=attr_newbie //magical and newbie 
+MORE=0ffffffff //1-4 circles 
+color 0
+
+ON=@Click
+var.spell_sayisi
+var.snum 0
+
+if (<more1> & 01)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 02)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 04)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 08)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 010)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 020)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 040)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 080)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0100)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0200)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0400)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0800)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 01000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 02000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 04000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 08000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 010000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 020000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 040000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 080000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0100000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0200000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0400000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0800000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 01000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 02000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 04000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 08000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 010000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 020000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 040000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 080000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+
+if (<more2> & 01)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 02)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 04)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 08)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 010)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 020)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 040)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 080)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0100)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0200)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0400)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0800)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 01000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 02000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 04000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 08000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 010000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 020000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 040000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 080000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0100000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0200000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0400000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0800000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 01000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 02000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 04000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 08000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 010000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 020000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 040000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 080000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+
+
+if (<more2> = 0ffffffff)
+message @95,,1 Spellbook [Full]
+return 1
+else
+message @95,,1 Spellbook [<eval <var.snum>>]
+return 1
+endif
+
+
+
+
+[ITEMDEF i_full_spellbook] 
+ID=i_spellbook
+TYPE=t_spellbook
+VALUE=3000
+WEIGHT=0.1
+NAME=Full Spellbook
+RESOURCES=64 i_scroll_blank , 1 i_crystal_90, 1 i_pen_and_ink
+SKILLMAKE=INSCRIPTION 100.0, MAGERY 100.0
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Magical Items
+DESCRIPTION=Spellbook
+
+ON=@CREATE 
+ATTR=attr_newbie //magical and newbie 
+MORE=0ffffffff //1-4 circles 
+MORE2=0ffffffff // 5-8 circles
+color 0
+
+ON=@Click
+var.spell_sayisi
+var.snum 0
+
+if (<more1> & 01)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 02)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 04)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 08)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 010)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 020)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 040)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 080)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0100)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0200)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0400)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0800)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 01000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 02000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 04000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 08000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 010000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 020000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 040000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 080000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0100000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0200000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0400000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 0800000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 01000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 02000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 04000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 08000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 010000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 020000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 040000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more1> & 080000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+
+if (<more2> & 01)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 02)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 04)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 08)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 010)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 020)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 040)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 080)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0100)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0200)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0400)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0800)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 01000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 02000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 04000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 08000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 010000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 020000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 040000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 080000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0100000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0200000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0400000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 0800000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 01000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 02000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 04000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 08000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 010000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 020000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 040000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+if (<more2> & 080000000)
+	var.snum (<eval <var.snum>> + 1)
+endif
+
+if <var.snum>=64
+message @95,,1 Spellbook [<eval <var.snum>>]
+return 1
+endif
+
+
+
+[eof]
+
+
+

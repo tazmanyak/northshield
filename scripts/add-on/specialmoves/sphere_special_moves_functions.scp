@@ -1,0 +1,41 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 05-07-2010
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// jeem - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// EA Special Moves - Necessary functions
+
+[function clearspecialmove]
+sendpacket 0bf w5 w021
+tag0.SpecialMoveInUse = 0
+
+[function f_special_move_mana]
+local.mana = <argn1>
+
+local.skilltotal = <eval (<swordsmanship>+<macefighting>+<fencing>+<archery>+<parrying>+<lumberjacking>+<stealth>+<poisoning>+<bushido>+<ninjitsu>)>
+if <local.skilltotal> >= 300.0
+	local.mana -= 10
+elif <local.skilltotal> >= 200.0
+	local.mana -= 5
+endif
+
+if <tag0.LowerManaCost>
+	local.lmc = <min <tag0.lowermanacost>,<getargv 3 <def.itemprop_01b>>>
+	local.mana = <muldiv <local.mana>,<eval (100 - <local.lmc>)>,100>
+endif
+
+if <eval (<serv.time> - <tag0.LastSpecialMoveUse>)> <= 3.0
+	local.mana *= 2
+endif
+return <dlocal.mana>
+
+[eof]

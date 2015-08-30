@@ -1,0 +1,50 @@
+[defname def_black_bronze_items]
+// total page
+blacksmith_bronze_pagesum	4
+// platemail
+blacksmith_bronze_0_1		i_platemail_leggings_bronze
+blacksmith_bronze_1_1		i_platemail_chest_bronze
+blacksmith_bronze_2_1		i_platemail_arms_bronze
+blacksmith_bronze_3_1		i_PLATE_HELM_BRONZE
+blacksmith_bronze_4_1		i_platemail_gorget_bronze
+blacksmith_bronze_5_1		i_platemail_gloves_bronze
+blacksmith_bronze_6_1		i_shield_heater_bronze
+blacksmith_bronze_7_1		i_ringmail_gloves_bronze
+blacksmith_bronze_8_1		i_ringmail_leggings_bronze
+blacksmith_bronze_9_1		i_ringmail_sleeves_bronze
+blacksmith_bronze_10_1		i_ringmail_tunic_bronze
+
+blacksmith_bronze_11_1		i_chainmail_coif_bronze
+blacksmith_bronze_12_1		i_chainmail_leggings_bronze
+blacksmith_bronze_13_1		i_chainmail_tunic_bronze
+// swords
+blacksmith_bronze_0_2		i_katana_bronze
+blacksmith_bronze_1_2		i_scimitar_bronze
+blacksmith_bronze_2_2		i_cutlass_bronze
+blacksmith_bronze_3_2		i_bardiche_bronze
+blacksmith_bronze_4_2		i_halberd_bronze
+blacksmith_bronze_5_2		i_sword_long_bronze
+blacksmith_bronze_6_2		i_sword_viking_bronze
+blacksmith_bronze_7_2		i_sword_broad_bronze
+//blacksmith_bronze_7_2		i_axe_bronze
+//blacksmtih_bronze_8_2		i_sword_board_bronze
+//blacksmith_bronze_9_2		i_axe_battle_bronze
+//blacksmith_bronze_10_2		i_axe_two_hand_bronze
+//blacksmith_bronze_11_2		i_axe_exec_bronze
+// fence
+blacksmith_bronze_0_3		i_dagger_bronze
+blacksmith_bronze_1_3		i_kryss_bronze
+blacksmith_bronze_2_3		i_pitchfork_bronze
+blacksmith_bronze_3_3		i_spear_bronze
+blacksmith_bronze_4_3		i_spear_short_bronze
+blacksmith_bronze_5_3		i_war_fork_bronze
+// mace
+blacksmith_bronze_0_4		i_axe_war_bronze
+blacksmith_bronze_1_4		i_hammer_pick_bronze
+//blacksmith_bronze_2_4		i_hammer_war_bronze
+blacksmith_bronze_2_4		i_maul_bronze
+blacksmith_bronze_3_4		i_mace_bronze
+blacksmith_bronze_4_4		i_mace_war_bronze
+blacksmith_bronze_5_4		i_helm_closed_bronze
+
+[EOF]

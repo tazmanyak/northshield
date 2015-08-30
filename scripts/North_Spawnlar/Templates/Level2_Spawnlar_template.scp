@@ -1,0 +1,214 @@
+[TEMPLATE Might_Silah]
+CATEGORY=Item Templates
+SUBSECTION=Monster Loot Templates
+DESCRIPTION=Vanquishing Silahlar
+CONTAINER=i_bag
+ITEM=random_weapon_//{ i_cutlass 1 i_sword_long 1 i_sword_viking 1 i_sword_broad 1 i_scimitar 1 i_katana 1 i_bardiche 1 i_halberd 1 i_kryss 1 i_war_fork 1 i_spear_short 1 i_spear 1 i_mace 1 i_mace_war 1 i_club 1 i_axe_war 1 i_hammer_pick 1 i_maul 1 }
+morey 40.0
+tag0.magicweapon Might
+attr attr_magic
+
+[Plevel 7]
+force_silah
+power_silah
+vanq_silah
+
+
+[function ruin_silah]
+targetf ruin_silahx
+
+
+[function ruin_silahx]
+argo.morey 20.0
+argo.tag0.magicweapon Ruin
+argo.attr attr_magic
+argo.hitpoints <argo.maxhits>
+
+
+[function might_silah]
+targetf might_silahx
+
+
+[function might_silahx]
+argo.morey 40.0
+argo.tag0.magicweapon Might
+argo.attr attr_magic
+argo.hitpoints <argo.maxhits>
+
+
+[function force_silah]
+targetf force_silahx
+
+[function force_silahx]
+argo.morey 60.0
+argo.tag0.magicweapon Force
+argo.attr attr_magic
+argo.hitpoints <argo.maxhits>
+
+
+[function power_silah]
+targetf power_silahx
+
+
+[function power_silahx]
+argo.morey 80.0
+argo.tag0.magicweapon Power
+argo.attr attr_magic
+argo.hitpoints <argo.maxhits>
+
+
+[function vanq_silah]
+targetf vanq_silahx
+
+
+[function vanq_silahx]
+argo.morey 100.0
+argo.tag0.magicweapon Vanquishing
+argo.attr attr_magic
+argo.hitpoints <argo.maxhits>
+
+
+[dialog d_pot]
+50,50
+nomove
+resizepic 0 0 3500 200 340
+page 0
+text 40 20 38 0   
+text 35 42 1152 1
+text 35 62 1152 2
+text 35 82 1152 3
+text 35 102 1152 4
+text 35 122 1152 5
+text 35 142 1152 6
+text 35 162 1152 7
+text 35 182 1152 8
+text 35 202 1152 9
+text 35 222 1152 10
+text 35 242 1152 11
+text 35 262 1152 12
+text 35 282 1152 13
+text 35 302 1152 14
+
+
+button 15 43 55 56  1 0 1
+button 15 63 55 56 1 0 2
+button 15 83 55 56 1 0 3
+button 15 103 55 56 1 0 4
+button 15 123 55 56 1 0 5
+button 15 143 55 56 1 0 6
+button 15 163 55 56 1 0 7
+button 15 183 55 56 1 0 8
+button 15 203 55 56 1 0 9
+button 15 223 55 56 1 0 10
+button 15 243 55 56 1 0 11
+button 15 263 55 56 1 0 12
+button 15 283 55 56 1 0 13
+button 15 303 55 56 1 0 14
+
+
+[DIALOG d_pot TEXT]
+  Action Menu
+100 adet Bandaj
+250 adet Arrow
+50 adet Yemek
+Bandana
+Grizzy
+Trapped Pouch[tp]
+G.Heal Potion
+G.Cure Potion
+G.Agility Potion
+Expo Poison Pt.
+BLEED Potion
+Total Refresh Pt.
+NightSight Pot.
+Fire Arrow
+
+[DIALOG d_pot BUTTON]
+onbutton=0
+src.sysmessage @68,1,1 Birsey Almadiniz..
+onbutton=1
+	src.newitem i_bandage,100
+	src.act.bounce
+	
+onbutton=2
+	src.newitem i_arrow,250
+	src.act.bounce
+
+onbutton=3
+	src.newitem i_fruit_carrot,50
+	src.act.bounce
+	
+onbutton=4
+	src.newitem i_bandana
+	src.act.bounce
+	
+onbutton=5
+	src.newitem i_pet_grizzly
+	src.act.bounce
+	
+
+onbutton=6
+	src.newitem i_trappedpouch
+	src.sysmessage @0713,1,1 .Tp yazarak kullanabilirsiniz..
+	src.act.bounce
+	src.act.weight 0
+	src.act.amount 5
+	
+onbutton=7
+	src.newitem i_potion_healgreat
+	src.act.amount 15
+	src.act.bounce
+	src.act.weight 0
+	src.sysmessage @0713,1,1 15 Tane Heal Aldiniz..
+	endif	
+onbutton=8
+	src.newitem i_potion_curegreat
+	src.act.bounce
+	src.act.amount 15
+	src.act.weight 0
+	src.sysmessage @0713,1,1 15 Tane Cure Aldiniz..
+	
+onbutton=9
+	src.newitem i_potion_agilitygreat
+	src.act.bounce
+	src.act.amount 10
+	src.act.weight 0
+	src.sysmessage @0713,1,1 10 Tane Agility Aldiniz..
+	
+onbutton=10
+	src.newitem i_potion_explosiongreat
+	src.act.amount 10
+	src.act.bounce
+	src.sysmessage @0713,1,1 10 Tane D.Poison Aldiniz..
+	
+onbutton=11
+	src.newitem i_potion_bleed
+	src.act.bounce
+	src.act.amount 10
+	src.act.weight 0
+	src.sysmessage @0713,1,1 10 Tane Bleed Aldiniz..
+	
+onbutton=12
+	src.newitem i_potion_refreshtotal
+	src.act.bounce
+	src.act.amount 10
+	src.sysmessage @0713,1,1 10 Tane Refresh Aldiniz..
+	
+onbutton=13
+	src.newitem i_potion_nightsight
+	src.act.bounce
+	src.act.amount 10
+	src.act.weight 0
+	src.sysmessage @0713,1,1 10 Tane Nightsight Aldiniz..
+	
+onbutton=14
+	src.newitem i_arrow_fire,250
+	src.act.bounce
+	//src.act.amount 10
+	src.act.weight 0
+	src.sysmessage @0713,1,1 250 Adet Fire Arrow Aldiniz..
+	
+
+
+[EOF]
+

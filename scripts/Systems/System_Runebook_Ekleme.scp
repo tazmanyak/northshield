@@ -1,0 +1,1227 @@
+﻿[function sextant2] // mathematics by bronx
+var.y <eval((((<p.y> - 1624) * 360) * 60) / 4096)>
+if (<var0.y> < 0)
+	var.ns K
+	var.y2 <eval(<var.y> +- (<var.y> * 2))>
+else
+	var.ns G
+	var.y2 <var.y>
+endif
+var.ydeg <eval(<var.y2> / 60)>
+var.ymin <eval(<var.y2> +- (60 * <var.ydeg>))> // (amelece modulus)
+
+var.x <eval((((<p.x> - 1323) * 360) * 60) / 5120)>
+if (<var0.x> < 0)
+	var.we B
+	var.x2 <eval(<var.x> +- (<var.x> * 2))>
+else
+	var.we D
+	var.x2 <var.x>
+endif
+var.xdeg <eval(<var.x2> / 60)>
+var.xmin <eval(<var.x2> +- (60 * <var.xdeg>))>
+var.coordinate <eval(<var.ydeg>)>o<eval(<var.ymin>)>'<var.ns>, <eval(<var.xdeg>)>o<eval(<var.xmin>)>'<var.we>
+var.ydeg
+var.ymin
+var.xdeg
+var.xmin
+var.we
+var.ns
+if (<ischar>)
+	sysmessage <var.coordinate>
+endif
+
+
+[function rb_test_gardla]
+region.guarded <args>
+
+[function rb_gz_kontrolu]
+local.say=0
+for x <argv[0]> <argv[1]>
+//if ((<eval <argv[0]>> == 1) && (<eval <argv[1]>> == <eval 80 + <eval <tag.enchanted> * 16>>))
+//IF !(<EVAL <TAG.POS<eval <dlocal.x>>_X>>==0)
+//local.say +=1
+//ENDIF
+//if (<eval <dlocal.x>> == <eval 80 + <eval <tag.enchanted> * 16>>)
+//morez = <eval <local.say>>
+//endif
+//endif
+IF !(<EVAL <TAG.POS<eval <dlocal.x>>_X>>==0)
+	newitem i_gold
+	new.p <EVAL <TAG.POS<eval <dlocal.x>>_X>>,<EVAL <TAG.POS<eval <dlocal.x>>_Y>>,<EVAL <TAG.POS<eval <dlocal.x>>_Z>>,<EVAL <TAG.POS<eval <dlocal.x>>_M>>
+	if (<eval <new.region.safe>> = 1)
+		TAG.rb_font<eval <dlocal.x>> <basefont color=#202060
+		s [Safe Alan Markı] -> [<cont.topobj.account>:<cont.topobj.name>] [<EVAL <TAG.POS<eval <dlocal.x>>_X>>,<EVAL <TAG.POS<eval <dlocal.x>>_Y>>,<EVAL <TAG.POS<eval <dlocal.x>>_Z>>,<EVAL <TAG.POS<eval <dlocal.x>>_M>>]
+		pg_call [Safe Alan Markı] -> [<cont.topobj.account>:<cont.topobj.name>] [<EVAL <TAG.POS<eval <dlocal.x>>_X>>,<EVAL <TAG.POS<eval <dlocal.x>>_Y>>,<EVAL <TAG.POS<eval <dlocal.x>>_Z>>,<EVAL <TAG.POS<eval <dlocal.x>>_M>>]
+	elseif (<eval <new.region.guarded>> = 1)
+		TAG.rb_font<eval <dlocal.x>> <basefont color=#009933
+	else
+		TAG.rb_font<eval <dlocal.x>> <basefont color=#660000
+	endif
+	new.remove
+else
+		TAG.rb_font<eval <dlocal.x>> <basefont color=#202060
+endif
+endfor
+
+[function runebook_reset]
+forinstances i_runebook
+	tag.enchanted 3
+endif
+
+[ITEMDEF i_nbl_rb_ench]
+id=i_scroll_blank
+type=t_script
+weight=0.1
+name=Enchant
+resources=10 i_scroll_blank, 5 i_scroll_recall
+skillmake=inscription 98.1, magery 98.1
+
+CATEGORY=Provisions - NBL
+SUBSECTION=Magical Items
+DESCRIPTION= Rune Book
+
+ON=@Create
+color=0312
+tag.enchanted 3 
+
+ON=@Click
+message @0481,3,1 [Enchant]
+message @0481,3,1 Rune Book
+message @0481,3,1 [+1]
+return 1
+
+ON=@Dclick
+if <src.inscription> != 100.0
+	src.sysmessage @,,1 Ancak 100.0 yetenek ile kullanabilirsiniz.
+	return 1
+endif
+if (!(<topobj.uid> == <src.uid>) && !(<src.isgm>))
+	src.sysmessage @38,3,1 Üzerinizde olması lazım.
+	return 1
+endif
+src.sysmessage @38,3,1 Lütfen bir runebook seciniz.
+target
+return 1
+
+On=@Targon_Item
+if !(<src.targ.baseid> == i_runebook)
+	src.sysmessage @38,3,1 Lütfen bir runebook seciniz.
+elseif !(<src.targ.topobj.uid> == <src.uid>)
+	src.sysmessage @38,3,1 Sectiğiniz runebook üzerinizde olmasi lazim.
+elseif (<eval <src.targ.tag.enchanted>> == 3)
+	src.sysmessage @38,3,1 Sectiğiniz runebook zaten 8 sayfa.
+else
+	src.targ.tag.enchanted = <eval <eval <src.targ.tag.enchanted>> + 1>
+	src.sysmessage @38,3,1 Sectiğiniz runebook'a bir sayfa eklediniz.
+	remove
+endif
+	return 1
+
+On=@Targon_Char
+return 1
+
+On=@Targon_Ground
+return 1
+
+[ITEMDEF i_nbl_rb]
+id=i_spellbook
+type=t_script
+weight=0.1
+name=runebook
+resources=80 i_scroll_blank, 20 i_scroll_recall
+skillmake=inscription 70.0, magery 60.0
+
+CATEGORY=Provisions - NBL
+SUBSECTION=Magical Items
+DESCRIPTION= Rune Book
+
+ON=@Create
+color=0312
+morex=20 // charge
+attr=0024
+tag.name=isimsiz
+tag.eatrune=01
+morez= 0 // o anda kitapta kac yer kayitli sayisi
+//tag.pos_1_p=0 // rune koordinat
+//tag.pos_1_n=0 // rune ismi
+
+ON=@Click
+ 
+if !(strmatch('<tag.name>','isimsiz')
+	message @0481,3,1 a <name> [<tag.name>] // degi$tirilebilen isim
+	local.yazi [Şarj: <eval(<morex>)>] [Durum: <eval(<morez>)>/<eval 80 + <eval <tag0.enchanted> * 16>>]
+	//if (<eval <tag.enchanted>> != 0)
+	//	local.yazi <local.yazi> [Enchanted <eval <tag.enchanted>>]
+	//endif
+	message @0901,3,1 <local.yazi> <qval (<dtag0.kopyalandi>==1 ? Kopya: Orjinal>)
+else
+	message @0481,3,1 a <name>
+	local.yazi [Şarj: <eval(<morex>)>] [Durum: <eval(<morez>)>/<eval 80 + <eval <tag0.enchanted> * 16>>]
+	//if (<eval <tag.enchanted>> != 0)
+	//	local.yazi <local.yazi> [Enchanted <eval <tag.enchanted>>]
+	//endif
+	message @0901,3,1 <local.yazi> (<qval (<dtag0.kopyalandi>==1 ? Kopya : Orjinal>)
+endif
+if (<color> != 0901)
+color 0901
+endif
+return 1
+
+ON=@Dclick
+//if <src.isticaret_aktif>
+//src.sysmessage @1153,,1 Ticaret sırasında kullanamazsınız.
+//return 1
+//endif
+
+//if <f_deniz_burasi <p.x>,<p.y>,<p.z>> 
+//	src.sysmessage @,,1 Su uzerindeyken runebook kullanamazsin.
+//	return 1
+//endif
+//	src.sysmessage @,,1 Su uzerindeyken runebook kullanamazsin.
+//	return 1
+//endif
+
+if (<SRC.ISNEARTYPE t_anti_rune_book 20>)
+	src.sysmessage @,,1 Bu alanda runebook kullanamazsınız.
+	return 1
+endif
+
+if <src.tag.suanquestte>	
+	src.sysmessage @,,1 Quest yaparken kullanamazsiniz.
+	return 1
+endif
+
+if <src.region.isevent.r_house_system>
+src.sysmessage @1153,,1 Ev icinde runebook kullanamazsınız
+return 1
+endif
+
+if !(<attr>&attr_move_never)
+	ATTR=0024
+endif
+if (<color> != 0901)
+color 0901
+endif
+SRC.SOUND=85
+src.dialogclose d_rb_kuculmus_ama
+src.dialogclose d_runebook
+//if (!(<topobj.uid> == <src.uid>) && !(<src.isgm>))
+//	src.sysmessage @38,3,1 Uzerinizde olmasi lazim.
+//	return 1
+//endif
+if (<uid.<src.memoryfindtype.08000.more2>.baseid> == i_nbl_rb)
+	src.sysmessage @38,3,1 Diğer runebook acık.
+	return 1
+endif
+if (<uid.<src.memoryfindtype.08000.more2>.baseid> == i_runebook)
+	src.sysmessage @38,3,1 Diğer runebook acık.
+	return 1
+endif
+if (<src.isevent.e_x_breakspell>)
+	src.FINDID.i_rb_delay.REMOVE
+	src.FINDID.i_rb_delay2.REMOVE
+	src.EVENTS -e_x_breakspell
+	src.f_fizzle
+endif
+//rb_gz_kontrolu 1,<eval 80 + <eval <tag.enchanted> * 16>>
+SDIALOG d_nbl_rbook,<eval <tag.enson_sayfa>>
+return 1
+
+
+ON=@TargOn_Char
+RETURN 1
+
+ON=@TargOn_Item
+IF <SRC.TARG.TOPOBJ.UID> != <SRC.UID> 
+	SRC.SYSMESSAGE @55,,1 Ekleyeceginiz şey cantanizda olmalı.
+	RETURN 1
+ENDIF 
+IF <MORE2>=1
+ 	IF ( <SRC.TARG.ID> = 01f4c )
+		MOREX=<MOREX> + <SRC.TARG.AMOUNT>
+    		SRC.TARG.REMOVE
+    		SRC.SYSMESSAGE @55 Kitaba,,1 <SRC.TARG.AMOUNT> şarj eklendi.
+		DClick
+		RETURN 1
+	ELSE
+  		SRC.SYSMESSAGE @55,,1 Bu bir recall scrollu değil. Sadece recall scrollarını kullanabilirsiniz.
+		DClick
+		RETURN 1
+  	ENDIF
+ELSEIF ((<eval <MORE2>>=20) || (<eval <MORE2>>=21) || (<eval <MORE2>>=22) || (<eval <MORE2>>=23) || (<eval <MORE2>>=24) || (<eval <MORE2>>=25) || (<eval <MORE2>>=26) || (<eval <MORE2>>=27))
+  	IF (( <SRC.TARG.TYPE> = t_rune ) || ( <SRC.TARG.TYPE> = 014 ))
+    		IF (<SRC.TARG.MOREX>==0)
+    			SRC.SYSMESSAGE @38,,1 Bu rune boş, bunu kullanamazsınız.
+    			DClick
+			RETURN 1
+    		ENDIF
+  	ELSE
+  		SRC.SYSMESSAGE @38,,1 Bu bir rune değil.
+  		DClick
+		RETURN 1
+  	ENDIF
+	TAG.HOLD_LOCAL=<SRC.TARG.NAME>
+	TAG.HOLD_X=<SRC.TARG.MOREX>
+	TAG.HOLD_Y=<SRC.TARG.MOREY>
+	TAG.HOLD_Z=<SRC.TARG.MOREZ>
+	TAG.HOLD_M=<SRC.TARG.MOREM>
+	if (<eval <morez>> < <eval 80 + <eval <eval <tag.enchanted>> * 16>>)
+		if (<eval <i_nbl_rb_rune_ekle <eval (<eval <eval <MORE2>> - 20> * 16) + 1>,<eval 80 + <eval <eval <tag.enchanted>> * 16>>>> == 1)
+			SRC.SYSMESSAGE @55 Rune'u kitaba eklediniz.
+        		SRC.SOUND=79
+			morez += 1
+		endif		
+		DClick
+		RETURN 1
+	else
+		SRC.SYSMESSAGE @38,,1 Kitapta bunun için boş yer kalmamış.
+		DClick
+		RETURN 1
+	endif
+ENDIF
+
+[function i_nbl_rb_rune_ekle]
+local.eklendi 0
+for x <eval <argv[0]>> <eval <argv[1]>>
+	IF (<EVAL <TAG.POS<eval <dlocal.x>>_X>>==0)
+	IF (<EVAL <local.eklendi>> == 0)
+		tryp 0 TAG.LOCAL<eval <dlocal.x>>=<TAG.HOLD_LOCAL>
+		tryp 0 TAG.POS<eval <dlocal.x>>_X=<TAG.HOLD_X>
+		tryp 0 TAG.POS<eval <dlocal.x>>_Y=<TAG.HOLD_Y>
+		tryp 0 TAG.POS<eval <dlocal.x>>_Z=<TAG.HOLD_Z>
+		tryp 0 TAG.POS<eval <dlocal.x>>_M=<TAG.HOLD_M>
+		SRC.TARG.REMOVE
+		local.eklendi 1
+	ENDIF
+	ENDIF
+endfor
+return <local.eklendi>
+
+
+[dialog d_rb_kuculmus_ama]
+10,10
+noclose
+nodispose
+
+page 1
+button 15 15 11012 11012 1 2 1
+
+[dialog d_rb_kuculmus_ama button]
+on=0
+dialogclose d_rb_kuculmus_ama
+on=1
+dclick
+
+////// GUMPS /////////////////////////////////////////11012
+[dialog d_nbl_rbook]
+0,100
+gumppic 75 7 11009//gumppic 100 10 2201
+gumppic 125 50 57
+gumppic 145 50 58
+gumppic 160 50 58
+gumppic 175 50 58
+gumppic 190 50 58
+gumppic 205 50 58
+gumppic 220 50 58
+gumppic 230 50 59
+
+gumppic 290 50 57
+gumppic 310 50 58
+gumppic 325 50 58
+gumppic 340 50 58
+gumppic 355 50 58
+gumppic 370 50 58
+gumppic 385 50 58
+gumppic 395 50 59
+
+page 0
+//Rune Ekle $arj Et
+button 82 111 2103 2104 1 0 5 //Button 5
+button 250 22 2103 2104 1 0 1 //Button 1
+button 250 37 2103 2104 1 0 4 //Button 4 Tüm Runeleri Çıkar :P
+
+
+button 303 37 2103 2104 1 0 3//Button 3
+htmlgump 318 18 100 20 0 0 0
+htmlgump 318 33 100 20 1 0 0
+
+htmlgump 155 18 86 17 2
+htmlgump 155 33 90 17 3
+
+//htmlgump 129 180 100 20 4 0 0
+//htmlgump 129 192 100 20 5 0 0
+//htmlgump 247 180 100 20 6 0 0
+//htmlgump 241 192 100 20 7 0 0
+
+//htmlgump 150 184 100 20 8 0 0
+//htmlgump 156 196 100 20 9 0 0
+//htmlgump 225 184 100 20 10 0 0
+//htmlgump 207 196 100 20 11 0 0
+
+//htmlgump 289 180 100 20 4 0 0
+//htmlgump 289 192 100 20 5 0 0
+//htmlgump 407 180 100 20 6 0 0
+//htmlgump 401 192 100 20 7 0 0
+
+//htmlgump 310 184 100 20 8 0 0
+//htmlgump 316 196 100 20 9 0 0
+//htmlgump 385 184 100 20 10 0 0
+//htmlgump 367 196 100 20 11 0 0
+
+button 128 181 2225 2225 0 1 0//1.Sayfa
+button 165 181 2226 2226 0 2 0//2.Sayfa
+button 202 181 2227 2227 0 3 0//3.Sayfa
+button 239 181 2228 2228 0 4 0//4.Sayfa
+
+button 295 181 2229 2229 0 5 0//5.Sayfa
+//if (<eval <tag.enchanted>> > 0)
+button 322 181 2230 2230 0 6 0//6.Sayfa
+//endif
+//if (<eval <tag.enchanted>> > 1)
+button 359 181 2231 2231 0 7 0//7.Sayfa
+//endif
+//if (<eval <tag.enchanted>> > 2)
+button 396 181 2232 2232 0 8 0//8.Sayfa
+//endif
+page 1
+button 395 15 2206 2206 0 2 0 //2205
+htmlgump 422 180 100 20 92 0 0
+button 303 22 2103 2104 1 0 20//Button 20
+//Recall Button
+local.y 0
+for x 0 7
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 8 * 15>
+for x 8 15
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+
+
+//Gate Button
+local.y 0
+for x 0 7
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 8 * 15>
+for x 8 15
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+
+
+//Erase Button
+local.y 0
+for x 0 7
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 8 * 15>
+for x 8 15
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+
+
+//rename Butonlar
+local.y 0
+for x 0 7
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 8 * 15>
+for x 8 15
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.y 0
+local.z 12
+for x 0 7
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.y = <eval -1 * 8 * 15>
+local.z 12
+for x 8 15
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+//2. Sayfa
+page 2
+button 303 22 2103 2104 1 0 21//Button 20
+htmlgump 422 180 100 20 93 0 0
+button 395 15 2206 2206 0 3 0
+button 121 16 2205 2205 0 1 0
+//Recall Button
+local.y <eval -1 * 16 * 15>
+for x 16 23
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 24 * 15>
+for x 24 31
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 16 * 15>
+for x 16 23
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 24 * 15>
+for x 24 31
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 16 * 15>
+for x 16 23
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 24 * 15>
+for x 24 31
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 16 * 15>
+for x 16 23
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 24 * 15>
+for x 24 31
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.y <eval -1 * 16 * 15>
+local.z 12
+for x 16 23
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.y = <eval -1 * 24 * 15>
+local.z 12
+for x 24 31
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+//3. Sayfa
+page 3
+button 303 22 2103 2104 1 0 22//Button 20
+htmlgump 422 180 100 20 94 0 0
+button 395 15 2206 2206 0 4 0
+button 121 16 2205 2205 0 2 0
+//Recall Button
+local.y <eval -1 * 32 * 15>
+for x 32 39
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 40 * 15>
+for x 40 47
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 32 * 15>
+for x 32 39
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 40 * 15>
+for x 40 47
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 32 * 15>
+for x 32 39
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 40 * 15>
+for x 40 47
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 32 * 15>
+for x 32 39
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 40 * 15>
+for x 40 47
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.y <eval -1 * 32 * 15>
+local.z 12
+for x 32 39
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.y = <eval -1 * 40 * 15>
+local.z 12
+for x 40 47
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+//4. Sayfa
+page 4
+button 303 22 2103 2104 1 0 23//Button 20
+htmlgump 422 180 100 20 95 0 0
+button 395 15 2206 2206 0 5 0
+button 121 16 2205 2205 0 3 0
+//Recall Button
+local.y <eval -1 * 48 * 15>
+for x 48 55
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 56 * 15>
+for x 56 63
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 48 * 15>
+for x 48 55
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 56 * 15>
+for x 56 63
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 48 * 15>
+for x 48 55
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 56 * 15>
+for x 56 63
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 48 * 15>
+for x 48 55
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 56 * 15>
+for x 56 63
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.y <eval -1 * 48 * 15>
+local.z 12
+for x 48 55
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.y = <eval -1 * 56 * 15>
+local.z 12
+for x 56 63
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+//5. Sayfa
+page 5
+button 303 22 2103 2104 1 0 24//Button 20
+htmlgump 422 180 100 20 96 0 0
+if (<eval <tag.enchanted>> > 0)
+button 395 15 2206 2206 0 6 0
+endif
+button 121 16 2205 2205 0 4 0
+//Recall Button
+local.y <eval -1 * 64 * 15>
+for x 64 71
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 72 * 15>
+for x 72 79
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 64 * 15>
+for x 64 71
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 72 * 15>
+for x 72 79
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 64 * 15>
+for x 64 71
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 72 * 15>
+for x 72 79
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 64 * 15>
+for x 64 71
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 72 * 15>
+for x 72 79
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.y <eval -1 * 64 * 15>
+local.z 12
+for x 64 71
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.y = <eval -1 * 72 * 15>
+local.z 12
+for x 72 79
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+//6. Sayfa
+page 6
+button 303 22 2103 2104 1 0 25//Button 20
+htmlgump 422 180 100 20 97 0 0
+if (<eval <tag.enchanted>> > 1)
+button 395 15 2206 2206 0 7 0
+endif
+button 121 16 2205 2205 0 5 0
+//Recall Button
+local.y <eval -1 * 80 * 15>
+for x 80 87
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 88 * 15>
+for x 88 95
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 80 * 15>
+for x 80 87
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 88 * 15>
+for x 88 95
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 80 * 15>
+for x 80 87
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 88 * 15>
+for x 88 95
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 80 * 15>
+for x 80 87
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 88 * 15>
+for x 88 95
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.y <eval -1 * 80 * 15>
+local.z 20
+for x 80 87
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.y = <eval -1 * 88 * 15>
+local.z 20
+for x 88 95
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+//7. Sayfa
+page 7
+button 303 22 2103 2104 1 0 26//Button 20
+htmlgump 422 180 100 20 98 0 0
+if (<eval <tag.enchanted>> > 2)
+button 395 15 2206 2206 0 8 0
+endif
+button 121 16 2205 2205 0 6 0
+//Recall Button
+local.y <eval -1 * 96 * 15>
+for x 96 103
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 104 * 15>
+for x 104 111
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 96 * 15>
+for x 96 103
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 104 * 15>
+for x 104 111
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 96 * 15>
+for x 96 103
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 104 * 15>
+for x 104 111
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 96 * 15>
+for x 96 103
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 104 * 15>
+for x 104 111
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.z 20
+local.y <eval -1 * 96 * 15>
+for x 96 103
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.z 20
+local.y = <eval -1 * 104 * 15>
+for x 104 111
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+//8. Sayfa
+page 8
+button 303 22 2103 2104 1 0 27//Button 20
+htmlgump 422 180 100 20 99 0 0
+if (<eval <tag.enchanted>> > 3)
+button 395 15 2206 2206 0 9 0
+endif
+button 121 16 2205 2205 0 7 0
+//Recall Button
+local.y <eval -1 * 112 * 15>
+for x 112 119
+button 125 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 120 * 15>
+for x 120 127
+button 285 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 1000 + <dlocal.x> + 1>
+endfor
+//Recall Button
+//Gate Button
+local.y <eval -1 * 112 * 15>
+for x 112 119
+button 135 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 120 * 15>
+for x 120 127
+button 295 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 2000 + <dlocal.x> + 1>
+endfor
+//Gate Button
+//Erase Button
+local.y <eval -1 * 112 * 15>
+for x 112 119
+button 260 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 120 * 15>
+for x 120 127
+button 420 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 3000 + <dlocal.x> + 1>
+endfor
+//Erase Button
+//rename Butonlar
+local.y <eval -1 * 112 * 15>
+for x 112 119
+button 250 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+local.y = <eval -1 * 120 * 15>
+for x 120 127
+button 410 <eval <local.y> + 65 + (15 * <dlocal.x>)> 2103 2104 1 0 <eval 4000 + <dlocal.x> + 1>
+endfor
+//rename Butonlar
+
+local.z 20
+local.y <eval -1 * 112 * 15>
+for x 112 119
+htmlgump 148 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+
+local.z 20
+local.y = <eval -1 * 120 * 15>
+for x 120 127
+//dhtmlgump 200 20 300 20 0 0 <def.bfont_red>North Uo Guild Listesi
+htmlgump 307 <eval <local.y> + 61 + (15 * <dlocal.x>)> 100 17 <eval <local.z> + <dlocal.x>>
+endfor
+[dialog d_nbl_rbook text] /////////////////////////////////////////////
+Rune Ekle
+Şarj Et
+<TAG.NAME>
+Sarj: <eval <MOREX>>
+| |_	
+|___
+_| |
+___|
+gate
+recall
+isim
+cikart
+//1.Sayfa 12
+<var.rb_font1>><TAG.LOCAL1>
+<var.rb_font1>><TAG.LOCAL2>
+<var.rb_font1>><TAG.LOCAL3>
+<var.rb_font1>><TAG.LOCAL4>
+<var.rb_font1>><TAG.LOCAL5>
+<var.rb_font1>><TAG.LOCAL6>
+<var.rb_font1>><TAG.LOCAL7>
+<var.rb_font1>><TAG.LOCAL8>
+<var.rb_font1>><TAG.LOCAL9>
+<var.rb_font1>><TAG.LOCAL10>
+<var.rb_font1>><TAG.LOCAL11>
+<var.rb_font1>><TAG.LOCAL12>
+<var.rb_font1>><TAG.LOCAL13>
+<var.rb_font1>><TAG.LOCAL14>
+<var.rb_font1>><TAG.LOCAL15>
+<var.rb_font1>><TAG.LOCAL16>
+//2.Sayfa 28
+<var.rb_font1>><TAG.LOCAL17>
+<var.rb_font1>><TAG.LOCAL18>
+<var.rb_font1>><TAG.LOCAL19>
+<var.rb_font1>><TAG.LOCAL20>
+<var.rb_font1>><TAG.LOCAL21>
+<var.rb_font1>><TAG.LOCAL22>
+<var.rb_font1>><TAG.LOCAL23>
+<var.rb_font1>><TAG.LOCAL24>
+<var.rb_font1>><TAG.LOCAL25>
+<var.rb_font1>><TAG.LOCAL26>
+<var.rb_font1>><TAG.LOCAL27>
+<var.rb_font1>><TAG.LOCAL28>
+<var.rb_font1>><TAG.LOCAL29>
+<var.rb_font1>><TAG.LOCAL30>
+<var.rb_font1>><TAG.LOCAL31>
+<var.rb_font1>><TAG.LOCAL32>
+//3.Sayfa 44
+<var.rb_font1>><TAG.LOCAL33>
+<var.rb_font1>><TAG.LOCAL34>
+<var.rb_font1>><TAG.LOCAL35>
+<var.rb_font1>><TAG.LOCAL36>
+<var.rb_font1>><TAG.LOCAL37>
+<var.rb_font1>><TAG.LOCAL38>
+<var.rb_font1>><TAG.LOCAL39>
+<var.rb_font1>><TAG.LOCAL40>
+<var.rb_font1>><TAG.LOCAL41>
+<var.rb_font1>><TAG.LOCAL42>
+<var.rb_font1>><TAG.LOCAL43>
+<var.rb_font1>><TAG.LOCAL44>
+<var.rb_font1>><TAG.LOCAL45>
+<var.rb_font1>><TAG.LOCAL46>
+<var.rb_font1>><TAG.LOCAL47>
+<var.rb_font1>><TAG.LOCAL48>
+//4.Sayfa 60
+<var.rb_font1>><TAG.LOCAL49>
+<var.rb_font1>><TAG.LOCAL50>
+<var.rb_font1>><TAG.LOCAL51>
+<var.rb_font1>><TAG.LOCAL52>
+<var.rb_font1>><TAG.LOCAL53>
+<var.rb_font1>><TAG.LOCAL54>
+<var.rb_font1>><TAG.LOCAL55>
+<var.rb_font1>><TAG.LOCAL56>
+<var.rb_font1>><TAG.LOCAL57>
+<var.rb_font1>><TAG.LOCAL58>
+<var.rb_font1>><TAG.LOCAL59>
+<var.rb_font1>><TAG.LOCAL60>
+<var.rb_font1>><TAG.LOCAL61>
+<var.rb_font1>><TAG.LOCAL62>
+<var.rb_font1>><TAG.LOCAL63>
+<var.rb_font1>><TAG.LOCAL64>
+//5.Sayfa 76
+<var.rb_font1>><TAG.LOCAL65>
+<var.rb_font1>><TAG.LOCAL66>
+<var.rb_font1>><TAG.LOCAL67>
+<var.rb_font1>><TAG.LOCAL68>
+<var.rb_font1>><TAG.LOCAL69>
+<var.rb_font1>><TAG.LOCAL70>
+<var.rb_font1>><TAG.LOCAL71>
+<var.rb_font1>><TAG.LOCAL72>
+<var.rb_font1>><TAG.LOCAL73>
+<var.rb_font1>><TAG.LOCAL74>
+<var.rb_font1>><TAG.LOCAL75>
+<var.rb_font1>><TAG.LOCAL76>
+<var.rb_font1>><TAG.LOCAL77>
+<var.rb_font1>><TAG.LOCAL78>
+<var.rb_font1>><TAG.LOCAL79>
+<var.rb_font1>><TAG.LOCAL80>
+//92
+1
+2
+3
+4
+5
+6
+7
+8
+//5.Sayfa 76
+<var.rb_font1>><TAG.LOCAL81>
+<var.rb_font1>><TAG.LOCAL82>
+<var.rb_font1>><TAG.LOCAL83>
+<var.rb_font1>><TAG.LOCAL84>
+<var.rb_font1>><TAG.LOCAL85>
+<var.rb_font1>><TAG.LOCAL86>
+<var.rb_font1>><TAG.LOCAL87>
+<var.rb_font1>><TAG.LOCAL88>
+<var.rb_font1>><TAG.LOCAL89>
+<var.rb_font1>><TAG.LOCAL90>
+<var.rb_font1>><TAG.LOCAL91>
+<var.rb_font1>><TAG.LOCAL92>
+<var.rb_font1>><TAG.LOCAL93>
+<var.rb_font1>><TAG.LOCAL94>
+<var.rb_font1>><TAG.LOCAL95>
+<var.rb_font1>><TAG.LOCAL96>
+<var.rb_font1>><TAG.LOCAL97>
+<var.rb_font1>><TAG.LOCAL98>
+<var.rb_font1>><TAG.LOCAL99>
+<var.rb_font1>><TAG.LOCAL100>
+<var.rb_font1>><TAG.LOCAL101>
+<var.rb_font1>><TAG.LOCAL102>
+<var.rb_font1>><TAG.LOCAL103>
+<var.rb_font1>><TAG.LOCAL104>
+<var.rb_font1>><TAG.LOCAL105>
+<var.rb_font1>><TAG.LOCAL106>
+<var.rb_font1>><TAG.LOCAL107>
+<var.rb_font1>><TAG.LOCAL108>
+<var.rb_font1>><TAG.LOCAL109>
+<var.rb_font1>><TAG.LOCAL110>
+<var.rb_font1>><TAG.LOCAL111>
+<var.rb_font1>><TAG.LOCAL112>
+<var.rb_font1>><TAG.LOCAL113>
+<var.rb_font1>><TAG.LOCAL114>
+<var.rb_font1>><TAG.LOCAL115>
+<var.rb_font1>><TAG.LOCAL116>
+<var.rb_font1>><TAG.LOCAL117>
+<var.rb_font1>><TAG.LOCAL118>
+<var.rb_font1>><TAG.LOCAL119>
+<var.rb_font1>><TAG.LOCAL120>
+<var.rb_font1>><TAG.LOCAL121>
+<var.rb_font1>><TAG.LOCAL122>
+<var.rb_font1>><TAG.LOCAL123>
+<var.rb_font1>><TAG.LOCAL124>
+<var.rb_font1>><TAG.LOCAL125>
+<var.rb_font1>><TAG.LOCAL126>
+<var.rb_font1>><TAG.LOCAL127>
+<var.rb_font1>><TAG.LOCAL128>
+[dialog d_nbl_rbook button]
+on=0
+return 1
+
+on=1
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @55 Bu islem icin runebook'un cantanizda olmasi gerekiyor.
+	return 1
+endif
+SDIALOG d_runebook_rename 
+RETURN 1
+
+on=20
+MORE2=20
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 1
+TARGET
+RETURN 1
+
+on=21
+MORE2=21
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 2
+TARGET
+RETURN 1
+
+on=22
+MORE2=22
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 3
+TARGET
+RETURN 1
+
+on=23
+MORE2=23
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 4
+TARGET
+RETURN 1
+
+on=24
+MORE2=24
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 5
+TARGET
+RETURN 1
+
+on=25
+MORE2=25
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 6
+TARGET
+RETURN 1
+
+on=26
+MORE2=26
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 7
+TARGET
+RETURN 1
+
+on=27
+MORE2=27
+SRC.SYSMESSAGE @55,,1 Eklemek istediğiniz rune'u seçin.
+tag.enson_sayfa 8
+TARGET
+RETURN 1
+
+ONBUTTON=3
+MORE2=1
+SRC.SYSMESSAGE @55,,1 Lutfen şarj etmek uzere kullanacağınız bir recall scroll seçin.
+TARGET
+RETURN 1
+
+ONBUTTON=4
+for x 1 <eval 80 + <eval <tag.enchanted> * 16>>
+	IF !(<EVAL <TAG.POS<eval <dlocal.x>>_X>>==0)
+		f_ar_rb <dlocal.x>
+	ENDIF
+endfor
+RETURN 1
+
+ONBUTTON=5
+dialog d_rb_kuculmus_ama
+
+on=1001 1999
+if (<eval <argn> - 1000> < 17)
+tag.enson_sayfa 1
+elseif (<eval <argn> - 1000> < 33)
+tag.enson_sayfa 2
+elseif (<eval <argn> - 1000> < 49)
+tag.enson_sayfa 3
+elseif (<eval <argn> - 1000> < 65)
+tag.enson_sayfa 4
+elseif (<eval <argn> - 1000> < 81)
+tag.enson_sayfa 5
+elseif (<eval <argn> - 1000> < 97)
+tag.enson_sayfa 6
+elseif (<eval <argn> - 1000> < 113)
+tag.enson_sayfa 7
+elseif (<eval <argn> - 1000> < 129)
+tag.enson_sayfa 8
+endif
+//src.sysmessage @38A <eval <argn> - 1000>
+f_rc_rb <eval <argn> - 1000>
+
+on=2001 2999
+if (<eval <argn> - 2000> < 17)
+tag.enson_sayfa 1
+elseif (<eval <argn> - 2000> < 33)
+tag.enson_sayfa 2
+elseif (<eval <argn> - 2000> < 49)
+tag.enson_sayfa 3
+elseif (<eval <argn> - 2000> < 65)
+tag.enson_sayfa 4
+elseif (<eval <argn> - 2000> < 81)
+tag.enson_sayfa 5
+elseif (<eval <argn> - 2000> < 97)
+tag.enson_sayfa 6
+elseif (<eval <argn> - 2000> < 113)
+tag.enson_sayfa 7
+elseif (<eval <argn> - 2000> < 129)
+tag.enson_sayfa 8
+endif
+f_gt_rb <eval <argn> - 2000>
+
+on=3001 3999
+if (<eval <argn> - 3000> < 17)
+tag.enson_sayfa 1
+elseif (<eval <argn> - 3000> < 33)
+tag.enson_sayfa 2
+elseif (<eval <argn> - 3000> < 49)
+tag.enson_sayfa 3
+elseif (<eval <argn> - 3000> < 65)
+tag.enson_sayfa 4
+elseif (<eval <argn> - 3000> < 81)
+tag.enson_sayfa 5
+elseif (<eval <argn> - 3000> < 97)
+tag.enson_sayfa 6
+elseif (<eval <argn> - 3000> < 113)
+tag.enson_sayfa 7
+elseif (<eval <argn> - 3000> < 129)
+tag.enson_sayfa 8
+endif
+f_ar_rb <eval <argn> - 3000>
+
+on=4001 4999
+if (<eval <argn> - 4000> < 17)
+tag.enson_sayfa 1
+elseif (<eval <argn> - 4000> < 33)
+tag.enson_sayfa 2
+elseif (<eval <argn> - 4000> < 49)
+tag.enson_sayfa 3
+elseif (<eval <argn> - 4000> < 65)
+tag.enson_sayfa 4
+elseif (<eval <argn> - 4000> < 81)
+tag.enson_sayfa 5
+elseif (<eval <argn> - 4000> < 97)
+tag.enson_sayfa 6
+elseif (<eval <argn> - 4000> < 113)
+tag.enson_sayfa 7
+elseif (<eval <argn> - 4000> < 129)
+tag.enson_sayfa 8
+endif
+f_rn_rb <eval <argn> - 4000>
+
+[function f_bankaya_at]
+src.newitem i_bag
+more <src.act.uid>
+src.act.cont <src.findlayer.29>
+src.act.update
+src.newitem i_scroll_recall
+src.act.amount <morex>
+src.act.cont <more>
+src.act.update
+
+src.newitem i_scroll_blank
+src.act.amount 32
+src.act.cont <more>
+src.act.update
+
+more2 = 1
+for <eval(<more2>)> 128
+	if !((strmatch('<tag.pos_<eval(<more2>)>_p>','00')) || (strmatch('<tag.pos_<eval(<more2>)>_p>','')))
+		src.newitem i_rune_marker
+		src.act.name <tag.pos_<eval(<more2>)>_n>
+		src.act.morep <tag.pos_<eval(<more2>)>_p>
+		src.act.cont <more>
+		src.act.update
+		more2 +=1
+	else
+		more2 +=1
+	endif
+endfor
+src.sysmessage @65,3,1 Bankaniza kondu.
+remove
+src.newitem i_runebook
+src.act.bounce
+return 1
+
+
+[EOF]

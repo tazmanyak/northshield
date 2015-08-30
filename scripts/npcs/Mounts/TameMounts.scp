@@ -1,0 +1,561 @@
+[CHARDEF 076]
+//FIXME: Only usable by faction
+DEFNAME=c_warhorse_white
+NAME=True Britannian warhorse
+ICON=i_pet_horse
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=12,20
+ARMOR=40
+DESIRES=r_civilization,t_coin,t_gold,t_gem
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw,5 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=65.7
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Warhorse (True Britannian white)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={390 410}
+   ////MAXHITS={230 250}
+   DEX={120 130}
+   //MAXSTAM={120 130}
+   INT={51 55}
+   //MAXMANA={51 55}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+   //MODAR={0 10}
+   //RESCOLD={30 40}
+   //RESENERGY={30 40}
+   //RESFIRE={30 40}
+   //RESPOISON={30 40}
+
+[CHARDEF 077]
+//FIXME: Only usable by faction
+DEFNAME=c_warhorse_blue
+NAME=Council of Mages warhorse
+ICON=i_pet_horse
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=12,20
+ARMOR=40
+DESIRES=r_civilization,t_coin,t_gold,t_gem
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw,5 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=65.7
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Warhorse (Council of Mages blue)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={390 410}
+   ////MAXHITS={230 250}
+   DEX={120 130}
+   //MAXSTAM={120 130}
+   INT={51 55}
+   //MAXMANA={51 55}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+   //MODAR={0 10}
+   //RESCOLD={30 40}
+   //RESENERGY={30 40}
+   //RESFIRE={30 40}
+   //RESPOISON={30 40}
+
+[CHARDEF 078]
+//FIXME: Only usable by faction
+DEFNAME=c_warhorse_red
+NAME=Followers of Minax warhorse
+ICON=i_pet_horse
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=12,20
+ARMOR=40
+DESIRES=r_civilization,t_coin,t_gold,t_gem
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw,5 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=65.7
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Warhorse (Followers of Minax red)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={390 410}
+   ////MAXHITS={230 250}
+   DEX={120 130}
+   //MAXSTAM={120 130}
+   INT={51 55}
+   //MAXMANA={51 55}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+   //MODAR={0 10}
+   //RESCOLD={30 40}
+   //RESENERGY={30 40}
+   //RESFIRE={30 40}
+   //RESPOISON={30 40}
+
+[CHARDEF 079]
+//FIXME: Only usable by faction
+DEFNAME=c_warhorse_green
+NAME=Shadowlords warhorse
+ICON=i_pet_horse
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=12,20
+ARMOR=40
+DESIRES=r_civilization,t_coin,t_gold,t_gem
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw,5 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=65.7
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Warhorse (Shadowlords green)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={390 410}
+   ////MAXHITS={230 250}
+   DEX={120 130}
+   //MAXSTAM={120 130}
+   INT={51 55}
+   //MAXMANA={51 55}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+   //MODAR={0 10}
+   //RESCOLD={30 40}
+   //RESENERGY={30 40}
+   //RESFIRE={30 40}
+   //RESPOISON={30 40}
+
+[CHARDEF 0c8]
+DEFNAME=c_horse_tan
+NAME=tan horse
+ICON=i_pet_horse_tan
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,6
+ARMOR=15
+DESIRES=r_plains,r_civilization
+AVERSIONS=e_carnivores2,e_carnivores3
+RESOURCES=3 i_ribs_raw,10 i_hide
+FOODTYPE=35 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=26.5
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Horse (tan)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={22 98}
+   ////MAXHITS={28 45}
+   DEX={56 75}
+   //MAXSTAM={56 75}
+   INT={6 10}
+   //MAXMANA={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+   //MODAR={0 5}
+   //RESCOLD=0
+   //RESENERGY=0
+   //RESFIRE=0
+   //RESPOISON=0
+
+[CHARDEF 0cc]
+DEFNAME=c_horse_brown_dk
+NAME=dark brown horse
+ICON=i_pet_horse_brown_dk
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,6
+ARMOR=15
+DESIRES=r_forests,r_civilization
+AVERSIONS=e_carnivores2,e_carnivores3
+RESOURCES=3 i_ribs_raw,10 i_hide
+FOODTYPE=35 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=26.5
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Horse (brown)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={22 98}
+   ////MAXHITS={28 45}
+   DEX={56 75}
+   //MAXSTAM={56 75}
+   INT={6 10}
+   //MAXMANA={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+   //MODAR={0 5}
+   //RESCOLD=0
+   //RESENERGY=0
+   //RESFIRE=0
+   //RESPOISON=0
+
+[CHARDEF 0dc]
+DEFNAME=c_llama
+NAME=Llama
+ICON=i_pet_llama
+SOUND=snd_animals_llama3
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=3,6
+ARMOR=15
+DESIRES=r_civilization
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=25 t_fruit,t_grain,t_grass
+RESOURCES=1 i_ribs_raw,10 i_hide,2 i_fur_light
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=17.0
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Llama
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={21 49}
+   DEX={56 75}
+   INT={16 30}
+   MAGICRESISTANCE={15.0 20.0}
+   TACTICS={19.0 29.0}
+   TAMING=60.0 //=60.0
+   WRESTLING={19.0 29.0}
+   
+  if rand(20)==1
+	f_give_color
+  else
+	color 0
+  endif
+   
+[function f_give_color]
+DORAND 12
+	COLOR=07d4 // ye$il
+	COLOR=0846 // kirmizi
+	COLOR=084a // mavi
+	COLOR=06af // sari
+	COLOR=04dc // mor
+	COLOR=0840 // kahve
+	COLOR=0455 // siyah
+	COLOR=0901 // gri
+	COLOR=04c3 // pembe
+	COLOR=05e3 // cikolata
+	COLOR=051b // sky
+	COLOR=08ad // skygray
+ENDDO
+[CHARDEF 0e2]
+DEFNAME=c_horse_gray
+NAME=gray horse
+ICON=i_pet_horse_gray
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,6
+ARMOR=15
+DESIRES=r_jungle,r_civilization
+AVERSIONS=e_carnivores2,e_carnivores3
+RESOURCES=3 i_ribs_raw,10 i_hide
+FOODTYPE=35 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=26.5
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Horse (gray)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={22 98}
+   ////MAXHITS={28 45}
+   DEX={56 75}
+   //MAXSTAM={56 75}
+   INT={6 10}
+   //MAXMANA={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+
+[CHARDEF 0e4]
+DEFNAME=c_horse_brown_lt
+NAME=light brown horse
+ICON=i_pet_horse_brown_lt
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,6
+ARMOR=15
+DESIRES=r_mountains,r_civilization
+AVERSIONS=e_carnivores2,e_carnivores3
+RESOURCES=3 i_ribs_raw,10 i_hide
+FOODTYPE=35 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=26.5
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Horse (light brown)
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={22 98}
+   DEX={56 75}
+   INT={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=55.0 //={25.0 30.0}
+   WRESTLING={29.0 44.0}
+
+[CHARDEF 011c]
+//FIXME: No Stratics entry
+//FIXME: On death, drop the barding into the corpse and give it appropriate resistances.
+DEFNAME=c_armor_steed
+NAME=armored steed
+ICON=i_pet_horse
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=25,35
+ARMOR=35
+DESIRES=r_civilization
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=5 i_ribs_raw,10 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=75.0
+TAG.Control.Slots=2
+TEVENTS=e_carnivores2
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Armored Steed
+RESLEVEL=5
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={175 200}
+   ////MAXHITS={200 250}
+   DEX={75 95}
+   //MAXSTAM={75 95}
+   INT={86 125}
+   //MAXMANA={86 125}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={78.0 88.0}
+   TAMING=55.0 //={100.0 110.0}
+   WRESTLING={89.0 99.0}
+   //MODAR={0 5}
+   //RESCOLD={0 10}
+   //RESENERGY={0 10}
+   //RESFIRE={0 10}
+   //RESPOISON={0 10}
+
+[CHARDEF 031f]
+//FIXME: Should be possible to remove the armor
+DEFNAME=c_armored_swamp_dragon
+NAME=armored swamp dragon
+ICON=i_pet_dragon_swamp
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=7,9
+ARMOR=40
+DESIRES=r_swamp,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization,e_carnivores3
+FOODTYPE=55 t_meat_raw
+RESOURCES=19 i_ribs_raw,20 i_hide,5 i_scale_green
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=59.0
+TAG.Control.Slots=1
+TAG.DamPoison=25
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_horses
+TEVENTS=e_carnivores
+CATEGORY=Mounts
+SUBSECTION=Tame
+DESCRIPTION=Swamp Dragon (armored)
+RESLEVEL=2
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=38
+ON=@Create
+   COLOR={0 20 colors_green 1}
+   NPC=brain_animal
+   FAME=2000
+   KARMA=-2000
+   STR={201 300}
+   ////MAXHITS={121 180}
+   DEX={66 85}
+   //MAXSTAM={66 85}
+   INT={61 100}
+   //MAXMANA={61 100}
+   ANATOMY={45.0 55.0}
+   MAGICRESISTANCE={45.0 55.0}
+   //POISONING={45.0 55.0}
+   TACTICS={45.0 55.0}
+   TAMING=55.0 //={90.0 95.0}
+   WRESTLING={45.0 55.0}
+   //MODAR={0 5}
+   //RESCOLD={25 45}
+   //RESENERGY={35 45}
+   //RESFIRE={25 35}
+   //RESPOISON={25 35}
+
+///////////////////////////////////////////////////////////////////
+
+[CHARDEF C_RANDOM_MUSTANG]
+DEFNAME=C_RANDOM_MUSTANG
+NAME=Mustang
+SOUND=snd_ANIMALS_HORSE1
+ID=c_horse_brown_dk
+ICON=i_pet_horse_brown_dk
+DAM=10,15
+ARMOR=20
+RESOURCES=15 i_ribs_raw,10 i_hide
+CAN=MT_WALK|MT_RUN
+FOODTYPE=50 t_crops, 50 t_fruit, 50 t_grain, 50 t_grass
+DESIRES=e_horses,c_man,c_woman,c_man_gm
+TEVENTS=e_horses
+
+
+DESCRIPTION=Horse (All Mustangs)
+SUBSECTION=Horses 
+CATEGORY=Animals
+
+ON=@Create
+	DORAND 10
+		COLOR=01B6
+		COLOR=031C 
+		COLOR=0158 
+		COLOR=03E7 
+		COLOR=01BB
+		COLOR=0279 
+		COLOR=0263 
+		COLOR=033 
+		COLOR=08AD
+        COLOR=051B 
+	ENDDO
+
+STR={275 300}
+DEX={125 150}
+INT=1
+KARMA=0
+NPC=brain_animal
+PARRYING={95.0 99.0}
+MAGICRESISTANCE={85.0 90.0}
+TACTICS={79.0 84.0}
+WRESTLING={79.0 94.0}
+TAMING=85.0
+ANIMALLORE=85.0
+
+///////////////////////////////////////////////////////////////////
+
+[CHARDEF c_colour_llama]
+DEFNAME=c_colour_llama
+ID=c_llama
+NAME=Llama
+SOUND=snd_ANIMALs_llama3
+ICON=i_pet_llama
+CAN=MT_WALK|MT_RUN
+DAM=4,12
+ARMOR=5
+RESOURCES=15 i_ribs_raw
+FOODTYPE=55 t_crops, 55 t_fruit, 64 t_grass
+//SHELTER=r_stables,spk_human_prime
+DESIRES=e_OSTARDS,c_man,c_woman
+AVERSIONS=e_carnivores3
+TEVENTS=e_horses
+ANIM=01fff
+
+DESCRIPTION=Llama
+SUBSECTION=Renkliler
+CATEGORY=Animals
+
+ON=@Create
+NPC=brain_animal
+DORAND 12
+	COLOR=07d4 // ye$il
+	COLOR=0846 // kirmizi
+	COLOR=084a // mavi
+	COLOR=06af // sari
+	COLOR=04dc // mor
+	COLOR=0840 // kahve
+	COLOR=0455 // siyah
+	COLOR=0901 // gri
+	COLOR=04c3 // pembe
+	COLOR=05e3 // cikolata
+	COLOR=051b // sky
+	COLOR=08ad // skygray
+ENDDO
+
+STR={150 180}
+DEX={120 130}
+INT={6 10}
+
+PARRYING={35.0 45.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+TAMING=75.0
+
+FAME=0
+KARMA={-400 -599}
+//ALIGNMENT=NEUTRAL
+[EOF]

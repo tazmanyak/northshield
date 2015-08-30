@@ -1,0 +1,181 @@
+
+[itemdef i_gate_rulet_giris]
+id i_moongate_blue
+name Rulet Etkinligi
+
+on=@click
+message @0808,1,1 Rulet Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+if <src.account.plevel> > 1
+return 1
+endif
+src.spelleffect s_night_sight,100,0
+src.hits <src.str>
+src.binekolmazsaolmaz
+
+src.events +e_yarisma_topuk
+src.go 5155,2047,7
+
+on=@step
+src.sysmessage @39,1,1 <src.name>, cift tiklayin.
+return 1
+
+on=@timer
+remove
+return 1
+
+
+
+[itemdef i_gate_rulet_cikis]
+id i_moongate_blue
+name Rulet Etkinligi
+
+on=@click
+message @0808,1,1 Rulet Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+if <src.account.plevel> > 1
+return 1
+endif
+src.spelleffect s_night_sight,100,0
+src.hits <src.str>
+src.events -e_yarisma_topuk
+src.go 5323,1822
+
+on=@step
+if <src.account.plevel> > 1
+return 1
+endif
+src.spelleffect s_night_sight,100,0
+src.hits <src.str>
+src.events -e_yarisma_topuk
+src.go 5323,1822
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////
+[function rulet]
+if (<eval <var.rulet>> == 1)
+	src.sysmessage @,,1 Rulet hazirda.
+	return 1
+endif
+
+serv.newitem i_paver_Stone_rulet
+new.p 5149,2060,7
+var.rulet 1
+src.sysmessage @69,,1 Rulet hazirlandi.
+
+
+[function f_rulet_hazirim]
+ref1 <src.uid>
+
+FORCHARS 7
+	IF (<ID> == c_cannon_ball_ruletci)
+	timerf 1,anim 10
+	timerf 3,say @,,1 Atessss!!!
+	timerf 3,bow
+	ref1.timerf 4,f_rus_ruleti_patlat
+	ENDIF
+ENDFOR
+
+[function f_rus_ruleti_patlat]
+ref1 <src.uid>
+IF (RAND(2)==1)
+	src.effect=3,i_fx_explode,5,35
+	src.sleep
+		FORCHARS 8
+		IF (<ID> == c_cannon_ball_ruletci)
+			DORAND 3
+			say @33,,1 Hahahahahaha ruyanda beni gor <ref1.name>...
+			say @33,,1 Tahtalikoy simdi seninle daha guzel <ref1.name>...
+			say @33,,1 <ref1.name>... <ref1.name>.. <ref1.name>. uzulme.
+			ENDDO
+		endif
+		endfor
+	else
+	src.say @,,1 What is the matrix ulan !
+	src.effect=3,i_fx_smoke,5,3
+	src.anim 21
+		FORCHARS 8
+		IF (<ID> == c_cannon_ball_ruletci)
+			DORAND 3
+			say @69,,1 <ref1.name> cok sanslisin, birdahakine !
+			say @69,,1 <ref1.name> bala gel...
+			say @69,,1 Allah'in hakki 3'tur <ref1.name> !
+			ENDDO
+		endif
+		endfor
+endif
+var.rulet 0
+
+
+
+[itemdef i_paver_Stone_rulet]
+name paver stone
+id i_paver_stone
+type t_normal
+weight 0
+
+On=@Create
+attr 080
+color 0
+
+On=@Step
+
+if <src.account.plevel> > 1
+	remove
+	src.sysmessage @,,1 Stafflar icin degil.
+	var.rulet 0
+	return 1
+endif
+
+src.sd 9
+src.timerf 1,say @,,1 3
+src.timerf 2,say @,,1 2
+src.timerf 3,src.say @,,1 1
+src.timerf 4,f_rulet_hazirim
+remove
+
+[chardef c_cannon_ball_ruletci]
+id c_man
+name Idris
+can mt_equip|mt_nonmover
+armor=0
+dam=10,20
+
+ON=@CREATE
+str=250
+int=1
+dex=250
+color=0
+
+fame=5000
+karma=5000
+
+
+ON=@GETHIT
+return 1
+
+on=@attack
+return 1
+
+
+[EOF]

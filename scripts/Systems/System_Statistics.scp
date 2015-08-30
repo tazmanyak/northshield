@@ -1,0 +1,251 @@
+
+
+[function f_fix_colors]
+forinstances <args>
+	if (<color> == 0485)
+		color 0
+	endif
+endfor
+[function remove_varlist]
+local.horses 0
+forinstances i_worldgem_bit
+	if (<more1> == c_horse_gray) || (<more1> == c_horse_tan) || (<more1> == c_horse_brown_dk) || (<more1> == c_horse_brown_lt)
+		morep 1440,1440,50
+		local.horses ++
+	endif
+endfor
+serv.log Total Horse Spawn : <dlocal.horses>
+
+[function f_count_gold]
+local.gold 0
+forinstances i_gold
+	local.gold += <amount>
+endif
+
+serv.log  Total Gold in Server (NPC's included): <bolukayir <dlocal.gold>>
+
+local.gold_moneybox 0
+forplayers 6144
+	if <tag.kumbaram>
+		ref1 = <tag.kumbaram>
+		local.gold_moneybox += <ref1.dtag.gp>
+	endif
+endif
+
+local.pismemis 0
+local.pismis 0
+forinstances i_fish_cut_raw
+	local.pismemis +=<amount>
+endif
+forinstances i_fish_cut_cooked
+	local.pismis +=<amount>
+endfor
+serv.log Pismis : <dlocal.pismis> - Pismemis : <dlocal.pismemis>
+serv.log Total Gold in Player's Money Box:  <bolukayir <dlocal.gold_moneybox>>
+	
+[function f_recover_staff]
+local.removed 0
+foritems 7000
+	if <type> == t_treasure_tile
+		local.removed ++
+		remove
+	endif
+endfor
+src.sys_error <dlocal.removed> kadar silindi.
+
+forinstances i_staff_quarter
+	tag0.upgradable 1
+endfor
+
+[function f_remove_bos]
+forplayers 7144
+	if <kills> > 6
+		if !<isonline>
+			go delucia
+		endif
+	endif
+endfor
+
+[function f_remove_high_stone]
+forinstances i_tub_water
+	type t_water
+endif
+
+[function f_aktar_db]
+db.connect
+db.query truncate table server_list
+
+if <db.connected>
+  forplayers 6144
+    db.query insert into server_list (name,time) values ('<addslashes <name>>','<account.totalconnecttime> / 3600>')
+  endfor
+endif
+db.close
+
+[function f_remove_waters]
+foritems 6144
+	if <isneartype.t_water 0>
+		//if strmatch(<name>,'Hazine Su')
+		serv.writefile2 C:\su_uzerinde_utems.txt <name> - <uid> - <p> - <region.name>
+		//serv.log #
+		//remove
+		//endif
+	endif
+endfor
+
+[function f_duzelt_spawnss]
+forinstances i_worldgem_bit
+	if <MOREX>==4 
+		morex 10
+		serv.log X
+	endif
+	if <MOREY>==4 
+		morey 10
+		serv.log Y
+	endif
+endfor
+
+[function f_give_mails]
+for x 0 <eval <serv.accounts> -1>
+	local.mail = <serv.account.<dlocal.x>.TAG.email>
+	serv.writefile2 C:\sphere\maillistt.txt <local.mail>
+endfor
+
+[function vendorlari_sil]
+forchars 6144
+	if strmatch(<baseid>,c_vendor_player_burak)
+		remove
+	endif
+endfor
+
+[function f_set_vendor_forum]
+db.connect
+if ( <DB.connected> )
+db.query TRUNCATE TABLE player_vendors
+forchars 6144
+	if strmatch(<baseid>,c_vendor_player_burak)
+		ref1 <tag0.owner>
+		//serv.writefile2 C:\AppServ\www\imageprint\vendor.txt Vendor : <name>, Sahibi: <ref1.name>, <local.site_1><local.site_2><local.site_3>
+		db.query insert into player_vendors (vendor_name,vendor_owner_name,vendor_region_p_x,vendor_region_p_y,vendor_region_name) values ('<name>','<ref1.name>','<p.x>','<p.y>','<region.name>')
+	endif
+endfor
+db.close
+endif
+
+
+[function strongboxlar]
+uid.0400020d2.cleartags
+FORITEMS 6144
+if (<baseid> == i_strong_box)
+	if (<link> == <region.uid>)
+		uid.0400020d2.tag.<more2> <eval (<eval <uid.0400020d2.tag.<more2>>>) + 1>
+		uid.0400020d2.tag.<more2>_<eval <uid.0400020d2.tag.<more2>>> <uid>
+	endif
+endif
+ENDFOR
+
+[function zenginbul]
+serv.f_option_mysql 0
+db.connect
+DB.QUERY TRUNCATE TABLE en_zenginler
+db.close
+strongboxlar
+local.sure <serv.time>
+//serv.save
+serv.writefile2 c:\sphere\zenginler.txt Güncelleyen <src.name> Tarih:<serv.rtime>
+local.zengin1 0
+local.zengin1_u 0
+local.total_player 0
+local.world 0
+local.ori 0
+FORPLAYERS 6144
+ref11 = <tag.kumbaram>
+local.total_player += 1
+local.check 0
+local.bank 0
+local.kumbara 0
+local.vendor 0
+local.bank <bankbalance>
+if !<isempty <tag.kumbaram>>
+local.kumbara <uid.<tag.kumbaram>.tag.gp>
+endif
+forcont <findlayer.29.uid> 0
+if (<baseid> == i_check_brnx)
+local.check += <more1>
+endif
+endfor
+forcont <findlayer.layer_pack.uid> 0
+if (<baseid> == i_check_brnx)
+local.check += <more1>
+endif
+endfor
+local.asdasd 0
+while (<eval <local.asdasd>> < <eval <uid.0400020d2.tag.<uid>>>)
+local.asdasd +=1
+forcont <eval <uid.0400020d2.tag.<uid>_<eval <local.asdasd>>>> 0
+if (<baseid> == i_check_brnx)
+local.check += <more1>
+endif
+if (<baseid> == i_gold)
+local.bank += <more>
+endif
+endfor
+endwhile
+local.total <eval <local.bank> + <local.kumbara> + <local.check> + <local.vendor>>
+local.world += <eval <local.total>>
+if (<eval <local.world>> >= 1000000000)
+local.ori +=1
+local.world -= 1000000000
+endif
+if (<eval <local.total>> >= <eval <args>>) && (<eval <local.total>> != 0)
+local.basla 1
+local.kaydettim 0
+while (<local.basla> <= 20)
+if (<eval <local.total>> > <eval <local.zengin<eval <local.basla>>>>)
+if (<eval <local.kaydettim>> == 0)
+local.kaydettim <eval <local.basla>>
+endif
+endif
+local.basla += 1
+endwhile
+if !(<eval <local.kaydettim>> == 0)
+local.basla 20
+while (<eval <local.basla>> > <eval <local.kaydettim>>)
+local.zengin<eval <local.basla>> <local.zengin<eval <local.basla> - 1>>
+local.zengin<eval <local.basla>>_u <local.zengin<eval <local.basla> - 1>_u>
+local.basla -= 1
+endwhile
+local.zengin<eval <local.kaydettim>> <eval <local.total>>
+local.zengin<eval <local.kaydettim>>_u <uid>
+endif
+endif
+ENDFOR
+local.basla 1
+db.connect
+
+while (<local.basla> <= 20)
+serv.writefile2 C:\North_Player_Log_Arsivi\TotalMoney\zenginler.txt #<eval <local.basla>> <uid.<local.zengin<eval <local.basla>>_u>.name>(<local.zengin<eval <local.basla>>_u>) Para: <eval <local.zengin<eval <local.basla>>>> gp Aktif Sure: <eval (<uid.<local.zengin<eval <local.basla>>_u>.account.totalconnecttime> / 60)>
+DB.QUERY replace into en_zenginler (isim,para,aktifsure) values ('<addslashes <uid.<local.zengin<eval <local.basla>>_u>.name>>','<eval <local.zengin<eval <local.basla>>>>','<eval (<uid.<local.zengin<eval <local.basla>>_u>.account.totalconnecttime> / 60)>')
+local.basla +=1
+endwhile
+db.close
+local.temp <local.sure>
+local.sure = <eval <eval <serv.time>> - <eval <local.temp>>>
+serv.writefile2 C:\North_Player_Log_Arsivi\TotalMoney\zenginler.txt Güncelleme Süresi:<eval <local.sure> / 10>.<eval <local.sure> % 10> Sn dir.
+
+
+[FUNCTION showitem]
+forinstances <args>
+   local.item ++
+   writefile maremq.txt Yeri: <p> / Kimde? <topobj.uid> / Kutu? <cont.uid>
+endfor
+src.sysmessage @55 Show: <args> <dlocal.item>
+
+[FUNCTION deleteitem]
+forinstances <args>
+   local.item ++
+   remove
+endfor
+src.sysmessage @55 Delete: <args> <dlocal.item>
+
+[EOF]

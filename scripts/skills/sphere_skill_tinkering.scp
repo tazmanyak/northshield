@@ -1,0 +1,33 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 37]
+DEFNAME=Skill_Tinkering
+KEY=Tinkering
+TITLE=Tinker
+PROMPT_MSG=
+DELAY=3.0
+STAT_STR=30
+STAT_INT=100
+STAT_DEX=50
+BONUS_STR=20
+BONUS_DEX=20
+BONUS_INT=60
+BONUS_STATS=10
+//ADV_RATE=0,0,0
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+VALUES=1,20,80
+
+ON=@Fail
+src.sysmessage @,,1 <def.scp.craft_msg_fail>
+
+ON=@Abort
+src.sysmessage @,,1 <def.scp.craft_msg_fail>
+
+[eof]

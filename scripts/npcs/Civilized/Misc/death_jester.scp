@@ -1,0 +1,128 @@
+[chardef c_h_death_jester]
+defname=c_h_death_jester
+id=c_man
+name=#names_humanmale the death jester
+can=mt_walk|mt_run|mt_usehands|mt_equip|mt_male
+moverate=100
+dam=2,8
+armor=0
+icon=i_pet_man
+sound=
+resources=
+foodtype=30 t_food, t_fruit
+aversions=t_trap
+desires=t_coin, t_gem, t_magic
+bloodcolor=0
+
+tevents=e_evil_jester
+//tspeech=spk_evil_jester
+tspeech=spk_human_prime
+tspeech=spk_human_default
+
+category=Civilized
+subsection=Miscellaneous
+description=Death Jester
+
+on=@Create
+ npc=brain_human
+ color=colors_skin
+
+ fame=15000
+ karma=-15000
+
+ modar={ 50 60 }
+ resfire={ 50 60 }
+ rescold={ 30 40 }
+ respoison={ 75 80 }
+ resenergy={ 45 55 }
+
+ ostr={ 300 450 }
+ odex={ 250 300 }
+ oint={ 300 450 }
+ maxhits={ 2000 3000 }	//I can way more than a hit.
+ maxstam=<eval (<odex>*2)>	//I have quite a bit of stamina.
+ maxmana=<eval (<oint>*2)>	//I also have quite a bit of mana.
+
+//More than a skilled advesary. Might tweak down or make variants.
+ wrestling={ 100.0 110.0 }
+ tactics={ 100.0 110.0 }
+ magicresistance={ 80.0 100.0 }
+ anatomy={ 25.0 50.0 }
+ poisoning={ 100.0 100.0 }
+ magery={ 100.0 110.0 }
+ evaluatingintel={ 75.0 90.0 }
+ meditation={ 75.0 90.0 }
+ parrying={ 75.0 100.0 }
+ macefighting={ 100.0 110.0 }
+ fencing={ 100.0 110.0 }
+ hiding={ 90.0 100.0 }
+ stealth={ 80.0 100.0 }
+
+ itemnewbie=random_male_hair
+ color=colors_hair
+// itemnewbie=random_facial_hair	//We tend to keep well groomed.
+// color=match_hair
+
+ itemnewbie=i_spellbook
+//healing spells
+ addspell=s_heal
+ addspell=s_cure
+ addspell=s_greater_heal
+//buff spells
+ addspell=s_protection
+ addspell=s_reactive_armor
+ addspell=s_bless
+//Miscellaneous
+ addspell=s_dispel
+ addspell=s_mass_dispel
+ addspell=s_mana_vampire
+ addspell=s_curse
+//Attack spells
+ addspell=s_harm
+ addspell=s_magic_arrow
+ addspell=s_fireball
+ addspell=s_poison
+ addspell=s_flamestrike
+ addspell=s_lightning
+ addspell=s_explosion
+ addspell=s_energy_bolt
+
+ item=i_hat_jester
+ color=color_o_shadow
+ item=i_jester_suit
+ color=color_o_shadow
+ itemnewbie=i_pants_long
+ color=color_o_shadow
+ itemnewbie=i_shoes_plain
+ color=color_o_shadow
+ item=i_scepter
+ color=color_o_shadow
+
+on=@NPCRestock
+ item=loot_death_jester
+
+on=@Death
+ newloot=i_pants_long
+ new.color=color_o_shadow
+ newloot=i_shoes_plain
+ new.color=color_o_shadow
+
+[template loot_death_jester]
+defname=loot_death_jester
+category=Loot Templates - NPC
+subsection=Civlized - Miscellaneous
+description=Death Jester
+//container=i_backpack
+item=i_gold, { 1000 1500 }
+item=random_scroll, { 1 2 }
+item=random_scroll, { 1 2 }
+item=random_scroll, { 1 2 }
+item=random_scroll, { 1 2 }
+item=random_potion, { 2 4 }
+item=random_potion, { 2 4 }
+item=random_jewel, { 4 8 }
+item=random_jewel, { 4 8 }
+item=random_food, { 2 4 }
+//item=random_drink
+//item=random_magic_weapon
+[EOF]

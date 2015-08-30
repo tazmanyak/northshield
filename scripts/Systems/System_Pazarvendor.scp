@@ -1,0 +1,760 @@
+﻿
+[function bankabosalt]
+targetf bankbos2
+
+[plevel 1]
+
+[function bankbos2]
+src.findlayer(layer_bankbox).empty
+bank
+update
+
+[itemdef i_hasilatdeed]
+id=i_deed
+name Hasilat Deed
+
+
+on=@dclick
+remove
+
+// Amma ugrastirdi be kanka Nese Aradan çikardim bunuda aq :S
+//Yarisma sistemindeki cantalarbanka dan esinlenerek yola cikilan bu yolda 
+// basariya ulasildi :DDD // 1 2 kere serveri göçertsemde :D sonuca ulastim.
+
+[function vendoritemlerigeriver] 
+act <tag.owner>
+findlayer(1).cont=<findlayer.layer_pack.uid>
+findlayer(2).cont=<findlayer.layer_pack.uid>
+findlayer(3).cont=<findlayer.layer_pack.uid>
+findlayer(4).cont=<findlayer.layer_pack.uid>
+findlayer(5).cont=<findlayer.layer_pack.uid>
+findlayer(6).cont=<findlayer.layer_pack.uid>
+findlayer(7).cont=<findlayer.layer_pack.uid>
+findlayer(8).cont=<findlayer.layer_pack.uid>
+findlayer(10).cont=<findlayer.layer_pack.uid>
+findlayer(12).cont=<findlayer.layer_pack.uid>
+findlayer(13).cont=<findlayer.layer_pack.uid>
+findlayer(14).cont=<findlayer.layer_pack.uid>
+findlayer(17).cont=<findlayer.layer_pack.uid>
+findlayer(18).cont=<findlayer.layer_pack.uid>
+findlayer(19).cont=<findlayer.layer_pack.uid>
+findlayer(20).cont=<findlayer.layer_pack.uid>
+findlayer(22).cont=<findlayer.layer_pack.uid>
+findlayer(23).cont=<findlayer.layer_pack.uid>
+findlayer(24).cont=<findlayer.layer_pack.uid>
+findlayer(layer_pack).attr 0
+findlayer(layer_pack).cont <act.findlayer(layer_bankbox)>
+findlayer(layer_pack).empty
+findlayer(layer_pack).dclick
+bank
+update
+
+serv.newitem i_hasilatdeed
+new.name @69,1,1 Vendor Hasilatiniz : <eval <findlayer(29).more1> > gp kadardi.Bankaniza check olarak aktarildi.
+new.color 0481
+new.cont <act.findlayer(layer_bankbox)>
+serv.newitem i_check_brnx
+new.more1  <eval <findlayer(29).more1> >
+new.more2 <act.uid>
+new.cont <act.findlayer(layer_bankbox)> // Adamim hasilati varsa onuda bankasina aktardik lan :D
+return 1
+
+////
+
+[ITEMDEF i_vendor_kira]
+ID=0ed5//0bb3//4483
+NAME=Kiralik Vendor
+TYPE=t_script
+DESCRIPTION=Kiralik Vendor
+
+ON=@CREATE
+COLOR=0
+TAG.kiralik=0
+TAG.sahip=0
+ATTR attr_decay|attr_static
+
+ON=@CLICK
+message @0810 <name>
+if !<tag.kiralik>
+message @68,1,1 [Kiralanmamış]
+else
+message @38,1,1 [Kiralanmış]
+endif
+return 1
+
+ON=@DCLICK
+src.closealldialogs
+IF ( <DISTANCE> > 2 )
+SRC.sysMESSAGE @38,1,1 Yeterince yakin degilsiniz!
+RETURN 1
+ENDIF
+SRC.ACT=<UID>
+IF !(<eval <SRC.ACT.TAG.kiralik>>)
+      SRC.DIALOG d_vendor_intro
+	src.tag.dist <src.act.uid>
+      RETURN 1
+ELSE
+   IF (<SRC.ACT.LINK.TAG.sahip>==<SRC.UID>)||(<SRC.ISGM>)
+      VAR.LEASE=<eval <SRC.ACT.TIMER>/60>
+      VAR.LEASE=<eval <VAR.LEASE>/60>
+      SRC.MENU m_vendor_admin
+      RETURN 1
+   ELSE
+   SRC.SYSMESSAGE @38 Bu dukkan ve vendor kiralanmis.
+   RETURN 1
+   ENDIF
+ENDIF
+RETURN 1
+
+ON=@TIMER
+LINK.vendoritemlerigeriver
+LINK.REMOVE
+LINK=04fffffff
+TAG.kiralik
+TAG.sahip=0
+COLOR 0
+RETURN 1
+
+[DIALOG d_vendor_intro]
+100, 100
+PAGE 0
+resizepic 81 93 3500 375 150
+text 199 103 1100 0
+text 110 134 1153 1
+button 107 169 2151 2152 1 0 1
+text 132 173 1152 2
+
+[DIALOG d_vendor_intro TEXT]
+Vendor Kiralama 
+Kiralamak icin 75k Gold Gereklidir.
+Bir haftaligina vendor kirala.
+
+
+[DIALOG d_vendor_intro BUTTON]
+on=0
+src.tag.dist
+on=1
+
+forchars 30
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>) && (<id.c_pv>)
+src.sysmessage @55,,1 Zaten vendor almissiniz.
+return 1
+endif
+endif
+endfor
+
+
+
+//forchars 5
+//if (strmatch("<name>","The Player Vendor"))
+//src.hata Arkadas bir kerede söle seyler denemeseniz olmucak degil mi off kardesim.
+//return 1
+//endif
+//endfor
+IF (<uid.<src.tag.dist>.DISTANCE> > 1 )
+src.message @0bb4 Yeterince yakin degilsiniz!
+else
+IF (<SRC.BANKBALANCE> >= 75000 )
+src.tag.dist
+VAR.SIGN=<SRC.ACT>
+SRC.ACT.TAG.kiralik=1
+SRC.ACT.COLOR=0455
+SRC.ACT.TAG.sahip=<SRC.UID>
+SRC.ACT.TIMER=60*60*24*7
+SRC.GOLD -= 75000
+VAR.SIGN=<SRC.ACT>
+src.newnpc c_pv
+foritems 3
+	if <baseid> == i_vendor_kira
+		local.p = <p>
+	endif
+enddo
+src.act.p <local.p>
+src.act.invis 0
+src.act.tag.p <p>
+src.act.tag.px <p.x>
+src.act.tag.py <p.y>
+src.act.tag.pz <p.z>
+src.act.tag.owner <src.uid>
+VAR.VEND=<SRC.ACT.UID>
+src.act.findlayer(29).more1 5000
+SRC.ACT.TAG.sahip=<SRC.UID>
+SRC.ACT=<VAR.SIGN>
+SRC.ACT.LINK=<VAR.VEND>
+SRC.ACT=<VAR.VEND>
+src.act.newitem i_memory
+SRC.act.ACT.LINK=<SRC.UID>
+src.act.act.attr 08010
+src.act.act.more1 04
+src.act.act.more2 <serv.time>
+src.act.act.morep <src.act.p>
+src.act.act.color memory_ipet
+src.act.act.timer -1
+src.act.act.link <src.uid>
+src.act.act.cont <src.act.uid>
+SRC.ACT.act.CONT=<VAR.VEND>
+src.act.flags <src.act.flags>&statf_pet
+src.tag.vendor <src.act.uid>
+SRC.ACT=<VAR.SIGN> 
+src.act.update
+ELSE
+src.smx Kiralamak icin bankanizda 75000k Gold olmasi gereklidir.
+src.tag.dist
+ENDIF
+endif
+return 1
+
+// **************
+// VENDOR CHARDEF
+// **************
+
+[chardef c_pv]
+defname c_pv
+name The Player Vendor
+id c_man
+can mt_equip|mt_nonmover
+hiredaywage 52
+desires i_gold
+
+tspeech pv_spch
+tevents e_pv
+//tevents vendorfix
+
+
+On=@Create
+str 9500
+dex 25
+int 25
+color colors_skin
+speechcolor 0481
+food 990
+npc 1
+
+itemnewbie i_hair_long
+color 4001
+itemnewbie i_boots_calf
+color 1
+item i_robe
+color 0455
+item i_torch_lit
+morey -1
+itemnewbie i_backpack
+itemnewbie i_bankbox
+color 0384
+timer 900
+attr 08010
+itemnewbie i_pv
+
+// *********
+// DIALOGLAR
+// *********
+
+
+
+
+[MENU m_vendor_admin]
+Kiralik vendor yonetimi.
+
+ON=0 Vendorun ismini degistir.
+SRC.DIALOG d_name_vendor
+
+ON=0 Bir hafta daha kirala. (Kalan sure: <eval <VAR.LEASE>> saat)
+IF (<SRC.BANKBALANCE> >= 75000 )
+    SRC.GOLD -= 75000
+    SRC.UPDATE
+    SRC.TAG.vendtimer <SRC.ACT.TIMER> 
+    SRC.ACT.TIMER= <eval <SRC.ACT.TIMER>> + 604800
+    src.act.link.message @90 Calisma suremi 1 hafta daha uzattiniz. Tesekkurler.
+ELSE
+    SRC.SYSMESSAGE @38 Bir hafta daha calismam icin yeterli goldunuz yoktur.!(75.000gp)
+ENDIF
+
+ON=0 Vendoru terket.
+
+if ((<src.account.plevel> > 2) && (<src.account.plevel> < 7))  // Bu isin affi bile olmaz.
+	src.writefile logs\stafflog\<src.account.name>---<strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde annesini siktimin evladi vendor silmeye kalkisti kisiliksiz orosbu cocugu.'
+	return 1
+endif
+    SRC.ACT.TIMER 1
+
+ON=0 Bankaniz
+    SRC.BANKSELF
+
+
+[DIALOG d_name_vendor]
+0,0
+nomove
+resizepic 190 175 5054 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+text 215 200 995 0
+text 255 275 0000 1
+button 220 275 4005 4006 1 0 1
+text 435 275 0000 2
+button 400 275 4005 4006 1 0 0
+textentry 225 237 253 25 0 0 3
+
+[DIALOG d_name_vendor TEXT]
+Vendorunuzun ismini girin.
+Devam
+Vazgec
+<src.act.link.name>
+
+[DIALOG d_name_vendor BUTTON]
+ON=0
+ON=1
+
+if (strmatch('<argtxt[0]>',''))
+	sysmessage @1153 Bir isim belirtmediniz.
+	return 1
+elseif strmatch('[a-z]','<argtxt[0]>')
+	src.sms Vendor isminde acayip acayip seyler Kullanamassiniz.
+	return 1
+elseif ((strlen(<argtxt[0]>)) > 18)
+	sysmessage @1153 Vendor ismini 18 haneyi gecmeyecek sekilde yaziniz...
+	return 1
+else
+src.act.link.message @48 Yeni adim <ARGTXT[0]>
+SRC.ACT.LINK.NAME <ARGTXT[0]>
+RETURN 1
+
+[dialog d_pv_cash]
+300,300
+
+resizepic 0 0 5054 200 75
+resizepic 5 10 2620 190 35
+textentry 15 16 600 20 1152 1 0
+button 165 50 4005 4006 1 0 1
+
+[dialog d_pv_cash text]
+<eval (<findlayer(29).more1> - 2500)>
+
+[dialog d_pv_cash button]
+On=1
+if !(<isnum <argtxt[1]>>)
+src.smg Hatali Giris Yaptiniz.
+elseif (<eval <argtxt[1]>> <= 0)
+sayu Hmm.. Sanirim tam anlayamadim?
+elseif (<eval <argtxt[1]>> > <eval <findlayer(29).more1>>)
+sayu Bu miktar kasamda bulunmuyor.
+elseif (<eval (<findlayer(29).more1> - <argtxt[1]>)> < 2500)
+sayu Bu miktari veremeyecegim, kasamda en az 2500 gold kalmali.
+elseif (<eval <argtxt[1]>> >= 65000)
+vend_collect <eval <argtxt[1]>>
+sayu <argtxt[1]> altin bankaniza aktarildi.
+else
+findlayer(29).more1 <eval (<findlayer(29).more1> - <argtxt[1]>)>
+src.newitem i_gold
+src.act.amount <eval <argtxt[1]>>
+src.act.cont <src.findlayer(29).uid>
+sayu <argtxt[1]> altin bankaniza aktarildi.
+endif
+
+[dialog d_pv_buy]
+300,300
+
+resizepic 0 0 5054 270 105
+htmlgump 10 15 250 60 0 1 0
+button 200 80 1153 1155 1 0 1
+button 233 80 1150 1152 1 0 0
+
+[dialog d_pv_buy text]
+<name>, fiyati: <price> altin. Bunu satin almak istediginize emin misiniz?
+
+[dialog d_pv_buy button]
+On=1
+if (strmatch('<price>',''))
+src.sysmessage @38,1,1 Bu esya satilik degil.
+elseif (<price> <= 0)
+src.sysmessage @38,1,1 Bu esya satilik degil.
+elseif (<src.gp> >= <price>)
+src.gpconsume <price>
+topobj.findlayer(29).more1 (<topobj.findlayer(29).more1> + <price>)
+cont <src.findlayer(21).uid>
+price
+update
+if ((<baseid> == i_spellbook) || (<baseid> == i_runebook))
+attr <attr>|attr_newbie
+endif
+else
+topobj.sayua 0845,6,6,0 Bankanizin en ust kisminda bunu alacak kadar goldunuz yok.
+endif
+
+// ******
+// SPEECH
+// ******
+
+[speech pv_spch]
+On=bilgi
+On=yardim
+if (<src.uid> == <tag.owner>)
+sayua 0845,6,6,0 Kullanabileceginiz komutlar: durum, kasa, hasilat, fiyat.
+sayua 0845,6,6,0 Belirli bir komut hakkinda bilgi icin 'Komut ?' yazmaniz yeterlidir.
+else
+sayua 0845,6,6,0 Uzerime cift tiklayarak veya 'alisveris' komutuyla cantami acabilir, cantamdaki kutu veya torbalara cift tiklayarak iclerine bakabilir, 'buy' veya 'satin al' komutuyla satilik esyalari satin alabilirsiniz.
+endif
+return 1
+
+On=durum*
+if ((<src.uid> == <tag.owner>) || (<src.isgm>))
+if (strmatch('<args>','DURUM ?'))
+sayua 0845,6,6,0 Kasamdaki para miktarini ve kasamdaki parayla calisacagim gun sayisini (reel gun) ogrenmek icin kullancaginiz komuttur.
+else
+sayua 0845,6,6,0 Kasamdaki <eval <findlayer(29).more1>> altin ile <eval (<findlayer(29).more1> / (<hiredaywage> * 24))> gun daha sizin icin calisacagim.
+endif
+endif
+return 1
+
+On=kasa*
+if (<src.uid> == <tag.owner>)
+if (strmatch('<args>','KASA ?'))
+sayua 0845,6,6,0 Satis olmamasi ve kasamdaki paranin azalmasi durumunda kasama yaninizda getireceginiz altini eklemek icin kullanacaginiz komuttur.
+else
+findid.i_pv.more1 3
+findid.i_pv.target
+sayua 0845,6,6,0 Kasama yatirmak istediginiz parayi seciniz.
+endif
+endif
+return 1
+
+On=hasilat*
+if (<src.uid> == <tag.owner>)
+if (strmatch('<args>','HASILA ?'))
+sayua 0845,6,6,0 Kasamdaki parayi banka hesabiniza aktarmakta kullanacaginiz komuttur. Kasamdaki son 2500 altini aktarmaniz mumkun degildir.
+else
+if (<eval <findlayer(29).more1>> < 2501)
+sayua 0845,6,6,0 Kasamda 2500 veya daha az altin var, su durumda size nakit veremem.
+else
+dialog d_pv_cash
+endif
+endif
+endif
+return 1
+
+On=fiyat *
+var.smsgx 0481
+	if (<src.uid> == <tag.owner>)
+		if (strmatch('<args>','FIYAT NEDIR'))
+			src.sysmessage @1153,1,1 Cantama yerlestirdiginiz esyalari fiyatlandirmakta kullanacaginiz komuttur. Ornek kullanim: fiyat 3000
+			src.sysmessage @1153,1,1 Satilamaz ibareli esyalari fiyatlandiramazsiniz.
+		else
+			if !(<findlayer(21).findcont(0)>)
+				say @07a1 Cantamda satabilecegim bir mal yok.
+			else
+				try <strsub 0 5 <args>>xx <strsub 5 20 <args>>
+			endif
+		endif
+	endif
+	return 1
+
+
+On=alisveris
+if ((<canseelos>) && (<distance> < 4))
+face
+if (<src.uid> == <tag.owner>)
+sayua 0845,6,6,0 Satilacak esyalari buraya koyabilirsiniz.
+pack
+elseif !(<findlayer(21).findcont(0)>)
+sayua 0845,6,6,0 Su an satilik malim yok, lutfen daha sonra tekrar geliniz.
+else
+pack
+endif
+else
+src.sysmessage @025,1,1 Vendor'a ulasamiyorsunuz.
+endif
+return 1
+
+On=buy
+On=satin al
+
+
+if (<src.uid> == <tag.owner>)
+sayua 0845,6,6,0 Isverenim oldugunuz icin istediginizi alabilirsiniz, para vermenize gerek yok.
+elseif !(<findlayer(21).findcont(0)>)
+sayua 0845,6,6,0 Su an satilik malim yok uzgunum.
+elseif (<isgm>)
+sayua 0845,6,6,0 Benden birsey satin alamazsiniz.
+else
+findid.i_pv.more1 2
+findid.i_pv.target
+closealldialogs
+endif
+return 1
+
+On=*
+return 1
+
+
+
+// *****
+// EVENT
+// *****
+
+[events e_pv]
+//On=@GetHit
+//if !(<src.npc>)
+//src.newitem i_killer
+//src.act.equip
+//else
+//src.leave 20
+//endif
+//return 1
+
+ON=@Attack
+return 1
+
+ON=@HitTry
+return 1
+
+ON=@GetHit
+return 1
+
+ON=@PetDesert
+return 1
+
+ON=@SpellEffect
+return 1
+
+ON=@Hunger
+return 1
+
+On=@Hit
+return 1
+
+On=@Death
+hits <str>
+return 1
+
+//On=@SpellEffect
+//if (<src.npc>)
+//src.leave 20
+//endif
+//return 1
+
+On=@ItemEquip
+if ((<act.layer> == 1) || (<act.layer> == 2))
+findid.i_torch.equip
+findid.i_torch.dclick
+return 1
+endif
+
+on=@skillstart 
+if (<action>==skill_stealing)
+src.sysmessage @38 Stealing yeteneginizi player vendorlari uzerinde kullanamazsiniz.
+src.action=-1 
+return 1
+endif 
+
+ON=@Pickup_ground
+src.dx asd
+
+On=@Click
+message @68,,1 [<memoryfindtype.memory_ipet.link.name>]
+message @,,1 <name>
+return 1
+
+On=@DClick
+if !(strmatch('<eval 0<tag.px>>','<eval <p.x>>')) || !(strmatch('<eval 0<tag.py>>','<eval <p.y>>')) || !(strmatch('<eval 0<tag.pz>>','<eval <p.z>>'))
+p <tag.p>
+update
+return 1
+endif
+
+if !(<memoryfindtype.memory_ipet>)
+memorydel <src.uid>
+newitem i_memory
+act.attr 08010
+act.more1 04
+act.more2 <serv.time>
+act.morep <link.p>
+act.color memory_ipet
+act.timer -1
+act.link <tag.owner>
+act.cont <uid>
+flags <flags>&statf_pet
+endif
+
+if (<src.uid> == <tag.owner>)
+src.tag.vendor <uid>
+endif
+
+if (<src.isgm>)
+pack
+elseif (<src.flags>&statf_dead)
+src.sysmessage Su anki durumuzda bu islemi gerceklestiremezsiniz.
+elseif ((<canseelos>) && (<distance> < 4))
+face
+if (<src.uid> == <tag.owner>)
+sayua 0845,6,6,0 Satilacak esyalari buraya koyabilirsiniz.
+sayua 68,,1 Lutfen Vendor anlasma tarihini uzatmayi unutmayiniz !
+pack
+elseif !(<findlayer(21).findcont(0)>)
+sayua 0845,6,6,0 Su an satilik malim yok, lutfen daha sonra tekrar geliniz.
+else
+pack
+endif
+else
+src.sysmessage @,,1 Vendor'a ulasamiyorsunuz.
+endif
+src.sysmessage @,,1 Hasilat icin "hasilat". Fiyat koymak icin "fiyat xxx". Satin almak icin "satin al" , "buy" komutlarini kullaniniz.
+return 1
+
+On=@EnvironChange
+if (<flags>&statf_war)
+flags <flags>&~statf_war
+update
+endif
+food 999
+p <tag.p>
+tag.p <p>
+tag.px <p.x>
+tag.py <p.y>
+tag.pz <p.z>
+
+// *********************
+// ALTINSAL FONKSIYONLAR
+// *********************
+
+[function fiyatxx]
+if (<eval <argn>> > 10000000)
+	say @07a1 Tek bir mali 10m'den fazlaya satamam.
+else
+	findid.i_pv.more1 1
+	findid.i_pv.more2 <eval <argn>>
+	findid.i_pv.target
+endif
+
+[function vend_collect]
+var.vendorcash <eval (<argn> - 65000)>
+findlayer(29).more1 <eval (<findlayer(29).more1> - 65000)>
+src.newitem i_gold
+src.act.amount 65000
+src.act.cont <src.findlayer(29).uid>
+if (<eval <var.vendorcash>> >= 65000)
+vend_collect <eval <var.vendorcash>>
+elseif (<eval <var.vendorcash>> > 0)
+findlayer(29).more1 <eval (<findlayer(29).more1> - <var.vendorcash>)>
+src.newitem i_gold
+src.act.amount <eval <var.vendorcash>>
+src.act.cont <src.findlayer(29).uid>
+var.vendorcash
+else
+var.vendorcash
+endif
+
+[function packo] // (special thx to laroux below this line)
+try src.tag.<uid> <rescount>
+packo_loop <args>
+
+[function packo_loop]
+if (<eval <src.tag.<uid>>> > 0)
+try src.tag.<uid> <eval (<src.tag.<uid>> - 1)>
+//if (strmatch('<findcont.<eval <src.tag.<uid>>>.type>','t_container'))
+// try findcont.<eval <src.tag.<uid>>>.packo <args>
+//else
+try findcont.<eval <src.tag.<uid>>>.<args>
+//endif
+packo_loop <args>
+else
+try src.tag.<uid>
+endif
+
+[function gp]
+var.gp 0
+//findlayer(21).packo gp_ctrl
+findlayer(29).packo gp_ctrl
+return <eval <var.gp>>
+
+[function gp_ctrl]
+if (strmatch('<baseid>','i_gold'))
+var.gp <eval (<var.gp> + <amount>)>
+endif
+
+[function gpconsume]
+var.gp <argn>
+//findlayer(21).packo gpconsume_ctrl <argn>
+findlayer(29).packo gpconsume_ctrl <argn>
+return 1
+
+[function gpconsume_ctrl]
+if ((<var.gp> > 0) && (strmatch('<baseid>','i_gold')))
+if (<amount> > <eval (<var.gp>)>)
+amount <eval (<amount> - <var.gp>)>
+var.gp 0
+else
+var.gp <eval (<var.gp> - <amount>)>
+remove
+endif
+endif
+
+[function evl]
+
+sysmessage Evaluating [0<args>]: <eval 0<args>>.
+return <valstr 0<args>>
+
+[events e_vendclick]
+
+
+[itemdef i_pv]
+id i_memory
+name vendor ana kontroller
+type t_eq_script
+
+On=@TargOn_Char
+if (<src.targ.uid> == <cont.uid>)
+	cont.findlayer(21).open
+	target
+endif
+return 1
+
+On=@TargOn_Item
+if (<more1> == 1) // dinamik fiyatlandirma
+	if !(<src.uid> == <cont.tag.owner>)
+	elseif !(<src.targ.topobj.uid> == <cont.uid>)
+	elseif (strmatch('<src.targ.price>',''))
+		cont.say Bu esyayi satamam.
+	elseif (<eval <more2>> <= 0)
+		src.targ.price 0
+	cont.say <src.targ.name> satilmayacaklar arasina alindi.
+	else
+		src.targ.price <eval <more2>>
+		more2 0
+		cont.say <src.targ.name>, degeri <src.targ.price> gp olarak belirlendi.
+	endif
+elseif (<more1> == 2) // satis
+	var.smsgx 0481
+	if !(<src.targ.topobj.uid> == <cont.uid>)
+	elseif (strmatch('<src.targ.price>',''))
+		cont.say Bu esya satilik degil.
+	elseif (<src.targ.price> <= 0)
+		cont.say Bu esya satilik degil.
+	elseif (<src.gp> < <src.targ.price>)
+		cont.say Uzgunum, bankanda bunu karsilayacak kadar para bulunmuyor.
+		src.smsgx bankanizin en ust kisminda <src.targ.price> bulunamadi.
+	else
+		src.targ.dialog d_pv_buy
+	endif
+elseif (<more1> == 3) // para aktarma
+	if !(<src.uid> == <cont.tag.owner>)
+		cont.say <src.name>, siz benim isverenim degilsiniz.
+	elseif !(<src.targ.topobj.uid> == <src.uid>)
+		cont.say Gosterdiginiz nesne sizin uzerinizde degil.
+	elseif !(<src.targ.baseid> == i_gold)
+		cont.say Altin harici bir nesne kabul etmem.
+	else
+		cont.findlayer(29).more1 <eval (<cont.findlayer(29).more1> + <src.targ.amount>)>
+		if (<eval (<src.targ.amount> / <cont.hiredaywage>)> > 0)
+			cont.say <src.targ.amount> altin calisma suremi <eval (<src.targ.amount> / <cont.hiredaywage>)> gun uzatti, tesekkur ederim.
+		else
+			cont.say <src.targ.amount> altin kasama eklendi, tesekkur ederim.
+		endif
+		src.targ.remove
+	endif
+endif
+return 1
+
+On=@Timer
+return 1
+
+[eof]

@@ -1,0 +1,354 @@
+[ITEMDEF i_PLATEMAIL_chest_BRONZE]
+NAME=Bronze Platemail
+ID=i_platemail_chest
+ARMOR= 45
+REQSTR=60
+WEIGHT=10
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 75.0
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_ARMS_BRONZE]
+NAME=Bronze Platemail Arms
+ID=i_platemail_arms
+ARMOR= 45
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 63.5
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_leggings_BRONZE]
+NAME=Bronze Platemail Legs
+ID=i_platemail_leggings
+ARMOR= 45
+REQSTR=60
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 66.8
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATE_HELM_BRONZE]
+NAME=Bronze Plate Helm
+ID=i_platemail_helm
+ARMOR= 45
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_GORGET_BRONZE]
+NAME=Bronze Platemail Gorget
+ID=i_platemail_gorget
+ARMOR= 45
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 50.4
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_GLOVES_BRONZE]
+NAME=Bronze Platemail Gauntlets
+ID=i_platemail_gloves
+ARMOR= 45
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 53.7
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_FEMALE_BRONZE]
+NAME=Bronze Female Platemail
+ID=i_armor_female_plate
+ARMOR= 45
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 70.0
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_CHAINMAIL_COIF_BRONZE]
+NAME=Bronze Chainmail Coif
+ID=i_chainmail_coif
+ARMOR= 45
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 27.6
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_BRONZE]
+NAME=Bronze Chainmail Leggings
+ID=i_chainmail_leggings
+ARMOR= 45
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 31.1
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_CHAINMAIL_TUNIC_BRONZE]
+NAME=Bronze Chainmail Tunic
+ID=i_chainmail_tunic
+ARMOR= 45
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Chainmail Tunic
+RESOURCES=20 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 43.8
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_RINGMAIL_LEGGINGS_BRONZE]
+NAME=Bronze Ringmail Leggings
+ID=i_ringmail_leggings
+ARMOR= 45
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 27.6
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_RINGMAIL_SLEEVES_BRONZE]
+NAME=Bronze Ringmail Sleeves
+ID=i_ringmail_sleeves
+ARMOR= 45
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 24.3
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_RINGMAIL_GLOVES_BRONZE]
+NAME=Bronze Ringmail Gloves
+ID=i_ringmail_gloves
+ARMOR= 45
+REQSTR=20
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 17.8
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_RINGMAIL_TUNIC_BRONZE]
+NAME=Bronze Ringmail Tunic
+ID=i_ringmail_tunic
+ARMOR= 45
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 31.1
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_shield_BUCKLER_BRONZE]
+NAME=Bronze Buckler
+ID=i_shield_buckler
+ARMOR= 6
+REQSTR=15
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 5.0
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_SHIELD_HEATER_BRONZE]
+NAME=Bronze Heater Shield
+ID=I_SHIELD_HEATER
+ARMOR= 20
+REQSTR=30
+WEIGHT=8
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 40.6
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //={31 37}
+
+[ITEMDEF i_SHIELD_METAL_BRONZE]
+NAME=Bronze Metal Shield
+ID=i_shield_round_metal
+ARMOR= 10
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 15.0
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_HELM_CLOSED_BRONZE]
+NAME=Bronze Closed Helm
+ID=i_helm_closed
+ARMOR= 45
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_HELM_OPEN_BRONZE]
+NAME=Bronze Helmet
+ID=i_helm_open
+ARMOR=45
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_BASCINET_BRONZE]
+NAME=Bronze Bascinet
+ID=i_bascinet
+ARMOR= 45
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 19.2
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //={30 35}
+
+[ITEMDEF i_HELM_NOSE_BRONZE]
+NAME=Bronze Nose Helm
+ID=i_helm_nose
+ARMOR= 45
+REQSTR=0
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Bronze
+DESCRIPTION=Nose Helm
+RESOURCES=15 i_ingot_bronze
+SKILLMAKE=BLACKSMITHING 58.6
+
+
+ON=@Create
+	COLOR=color_o_bronze
+	HITPOINTS=100 //=100
+[EOF]

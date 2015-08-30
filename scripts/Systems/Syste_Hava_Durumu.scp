@@ -1,0 +1,1113 @@
+[ITEMDEF 014f5]
+DEFNAME=i_spyglass
+TYPE=T_SPY_GLASS
+FLIP=1
+RESOURCES=2 i_ingot_iron, 1 i_GLASS
+WEIGHT=3
+CATEGORY=Decoration - Miscellaneous
+SUBSECTION=Nautical
+DESCRIPTION=SpyGlass (N)
+DUPELIST=014f6
+
+ON=@DCLICK
+if <def.use_britannian_calendar>
+src.sysmessage Trammel is in the <def.lunar_phase_<dvar0.phase>> phase
+src.sysmessage Felucca is in the <def.lunar_phase_<dvar0.phase2>> phase
+return 1
+else
+src.sysmessage The moon is in the <def.lunar_phase_<dvar0.phase>> phase
+return 1
+endif
+
+[ITEMDEF 0104b]
+DEFNAME=i_clock
+RESOURCES=i_CLOCK_FRAME,i_CLOCK_PARTS
+WEIGHT=2
+TYPE=T_CLOCK
+CATEGORY=Items by Professions
+SUBSECTION=Tinker
+DESCRIPTION=Clock
+DUPELIST=0104c
+SKILLMAKE=TINKERING 30.7,t_tinker_tools
+
+ON=@Dclick
+src.time
+return 1
+
+[EOF]
+
+// Environmental Control Script v2.0 scripted by Mordaunt aka Drogyn/Mordrogyn
+//
+// Features:
+//	9 GLOBAL TIME-ZONES: from -12 to 0 (meridian) to +12 hrs dependant on position (x).
+//	COMPATABILITY w/ ALL OSI maps.
+//	LOCAL TIME & DATE FUNCTION: w/ difference to meridian (for time)
+//	LEAP YEARS: with a toggle to add an extra day to February every 4 years.
+//	SEASONAL LIGHTING: longer daylight hours in the summer, shorter in the winter.
+//	TEMPERATURE AFFECTS PLAYERS: w/ toggle to activate.
+//	SEASONAL/CLIMACTIC WEATHER: chance of rain/snow, dependant on time of year and temperature & position (y),
+//	colder weather to the north (polar), warmer to the south (tropics), as per map graphics.
+//	RL LUNAR CYCLE: moon completes a cycles approx every 29.5 days, a reasonable faxsimilie of the real one.
+//	BRITISH CALENDAR TOGGLE:Use official UO calendar (suggested by Anarch Cassius)
+//
+// Includes: 	New spyglass to override existing lunar phases.
+//	 	New clock to override default world time.
+//
+// Installation:	Set f_onserver_timer to 1 in sphere.ini
+//			Add f_time_keeper under [FUNCTION f_onserver_timer] in sphere_serv_triggers.scp
+//			Set EventsRegion=r_allregions in sphere.ini
+//			Add event +e_environmental to players under your generic login event
+//			If you want to use the accurate Britannian Calendar, set date to 1st of any month and moon to new @ setup.
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[DEFNAME settings]
+speed 60 			// Time speed (1 - 60), 1 = real time 2=2x, 3=3x e.t.c. (60 = 1 game hr every RL minute)
+use_britannian_calendar	1 	// set to 1 to use "official" calendar (2 moon cycles) set to 0 runs 1 moon for all planes. (RL cycle)
+leap 1 				// set to 1 to allow leap year calculations in calendar
+tempaffect 1 			// set to 1 for extreme temperatures to affect your players
+fri13th 0 			// set to 1 to reverse a players luck on any fri 13th (Framework only)
+winterseason 2 			// 3 = winter (snow), but I think gfx look a bit naff at the merging on grass/roads e.t.c.., so I use 2 which is fall
+halloween 1 			// dead world on Oct 31st, set to 0 to de-activate
+whitexmas 1 			// make Dec 25th Winter season (snow), set to 0 to de-activate. makes no diff if def.winterseason = 3)
+easter 0 			// set to 1 to activate, at present it only records a message to the server log, until it's tested for accuracy.
+fire_ice 1			// set to 1 makes fire dungeon extremely hot & Ice dungeon extremely cold 0 disables.
+storm_system 1			// sfx for rain/snow, and rain puddles/snow piles left behind, if rainstorm, chance of lightning strike (see below)
+lightning_strike 10		// Chance (1 in x) that a player outside during a thunderstorm will be struck by lighting (if targetted)
+streetlight_manager 0		// Use streetlight manager 1 to activate (seperate script)
+
+//MONTH SETTINGS: month,days,name,temp variance
+//To add more months follow defname pattern & alter months_per_year defname
+//for temp variance temp: temp @noon = ((((<p.y>/200)*1.8)+32)+temp variance) (script reduces temp in accordance with time from/to noon.)
+month_1 31 January 12.0
+month_2 28 February 15.0
+month_3 31 March 20.0
+month_4 30 April 20.0
+month_5 31 May 25.0
+month_6 30 June 33.0
+month_7 31 July 35.0
+month_8 31 August 35.0
+month_9 30 September 30.0
+month_10 31 October 20.0
+month_11 30 November 15.0
+month_12 31 December 12.0
+
+//leap year setting
+leap_2 29 February 15.0
+
+//DAYS PER WEEK
+day_1 Sunday
+day_2 Monday
+day_3 Tuesday
+day_4 Wednesday
+day_5 Thursday
+day_6 Friday
+day_7 Saturday
+
+//TIME KEEPER SETTINGS
+//If you add/remove days per week/months you MUST alter it here also! (days added to a month do not need adding here)
+mins_per_hour 60
+hours_per_day 24
+days_per_week 7
+months_per_year 12
+
+light_full_moon 17
+light_dungeon 25
+
+weather_summer 20
+weather_spring 30
+weather_fall 40
+weather_winter 50
+
+//Lunar section
+lunar_phase_1 "new moon"
+lunar_phase_2 "waxing crescent"
+lunar_phase_3 "first quarter"
+lunar_phase_4 "waxing gibbous"
+lunar_phase_5 "full moon"
+lunar_phase_6 "waning gibbous"
+lunar_phase_7 "third quarter"
+lunar_phase_8 "waning crescent"
+
+
+[REGIONTYPE r_allregions]
+on=@Enter
+src.timerf 1, f_environ_calc
+
+[PLEVEL 1]
+time
+date
+
+[PLEVEL 6]
+timesetup
+
+[FUNCTION timesetup]
+dialog d_time_setup
+
+[DIALOG d_time_setup]
+100,100
+page 0
+resizepic 0 0 2620 370 560
+checkertrans 5 5 360 550
+dtext 120 7 90 World Calendar Setup
+gumppic 300 7 5608
+dtext 10 30 90 Hours 24hr clock (0=midnight)
+gumppic 10 60 2501
+dtextentrylimited 15 60 20 20 90 0 2
+dtext 10 90 90 Mins
+gumppic 10 120 2501
+dtextentrylimited 15 120 20 20 90 1 2
+dtext 10 150 90 Date 1 to 31 (depending on month, will self correct)
+gumppic 10 180 2501
+dtextentrylimited 15 180 20 20 90 2 2
+dtext 10 210 90 Day 1 to <ddef.days_per_week> (1=<def.day_1> e.t.c..)
+gumppic 10 240 2501
+dtextentrylimited 15 240 20 20 90 3 2
+dtext 10 270 90 Month 1 to <ddef.months_per_year>
+gumppic 10 300 2501
+dtextentrylimited 15 300 20 20 90 4 2
+dtext 10 330 90 Year (max 4 digits)
+gumppic 10 360 2501
+dtextentrylimited 15 360 60 20 90 5 4
+dtext 10 390 90 Starting Lunar Phase 1 to 8
+dtext 10 420 90 1=new, 2=wax cres, 3=1st quart, 4=wax gibb
+dtext 10 450 90 5=full, 6=wan gibb, 7=3rd quart, 8=wan cres
+gumppic 10 480 2501
+dtextentrylimited 15 480 20 20 90 6 4
+button 120 520 4005 4006 1 0 1
+dtext 155 520 90 Confirm
+
+[DIALOG d_time_setup BUTTON]
+ON=1
+if (<isempty <argtxt[0]>>)
+sysmessage You did not enter Hours
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[0]>> > 23)
+sysmessage Hours must be between 0 and 23, midnight = 0
+dialog d_time_setup
+return 1
+else
+var0.hours=<argtxt[0]>
+endif
+
+if (<isempty <argtxt[1]>>)
+sysmessage You did not enter Minutes
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[1]>> > 59)
+sysmessage Minutes must be between 0 and 59
+dialog d_time_setup
+return 1
+else
+var0.mins=<argtxt[1]>
+endif
+
+if (<isempty <argtxt[2]>>)
+sysmessage You did not enter Date
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[2]>> < 1)
+sysmessage The date must be greater than 0
+dialog d_time_setup
+return 1
+else
+var0.date=<argtxt[2]>
+endif
+
+if (<isempty <argtxt[3]>>)
+sysmessage You did not enter Day
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[3]>> > <def.days_per_weeK>) || (<eval <argtxt[3]>> < 1)
+sysmessage Day must be between 1 and <ddef.days_per_weeK>, 1 = <strarg <def.day_1>>
+dialog d_time_setup
+return 1
+else
+var0.day=<argtxt[3]>
+endif
+
+if (<isempty <argtxt[4]>>)
+sysmessage You did not enter Month
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[4]>> > <def.months_per_year>) || (<eval <argtxt[4]>> < 1)
+sysmessage Month must be between 1 and <ddef.months_per_year>
+dialog d_time_setup
+return 1
+else
+var0.month=<argtxt[4]>
+endif
+
+if (<isempty <argtxt[5]>>)
+sysmessage You did not enter Year
+dialog d_time_setup
+return 1
+else
+var0.year=<argtxt[5]>
+endif
+
+if <def.use_britannian_calendar>
+if (<isempty <argtxt[6]>>)
+sysmessage You did not enter Lunar Phase
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[6]>> > 8)
+sysmessage Lunar Phase must be between 1 and 8
+dialog d_time_setup
+return 1
+else
+var0.phase=<argtxt[6]>
+var0.phase2=<argtxt[6]>
+endif
+else
+if (<isempty <argtxt[6]>>)
+sysmessage You did not enter Lunar Phase
+dialog d_time_setup
+return 1
+elif (<eval <argtxt[6]>> > 8)
+sysmessage Lunar Phase must be between 1 and 8
+dialog d_time_setup
+return 1
+else
+var0.phase=<argtxt[6]>
+endif
+endif
+sysmessage Time/Calendar set
+
+[FUNCTION f_time_keeper]
+var0.mins +=<ddef.speed>
+var0.lunar +=<ddef.speed> // Trammel
+if <def.use_britannian_calendar>
+var0.lunar2 +=<ddef.speed> // Felucca
+if (<eval <var0.lunar>> >=  <eval ((<ddef.hours_per_day>*<ddef.mins_per_hour>*28)/16)>)
+var0.phase +=1
+var0.lunar =1
+endif
+if (<eval <var0.lunar2>> >=  <eval ((<ddef.hours_per_day>*<ddef.mins_per_hour>*28)/24)>)
+var0.phase2 +=1
+var0.lunar2 =1
+endif
+else
+if (<eval <var0.lunar>> >= 5310)
+var0.phase +=1
+var0.lunar =1
+endif
+endif
+
+
+if (<eval <var0.mins>> == <ddef.mins_per_hour>)
+var0.hours += 1
+var0.mins = 0
+elif (<eval <var0.mins>> > <ddef.mins_per_hour>)
+var0.hours += 1
+var0.mins = <eval <var0.mins>-60>
+endif
+
+
+if (<eval <var0.hours>>==<ddef.hours_per_day>)
+var0.day += 1
+var0.date += 1
+var0.hours = 0
+serv.newitem i_seasonal
+new.p 10,10
+endif
+
+if (<eval <var0.day>> > <ddef.days_per_week>)
+var0.day = 1
+endif
+
+if (<eval <var0.date>> > <eval <strarg <def.month_<eval <var0.month>>>>>)
+if (<def.leap>)
+if (<eval <var0.month>> != 2)
+var0.date = 1
+var0.month += 1
+else
+if (<eval <fval <var0.year> /4> *4>==<eval <var0.year>>)
+if (<eval <var0.date>> > <eval <strarg <def.leap_<eval <var0.month>>>>>)
+var0.date = 1
+var0.month += 1
+endif
+elif (<eval <var0.date>> > <eval <strarg <def.month_<eval <var0.month>>>>>)
+var0.date = 1
+var0.month += 1
+endif
+endif
+else
+var0.date = 1
+var0.month += 1
+endif
+endif
+
+if (<eval <var0.month>> > <ddef.months_per_year>)
+var0.year += 1
+var0.month = 1
+endif
+
+if (<eval <var0.phase>> > 8)
+var0.phase=1
+endif
+if <def.use_britannian_calendar>
+if (<eval <var0.phase2>> > 8)
+var0.phase2=1
+endif
+endif
+
+if (<eval <var0.mins>>== 0) || (<eval <var0.mins>>== 20) || (<eval <var0.mins>>== 40)
+serv.allclients f_environ_calc
+else
+return 0
+endif
+
+if (<def.streetlight_manager>)
+if (<eval <var0.mins>>== 0)
+serv.newitem i_light_man
+new.p 10,10
+endif
+endif
+
+
+if <def.fri13th>
+if (<isonline>)
+if (<eval <var0.date>> == 13) && (<eval <var0.day>> == 6)
+if (<isplayer>) && !(<isgm>)
+if (<eval <src.luck>> > 0) && !(<src.tag0.fri13th>)
+src.sysmessage Uh Oh! It's Friday the 13th!
+src.luck = - <eval <src.luck>>
+src.tag0.fri13th = 1
+endif
+endif
+else
+if (<isplayer>) && !(<isgm>)
+if (<eval <src.luck>> < 0) && (<src.tag0.fri13th>)
+src.luck -= <eval <src.luck>*2>
+src.tag0.fri13th=
+endif
+endif
+endif
+endif
+endif
+
+//Easter tracker
+if <def.easter>
+if (<eval <var0.month>> >2) && (<eval <var0.date>> >21) || (<eval <var0.month>>==4)
+if (<eval <var0.phase>> >= 5) && (<eval <var0.phase>> < 7)
+if (<eval <var0.day>> == 1)
+serv.log It should be easter
+endif
+endif
+endif
+endif
+
+
+[FUNCTION f_season_control]
+if (<eval <var0.month>> < <eval (<ddef.months_per_year>/4)>) || (<eval <var0.month>>==<eval (<ddef.months_per_year>/4)>) && (<eval <var0.date>> < 21)
+region.season = <def.winterseason>
+elif (<eval <var0.month>> < <eval (<ddef.months_per_year>/2)>) || (<eval <var0.month>>==<eval (<ddef.months_per_year>/4)>) && (<eval <var0.date>> < 21)
+region.season = 0 //spring
+elif (<eval <var0.month>> < <eval ((<ddef.months_per_year>/4)*3)>) || (<eval <var0.month>>==<eval ((<ddef.months_per_year>/4)*3)>) && (<eval <var0.date>> < 21)
+region.season = 1 //summer
+elif (<eval <var0.month>> < <eval (<ddef.months_per_year>-1)>) || (<eval <var0.month>>==<def.months_per_year>) && (<eval <var0.date>> < 21)
+region.season = 2 //autumn
+else
+region.season = <def.winterseason>
+endif
+if <def.halloween>
+if (<eval <var0.month>> == 10) && (<eval <var0.date>> == 31)
+region.season = 4
+endif
+endif
+if <def.whitexmas>
+if (<eval <var0.month>> == 12) && (<eval <var0.date>> == 25)
+region.season = 3
+endif
+endif
+
+[FUNCTION date]
+call f_pos_chk <p>
+src.sysmessage It is <def.day_<dlocal.day>> <dlocal.date><local.suffix> of <strarg <streat <def.month_<dlocal.month>>>> of the year <dlocal.year>
+
+[FUNCTION f_dl_minus]
+if (<eval <var0.hours>> < <args>)
+local.day = <eval <var0.day>-1>
+call adj_cal_bckwd <dlocal.day>
+else
+call cal_today
+endif
+
+[FUNCTION f_dl_plus]
+if (<eval <var0.hours>> > <args>)
+local.day = <eval <var0.day>+1>
+call adj_cal_fwd <dlocal.day>
+else
+call cal_today
+endif
+
+[function suffix]
+if (<dlocal.date> == 1) || (<dlocal.date> == 21)|| (<dlocal.date> == 31)
+local.suffix=st
+elif (<dlocal.date> == 2) || (<dlocal.date> == 22)
+local.suffix=nd
+elif (<dlocal.date> == 3) || (<dlocal.date> == 23)
+local.suffix=rd
+else
+local.suffix=th
+endif
+return <local.suffix>
+
+[function adj_cal_bckwd]
+if (<dlocal.day> < 1)
+local.day=1
+endif
+local.date = <eval <var0.date>-1>
+if (<dlocal.date> < 1)
+local.month = <eval <var0.month>-1>
+if (<def.leap>)
+if (<dlocal.month> == 2)
+<QVAL (<eval <fval <var0.year> /4> *4>==<eval <var0.year>>)? local.date = <eval <strarg <def.leap_<dlocal.month>>>>:local.date = <eval <strarg <def.month_<dlocal.month>>>>>
+else
+<QVAL (<dlocal.month> < 1)? local.date = <eval <strarg <def.month_<eval <def.months_per_year>>>>>:local.date = <eval <strarg <def.month_<dlocal.month>>>>>
+endif
+else
+local.date = <eval <strarg <def.month_<dlocal.month>>>>
+endif
+else
+local.month = <eval <var0.month>>
+endif
+if (<dlocal.month> < 1)
+local.month = <ddef.months_per_year>
+local.year = <eval <var0.year>-1>
+else
+local.year = <eval <var0.year>>
+endif
+call suffix <dlocal.date>
+return <local.date>
+return <local.day>
+return <local.month>
+return <local.suffix>
+return <local.year>
+
+[FUNCTION cal_today]
+local.day = <eval <var0.day>>
+local.date = <eval <var0.date>>
+local.month = <eval <var0.month>>
+local.year = <eval <var0.year>>
+call suffix <dlocal.date>
+return <local.date>
+return <local.day>
+return <local.month>
+return <local.suffix>
+return <local.year>
+
+[FUNCTION adj_cal_fwd]
+if (<dlocal.day> > 7)
+local.day=1
+endif
+local.date = <eval <var0.date>+1>
+local.month = <eval <var0.month>>
+if (<def.leap>)
+if (<dlocal.month> == 2)
+if (<eval <fval <var0.year> /4> *4>==<eval <var0.year>>)
+if (<dlocal.date> > <eval <strarg <def.leap_<dlocal.month>>>>)
+local.date = 1
+local.month += 1
+endif
+elif (<dlocal.date> > <eval <strarg <def.month_<dlocal.month>>>>)
+local.date = 1
+local.month += 1
+endif
+else
+if (<dlocal.date> > <eval <strarg <def.month_<dlocal.month>>>>)
+local.date = 1
+local.month += 1
+endif
+endif
+else
+if (<dlocal.date> > <eval <strarg <def.month_<dlocal.month>>>>)
+local.date = 1
+local.month += 1
+endif
+endif
+
+if (<dlocal.month> > <ddef.months_per_year>)
+local.month = 1
+local.year = <eval <var0.year>+1>
+else
+local.year = <eval <var0.year>>
+endif
+call suffix <dlocal.date>
+return <local.date>
+return <local.day>
+return <local.month>
+return <local.suffix>
+return <local.year>
+
+[FUNCTION time]
+call f_pos_chk <p>
+if !(<var0.mins>)
+if (<dlocal.hours> == 0)
+sysmessage "It is midnight."
+elif (<dlocal.hours>== 12)
+sysmessage "It is noon."
+elif (<dlocal.hours> < 12)
+sysmessage "It is <dlocal.hours> o'clock in the morning."
+elif (<dlocal.hours> < 18)
+sysmessage "It is <eval (<dlocal.hours>-12)> o'clock in the afternoon."
+else
+sysmessage "It is <eval (<dlocal.hours>-12)> o'clock at night."
+endif
+else
+if (<dlocal.hours> == 0)
+sysmessage "It is <QVAL (<eval <var0.mins>> < 31)? <eval <var0.mins>>:<eval 60-<var0.mins>>> minutes <QVAL (<eval <var0.mins>> < 31)? past midnight.:before 1 o'clock in the morning.>"
+elif (<dlocal.hours> == 12)
+sysmessage "It is <QVAL (<eval <var0.mins>> < 31)? <eval <var0.mins>>:<eval 60-<var0.mins>>> minutes <QVAL (<eval <var0.mins>> < 31)? past noon.:before <eval (<dlocal.hours>-11)> o'clock in the afternoon.>"
+elif (<dlocal.hours> < 12)
+sysmessage "It is <QVAL (<eval <var0.mins>> < 31)? <eval <var0.mins>>:<eval 60-<var0.mins>>> minutes <QVAL (<eval <var0.mins>> < 31)? past <dlocal.hours>:before <eval (<dlocal.hours>+1)>> in the morning."
+elif (<dlocal.hours> < 18)
+sysmessage "It is <QVAL (<eval <var0.mins>> < 31)? <eval <var0.mins>>:<eval 60-<var0.mins>>> minutes <QVAL (<eval <var0.mins>> < 31)? past <eval (<dlocal.hours>-12)>:before <eval (<dlocal.hours>-11)>> o'clock in the afternoon."
+else
+sysmessage "It is <QVAL (<eval <var0.mins>> < 31)? <eval <var0.mins>>:<eval 60-<var0.mins>>> minutes <QVAL (<eval <var0.mins>> < 31)? past <eval (<dlocal.hours>-12)>:before <eval (<dlocal.hours>-11)>> o'clock at night."
+endif
+endif
+sysmessage Meridian (<dlocal.meridian>)
+
+[FUNCTION f_pos_chk]
+if (<p.m> < 2)
+if (<p.x> < 325)
+call f_dl_minus 12
+local.meridian = -12
+<QVAL  (<eval <var0.hours>> < 12)? local.hours = <eval <var0.hours>+12>:local.hours = <eval <var0.hours>-12>>
+elif (<p.x> < 975)
+call f_dl_minus 9
+local.meridian = -9
+<QVAL (<eval <var0.hours>> < 9)? local.hours = <eval <var0.hours>+15>:local.hours = <eval <var0.hours>-9>>
+elif (<p.x> < 1725)
+call f_dl_minus 6
+local.meridian = -6
+<QVAL (<eval <var0.hours>> < 6)? local.hours = <eval <var0.hours>+18>:local.hours = <eval <var0.hours>-6>>
+elif (<p.x> < 2300)
+call f_dl_minus 3
+local.meridian = -3
+<QVAL (<eval <var0.hours>> < 3)? local.hours = <eval <var0.hours>+21>:local.hours = <eval <var0.hours>-3>>
+elif (<p.x> < 3100)
+call cal_today
+local.meridian = 0
+local.hours = <eval <var0.hours>>
+elif (<p.x> < 3575)
+call f_dl_plus 20
+local.meridian = 3
+<QVAL (<eval <var0.hours>> < 21)? local.hours = <eval <var0.hours>+3>:local.hours = <eval <var0.hours>-21>>
+elif (<p.x> < 4225)
+call f_dl_plus 17
+local.meridian = 6
+<QVAL  (<eval <var0.hours>> < 18)? local.hours = <eval <var0.hours>+6>:local.hours = <eval <var0.hours>-18>>
+elif (<p.x> < 4875)
+call f_dl_plus 14
+local.meridian = 9
+<QVAL (<eval <var0.hours>> < 15)? local.hours = <eval <var0.hours>+9>:local.hours = <eval <var0.hours>+9>>
+elif (<p.x> < 5100)
+call f_dl_plus 11
+local.meridian = 12
+<QVAL (<eval <var0.hours>> < 13)? local.hours = <eval <var0.hours>+12>:local.hours <eval <var0.hours>-12>>
+elif (<p.x> > 5100) && (<p.y> < 2300)
+if !(strcmp("<strarg <region.name>>","Shame")) || !(strcmp("<region.name>","The Heartwood")) || !(strcmp("<region.name>","Blighted Grove")) || !(strcmp("<region.name>","Sanctuary"))
+call f_dl_minus 9
+local.meridian = -9
+<QVAL (<eval <var0.hours>> < 9)? local.hours = <eval <var0.hours>+15>:local.hours = <eval <var0.hours>-9>>
+elif !(strcmp("<strarg <region.name>>","Despise")) || !(strcmp("<strarg <region.name>>","Destard")) || !(strcmp("<region.name>","Painted Caves"))
+call f_dl_minus 6
+local.meridian = -6
+<QVAL (<eval <var0.hours>> < 6)? local.hours = <eval <var0.hours>+18>:local.hours = <eval <var0.hours>-6>>
+elif !(strcmp("<strarg <region.name>>","Wrong"))
+call f_dl_minus 3
+local.meridian = -3
+<QVAL (<eval <var0.hours>> < 3)? local.hours = <eval <var0.hours>+21>:local.hours = <eval <var0.hours>-3>>
+elif !(strcmp("<strarg <region.name>>","Covetous")) || !(strcmp("<strarg <region.name>>","Fire")) || !(strcmp("<strarg <region.name>>","Ice")) || !(strcmp("<region.name>","Green Acres")) || !(strcmp("<region.name>","Green Acres 2")) || !(strcmp("<region.name>","Green Acres 3")) || !(strcmp("<region.name>","Palace of Paroxysmus"))
+call cal_today
+local.meridian = 0
+local.hours = <eval <var0.hours>>
+elif !(strcmp("<strarg <region.name>>","Deceit")) || !(strcmp("<region.name>","Prizm of Light"))
+call f_dl_plus 17
+local.meridian = 6
+<QVAL  (<eval <var0.hours>> < 18)? local.hours = <eval <var0.hours>+6>:local.hours = <eval <var0.hours>-18>>
+elif !(strcmp("<strarg <region.name>>","Hythloth"))
+call f_dl_plus 14
+local.meridian = 9
+<QVAL (<eval <var0.hours>> < 15)? local.hours = <eval <var0.hours>+9>:local.hours = <eval <var0.hours>-15>>
+endif
+elif (<p.x> > 5100) && (<p.y> > 2300)
+call cal_today
+local.meridian = 0
+local.hours = <eval <var0.hours>>
+endif
+elif (<p.m>==2)
+call f_dl_minus 12
+local.meridian = -12
+<QVAL (<eval <var0.hours>> < 12)? local.hours = <eval <var0.hours>+12>:local.hours = <eval <var0.hours>-12>>
+elif (<p.m>==3)
+call f_dl_plus 20
+local.meridian = 3
+<QVAL (<eval <var0.hours>> < 21)? local.hours = <eval <var0.hours>+3>:local.hours = <eval <var0.hours>-21>>
+elif (<p.m>==4)
+call f_dl_plus 11
+local.meridian = 12
+<QVAL (<eval <var0.hours>> < 12)? local.hours = <eval <var0.hours>+12>:local.hours <eval <var0.hours>-12>>
+endif
+return <local.hours>
+return <local.meridian>
+return <local.date>
+return <local.day>
+return <local.month>
+return <local.suffix>
+return <local.year>
+
+[FUNCTION f_barometer]
+if <def.storm_system>
+if (<var0.month> < 4)
+<QVAL (<eval rand(<ddef.weather_winter>)>== 10)? local.barometer=<eval {1 <ddef.weather_winter>}>:local.barometer=<eval {1 100}>>
+elif (<var0.month> < 7)
+<QVAL (<eval rand(<ddef.weather_spring>)>== 10)? local.barometer=<eval {1 <ddef.weather_spring>}>:local.barometer=<eval {1 100}>>
+elif (<var0.month> < 10)
+<QVAL (<eval rand(<ddef.weather_summer>)>== 10)? local.barometer=<eval {1 <ddef.weather_summer>}>:local.barometer=<eval {1 100}>>
+else
+<QVAL (<eval rand(<ddef.weather_fall>)>== 10)? local.barometer=<eval {1 <ddef.weather_fall>}>:local.barometer=<eval {1 100}>>
+endif
+else
+local.barometer=<eval {1 100}>
+endif
+return <dlocal.barometer>
+
+[FUNCTION f_environ_calc]
+call f_pos_chk <p>
+call f_light_manager <local.hours>
+if (<dlocal.hours>==12)
+local.fromhigh=0
+else
+<QVAL (<eval <local.hours>> < 12)? local.fromhigh=<eval (12-<local.hours>)>:local.fromhigh=<eval (<local.hours>-12)>>
+endif
+local.fromhigh=<eval <local.fromhigh>*3>
+if (<p.m> < 2)
+if !(strcmpi("<region.name>","Ice Isle")) //Ice Isle, permanently cold, high chance of precipitaion
+local.temp=<eval ((<eval {0 30}>*10) + <fval <streat <streat <def.month_<eval <var0.month>>>>>> - <eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+local.weatherchance=<eval {10 80}>
+elif !(strcmpi("<region.name>","Desert of Compassion")) //Desert of Compassion, permanently hot, low chance of precipitation.
+local.temp=<eval ((<eval {80 100}>*10) + <fval <streat <streat <def.month_<eval <var0.month>>>>>> - <eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+local.weatherchance=<eval {40 100}>
+elif !(strcmpi("<region.name>","Green Acres")) || !(strcmpi("<region.name>","Green Acres 2")) || !(strcmpi("<region.name>","Green Acres 3"))
+local.temp =  <fval (((<eval (<p.y>/200)>*1.8)+32.0)+<streat <streat <def.month_<eval <var0.month>>>>>)- (<eval <local.fromhigh>*10>)>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+(<p.y>/200))>
+elif (<p.x> < 5100) // Main map
+if (<flags>& 01000000)//moderate indoor climate w/ no chance for weather
+local.temp=500
+tag0.temp = <fval <local.temp>>
+local.weatherchance=100
+else
+local.temp =  <fval (((<eval (<p.y>/200)>*1.8)+32.0)+<streat <streat <def.month_<eval <var0.month>>>>>)- (<eval <local.fromhigh>*10>)>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval ((<p.y>/200)+<local.barometer>)>
+endif
+elif (<p.x> > 5100) && (<p.y> < 2300)
+if !(strcmp("<region.name>","The Heartwood")) || !(strcmp("<region.name>","Blighted Grove")) || !(strcmp("<region.name>","Sanctuary"))
+local.temp=<eval ((500+<streat <streat <def.month_<eval <var0.month>>>>>)-<eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+local.weatherchance=<eval {1 100}>
+else
+if (<sector.weather>!=255)
+sector.dry
+update
+endif
+if <def.fire_ice>// Dungeons have no weather EVER, but do have temperatures...
+if !(strcmpi("<strarg <region.name>>","Fire")) //fire
+local.temp=<eval ((900+<streat <streat <def.month_<eval <var0.month>>>>>)-<eval <local.fromhigh>*10>)>
+tag0.temp = <fval <dlocal.temp>>
+local.weatherchance=100
+elif !(strcmpi("<strarg <region.name>>","Ice")) //ice
+local.temp=<eval (<streat <streat <def.month_<eval <var0.month>>>>>-<eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+local.weatherchance=100
+else	//other
+local.temp=<eval ((500+<streat <streat <def.month_<eval <var0.month>>>>>)-<eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+local.weatherchance=100
+endif
+else
+local.temp=<eval ((500+<streat <streat <def.month_<eval <var0.month>>>>>)-<eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+local.weatherchance=100
+endif
+endif
+elif (<p.x> > 5100) && (<p.y> > 2300) // T2A map
+if  (<p.y> < 2500) //snow region
+local.temp = <eval ((<eval {0 35}>*10) + <streat <streat <def.month_<eval <var0.month>>>>> - <eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+((<p.y> - 2300)/200))>
+elif (<p.y> < 2900) //desert region
+local.temp = <eval ((<eval {80 100}>*10) + <streat <streat <def.month_<eval <var0.month>>>>> - <eval <local.fromhigh>*10>)>
+tag0.temp = <fval <local.temp>>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+((<p.y> - 2300)/100))>
+elif (<p.y> < 4100) //tropics
+local.temp = <fval (((<eval <p.y>/200)>*1.8)+32.0)  + <streat <streat <def.month_<eval <var0.month>>>>>) - (<eval <local.fromhigh>*10>)>
+tag0.temp= <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+(<p.y>/200))>
+endif
+endif
+else
+if (<p.m>==2) // Ilshenar map
+local.temp = <fval (((<eval ((<p.y>+1000)/200)>*1.8)+32.0)  + <streat <streat <def.month_<eval <var0.month>>>>>) - <eval <local.fromhigh>*10>>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+((<p.y>+1000)/200))>
+elif (<p.m>==3)
+if (<p.y> < 800)// Malas map
+local.temp = <fval (((<eval <p.y>/200)>*1.8)+32.0)  + <streat <streat <def.month_<eval <var0.month>>>>>) - <eval <local.fromhigh>*10>>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+(<p.y>/200))>
+else
+local.temp = <fval (((<eval ((<p.y>+1000)/200)>*1.8)+32.0)  + <streat <streat <def.month_<eval <var0.month>>>>>) - <eval <local.fromhigh>*10>>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+((<p.y>+1000)/200))>
+endif
+elif (<p.m>==4)
+if (<p.y> < 200)// Tokuno Islands map
+local.temp =  <fval (((<eval <p.y>/200)>*1.8)+32.0)  + <streat <streat <def.month_<eval <var0.month>>>>>) -<eval <local.fromhigh>*10>>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+(<p.y>/200))>
+else
+local.temp = <fval (((<eval ((<p.y>+2000)/200)>*1.8)+32.0)  + <streat <streat <def.month_<eval <var0.month>>>>>) - <eval <local.fromhigh>*10>>
+tag0.temp = <local.temp>
+call f_barometer
+local.weatherchance = <eval (<local.barometer>+((<p.y>+2000)/200))>
+endif
+endif
+endif
+
+//Begin seasonal weather control
+if (<eval <var0.month>> > <eval (<ddef.months_per_year>-1)>)
+if (<dlocal.weatherchance> < <ddef.weather_winter>)
+if <def.storm_system>
+<QVAL (<dlocal.weatherchance> < <eval <ddef.weather_winter>/2>)? call f_storm <dlocal.temp>:call f_weather <dlocal.temp>>
+else
+call f_weather <dlocal.temp>
+endif
+else
+call f_dry
+endif
+elif (<eval <var0.month>> > <eval ((<ddef.months_per_year>/3)*2)>)
+if (<dlocal.weatherchance> < <ddef.weather_fall>)
+if <def.storm_system>
+<QVAL (<dlocal.weatherchance> < <eval <ddef.weather_fall>/2>)? call f_storm <dlocal.temp>:call f_weather <dlocal.temp>>
+else
+call f_weather <dlocal.temp>
+endif
+else
+call f_dry
+endif
+elif (<eval <var0.month>> > <eval ((<ddef.months_per_year>/2)-1)>)
+if (<dlocal.weatherchance> < <ddef.weather_summer>)
+if <def.storm_system>
+<QVAL (<dlocal.weatherchance> < <eval <ddef.weather_summer>/2>)? call f_storm <dlocal.temp>:call f_weather <dlocal.temp>>
+else
+call f_weather <dlocal.temp>
+endif
+else
+call f_dry
+endif
+elif (<eval <var0.month>> > <eval ((<ddef.months_per_year>/4)-1)>)
+if (<dlocal.weatherchance> < <ddef.weather_spring>)
+if <def.storm_system>
+<QVAL (<dlocal.weatherchance> < <eval <ddef.weather_spring>/2>)? call f_storm <dlocal.temp>:call f_weather <dlocal.temp>>
+else
+call f_weather <dlocal.temp>
+endif
+else
+call f_dry
+endif
+else
+if (<dlocal.weatherchance> < <ddef.weather_winter>)
+if <def.storm_system>
+<QVAL (<dlocal.weatherchance> < <eval <ddef.weather_winter>/2>)? call f_storm <dlocal.temp>:call f_weather <dlocal.temp>>
+else
+call f_weather <dlocal.temp>
+endif
+else
+call f_dry
+endif
+endif
+
+[FUNCTION f_light_manager]
+if (<region.flags> & 0800)
+if (<sector.light> != <ddef.light_dungeon>)
+sector.light=<ddef.light_dungeon>
+endif
+else
+if (<eval <var0.month>> < <eval ((<ddef.months_per_year>/2)+1)>)
+if (<dlocal.hours>==12)
+if (<sector.light> != 0)
+sector.light = 0
+endif
+elif (<dlocal.hours> > 12)
+if (<eval (((<dlocal.hours>-12)*2)-<eval <var0.month>>)> < 1)
+if (<sector.light> != 0)
+sector.light = 0
+endif
+else
+if (<sector.light> != <eval (((<dlocal.hours>-12)*2) - <eval <var0.month>>)>)
+sector.light = <eval (((<dlocal.hours>-12)*2) - <eval <var0.month>>)>
+endif
+if (<eval <var0.phase>> == 5) && (<sector.light> > <ddef.light_full_moon>)
+sector.light = <ddef.light_full_moon>
+endif
+endif
+elif (<dlocal.hours> < 12)
+if (<eval (((12-<dlocal.hours>)*2)-<eval <var0.month>>)> < 1)
+if <sector.light> != 0
+sector.light = 0
+endif
+else
+if (<sector.light> != <eval (((12-<dlocal.hours>)*2) - <eval <var0.month>>)>)
+sector.light = <eval (((12-<dlocal.hours>)*2) - <eval <var0.month>>)>
+endif
+if (<eval <var0.phase>> == 5) && (<sector.light> > <ddef.light_full_moon>)
+sector.light = <ddef.light_full_moon>
+endif
+endif
+endif
+else
+local.month = <eval (<ddef.months_per_year>-<var0.month>)>
+if (<dlocal.hours>==12)
+if (<sector.light> != 0)
+sector.light = 0
+endif
+elif (<dlocal.hours> > 12)
+if (<eval (((<dlocal.hours>-12)*2)-<dlocal.month>)> < 1)
+if (<sector.light> != 0)
+sector.light = 0
+endif
+else
+if (<sector.light> != <eval (((<dlocal.hours>-12)*2)-<dlocal.month>)>)
+sector.light = <eval (((<dlocal.hours>-12)*2)-<dlocal.month>)>
+endif
+if (<eval <var0.phase>> == 5) && (<sector.light> > <ddef.light_full_moon>)
+sector.light = <ddef.light_full_moon>
+endif
+endif
+elif (<dlocal.hours> < 12)
+if (<eval (((12-<local.hours>)*2)-<dlocal.month>)> < 1)
+if (<sector.light> != 0)
+sector.light = 0
+endif
+else
+if (<sector.light> != <eval (((12-<dlocal.hours>)*2)-<dlocal.month>)>)
+sector.light = <eval (((12-<dlocal.hours>)*2)-<dlocal.month>)>
+endif
+if (<eval <var0.phase>> == 5) && (<sector.light> > <ddef.light_full_moon>)
+sector.light = <ddef.light_full_moon>
+endif
+endif
+endif
+endif
+endif
+
+[FUNCTION f_weather]
+if (<eval <local.temp>> < 360)
+if (<sector.weather>==1) || (<sector.weather>==2)
+return 0
+else
+sector.snow
+return 1
+endif
+else
+if (<sector.weather>==0)
+return 0
+else
+sector.rain
+return 1
+endif
+endif
+
+[FUNCTION f_storm]
+if (<eval <local.temp>> < 360)
+sector.snow
+f_make_snow
+f_sfx_storm
+return 1
+else
+sector.rain
+f_make_rain
+f_sfx_storm
+f_sfx_rain
+return 1
+endif
+
+[FUNCTION f_make_rain]
+if (<sector.weather>==0)
+if (<flags> & statf_indoors) || (<serv.map(<p.x>,<p.y>,<p.z>,<p.m>).type>==t_water)
+return 1
+else
+serv.newitem=i_puddle
+new.movenear <UID>,11
+timerf {10 20}, f_make_rain
+endif
+else
+return 1
+endif
+
+[FUNCTION f_make_snow]
+if (<sector.weather>==2)
+if (<flags> & statf_indoors) || (<serv.map(<p.x>,<p.y>,<p.z>,<p.m>).type>==t_water)
+return 1
+else
+serv.newitem i_snow_pile
+new.movenear <uid>,11
+timerf {10 20}, f_make_snow
+endif
+else
+return 1
+endif
+
+[FUNCTION f_make_lightning]
+if (<sector.weather>==0)
+if (<eval rand(3)>==1)
+sector.allclients f_lightning_strike
+else
+if (<flags> & statf_indoors)
+return 1
+else
+serv.newitem i_lightning_memory
+new.movenear <uid>,11
+timerf {15 45}, f_make_lightning
+endif
+endif
+else
+return 1
+endif
+
+[FUNCTION f_lightning_strike]
+if (<isgm>) || (<flags> & statf_indoors) || (<flags> & statf_dead) || (<flags> & statf_freeze)
+return 1
+else
+if (<eval rand(<ddef.lighting_strike>)>==1)
+effect 1,1,1,1,1
+sysmessage @,,1 You have been struck by lightning!
+hits-=<eval <hits>/2>
+endif
+endif
+
+[FUNCTION f_sfx_rain]
+if (<sector.weather>==0)
+sfx 16
+timerf 1, f_sfx_rain
+else
+return 1
+endif
+
+[FUNCTION f_sfx_storm]
+if (<sector.weather>==0)
+if (<eval rand(3)>==1)
+dorand 2
+sfx 40
+sfx 41
+enddo
+elif (<eval rand(3)>==2)
+dorand 2
+sfx 21
+sfx 22
+enddo
+endif
+elif (<sector.weather>==1) || (<sector.weather>==2)
+if (<eval rand(3)>==1)
+sfx 20
+endif
+else
+return 1
+endif
+timerf, {5 20} f_sfx_storm
+
+[FUNCTION f_dry]
+if (<sector.weather>==255)
+return 1
+else
+sector.dry
+return 1
+endif
+
+[EVENTS e_environmental]
+ON=@Environchange
+if <isplayer>
+f_environ_calc
+if <def.tempaffect>
+if !(<restest 1 i_tempaffect>)
+serv.newitem i_tempaffect
+new.equip
+endif
+local.layer=3
+for 14
+if (<dlocal.layer>==8)
+local.layer=12
+elif (<dlocal.layer>==14)
+local.layer=17
+elif (<dlocal.layer>==18)
+local.layer=19
+elif (<dlocal.layer>==21)
+local.layer=22
+endif
+if (<findlayer(<dlocal.layer>)>)
+tag0.temp = <fval <tag0.temp>+1.0>
+endif
+local.layer +=1
+endfor
+if (<tag0.temp> < 32.0)
+tag0.temp = <fval (<tag0.temp> + <eval (<src.rescold>/2)*10)>)>
+elif (<tag0.temp> > 80.0)
+tag0.temp = <fval (<tag0.temp> - <eval (<src.resfire>/2)*10)>)>
+endif
+endif
+endif
+
+ON=@Login
+if <def.tempaffect>
+if !(<restest 1 i_tempaffect>)
+serv.newitem i_tempaffect
+new.equip
+endif
+else
+if (<restest 1 i_tempaffect>)
+consume 1 i_tempaffect
+endif
+endif
+
+if <def.fri13th>
+if (<eval <var0.date> != 13) && (<eval <var0.day>> != 6)
+if (<isplayer>) && (<tag0.fri13th>)
+if (<eval <luck>> < 0)
+luck -= <eval <luck>*2>
+tag0.fri13th= //remove marker
+endif
+endif
+else
+if (<isplayer>) && !(<isgm>) && !(<tag0.fri13th>)
+if (<eval <luck>> > 0) //for positive luck
+luck = - <eval <luck>>
+tag0.fri13th = 1
+endif
+endif
+endif
+endif
+
+ON=@Logout
+if (<restest 1 i_tempaffect>)
+consume 1 i_tempaffect
+endif
+
+

@@ -1,0 +1,97 @@
+[CHARDEF C_H_MAGINCIA_SERVANT]
+DEFNAME=C_H_MAGINCIA_SERVANT
+NAME=#NAMES_HUMANMALE the Magincia Servant
+ID=C_MAN
+HIREDAYWAGE=20
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobServant
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Magincia Town Members
+DESCRIPTION=Magincia Servant (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={16 30}
+	DEX={21 35}
+	INT={26 40}
+
+	WRESTLING={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	ITEM=i_sandals
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+
+
+[CHARDEF C_H_MAGINCIA_SERVANT_F]
+DEFNAME=C_H_MAGINCIA_SERVANT_F
+NAME=#NAMES_HUMANFEMALE the Magincia Servant
+ID=C_WOMAN
+HIREDAYWAGE=20
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobServant
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Magincia Town Members
+DESCRIPTION=Magincia Servant (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={16 30}
+	DEX={21 35}
+	INT={26 40}
+
+	WRESTLING={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=i_skirt_long
+	ITEM=i_sandals
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+[EOF]

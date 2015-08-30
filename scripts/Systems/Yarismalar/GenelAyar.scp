@@ -1,0 +1,196 @@
+
+
+[function binekolmazsaolmaz]
+
+//events -Player_poisonnpclericin
+
+if (<findlayer.25.more1> = c_horse_brown_lt) && (<findlayer.25.more1> = c_horse_brown_dk)
+findlayer.25.remove
+endif
+
+//events -speedtesti
+if (<findlayer.25>)
+tag.binekid <findlayer.25.more1> //binegin id'ini tagladik
+tag.binekkarma <uid.<findlayer.25.more2>.karma> //karmayi tagladik
+tag.binekfame <uid.<findlayer.25.more2>.fame> //famei tagladik
+tag.binekfood <uid.<findlayer.25.more2>.food> //kargoda beslemiyoruz :)
+tag.binekcolor <uid.<findlayer.25.more2>.color> //bunuda alalim bari
+tag.binekname <findlayer.25.name> //isimini bi kenara not aldik
+
+serv.newitem i_binek_zeka //<serv.name> Kargo'da onay formunu aliyoruz
+new.tag.name <tag.binekname> //Kargoya verilen hayvanin kayitlarini
+new.tag.fame <tag.binekfame> //forma  
+new.tag.karma <tag.binekkarma> //eksiksiz
+new.tag.food <tag.binekfood> //dolduruyoruz
+new.tag.binekid <tag.binekid> //Kargo ise ucret almadan
+new.color <tag.binekcolor> 
+new.cont <findlayer(29).uid> //adrese yolluyor
+new.more2 1 
+findlayer.25.remove 
+
+tag.binekid 
+tag.binekkarma
+tag.binekfame
+tag.binekfood 
+tag.binekcolor
+tag.binekname
+else
+return 1
+endif
+
+[itemdef i_binek_zeka]
+id i_deed
+type t_normal
+weight 20.0
+name Kargo
+
+on=@click
+if (<more2>
+message  @0481,1 <name> - <tag.name>
+return 1
+else
+message @0481,1 <name>
+return 1
+endif
+
+on=@dclick
+if (<more2>)
+try src.newnpc <tag.binekid> //Taze binek
+link <src.act.uid> //linkleyelimki kaybolmasin :)
+link.name <tag.name> //
+link.karma <tag.karma> //Genel ayarlar 
+link.fame <tag.fame> //
+link.food <tag.food> 
+link.color <color>
+
+link.memorydel <src.uid>
+link.newitem i_memory
+link.act.attr 04
+link.act.more1 04
+link.act.more2 <serv.time>
+link.act.morep <link.p>
+link.act.color memory_ipet
+link.act.timer -1
+link.act.link <src.uid>
+link.act.cont <link.uid>
+link.flags <link.flags>&statf_pet
+link.update
+link.anim 5
+link.bark 3
+link.message @1156 Iyi oyunlar..
+remove
+return 1
+else
+return1
+endif
+
+///////////////////////OTO YARISMA AYARLARI////////////////////////////////////
+[function expoalan]
+src.go 5728,3473
+
+[function topuktancik]
+src.events -e_topuk
+src.sysmessage @95,,1 Ustunuzdeki Events Silinmistir.
+return 1
+
+[function topukalan]
+src.go 5120,2071
+
+[plevel 2]
+topuktancik
+topukalan
+
+
+[Plevel 4]
+stoneyap
+stonecikar
+
+[function stoneyap]
+sector.allclients stone 1
+
+[function stonecikar]
+sector.allclients stone 0
+
+
+[function Cantalarbanka]
+//findlayer(21).color 0
+findlayer(1).cont=<findlayer.layer_pack.uid>
+findlayer(2).cont=<findlayer.layer_pack.uid>
+findlayer(3).cont=<findlayer.layer_pack.uid>
+findlayer(4).cont=<findlayer.layer_pack.uid>
+findlayer(5).cont=<findlayer.layer_pack.uid>
+findlayer(6).cont=<findlayer.layer_pack.uid>
+findlayer(7).cont=<findlayer.layer_pack.uid>
+findlayer(8).cont=<findlayer.layer_pack.uid>
+findlayer(10).cont=<findlayer.layer_pack.uid>
+findlayer(12).cont=<findlayer.layer_pack.uid>
+findlayer(13).cont=<findlayer.layer_pack.uid>
+findlayer(14).cont=<findlayer.layer_pack.uid>
+findlayer(17).cont=<findlayer.layer_pack.uid>
+findlayer(18).cont=<findlayer.layer_pack.uid>
+findlayer(19).cont=<findlayer.layer_pack.uid>
+findlayer(20).cont=<findlayer.layer_pack.uid>
+findlayer(22).cont=<findlayer.layer_pack.uid>
+findlayer(23).cont=<findlayer.layer_pack.uid>
+findlayer(24).cont=<findlayer.layer_pack.uid>
+findlayer(31).cont=<findlayer.layer_pack.uid>
+findlayer(layer_pack).attr 0
+findlayer(layer_pack).events +t_cantalar_bankada
+findlayer(layer_pack).cont <findlayer(layer_bankbox)>
+findlayer(layer_pack).empty
+findlayer(layer_pack).dclick
+bank
+//serv.newitem i_backpack
+//new.equip
+//try uid.<new.uid>.dclick
+update
+return 1
+
+[function cantalarbanka_gerial]
+//findlayer.layer_pack.remove
+if !<findlayer.layer_pack>
+	serv.newitem i_backpack
+	new.attr attr_newbie
+	new.equip
+endif
+ref1 <findlayer.layer_bankbox>
+ref2 <uid>
+forcont <ref1> 0
+	if <isevent.t_cantalar_bankada>
+			ref3 <uid>
+			forcont <ref3> 0
+				local.contp <contp>
+				cont <ref2.findlayer.layer_pack>
+				contp <local.contp>
+			endfor
+			if <ref2.findlayer.layer_pack>
+				remove
+			endif		
+	endif
+endfor
+
+[typedef t_cantalar_bankada]
+
+on=@click
+message @69,1,1 [Kayitli Cantaniz-<serv.rtime>]
+message @38,1,1 [Uyari: Eger bir cantaniz varsa silinir!]
+message @,1,1 [Cift Tiklayiniz]
+return 1
+
+on=@dclick
+if <src.findlayer(21)>
+Cantalarbanka
+endif
+equip
+update
+open
+events -t_cantalar_bankada
+return 1
+
+
+
+
+
+
+
+[EOF]

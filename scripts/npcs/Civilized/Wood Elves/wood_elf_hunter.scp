@@ -1,0 +1,46 @@
+[CHARDEF c_wood_elf_hunter]
+DEFNAME=c_wood_elf_hunter
+NAME=#NAMES_ELF_MALE the Wood-Elf hunter
+SOUND=snd_HUMAN_M_DIE_01
+ID=C_ELF_MALE
+DAM=5,20
+ARMOR=13
+CAN=MT_EQUIP|MT_RUN|MT_USEHANDS|MT_WALK
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=0597
+
+TSPEECH=jobFighter
+
+CATEGORY=Civilized
+SUBSECTION=Wood Elves
+DESCRIPTION=Wood-Elf hunter
+
+ON=@Create
+	COLOR=0597
+	NPC=BRAIN_HUMAN
+	KARMA={-2000 -3000}
+
+	STR={40 60}
+	DEX={50 70}
+	INT={30 50}
+
+	FENCING={40.0 60.0}
+	MAGICRESISTANCE={15.0 38.0}
+	TACTICS={38.0 50.0}
+	WRESTLING={25.0 40.0}
+
+	ITEMNEWBIE=i_hair_long
+	//	ITEMNEWBIE=i_beard_long_med
+
+ON=@NPCRestock
+	ITEM=i_leather_tunic
+	ITEM=i_leather_gorget
+	ITEM=i_leather_leggings
+	ITEM=i_sandals
+	ITEM=i_spear
+	ITEM=i_gold,{25 70}
+	ITEM=i_hides_cut,{1 3}
+
+[EOF]

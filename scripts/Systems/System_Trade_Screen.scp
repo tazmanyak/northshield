@@ -1,0 +1,68 @@
+[EVENTS e_TradeWindow]
+ON=@ItemPickUp_Pack
+IF (<FINDTYPE.t_eq_trade_window>)
+ REF1=<UID.<ACT.CONT>.CONT>
+ IF (<REF1>) && (<REF1.ISITEM>)
+  IF (<REF1.TYPE> == t_eq_trade_window)
+   return 1
+  ENDIF
+ ENDIF
+ENDIF
+
+ON=@ItemDropOn_Char
+IF (<ARGO.ISPLAYER>)
+ IF (<ACT.TYPE> == t_container)
+  ACT.SetTradeContainer
+ ENDIF
+ENDIF
+
+ON=@ItemDropOn_Self
+IF (<ACT.TYPE> == t_eq_trade_window)
+ IF (<ARGO.TYPE> == t_container) && (<REF1.ISPLAYER>)
+  ARGO.SetTradeContainer
+ ENDIF
+ENDIF
+
+ON=@TradeAccepted
+IF (<ARGN1>)
+ FOR 1 <ARGN1>
+  IF (<REF<dLOCAL._FOR>>)
+   IF (<REF<dLOCAL._FOR>.TAG0.TradeContainer>) || (<REF<dLOCAL._FOR>.ISEVENT.t_trade_container>)
+    REF<dLOCAL._FOR>.UnSetTradeContainer
+   ENDIF
+  ENDIF
+ ENDFOR
+ENDIF
+
+///////////////////////////////////////////////////////////
+
+[FUNCTION SetTradeContainer]
+FORCONT <UID> 1
+ ATTR |= attr_move_never
+ENDFOR
+TAG.TradeContainer=1
+EVENTS=+t_trade_container
+TIMERF 1, CheckIsOnTrade
+
+[FUNCTION UnSetTradeContainer]
+FORCONT <UID> 1
+ ATTR  &=~ attr_move_never
+ENDFOR
+TAG.TradeContainer=
+EVENTS=-t_trade_container
+
+[TYPEDEF t_trade_container]
+ON=@DClick
+OPEN
+return 1
+
+[FUNCTION CheckIsOnTrade]
+IF !(<TAG0.TradeContainer>)
+ return 1
+ELIF (<TAG0.TradeContainer>) && !(<CONT.TYPE> == t_eq_trade_window)
+ UnSetTradeContainer
+ELSE
+ TIMERF 1, CheckIsOnTrade
+ENDIF
+
+[EOF]

@@ -1,0 +1,293 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[dialog d_plant_gump]
+20,20
+page 0
+//bg
+resizepic 50 50 0e10 200 150
+tilepic 45 45 0CEF
+tilepic 45 118 0CF0
+tilepic 211 45 0CEB
+tilepic 211 118 0CEC
+//-bg
+
+//plant
+if (<tag0.m_status> < 9)
+gumppic 110 85 0589
+tilepic 122 94 0914
+tilepic 135 94 0914
+tilepic 120 112 0914
+tilepic 135 112 0914
+
+	if ( <tag0.m_status> >= 2 )
+	tilepic 127 112 0C62
+	endif
+	if ( <tag0.m_status> >= 3 )
+	tilepic 129 85 0C7E
+	endif
+	if ( <tag0.m_status> >= 4 )
+	tilepic 121 117 0C62
+	tilepic 133 117 0C62
+	endif
+	if ( <tag0.m_status> >= 5 )
+	tilepic 110 100 0C62
+	tilepic 140 100 0C62
+	tilepic 110 130 0C62
+	tilepic 140 130 0C62
+	endif
+	if ( <tag0.m_status> >= 6 )
+	tilepic 105 115 0C62
+	tilepic 145 115 0C62
+	tilepic 125 90 0C62
+	tilepic 125 135 0C62
+	endif
+else
+tilepichue 130 96 <def.planttype_<dtag0.m_planttype>_itemid> <def.planthue_<dtag0.m_planthue>_gumphue>
+endif
+//-plant
+
+//reproduction
+button 71 64 0d4 0d4 1 0 1
+tilepic 59 68 0d08
+//-reproduction
+
+//infestation
+button 71 91 0d4 0d4 1 0 2
+tilepic 8 96 0372
+bAddPlus 95, 92, <dtag0.m_infestation>
+//-infestation
+
+//fungus
+button 71 115 0d4 0d4 1 0 3
+tilepic 58 115 0d16
+bAddPlus 95, 116, <dtag0.m_fungus>
+//-fungus
+
+//poison
+button 71 139 0d4 0d4 1 0 4
+tilepic 59 143 01AE4
+bAddPlus 95, 140, <dtag0.m_poison>
+//-poison
+
+//disease
+button 71 163 0d4 0d4 1 0 5
+tilepic 55 167 01727
+bAddPlus 95, 164, <dtag0.m_Disease>
+//-disease
+
+//water
+button 209 67 0d2 0d2 1 0 6
+tilepic 193 67 01f9d
+bAddPlusMinus 196, 67, <tag0.m_water>
+//-water
+
+//poison potion
+button 209 91 0d4 0d4 1 0 7
+tilepic 197 91 0f0a
+bAddLevel 196, 91, <dtag0.m_poisonPotion>
+//-poison potion
+
+//cure potion
+button 209 115 0d4 0d4 1 0 8
+tilepic 192 115 0f07
+bAddLevel 196, 115, <dtag0.m_curePotion>
+//-cure potion
+
+//heal potion
+button 209 139 0d4 0d4 1 0 9
+tilepic 190 139 0f0c
+bAddLevel 196, 139, <dtag0.m_healPotion>
+//-heal potion
+
+//strength potion
+button 209 163 0d4 0d4 1 0 10
+tilepic 193 163 0f09
+bAddLevel 196, 163, <dtag0.m_StrengthPotion>
+//-strength potion
+
+//status
+gumppic 48 47 0d2
+
+gumppic 232 47 0d2
+bAddGrowthIndicator 238,47
+bAddLevel 54, 47, <dtag0.m_status>
+
+button 48 183 0d2 0d2 1 0 11
+dtext 54 183 0835 ?
+
+button 232 183 0d4 0d4 1 0 12
+tilepic 219 180 015fd
+
+bAddPlus 95,164,0
+//-status
+
+if (<tag0.m_status>)
+	if strmatch('<bhealth>','Dying')
+	tilepic 92 167 01b9d
+	tilepic 161 167 01b9d
+	dhtmlgump 136 167 42 20 0 0 <def.bfont_yellow><bhealth>
+	elif strmatch('<bhealth>','Wilted')
+	tilepic 91 164 018e6
+	tilepic 161 164 018e6
+	dhtmlgump 132 167 42 20 0 0 <def.bfont_yellow><bhealth>
+	elif strmatch('<bhealth>','Healthy')
+	tilepic 96 168 0c61
+	tilepic 162 168 0c61
+	dhtmlgump 129 167 42 20 0 0 <def.bfont_yellow><bhealth>
+	elif strmatch('<bhealth>','Vibrent')
+	tilepic 93 162 01a99
+	tilepic 162 162 01a99
+	dhtmlgump 129 167 42 20 0 0 <def.bfont_yellow><bhealth>
+	endif
+endif
+
+[dialog d_plant_gump button]
+on=1
+dialog d_plant_polen
+
+on=2
+src.CodexOfWisdomDialog 54 1
+
+on=3
+src.CodexOfWisdomDialog 56 1
+
+on=4
+src.CodexOfWisdomDialog 58 1
+
+on=5
+src.CodexOfWisdomDialog 60 1
+
+on=11
+src.CodexOfWisdomDialog 48 1
+
+on=12
+dialog d_empty_plant
+
+on=7
+morex=3
+//add a poison
+target
+return 1
+
+on=8
+morex=4
+//add a cure
+target
+return 1
+
+on=9
+morex=5
+//add a heal
+target
+return 1
+
+on=10
+morex=6
+//strength
+target
+return 1
+
+on=6
+morex=2
+//pitcher of water
+target
+return 1
+
+[function bAddPlus]
+doswitch <argv[2]>
+	begin
+	end
+	dtext <argv[0]> <argv[1]> 035 +
+	dtext <argv[0]> <argv[1]> 021 +
+enddo
+
+[function bAddLevel]
+dtext <argv[0]> <argv[1]> 0835 <argv[2]>
+
+[function bAddPlusMinus]
+doswitch <argv[2]>
+dtext <argv[0]> <argv[1]> 021 -
+dtext <argv[0]> <argv[1]> 035 -
+begin
+end
+dtext <argv[0]> <argv[1]> 035 +
+dtext <argv[0]> <argv[1]> 021 +
+enddo
+
+[function bAddGrowthIndicator]
+if !(<tag0.m_status>)
+return 1
+endif
+
+doswitch <tag0.m_indicator>
+	dtext <argv[0]> <argv[1]> 021 !
+	dtext <argv[0]> <argv[1]> 021 -
+	dtext <argv[0]> <argv[1]> 035 -
+	dtext <argv[0]> <argv[1]> 03 +
+	dtext <argv[0]> <argv[1]> 03f +
+enddo
+
+[function bHealth]
+local.perc=<eval (100*<tag0.m_hits>)/<bmaxhits>>
+
+if (<local.perc> < 33)
+return dying
+elif (<local.perc> < 66)
+return wilted
+elif (<local.perc> < 100)
+return healthy
+else
+return vibrent
+endif
+
+[dialog d_empty_plant]
+20,20
+page 0
+resizepic 50 50 0e10 200 150
+tilepic 45 45 0cef
+tilepic 45 118 0cf0
+tilepic 211 45 0ceb
+tilepic 211 118 0cec
+
+tilepic 90 100 01602
+gumppic 140 102 015e1
+tilepic 160 100 015fd
+
+tilepic 156 130 0dcf
+
+dtext 90 70 044 Empty the bowl?
+button 98 150 047e 0480 1 0 1
+button 168 150 0481 0483 1 0 2
+
+[dialog d_empty_plant button]
+on=1
+dialog d_plant_gump
+
+on=2
+if <tag.m_status>
+serv.newitem i_seed_plain
+new.tag0.m_planttype=<tag0.m_planttype>
+new.tag0.m_planthue=<tag0.m_planthue>
+new.color=<def.planthue_<dtag0.m_planthue>_hue>
+new.cont=<src.findlayer.layer_pack.uid>
+serv.newitem i_bowl_empty
+new.cont=<src.findlayer.layeR_pack.uid>
+remove
+else
+src.sys_error Herhangi bir tohum ekli değil.
+endif
+[eof]

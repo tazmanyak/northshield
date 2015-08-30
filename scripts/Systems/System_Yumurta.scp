@@ -1,0 +1,202 @@
+/////////////////////////////////////////////////////////////////
+// Scripter Name: Destroy                                      //
+// Shard Name: Gladius Uo Shard                               //
+// Last Edited: 10 Ocak 2008 By Destroy                        //
+//                     //
+/////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_kulucka]////////////////Ostard in yumurtasi
+DEFNAME=i_kulucka
+NAME @,,1 Kulucka
+ID=i_nest
+WEIGHT=3
+SKILLMAKE=CARPENTRY 85.0
+resources 25 i_kindling
+CATEGORY=Miscellaneous
+SUBSECTION=Kulucka
+DESCRIPTION=Kulucka
+DUPELIST=01ad5
+VALUE=15
+
+
+ON=@DCLICK
+if ((<link.tag.kulucka1>) && (<link.tag.kulucka2>) && (<link.tag.kulucka3>))
+	src.sysmessage @38,,1 Hata: Bir eve 3'ten fazla kulucka yerlestiremezsiniz.
+	return 1
+else
+	src.sysmessage @38,,1 Hata: Kuluckayi kurabilmek icin ostard yumurtasina tiklayip kuluckayi secmelisiniz.
+	return 1
+endif
+
+on=@timer
+return 1
+
+
+[ITEMDEF i_ostard_egg_kulucka]
+DEFNAME=i_ostard_egg_kulucka
+Name=Olgunlasmis Yumurta
+ID=i_nest_with_eggs
+WEIGHT=3
+CATEGORY=Miscellaneous
+SUBSECTION=OstarD Yumurtasi
+DESCRIPTION=Yumurta
+DUPELIST=01ad5
+
+On=@Click
+if (<timer> > -1)
+	message @0482,,1 Kalan sure :: <ftime <timer>>
+	return 1
+else
+	message @0492,0,1 Bitmis Kulucka
+	message @,,1 [ Sahibi : <link.name> ]
+	return 1
+endif
+
+on=@PickUp_ground
+src.sysmessage @093,0 Anam anam yumurtayi kircan....
+//remove
+return 1
+
+
+On=@dclick
+if !(<link> == <src.uid>)
+src.sysmessage @50,1,1 Sadece yumurtanin sahibi bu yumurtayi alabilir...
+return 1
+endif
+
+if (<timer> == -1)
+	src.sysmessage @50,,1 Kulucka donemi sona ermis yumurtayi cantaniza aldiniz
+	serv.newitem i_egg_ostard_olgun
+	new.bounce
+	remove
+	if (<eval <link.account.tag.oskuluc>> != 0) 
+		link.account.tag0.oskuluc <link.account.tag0.oskuluc> - 1)
+	endif
+	return 1
+endif
+
+
+ON=@TIMER
+return 1
+
+[ITEMDEF i_egg_ostard]
+//Ostard Egg
+ID=i_fruit_coconut
+NAME=@,,1 Ostard Egg
+type t_normal
+value 2000 
+
+CATEGORY=Custom Items
+SUBSECTION=Dragons Egg
+DESCRIPTION=Dragons Egg
+
+ON=@CREATE
+color 0450
+ATTR=<ATTR>&~attr_decay
+
+ON=@DCLICK
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu kullanabilmeniz icin cantanizda olmasi gerekmektedir.
+	return 1
+endif
+if !(<cont> == <src.findlayer.21.uid>)
+	src.sysmessage @38,,1 Hata: Yumurtanin cantanizda olmasi gerekiyor.
+	return 1
+endif 
+//src.sysmessage @0810 Not: Veterinary skilliniz ne kadar fazla ise kulucka suresi o kadar azalir.
+target @0 Bos bir kulucka seciniz?
+return 1
+
+ON=@TARGON_ITEM
+if (<eval <src.account.tag0.oskuluc>> >= 3) && (<src.account.plevel> < 2)
+src.sysmessage @69,1,1 Suana kadar kurdugunuz egg sayisi : <eval <src.account.tag0.oskuluc>>
+src.hata Kuluckalariniz cikana kadar 3 taneden daha fazlasini kuramazsiniz.
+return 1
+endif
+
+if !(<src.targ.baseid>==i_kulucka)
+	src.sysmessage @38,,1 Hata: boyle bir islem gerceklestiremezsiniz.
+	return 1
+endif
+IF !(<src.targ.attr> = attr_move_never) && !(<src.targ.attr> = 018)
+		src.sysmessage @38,,1 Hata: Kuluckayi eve sabitlemelisiniz.
+		return 1
+else
+if (<src.veterinary> == 100.0)
+src.sysmessage @093,0 Lutfen Yumurtayi Koydukdan Sonra Sabitlikden Cikarmayiniz Aksi Takdirde Silinir
+src.targ.id i_ostard_egg_kulucka
+tag.kulucka_sahibi <uid>
+src.targ.link=<src.uid>
+src.targ.timer 60*60*24*5
+src.consume 1 i_egg_ostard
+src.update
+return 1
+endif
+
+ON=@TIMER
+timer <eval 1440*2>
+return 1
+
+//on=@PickUp_self
+//if ((<src.taming> >= 700.0) && (<src.animallore> == 100.0))
+//	timer -1
+//	//return 1
+//else
+//	src.sys_error Taming ve Animallore yeteneginiz 100.0 olmadigi icin yumurtayi cantaniza alamazsiniz.
+//	return 1
+//endif
+on=@Pickup_Ground
+if ((<src.taming> >= 70.0) && (<src.animallore> == 100.0))
+	timer -1
+	//return 1
+else
+	src.sys_error Taming 70.0 ve Animallore yeteneginiz 100.0 olmadigi icin yumurtayi cantaniza alamazsiniz.
+	return 1
+endif
+
+
+[ITEMDEF i_egg_ostard_olgun] //////////Bitmis yumurta
+//Ostard Egg
+ID=i_fruit_coconut
+NAME=Animal Egg
+type t_normal
+
+CATEGORY=Custom Items
+SUBSECTION=Ostard Egg
+DESCRIPTION=Olgun Ostard Egg
+
+ON=@CLICK
+message @60 [Olgun]
+MESSAGE @50 <amount> <name>
+return 1
+
+ON=@DCLICK
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu kullanabilmeniz icin cantanizda olmasi gerekmektedir.
+	return 1
+endif
+if !(<cont> == <src.findlayer.21.uid>)
+	src.sysmessage @38,,1 Hata: Bunu kullanabilmeniz icin cantanizda olmasi gerekmektedir.
+	return 1
+endif
+src.rap Olgun Ostardi Yumurtasindan Cikarttiniz.
+//src.newnpc {c_ostard_desert 40 c_ostard_mid 40 c_ostard_forest 40} //40 c_ostard_zostrich
+src.newnpc {c_ostard_forest 4 c_ostard_desert 4} //Atakan geri sakin ekleme sikerim adamin tekinin vendorunda 50 ser tane mare poison steed allah ne verdiyse var aq ve de 3'e limitledim tek bir accountan en fazla 3 tane kurabilcekler yumi artik//c_flamezos 2 c_steed_ice 2 c_steed_poison 1 c_steed_fire 2 c_steed_volcanic 2 c_angelsting 2 c_fear 1 c_m_nightmare 1 c_angels 1
+	src.act.newitem i_memory
+	src.act.act.attr 04
+	src.act.act.more1 04
+	src.act.act.more2 <serv.time>
+	src.act.act.morep <src.act.p>
+	src.act.act.color memory_ipet
+	src.act.act.timer -1
+	src.act.act.link <src.uid>
+	src.act.act.cont <src.act.uid>
+	src.act.flags <src.act.flags>&statf_pet
+	src.act.update
+var0.acilanegg ++
+src.act.anim 6
+src.consume i_egg_ostard_olgun
+return 1
+
+[eof]
+

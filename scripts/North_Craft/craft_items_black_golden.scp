@@ -1,0 +1,45 @@
+[defname def_black_golden_items]
+// total page
+blacksmith_golden_pagesum	4
+// platemail
+blacksmith_golden_0_1		i_platemail_leggings_golden
+blacksmith_golden_1_1		i_platemail_chest_golden
+blacksmith_golden_2_1		i_platemail_arms_golden
+blacksmith_golden_3_1		i_PLATE_HELM_GOLDEN
+blacksmith_golden_4_1		i_platemail_gorget_golden
+blacksmith_golden_5_1		i_platemail_gloves_golden
+blacksmith_golden_6_1		i_shield_heater_golden
+blacksmith_golden_7_1		i_ringmail_gloves_golden
+blacksmith_golden_8_1		i_ringmail_leggings_golden
+blacksmith_golden_9_1		i_ringmail_sleeves_golden
+blacksmith_golden_10_1		i_ringmail_tunic_golden
+
+blacksmith_golden_11_1		i_chainmail_coif_golden
+blacksmith_golden_12_1		i_chainmail_leggings_golden
+blacksmith_golden_13_1		i_chainmail_tunic_golden
+// swords
+blacksmith_golden_0_2		i_katana_golden
+blacksmith_golden_1_2		i_scimitar_golden
+blacksmith_golden_2_2		i_cutlass_golden
+blacksmith_golden_3_2		i_bardiche_golden
+blacksmith_golden_4_2		i_halberd_golden
+blacksmith_golden_5_2		i_sword_long_golden
+blacksmith_golden_6_2		i_sword_viking_golden
+blacksmith_golden_7_2		i_sword_broad_golden
+
+// fence
+blacksmith_golden_0_3		i_dagger_golden
+blacksmith_golden_1_3		i_kryss_golden
+blacksmith_golden_2_3		i_pitchfork_golden
+blacksmith_golden_3_3		i_spear_golden
+blacksmith_golden_4_3		i_spear_short_golden
+blacksmith_golden_5_3		i_war_fork_golden
+// mace
+blacksmith_golden_0_4		i_axe_war_golden
+blacksmith_golden_1_4		i_hammer_pick_golden
+//blacksmith_golden_2_4		i_hammer_war_golden
+blacksmith_golden_2_4		i_maul_golden
+blacksmith_golden_3_4		i_mace_golden
+blacksmith_golden_4_4		i_mace_war_golden
+blacksmith_golden_5_4		i_helm_closed_golden
+[EOF]

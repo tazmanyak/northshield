@@ -1,0 +1,81 @@
+[itemdef i_ship_finder]
+name ship finder deed
+id i_deed
+WEIGHT=1
+VALUE=5000
+TYPE=t_script
+
+on=@create
+COLOR=0256
+attr 04
+
+on=@click
+color 0256
+message @790 <name>
+return 1
+
+on=@dclick
+if <src.isevent.e_nouse>
+	src.sys_error Suanda kullanamazsiniz.
+	return 1
+endif
+
+if (<src.hits> < <src.str>)
+	src.sysmessage @38,,1 Bu deed'i yarali iken kullanamazsiniz.
+	return 1
+endif
+if (strmatch('<src.region.name>','jail1') || (strmatch('<src.region.name>','jail2') || (strmatch('<src.region.name>','jail3') || (strmatch('<src.region.name>','jail4') || (strmatch('<src.region.name>','jail5') || (strmatch('<src.region.name>','jail6') || (strmatch('<src.region.name>','jail7') || (strmatch('<src.region.name>','jail8') || (strmatch('<src.region.name>','jail9') || (strmatch('<src.region.name>','jail 10')
+	src.sysmessage @38,,1 Bunu jailde kullanamazsiniz.
+	return 1
+endif
+if <cont> != <src.findlayer(21)> 
+	src.sysmessage @50,,1 Deed cantanizda olmali.
+	return 1
+endif
+	target @0790,,1 Anahtari seciniz ?
+return 1
+
+on=@targon_item
+if <src.isgm>
+	src.gouid <src.targ.link>
+	return 1
+endif
+if (strmatch('<src.region.name>','jail1') || (strmatch('<src.region.name>','jail2') || (strmatch('<src.region.name>','jail3') || (strmatch('<src.region.name>','jail4') || (strmatch('<src.region.name>','jail5') || (strmatch('<src.region.name>','jail6') || (strmatch('<src.region.name>','jail7') || (strmatch('<src.region.name>','jail8') || (strmatch('<src.region.name>','jail9') || (strmatch('<src.region.name>','jail 10') || (strmatch('<src.region.name>','pazar alani')
+	src.sysmessage @38,,1 Jailde iken kullanamazsiniz
+	return 1
+endif
+if (<src.targ.type> == t_key)
+		if !(<src.targ.link.type>==t_ship)
+			src.sysmessage @38,,1 Anahtarin bagli oldugu esya gemiye ait degil.
+			return 1
+		endif
+	if (<src.targ.link.more>==<src.uid>) 
+		IF (<SRC.MANA><15)
+  			SRC.SYSMESSAGE @50,,1 Yeterli mananiz yok.
+   			RETURN 1
+ 		ENDIF
+		if (<src.restest 1 i_reag_black_pearl>) && (<src.restest 1 i_reag_mandrake_root>) && (<src.restest 1 i_reag_blood_moss>)	
+			src.spell_say Kal Ort Por
+			src.sd 2
+			SRC.ANIM 17
+			SRC.MANA (<SRC.MANA>+-15)
+			src.gouid <src.targ.link>
+			src.nudgeup
+			src.consume 1 i_reag_black_pearl
+			src.consume 1 i_reag_blood_moss
+			src.consume 1 i_reag_mandrake_root
+			remove
+		else
+			src.sysmessage @50,,1 Yeterli reginiz yok!
+		endif
+	else
+	src.sysmessage @38,,1 Bu anahtar geminiz ile uyusmuyor.
+	endif
+else
+src.sysmessage @38,,1 Bu bir anahtar degil.
+endif
+return 1
+[EOF][EOF]
+[EOF][EOF]
+[EOF][EOF]
+[EOF][EOF]

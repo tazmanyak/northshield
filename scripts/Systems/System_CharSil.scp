@@ -1,0 +1,106 @@
+[PLEVEL 1]
+charsil
+charsiliptal
+
+[FUNCTION charsiliptal]
+if (<src.account.tag.pinkabul>==0)
+src.sms Giris yapmalisiniz..[ .Pin ]
+src.dialog d_pin_giris
+return 1
+endif
+if (<src.findid.i_silsene>)
+src.findid.i_silsene.remove
+src.sysmessage @07a1,,1  Char silme islemi iptal edildi.
+src.account.tag0.sildibu 0
+else
+src.sysmessage @07a1,,1 Bu char icin islem yapilmamis.
+return 1
+endif
+
+
+[FUNCTION charsil]
+if (<src.account.tag0.sildibu> == 1)
+src.sysmessage @07a1,,1 Char silme isleminiz hala devam etmekte.
+return 1
+endif
+
+if (<src.account.tag.pinkabul>==0)
+src.sms Giris yapmalisiniz..[ .Pin ]
+src.dialog d_pin_giris
+return 1
+endif
+if (<src.account.tag.pinkabul>==0)
+src.syshata Suan Bir Pininiz Yok. [.pin] Yaziniz...
+else
+src.dialog d_charsil
+RETURN 1
+endif
+
+[DIALOG d_charsil] 
+0,0
+resizepic 0 0 3500 420 250 
+resizepic 60 50 3000 250 24
+text 315 50 1152 0
+text 62 50 1152 1
+button 30 50 4005 4007 1 0 1
+htmlgump 20 15 70 25 2 0 0
+htmlgump 100 15 300 25 3 0 0
+htmlgump 30 100 300 100 4 0 0
+
+[DIALOG d_charsil text] 
+<eval <account.totalconnecttime>/60> saat
+<name>
+<account>
+ACCOUNTTA BULUNAN KARAKTER SAYISI: <ACCOUNT.CHARS>
+Karakteri silmek icin karakter isminin yanindaki butona basmaniz yeterli olacaktir. Yanlislikla silinen karakterlerden <serv.name> yetkilileri asla sorumlu tutulamaz. Karakteri silmeden once iyice dusununuz.
+
+[DIALOG d_charsil BUTTON] 
+ON=1
+DIALOG d_charsil_emin
+src.sysmessage @07a1,,1 Yanlislikla silinen karakterlerden yetkililer sorumlu tutulamaz. Bunu dusunerek karakterinizi silin.
+
+[DIALOG d_charsil_emin]
+0,0
+resizepic 200 185 3000 335 130
+htmlgump 225 200 300 70 0 0 0
+htmlgump 255 282 30 100 1 0 0
+htmlgump 435 282 30 100 2 0 0
+button 220 280 4005 4006 1 0 1
+button 400 280 4005 4006 1 0 0
+
+[DIALOG d_charsil_emin text]
+Bu karakteri silmeden once son kez dusunun. Silinen karakterlerden sadece siz sorumlu tutulursunuz. Bu karakteri silmek istediginizden eminmisiniz?
+Evet
+Hayir
+
+[DIALOG d_charsil_emin BUTTON]
+ON=0
+ON=1
+src.account.tag0.sildibu 1
+serv.newitem i_silsene
+new.equip
+new.timer 1440*60*2
+return 1
+
+
+[itemdef i_silsene] 
+name sildim la
+id i_memory 
+type t_eq_script 
+
+on=@create 
+attr attr_decay|attr_invis 
+
+on=@equip 
+src.sysmessage @07a1,,1 Char silinmesi icin islem baslatilmistir. Char 2 gun sonra otomatik olarak silinecektir.
+src.sysmessage @60,,1 Char silme islemini durdurmak icin .charsiliptal yazmaniz yeterli olacaktir.
+
+on=@timer 
+cont.account.tag0.sildibu 0
+cont.remove 1
+return 1
+
+
+
+
+[eof]

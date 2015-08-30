@@ -1,0 +1,80 @@
+[defname def_tinker_items]
+// total page
+tinkering_pagesum	10
+// jewelry
+tinkering_0_1		i_ring_gold
+tinkering_1_1		i_necklace_metal_beads
+tinkering_2_1		i_earrings_gold
+tinkering_3_1		i_necklace_gold_beads
+tinkering_4_1		i_bracelet_gold
+tinkering_5_1		i_necklace_gold
+// parts
+tinkering_0_2		i_hinge
+tinkering_1_2		i_springs
+tinkering_2_2		i_clock_parts
+tinkering_3_2		i_axel_and_gears,
+tinkering_4_2		i_axel
+tinkering_5_2		i_gears
+tinkering_6_2		i_sextant_parts
+// tools
+tinkering_0_3		i_saw
+tinkering_1_3		i_hatchet
+tinkering_2_3		i_nails
+tinkering_3_3		i_sewing_kit
+tinkering_4_3		i_scissors
+tinkering_5_3		i_mortar_pestle
+tinkering_6_3		i_clipper_plant
+// other tools
+tinkering_0_4		i_lockpick
+tinkering_1_4		i_tinker_tools
+tinkering_2_4		i_pickaxe
+tinkering_3_4		i_shovel
+tinkering_4_4		i_hammer_smith
+// utensils
+tinkering_0_5		i_goblet
+tinkering_1_5		i_knife_skinning
+tinkering_2_5		i_plate
+tinkering_3_5		i_cleaver_meat
+tinkering_4_5		i_mug_pewter
+tinkering_5_5		i_spoon
+tinkering_6_5		i_fork
+tinkering_7_5		i_knife
+// misc
+tinkering_0_6		i_key_ring
+tinkering_1_6		i_key_iron
+tinkering_2_6		i_sextant
+tinkering_3_6		i_wire_iron
+// decoration
+tinkering_0_7		i_candleabra
+tinkering_1_7		i_heating_stand
+tinkering_2_7		i_lantern
+tinkering_3_7		i_clock
+tinkering_4_7		i_globe
+tinkering_5_7		i_spyglass
+tinkering_6_7		i_chest_metal
+tinkering_7_7		i_scales
+tinkering_8_7		i_keg_potion
+
+tinkering_0_8		i_trappedpouch
+tinkering_1_8		i_balik	
+tinkering_2_8		i_pet_c_golem_tinker
+tinkering_3_8		i_ibranice_ring
+tinkering_4_8		i_ibranice_earrings
+tinkering_5_8		i_deed_elven_oven_east
+
+tinkering_0_9		i_pickaxe_dull
+tinkering_1_9		i_pickaxe_copper
+tinkering_2_9		i_pickaxe_bronze
+tinkering_3_9		i_pickaxe_gold
+tinkering_4_9		i_pickaxe_shadow
+tinkering_5_9		i_pickaxe_agapite
+tinkering_6_9		i_pickaxe_mytheril
+tinkering_7_9		i_pickaxe_verite
+tinkering_8_9		i_pickaxe_valorite
+tinkering_9_9		i_pickaxe_bloodrock
+tinkering_10_9		i_pickaxe_blackrock
+
+tinkering_0_10 		i_talisman_warrior
+tinkering_1_10		i_kazan_alchemy
+
+[EOF]

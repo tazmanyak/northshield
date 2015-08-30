@@ -1,0 +1,2968 @@
+﻿/////////////////////////////////////////////////////
+//////////Quests//////////////
+[COMMENT OBJECTIVETYPES]
+1 = get
+2 = kill
+3 = deliver
+4 = escort
+
+[COMMENT PRIZETYPES]
+1=item
+2=nothing
+3=function
+
+[DEFNAME HIKAYER]
+HIKAYE_1 Ah evet, iste buradasin.Buraya gel.Biraz saskin gozukuyorsun ? Buraya gelirken bu herkese olur.Goruyorsun,oncedende sen buradaydin kucucukten bana emanet edilmistin.Soyledigim gibi hepimiz bu yoldan geceriz.Hala saskin misin ? Aciklamama izin ver.
+HIKAYE_2 Uzun zaman once , biz bir topluluk olarak var olduk.Ve sonra o gun o yikim gunu geldiginde Mondain'in bize emanet ettigi olumsuzluk gemi kirildi ve butun gucu yikim getirdi.Bunun sebebi irklar arasindaki catismanin sonucuydu.Fakat simdi biz hepimiz bu dunyada dostca yasamayi deniyoruz.Ruhsal ve fiziksel olarak ayni olmasakta deniyoruz.Ancak bazi zamanlar bir degisiklik oluyor.Insanlar ornegin senin gibi insanlar gerceklerden kacmayi tercih ediyor.Iste bu gercekler.
+HIKAYE_3 Sana etrafindaki yeni yerleri gostermeme izin ver.Bak bu yakinindaki cyristal ball senden oncekinindi.Bu seni baska bir yerden baska bir diyara goturmeyi saglar.Bu senin gelceginin bir parcasi olacak.Ben seninle herzaman ruhani olarak varligimi yaninda surdurecegim.Baskalarini gorebilirsin tipki senin gibi.Fakat onlar seni goremeyebilirler.Britain'yayi gormeye hazirmisin.
+HIKAYE_4 Burasi britain,Britainnia daki en buyuk sehir.Cok prestijli ve kapsamli ana bankasi burasidir.Sehir merkezi banka gibi yerleri kolalıkla bulabilirsin yada kime bakmak istiyorsun aradigin kisiyide bulabilirsin.Ne zaman ihtiyacin olan bir esyayi bulamassan saticilardan kendin yapmayi deneyebilirsin.
+HIKAYE_5 Bu Haven.Oradaki Maden Eriticiyi goruyormusun.Her sehirde ondan en az bir tane vardir.Blacksmith burda basit zirh ve silahlari satiyor.Fakat kaliteli silah yapmayi sende ogrenebilirsin.Bunu tavsiye ederim.Bir gun sende bir terzi buyucu iksirci ve daha aklina gelen diger seylerden birisi olacaksin.Bu saydiklarimin hepsini ogrenemeyebilirsin ama en iyisi en guzel yapabildigindir.
+HIKAYE_6 Suan Luna da bulunuyorsun.Paladin sehrinde.Buradaki yapilar britain halkinindir.Gordugun gibi bu evleri yapan sehir sakinleri usta bir zanaatkar.Digerleri zamanlarini ejderha avlamakla ve gizemli seylerin pesinde kosmakla harciyor.Ev sahipleri esya satmak icin sana hizmet sunabilir bir kira karsiliginda.Bazi evler dizaynlariyla unludur ve tarihleri vardir.
+HIKAYE_7 Burasi Hedge Maze , yani bir bolumu gordugun yer.Burasi Relvinian tarafindan ustun gucu ve buyusu ile yapildi.O ejderhalardan cok etkilenen birisiydi.Onun bazi ejderleri hala canli.Buradaki kurbanlarini bekliyor tam maze nin merkezinde.Hic kimse kesin olarak Relvinian'a ne oldugunu bilmiyor.Onun bu yok olusu hala bu gunlerde gizemini surduruyor.Daha biraz anlaticaklarim var sikilmadin umarim ?
+HIKAYE_8 Heartwood asla gizli tutulmadi burasi dunyanin kalbidir tam merkezidir.Fakat buraya gelis ne yazikki gem kirildiginde ulasilamaz hale geldi.Burasi Sosoria daki Elf lerin evidir.Kulturleri farklidir.Fakat biz onlarlar yasamayi tekrar ogrendik.Goruyorsun hala Mondain'in mezhepleri varligini surduruyor.Elfler kendilerini Cult of The Fallen olarak adlandiriyorlar.Onlar hakkinda daha fazla bilgi almak icin britainnia'da tarih kitaplarini okuyabilirsin.
+HIKAYE_9 Evet burasida bizim bizim son yolculugumuzunun oldugu yer.Suan DOOM un tam ortasinda bulunuyorsun.Britannia daki var olmus en teklikeli bolgedir.Fakat suan guvendesin ancak bir daha donerken iyi dusun.Buradaki yaratiklar bir daha sana tolerans gostermicektik.Ne sana nede bana.
+HIKAYE_10 Yillar once , Gem paramparca olmadan once biz buradakilerle dostluk ve dayanisma icerisindeydik.Burada cok fazla tuzaga yakalandim ve burayi yok etme andi ictim.Yanliz sen tabikide dunyanin heryerini gezmekte ozgursun.Bizler dusman degiliz bunu biliyorsun.Fakat sennin sahip oldugun sey ne buldugundur.Senin ozgurlugun benim ozgurlugum olacak.Iste bu yuzden seni buraya getirdim elime bir firsat gectigi icin.
+HIKAYE_11 Ben sabirliyim ve seni bekleyecegim buraya bir kilicla ve zirhinla geri donecegine eminim.Ve senin buradaki duellon tarihe kazinacak bunu biliyorum.Neyse artik senin dunyaya atilma vaktin geldi.Calis ve guclu biri ol.Dikkatli bir sekilde calis ve plan yap ve baskalariyla tanis ve yuzles.Buraya kadar, zamani geldiginde seni tekrar gorecegim.
+
+[DEFNAME QUESTS_DEFINITIONS]
+BFONT_QUESTPRIZETEXTCOLOR <basefont color="#DDFB75">
+snd_quest_accepted 1461
+snd_questlog_update 1463
+
+////////////////////////////
+
+QUEST_1_NAMELOCALIZED Mutfak Krizi //Culinary Crisis
+QUEST_1_TEXTLOCALIZED 1074756 //Quest history
+QUEST_1_TEXTCOMPLETELOCALIZED 1074759
+QUEST_1_TEXTUNCOMPLETELOCALIZED 1074758
+QUEST_1_TEXTREFUSELOCALIZED 1074757
+QUEST_1_OBJECTIVEAMOUNT 2
+QUEST_1_OBJECTIVE1_TYPE 1
+QUEST_1_OBJECTIVE1 20 i_fruit_dates
+QUEST_1_OBJECTIVE2_TYPE 1
+QUEST_1_OBJECTIVE2 5 i_cheese_wheel
+QUEST_1_PRIZES 1
+QUEST_1_PRIZETYPE1 1 //item
+QUEST_1_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_2_NAMELOCALIZED Zamanlama!//Momento!
+QUEST_2_TEXTLOCALIZED 1074751 //Quest history
+QUEST_2_TEXTCOMPLETELOCALIZED 1074754
+QUEST_2_TEXTUNCOMPLETELOCALIZED 1074753
+QUEST_2_TEXTREFUSELOCALIZED 1074752
+QUEST_2_OBJECTIVEAMOUNT 1
+QUEST_2_OBJECTIVE1_TYPE 1
+QUEST_2_OBJECTIVE1 1 i_resolves_bridle
+QUEST_2_PRIZES 1
+QUEST_2_PRIZETYPE1 1 //item
+QUEST_2_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_3_NAMELOCALIZED Dogal Dunya Harikasi//Dogal Dunya Harikasi
+QUEST_3_TEXTLOCALIZED 1074439 //Quest history
+QUEST_3_TEXTCOMPLETELOCALIZED 1074443
+QUEST_3_TEXTUNCOMPLETELOCALIZED 1074442
+QUEST_3_TEXTREFUSELOCALIZED 1074441
+QUEST_3_OBJECTIVEAMOUNT 1
+QUEST_3_OBJECTIVE1_TYPE 1
+QUEST_3_OBJECTIVE1 5 i_thesis_notes
+QUEST_3_PRIZES 1
+QUEST_3_PRIZETYPE1 1 //item
+QUEST_3_PRIZEID1 i_librarian_key Librarian's Key.
+
+////////////////////////////
+
+QUEST_4_NAMELOCALIZED Araziye Baglanmak //Bound to the Land
+QUEST_4_TEXTLOCALIZED 1074434 //Quest history
+QUEST_4_TEXTCOMPLETELOCALIZED 1074437
+QUEST_4_TEXTUNCOMPLETELOCALIZED 1074435
+QUEST_4_TEXTREFUSELOCALIZED 1074436
+QUEST_4_OBJECTIVEAMOUNT 2
+QUEST_4_OBJECTIVE1_TYPE 2
+QUEST_4_OBJECTIVE1 12 c_dryad
+QUEST_4_OBJECTIVE2_TYPE 2
+QUEST_4_OBJECTIVE2 1 c_saliva
+QUEST_4_PRIZES 1
+QUEST_4_PRIZETYPE1 1 //item
+QUEST_4_PRIZEID1 i_dryads_blessing Dryad's Blessing.
+
+////////////////////////////
+
+QUEST_5_NAMELOCALIZED Keskin Kulaklar//Pointy Ears
+QUEST_5_TEXTLOCALIZED 1074641 //Quest history
+QUEST_5_TEXTCOMPLETELOCALIZED 1074644
+QUEST_5_TEXTUNCOMPLETELOCALIZED 1074643
+QUEST_5_TEXTREFUSELOCALIZED 1074642
+QUEST_5_OBJECTIVEAMOUNT 1
+QUEST_5_OBJECTIVE1_TYPE 1
+QUEST_5_OBJECTIVE1 20 i_servered_elf_ears
+QUEST_5_PRIZES 1
+QUEST_5_PRIZETYPE1 1 //item
+QUEST_5_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_6_NAMELOCALIZED Zırhlı Elbise //Scale Armor
+QUEST_6_TEXTLOCALIZED 1074712 //Quest history
+QUEST_6_TEXTCOMPLETELOCALIZED 1074725
+QUEST_6_TEXTUNCOMPLETELOCALIZED 1074724
+QUEST_6_TEXTREFUSELOCALIZED 1074728
+QUEST_6_OBJECTIVEAMOUNT 2
+QUEST_6_OBJECTIVE1_TYPE 1
+QUEST_6_OBJECTIVE1 1 i_thrashers_tail
+QUEST_6_OBJECTIVE2_TYPE 1
+QUEST_6_OBJECTIVE2 10 i_hydra_scale
+QUEST_6_PRIZES 1
+QUEST_6_PRIZETYPE1 1 //item
+QUEST_6_PRIZEID1 tm_strongbox A strongbox.
+
+////////////////////////////
+
+QUEST_7_NAMELOCALIZED Gaultier Koleksiyonundan //From the Gaultier Collection
+QUEST_7_TEXTLOCALIZED 1074095 //Quest history
+QUEST_7_TEXTCOMPLETELOCALIZED 1074180 //1074172
+QUEST_7_TEXTUNCOMPLETELOCALIZED 1074171
+QUEST_7_TEXTREFUSELOCALIZED 1074172
+QUEST_7_OBJECTIVEAMOUNT 1
+QUEST_7_OBJECTIVE1_TYPE 1
+QUEST_7_OBJECTIVE1 10 i_armor_female_bustier_studded
+QUEST_7_PRIZES 1
+QUEST_7_PRIZETYPE1 1 //item
+QUEST_7_PRIZEID1 tm_questtailorcraftsatchel Craftman's Satchel - Tailoring.
+
+////////////////////////////
+
+QUEST_8_NAMELOCALIZED Kabarik Gomlek //The Puffy Shirt
+QUEST_8_TEXTLOCALIZED 1074093 //Quest history
+QUEST_8_TEXTCOMPLETELOCALIZED 1074180
+QUEST_8_TEXTUNCOMPLETELOCALIZED 1074223
+QUEST_8_TEXTREFUSELOCALIZED 1074172
+QUEST_8_OBJECTIVEAMOUNT 1
+QUEST_8_OBJECTIVE1_TYPE 1
+QUEST_8_OBJECTIVE1 10 i_shirt_fancy
+QUEST_8_PRIZES 1
+QUEST_8_PRIZETYPE1 1 //item
+QUEST_8_PRIZEID1 tm_questtailorcraftsatchel Craftman's Satchel - Tailoring.
+
+////////////////////////////
+
+QUEST_9_NAMELOCALIZED 1073901 //Hâute Couture
+QUEST_9_TEXTLOCALIZED 1074091 //Quest history
+QUEST_9_TEXTCOMPLETELOCALIZED 1074180
+QUEST_9_TEXTUNCOMPLETELOCALIZED 1073947
+QUEST_9_TEXTREFUSELOCALIZED 1074137
+QUEST_9_OBJECTIVEAMOUNT 1
+QUEST_9_OBJECTIVE1_TYPE 1
+QUEST_9_OBJECTIVE1 10 i_flower_garland
+QUEST_9_PRIZES 1
+QUEST_9_PRIZETYPE1 1 //item
+QUEST_9_PRIZEID1 tm_questtailorcraftsatchel Craftman's Satchel - Tailoring.
+
+////////////////////////////
+
+QUEST_10_NAMELOCALIZED Nakis Krali //The King of Clothing
+QUEST_10_TEXTLOCALIZED 1074092 //Quest history
+QUEST_10_TEXTCOMPLETELOCALIZED 1074226
+QUEST_10_TEXTUNCOMPLETELOCALIZED 1074223
+QUEST_10_TEXTREFUSELOCALIZED 1074172
+QUEST_10_OBJECTIVEAMOUNT 1
+QUEST_10_OBJECTIVE1_TYPE 1
+QUEST_10_OBJECTIVE1 10 i_kilt
+QUEST_10_PRIZES 1
+QUEST_10_PRIZETYPE1 1 //item
+QUEST_10_PRIZEID1 tm_questtailorcraftsatchel Craftman's Satchel - Tailoring.
+
+////////////////////////////
+
+QUEST_11_NAMELOCALIZED Ingenuity //Marifet
+QUEST_11_TEXTLOCALIZED 1074406 //Quest history
+QUEST_11_TEXTCOMPLETELOCALIZED 1074226
+QUEST_11_TEXTUNCOMPLETELOCALIZED 1074509
+QUEST_11_TEXTREFUSELOCALIZED 1074508
+QUEST_11_OBJECTIVEAMOUNT 1
+QUEST_11_OBJECTIVE1_TYPE 1
+QUEST_11_OBJECTIVE1 10 i_power_crystal
+QUEST_11_PRIZES 1
+QUEST_11_PRIZETYPE1 1 //item
+QUEST_11_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_12_NAMELOCALIZED Ayakkabı tabanligi //Arch Support
+QUEST_12_TEXTLOCALIZED 1074118 //Quest history
+QUEST_12_TEXTCOMPLETELOCALIZED 1073969
+QUEST_12_TEXTUNCOMPLETELOCALIZED 1073928
+QUEST_12_TEXTREFUSELOCALIZED 1074287
+QUEST_12_OBJECTIVEAMOUNT 1
+QUEST_12_OBJECTIVE1_TYPE 1
+QUEST_12_OBJECTIVE1 10 i_chair_stool
+QUEST_12_PRIZES 1
+QUEST_12_PRIZETYPE1 1 //item
+QUEST_12_PRIZEID1 tm_questcarpentercraftsatchel Craftman's Satchel - Carpentry.
+
+////////////////////////////
+
+QUEST_13_NAMELOCALIZED Seffaf Dusman//Glassy Foe
+QUEST_13_TEXTLOCALIZED 1074669 //Quest history
+QUEST_13_TEXTCOMPLETELOCALIZED 1074673
+QUEST_13_TEXTUNCOMPLETELOCALIZED 1074672
+QUEST_13_TEXTREFUSELOCALIZED 1074671
+QUEST_13_OBJECTIVEAMOUNT 1
+QUEST_13_OBJECTIVE1_TYPE 2
+QUEST_13_OBJECTIVE1 5 c_crystal_lattice_seeker
+QUEST_13_OBJECTIVE1_LOCATION Prism of Light
+QUEST_13_PRIZES 1
+QUEST_13_PRIZETYPE1 1 //item
+QUEST_13_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_14_NAMELOCALIZED Hayatin Dongusu //Circle of Life
+QUEST_14_TEXTLOCALIZED 1073695 //Quest history
+QUEST_14_TEXTCOMPLETELOCALIZED 1073777
+QUEST_14_TEXTUNCOMPLETELOCALIZED 1073736
+QUEST_14_TEXTREFUSELOCALIZED 1073734
+QUEST_14_OBJECTIVEAMOUNT 1
+QUEST_14_OBJECTIVE1_TYPE 2
+QUEST_14_OBJECTIVE1 8 c_bog_thing
+QUEST_14_PRIZES 1
+QUEST_14_PRIZETYPE1 1 //item
+QUEST_14_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_15_NAMELOCALIZED Toz Duman Icinde //Dust to Dust
+QUEST_15_TEXTLOCALIZED 1073564 //Quest history
+QUEST_15_TEXTCOMPLETELOCALIZED 1073604
+QUEST_15_TEXTUNCOMPLETELOCALIZED 1073584
+QUEST_15_TEXTREFUSELOCALIZED 1073580
+QUEST_15_OBJECTIVEAMOUNT 1
+QUEST_15_OBJECTIVE1_TYPE 2
+QUEST_15_OBJECTIVE1 12 c_elem_earth
+QUEST_15_PRIZES 1
+QUEST_15_PRIZETYPE1 1 //item
+QUEST_15_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_16_NAMELOCALIZED Seslerin icinde kaybolmak //Stop Harping on Me
+QUEST_16_TEXTLOCALIZED Insanlarin sanati cok dikkat cekici. Ornegin , ben bu diyarda cok güzel, melodik bir enstruman duydum.Bir tur harp. Bana biri bu enstrumani inceleme firsati verirse cok minnettar kalacagim. //Quest history
+QUEST_16_TEXTCOMPLETELOCALIZED Boyle bir hos ses hic duymamistim , sana borcumu odeyecegim , bunu almani istiyorum.
+QUEST_16_TEXTUNCOMPLETELOCALIZED Bana Harp getirirsen sana bir borcum olacaktir.
+QUEST_16_TEXTREFUSELOCALIZED 1074172
+QUEST_16_OBJECTIVEAMOUNT 1
+QUEST_16_OBJECTIVE1_TYPE 1
+QUEST_16_OBJECTIVE1 20 i_lyre
+QUEST_16_PRIZES 1
+QUEST_16_PRIZETYPE1 1 //item
+QUEST_16_PRIZEID1 tm_questcarpentercraftsatchel Craftman's Satchel - Carpentry.
+
+////////////////////////////
+
+QUEST_17_NAMELOCALIZED 1073911 //Nothing Fancy
+QUEST_17_TEXTLOCALIZED 1074101 //Quest history
+QUEST_17_TEXTCOMPLETELOCALIZED 1073975
+QUEST_17_TEXTUNCOMPLETELOCALIZED 1073957
+QUEST_17_TEXTREFUSELOCALIZED 1073921
+QUEST_17_OBJECTIVEAMOUNT 1
+QUEST_17_OBJECTIVE1_TYPE 1
+QUEST_17_OBJECTIVE1 15 i_bascinet
+QUEST_17_PRIZES 1
+QUEST_17_PRIZETYPE1 1 //item
+QUEST_17_PRIZEID1 tm_questblacksmithcraftsatchel Craftman's Satchel - Blacksmithing.
+
+////////////////////////////
+
+QUEST_18_NAMELOCALIZED 1073908 //The Far Eye
+QUEST_18_TEXTLOCALIZED 1074098 //Quest history
+QUEST_18_TEXTCOMPLETELOCALIZED 1073979
+QUEST_18_TEXTUNCOMPLETELOCALIZED 1073954
+QUEST_18_TEXTREFUSELOCALIZED 1073921
+QUEST_18_OBJECTIVEAMOUNT 1
+QUEST_18_OBJECTIVE1_TYPE 1
+QUEST_18_OBJECTIVE1 20 i_spyglass
+QUEST_18_PRIZES 1
+QUEST_18_PRIZETYPE1 1 //item
+QUEST_18_PRIZEID1 tm_questtinkercraftsatchel Craftman's Satchel - Tinkering.
+
+////////////////////////////
+
+QUEST_19_NAMELOCALIZED 1073001 //Voracious Plants
+QUEST_19_TEXTLOCALIZED 1073024 //Quest history
+QUEST_19_TEXTCOMPLETELOCALIZED 1074179
+QUEST_19_TEXTUNCOMPLETELOCALIZED 1074201
+QUEST_19_TEXTREFUSELOCALIZED 1073019
+QUEST_19_OBJECTIVEAMOUNT 2
+QUEST_19_OBJECTIVE1_TYPE 2
+QUEST_19_OBJECTIVE1 8 c_corpser
+QUEST_19_OBJECTIVE2_TYPE 2
+QUEST_19_OBJECTIVE2 2 c_m_swamp_tentacles
+QUEST_19_PRIZES 1
+QUEST_19_PRIZETYPE1 1 //item
+QUEST_19_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_20_NAMELOCALIZED 1072989 //Molten Reptiles
+QUEST_20_TEXTLOCALIZED 1073018 //Quest history
+QUEST_20_TEXTCOMPLETELOCALIZED 1074179
+QUEST_20_TEXTUNCOMPLETELOCALIZED 1074201
+QUEST_20_TEXTREFUSELOCALIZED 1073019
+QUEST_20_OBJECTIVEAMOUNT 1
+QUEST_20_OBJECTIVE1_TYPE 2
+QUEST_20_OBJECTIVE1 10 c_m_lava_lizard
+QUEST_20_PRIZES 1
+QUEST_20_PRIZETYPE1 1 //item
+QUEST_20_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_21_NAMELOCALIZED 1073000 //Frightmares
+QUEST_21_TEXTLOCALIZED 1073036 //Quest history
+QUEST_21_TEXTCOMPLETELOCALIZED 1074179
+QUEST_21_TEXTUNCOMPLETELOCALIZED 1074201
+QUEST_21_TEXTREFUSELOCALIZED 1073019
+QUEST_21_OBJECTIVEAMOUNT 1
+QUEST_21_OBJECTIVE1_TYPE 2
+QUEST_21_OBJECTIVE1 10 c_plague_spawn
+QUEST_21_PRIZES 1
+QUEST_21_PRIZETYPE1 1 //item
+QUEST_21_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_22_NAMELOCALIZED Feather'in Kuslari //Birds of a Feather
+QUEST_22_TEXTLOCALIZED Eminim , 10 tane Haryp ... olduremessin! Sanirim bu konu sizi asar, bahse girerim. Sizde itiraf edin yapamayacaginizi... //Quest history
+QUEST_22_TEXTCOMPLETELOCALIZED Yeterince oldurdun. En iyisi kazancini sana vermem ve sana saygilarimi sunmam.
+QUEST_22_TEXTUNCOMPLETELOCALIZED Orda yapilacak isler icin zaman onemli degil !
+QUEST_22_TEXTREFUSELOCALIZED 1073019
+QUEST_22_OBJECTIVEAMOUNT 1
+QUEST_22_OBJECTIVE1_TYPE 2
+QUEST_22_OBJECTIVE1 10 c_harpy
+QUEST_22_PRIZES 1
+QUEST_22_PRIZETYPE1 1 //item
+QUEST_22_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_23_NAMELOCALIZED Urberpitici Orumcekler //Creepy Crawlies
+QUEST_23_TEXTLOCALIZED Igrenc! Killi bacaklarina agda yapmak istiyorum. Ben orumceklerden nefret ederim. Bu dunyadan 12 tane igrenc orumcegi kurtarin ve benden karsiligini alin. //Quest history
+QUEST_23_TEXTCOMPLETELOCALIZED Yeterince oldurdun. En iyisi kazancini sana vermem ve sana saygilarimi sunmam.
+QUEST_23_TEXTUNCOMPLETELOCALIZED Orda yapilacak isler icin zaman onemli degil !
+QUEST_23_TEXTREFUSELOCALIZED 1073019
+QUEST_23_OBJECTIVEAMOUNT 1
+QUEST_23_OBJECTIVE1_TYPE 2
+QUEST_23_OBJECTIVE1 12 c_spider_giant
+QUEST_23_PRIZES 1
+QUEST_23_PRIZETYPE1 1 //item
+QUEST_23_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_24_NAMELOCALIZED 1072997 //Blood Suckers
+QUEST_24_TEXTLOCALIZED 1073025 //Quest history
+QUEST_24_TEXTCOMPLETELOCALIZED 1074179
+QUEST_24_TEXTUNCOMPLETELOCALIZED 1074201
+QUEST_24_TEXTREFUSELOCALIZED 1073019
+QUEST_24_OBJECTIVEAMOUNT 1
+QUEST_24_OBJECTIVE1_TYPE 2
+QUEST_24_OBJECTIVE1 10 c_vampire_bat
+QUEST_24_PRIZES 1
+QUEST_24_PRIZETYPE1 1 //item
+QUEST_24_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_25_NAMELOCALIZED 1073662 //Friendly Neighborhood Spider-killer
+QUEST_25_TEXTLOCALIZED 1073701 //Quest history
+QUEST_25_TEXTCOMPLETELOCALIZED 1073783
+QUEST_25_TEXTUNCOMPLETELOCALIZED 1073742
+QUEST_25_TEXTREFUSELOCALIZED 1073733
+QUEST_25_OBJECTIVEAMOUNT 1
+QUEST_25_OBJECTIVE1_TYPE 2
+QUEST_25_OBJECTIVE1 8 c_dread_spider
+QUEST_25_PRIZES 1
+QUEST_25_PRIZETYPE1 1 //item
+QUEST_25_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_26_NAMELOCALIZED 1073658 //Gargoyle's Wrath
+QUEST_26_TEXTLOCALIZED 1073697 //Quest history
+QUEST_26_TEXTCOMPLETELOCALIZED 1073779
+QUEST_26_TEXTUNCOMPLETELOCALIZED 1073738
+QUEST_26_TEXTREFUSELOCALIZED 1073733
+QUEST_26_OBJECTIVEAMOUNT 1
+QUEST_26_OBJECTIVE1_TYPE 2
+QUEST_26_OBJECTIVE1 6 c_enforcer_gargoyle
+QUEST_26_PRIZES 1
+QUEST_26_PRIZETYPE1 1 //item
+QUEST_26_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_27_NAMELOCALIZED 1073073 //The Afterlife
+QUEST_27_TEXTLOCALIZED 1073563 //Quest history
+QUEST_27_TEXTCOMPLETELOCALIZED 1073603
+QUEST_27_TEXTUNCOMPLETELOCALIZED 1073583
+QUEST_27_TEXTREFUSELOCALIZED 1073580
+QUEST_27_OBJECTIVEAMOUNT 1
+QUEST_27_OBJECTIVE1_TYPE 2
+QUEST_27_OBJECTIVE1 15 c_m_mummy
+QUEST_27_PRIZES 1
+QUEST_27_PRIZETYPE1 1 //item
+QUEST_27_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_28_NAMELOCALIZED 1073087 //Stirring the Nest
+QUEST_28_TEXTLOCALIZED 1073577 //Quest history
+QUEST_28_TEXTCOMPLETELOCALIZED 1073617
+QUEST_28_TEXTUNCOMPLETELOCALIZED 1073597
+QUEST_28_TEXTREFUSELOCALIZED 1073580
+QUEST_28_OBJECTIVEAMOUNT 1
+QUEST_28_OBJECTIVE1_TYPE 2
+QUEST_28_OBJECTIVE1 3 c_fire_ant_queen
+QUEST_28_PRIZES 1
+QUEST_28_PRIZETYPE1 1 //item
+QUEST_28_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_29_NAMELOCALIZED 1073080 //Undead Mages
+QUEST_29_TEXTLOCALIZED 1073570 //Quest history
+QUEST_29_TEXTCOMPLETELOCALIZED 1073610
+QUEST_29_TEXTUNCOMPLETELOCALIZED 1073590
+QUEST_29_TEXTREFUSELOCALIZED 1073580
+QUEST_29_OBJECTIVEAMOUNT 1
+QUEST_29_OBJECTIVE1_TYPE 2
+QUEST_29_OBJECTIVE1 10 c_m_skeleton_mage
+QUEST_29_PRIZES 1
+QUEST_29_PRIZETYPE1 1 //item
+QUEST_29_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_30_NAMELOCALIZED 1073077 //Impish Delights
+QUEST_30_TEXTLOCALIZED 1073567 //Quest history
+QUEST_30_TEXTCOMPLETELOCALIZED 1073607
+QUEST_30_TEXTUNCOMPLETELOCALIZED 1073587
+QUEST_30_TEXTREFUSELOCALIZED 1073580
+QUEST_30_OBJECTIVEAMOUNT 1
+QUEST_30_OBJECTIVE1_TYPE 2
+QUEST_30_OBJECTIVE1 12 c_m_imp
+QUEST_30_PRIZES 1
+QUEST_30_PRIZETYPE1 1 //item
+QUEST_30_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_31_NAMELOCALIZED 1073003 //Mongbat Menace!
+QUEST_31_TEXTLOCALIZED 1073033 //Quest history
+QUEST_31_TEXTCOMPLETELOCALIZED 1073607
+QUEST_31_TEXTUNCOMPLETELOCALIZED 1075383
+QUEST_31_TEXTREFUSELOCALIZED 1073580
+QUEST_31_OBJECTIVEAMOUNT 2
+QUEST_31_OBJECTIVE1_TYPE 2
+QUEST_31_OBJECTIVE1 10 c_m_mongbat_arboreal
+QUEST_31_OBJECTIVE2_TYPE 2
+QUEST_31_OBJECTIVE2 4 c_mongbat
+QUEST_31_PRIZES 1
+QUEST_31_PRIZETYPE1 1 //item
+QUEST_31_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_32_NAMELOCALIZED 1073660 //Three Wishes
+QUEST_32_TEXTLOCALIZED 1073699 //Quest history
+QUEST_32_TEXTCOMPLETELOCALIZED 1073781
+QUEST_32_TEXTUNCOMPLETELOCALIZED 1073740
+QUEST_32_TEXTREFUSELOCALIZED 1073734
+QUEST_32_OBJECTIVEAMOUNT 1
+QUEST_32_OBJECTIVE1_TYPE 2
+QUEST_32_OBJECTIVE1 8 c_m_efreet
+QUEST_32_PRIZES 1
+QUEST_32_PRIZETYPE1 1 //item
+QUEST_32_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_33_NAMELOCALIZED 1073084 //Evil Eye
+QUEST_33_TEXTLOCALIZED 1073574 //Quest history
+QUEST_33_TEXTCOMPLETELOCALIZED 1073614
+QUEST_33_TEXTUNCOMPLETELOCALIZED 1073589
+QUEST_33_TEXTREFUSELOCALIZED 1073580
+QUEST_33_OBJECTIVEAMOUNT 1
+QUEST_33_OBJECTIVE1_TYPE 2
+QUEST_33_OBJECTIVE1 12 c_gazer
+QUEST_33_PRIZES 1
+QUEST_33_PRIZETYPE1 1 //item
+QUEST_33_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_34_NAMELOCALIZED 1073655 //Forked Tongue
+QUEST_34_TEXTLOCALIZED 1073694 //Quest history
+QUEST_34_TEXTCOMPLETELOCALIZED 1073776
+QUEST_34_TEXTUNCOMPLETELOCALIZED 1073735
+QUEST_34_TEXTREFUSELOCALIZED 1073733
+QUEST_34_OBJECTIVEAMOUNT 1
+QUEST_34_OBJECTIVE1_TYPE 2
+QUEST_34_OBJECTIVE1 10 c_m_ophidian_knight
+QUEST_34_PRIZES 1
+QUEST_34_PRIZETYPE1 1 //item
+QUEST_34_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_35_NAMELOCALIZED 1074738 //A Feather in Yer Cap
+QUEST_35_TEXTLOCALIZED 1074737 //Quest history
+QUEST_35_TEXTCOMPLETELOCALIZED 1074734
+QUEST_35_TEXTUNCOMPLETELOCALIZED 1074735
+QUEST_35_TEXTREFUSELOCALIZED 1074736
+QUEST_35_OBJECTIVEAMOUNT 1
+QUEST_35_OBJECTIVE1_TYPE 1
+QUEST_35_OBJECTIVE1 1 i_salivas_feather
+QUEST_35_PRIZES 2
+QUEST_35_PRIZETYPE1 1 //item
+QUEST_35_PRIZEID1 i_salivas_cap Saliva's Cap.
+QUEST_35_PRIZETYPE2 1 //item
+QUEST_35_PRIZEID2 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_36_NAMELOCALIZED 1074726 //A Tale of Tail
+QUEST_36_TEXTLOCALIZED 1074727 //Quest history
+QUEST_36_TEXTCOMPLETELOCALIZED 1074730
+QUEST_36_TEXTUNCOMPLETELOCALIZED 1074729
+QUEST_36_TEXTREFUSELOCALIZED 1074728
+QUEST_36_OBJECTIVEAMOUNT 1
+QUEST_36_OBJECTIVE1_TYPE 1
+QUEST_36_OBJECTIVE1 1 i_abscess_tail
+QUEST_36_PRIZES 1
+QUEST_36_PRIZETYPE1 1 //item
+QUEST_36_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_37_NAMELOCALIZED 1074681 //A Trog and His Dog
+QUEST_37_TEXTLOCALIZED 1074680 //Quest history
+QUEST_37_TEXTCOMPLETELOCALIZED 1074683
+QUEST_37_TEXTUNCOMPLETELOCALIZED 1074682
+QUEST_37_TEXTREFUSELOCALIZED 1074690
+QUEST_37_OBJECTIVEAMOUNT 2
+QUEST_37_OBJECTIVE1_TYPE 2
+QUEST_37_OBJECTIVE1 1 c_lurg
+QUEST_37_OBJECTIVE2_TYPE 2
+QUEST_37_OBJECTIVE2 1 c_grobu
+QUEST_37_PRIZES 1
+QUEST_37_PRIZETYPE1 1 //item
+QUEST_37_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+QUEST_37_ISCHAIN 44;
+
+////////////////////////////
+
+QUEST_38_NAMELOCALIZED Olu Adamlar Yuruyor! //Dead Man Walking
+QUEST_38_TEXTLOCALIZED Nicin sana soruyorum nicin ? Onlar etrafta dolaniyor ve hic kimse bir sey yapamiyor.Bu katlanilmaz bir sey.Hepsinin sonunu getir sana yalvariyorum.Bu gorevi kabul ettiginde sana minnettar kalacagim ve mutlaka sana odeme yapacagim.Sadece 5 er tane zombi ve skeleton oldurmeni istiyorum. //Quest history
+QUEST_38_TEXTCOMPLETELOCALIZED Sana layik degil ama bir sertifica yerine sana bu esyalari vermek daha mantikli.
+QUEST_38_TEXTUNCOMPLETELOCALIZED Görevini tamamla öyle gel yabancı.
+QUEST_38_TEXTREFUSELOCALIZED 1073019
+QUEST_38_OBJECTIVEAMOUNT 2
+QUEST_38_OBJECTIVE1_TYPE 2
+QUEST_38_OBJECTIVE1 5 c_zombie
+QUEST_38_OBJECTIVE2_TYPE 2
+QUEST_38_OBJECTIVE2 5 c_skeleton
+QUEST_38_PRIZES 1
+QUEST_38_PRIZETYPE1 1 //item
+QUEST_38_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_39_NAMELOCALIZED Zorla Goc //Forced Migration
+QUEST_39_TEXTLOCALIZED Civil civil civildamak..La la la.Kanli kuslar ve onlarin lanet olasi burunlari.Herseyi denedim ama asla durmuyorlar.Benim yapamadigim senin yapmani istiyorum sustur bu lanet olasilari lutfen.//Quest history
+QUEST_39_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_39_TEXTUNCOMPLETELOCALIZED Görevini tamamla öyle gel yabancı.
+QUEST_39_TEXTREFUSELOCALIZED Buda senden beklenirdi zaten.Lanet olasi seni.
+QUEST_39_OBJECTIVEAMOUNT 1
+QUEST_39_OBJECTIVE1_TYPE 2
+QUEST_39_OBJECTIVE1 10 c_bird
+QUEST_39_PRIZES 1
+QUEST_39_PRIZETYPE1 1 //item
+QUEST_39_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_40_NAMELOCALIZED Korkunc Bir Meslek //It's a Ghastly Job
+QUEST_40_TEXTLOCALIZED Nicin sana soruyorum nicin ? Onlar etrafta dolaniyor ve hic kimse bir sey yapamiyor.Bu katlanilmaz bir sey.Hepsinin sonunu getir sana yalvariyorum.Bu gorevi kabul ettiginde sana minnettar kalacagim ve mutlaka sana odeme yapacagim.Sadece 12 tane gulyabani oldurmeni istiyorum.. //Quest history
+QUEST_40_TEXTCOMPLETELOCALIZED 1073605
+QUEST_40_TEXTUNCOMPLETELOCALIZED Görevini tamamla öyle gel yabancı.
+QUEST_40_TEXTREFUSELOCALIZED Görevini tamamla öyle gel yabancı.
+QUEST_40_OBJECTIVEAMOUNT 1
+QUEST_40_OBJECTIVE1_TYPE 2
+QUEST_40_OBJECTIVE1 12 c_m_ghoul
+QUEST_40_PRIZES 1
+QUEST_40_PRIZETYPE1 1 //item
+QUEST_40_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_41_NAMELOCALIZED 1072996 //King of Bears
+QUEST_41_TEXTLOCALIZED 1073030 //Quest history
+QUEST_41_TEXTCOMPLETELOCALIZED 1073619
+QUEST_41_TEXTUNCOMPLETELOCALIZED 1073019
+QUEST_41_TEXTREFUSELOCALIZED 1072979
+QUEST_41_OBJECTIVEAMOUNT 1
+QUEST_41_OBJECTIVE1_TYPE 2
+QUEST_41_OBJECTIVE1 10 c_bear_grizzly
+QUEST_41_PRIZES 1
+QUEST_41_PRIZETYPE1 1 //item
+QUEST_41_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_42_NAMELOCALIZED 1073002 //Roll the Bones
+QUEST_42_TEXTLOCALIZED 1073011 //Quest history
+QUEST_42_TEXTCOMPLETELOCALIZED 1073605
+QUEST_42_TEXTUNCOMPLETELOCALIZED 1073019
+QUEST_42_TEXTREFUSELOCALIZED 1073019
+QUEST_42_OBJECTIVEAMOUNT 1
+QUEST_42_OBJECTIVE1_TYPE 2
+QUEST_42_OBJECTIVE1 8 c_patchwork_skeleton
+QUEST_42_PRIZES 1
+QUEST_42_PRIZETYPE1 1 //item
+QUEST_42_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_43_NAMELOCALIZED Ruhlar //Spirits
+QUEST_43_TEXTLOCALIZED Bu cok acikli birsey oluler topraklarin uzerinde yurumekteler. Ruhlarin biz yasadigimiz icin huzursuzolduklarini konusuyor gezginciler. Bir kahramanin cikip onlari mezarlarina olu olarak geri koymasının zamani geldi. Boyle bir kahraman kuskusuz odulunu alicaktir. //Quest history
+QUEST_43_TEXTCOMPLETELOCALIZED Huzursuz ruhlar hala yuruyorlar.Bu nedenle onlardan 15'ini oldurmelisin.
+QUEST_43_TEXTUNCOMPLETELOCALIZED Ruhlar huzura kavustu artik baris var. Lutfen bu is icin kazandigin odulu al.
+QUEST_43_TEXTREFUSELOCALIZED 1073580
+QUEST_43_OBJECTIVEAMOUNT 1
+QUEST_43_OBJECTIVE1_TYPE 2
+QUEST_43_OBJECTIVE1 15 c_spectre
+QUEST_43_PRIZES 1
+QUEST_43_PRIZETYPE1 1 //item
+QUEST_43_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_44_NAMELOCALIZED 1074688 //Troglodytes!
+QUEST_44_TEXTLOCALIZED 1074689 //Quest history
+QUEST_44_TEXTCOMPLETELOCALIZED 1074683
+QUEST_44_TEXTUNCOMPLETELOCALIZED 1074691
+QUEST_44_TEXTREFUSELOCALIZED 1074690
+QUEST_44_OBJECTIVEAMOUNT 1
+QUEST_44_OBJECTIVE1_TYPE 2
+QUEST_44_OBJECTIVE1 12 c_troglodyte
+QUEST_44_PRIZES 1
+QUEST_44_PRIZETYPE1 1 //item
+QUEST_44_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+QUEST_44_CHAIN 37
+
+////////////////////////////
+
+QUEST_45_NAMELOCALIZED 1073075 //Unholy Knights
+QUEST_45_TEXTLOCALIZED 1073565 //Quest history
+QUEST_45_TEXTCOMPLETELOCALIZED 1073605
+QUEST_45_TEXTUNCOMPLETELOCALIZED 1073585
+QUEST_45_TEXTREFUSELOCALIZED 1073580
+QUEST_45_OBJECTIVEAMOUNT 1
+QUEST_45_OBJECTIVE1_TYPE 2
+QUEST_45_OBJECTIVE1 16 c_m_skeleton_knight
+QUEST_45_PRIZES 1
+QUEST_45_PRIZETYPE1 1 //item
+QUEST_45_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_46_NAMELOCALIZED 1073877 //A Simple Bow
+QUEST_46_TEXTLOCALIZED 1074113 //Quest history
+QUEST_46_TEXTCOMPLETELOCALIZED 1073968
+QUEST_46_TEXTUNCOMPLETELOCALIZED 1073923
+QUEST_46_TEXTREFUSELOCALIZED 1073921
+QUEST_46_OBJECTIVEAMOUNT 1
+QUEST_46_OBJECTIVE1_TYPE 1
+QUEST_46_OBJECTIVE1 25 i_bow
+QUEST_46_PRIZES 1
+QUEST_46_PRIZETYPE1 1 //item
+QUEST_46_PRIZEID1 tm_questbowcraftcraftsatchel Craftman's Satchel - Bowcrafting.
+
+////////////////////////////
+
+QUEST_47_NAMELOCALIZED 1073878 //Ingenious Archery, Part I
+QUEST_47_TEXTLOCALIZED 1074114 //Quest history
+QUEST_47_TEXTCOMPLETELOCALIZED 1073968
+QUEST_47_TEXTUNCOMPLETELOCALIZED 1073924
+QUEST_47_TEXTREFUSELOCALIZED 1073921
+QUEST_47_OBJECTIVEAMOUNT 1
+QUEST_47_OBJECTIVE1_TYPE 1
+QUEST_47_OBJECTIVE1 25 i_crossbow
+QUEST_47_PRIZES 1
+QUEST_47_PRIZETYPE1 1 //item
+QUEST_47_PRIZEID1 tm_questbowcraftcraftsatchel Craftman's Satchel - Bowcrafting.
+
+////////////////////////////
+
+QUEST_48_NAMELOCALIZED 1073879 //Ingenious Archery, Part II
+QUEST_48_TEXTLOCALIZED 1074115 //Quest history
+QUEST_48_TEXTCOMPLETELOCALIZED 1073968
+QUEST_48_TEXTUNCOMPLETELOCALIZED 1073925
+QUEST_48_TEXTREFUSELOCALIZED 1073921
+QUEST_48_OBJECTIVEAMOUNT 1
+QUEST_48_OBJECTIVE1_TYPE 1
+QUEST_48_OBJECTIVE1 15 i_crossbow_heavy
+QUEST_48_PRIZES 1
+QUEST_48_PRIZETYPE1 1 //item
+QUEST_48_PRIZEID1 tm_questbowcraftcraftsatchel Craftman's Satchel - Bowcrafting.
+
+////////////////////////////
+
+QUEST_49_NAMELOCALIZED 1073880 //Ingenious Archery, Part III
+QUEST_49_TEXTLOCALIZED 1074116 //Quest history
+QUEST_49_TEXTCOMPLETELOCALIZED 1073968
+QUEST_49_TEXTUNCOMPLETELOCALIZED 1073926
+QUEST_49_TEXTREFUSELOCALIZED 1073921
+QUEST_49_OBJECTIVEAMOUNT 1
+QUEST_49_OBJECTIVE1_TYPE 1
+QUEST_49_OBJECTIVE1 16 i_repeating_crossbow
+QUEST_49_PRIZES 1
+QUEST_49_PRIZETYPE1 1 //item
+QUEST_49_PRIZEID1 tm_questbowcraftcraftsatchel Craftman's Satchel - Bowcrafting.
+
+////////////////////////////
+
+QUEST_50_NAMELOCALIZED 1073876 //Lethal Darts
+QUEST_50_TEXTLOCALIZED 1074112 //Quest history
+QUEST_50_TEXTCOMPLETELOCALIZED 1073973
+QUEST_50_TEXTUNCOMPLETELOCALIZED 1073922
+QUEST_50_TEXTREFUSELOCALIZED 1073921
+QUEST_50_OBJECTIVEAMOUNT 1
+QUEST_50_OBJECTIVE1_TYPE 1
+QUEST_50_OBJECTIVE1 80 i_xbolt
+QUEST_50_PRIZES 1
+QUEST_50_PRIZETYPE1 1 //item
+QUEST_50_PRIZEID1 tm_questbowcraftcraftsatchel Craftman's Satchel - Bowcrafting.
+
+////////////////////////////
+
+QUEST_51_NAMELOCALIZED 1072249 //Thinning the Herd
+QUEST_51_TEXTLOCALIZED 1072263 //Quest history
+QUEST_51_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_51_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_51_TEXTREFUSELOCALIZED 1072270
+QUEST_51_OBJECTIVEAMOUNT 1
+QUEST_51_OBJECTIVE1_TYPE 2
+QUEST_51_OBJECTIVE1 10 c_goat
+QUEST_51_PRIZES 1
+QUEST_51_PRIZETYPE1 1 //item
+QUEST_51_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_52_NAMELOCALIZED 1072999 //Specimens
+QUEST_52_TEXTLOCALIZED 1073032 //Quest history
+QUEST_52_TEXTCOMPLETELOCALIZED 1073613
+QUEST_52_TEXTUNCOMPLETELOCALIZED 1073589
+QUEST_52_TEXTREFUSELOCALIZED 1073580
+QUEST_52_OBJECTIVEAMOUNT 1
+QUEST_52_OBJECTIVE1_TYPE 2
+QUEST_52_OBJECTIVE1 12 c_fire_ant_worker
+QUEST_52_PRIZES 1
+QUEST_52_PRIZETYPE1 1 //item
+QUEST_52_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_53_NAMELOCALIZED 1072998 //Squishy
+QUEST_53_TEXTLOCALIZED 1073031 //Quest history
+QUEST_53_TEXTCOMPLETELOCALIZED 1073603
+QUEST_53_TEXTUNCOMPLETELOCALIZED 1073019
+QUEST_53_TEXTREFUSELOCALIZED 1073734
+QUEST_53_OBJECTIVEAMOUNT 1
+QUEST_53_OBJECTIVE1_TYPE 2
+QUEST_53_OBJECTIVE1 12 c_slime
+QUEST_53_PRIZES 1
+QUEST_53_PRIZETYPE1 1 //item
+QUEST_53_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_54_NAMELOCALIZED 1072988 //A Big Job
+QUEST_54_TEXTLOCALIZED 1073017 //Quest history
+QUEST_54_TEXTCOMPLETELOCALIZED 1073621
+QUEST_54_TEXTUNCOMPLETELOCALIZED 1073019
+QUEST_54_TEXTREFUSELOCALIZED 1072979
+QUEST_54_OBJECTIVEAMOUNT 2
+QUEST_54_OBJECTIVE1_TYPE 2
+QUEST_54_OBJECTIVE1 5 c_ogre
+QUEST_54_OBJECTIVE2_TYPE 2
+QUEST_54_OBJECTIVE2 5 c_ettin
+QUEST_54_PRIZES 1
+QUEST_54_PRIZETYPE1 1 //item
+QUEST_54_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_55_NAMELOCALIZED 1072985 //Trolling for Trolls
+QUEST_55_TEXTLOCALIZED 1073014 //Quest history
+QUEST_55_TEXTCOMPLETELOCALIZED 1046132
+QUEST_55_TEXTUNCOMPLETELOCALIZED 1073019
+QUEST_55_TEXTREFUSELOCALIZED 1072973
+QUEST_55_OBJECTIVEAMOUNT 1
+QUEST_55_OBJECTIVE1_TYPE 2
+QUEST_55_OBJECTIVE1 10 c_troll
+QUEST_55_PRIZES 1
+QUEST_55_PRIZETYPE1 1 //item
+QUEST_55_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_56_NAMELOCALIZED 1072986 //Orc Slaying
+QUEST_56_TEXTLOCALIZED 1073015 //Quest history
+QUEST_56_TEXTCOMPLETELOCALIZED 1073611
+QUEST_56_TEXTUNCOMPLETELOCALIZED 1072668
+QUEST_56_TEXTREFUSELOCALIZED 1072979
+QUEST_56_OBJECTIVEAMOUNT 2
+QUEST_56_OBJECTIVE1_TYPE 2
+QUEST_56_OBJECTIVE1 8 c_orc
+QUEST_56_OBJECTIVE2_TYPE 2
+QUEST_56_OBJECTIVE2 4 c_orc_scout
+QUEST_56_PRIZES 1
+QUEST_56_PRIZETYPE1 1 //item
+QUEST_56_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_57_NAMELOCALIZED 1073673 //Cold Hearted
+QUEST_57_TEXTLOCALIZED 1073027 //Quest history
+QUEST_57_TEXTCOMPLETELOCALIZED 1046132
+QUEST_57_TEXTUNCOMPLETELOCALIZED 1072770
+QUEST_57_TEXTREFUSELOCALIZED 1072973
+QUEST_57_OBJECTIVEAMOUNT 2
+QUEST_57_OBJECTIVE1_TYPE 2
+QUEST_57_OBJECTIVE1 6 c_m_ice_serpent
+QUEST_57_OBJECTIVE2_TYPE 2
+QUEST_57_OBJECTIVE2 6 c_m_frostspider
+QUEST_57_PRIZES 1
+QUEST_57_PRIZETYPE1 1 //item
+QUEST_57_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_58_NAMELOCALIZED 1072984 //Forked Tongues
+QUEST_58_TEXTLOCALIZED 1073013 //Quest history
+QUEST_58_TEXTCOMPLETELOCALIZED 1073601
+QUEST_58_TEXTUNCOMPLETELOCALIZED 1072770
+QUEST_58_TEXTREFUSELOCALIZED 1072667
+QUEST_58_OBJECTIVEAMOUNT 1
+QUEST_58_OBJECTIVE1_TYPE 2
+QUEST_58_OBJECTIVE1 10 c_lizardman
+QUEST_58_PRIZES 1
+QUEST_58_PRIZETYPE1 1 //item
+QUEST_58_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_59_NAMELOCALIZED 1073089 //It's Elemental
+QUEST_59_TEXTLOCALIZED 1073579 //Quest history
+QUEST_59_TEXTCOMPLETELOCALIZED 1073619
+QUEST_59_TEXTUNCOMPLETELOCALIZED 1073599
+QUEST_59_TEXTREFUSELOCALIZED 1073580
+QUEST_59_OBJECTIVEAMOUNT 3
+QUEST_59_OBJECTIVE1_TYPE 2
+QUEST_59_OBJECTIVE1 4 c_elem_fire
+QUEST_59_OBJECTIVE2_TYPE 2
+QUEST_59_OBJECTIVE2 4 c_elem_water
+QUEST_59_OBJECTIVE3_TYPE 2
+QUEST_59_OBJECTIVE3 4 c_elem_earth
+QUEST_59_PRIZES 1
+QUEST_59_PRIZETYPE1 1 //item
+QUEST_59_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_60_NAMELOCALIZED 1073081 //Orcish Elite
+QUEST_60_TEXTLOCALIZED 1073571 //Quest history
+QUEST_60_TEXTCOMPLETELOCALIZED 1073611
+QUEST_60_TEXTUNCOMPLETELOCALIZED 1073591
+QUEST_60_TEXTREFUSELOCALIZED 1073580
+QUEST_60_OBJECTIVEAMOUNT 2
+QUEST_60_OBJECTIVE1_TYPE 2
+QUEST_60_OBJECTIVE1 6 c_orc_bomber
+QUEST_60_OBJECTIVE2_TYPE 2
+QUEST_60_OBJECTIVE2 4 c_m_orc_captain
+QUEST_60_PRIZES 1
+QUEST_60_PRIZETYPE1 1 //item
+QUEST_60_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_61_NAMELOCALIZED 1073078 //Warrior Caste
+QUEST_61_TEXTLOCALIZED 1073568 //Quest history
+QUEST_61_TEXTCOMPLETELOCALIZED 1073608
+QUEST_61_TEXTUNCOMPLETELOCALIZED 1073588
+QUEST_61_TEXTREFUSELOCALIZED 1073580
+QUEST_61_OBJECTIVEAMOUNT 1
+QUEST_61_OBJECTIVE1_TYPE 2
+QUEST_61_OBJECTIVE1 10 c_terathan_warrior
+QUEST_61_PRIZES 1
+QUEST_61_PRIZETYPE1 1 //item
+QUEST_61_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_62_NAMELOCALIZED 1073915 //Dragon Protection
+QUEST_62_TEXTLOCALIZED 1074105 //Quest history
+QUEST_62_TEXTCOMPLETELOCALIZED 1073982
+QUEST_62_TEXTUNCOMPLETELOCALIZED 1073961
+QUEST_62_TEXTREFUSELOCALIZED 1073921
+QUEST_62_OBJECTIVEAMOUNT 1
+QUEST_62_OBJECTIVE1_TYPE 1
+QUEST_62_OBJECTIVE1 10 i_dragon_helm
+QUEST_62_PRIZES 1
+QUEST_62_PRIZETYPE1 1 //item
+QUEST_62_PRIZEID1 tm_questblacksmithcraftsatchel Craftman's Satchel - Blacksmithing.
+
+////////////////////////////
+
+QUEST_63_NAMELOCALIZED 1073913 //Cuts Both Ways
+QUEST_63_TEXTLOCALIZED 1074103 //Quest history
+QUEST_63_TEXTCOMPLETELOCALIZED 1073981
+QUEST_63_TEXTUNCOMPLETELOCALIZED 1073959
+QUEST_63_TEXTREFUSELOCALIZED 1073921
+QUEST_63_OBJECTIVEAMOUNT 1
+QUEST_63_OBJECTIVE1_TYPE 1
+QUEST_63_OBJECTIVE1 10 i_sword_broad
+QUEST_63_PRIZES 1
+QUEST_63_PRIZETYPE1 1 //item
+QUEST_63_PRIZEID1 tm_questblacksmithcraftsatchel Craftman's Satchel - Blacksmithing.
+
+////////////////////////////
+
+QUEST_64_NAMELOCALIZED 1073912 //The Bulwark
+QUEST_64_TEXTLOCALIZED 1074102 //Quest history
+QUEST_64_TEXTCOMPLETELOCALIZED 1073979
+QUEST_64_TEXTUNCOMPLETELOCALIZED 1073958
+QUEST_64_TEXTREFUSELOCALIZED 1073921
+QUEST_64_OBJECTIVEAMOUNT 1
+QUEST_64_OBJECTIVE1_TYPE 1
+QUEST_64_OBJECTIVE1 10 i_shield_heater
+QUEST_64_PRIZES 1
+QUEST_64_PRIZETYPE1 1 //item
+QUEST_64_PRIZEID1 tm_questblacksmithcraftsatchel Craftman's Satchel - Blacksmithing.
+
+////////////////////////////
+
+QUEST_65_NAMELOCALIZED 1074645 //Dreadhorn
+QUEST_65_TEXTLOCALIZED 1074646 //Quest history
+QUEST_65_TEXTCOMPLETELOCALIZED 1074649
+QUEST_65_TEXTUNCOMPLETELOCALIZED 1074648
+QUEST_65_TEXTREFUSELOCALIZED 1074647
+QUEST_65_OBJECTIVEAMOUNT 1
+QUEST_65_OBJECTIVE1_TYPE 2
+QUEST_65_OBJECTIVE1 1 c_peerless_dreadhorn
+QUEST_65_PRIZES 2
+QUEST_65_PRIZETYPE1 1 //item
+QUEST_65_PRIZEID1 tm_queststrongbox A Strongbox.
+QUEST_65_PRIZETYPE2 1 //item
+QUEST_65_PRIZEID2 i_quest48_prize A Festive Cactus.
+
+////////////////////////////
+
+QUEST_66_NAMELOCALIZED 1073061 //Plague Lord
+QUEST_66_TEXTLOCALIZED 1074692 //Quest history
+QUEST_66_TEXTCOMPLETELOCALIZED 1074749
+QUEST_66_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_66_TEXTREFUSELOCALIZED 1074745
+QUEST_66_OBJECTIVEAMOUNT 3
+QUEST_66_OBJECTIVE1_TYPE 2
+QUEST_66_OBJECTIVE1_LOCATION Palace of Paroxysmus
+QUEST_66_OBJECTIVE1 10 c_plague_spawn
+QUEST_66_OBJECTIVE2_TYPE 2
+QUEST_66_OBJECTIVE2_LOCATION Palace of Paroxysmus
+QUEST_66_OBJECTIVE2 3 c_plague_beast
+QUEST_66_OBJECTIVE3_TYPE 2
+QUEST_66_OBJECTIVE3_LOCATION Palace of Paroxysmus
+QUEST_66_OBJECTIVE3 1 c_plague_beast_lord
+QUEST_66_PRIZES 1
+QUEST_66_PRIZETYPE1 1 //item
+QUEST_66_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_67_NAMELOCALIZED 1073069 //Paroxysmus' Daemons
+QUEST_67_TEXTLOCALIZED 1074694 //Quest history
+QUEST_67_TEXTCOMPLETELOCALIZED 1074749
+QUEST_67_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_67_TEXTREFUSELOCALIZED 1074745
+QUEST_67_OBJECTIVEAMOUNT 1
+QUEST_67_OBJECTIVE1_TYPE 2
+QUEST_67_OBJECTIVE1_LOCATION Palace of Paroxysmus
+QUEST_67_OBJECTIVE1 10 c_daemon
+QUEST_67_PRIZES 1
+QUEST_67_PRIZETYPE1 1 //item
+QUEST_67_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_68_NAMELOCALIZED 1073068 //Paroxysmus' Moloch
+QUEST_68_TEXTLOCALIZED 1074695 //Quest history
+QUEST_68_TEXTCOMPLETELOCALIZED 1074749
+QUEST_68_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_68_TEXTREFUSELOCALIZED 1074745
+QUEST_68_OBJECTIVEAMOUNT 1
+QUEST_68_OBJECTIVE1_TYPE 2
+QUEST_68_OBJECTIVE1_LOCATION Palace of Paroxysmus
+QUEST_68_OBJECTIVE1 3 c_fourarmed_daemon
+QUEST_68_PRIZES 1
+QUEST_68_PRIZETYPE1 1 //item
+QUEST_68_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_69_NAMELOCALIZED 1073062 //Caustic Combo
+QUEST_69_TEXTLOCALIZED 1074693 //Quest history
+QUEST_69_TEXTCOMPLETELOCALIZED 1074749
+QUEST_69_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_69_TEXTREFUSELOCALIZED 1074745
+QUEST_69_OBJECTIVEAMOUNT 2
+QUEST_69_OBJECTIVE1_TYPE 2
+QUEST_69_OBJECTIVE1_LOCATION Palace of Paroxysmus
+QUEST_69_OBJECTIVE1 3 c_m_elem_poison
+QUEST_69_OBJECTIVE2_TYPE 2
+QUEST_69_OBJECTIVE2_LOCATION Palace of Paroxysmus
+QUEST_69_OBJECTIVE2 6 c_acid_elemental
+QUEST_69_PRIZES 1
+QUEST_69_PRIZETYPE1 1 //item
+QUEST_69_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_70_NAMELOCALIZED 1073067 //Paroxysmus' Succubi
+QUEST_70_TEXTLOCALIZED 1074696 //Quest history
+QUEST_70_TEXTCOMPLETELOCALIZED 1074749
+QUEST_70_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_70_TEXTREFUSELOCALIZED 1074745
+QUEST_70_OBJECTIVEAMOUNT 1
+QUEST_70_OBJECTIVE1_TYPE 2
+QUEST_70_OBJECTIVE1_LOCATION Palace of Paroxysmus
+QUEST_70_OBJECTIVE1 3 c_succubus
+QUEST_70_PRIZES 1
+QUEST_70_PRIZETYPE1 1 //item
+QUEST_70_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_71_NAMELOCALIZED 1073070 //Paroxysmus' Arcane Daemons
+QUEST_71_TEXTLOCALIZED 1074697 //Quest history
+QUEST_71_TEXTCOMPLETELOCALIZED 1074749
+QUEST_71_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_71_TEXTREFUSELOCALIZED 1074745
+QUEST_71_OBJECTIVEAMOUNT 1
+QUEST_71_OBJECTIVE1_TYPE 2
+QUEST_71_OBJECTIVE1_LOCATION Palace of Paroxysmus
+QUEST_71_OBJECTIVE1 10 c_arcane_daemon
+QUEST_71_PRIZES 1
+QUEST_71_PRIZETYPE1 1 //item
+QUEST_71_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_72_NAMELOCALIZED 1073057 //Hailstorm
+QUEST_72_TEXTLOCALIZED 1074670 //Quest history
+QUEST_72_TEXTCOMPLETELOCALIZED 1074673
+QUEST_72_TEXTUNCOMPLETELOCALIZED 1074672
+QUEST_72_TEXTREFUSELOCALIZED 1074671
+QUEST_72_OBJECTIVEAMOUNT 1
+QUEST_72_OBJECTIVE1_TYPE 2
+QUEST_72_OBJECTIVE1_LOCATION Prism of Light
+QUEST_72_OBJECTIVE1 8 c_crystal_vortice
+QUEST_72_PRIZES 1
+QUEST_72_PRIZETYPE1 1 //item
+QUEST_72_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_73_NAMELOCALIZED 1073050 //How Many Heads?
+QUEST_73_TEXTLOCALIZED 1074674 //Quest history
+QUEST_73_TEXTCOMPLETELOCALIZED 1074673
+QUEST_73_TEXTUNCOMPLETELOCALIZED 1074672
+QUEST_73_TEXTREFUSELOCALIZED 1074671
+QUEST_73_OBJECTIVEAMOUNT 1
+QUEST_73_OBJECTIVE1_TYPE 2
+QUEST_73_OBJECTIVE1_LOCATION Prism of Light
+QUEST_73_OBJECTIVE1 3 c_crystal_hydra
+QUEST_73_PRIZES 1
+QUEST_73_PRIZETYPE1 1 //item
+QUEST_73_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_74_NAMELOCALIZED 1073053 //Daemonic Prism
+QUEST_74_TEXTLOCALIZED 1074668 //Quest history
+QUEST_74_TEXTCOMPLETELOCALIZED 1074673
+QUEST_74_TEXTUNCOMPLETELOCALIZED 1074672
+QUEST_74_TEXTREFUSELOCALIZED 1074671
+QUEST_74_OBJECTIVEAMOUNT 1
+QUEST_74_OBJECTIVE1_TYPE 2
+QUEST_74_OBJECTIVE1_LOCATION Prism of Light
+QUEST_74_OBJECTIVE1 3 c_crystal_daemon
+QUEST_74_PRIZES 1
+QUEST_74_PRIZETYPE1 1 //item
+QUEST_74_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_75_NAMELOCALIZED 1073048 //All That Glitters is Not Good
+QUEST_75_TEXTLOCALIZED 1074654 //Quest history
+QUEST_75_TEXTCOMPLETELOCALIZED 1074657
+QUEST_75_TEXTUNCOMPLETELOCALIZED 1074656
+QUEST_75_TEXTREFUSELOCALIZED 1074655
+QUEST_75_OBJECTIVEAMOUNT 1
+QUEST_75_OBJECTIVE1_TYPE 2
+QUEST_75_OBJECTIVE1_LOCATION Prism of Light
+QUEST_75_OBJECTIVE1 1 c_peerless_shimmering_effusion
+QUEST_75_PRIZES 1
+QUEST_75_PRIZETYPE1 1 //item
+QUEST_75_PRIZEID1 tm_queststrongbox A Strongbox.
+
+////////////////////////////
+
+QUEST_76_NAMELOCALIZED 1073083 //Shaking Things Up
+QUEST_76_TEXTLOCALIZED 1073573 //Quest history
+QUEST_76_TEXTCOMPLETELOCALIZED 1073613
+QUEST_76_TEXTUNCOMPLETELOCALIZED 1073593
+QUEST_76_TEXTREFUSELOCALIZED 1073580
+QUEST_76_OBJECTIVEAMOUNT 1
+QUEST_76_OBJECTIVE1_TYPE 2
+QUEST_76_OBJECTIVE1 10 c_fire_ant_warrior
+QUEST_76_PRIZES 1
+QUEST_76_PRIZETYPE1 1 //item
+QUEST_76_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_77_NAMELOCALIZED 1072990 //Animated Monstrosity
+QUEST_77_TEXTLOCALIZED 1073020 //Quest history
+QUEST_77_TEXTCOMPLETELOCALIZED 1074179
+QUEST_77_TEXTUNCOMPLETELOCALIZED 1074201
+QUEST_77_TEXTREFUSELOCALIZED 1073019
+QUEST_77_OBJECTIVEAMOUNT 1
+QUEST_77_OBJECTIVE1_TYPE 2
+QUEST_77_OBJECTIVE1 12 c_flesh_golem
+QUEST_77_PRIZES 1
+QUEST_77_PRIZETYPE1 1 //item
+QUEST_77_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+
+QUEST_78_NAMELOCALIZED 1073079 //Arachnophobia
+QUEST_78_TEXTLOCALIZED 1073016 //Quest history
+QUEST_78_TEXTCOMPLETELOCALIZED 1074179
+QUEST_78_TEXTUNCOMPLETELOCALIZED 1074201
+QUEST_78_TEXTREFUSELOCALIZED 1073019
+QUEST_78_OBJECTIVEAMOUNT 1
+QUEST_78_OBJECTIVE1_TYPE 2
+QUEST_78_OBJECTIVE1 12 c_spider_lord
+QUEST_78_PRIZES 1
+QUEST_78_PRIZETYPE1 1 //item
+QUEST_78_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_79_NAMELOCALIZED 1073072 //Mini Swamp Thing
+QUEST_79_TEXTLOCALIZED 1073562 //Quest history
+QUEST_79_TEXTCOMPLETELOCALIZED 1073602
+QUEST_79_TEXTUNCOMPLETELOCALIZED 1073582
+QUEST_79_TEXTREFUSELOCALIZED 1073580
+QUEST_79_OBJECTIVEAMOUNT 1
+QUEST_79_OBJECTIVE1_TYPE 2
+QUEST_79_OBJECTIVE1 20 c_bogling
+QUEST_79_PRIZES 1
+QUEST_79_PRIZETYPE1 1 //item
+QUEST_79_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+////////////////////////////
+
+QUEST_80_NAMELOCALIZED 1072247 //Bullfighting ... Sort Of
+QUEST_80_TEXTLOCALIZED 1072254 //Quest history
+QUEST_80_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_80_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_80_TEXTREFUSELOCALIZED 1072270
+QUEST_80_OBJECTIVEAMOUNT 1
+QUEST_80_OBJECTIVE1_TYPE 2
+QUEST_80_OBJECTIVE1 10 c_bull_brown_dk
+QUEST_80_PRIZES 1
+QUEST_80_PRIZETYPE1 1 //item
+QUEST_80_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_81_NAMELOCALIZED 1072245 //Wild Boar Cull
+QUEST_81_TEXTLOCALIZED 1072260 //Quest history
+QUEST_81_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_81_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_81_TEXTREFUSELOCALIZED 1072270
+QUEST_81_OBJECTIVEAMOUNT 1
+QUEST_81_OBJECTIVE1_TYPE 2
+QUEST_81_OBJECTIVE1 10 c_pig_big
+QUEST_81_PRIZES 1
+QUEST_81_PRIZETYPE1 1 //item
+QUEST_81_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_82_NAMELOCALIZED 1072242 //Filthy Pests!
+QUEST_82_TEXTLOCALIZED 1072253 //Quest history
+QUEST_82_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_82_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_82_TEXTREFUSELOCALIZED 1072270
+QUEST_82_OBJECTIVEAMOUNT 1
+QUEST_82_OBJECTIVE1_TYPE 2
+QUEST_82_OBJECTIVE1 10 c_a_rat_sewer
+QUEST_82_PRIZES 1
+QUEST_82_PRIZETYPE1 1 //item
+QUEST_82_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_83_NAMELOCALIZED 1072251 //No Good, Fish Stealing ...
+QUEST_83_TEXTLOCALIZED 1072265 //Quest history
+QUEST_83_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_83_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_83_TEXTREFUSELOCALIZED 1072270
+QUEST_83_OBJECTIVEAMOUNT 1
+QUEST_83_OBJECTIVE1_TYPE 2
+QUEST_83_OBJECTIVE1 10 c_walrus
+QUEST_83_PRIZES 1
+QUEST_83_PRIZETYPE1 1 //item
+QUEST_83_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_84_NAMELOCALIZED 1072243 //A Fine Feast.
+QUEST_84_TEXTLOCALIZED 1072261 //Quest history
+QUEST_84_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_84_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_84_TEXTREFUSELOCALIZED 1072270
+QUEST_84_OBJECTIVEAMOUNT 1
+QUEST_84_OBJECTIVE1_TYPE 2
+QUEST_84_OBJECTIVE1 10 c_sheep_woolly
+QUEST_84_PRIZES 1
+QUEST_84_PRIZETYPE1 1 //item
+QUEST_84_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+QUEST_85_NAMELOCALIZED 1072248 //They'll Eat Anything
+QUEST_85_TEXTLOCALIZED 1072262 //Quest history
+QUEST_85_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_85_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_85_TEXTREFUSELOCALIZED 1072270
+QUEST_85_OBJECTIVEAMOUNT 1
+QUEST_85_OBJECTIVE1_TYPE 2
+QUEST_85_OBJECTIVE1 10 c_pig
+QUEST_85_PRIZES 1
+QUEST_85_PRIZETYPE1 1 //item
+QUEST_85_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+////////////////////////////
+
+///Chain
+QUEST_86_NAMELOCALIZED Beggar'in Durustlugu //Honest Beggar
+QUEST_86_TEXTLOCALIZED Pardon rahatsız ettim efendim.Size bir ricada bulu nabilirmiyim ? Bir tane yuzuk buldum.Bir cok insan bunu bulsa gider satardi degerli oldugundan dolayi ancak ben asla bulunan ve calinan seyleri kullanmam ve satmam.Bunu Britain kalesine goturmeyi denedim ancak korumalar beni iceriye almadilar.Bu kesinlikle bir Lady ye ait olmali.Siz oradan gece bilir gibi gorunuyorsunuz.Eger sahibini gorurseniz bu yuzunu ona verir misiniz ?//Quest history
+QUEST_86_TEXTCOMPLETELOCALIZED Benim yuzugumumu buldunuz.Cok tesekkur ederim size.Bu cok eski bir yuzuktur.Babamdan kalan son hediye.Kayboldugunda cok fazla uzulmustum.Size minnetimi sunmak isterim.
+QUEST_86_TEXTUNCOMPLETELOCALIZED Bu taki cok degerli olmali.Hemde cok.Kesinlikle unlu birisine ait.Britain kalesinde olmali sahibi.
+QUEST_86_TEXTREFUSELOCALIZED 1075395
+QUEST_86_OBJECTIVEAMOUNT 1
+QUEST_86_OBJECTIVE1_TYPE 3
+QUEST_86_OBJECTIVE1 1 i_ring_quest86
+QUEST_86_OBJECTIVE1_RECEIVER Regina The Noble
+QUEST_86_PRIZES 1
+QUEST_86_PRIZETYPE1 2 //nothing
+QUEST_86_PRIZEID1 0 Regina's Letter.
+QUEST_86_CHAIN 87
+
+////////////////////////////
+
+QUEST_87_NAMELOCALIZED Regina'nin Minneti //Regina’s Thanks
+QUEST_87_TEXTLOCALIZED Soylediginiz seye gercekten inanamadim.Nasil iyi yurekli bir insan yuzugu vermek ister ve iceri alinmaz gercekten cok kotu hissediyorum.Cok onurluca bir davranis bu.Minnetimi bu yuzugu asil bulan kisiye sunmami saglarmisiniz.Ona bir mektubum var. //Quest history
+QUEST_87_TEXTCOMPLETELOCALIZED Ne Ne..Benim icin bir mektubmu bir bakayim.Inanamiyorum Layd bana is teklifi yapti.Cok tesekkur ederim.Verecegim sey sana ugur getirsin.
+QUEST_87_TEXTUNCOMPLETELOCALIZED Bu mektubu alip yuzugu bulan kisiye goturun.
+QUEST_87_TEXTREFUSELOCALIZED Hmm.Genede tesekkurler.Yuzugu bulan kisinin ismi ne demistiniz ?
+QUEST_87_OBJECTIVEAMOUNT 1
+QUEST_87_OBJECTIVE1_TYPE 3
+QUEST_87_OBJECTIVE1 1 i_packet_quest87
+QUEST_87_OBJECTIVE1_RECEIVER Evan The Beggar
+QUEST_87_PRIZES 1
+QUEST_87_PRIZETYPE1 1 //nothing
+QUEST_87_PRIZEID1 i_transparent_heart Transparent Heart.
+QUEST_87_ISCHAIN 86;
+//End Chain
+
+////////////////////////////
+
+///Chain
+QUEST_88_NAMELOCALIZED Olmeyen Hatiralar//Unfading Memories
+QUEST_88_TEXTLOCALIZED 1075356 //Quest history
+QUEST_88_TEXTCOMPLETELOCALIZED 1075360
+QUEST_88_TEXTUNCOMPLETELOCALIZED 1075359
+QUEST_88_TEXTREFUSELOCALIZED 1075358
+QUEST_88_OBJECTIVEAMOUNT 1
+QUEST_88_OBJECTIVE1_TYPE 1
+QUEST_88_OBJECTIVE1 1 i_prismatic_amber
+QUEST_88_PRIZES 1
+QUEST_88_PRIZETYPE1 2 //nothing
+QUEST_88_PRIZEID1 0 Portrait of the Bride.
+QUEST_88_CHAIN 89
+
+QUEST_89_NAMELOCALIZED Olmeyen Hatiralar //Olmeyen Hatiralar
+QUEST_89_TEXTLOCALIZED 1075368 //Quest history
+QUEST_89_TEXTCOMPLETELOCALIZED 1075372
+QUEST_89_TEXTUNCOMPLETELOCALIZED 1075371
+QUEST_89_TEXTREFUSELOCALIZED 1075370
+QUEST_89_OBJECTIVEAMOUNT 1
+QUEST_89_OBJECTIVE1_TYPE 3
+QUEST_89_OBJECTIVE1 1 i_portrait_of_the_bride_quest89
+QUEST_89_OBJECTIVE1_RECEIVER Thalia The Bride
+QUEST_89_PRIZES 1
+QUEST_89_PRIZETYPE1 2 //nothing
+QUEST_89_PRIZEID1 0 The Artist’s gratitude.
+QUEST_89_CHAIN 90
+QUEST_89_ISCHAIN 88;
+
+QUEST_90_NAMELOCALIZED Olmeyen Hatiralar //Olmeyen Hatiralar
+QUEST_90_TEXTLOCALIZED 1075374 //Quest history
+QUEST_90_TEXTCOMPLETELOCALIZED 1075378
+QUEST_90_TEXTUNCOMPLETELOCALIZED 1075377
+QUEST_90_TEXTREFUSELOCALIZED 1075376
+QUEST_90_OBJECTIVEAMOUNT 1
+QUEST_90_OBJECTIVE1_TYPE 3
+QUEST_90_OBJECTIVE1 1 i_emilio_letter_quest90
+QUEST_90_OBJECTIVE1_RECEIVER Emilio The Tortured Artist
+QUEST_90_PRIZES 1
+QUEST_90_PRIZETYPE1 1 //item
+QUEST_90_PRIZEID1 i_bleach Bleach.
+QUEST_90_ISCHAIN 88;89;
+//End Chain
+
+QUEST_91_NAMELOCALIZED Asiri Nufus //Overpopulation
+QUEST_91_TEXTLOCALIZED 1072267 //Quest history
+QUEST_91_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_91_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_91_TEXTREFUSELOCALIZED 1072270
+QUEST_91_OBJECTIVEAMOUNT 1
+QUEST_91_OBJECTIVE1_TYPE 2
+QUEST_91_OBJECTIVE1 10 c_doe
+QUEST_91_PRIZES 1
+QUEST_91_PRIZETYPE1 1 //item
+QUEST_91_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+///Chain
+QUEST_92_NAMELOCALIZED Eski Dunya //The Ancient World
+QUEST_92_TEXTLOCALIZED 1074535 //Quest history
+QUEST_92_TEXTCOMPLETELOCALIZED 1074542
+QUEST_92_TEXTUNCOMPLETELOCALIZED 1074539
+QUEST_92_TEXTREFUSELOCALIZED 1074538
+QUEST_92_OBJECTIVEAMOUNT 1
+QUEST_92_OBJECTIVE1_TYPE 1
+QUEST_92_OBJECTIVE1 1 i_map_fragment
+QUEST_92_PRIZES 1
+QUEST_92_PRIZETYPE1 2 //nothing
+QUEST_92_PRIZEID1 0 Knowledge of the Legenday Minotaur.
+QUEST_92_CHAIN 93
+
+QUEST_93_NAMELOCALIZED Altin Boynuz //The Golden Horn
+QUEST_93_TEXTLOCALIZED 1074545 //Quest history
+QUEST_93_TEXTCOMPLETELOCALIZED 1074549
+QUEST_93_TEXTUNCOMPLETELOCALIZED 1074547
+QUEST_93_TEXTREFUSELOCALIZED 1074538
+QUEST_93_OBJECTIVEAMOUNT 1
+QUEST_93_OBJECTIVE1_TYPE 3
+QUEST_93_OBJECTIVE1 1 i_map_fragment
+QUEST_93_OBJECTIVE1_RECEIVER Braen The Thaumaturgist
+QUEST_93_PRIZES 1
+QUEST_93_PRIZETYPE1 2 //nothing
+QUEST_93_PRIZEID1 0 Knowledge of the Legenday Minotaur.
+QUEST_93_CHAIN 94
+QUEST_93_ISCHAIN 92;
+
+QUEST_94_NAMELOCALIZED 1074550 //Bullish
+QUEST_94_TEXTLOCALIZED 1074553 //Quest history
+QUEST_94_TEXTCOMPLETELOCALIZED 1074556
+QUEST_94_TEXTUNCOMPLETELOCALIZED 1074555
+QUEST_94_TEXTREFUSELOCALIZED 1074554
+QUEST_94_OBJECTIVEAMOUNT 1
+QUEST_94_OBJECTIVE1_TYPE 1
+QUEST_94_OBJECTIVE1 20 i_gaman_horns
+QUEST_94_PRIZES 1
+QUEST_94_PRIZETYPE1 2 //nothing
+QUEST_94_PRIZEID1 0 Knowledge of the Legenday Minotaur.
+QUEST_94_CHAIN 95
+QUEST_94_ISCHAIN 92;93;
+
+QUEST_95_NAMELOCALIZED 1074823 //Lost Civilization
+QUEST_95_TEXTLOCALIZED 1074825 //Quest history
+QUEST_95_TEXTCOMPLETELOCALIZED 1074829
+QUEST_95_TEXTUNCOMPLETELOCALIZED 1074828
+QUEST_95_TEXTREFUSELOCALIZED 1074827
+QUEST_95_OBJECTIVEAMOUNT 1
+QUEST_95_OBJECTIVE1_TYPE 1
+QUEST_95_OBJECTIVE1 3 i_minotaur_vase
+QUEST_95_PRIZES 2
+QUEST_95_PRIZETYPE1 1 //item
+QUEST_95_PRIZEID1 tm_questlargebagtreasure A Large bag of Treasure.
+QUEST_95_PRIZETYPE2 3 //function
+QUEST_95_PRIZEID2 TAG.ALLOWEDINLABYRINTH=1 Entrance allowed at any time in Labyrinth.
+QUEST_95_ISCHAIN 92;93;94;
+
+///End of chain
+////////////////////////////
+
+QUEST_96_NAMELOCALIZED 1073907 //Tick Tock
+QUEST_96_TEXTLOCALIZED 1074097 //Quest history
+QUEST_96_TEXTCOMPLETELOCALIZED 1073984
+QUEST_96_TEXTUNCOMPLETELOCALIZED 1073953
+QUEST_96_TEXTREFUSELOCALIZED 1073921
+QUEST_96_OBJECTIVEAMOUNT 1
+QUEST_96_OBJECTIVE1_TYPE 1
+QUEST_96_OBJECTIVE1 10 i_clock
+QUEST_96_PRIZES 1
+QUEST_96_PRIZETYPE1 1 //item
+QUEST_96_PRIZEID1 tm_questtinkercraftsatchel Craftman's Satchel - Tinkering.
+
+////////////////////////////
+
+QUEST_97_NAMELOCALIZED 1074280 //Reptilian Dentist
+QUEST_97_TEXTLOCALIZED 1074710 //Quest history
+QUEST_97_TEXTCOMPLETELOCALIZED 1074721
+QUEST_97_TEXTUNCOMPLETELOCALIZED 1074722
+QUEST_97_TEXTREFUSELOCALIZED 1074723
+QUEST_97_OBJECTIVEAMOUNT 1
+QUEST_97_OBJECTIVE1_TYPE 1
+QUEST_97_OBJECTIVE1 1 i_coil_fang
+QUEST_97_PRIZES 2
+QUEST_97_PRIZETYPE1 1 //item
+QUEST_97_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+QUEST_97_PRIZETYPE2 1 //item
+QUEST_97_PRIZEID2 i_dragon_tunic A dragon tunic.
+
+////////////////////////////
+
+QUEST_98_NAMELOCALIZED 1073906 //Necessity's Mother
+QUEST_98_TEXTLOCALIZED 1074096 //Quest history
+QUEST_98_TEXTCOMPLETELOCALIZED 1073973
+QUEST_98_TEXTUNCOMPLETELOCALIZED 1073952
+QUEST_98_TEXTREFUSELOCALIZED 1073921
+QUEST_98_OBJECTIVEAMOUNT 1
+QUEST_98_OBJECTIVE1_TYPE 1
+QUEST_98_OBJECTIVE1 10 i_tinker_tools
+QUEST_98_PRIZES 1
+QUEST_98_PRIZETYPE1 1 //item
+QUEST_98_PRIZEID1 tm_questtinkercraftsatchel Craftman's Satchel - Tinkering.
+
+////////////////////////////
+
+QUEST_99_NAMELOCALIZED 1073894 //Message in a bottle
+QUEST_99_TEXTLOCALIZED 1074084 //Quest history
+QUEST_99_TEXTCOMPLETELOCALIZED 1073973
+QUEST_99_TEXTUNCOMPLETELOCALIZED 1073940
+QUEST_99_TEXTREFUSELOCALIZED 1073921
+QUEST_99_OBJECTIVEAMOUNT 1
+QUEST_99_OBJECTIVE1_TYPE 1
+QUEST_99_OBJECTIVE1 50 i_bottle_empty
+QUEST_99_PRIZES 1
+QUEST_99_PRIZETYPE1 1 //item
+QUEST_99_PRIZEID1 tm_questtinkercraftsatchel Craftman's Satchel - Tinkering.
+
+////////////////////////////
+
+QUEST_100_NAMELOCALIZED 1073910 //The Song of the Wind
+QUEST_100_TEXTLOCALIZED 1074100 //Quest history
+QUEST_100_TEXTCOMPLETELOCALIZED 1073974
+QUEST_100_TEXTUNCOMPLETELOCALIZED 1073956
+QUEST_100_TEXTREFUSELOCALIZED 1073921
+QUEST_100_OBJECTIVEAMOUNT 1
+QUEST_100_OBJECTIVE1_TYPE 1
+QUEST_100_OBJECTIVE1 10 02832
+QUEST_100_PRIZES 1
+QUEST_100_PRIZETYPE1 1 //item
+QUEST_100_PRIZEID1 tm_questtinkercraftsatchel Craftman's Satchel - Carpentry.
+
+////////////////////////////
+
+QUEST_101_NAMELOCALIZED 1073895 //Beer Goggles
+QUEST_101_TEXTLOCALIZED 1074131 //Quest history
+QUEST_101_TEXTCOMPLETELOCALIZED 1073976
+QUEST_101_TEXTUNCOMPLETELOCALIZED 1073941
+QUEST_101_TEXTREFUSELOCALIZED 1073921
+QUEST_101_OBJECTIVEAMOUNT 1
+QUEST_101_OBJECTIVE1_TYPE 1
+QUEST_101_OBJECTIVE1 25 i_barrel_tap
+QUEST_101_PRIZES 1
+QUEST_101_PRIZETYPE1 1 //item
+QUEST_101_PRIZEID1 tm_questtinkercraftsatchel Craftman's Satchel - Tinkering.
+
+////////////////////////////
+
+QUEST_102_NAMELOCALIZED 1073665 //Industrious as an Ant Lion
+QUEST_102_TEXTLOCALIZED 1073704 //Quest history
+QUEST_102_TEXTCOMPLETELOCALIZED 1073786
+QUEST_102_TEXTUNCOMPLETELOCALIZED 1073745
+QUEST_102_TEXTREFUSELOCALIZED 1073734
+QUEST_102_OBJECTIVEAMOUNT 1
+QUEST_102_OBJECTIVE1_TYPE 2
+QUEST_102_OBJECTIVE1 12 c_ant_lion
+QUEST_102_PRIZES 1
+QUEST_102_PRIZETYPE1 1 //item
+QUEST_102_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_103_NAMELOCALIZED 1073663 //A Chill in the Air
+QUEST_103_TEXTLOCALIZED 1073702 //Quest history
+QUEST_103_TEXTCOMPLETELOCALIZED 1073784
+QUEST_103_TEXTUNCOMPLETELOCALIZED 1073743
+QUEST_103_TEXTREFUSELOCALIZED 1073733
+QUEST_103_OBJECTIVEAMOUNT 1
+QUEST_103_OBJECTIVE1_TYPE 2
+QUEST_103_OBJECTIVE1 15 c_m_elem_ice
+QUEST_103_PRIZES 1
+QUEST_103_PRIZETYPE1 1 //item
+QUEST_103_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+////////////////////////////
+
+QUEST_104_NAMELOCALIZED 1073082 //Common Brigands
+QUEST_104_TEXTLOCALIZED 1073572 //Quest history
+QUEST_104_TEXTCOMPLETELOCALIZED 1073612
+QUEST_104_TEXTUNCOMPLETELOCALIZED 1073592
+QUEST_104_TEXTREFUSELOCALIZED 1073580
+QUEST_104_OBJECTIVEAMOUNT 1
+QUEST_104_OBJECTIVE1_TYPE 2
+QUEST_104_OBJECTIVE1 20 c_h_brigand
+QUEST_104_OBJECTIVE1_LOCATION Malas
+QUEST_104_PRIZES 1
+QUEST_104_PRIZETYPE1 1 //item
+QUEST_104_PRIZEID1 tm_questbagtreasure A bag of treasure.
+
+////////////////////////////
+/////////////
+QUEST_105_NAMELOCALIZED 1075321 //Aemaeth
+QUEST_105_TEXTLOCALIZED 1075322 //Quest history
+QUEST_105_TEXTCOMPLETELOCALIZED 1075326
+QUEST_105_TEXTUNCOMPLETELOCALIZED 1075325
+QUEST_105_TEXTREFUSELOCALIZED 1075324
+QUEST_105_OBJECTIVEAMOUNT 1
+QUEST_105_OBJECTIVE1_TYPE 3
+QUEST_105_OBJECTIVE1 1 i_mirror_purification
+QUEST_105_OBJECTIVE1_RECEIVER Skeleton Of Szandor
+QUEST_105_PRIZES 1
+QUEST_105_PRIZETYPE1 2 //nothing
+QUEST_105_PRIZEID1 0 Aurelia's gratitude.
+QUEST_105_CHAIN 106
+
+QUEST_106_NAMELOCALIZED 1075327 //Aemaeth
+QUEST_106_TEXTLOCALIZED 1075328 //Quest history
+QUEST_106_TEXTCOMPLETELOCALIZED 1075332
+QUEST_106_TEXTUNCOMPLETELOCALIZED 1075331
+QUEST_106_TEXTREFUSELOCALIZED 1075330
+QUEST_106_OBJECTIVEAMOUNT 1
+QUEST_106_OBJECTIVE1_TYPE 3
+QUEST_106_OBJECTIVE1 1 i_mirror_purification
+QUEST_106_OBJECTIVE1_RECEIVER Aurelia The Architects Daughter
+QUEST_106_PRIZES 1
+QUEST_106_PRIZETYPE1 1 //item
+QUEST_106_PRIZEID1 i_mirror_purification_blessed Mirror of Purification.
+QUEST_106_ISCHAIN 105;
+////End of chain
+
+QUEST_107_NAMELOCALIZED 1074444 //Wonders of the Natural World
+QUEST_107_TEXTLOCALIZED 1074445 //Quest history
+QUEST_107_TEXTCOMPLETELOCALIZED 1074448
+QUEST_107_TEXTUNCOMPLETELOCALIZED 1074447
+QUEST_107_TEXTREFUSELOCALIZED 1074446
+QUEST_107_OBJECTIVEAMOUNT 1
+QUEST_107_OBJECTIVE1_TYPE 1
+QUEST_107_OBJECTIVE1 10000 i_gold
+QUEST_107_PRIZES 1
+QUEST_107_PRIZETYPE1 3 //function
+QUEST_107_PRIZEID1 startprismticketcountdown Prism of Light admission ticket.
+
+////////////////////////////
+////////////
+QUEST_108_NAMELOCALIZED Covetous'un Hayaleti //A Ghost of Covetous
+QUEST_108_TEXTLOCALIZED Ne ? Afedeersin korkuttun beni.Birazcik zipladim.Efendim Griswolf bana hayaletlere nasil karsi koycagimi ogretti bana.Beni hayalet yakalamak icin oraya gonderdi fakat ben gorevimi iyi yaptim ama o beni cok zorladi, isin gercegi eger kendini yeterince cesaretli buluyorsan ve korkmuoyrsan benim yapamadigimi sen denemelisin.Spirit bottle verecegim sana bu onu yakalamani saglar.Eminimki benim efendim seni odullendircek bu hizmetinden dolayi.Bu gorece varmisin ? //Quest history
+QUEST_108_TEXTCOMPLETELOCALIZED 1075291
+QUEST_108_TEXTUNCOMPLETELOCALIZED Hayaleti Covetous Dungeonda bulabilirsin.
+QUEST_108_TEXTREFUSELOCALIZED Tamam sorun yok.Anliyorum seni emin olki herkesin bunu kabul etmesi zordur biraz.Cok fazla cesaret gerekir bunu yapmasi icin.
+QUEST_108_OBJECTIVEAMOUNT 1
+QUEST_108_OBJECTIVE1_TYPE 3
+QUEST_108_OBJECTIVE1 1 i_spirit_bottle
+QUEST_108_OBJECTIVE1_RECEIVER Frederic The Ghost
+QUEST_108_PRIZES 1
+QUEST_108_PRIZETYPE1 2 //nothing
+QUEST_108_PRIZEID1 0 Odul.
+QUEST_108_CHAIN 109
+
+QUEST_109_NAMELOCALIZED Babasinin Hayatinini kurtar ! //Save His Dad
+QUEST_109_TEXTLOCALIZED [ Spirit bottle kullanmayi denediginiz icin , hayalet icine hapsedilcek ve sizin ellerinizde olcak.Sakin paniklemeyin.Sizin yardiminiza ihtiyacim var. //Quest history
+QUEST_109_TEXTCOMPLETELOCALIZED Babam,Andros bir madencidir Minocta.Gecen hafta maden yakarken bir alevlenme oldu ve acilar icinde kivranarak yandi.Vesperde onu tedavi etcek bir Alchemist var ancak ona gereken Silk Of Dread Spider i ulastirmam gerekiyor ancak bini artik yapamam caresizim.Hayalet beni lanetledi ve zehirlendim artik bende bir oluyum.Bu sana son gozukusum lutfen babam icin yardim et ediceksin degil mi ?
+QUEST_109_TEXTUNCOMPLETELOCALIZED Tesekkur ederim.Vesperda ki Leon The Alchemist'e verdigim silk crumblesi gotur.Ben oldugumde cok fazla zamanin olcak.Fakat babam her an olebilir acele et.
+QUEST_109_TEXTREFUSELOCALIZED Demek hic acima duygun yoktu buraya kadar geldin ama geri doneklik ettin gercekten yanlis kisiye guvenmisiz.Yaziklar olsun.
+QUEST_109_OBJECTIVEAMOUNT 1
+QUEST_109_OBJECTIVE1_TYPE 3
+QUEST_109_OBJECTIVE1 1 i_silk_of_dread_spider
+QUEST_109_OBJECTIVE1_RECEIVER Leon the Alchemist
+QUEST_109_OBJECTIVE1_TIME 7200
+QUEST_109_PRIZES 1
+QUEST_109_PRIZETYPE1 2 //nothing
+QUEST_109_PRIZEID1 0 Frederics Gratitude.
+QUEST_109_CHAIN 110
+QUEST_109_ISCHAIN 108;
+
+QUEST_110_NAMELOCALIZED Babasinin hayatini kurtar //Save His Dad
+QUEST_110_TEXTLOCALIZED Nasil yardimci olabilirim.Siz silk of a dread spider'e sahipsiniz.Tabikide ben size bandaj yapabilirim.Fakat Frederic'e ne oldu ? //Quest history
+QUEST_110_TEXTCOMPLETELOCALIZED Andros daha ne kadar dayanir bilemem.Yapabildiginin en hizlisini yap ve hizli bir sekilde ulas ona.Mondain'inin ruhu yaninda olsun bol sanslar.
+QUEST_110_TEXTUNCOMPLETELOCALIZED Bu cok acikli.Once Andros sonra oglu kahretsin.Fakat fredericin taktir edilir baba sevgisi sayesinde onu kurtarabilirsin.Sen benden daha hizli Minoc'a bunu goturebilirsin degil mi ?.Ben biraz yaslandim malesef.
+QUEST_110_TEXTREFUSELOCALIZED 1075346
+QUEST_110_OBJECTIVEAMOUNT 1
+QUEST_110_OBJECTIVE1_TYPE 3
+QUEST_110_OBJECTIVE1 1 i_leon_special_bandage
+QUEST_110_OBJECTIVE1_RECEIVER Andros The Blacksmith
+QUEST_110_PRIZES 1
+QUEST_110_PRIZETYPE1 1 //item
+QUEST_110_PRIZEID1 i_father_gratitude Andros Gratitude.
+QUEST_110_ISCHAIN 108;109;
+//////End of chain
+///////////////////////////////
+
+QUEST_111_NAMELOCALIZED Okculuk Aski//Split Ends
+QUEST_111_TEXTLOCALIZED Dusunun.Bir oku hazir bulmakla kendin yapmak arasinda nasil bir fark olabilir.Ben bir avciyim ve dogada avlanmaya asigim.Yanliz elimde gereken malzemem kalmadigi icin ok yapamiyorum.Senden bana 200 tane ok bulup getirmeni rica edecegim.Bunu kabul edermisin ?//Quest history
+QUEST_111_TEXTCOMPLETELOCALIZED Cok tesekkur ederim sana bir hediye sunmak istiyorum.Bu verecegim bir ok yapim omuz alet cantasi cok isine yarayacagina eminim.
+QUEST_111_TEXTUNCOMPLETELOCALIZED Hersey yolunda sanirim degil mi ? Oklari buldugun zaman bana geri gel.
+QUEST_111_TEXTREFUSELOCALIZED Hmm demek avlanmayi degersiz buluyorsun.Ne yazik.
+QUEST_111_OBJECTIVEAMOUNT 1
+QUEST_111_OBJECTIVE1_TYPE 1
+QUEST_111_OBJECTIVE1 200 i_arrow
+QUEST_111_PRIZES 1
+QUEST_111_PRIZETYPE1 1 //item
+QUEST_111_PRIZEID1 tm_questbowcraftcraftsatchel Craftsman's Satchel - Bowcrafting.
+
+///////////////////////////////
+
+QUEST_112_NAMELOCALIZED Zamaninda Elbise Dikis//A Stitch in Time
+QUEST_112_TEXTLOCALIZED Ah keske fantazi elbiselerinin icinde olsam tipki Britian kalesindeki Lady'lerin giydikleri tarzda.Fazlasinda gozum yok.Elimde param var.Bunun anlami yani bende fantazi danslarina katilabilirim.Bu benim tek istedigm.Simdi sana nasil bana bir tane yapacagini anlatayim.Tek ihtiyacin olan tailordan bir tane sewing kit almak ve yeterli kumas bulmak.Sadece bukadar. //Quest history
+QUEST_112_TEXTCOMPLETELOCALIZED 1075528
+QUEST_112_TEXTUNCOMPLETELOCALIZED Oysa oraya gitmeyi cok istemistim :( Elbisem olmadigi icin gidemeyecegim.
+QUEST_112_TEXTREFUSELOCALIZED Cok uzuldum baskasini insallah bulurum 
+QUEST_112_OBJECTIVEAMOUNT 1
+QUEST_112_OBJECTIVE1_TYPE 1
+QUEST_112_OBJECTIVE1 1 i_dress_full
+QUEST_112_PRIZES 2
+QUEST_112_PRIZETYPE1 1 //item
+QUEST_112_PRIZEID1 i_old_ring An old ring.
+QUEST_112_PRIZETYPE2 1 //item
+QUEST_112_PRIZEID2 i_old_necklace An old necklace.
+
+///////////////////////////////
+
+QUEST_113_NAMELOCALIZED Dovulmus Kalkanlar//Battered Bucklers
+QUEST_113_TEXTLOCALIZED Hey oradaki.Eger madenlerle ugrasiyorsan bir baki ver bana.Ben bir kalkan saticisiyim elimde yeterince kalkan kalmadi.Eger dusunursen 10 tane Buckler kalkan yapip getirebilirsin.Her zaman karsiligi layiliyla vermisimdir...//Quest history
+QUEST_113_TEXTCOMPLETELOCALIZED 1075516
+QUEST_113_TEXTUNCOMPLETELOCALIZED Hadi ama yapma bole altu ustu 10 tane kalkan yapicaksin.Amma nazliymissin be !
+QUEST_113_TEXTREFUSELOCALIZED Hmm anliyorum zaten sende o tip yoktu.
+QUEST_113_OBJECTIVEAMOUNT 1
+QUEST_113_OBJECTIVE1_TYPE 1
+QUEST_113_OBJECTIVE1 10 i_shield_buckler
+QUEST_113_PRIZES 1
+QUEST_113_PRIZETYPE1 1 //item
+QUEST_113_PRIZEID1 tm_questblacksmithcraftsatchel Craftsman's Satchel - Blacksmithing.
+
+///////////////////////////////
+
+QUEST_114_NAMELOCALIZED Kes Kes Odunlari, Cift Olsun! //Chop Chop, On The Double!
+QUEST_114_TEXTLOCALIZED Bu dogru, hareketlen biraz. 60 adet taze kesilmis oduna ihtiyacim var! Bana hizli bisekilde tedarik edilmesi lazim. Odunlari getirmeden odemeyi asla yapmam,once gidip ormanda biraz cam kokusu alman lazim. Sadece keskin bir baltaya ve yetenege ihtiyacin var, daha sonra uzak topraklara gidip odun cikartabilirsin. //Quest history
+QUEST_114_TEXTCOMPLETELOCALIZED Aferin! Sana bu cantayi hazirladim. Bunu al, gayretini taktir ediyorum ve sana bol sanslar diliyorum.
+QUEST_114_TEXTUNCOMPLETELOCALIZED Evvet iste gorevini biliyorsun 60 tane log kes yada bul getir nasıl yaparsan yap ama bir an once getir islerim dolu.Hem bu senin icin bir pratik aslinda elin odun kesmeye alissin.
+QUEST_114_TEXTREFUSELOCALIZED Zaten eline balta yakisacagini hic dusunmuyordum.Baskasini bulmam gerekecek.Yol al !
+QUEST_114_OBJECTIVEAMOUNT 1
+QUEST_114_OBJECTIVE1_TYPE 1
+QUEST_114_OBJECTIVE1 60 i_log
+QUEST_114_PRIZES 1
+QUEST_114_PRIZETYPE1 1 //item
+QUEST_114_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+//////////////////////////////
+QUEST_500_NAMELOCALIZED Cok ama Cok odun Lazim! //Chop Chop, On The Double!
+QUEST_500_TEXTLOCALIZED Bu dogru, hareketlen biraz. 350 adet taze kesilmis oduna ihtiyacim var! Bana hizli bisekilde tedarik edilmesi lazim. Odunlari getirmeden odemeyi asla yapmam,once gidip ormanda biraz cam kokusu alman lazim. Sadece keskin bir baltaya ve yetenege ihtiyacin var, daha sonra uzak topraklara gidip odun cikartabilirsin. //Quest history
+QUEST_500_TEXTCOMPLETELOCALIZED Aferin! Sana bu cantayi hazirladim. Bunu al, gayretini taktir ediyorum ve sana bol sanslar diliyorum.
+QUEST_500_TEXTUNCOMPLETELOCALIZED Evvet iste gorevini biliyorsun 350 tane log kes yada bul getir nasıl yaparsan yap ama bir an once getir islerim dolu.Hem bu senin icin bir pratik aslinda elin odun kesmeye alissin.
+QUEST_500_TEXTREFUSELOCALIZED Zaten eline balta yakisacagini hic dusunmuyordum.Baskasini bulmam gerekecek.Yol al !
+QUEST_500_OBJECTIVEAMOUNT 1
+QUEST_500_OBJECTIVE1_TYPE 1
+QUEST_500_OBJECTIVE1 350 i_log
+QUEST_500_PRIZES 1
+QUEST_500_PRIZETYPE1 1 //item
+QUEST_500_PRIZEID1 tm_goldverlen Para Odulu
+
+///////////////////////////////
+
+QUEST_115_NAMELOCALIZED Havanin icine bir ok attim. //I Shot an Arrow Into the Air...
+QUEST_115_TEXTLOCALIZED Gercekleri soylemekle yapmak arasinda fark vardir.Bir oku hissederek atmakla hissetmeden atmak arasinda cok fark vardir.Eger 10 tane koyunu oldurursen bence bu taktir edilebilir bir basari olacaktir.Vendordan bir bow ve arrowlarini alin ve oldurdukten sonra geri bana gelin.  //Quest history
+QUEST_115_TEXTCOMPLETELOCALIZED Tebrikler.Sana bunun icin bir poset hazirladim.Hadi al.
+QUEST_115_TEXTUNCOMPLETELOCALIZED 10 tane sheep oldurdukten sonra gel.Daha bitmedi.
+QUEST_115_TEXTREFUSELOCALIZED Hmm.Demek boyle olduk.
+QUEST_115_OBJECTIVEAMOUNT 1
+QUEST_115_OBJECTIVE1_TYPE 2
+QUEST_115_OBJECTIVE1 10 c_sheep_woolly
+QUEST_115_PRIZES 1
+QUEST_115_PRIZETYPE1 1 //item
+QUEST_115_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+///////////////////////////////
+
+QUEST_116_NAMELOCALIZED Kalem Kilictan Keskindir. //The Pen is Mightier
+QUEST_116_TEXTLOCALIZED Inscription hakkinda herhangi bir sey biliyormusun ? Ben ve bazi arkadaslarimla birlikte buyu parsomenleri hazirliyoruz.Fakat genede yardima ihtiyacimiz var.Parsomen kalemim olmadigi icin Recall parsomeni yazamiyorum.Senden bana 50 adet Recall Scroll yapip yada bulup getirmeni istiyorum. //Quest history
+QUEST_116_TEXTCOMPLETELOCALIZED Tesekkur ederim.Lutfen hakkin olan seyi al.
+QUEST_116_TEXTUNCOMPLETELOCALIZED Hmm.Anliyorum belki baska bir zaman ilgilenirsin.Senin buyu kitabi yapman her gun gorebilecegin bir sey degil ama bu deneyimi yasamak istemiyor gibi gorunuyorsun..
+QUEST_116_TEXTREFUSELOCALIZED 1075546
+QUEST_116_OBJECTIVEAMOUNT 1
+QUEST_116_OBJECTIVE1_TYPE 1
+QUEST_116_OBJECTIVE1 50 i_scroll_recall
+QUEST_116_PRIZES 1
+QUEST_116_PRIZETYPE1 1 //item
+QUEST_116_PRIZEID1 i_runebook 1 Adet Rune Book.
+
+///////////////////////////////
+
+QUEST_11611_NAMELOCALIZED Buyu Bir Sanattir. //The Pen is Mightier
+QUEST_11611_TEXTLOCALIZED Sanirim buyulere bir merakin var degil mi ? Ozaman dogru yerdesin. Benim senin gibi bir ciraga ihtiyacim var.Suan yeni bir buyu uzerinde calismaktayim fakat bu buyulu sozleri yazabilmem icin buyulu parsomenlere ihyacim var. Eger bana 5 adet +3 upgrade scroll getirebilirsen sana Full Spell Book verecegim. Bol sanslar! //Quest history
+QUEST_11611_TEXTCOMPLETELOCALIZED Tesekkur ederim.Lutfen hakkin olan seyi al.
+QUEST_11611_TEXTUNCOMPLETELOCALIZED Hmm.Anliyorum belki baska bir zaman ilgilenirsin.Senin buyu kitabi yapman her gun gorebilecegin bir sey degil ama bu deneyimi yasamak istemiyor gibi gorunuyorsun..
+QUEST_11611_TEXTREFUSELOCALIZED 1075546
+QUEST_11611_OBJECTIVEAMOUNT 1
+QUEST_11611_OBJECTIVE1_TYPE 1
+QUEST_11611_OBJECTIVE1 5 i_upgrade_scroll3
+QUEST_11611_PRIZES 1
+QUEST_11611_PRIZETYPE1 1 //item
+QUEST_11611_PRIZEID1 i_full_spellbook 1 Adet Full Spell Book.
+
+////////////////////////////////////
+
+QUEST_117_NAMELOCALIZED Fazla Ore Lutfen //More Ore Please
+QUEST_117_TEXTLOCALIZED Pickaxe'niz var mi ? Tedarikcim gec kaldi biraz iron ore'ye ihtiyacim var.Toptan is aldim ve zamaninda teslim etmem gerekiyor.Aceba siz bana 50 tane iron ore tedarik edebilir misiniz ? Ileride maden var kopruyu gecince lutfen geregini yaparim size iyi bir bedel odeyecegim. //Quest history
+QUEST_117_TEXTCOMPLETELOCALIZED 50 tane oreyi tamamlamis gozukuyorsun.Mukemmelsin adamim.Sana verecegim sey ileride isini gorebilir.Hadi kal saglıcakla.
+QUEST_117_TEXTUNCOMPLETELOCALIZED Hmm.Daha fazla oreye ihtiyacimiz var hadi pes etmeyin.
+QUEST_117_TEXTREFUSELOCALIZED Yapma be ! Cok ihtiyacim var toplu siparis aldim diyorum.Neyse yuru git ya bir daha gozum gormesin seni !
+QUEST_117_OBJECTIVEAMOUNT 1
+QUEST_117_OBJECTIVE1_TYPE 1
+QUEST_117_OBJECTIVE1 50 i_ore_iron
+QUEST_117_PRIZES 1
+QUEST_117_PRIZETYPE1 1 //item
+QUEST_117_PRIZEID1 tm_questminingcraftsatchel Craftsman's Satchel - Mining.
+
+///////////////////////////////
+
+QUEST_118_NAMELOCALIZED Kacmak ve Yorgunluk//Flee and Fatigue
+QUEST_118_TEXTLOCALIZED Merhaba dostum.Senden 10 tane Refresh potion istiyorum.Tek ihtiyacim olan sey onlar.Sadece hatirlaman gereken tek sey mortal ve pestle yi bos siselerle birlikte cantan black pearl varken kullanmak.//Quest history
+QUEST_118_TEXTCOMPLETELOCALIZED 1075491
+QUEST_118_TEXTUNCOMPLETELOCALIZED 10 tane reflesh potionu yapmamissin hala !
+QUEST_118_TEXTREFUSELOCALIZED Sen benden beter ciktin ustad.
+QUEST_118_OBJECTIVEAMOUNT 1
+QUEST_118_OBJECTIVE1_TYPE 1
+QUEST_118_OBJECTIVE1 10 i_potion_refresh
+QUEST_118_PRIZES 1
+QUEST_118_PRIZETYPE1 1 //item
+QUEST_118_PRIZEID1 tm_questalchemycraftsatchel Craftsman's Satchel - Alchemy.
+
+///////////////////////////////
+
+QUEST_119_NAMELOCALIZED 1074739 //Guile, Irk and Spite
+QUEST_119_TEXTLOCALIZED 1074740 //Quest history
+QUEST_119_TEXTCOMPLETELOCALIZED 1074747
+QUEST_119_TEXTUNCOMPLETELOCALIZED 1074746
+QUEST_119_TEXTREFUSELOCALIZED 1074745
+QUEST_119_OBJECTIVEAMOUNT 3
+QUEST_119_OBJECTIVE1_TYPE 2
+QUEST_119_OBJECTIVE1 1 c_guile
+QUEST_119_OBJECTIVE2_TYPE 2
+QUEST_119_OBJECTIVE2 1 c_irk
+QUEST_119_OBJECTIVE3_TYPE 2
+QUEST_119_OBJECTIVE3 1 c_spite
+QUEST_119_PRIZES 1
+QUEST_119_PRIZETYPE1 1 //item
+QUEST_119_PRIZEID1 tm_queststrongbox A strongbox.
+
+///////////////////////////////
+
+QUEST_120_NAMELOCALIZED 1072246 //A Hero in the Making
+QUEST_120_TEXTLOCALIZED 1072257 //Quest history
+QUEST_120_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_120_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_120_TEXTREFUSELOCALIZED 1072270
+QUEST_120_OBJECTIVEAMOUNT 1
+QUEST_120_OBJECTIVE1_TYPE 2
+QUEST_120_OBJECTIVE1 10 c_mongbat
+QUEST_120_PRIZES 1
+QUEST_120_PRIZETYPE1 1 //item
+QUEST_120_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+///////////////////////////////
+
+QUEST_121_NAMELOCALIZED 1072244 //They're Breeding Like Rabbits
+QUEST_121_TEXTLOCALIZED 1072259 //Quest history
+QUEST_121_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_121_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_121_TEXTREFUSELOCALIZED 1072270
+QUEST_121_OBJECTIVEAMOUNT 1
+QUEST_121_OBJECTIVE1_TYPE 2
+QUEST_121_OBJECTIVE1 10 c_rabbit
+QUEST_121_PRIZES 1
+QUEST_121_PRIZETYPE1 1 //item
+QUEST_121_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+///////////////////////////////
+
+QUEST_122_NAMELOCALIZED 1073071 //Something to Wail About
+QUEST_122_TEXTLOCALIZED 1073561 //Quest history
+QUEST_122_TEXTCOMPLETELOCALIZED 1073601
+QUEST_122_TEXTUNCOMPLETELOCALIZED 1073581
+QUEST_122_TEXTREFUSELOCALIZED 1073580
+QUEST_122_OBJECTIVEAMOUNT 1
+QUEST_122_OBJECTIVE1_TYPE 2
+QUEST_122_OBJECTIVE1 12 c_wailing_banshee
+QUEST_122_PRIZES 1
+QUEST_122_PRIZETYPE1 1 //item
+QUEST_122_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+///////////////////////////////
+
+QUEST_123_NAMELOCALIZED 1072993 //Runaways!
+QUEST_123_TEXTLOCALIZED 1073026 //Quest history
+QUEST_123_TEXTCOMPLETELOCALIZED 1075485
+QUEST_123_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_123_TEXTREFUSELOCALIZED 1072270
+QUEST_123_OBJECTIVEAMOUNT 1
+QUEST_123_OBJECTIVE1_TYPE 2
+QUEST_123_OBJECTIVE1 12 c_ostard_zostrich
+QUEST_123_PRIZES 1
+QUEST_123_PRIZETYPE1 1 //item
+QUEST_123_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+///////////////////////////////
+
+QUEST_124_NAMELOCALIZED 1072994 //Vicious Predator
+QUEST_124_TEXTLOCALIZED 1073028 //Quest history
+QUEST_124_TEXTCOMPLETELOCALIZED 1075485
+QUEST_124_TEXTUNCOMPLETELOCALIZED 1072271
+QUEST_124_TEXTREFUSELOCALIZED 1072270
+QUEST_124_OBJECTIVEAMOUNT 1
+QUEST_124_OBJECTIVE1_TYPE 2
+QUEST_124_OBJECTIVE1 10 c_a_direwolf
+QUEST_124_PRIZES 1
+QUEST_124_PRIZETYPE1 1 //item
+QUEST_124_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+///////////////////////////////
+
+QUEST_125_NAMELOCALIZED 1075361 //Gentle Blade
+QUEST_125_TEXTLOCALIZED 1075362 //Quest history
+QUEST_125_TEXTCOMPLETELOCALIZED 1075366
+QUEST_125_TEXTUNCOMPLETELOCALIZED 1075365
+QUEST_125_TEXTREFUSELOCALIZED 1075364
+QUEST_125_ITEMTOGIVE 1
+QUEST_125_ITEMTOGIVE1 i_wolf_slayer_dagger
+QUEST_125_OBJECTIVEAMOUNT 1
+QUEST_125_OBJECTIVE1_TYPE 2
+QUEST_125_OBJECTIVE1 1 c_werewolf_bride
+QUEST_125_PRIZES 2
+QUEST_125_PRIZETYPE1 3 //function
+QUEST_125_PRIZEID1 quest125setwolfslayerdagger Misericord.
+QUEST_125_PRIZETYPE2 1 //item
+QUEST_125_PRIZEID2 tm_questbagtreasure A bag of treasure.
+
+///////////////////////////////
+
+QUEST_126_NAMELOCALIZED 1073049 //In the Belly of the Beast
+QUEST_126_TEXTLOCALIZED 1074658 //Quest history
+QUEST_126_TEXTCOMPLETELOCALIZED 1074661
+QUEST_126_TEXTUNCOMPLETELOCALIZED 1074660
+QUEST_126_TEXTREFUSELOCALIZED 1074659
+QUEST_126_OBJECTIVEAMOUNT 1
+QUEST_126_OBJECTIVE1_TYPE 1
+QUEST_126_OBJECTIVE1 1 i_lucky_dagger
+QUEST_126_PRIZES 1
+QUEST_126_PRIZETYPE1 1 //item
+QUEST_126_PRIZEID1 tm_questbagtrinketssmall Bir kese dolusu altin.
+
+///////////////////////////////
+
+QUEST_127_NAMELOCALIZED 1050025 //The Summoning
+QUEST_127_TEXTLOCALIZED 1050020 //Quest history
+QUEST_127_TEXTCOMPLETELOCALIZED 1050029
+QUEST_127_TEXTUNCOMPLETELOCALIZED 1050027
+QUEST_127_TEXTREFUSELOCALIZED 1074642
+QUEST_127_OBJECTIVEAMOUNT 1
+QUEST_127_OBJECTIVE1_TYPE 1
+QUEST_127_OBJECTIVE1 1000 i_reag_daemon_bone
+QUEST_127_PRIZES 1
+QUEST_127_PRIZETYPE1 3 //function
+QUEST_127_PRIZEID1 DOOMSUMMONBONEDAEMON Summoning of the devourer.
+
+//////////////Begin Chain/////////////////
+
+QUEST_128_NAMELOCALIZED Cleasing the Corruption //Cleasing the Corruption
+QUEST_128_TEXTLOCALIZED Hello young one! For centuries I have been living in these Woods, but now some fould Corruption is taking place here, trees are dieing and I can't help them. Please young child, bring me some vials of these Corrupted Waters, so we can try and find the source of this! //Quest history
+QUEST_128_TEXTCOMPLETELOCALIZED Well done child, let me have those vials...
+QUEST_128_TEXTUNCOMPLETELOCALIZED Please, be swift, the Woods haven't got much time!
+QUEST_128_TEXTREFUSELOCALIZED No one cares about the Woods these days...
+QUEST_128_OBJECTIVEAMOUNT 1
+QUEST_128_OBJECTIVE1_TYPE 1
+QUEST_128_OBJECTIVE1 2 i_corrupted_water
+QUEST_128_PRIZES 1
+QUEST_128_PRIZETYPE1 2 //nothing
+QUEST_128_PRIZEID1 0 Treefolks thanks.
+QUEST_128_CHAIN 129
+
+QUEST_129_NAMELOCALIZED Understanding the Corruption //Cleasing the Corruption
+QUEST_129_TEXTLOCALIZED Young One, I've checked these Corrupted Water vials you brought me and I can't believe what I have found out, but before I tell you, I must send these vials to a Great Ancient friend of the Woods, for only she might know the truth for certain!
+QUEST_129_TEXTCOMPLETELOCALIZED What is this, why do you bother me mortal?
+QUEST_129_TEXTUNCOMPLETELOCALIZED Go now, she awaits you southeast of here.
+QUEST_129_TEXTREFUSELOCALIZED Oh no, don't give up on the trees now...
+QUEST_129_OBJECTIVEAMOUNT 1
+QUEST_129_OBJECTIVE1_TYPE 3
+QUEST_129_OBJECTIVE1 1 i_corrupted_water_check
+QUEST_129_OBJECTIVE1_RECEIVER Anathiel the Great Forest Spirit
+QUEST_129_PRIZES 1
+QUEST_129_PRIZETYPE1 2 //nothing
+QUEST_129_PRIZEID1 0 Treefolks thanks.
+QUEST_129_ISCHAIN 128;
+QUEST_129_CHAIN 130
+
+QUEST_130_NAMELOCALIZED Spirits of Old //Cleasing the Corruption
+QUEST_130_TEXTLOCALIZED Ohhh... I haven't sensed this kind of magic in mileniums! This kind of desease can only be the work of Deldrimor, Spirit of Desease. You are indeed living in dark times mortal, he could only have been summoned by the same forces who opened the gateway to The Heartwood, go now and speak with Treebeard, he'll tell you what to do now.
+QUEST_130_TEXTCOMPLETELOCALIZED I must ask your halp for one last task young one...
+QUEST_130_TEXTUNCOMPLETELOCALIZED He lies northwest of here, in the entrance to the Blighted Grove.
+QUEST_130_TEXTREFUSELOCALIZED I knew some weakling mortal like yourself would never help the great spirits of Old!
+QUEST_130_OBJECTIVEAMOUNT 1
+QUEST_130_OBJECTIVE1_TYPE 3
+QUEST_130_OBJECTIVE1 1 i_corrupted_water_check
+QUEST_130_OBJECTIVE1_RECEIVER Treebeard
+QUEST_130_PRIZES 1
+QUEST_130_PRIZETYPE1 3 //function
+QUEST_130_PRIZEID1 f_fightdeldrimor Fight Deldrimor.
+QUEST_130_ISCHAIN 128;129;
+
+////////End Chain///////////
+
+///////////////////////////////
+
+QUEST_131_NAMELOCALIZED 1074349 //Embracing Humanity
+QUEST_131_TEXTLOCALIZED 1074405 //Quest history
+QUEST_131_TEXTCOMPLETELOCALIZED 1074410
+QUEST_131_TEXTUNCOMPLETELOCALIZED Seek Sledge the Versatile and learn about human ingenuity and creativity.  Seek Patricus and demonstrate your integrity and strength. Seek out a human in need and prove your worth as a defender of humanity.  Seek Belulah in Nu'Jelm and heartily challenge the elements in a display of toughness to rival any human.
+QUEST_131_TEXTREFUSELOCALIZED 1074411
+QUEST_131_OBJECTIVEAMOUNT 3
+QUEST_131_OBJECTIVE1_TYPE 1
+QUEST_131_OBJECTIVE1 1 i_proof_strength
+QUEST_131_OBJECTIVE2_TYPE 1
+QUEST_131_OBJECTIVE2 1 i_proof_humanity
+QUEST_131_OBJECTIVE3_TYPE 1
+QUEST_131_OBJECTIVE3 1 i_proof_toughness
+QUEST_131_PRIZES 1
+QUEST_131_PRIZETYPE1 3 //function
+QUEST_131_PRIZEID1 F_HERITAGE_HUMAN Human transformation.
+
+///////////////////////////////
+
+QUEST_132_NAMELOCALIZED 1074351 //Heave Ho!
+QUEST_132_TEXTLOCALIZED 1074519 //Quest history
+QUEST_132_TEXTCOMPLETELOCALIZED 1074523
+QUEST_132_TEXTUNCOMPLETELOCALIZED 1074522
+QUEST_132_TEXTREFUSELOCALIZED 1074521
+QUEST_132_OBJECTIVEAMOUNT 1
+QUEST_132_OBJECTIVE1_TYPE 3
+QUEST_132_OBJECTIVE1 1 i_crate_small_sledge
+QUEST_132_OBJECTIVE1_TIME 3600
+QUEST_132_OBJECTIVE1_RECEIVER Sledge the Versatile
+QUEST_132_PRIZES 1
+QUEST_132_PRIZETYPE1 3 //function
+QUEST_132_PRIZEID1 F_HERITAGE_HUMAN_STRENGTH Proof of Strength.
+
+///////////////////////////////
+
+QUEST_133_NAMELOCALIZED 1074353 //All Season Adventurer
+QUEST_133_TEXTLOCALIZED 1074527 //Quest history
+QUEST_133_TEXTCOMPLETELOCALIZED 1074530
+QUEST_133_TEXTUNCOMPLETELOCALIZED 1074529
+QUEST_133_TEXTREFUSELOCALIZED 1074528
+QUEST_133_OBJECTIVEAMOUNT 2
+QUEST_133_OBJECTIVE1_TYPE 2
+QUEST_133_OBJECTIVE1 5 c_m_efreet
+QUEST_133_OBJECTIVE1_LOCATION Fire Dungeon Level 1
+QUEST_133_OBJECTIVE2_TYPE 2
+QUEST_133_OBJECTIVE2 5 c_m_icefiend
+QUEST_133_OBJECTIVE2_LOCATION Ice Dungeon Level 1
+QUEST_133_PRIZES 1
+QUEST_133_PRIZETYPE1 3 //function
+QUEST_133_PRIZEID1 F_HERITAGE_HUMAN_TOUGHNESS Proof of Toughness.
+
+///////////////////////////////
+
+QUEST_134_NAMELOCALIZED 1074352 //Responsibility
+QUEST_134_TEXTLOCALIZED 1074524 //Quest history
+QUEST_134_TEXTCOMPLETELOCALIZED 1074525
+QUEST_134_TEXTUNCOMPLETELOCALIZED 1074526
+QUEST_134_TEXTREFUSELOCALIZED 1074525
+QUEST_134_OBJECTIVEAMOUNT 1
+QUEST_134_OBJECTIVE1_TYPE 4
+QUEST_134_OBJECTIVE1 Sheep Farm
+QUEST_134_PRIZES 1
+QUEST_134_PRIZETYPE1 3 //function
+QUEST_134_PRIZEID1 F_HERITAGE_HUMAN_HUMANITY Proof of Humanity.
+
+///////////////////////////////
+
+QUEST_135_NAMELOCALIZED 1072275 //An escort to Yew
+QUEST_135_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_135_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_135_TEXTUNCOMPLETELOCALIZED Hadi yolumuza koyulalim. Onumuzde uzun bir yol bizi bekliyor !
+QUEST_135_TEXTREFUSELOCALIZED Gorunuyorki cabuk pes ettin...
+QUEST_135_OBJECTIVEAMOUNT 1
+QUEST_135_OBJECTIVE1_TYPE 4
+QUEST_135_OBJECTIVE1 Yew
+QUEST_135_PRIZES 1
+QUEST_135_PRIZETYPE1 3 //function
+QUEST_135_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_136_NAMELOCALIZED 1072276 //An escort to Vesper
+QUEST_136_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_136_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_136_TEXTUNCOMPLETELOCALIZED Hadi yolumuza koyulalim. Onumuzde uzun bir yol bizi bekliyor !
+QUEST_136_TEXTREFUSELOCALIZED Gorunuyorki cabuk pes ettin...
+QUEST_136_OBJECTIVEAMOUNT 1
+QUEST_136_OBJECTIVE1_TYPE 4
+QUEST_136_OBJECTIVE1 Vesper
+QUEST_136_PRIZES 1
+QUEST_136_PRIZETYPE1 3 //function
+QUEST_136_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_137_NAMELOCALIZED 1072277 //An escort to Trinsic
+QUEST_137_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_137_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_137_TEXTUNCOMPLETELOCALIZED 1072291
+QUEST_137_TEXTREFUSELOCALIZED 1072288
+QUEST_137_OBJECTIVEAMOUNT 1
+QUEST_137_OBJECTIVE1_TYPE 4
+QUEST_137_OBJECTIVE1 Trinsic
+QUEST_137_PRIZES 1
+QUEST_137_PRIZETYPE1 3 //function
+QUEST_137_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_138_NAMELOCALIZED 1072278 //An escort to Skara Brae
+QUEST_138_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_138_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_138_TEXTUNCOMPLETELOCALIZED 1072292
+QUEST_138_TEXTREFUSELOCALIZED 1072288
+QUEST_138_OBJECTIVEAMOUNT 1
+QUEST_138_OBJECTIVE1_TYPE 4
+QUEST_138_OBJECTIVE1 Skara Brae
+QUEST_138_PRIZES 1
+QUEST_138_PRIZETYPE1 3 //function
+QUEST_138_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_139_NAMELOCALIZED 1072279 //An escort to Serpent's Hold
+QUEST_139_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_139_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_139_TEXTUNCOMPLETELOCALIZED 1072293
+QUEST_139_TEXTREFUSELOCALIZED 1072288
+QUEST_139_OBJECTIVEAMOUNT 1
+QUEST_139_OBJECTIVE1_TYPE 4
+QUEST_139_OBJECTIVE1 Serpent's Hold
+QUEST_139_PRIZES 1
+QUEST_139_PRIZETYPE1 3 //function
+QUEST_139_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_140_NAMELOCALIZED 1072280 //An escort to Nujel'm
+QUEST_140_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_140_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_140_TEXTUNCOMPLETELOCALIZED 1072294
+QUEST_140_TEXTREFUSELOCALIZED 1072288
+QUEST_140_OBJECTIVEAMOUNT 1
+QUEST_140_OBJECTIVE1_TYPE 4
+QUEST_140_OBJECTIVE1 Nujel'm
+QUEST_140_PRIZES 1
+QUEST_140_PRIZETYPE1 3 //function
+QUEST_140_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_141_NAMELOCALIZED 1072281 //An escort to Moonglow
+QUEST_141_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_141_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_141_TEXTUNCOMPLETELOCALIZED 1072295
+QUEST_141_TEXTREFUSELOCALIZED 1072288
+QUEST_141_OBJECTIVEAMOUNT 1
+QUEST_141_OBJECTIVE1_TYPE 4
+QUEST_141_OBJECTIVE1 Moonglow
+QUEST_141_PRIZES 1
+QUEST_141_PRIZETYPE1 3 //function
+QUEST_141_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_142_NAMELOCALIZED 1072282 //An escort to Minoc
+QUEST_142_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu !//Quest history
+QUEST_142_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_142_TEXTUNCOMPLETELOCALIZED 1072296
+QUEST_142_TEXTREFUSELOCALIZED 1072288
+QUEST_142_OBJECTIVEAMOUNT 1
+QUEST_142_OBJECTIVE1_TYPE 4
+QUEST_142_OBJECTIVE1 Minoc
+QUEST_142_PRIZES 1
+QUEST_142_PRIZETYPE1 3 //function
+QUEST_142_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_143_NAMELOCALIZED 1072283 //An escort to Magincia
+QUEST_143_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu !//Quest history
+QUEST_143_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_143_TEXTUNCOMPLETELOCALIZED 1072297
+QUEST_143_TEXTREFUSELOCALIZED 1072288
+QUEST_143_OBJECTIVEAMOUNT 1
+QUEST_143_OBJECTIVE1_TYPE 4
+QUEST_143_OBJECTIVE1 Magincia
+QUEST_143_PRIZES 1
+QUEST_143_PRIZETYPE1 3 //function
+QUEST_143_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_144_NAMELOCALIZED 1072284 //An escort to Jhelom
+QUEST_144_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil ! Yolculugumdaki tehlikelerle tek basima basa cikmam mumkun degil. Bana yardim edicek misin yolcu ! //Quest history
+QUEST_144_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_144_TEXTUNCOMPLETELOCALIZED 1072298
+QUEST_144_TEXTREFUSELOCALIZED 1072288
+QUEST_144_OBJECTIVEAMOUNT 1
+QUEST_144_OBJECTIVE1_TYPE 4
+QUEST_144_OBJECTIVE1 Jhelom
+QUEST_144_PRIZES 1
+QUEST_144_PRIZETYPE1 3 //function
+QUEST_144_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_145_NAMELOCALIZED 1072285 //An escort to Cove
+QUEST_145_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil //Quest history
+QUEST_145_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_145_TEXTUNCOMPLETELOCALIZED 1072299
+QUEST_145_TEXTREFUSELOCALIZED 1072288
+QUEST_145_OBJECTIVEAMOUNT 1
+QUEST_145_OBJECTIVE1_TYPE 4
+QUEST_145_OBJECTIVE1 Cove
+QUEST_145_PRIZES 1
+QUEST_145_PRIZETYPE1 3 //function
+QUEST_145_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_146_NAMELOCALIZED 1072286 //An escort to Britain
+QUEST_146_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil //Quest history
+QUEST_146_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_146_TEXTUNCOMPLETELOCALIZED 1072300
+QUEST_146_TEXTREFUSELOCALIZED 1072288
+QUEST_146_OBJECTIVEAMOUNT 1
+QUEST_146_OBJECTIVE1_TYPE 4
+QUEST_146_OBJECTIVE1 Britain
+QUEST_146_PRIZES 1
+QUEST_146_PRIZETYPE1 3 //function
+QUEST_146_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_147_NAMELOCALIZED 1072312 //An escort to Ocllo
+QUEST_147_TEXTLOCALIZED Ben degerli bir eskort ariyorum. Yolculugumda bana eslik etmen karsiliginda sana bir miktar para verebilirim daha fazlasi degil //Quest history
+QUEST_147_TEXTCOMPLETELOCALIZED Gorevini basariyla yerine getirdigin icin sana cok tesekkur ederim. Hakkin olani al !
+QUEST_147_TEXTUNCOMPLETELOCALIZED 1072313
+QUEST_147_TEXTREFUSELOCALIZED 1072288
+QUEST_147_OBJECTIVEAMOUNT 1
+QUEST_147_OBJECTIVE1_TYPE 4
+QUEST_147_OBJECTIVE1 Occlo
+QUEST_147_PRIZES 1
+QUEST_147_PRIZETYPE1 3 //function
+QUEST_147_PRIZEID1 F_QUESTSYS_RANDOMGOLD Gold
+
+///////////////////////////////
+
+QUEST_148_NAMELOCALIZED 1072781 //Elven Heritage - Sanctuary
+QUEST_148_TEXTLOCALIZED 1073999 //Quest history
+QUEST_148_TEXTCOMPLETELOCALIZED 1074410
+QUEST_148_TEXTUNCOMPLETELOCALIZED Seek Maul, the great bear, who understands the seasons. Seek Strongroot, the great treefellow, whose roots reach to the heart of the world. Seek Enigma, whose wisdom can only be conveyed in riddles and rhymes. Seek Bravehorn, the great hart, who exemplifies the fierce dedication of a protector of his people. Seek the Huntsman, the centuar tasked with maintaining the balance. And lastly seek Arielle, the pixie, who has perhaps the most important lesson -- not to take yourself too seriously.
+QUEST_148_TEXTREFUSELOCALIZED 1074400
+QUEST_148_OBJECTIVEAMOUNT 6
+QUEST_148_OBJECTIVE1_TYPE 1
+QUEST_148_OBJECTIVE1 1 i_boon_arielle
+QUEST_148_OBJECTIVE2_TYPE 1
+QUEST_148_OBJECTIVE2 1 i_boon_bravehorn
+QUEST_148_OBJECTIVE3_TYPE 1
+QUEST_148_OBJECTIVE3 1 i_boon_strongroot
+QUEST_148_OBJECTIVE4_TYPE 1
+QUEST_148_OBJECTIVE4 1 i_boon_maul
+QUEST_148_OBJECTIVE5_TYPE 1
+QUEST_148_OBJECTIVE5 1 i_boon_huntsman
+QUEST_148_OBJECTIVE6_TYPE 1
+QUEST_148_OBJECTIVE6 1 i_boon_enigma
+QUEST_148_PRIZES 1
+QUEST_148_PRIZETYPE1 3 //function
+QUEST_148_PRIZEID1 F_HERITAGE_ELF Elven Transformation.
+
+///////////////////////////////
+
+QUEST_149_NAMELOCALIZED 1072787 //The Joys of Life
+QUEST_149_TEXTLOCALIZED 1072832 //Quest history
+QUEST_149_TEXTCOMPLETELOCALIZED 1074944
+QUEST_149_TEXTUNCOMPLETELOCALIZED 1072834
+QUEST_149_TEXTREFUSELOCALIZED 1072833
+QUEST_149_OBJECTIVEAMOUNT 1
+QUEST_149_OBJECTIVE1_TYPE 1
+QUEST_149_OBJECTIVE1 3 i_arielles_bauble
+QUEST_149_PRIZES 1
+QUEST_149_PRIZETYPE1 3 //function
+QUEST_149_PRIZEID1 F_HERITAGE_ELF_ARIELLE the Boon of Arielle.
+
+///////////////////////////////
+
+QUEST_150_NAMELOCALIZED 1072785 //Defending the Herd
+QUEST_150_TEXTLOCALIZED 1072825 //Quest history
+QUEST_150_TEXTCOMPLETELOCALIZED 1074942
+QUEST_150_TEXTUNCOMPLETELOCALIZED 1072827
+QUEST_150_TEXTREFUSELOCALIZED 1072826
+QUEST_150_OBJECTIVEAMOUNT 1
+QUEST_150_OBJECTIVE1_TYPE 4
+QUEST_150_OBJECTIVE1 Drinking Pond
+QUEST_150_PRIZES 1
+QUEST_150_PRIZETYPE1 3 //function
+QUEST_150_PRIZEID1 F_HERITAGE_ELF_BRAVEHORN the Boon of Bravehorn.
+
+///////////////////////////////
+
+QUEST_151_NAMELOCALIZED 1072783 //Caretaker of the Land
+QUEST_151_TEXTLOCALIZED 1072812 //Quest history
+QUEST_151_TEXTCOMPLETELOCALIZED 1074941
+QUEST_151_TEXTUNCOMPLETELOCALIZED 1072814
+QUEST_151_TEXTREFUSELOCALIZED 1072813
+QUEST_151_OBJECTIVEAMOUNT 1
+QUEST_151_OBJECTIVE1_TYPE 1
+QUEST_151_OBJECTIVE1 1 i_sap_sosaria
+QUEST_151_PRIZES 1
+QUEST_151_PRIZETYPE1 3 //function
+QUEST_151_PRIZEID1 F_HERITAGE_ELF_STRONGROOT the Boon of Strongroot.
+
+///////////////////////////////
+
+QUEST_152_NAMELOCALIZED 1072786 //The Balance of Nature
+QUEST_152_TEXTLOCALIZED 1072829 //Quest history
+QUEST_152_TEXTCOMPLETELOCALIZED 1074943
+QUEST_152_TEXTUNCOMPLETELOCALIZED 1072831
+QUEST_152_TEXTREFUSELOCALIZED 1072830
+QUEST_152_OBJECTIVEAMOUNT 1
+QUEST_152_OBJECTIVE1_TYPE 2
+QUEST_152_OBJECTIVE1 15 c_wolf
+QUEST_152_PRIZES 1
+QUEST_152_PRIZETYPE1 3 //function
+QUEST_152_PRIZEID1 F_HERITAGE_ELF_HUNTSMAN the Boon of the Huntsman.
+
+///////////////////////////////
+
+QUEST_153_NAMELOCALIZED 1072784 //Wisdom of the Sphynx
+QUEST_153_TEXTLOCALIZED 1072822 //Quest history
+QUEST_153_TEXTCOMPLETELOCALIZED 1074945
+QUEST_153_TEXTUNCOMPLETELOCALIZED 1072824
+QUEST_153_TEXTREFUSELOCALIZED 1072823
+QUEST_153_RIDDLE 1
+QUEST_153_OBJECTIVEAMOUNT 1
+QUEST_153_OBJECTIVE1_TYPE 1
+QUEST_153_OBJECTIVE1 1 i_pitcher_water
+QUEST_153_PRIZES 1
+QUEST_153_PRIZETYPE1 3 //function
+QUEST_153_PRIZEID1 F_HERITAGE_ELF_ENIGMA the Boon of Enigma.
+
+///////////////////////////////
+
+QUEST_154_NAMELOCALIZED 1072782 //Seasons
+QUEST_154_TEXTLOCALIZED 1072802 //Quest history
+QUEST_154_TEXTCOMPLETELOCALIZED 1074940
+QUEST_154_TEXTUNCOMPLETELOCALIZED 1072811
+QUEST_154_TEXTREFUSELOCALIZED 1072810
+QUEST_154_OBJECTIVEAMOUNT 1
+QUEST_154_OBJECTIVE1_TYPE 1
+QUEST_154_OBJECTIVE1 20 i_fish_cut_raw
+QUEST_154_PRIZES 1
+QUEST_154_PRIZETYPE1 3 //function
+QUEST_154_PRIZEID1 F_HERITAGE_ELF_MAUL the Boon of Maul.
+
+///////////////////////////////
+
+QUEST_155_NAMELOCALIZED Redemption //Redemption
+QUEST_155_TEXTLOCALIZED Merhaba Insanoglu, Ben Gabriel, affedici. Yuz yillardir insanoglunun yolunu bulmasi icin ugrasiyor ve onlarin gunahlarini affetmesi icin bir yol gosteriyorum. Eger bagislanmak istiyorsan tutsak edilmis ruhlari serbest birakman gerekiyor. Bu yolda seninle birlikte olacagim ve cennetin kapilarini sana acacagim. //Quest history
+QUEST_155_TEXTCOMPLETELOCALIZED Tebrik ederim olumlu, Seni azad ediyorum,kirli ruhun arildirilacak!
+QUEST_155_TEXTUNCOMPLETELOCALIZED Black Wispler ve Lost Soul'lar cok nadiren gorulen canlilardir. Kaybolmus ruhlarla beslenir ve cogalirlar. Onlari bulmak senin gorevin olacaktir.
+QUEST_155_TEXTREFUSELOCALIZED Seni anliyorum. Her insanin altindan kalkacagi bir is degil bu. Kendi bagislanman icin baskalarina yardimci olmalisin !
+QUEST_155_OBJECTIVEAMOUNT 2
+QUEST_155_OBJECTIVE1_TYPE 2
+QUEST_155_OBJECTIVE1 1 c_alma_penada
+QUEST_155_OBJECTIVE2_TYPE 2
+QUEST_155_OBJECTIVE2 1 c_wisp_black
+QUEST_155_PRIZES 1
+QUEST_155_PRIZETYPE1 3 //function
+QUEST_155_PRIZEID1 F_REDEEM Redemption Redemption.
+
+///////////////////////////////
+
+QUEST_156_NAMELOCALIZED 1075311 //Guilty
+QUEST_156_TEXTLOCALIZED 1075312 //Quest history
+QUEST_156_TEXTCOMPLETELOCALIZED 1075316
+QUEST_156_TEXTUNCOMPLETELOCALIZED 1075315
+QUEST_156_TEXTREFUSELOCALIZED 1075314
+QUEST_156_OBJECTIVEAMOUNT 1
+QUEST_156_OBJECTIVE1_TYPE 2
+QUEST_156_OBJECTIVE1 1 c_gregorio_the_brigand
+QUEST_156_PRIZES 1
+QUEST_156_PRIZETYPE1 1 //item
+QUEST_156_PRIZEID1 i_amulet_righteousness Amulet of Righteousness.
+
+//////Chain///////////////
+
+QUEST_157_NAMELOCALIZED 1074573 //Mistaken Identity
+QUEST_157_TEXTLOCALIZED 1074574 //Quest history
+QUEST_157_TEXTCOMPLETELOCALIZED 1074607
+QUEST_157_TEXTUNCOMPLETELOCALIZED 1074605
+QUEST_157_TEXTREFUSELOCALIZED 1074606
+QUEST_157_OBJECTIVEAMOUNT 1
+QUEST_157_OBJECTIVE1_TYPE 3
+QUEST_157_OBJECTIVE1 1 i_tuition_reimbursement
+QUEST_157_OBJECTIVE1_RECEIVER Gorrow the Mayor
+QUEST_157_PRIZES 1
+QUEST_157_PRIZETYPE1 2 //nothing
+QUEST_157_PRIZEID1 0 Tuition Reimbursement.
+QUEST_157_CHAIN 158
+
+QUEST_158_NAMELOCALIZED 1074608 //You Scratch My Back
+QUEST_158_TEXTLOCALIZED 1074609 //Quest history
+QUEST_158_TEXTCOMPLETELOCALIZED 1074617
+QUEST_158_TEXTUNCOMPLETELOCALIZED 1074616
+QUEST_158_TEXTREFUSELOCALIZED 1074615
+QUEST_158_OBJECTIVEAMOUNT 3
+QUEST_158_OBJECTIVE1_TYPE 1
+QUEST_158_OBJECTIVE1 1 i_unicorn_ribs
+QUEST_158_OBJECTIVE2_TYPE 1
+QUEST_158_OBJECTIVE2 2 i_kirin_brain
+QUEST_158_OBJECTIVE3_TYPE 1
+QUEST_158_OBJECTIVE3 5 i_pixie_leg
+QUEST_158_PRIZES 1
+QUEST_158_PRIZETYPE1 2 //nothing
+QUEST_158_PRIZEID1 0 Signed Tuition Reimbursement Form.
+QUEST_158_CHAIN 159
+QUEST_158_ISCHAIN 157;
+
+QUEST_159_NAMELOCALIZED 1074618 //Fooling Aernya
+QUEST_159_TEXTLOCALIZED 1074619 //Quest history
+QUEST_159_TEXTCOMPLETELOCALIZED 1074622
+QUEST_159_TEXTUNCOMPLETELOCALIZED 1074621
+QUEST_159_TEXTREFUSELOCALIZED 1074620
+QUEST_159_OBJECTIVEAMOUNT 1
+QUEST_159_OBJECTIVE1_TYPE 3
+QUEST_159_OBJECTIVE1 1 i_signed_tuition_reimbursement
+QUEST_159_OBJECTIVE1_RECEIVER Aernya Mistress of Admissions
+QUEST_159_PRIZES 1
+QUEST_159_PRIZETYPE1 2 //nothing
+QUEST_159_PRIZEID1 0 Completed Tuition Reimbursement Form.
+QUEST_159_CHAIN 160
+QUEST_159_ISCHAIN 157;158
+
+QUEST_160_NAMELOCALIZED 1074623 //Not Quite That Easy
+QUEST_160_TEXTLOCALIZED 1074624 //Quest history
+QUEST_160_TEXTCOMPLETELOCALIZED 1074628
+QUEST_160_TEXTUNCOMPLETELOCALIZED 1074627
+QUEST_160_TEXTREFUSELOCALIZED 1074626
+QUEST_160_OBJECTIVEAMOUNT 1
+QUEST_160_OBJECTIVE1_TYPE 3
+QUEST_160_OBJECTIVE1 1 i_signed_tuition_reimbursement
+QUEST_160_OBJECTIVE1_RECEIVER Master Gnosos the Necromancer
+QUEST_160_PRIZES 1
+QUEST_160_PRIZETYPE1 2 //nothing
+QUEST_160_PRIZEID1 0 Tuition Reimbursement.
+QUEST_160_CHAIN 161
+QUEST_160_ISCHAIN 157;158;159
+
+QUEST_161_NAMELOCALIZED 1074629 //Convince Me
+QUEST_161_TEXTLOCALIZED 1074630 //Quest history
+QUEST_161_TEXTCOMPLETELOCALIZED 1074633
+QUEST_161_TEXTUNCOMPLETELOCALIZED 1074632
+QUEST_161_TEXTREFUSELOCALIZED 1074631
+QUEST_161_OBJECTIVEAMOUNT 3
+QUEST_161_OBJECTIVE1_TYPE 2
+QUEST_161_OBJECTIVE1 1 c_red_death
+QUEST_161_OBJECTIVE1_LOCATION Bedlam
+QUEST_161_OBJECTIVE2_TYPE 2
+QUEST_161_OBJECTIVE2 8 c_gore_fiend
+QUEST_161_OBJECTIVE2_LOCATION Bedlam
+QUEST_161_OBJECTIVE3_TYPE 2
+QUEST_161_OBJECTIVE3 8 c_rotting_corpse
+QUEST_161_OBJECTIVE3_LOCATION Bedlam
+QUEST_161_PRIZES 1
+QUEST_161_PRIZETYPE1 2 //nothing
+QUEST_161_PRIZEID1 0 Signed Tuition Reimbursement Form.
+QUEST_161_CHAIN 162
+QUEST_161_ISCHAIN 157;158;159;160
+
+QUEST_162_NAMELOCALIZED 1074634 //Tuition Reimbursement
+QUEST_162_TEXTLOCALIZED 1074635 //Quest history
+QUEST_162_TEXTCOMPLETELOCALIZED 1074638
+QUEST_162_TEXTUNCOMPLETELOCALIZED 1074637
+QUEST_162_TEXTREFUSELOCALIZED 1074636
+QUEST_162_OBJECTIVEAMOUNT 1
+QUEST_162_OBJECTIVE1_TYPE 3
+QUEST_162_OBJECTIVE1 1 i_signed_tuition_reimbursement
+QUEST_162_OBJECTIVE1_RECEIVER Aernya Mistress of Admissions
+QUEST_162_PRIZES 2
+QUEST_162_PRIZETYPE1 1 //item
+QUEST_162_PRIZEID1 tm_queststrongbox Strongbox.
+QUEST_162_PRIZETYPE2 3 //function
+QUEST_162_PRIZEID2 TAG.ALLOWEDINBEDLAM=1 Entrance to Bedlam granted.
+QUEST_162_ISCHAIN 157;158;159;160;161
+
+//////////End Chain///////////////
+
+QUEST_163_NAMELOCALIZED 1074855 //Gone Native
+QUEST_163_TEXTLOCALIZED 1074856 //Quest history
+QUEST_163_TEXTCOMPLETELOCALIZED 1074859
+QUEST_163_TEXTUNCOMPLETELOCALIZED 1074858
+QUEST_163_TEXTREFUSELOCALIZED 1074857
+QUEST_163_OBJECTIVEAMOUNT 1
+QUEST_163_OBJECTIVE1_TYPE 2
+QUEST_163_OBJECTIVE1 1 c_master_theophilus
+QUEST_163_PRIZES 1
+QUEST_163_PRIZETYPE1 1 //item
+QUEST_163_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+///////////Begin Chain////////////
+
+QUEST_164_NAMELOCALIZED 1075379 //Doughty Warriors
+QUEST_164_TEXTLOCALIZED 1075380 //Quest history
+QUEST_164_TEXTCOMPLETELOCALIZED 1075384
+QUEST_164_TEXTUNCOMPLETELOCALIZED 1075383
+QUEST_164_TEXTREFUSELOCALIZED 1075382
+QUEST_164_OBJECTIVEAMOUNT 1
+QUEST_164_OBJECTIVE1_TYPE 2
+QUEST_164_OBJECTIVE1 10 c_m_mongbat_arboreal
+QUEST_164_PRIZES 1
+QUEST_164_PRIZETYPE1 2 //nothing
+QUEST_164_PRIZEID1 0 Trainees work harder.
+QUEST_164_CHAIN 165
+
+QUEST_165_NAMELOCALIZED 1075404 //Doughty Warriors
+QUEST_165_TEXTLOCALIZED 1075405 //Quest history
+QUEST_165_TEXTCOMPLETELOCALIZED 1075409
+QUEST_165_TEXTUNCOMPLETELOCALIZED 1075408
+QUEST_165_TEXTREFUSELOCALIZED 1075407
+QUEST_165_OBJECTIVEAMOUNT 1
+QUEST_165_OBJECTIVE1_TYPE 2
+QUEST_165_OBJECTIVE1 10 c_m_imp
+QUEST_165_PRIZES 1
+QUEST_165_PRIZETYPE1 2 //nothing
+QUEST_165_PRIZEID1 0 Trainees work even harder.
+QUEST_165_CHAIN 166
+QUEST_165_ISCHAIN 164;
+
+QUEST_166_NAMELOCALIZED 1075410//Doughty Warriors
+QUEST_166_TEXTLOCALIZED 1075411 //Quest history
+QUEST_166_TEXTCOMPLETELOCALIZED 1075415
+QUEST_166_TEXTUNCOMPLETELOCALIZED 1075414
+QUEST_166_TEXTREFUSELOCALIZED 1075413
+QUEST_166_OBJECTIVEAMOUNT 1
+QUEST_166_OBJECTIVE1_TYPE 2
+QUEST_166_OBJECTIVE1 10 c_daemon
+QUEST_166_PRIZES 1
+QUEST_166_PRIZETYPE1 1 //item
+QUEST_166_PRIZEID1 i_quest_sash_might Sash of Might.
+QUEST_166_ISCHAIN 164;165;
+
+////////////End Chain///////////////////////
+
+///////////Begin Chain////////////
+
+QUEST_167_NAMELOCALIZED 1075416 //The Honor of the De Boors
+QUEST_167_TEXTLOCALIZED 1075417 //Quest history
+QUEST_167_TEXTCOMPLETELOCALIZED 1075421
+QUEST_167_TEXTUNCOMPLETELOCALIZED 1075420
+QUEST_167_TEXTREFUSELOCALIZED 1075419
+QUEST_167_OBJECTIVEAMOUNT 3
+QUEST_167_OBJECTIVE1_TYPE 1
+QUEST_167_OBJECTIVE1 10 i_gem_diamond
+QUEST_167_OBJECTIVE2_TYPE 1
+QUEST_167_OBJECTIVE2 10 i_gem_ruby
+QUEST_167_OBJECTIVE3_TYPE 1
+QUEST_167_OBJECTIVE3 10 i_gem_emerald
+QUEST_167_PRIZES 1
+QUEST_167_PRIZETYPE1 2 //nothing
+QUEST_167_PRIZEID1 0 Help retrieve the De Boor shield.
+QUEST_167_CHAIN 168
+
+QUEST_168_NAMELOCALIZED 1075422 //Jack the Villain
+QUEST_168_TEXTLOCALIZED 1075423 //Quest history
+QUEST_168_TEXTCOMPLETELOCALIZED 1075427
+QUEST_168_TEXTUNCOMPLETELOCALIZED 1075426
+QUEST_168_TEXTREFUSELOCALIZED 1075425
+QUEST_168_OBJECTIVEAMOUNT 1
+QUEST_168_OBJECTIVE1_TYPE 3
+QUEST_168_OBJECTIVE1 1 i_quest_bag_jewels
+QUEST_168_OBJECTIVE1_RECEIVER Jack The Loan Shark
+QUEST_168_PRIZES 1
+QUEST_168_PRIZETYPE1 2 //nothing
+QUEST_168_PRIZEID1 0 De Boor shield.
+QUEST_168_CHAIN 169
+QUEST_168_ISCHAIN 167;
+
+QUEST_169_NAMELOCALIZED 1075428 //Saved Honor
+QUEST_169_TEXTLOCALIZED 1075429 //Quest history
+QUEST_169_TEXTCOMPLETELOCALIZED 1075433
+QUEST_169_TEXTUNCOMPLETELOCALIZED 1075432
+QUEST_169_TEXTREFUSELOCALIZED 1075431
+QUEST_169_OBJECTIVEAMOUNT 1
+QUEST_169_OBJECTIVE1_TYPE 3
+QUEST_169_OBJECTIVE1 1 i_de_boor_shield
+QUEST_169_OBJECTIVE1_RECEIVER Derek the Merchant
+QUEST_169_PRIZES 2
+QUEST_169_PRIZETYPE1 1 //item
+QUEST_169_PRIZEID1 i_goblet_celebration Goblet of Celebration.
+QUEST_169_PRIZETYPE2 1 //item
+QUEST_169_PRIZEID2 i_ornate_elven_chairs An Ornate Elven Chair.
+QUEST_169_ISCHAIN 167;168;
+
+////////////End Chain///////////////////////
+
+QUEST_170_NAMELOCALIZED 1072367 //Freedom!
+QUEST_170_TEXTLOCALIZED 1072552 //Quest history
+QUEST_170_TEXTCOMPLETELOCALIZED 1072556
+QUEST_170_TEXTUNCOMPLETELOCALIZED 1072554
+QUEST_170_TEXTREFUSELOCALIZED 1072553
+QUEST_170_OBJECTIVEAMOUNT 1
+QUEST_170_OBJECTIVE1_TYPE 4
+QUEST_170_OBJECTIVE1 Sanctuary Entrance
+QUEST_170_PRIZES 1
+QUEST_170_PRIZETYPE1 3 //function
+QUEST_170_PRIZEID1 RANDMAGICITEM Lenley's Favorite Sparkly.
+
+QUEST_171_NAMELOCALIZED 1073085 //Arch Enemies
+QUEST_171_TEXTLOCALIZED 1073575 //Quest history
+QUEST_171_TEXTCOMPLETELOCALIZED 1073615
+QUEST_171_TEXTUNCOMPLETELOCALIZED 1073595
+QUEST_171_TEXTREFUSELOCALIZED 1072553
+QUEST_171_OBJECTIVEAMOUNT 1
+QUEST_171_OBJECTIVE1_TYPE 2
+QUEST_171_OBJECTIVE1 10 c_archer_ratman
+QUEST_171_PRIZES 1
+QUEST_171_PRIZETYPE1 1 //item
+QUEST_171_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+QUEST_172_NAMELOCALIZED 1073666 //Unholy Construct
+QUEST_172_TEXTLOCALIZED 1073705 //Quest history
+QUEST_172_TEXTCOMPLETELOCALIZED 1073797
+QUEST_172_TEXTUNCOMPLETELOCALIZED 1073746
+QUEST_172_TEXTREFUSELOCALIZED 1073746
+QUEST_172_OBJECTIVEAMOUNT 1
+QUEST_172_OBJECTIVE1_TYPE 2
+QUEST_172_OBJECTIVE1 10 c_iron_golem
+QUEST_172_PRIZES 1
+QUEST_172_PRIZETYPE1 1 //item
+QUEST_172_PRIZEID1 tm_questlargebagtreasure A large bag of treasure.
+
+QUEST_173_NAMELOCALIZED 1072995 //Vermin
+QUEST_173_TEXTLOCALIZED 1073029 //Quest history
+QUEST_173_TEXTCOMPLETELOCALIZED 1073615
+QUEST_173_TEXTUNCOMPLETELOCALIZED 1073595
+QUEST_173_TEXTREFUSELOCALIZED 1072553
+QUEST_173_OBJECTIVEAMOUNT 1
+QUEST_173_OBJECTIVE1_TYPE 2
+QUEST_173_OBJECTIVE1 10 c_ratman
+QUEST_173_PRIZES 1
+QUEST_173_PRIZETYPE1 1 //item
+QUEST_173_PRIZEID1 tm_questbagtrinkets A bag of trinkets.
+
+//////////////Quest Chain//////////////////
+
+QUEST_174_NAMELOCALIZED  Atesli Intikam, Part 1 //Fiery Vengence
+QUEST_174_TEXTLOCALIZED GRAAAARRRR!!!... Kim olduklarini saniyolar !, beni boykot edemezler, beni..asla, the great Nandor, ben ve ben ki Dragon Lordu Rikktora kendi dungeonunda savasinda zafer kazandiran kisi.Bir zamanlar bana Greater Dragon diye hitap edilirdi, fakat simdi dislanmis  birisiyim. Intikam almak istiyorumBana yardim etmeye gonullumusuz aciz insan? //Quest history
+QUEST_174_TEXTCOMPLETELOCALIZED Biraz korkmus gozukuyorsun ? Sana gore zor olsa gerek? Iste ikinci planimda bu insanoglu.
+QUEST_174_TEXTUNCOMPLETELOCALIZED Acele et, once sen onlarin defansini kirmalisin ve ustlerinden gelmelisin.
+QUEST_174_TEXTREFUSELOCALIZED Boyle olcagini dusunmemistim seni gidi kucuk korkak fare.
+QUEST_174_OBJECTIVEAMOUNT 1
+QUEST_174_OBJECTIVE1_TYPE 2
+QUEST_174_OBJECTIVE1 5 c_drake_red
+QUEST_174_OBJECTIVE1_LOCATION Destard
+QUEST_174_PRIZES 1
+QUEST_174_PRIZETYPE1 2 //nothing
+QUEST_174_PRIZEID1 0 Iste burada daha fazla intikam planim.
+QUEST_174_CHAIN 175
+
+QUEST_175_NAMELOCALIZED Atesli Intikam, Part 2 //Fiery Vengence
+QUEST_175_TEXTLOCALIZED Simdi onlarin en buyuk kuvvetlerine saldirmalisin, Drakeler basit koleler, Fakat simdi soyleceklerim guclu olanlar. Biraz daha egzersiz yaparak gucunu artiracagina inaniyorum insanoglu. //Quest history
+QUEST_175_TEXTCOMPLETELOCALIZED Simdi cok guclu saldirmaliyiz.
+QUEST_175_TEXTUNCOMPLETELOCALIZED Git ve kendini izle, Eger olmek istemiyorsan cok fazla dusmanlarinla hasir nesir olmani tavsiye etmem. Rakibini asla kucumseme!
+QUEST_175_TEXTREFUSELOCALIZED Seni ise yaramaz korkak, Senin o ufak kafani yemeden gozumun onunden kaybol!
+QUEST_175_OBJECTIVEAMOUNT 1
+QUEST_175_OBJECTIVE1_TYPE 2
+QUEST_175_OBJECTIVE1 4 c_dragon_greater
+QUEST_175_OBJECTIVE1_LOCATION Destard
+QUEST_175_PRIZES 1
+QUEST_175_PRIZETYPE1 2 //nothing
+QUEST_175_PRIZEID1 0 Iste daha planlarim bitmedi!
+QUEST_175_ISCHAIN 174;
+QUEST_175_CHAIN 176
+
+QUEST_176_NAMELOCALIZED Atesli Intikam, Part 3 //Fiery Vengence
+QUEST_176_TEXTLOCALIZED Kuvvetlerinin basini oldurmus olmalisin.Simdi defanslari eminim dusmustur, the Ancient Wyrms, en yasli olanlar ve en gucluleri. Bunu yapmak canimi acitiyor, Fakat lanet olasilar bana yaptiklarini odemeli! //Quest history
+QUEST_176_TEXTCOMPLETELOCALIZED Sonunda, tum kuvvetleri dustu.Simdi dragonlarin lordlarini oldurebilirim! ve bu kisi beni uzak diyarlara surgun lanet olasi cani yaratik!
+QUEST_176_TEXTUNCOMPLETELOCALIZED Bu bolgede onlardan 1 tane var, diger bolgelerde fazlasini bulabilirsin, Senden istedigim kadarini oldurdugunde gelip beni bulmalisin !
+QUEST_176_TEXTREFUSELOCALIZED Yasli dragonlarin gucu seni bukmus gozukuyor? Defol, kendi basima hallederim sefil yaratik!
+QUEST_176_OBJECTIVEAMOUNT 1
+QUEST_176_OBJECTIVE1_TYPE 2
+QUEST_176_OBJECTIVE1 2 c_wyrm_ancient
+QUEST_176_OBJECTIVE1_LOCATION Destard
+QUEST_176_PRIZES 1
+QUEST_176_PRIZETYPE1 2 //nothing
+QUEST_176_PRIZEID1 0 Boyun egmez Mallyx'i oldur!
+QUEST_176_ISCHAIN 174;175;
+QUEST_176_CHAIN 177
+
+QUEST_177_NAMELOCALIZED Atesli Intikam, Part 4 //Fiery Vengence
+QUEST_177_TEXTLOCALIZED Onun bolgesine girmeye cesaret edemiyorum, fakat sana bunu yapman icin gereken gucu verebilirim. O pic kurusunun kellesini bana getir ve seni zenginler zengini yapayim! //Quest history
+QUEST_177_TEXTCOMPLETELOCALIZED Guzel...Intikamim sona erdi! Simdi buranin Lordu olabilirim! Suan degil fakat arkadaslarima ne yaptigimi anlatacagim. Senin yasamana izin veriyorum ve oldurdugun Dragonlar adina seni altina bogacagim.
+QUEST_177_TEXTUNCOMPLETELOCALIZED Mallyxi  bulacagin yer Destard'in derinliklerinde.Oldurdugun yaslilarin yakinlarinda olabilir.
+QUEST_177_TEXTREFUSELOCALIZED Kacmaya nasil cesaret edersin olumlu? Seni sonsuza kadar avlayacagim kacamicaksin benden!
+QUEST_177_OBJECTIVEAMOUNT 1
+QUEST_177_OBJECTIVE1_TYPE 2
+QUEST_177_OBJECTIVE1 1 c_mallyx
+QUEST_177_PRIZES 2
+QUEST_177_PRIZETYPE1 3 //function
+QUEST_177_PRIZEID1 f_quest177_givefierysword Fiery Dragon Sword.
+QUEST_177_PRIZETYPE2 2 //nothing
+QUEST_177_PRIZEID2 0 Conqueror of Destard Title.
+QUEST_177_ISCHAIN 174;175;176;
+
+////////////End of quest chain///////////////////
+
+QUEST_178_NAMELOCALIZED Main Key - Dread Horn //Main Key - Dread Horn
+QUEST_178_TEXTLOCALIZED The Twisted Weald has been overrun by monstrous forces, commanded by the corrupted Unicorn, Dread Horn, you must gather 4 keys in order to fight him. //Quest history
+QUEST_178_TEXTCOMPLETELOCALIZED Well done, here's the master key to summon Dread Horn!
+QUEST_178_TEXTUNCOMPLETELOCALIZED The keys are Gnaw's Fang, Irk's Brain, Lissith's Silk, and Sabrix's Eye, which you can find in the loot of Named Monsters inside Twisted Weald.
+QUEST_178_TEXTREFUSELOCALIZED Hope you change your mind.
+QUEST_178_OBJECTIVEAMOUNT 4
+QUEST_178_OBJECTIVE1_TYPE 1
+QUEST_178_OBJECTIVE1 1 i_gnaws_fang
+QUEST_178_OBJECTIVE2_TYPE 1
+QUEST_178_OBJECTIVE2 1 i_sabrix_eye
+QUEST_178_OBJECTIVE3_TYPE 1
+QUEST_178_OBJECTIVE3 1 i_lilisith_silk
+QUEST_178_OBJECTIVE4_TYPE 1
+QUEST_178_OBJECTIVE4 1 i_irk_brain
+QUEST_178_PRIZES 1
+QUEST_178_PRIZETYPE1 1 //item
+QUEST_178_PRIZEID1 i_dreadhorn_key Essence of Wind.
+
+///////////////////////////////////////////////////
+
+QUEST_179_NAMELOCALIZED Main Key - Shimmering Effusion
+QUEST_179_TEXTLOCALIZED A beautiful and bright creature has awkaned in the Prism of Light, the Shimmering Effusion, it has occupied the place with it's army of crystal creatures! //Quest history
+QUEST_179_TEXTCOMPLETELOCALIZED Well done, here's the master key to summon the Shimmering Effusion!
+QUEST_179_TEXTUNCOMPLETELOCALIZED The keys are different crystals found all across the dungeon with some monsters.
+QUEST_179_TEXTREFUSELOCALIZED You must cleanse the diggings of this threat!
+QUEST_179_OBJECTIVEAMOUNT 6
+QUEST_179_OBJECTIVE1_TYPE 1
+QUEST_179_OBJECTIVE1 1 i_broken_crystal
+QUEST_179_OBJECTIVE2_TYPE 1
+QUEST_179_OBJECTIVE2 1 i_crushed_crystal
+QUEST_179_OBJECTIVE3_TYPE 1
+QUEST_179_OBJECTIVE3 1 i_pieces_crystal
+QUEST_179_OBJECTIVE4_TYPE 1
+QUEST_179_OBJECTIVE4 1 i_scattered_crystal
+QUEST_179_OBJECTIVE5_TYPE 1
+QUEST_179_OBJECTIVE5 1 i_jagged_crystal
+QUEST_179_OBJECTIVE6_TYPE 1
+QUEST_179_OBJECTIVE6 1 i_shattered_crystal
+QUEST_179_PRIZES 1
+QUEST_179_PRIZETYPE1 1 //item
+QUEST_179_PRIZEID1 i_shimmering_key Shimmering Effusion Key.
+
+////////////////////////////////////////////////////
+
+QUEST_180_NAMELOCALIZED Baslangic Quest 1
+QUEST_180_TEXTLOCALIZED Merhaba maceraci! Bu asamayi gecebilmen icin ileride bulunan Zombie yi War modeye gecerek silahinla saldirmani istiyorum.Eger olurseniz Ank tasina cift tiklayarak canlanabilirsiniz. //Quest history
+QUEST_180_TEXTCOMPLETELOCALIZED Tebrikler, Odulunuzu alin ve diger asamaya gecin!
+QUEST_180_TEXTUNCOMPLETELOCALIZED Hadi savas moduna gec ve hepsini oldur.
+QUEST_180_TEXTREFUSELOCALIZED Bu gorevi tamamlayana kadar ayrilamassiniz.!
+QUEST_180_OBJECTIVEAMOUNT 1
+QUEST_180_OBJECTIVE1_TYPE 2
+QUEST_180_OBJECTIVE1 1 c_tutorial_zombie
+QUEST_180_PRIZES 1
+QUEST_180_PRIZETYPE1 3 //function
+QUEST_180_PRIZEID1 F_TUTORIAL_QUEST_REWARD Go to next step.
+
+QUEST_181_NAMELOCALIZED Baslangic Quest 2
+QUEST_181_TEXTLOCALIZED Evet iste burdasin simdi Ticareti deniyorsun degilmi ? Bana git 1 er tane Nightshide ve garlic getir. //Quest history
+QUEST_181_TEXTCOMPLETELOCALIZED Tebrikler! Aramiza hos geldiniz.Umariz Rhodos dunyasinda iyi vakit gecireceksiniz.Simdi Britain e gonderileceksiniz ve yeni yeteneklerinizin egitimini surdureceksiniz guzellikleriyle ve kolay bir sekilde.<DEF.BR>Tekrar gorusmek uzere iyi oyunlar.
+QUEST_181_TEXTUNCOMPLETELOCALIZED Hadi ama, daha ne icin bekliyorsun?
+QUEST_181_TEXTREFUSELOCALIZED You cannot leave until you complete this task!
+QUEST_181_OBJECTIVEAMOUNT 2
+QUEST_181_OBJECTIVE1_TYPE 1
+QUEST_181_OBJECTIVE1 1 i_reag_nightshade
+QUEST_181_OBJECTIVE2_TYPE 1
+QUEST_181_OBJECTIVE2 1 i_reag_garlic
+QUEST_181_PRIZES 1
+QUEST_181_PRIZETYPE1 3 //function
+QUEST_181_PRIZEID1 F_TUTORIAL_QUEST2_REWARD End tutorial.
+
+////////////////////////////////////////////////////
+QUEST_182_NAMELOCALIZED 1074454	// Watch Your Step
+QUEST_182_TEXTLOCALIZED 1074455
+QUEST_182_TEXTCOMPLETELOCALIZED 1074458
+QUEST_182_TEXTUNCOMPLETELOCALIZED 1074457
+QUEST_182_TEXTREFUSELOCALIZED 1074456
+QUEST_182_OBJECTIVEAMOUNT 1
+QUEST_182_OBJECTIVE1_TYPE 1 //item
+QUEST_182_OBJECTIVE1 5000 i_gold
+QUEST_182_PRIZES 1
+QUEST_182_PRIZETYPE1 1 //item
+QUEST_182_PRIZEID1 i_acid_proof_rope Acid Proof Rope.
+
+
+/////END OF QUESTS DEFS/////
+
+
+///////////////YENI QUESTLER//
+
+
+QUEST_183_NAMELOCALIZED Toplu Katliam ! //Dead Man Walking
+QUEST_183_TEXTLOCALIZED Senden ilk olarak 15 tane iskelet oldurmeni istiyorum, gayet basit...Tabiki bu görevin sonu değil. //Quest history
+QUEST_183_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_183_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_183_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_183_OBJECTIVEAMOUNT 1
+QUEST_183_OBJECTIVE1_TYPE 2
+QUEST_183_OBJECTIVE1 15 c_skeleton
+QUEST_183_PRIZES 1
+QUEST_183_PRIZETYPE1 1 //item
+QUEST_183_PRIZEID1 tm_skeleton A bag of trinkets.
+QUEST_183_CHAIN 184
+
+
+
+QUEST_184_NAMELOCALIZED Zombie ! 
+QUEST_184_TEXTLOCALIZED Senden 20 tane zombi oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_184_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_184_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_184_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_184_OBJECTIVEAMOUNT 1
+QUEST_184_OBJECTIVE1_TYPE 2
+QUEST_184_OBJECTIVE1 20 c_zombie
+QUEST_184_PRIZES 1
+QUEST_184_PRIZETYPE1 1 //item
+QUEST_184_PRIZEID1 tm_zombie A bag of trinkets.
+QUEST_184_ISCHAIN 183;
+QUEST_184_CHAIN 185
+
+QUEST_185_NAMELOCALIZED Skeleton Archer ! 
+QUEST_185_TEXTLOCALIZED Senden 15 tane skeleton archer oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_185_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_185_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_185_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_185_OBJECTIVEAMOUNT 1
+QUEST_185_OBJECTIVE1_TYPE 2
+QUEST_185_OBJECTIVE1 15 c_m_skeletonarcher
+QUEST_185_PRIZES 1
+QUEST_185_PRIZETYPE1 1 //item
+QUEST_185_PRIZEID1 tm_skeleton_archer A bag of trinkets.
+QUEST_185_ISCHAIN 184;
+QUEST_185_CHAIN 186
+
+
+QUEST_186_NAMELOCALIZED Ghoul ! 
+QUEST_186_TEXTLOCALIZED Senden 10 tane ghoul oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_186_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_186_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_186_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_186_OBJECTIVEAMOUNT 1
+QUEST_186_OBJECTIVE1_TYPE 2
+QUEST_186_OBJECTIVE1 10 c_ghoul
+QUEST_186_PRIZES 1
+QUEST_186_PRIZETYPE1 1 //item
+QUEST_186_PRIZEID1 tm_ghoul A bag of trinkets.
+QUEST_186_ISCHAIN 185;
+QUEST_186_CHAIN 187
+
+QUEST_187_NAMELOCALIZED Headless One ! 
+QUEST_187_TEXTLOCALIZED Senden 15 tane headless oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_187_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_187_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_187_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_187_OBJECTIVEAMOUNT 1
+QUEST_187_OBJECTIVE1_TYPE 2
+QUEST_187_OBJECTIVE1 10 c_headless
+QUEST_187_PRIZES 1
+QUEST_187_PRIZETYPE1 1 //item
+QUEST_187_PRIZEID1 tm_headless A bag of trinkets.
+QUEST_187_ISCHAIN 186;
+QUEST_187_CHAIN 188
+
+QUEST_188_NAMELOCALIZED Lich ! 
+QUEST_188_TEXTLOCALIZED Senden 15 tane lich oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_188_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_188_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_188_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_188_OBJECTIVEAMOUNT 1
+QUEST_188_OBJECTIVE1_TYPE 2
+QUEST_188_OBJECTIVE1 15 c_lich
+QUEST_188_PRIZES 1
+QUEST_188_PRIZETYPE1 1 //item
+QUEST_188_PRIZEID1 tm_lich A bag of trinkets.
+QUEST_188_ISCHAIN 187;
+QUEST_188_CHAIN 189
+
+QUEST_189_NAMELOCALIZED Lich Lord ! 
+QUEST_189_TEXTLOCALIZED Senden 10 tane lich lord oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_189_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_189_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_189_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_189_OBJECTIVEAMOUNT 1
+QUEST_189_OBJECTIVE1_TYPE 2
+QUEST_189_OBJECTIVE1 10 c_liche_lord
+QUEST_189_PRIZES 1
+QUEST_189_PRIZETYPE1 1 //item
+QUEST_189_PRIZEID1 tm_lich_lord A bag of trinkets.
+QUEST_189_ISCHAIN 188;
+QUEST_189_CHAIN 190
+
+
+QUEST_190_NAMELOCALIZED Elder Gazer ! 
+QUEST_190_TEXTLOCALIZED Senden 15 tane elder gazer oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_190_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_190_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_190_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_190_OBJECTIVEAMOUNT 1
+QUEST_190_OBJECTIVE1_TYPE 2
+QUEST_190_OBJECTIVE1 15 c_gazer_elder
+QUEST_190_PRIZES 1
+QUEST_190_PRIZETYPE1 1 //item
+QUEST_190_PRIZEID1 tm_elder_gazer A bag of trinkets.
+QUEST_190_ISCHAIN 189;
+//QUEST_190_CHAIN 191
+
+QUEST_191_NAMELOCALIZED Elder Gazer ! 
+QUEST_191_TEXTLOCALIZED Senden 8 tane elder gazer oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_191_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_191_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_191_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_191_OBJECTIVEAMOUNT 1
+QUEST_191_OBJECTIVE1_TYPE 2
+QUEST_191_OBJECTIVE1 8 c_gazer_elder
+QUEST_191_PRIZES 1
+QUEST_191_PRIZETYPE1 1 //item
+QUEST_191_PRIZEID1 tm_elder_gazer A bag of trinkets.
+QUEST_191_ISCHAIN 190;
+QUEST_191_CHAIN 192
+
+QUEST_192_NAMELOCALIZED Elder Gazer ! 
+QUEST_192_TEXTLOCALIZED Senden 8 tane elder gazer oldurmeni istiyorum, gayet basit... //Quest history
+QUEST_192_TEXTCOMPLETELOCALIZED Gorevinin karsiligi iste, hayrini gor.
+QUEST_192_TEXTUNCOMPLETELOCALIZED Gorevini daha bitirmedin.
+QUEST_192_TEXTREFUSELOCALIZED Hemende vazgectin.Korkak sey seni !
+QUEST_192_OBJECTIVEAMOUNT 1
+QUEST_192_OBJECTIVE1_TYPE 2
+QUEST_192_OBJECTIVE1 8 c_gazer_elder
+QUEST_192_PRIZES 1
+QUEST_192_PRIZETYPE1 1 //item
+QUEST_192_PRIZEID1 tm_elder_gazer A bag of trinkets.
+QUEST_192_ISCHAIN 191;
+QUEST_192_CHAIN 193
+
+////// YENI QUEST ODULLER /////
+
+[TEMPLATE tm_skeleton]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,2500
+
+[TEMPLATE tm_zombie]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,3500
+
+[TEMPLATE tm_skeleton_archer]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,4000
+
+[TEMPLATE tm_ghoul]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,5000
+
+[TEMPLATE tm_headless]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,2500
+ITEM=i_pet_horse_brown
+
+[TEMPLATE tm_lich]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,5000
+ITEM=i_pet_horse_brown
+
+[TEMPLATE tm_lich_lord]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,7500
+ITEM=i_pet_horse_brown
+
+
+[TEMPLATE tm_elder_gazer]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_pet_llama
+
+[TEMPLATE tm_giant_spider]
+CONTAINER=i_bag
+NAME=A Small Bag of Trinkets
+COLOR=0283
+ITEM=i_gold,15000
+ITEM=i_upgrade_scroll3
+
+
+
+[EOF]

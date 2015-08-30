@@ -1,0 +1,282 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[function f_start_honor]
+if !(<flags>&statf_dead)
+targetf f_honor
+endif
+
+[function f_honor]
+if (<argo.distance> > 5) || !(<argo.canseelos>)
+sysmessage @,,2 1063232 // You are too far away to honor your opponent
+return 1
+endif
+
+if <argo> == <uid>
+EmbraceHonor
+elif <argo.ischar>
+argo.Honor
+endif
+
+[function gethonorduration]
+if <tag0.virtue_5> >= 4000
+return 30
+elif <tag0.virtue_5> >= 10000
+return 90
+elif <tag0.virtue_5> >= 20000
+return 300
+else
+return 0
+endif
+
+[function embracehonor]
+if <isevent.e_honor_active>
+sysmessage @,,2 1063230 // You must wait awhile before you can embrace honor again.
+return 1
+endif
+
+local.duration = <GetHonorDuration>
+if !<local.duration>
+sysmessage @,,2 1063234 // You do not have enough honor to do that
+return 1
+endif
+
+if <eval (<serv.time> - <tag0.lasthonoruse>)> < 3000 // 5 minutes
+sysmessage @,,2 1063240,<eval ((<serv.time> - <tag0.lasthonoruse>) / 600)> // You must wait ~1_HONOR_WAIT~ minutes before embracing honor
+return 1
+endif
+
+local.points <eval (<getvirtue 5> / 20)>
+losevirtue 5,<local.points>
+
+events +e_honor_active
+tag.lasthonoruse = <serv.time>
+sysmessage @,,2 1063235 // You embrace your honor
+timerf <dlocal.duration>,events -e_honor_active =
+timerf <dlocal.duration>,sysmessage @,,2 1063236 // You no longer embrace your honor
+
+[events e_honor_active]
+on=@hitdamagebonus
+if !<src.isplayer>
+var0.<uid>_damagebonus += 25
+endif
+
+on=@attacked
+if <argo.npc> && !<argo.isharmedby <uid>>
+return 1
+endif
+
+[function isharmedby]
+ref1 = <args>
+forcharmemorytype memory_harmedby
+	if <link> == <ref1>
+	return 1
+	endif
+endfor
+return 0
+
+[function honor]
+if (<npc> == brain_vendor)
+return 1
+endif
+
+if <tag0.honoredby>
+	if <tag0.honoredby> == <src>
+	return 1
+	endif
+ref1 = <tag.honoredby>
+	if <cansee <ref1>>
+	src.sysmessage @,,2 1063233 // Somebody else is honoring this opponent
+	return 1
+	endif
+endif
+
+if <hits> < <maxhits>
+src.sysmessage @,,2 1063166 // You cannot honor this monster because it is too damaged.
+return 1
+endif
+
+if <isplayer>
+src.sysmessage @,,2 1075614 // You cannot honor other players.
+return 1
+endif
+
+if <src.tag0.honoring>
+ref1 = <src.tag.honoring>
+ref1.tag.honoredby =
+ref1.events -e_honored
+endif
+
+src.tag.honoring = <uid>
+src.events +e_honoring
+
+src.tag.perfection =
+src.tag.honor_firsthit =
+src.tag.honor_poison =
+src.tag.honor_totaldamage =
+src.tag.honor_damage20ths =
+src.tag.honor_initialpos = <src.region.uid>
+
+src.timerf 10,honorposcheck
+
+src.face <uid>
+if !(<src.flags>&statf_onhorse)
+src.bow
+endif
+
+tag.honoredby = <src>
+events +e_honored
+
+[events e_honoring]
+on=@gethit
+if (<src> == <tag0.honoring>) && !(<src.isharmedby <uid>>) && !(<tag0.honor_firsthit>)
+tag.honor_firsthit = 1
+endif
+
+on=@hit
+if (<src> != <tag0.honoring>) || (<tag0.perfection> == 100)
+return
+endif
+
+if <bushido> < 500
+return
+endif
+
+tag0.perfection += (<bushido>/100)
+
+if <tag0.perfection> >= 100
+tag.perfection = 100
+sysmessage @,,2 1063254 // You have Achieved Perfection in inflicting damage to this opponent!
+else
+sysmessage @,,2 1063255 // You gain in Perfection as you precisely strike your opponent.
+endif
+
+on=@hitmiss
+if (<src> != <tag0.honoring>) || (<tag0.perfection> == 0)
+return
+endif
+
+tag0.perfection -= 25
+
+if <tag0.perfection> <= 0
+tag.perfection = 0
+sysmessage @,,2 1063256 // You have lost all Perfection in fighting this opponent.
+else
+sysmessage @,,2 1063257 // You have lost some Perfection in fighting this opponent.
+endif
+
+on=@death
+cancelhonor
+
+[events e_honored]
+on=@poison
+if <src> == <tag0.honoredby>
+src.tag.honor_poison = 1
+endif
+
+on=@gethit
+ref1 = <tag0.honoredby>
+if (<src> == <ref1>) && !(<src.isharmedby <uid>>) && !(<src.tag0.honor_firsthit>)
+tag.honor_firsthit = -1
+endif
+
+if <ref1.tag0.honor_poison>
+ref1.tag0.honor_totaldamage += (<argn1>*2)
+ref1.tag.honor_poison =
+return
+endif
+
+ref1.tag0.honor_totaldamage += <argn1>
+
+if <src> == <ref1>
+	if <canseelos <src>> && <distance <src>> == 1 && <src.region.uid> == <src.tag0.honor_initialpos>
+	src.tag0.honor_damage20ths += (<argn1>*20)
+	else
+	src.tag0.honor_damage20ths += (<argn1>*2)
+	endif
+elif <src.owner> == <ref1>
+src.tag0.honor_damage20ths += <argn1>
+endif
+
+on=@death
+if <act> == <tag0.honoredby>
+	if <act.tag0.perfection> >= 0
+	float.restore = <floatval ((<fame> * <act.tag0.honor_damage20ths>) / (20 * <act.tag0.honor_totaldamage>))>
+	act.hits += <feval <float.restore>>
+	act.stam += <feval <float.restore>>
+	act.mana += <feval <float.restore>>
+	
+	local.luckbonus = <eval ((<act.tag0.perfection> @ 2) / 10)>
+	local.luck = <act.luck>
+	act.luck = <min <eval (<act.luck> + <local.luckbonus>)>,1200>
+	act.timerf 1,luck = <local.luck>
+	endif
+	
+	if <act.tag.virtue_5> > <fame>
+	act.cancelhonor
+	return
+	endif
+	
+	float.gain = <floatval ((<fame> * <act.tag0.honor_damage20ths>) / (20 * <act.tag0.honor_totaldamage>))>
+	if <act.tag0.honor_firsthit> == 1
+	float.gain = <floatval (<float.gain> * 1.1)>
+	endif
+	
+	if <float.gain> <= 0
+	act.cancelhonor
+	return
+	endif
+	
+	if <act.tag0.virtue_5> >= 20000
+	act.sysmessage @,,2 1063228 // You cannot gain more Honor.
+	act.cancelhonor
+	return
+	endif
+	
+	local.path = <act.gainvirtue 5,<feval <float.gain>>>
+	if <local.path>
+	act.sysmessage @,,2 1063226 // You have gained a path in Honor!
+	else
+	act.sysmessage @,,2 1063225 // You have gained in Honor.
+	endif
+endif
+ref1 = <tag0.honoredby>
+ref1.cancelhonor
+
+[function cancelhonor]
+if <tag0.honoring>
+ref1 = <tag.honoring>
+ref1.tag.honoredby =
+ref1.events -e_honored
+endif
+
+tag.honoring =
+src.events -e_honoring
+
+tag.perfection =
+tag.honor_firsthit =
+tag.honor_poison =
+tag.honor_totaldamage =
+tag.honor_damage20ths =
+tag.honor_initialpos =
+
+ref1.tag.honoredby =
+ref1.events -e_honored
+
+[function honorposcheck]
+if !<tag0.honoring>
+return 1
+endif
+
+if <distance <tag0.honoring>> > 24
+cancelhonor
+return 1
+endif
+timerf 5,honorposcheck
+
+[eof]

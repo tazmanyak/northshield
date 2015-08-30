@@ -1,0 +1,342 @@
+[CHARDEF 031]
+//FIXME: half stats when tamed
+//FIXME: can polymorph into human form
+DEFNAME=c_wyrm_white
+NAME=white wyrm
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=67,98
+ARMOR=55
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_gem
+RESOURCES=19 i_ribs_raw,6 i_reag_dragon_blood,2 i_hide_horned
+BLOODCOLOR=colors_blood
+MOVERATE=100
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Wyrm (white)
+
+ON=@Create
+   NPC=brain_dragon
+   FAME=8000
+   KARMA=-10000
+   STR=2000
+   DEX=250
+   INT=350
+   ANATOMY={90.0 100.0}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGICRESISTANCE={100.0 150.0}
+   MEDITATION={25.0 50.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+
+itemnewbie=i_spellbook
+addspell=s_explosion
+
+ON=@NpcRestock
+ITEM=i_gold,{6600 10800}
+ITEM=random_jewelry
+ITEM=random_potion,{1 2}
+ITEM=random_wands
+ITEM=i_crystal_puremagerobe,R5
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef 308]
+id=c_bone_demon
+defname=c_bone_demon
+NAME=Bone Daemon
+SOUND=snd_monster_skletn1
+//ICON=i_pet_bonedaemon
+DAM=34,36
+RESDISPDNID=c_skeleton
+DAM=50,80
+
+RESLEVEL=3
+RESDISPDNHUE=55
+ARMOR=60
+CAN=MT_USEHANDS|MT_WALK|MT_RUN|mt_equip
+MOVERATE=30
+DESIRES=i_gold,e_notoriety,e_horses,c_man,c_woman,t_corpse
+CATEGORY=Novos Monstros
+SUBSECTION=AOS
+DESCRIPTION=Bone Daemon
+
+ON=@Create
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=1000
+INT={171 220}
+DEX={151 175}
+MAGICRESISTANCE={50.0 75.0}
+TACTICS=100.0
+WRESTLING=100.0
+MAGERY={77.6 87.5}
+EVALUATINGINTEL={77.6 87.5}
+MEDITATION=100.0
+
+ON=@NpcRestock
+ITEM=i_gold,{4000 5000}
+ITEM=RANDOM_SCROLL,{5 20}
+
+
+[CHARDEF 028]
+ID=c_demon_balron
+DEFNAME=c_demon_balron
+NAME=The Slayer Balron
+ICON=i_pet_demon
+//SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=107,155
+ARMOR=65
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=r_civilization,r_water
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw,2 i_hide_horned
+BLOODCOLOR=colors_white
+MOVERATE=150
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Demon (balron)
+ON=@Create
+   TITLE=balron
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-10000
+   STR=2000
+   DEX=250
+   INT=350
+   ANATOMY={90.0 100.0}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGERY={95.0 100.0}
+   MAGICRESISTANCE={100.0 150.0}
+   MEDITATION={25.0 50.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+
+ON=@NPCRestock
+   ITEM=loot_level4_monster
+  // ITEM=i_treasure_map_lvl_5,R5
+
+ON=@Hit
+   //Paralyze Attack
+   IF !(<SRC.FLAGS>&statf_freeze)&&(<MANA>>20)
+      MANA -= 20
+      SRC.SPELLEFFECT s_paralyze,<MAGERY>,1,<UID>
+      SRC.EFFECT 3,i_fx_field_paralyze,1,16,0,02
+      SRC.SOUND snd_spell_paralyze
+   ENDIF
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[CHARDEF 02b]
+//FIXME: Moves quick at full health, and slows down as health decreases.
+ID=c_demon_ice
+DEFNAME=c_demon_ice
+NAME=The Slayer Balron
+ICON=i_pet_demon_icefiend
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=240,260
+ARMOR=55
+DESIRES=r_snow,r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=55 t_meat_raw
+RESOURCES=1 i_ribs_raw,2 i_hide_horned
+BLOODCOLOR=colors_white
+MOVERATE=120
+TAG.Barding.Diff=89.3
+TAG.DamCold=80
+TAG.Luck.Loot=loot_ice_fiend_luck
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Demon (ice)
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-10000
+   STR=2000
+   DEX=250
+   INT=350
+   ANATOMY={90.0 100.0}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGERY={95.0 100.0}
+   MAGICRESISTANCE={100.0 150.0}
+   MEDITATION={25.0 50.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+
+ON=@NPCRestock
+   ITEM=loot_level4_monster
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+ON=@Gethit
+
+
+if <act.findid.i_rune_summon_creature>
+sayua 0481,2,0,eng,* Buyu Etkisini Kaldirir *
+act.remove
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[CHARDEF 06a]
+DEFNAME=c_wyrm_shadow
+NAME=Shadow Wyrm
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_FLY|MT_NONHUM|MT_FIRE_IMMUNE
+DAM=130,165
+ARMOR=65
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=50 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_reag_dragon_blood,1 i_reag_wyrm_Heart,2 i_hide_horned
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Shadow Wyrm
+ON=@Create
+   NPC=brain_dragon
+   FAME=8000
+   KARMA=-10000
+   STR=2000
+   DEX=250
+   INT=350
+   ANATOMY={90.0 100.0}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGICRESISTANCE={100.0 150.0}
+   MEDITATION={25.0 50.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+
+itemnewbie=i_spellbook
+addspell=s_explosion
+
+ON=@NpcRestock
+ITEM=i_gold,{6600 10800}
+ITEM=random_jewelry
+ITEM=random_potion,{1 2}
+ITEM=random_wands
+ITEM=random_scroll_medium,{2 3}
+//ITEM=i_treasure_map_lvl_4,R10
+//ITEM=i_upgrade_scroll12,R10
+ITEM=force_silah,R3
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+ON=@Gethit
+
+if <act.findid.i_rune_summon_creature>
+sayua 0481,2,0,eng,* Buyu Etkisini Kaldirir *
+act.remove
+endif
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[CHARDEF 069]
+DEFNAME=c_dragon_greater
+NAME=Greater Dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_FLY|MT_FIRE_IMMUNE
+DAM=250,260
+ARMOR=60
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=80 t_meat_raw
+RESOURCES=19 i_ribs_raw,6 i_reag_dragon_blood,2 i_hide_horned
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Greater Dragon
+ON=@Create
+   COLOR 0452
+   TITLE=the greater dragon
+   NPC=brain_dragon
+   FAME=8000
+   KARMA=-10000
+   STR=2000
+   DEX=250
+   INT=350
+   ANATOMY={90.0 100.0}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGICRESISTANCE={100.0 150.0}
+   MEDITATION={25.0 50.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+
+itemnewbie=i_spellbook
+addspell=s_explosion
+
+
+ON=@NpcRestock
+ITEM=i_gold,{6600 10800}
+ITEM=random_jewelry
+ITEM=random_potion,{1 2}
+ITEM=random_wands
+ITEM=force_silah,R5
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[EOF]
+

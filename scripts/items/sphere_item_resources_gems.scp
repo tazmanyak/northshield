@@ -1,0 +1,89 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Gems
+// ----
+// Dark Sapphire = 0x3192
+// Turquoise = 0x3193
+// Perfect Emerald = 0x3194
+// Ecru Citrine = 0x3195
+// White Pearl = 0x3196
+// Fire Ruby = 0x3197
+// Blue Diamond = 0x3198
+// Brilliant Amber = 0x3199
+
+[ITEMDEF 03192]
+DEFNAME=i_gem_dark_sapphire
+NAME=Dark Sapphire
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Dark Sapphire
+
+[ITEMDEF 03193]
+DEFNAME=i_gem_turquoise
+NAME=Turquoise
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Turquoise
+
+[ITEMDEF 03194]
+DEFNAME=i_gem_perfect_emerald
+NAME=Perfect Emerald
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Perfect Emerald
+
+[ITEMDEF 03195]
+DEFNAME=i_gem_ecru_citrine
+NAME=Ecru Citrine
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Ecru Citrine
+
+[ITEMDEF 03196]
+DEFNAME=i_gem_white_pearl
+NAME=White Pearl
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=White Pearl
+
+[ITEMDEF 03197]
+DEFNAME=i_gem_fire_ruby
+NAME=Fire Ruby
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Fire Ruby
+
+[ITEMDEF 03198]
+DEFNAME=i_gem_blue_diamond
+NAME=Blue Diamond
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Blue Diamond
+
+[ITEMDEF 03199]
+DEFNAME=i_gem_brilliant_amber
+NAME=Brilliant Amber
+TYPE=t_normal
+CATEGORY=Crafting Resources
+SUBSECTION=Gems
+DESCRIPTION=Brilliant Amber
+
+[eof]

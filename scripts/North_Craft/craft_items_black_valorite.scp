@@ -1,0 +1,45 @@
+[defname def_black_valorite_items]
+// total page
+blacksmith_valorite_pagesum	4
+// platemail
+blacksmith_valorite_0_1		i_platemail_leggings_valorite
+blacksmith_valorite_1_1		i_platemail_chest_valorite
+blacksmith_valorite_2_1		i_platemail_arms_valorite
+blacksmith_valorite_3_1		i_plate_helm_valorite
+blacksmith_valorite_4_1		i_platemail_gorget_valorite
+blacksmith_valorite_5_1		i_platemail_gloves_valorite
+blacksmith_valorite_6_1		i_shield_heater_valorite
+blacksmith_valorite_7_1		i_ringmail_gloves_valorite
+blacksmith_valorite_8_1		i_ringmail_leggings_valorite
+blacksmith_valorite_9_1		i_ringmail_sleeves_valorite
+blacksmith_valorite_10_1		i_ringmail_tunic_valorite
+
+blacksmith_valorite_11_1		i_chainmail_coif_valorite
+blacksmith_valorite_12_1		i_chainmail_leggings_valorite
+blacksmith_valorite_13_1		i_chainmail_tunic_valorite
+// swords
+blacksmith_valorite_0_2		i_katana_valorite
+blacksmith_valorite_1_2		i_scimitar_valorite
+blacksmith_valorite_2_2		i_cutlass_valorite
+blacksmith_valorite_3_2		i_bardiche_valorite
+blacksmith_valorite_4_2		i_halberd_valorite
+blacksmith_valorite_5_2		i_sword_long_valorite
+blacksmith_valorite_6_2		i_sword_viking_valorite
+blacksmith_valorite_7_2		i_sword_broad_valorite
+
+// fence
+blacksmith_valorite_0_3		i_dagger_valorite
+blacksmith_valorite_1_3		i_kryss_valorite
+blacksmith_valorite_2_3		i_pitchfork_valorite
+blacksmith_valorite_3_3		i_spear_valorite
+blacksmith_valorite_4_3		i_spear_short_valorite
+blacksmith_valorite_5_3		i_war_fork_valorite
+// mace
+blacksmith_valorite_0_4		i_axe_war_valorite
+blacksmith_valorite_1_4		i_hammer_pick_valorite
+//blacksmith_valorite_2_4		i_hammer_war_valorite
+blacksmith_valorite_2_4		i_maul_valorite
+blacksmith_valorite_3_4		i_mace_valorite
+blacksmith_valorite_4_4		i_mace_war_valorite
+blacksmith_valorite_5_4		i_helm_closed_valorite
+[EOF]

@@ -1,0 +1,202 @@
+[CHARDEF c_h_barber]
+DEFNAME=C_H_BARBER
+NAME=#NAMES_HUMANMALE the Barber
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+DESIRES=i_gold,e_notoriety
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Barber
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+	NEED=i_gold
+
+	STR={66 80}
+	DEX=90
+	INT={66 80}
+
+	FENCING={15.0 38.0}
+	PARRYING={45.0 68.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={45.0 68.0}
+	TACTICS={45.0 68.0}
+
+	ITEMNEWBIE=i_lantern
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+	SELL=i_hair_SHORT,10
+	ATTR=attr_decay
+	SELL=i_hair_LONG,10
+	ATTR=attr_decay
+	SELL=i_hair_PONYTAIL,10
+	ATTR=attr_decay
+	SELL=i_hair_MOHAWK,10
+	ATTR=attr_decay
+	SELL=i_hair_PAGEBOY,10
+	ATTR=attr_decay
+	SELL=i_hair_BUNS,10
+	ATTR=attr_decay
+	SELL=i_hair_AFRO,10
+	ATTR=attr_decay
+	SELL=i_hair_RECEDING,10
+	ATTR=attr_decay
+	SELL=i_hair_2_PIGTAILS,10
+	ATTR=attr_decay
+	SELL=i_hair_KRISNA,10
+	ATTR=attr_decay
+	SELL=i_hair_NONE,10
+	ATTR=attr_decay
+	SELL=i_beard_SHORT_MED,10
+	ATTR=attr_decay
+	SELL=i_beard_LONG_MED,10
+	ATTR=attr_decay
+	SELL=i_beard_VANDYKE,10
+	ATTR=attr_decay
+	SELL=i_beard_LONG,10
+	ATTR=attr_decay
+	SELL=i_beard_SHORT,10
+	ATTR=attr_decay
+	SELL=i_beard_GOATEE,10
+	ATTR=attr_decay
+	SELL=i_beard_MUSTACHE,10
+	ATTR=attr_decay
+	SELL=i_beard_NONE,10
+	ATTR=attr_decay
+	SELL=i_bottle_hair_dye,10
+
+	sell=i_hair_elven_ml,10
+	attr=attr_Decay
+	sell=i_hair_lf,10
+	attr=attr_Decay
+	sell=i_hair_short1,10
+	attr=attr_Decay	
+	sell=i_hair_elven_mullet,10
+	attr=attr_Decay	
+	sell=i_hair_elven_long2,10
+	attr=attr_Decay
+	sell=i_hair_elven_long3,10
+	attr=attr_Decay	
+	sell=i_hair_elven_spike,10
+	attr=attr_Decay
+
+[CHARDEF c_h_barber_f]
+DEFNAME=C_H_BARBER_F
+NAME=#NAMES_HUMANFEMALE the Barber
+ID=C_WOMAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+DESIRES=i_gold,e_notoriety
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Barber(fem)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+	NEED=i_gold
+
+	STR={66 80}
+	DEX=90
+	INT={66 80}
+
+	FENCING={15.0 38.0}
+	PARRYING={45.0 68.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={45.0 68.0}
+	TACTICS={45.0 68.0}
+
+	ITEMNEWBIE=i_lantern
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+	SELL=i_hair_SHORT,10
+	ATTR=attr_decay
+	SELL=i_hair_LONG,10
+	ATTR=attr_decay
+	SELL=i_hair_PONYTAIL,10
+	ATTR=attr_decay
+	SELL=i_hair_MOHAWK,10
+	ATTR=attr_decay
+	SELL=i_hair_PAGEBOY,10
+	ATTR=attr_decay
+	SELL=i_hair_BUNS,10
+	ATTR=attr_decay
+	SELL=i_hair_AFRO,10
+	ATTR=attr_decay
+	SELL=i_hair_RECEDING,10
+	ATTR=attr_decay
+	SELL=i_hair_2_PIGTAILS,10
+	ATTR=attr_decay
+	SELL=i_hair_KRISNA,10
+	ATTR=attr_decay
+	SELL=i_hair_NONE,10
+	ATTR=attr_decay
+	SELL=i_beard_SHORT_MED,10
+	ATTR=attr_decay
+	SELL=i_beard_LONG_MED,10
+	ATTR=attr_decay
+	SELL=i_beard_VANDYKE,10
+	ATTR=attr_decay
+	SELL=i_beard_LONG,10
+	ATTR=attr_decay
+	SELL=i_beard_SHORT,10
+	ATTR=attr_decay
+	SELL=i_beard_GOATEE,10
+	ATTR=attr_decay
+	SELL=i_beard_MUSTACHE,10
+	ATTR=attr_decay
+	SELL=i_beard_NONE,10
+	ATTR=attr_decay
+	SELL=i_bottle_hair_dye,10
+
+[EOF]

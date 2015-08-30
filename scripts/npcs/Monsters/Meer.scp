@@ -1,0 +1,226 @@
+[CHARDEF 0302]
+//FIXME: Summons enraged animals to defend them.
+//FIXME: Summons a swarm of insects to attact their attackers.
+//FIXME: Rage Attack
+DEFNAME=c_meer_mage
+NAME=meer mage
+ICON=i_pet_meer_mage
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=51,55
+ARMOR=45
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=86.6
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Meer
+DESCRIPTION=Meer Mage
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=8000
+   STR={171 200}
+   MAXHITS={103 120}
+   DEX={126 145}
+   MAXSTAM={126 145}
+   INT={176 205}
+   MAXMANA={276 305}
+   ANATOMY={80.0 95.0}
+   EVALUATINGINTEL={95.0 105.0}
+   MAGERY={70.0 80.0}
+   MAGICRESISTANCE={80.0 100.0}
+   MEDITATION={85.0 95.0}
+   TACTICS={70.0 90.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD={45 55}
+   RESENERGY={25 35}
+   RESFIRE={15 25}
+   RESPOISON={25 35}
+ON=@NpcRestock
+   ITEM=loot_meer_mage
+   //500 - 600 Gold. 2 Medium Level Scrolls, Magic Items
+   //Special: Daemon Bone Armor, Level 3 Treasure Map
+
+[CHARDEF 0303]
+DEFNAME=c_meer_warrior
+NAME=meer warrior
+ICON=i_pet_meer_warrior
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=22,34
+ARMOR=35
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=65.9
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Meer
+DESCRIPTION=Meer Warrior
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=2000
+   KARMA=5000
+   STR={86 100}
+   MAXHITS={52 60}
+   DEX={186 200}
+   MAXSTAM={186 200}
+   INT={86 100}
+   MAXMANA={86 100}
+   ANATOMY={60.0 75.0}
+   MAGICRESISTANCE={91.0 100.0}
+   TACTICS={91.0 100.0}
+   WRESTLING={91.0 100.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={25 35}
+   RESFIRE={5 15}
+   RESPOISON={25 35}
+ON=@NpcRestock
+   ITEM=loot_meer_warrior
+   //50 - 100 Gold.
+ON=@GetHit
+   //Thrown Weapon Attack (daggers)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+      SRC.TARG.EFFECT 0,i_dagger,2,1
+      IF (RAND(5)==0)
+         SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+      ENDIF
+   ENDIF
+
+[CHARDEF 0304]
+//FIXME: Resurrects dead Meer.
+DEFNAME=c_meer_eternal
+NAME=meer eternal
+ICON=i_pet_meer_warrior
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=31,39
+ARMOR=45
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=109.4
+TAG.HitLifeLeech=50
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Meer
+DESCRIPTION=Meer Eternal
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=18000
+   KARMA=18000
+   STR={416 505}
+   MAXHITS={250 303}
+   DEX={146 165}
+   MAXSTAM={146 165}
+   INT={156 205}
+   MAXMANA={566 655}
+   ANATOMY={90.0 105.0}
+   EVALUATINGINTEL={90.0 100.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={150.0 200.0}
+   MEDITATION={90.0 100.0}
+   TACTICS={50.0 70.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD={1 10}
+   RESENERGY={20 30}
+   RESFIRE={1 10}
+   RESPOISON={10 20}
+ON=@NpcRestock
+   ITEM=loot_meer_eternal
+   //1000 - 1200 Gold. 2 Medium Level Scrolls, 2 High Level Scrolls, Magic Items
+   //Special: Level 5 Treasure Map
+ON=@GetHit
+   //Life Drain Aura Attack
+   IF (RAND(3)==0)
+      REF11=<UID>
+      FORCHARS 3
+         IF (<ISPLAYER>) || (<FLAGS>&statf_pet)
+            LOCAL.DAM=<R10,20>
+            DAMAGE <LOCAL.DAM> <DEF.dam_physical> <REF11>
+            REF11.HITS += <LOCAL.DAM>
+            IF (<REF11.HITS> > <REF11.MAXHITS>)
+               REF11.HITS=<REF11.MAXHITS>
+            ENDIF
+//            SRC.SYSMESSAGE @color_text,,1 The powerful aura of the Meer drains life from you
+         ENDIF
+      END
+   ENDIF
+
+[CHARDEF 0305]
+//FIXME: Casts Spell Reflection on itself.
+//FIXME: Heals any nearby hurt Meer Warriors.
+DEFNAME=c_meer_captain
+NAME=meer captain
+ICON=i_pet_meer_warrior
+//SOUND=snd_human_foomph09
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=34,39
+ARMOR=45
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=77.5
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Meer
+DESCRIPTION=Meer Captain
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=2000
+   KARMA=5000
+   STR={96 100}
+   MAXHITS={58 66}
+   DEX={186 200}
+   MAXSTAM={186 200}
+   INT={86 100}
+   MAXMANA={86 100}
+   ANATOMY={25.0 35.0}
+   ARCHERY={80.0 90.0}
+   MAGICRESISTANCE={90.0 100.0}
+   TACTICS={90.0 100.0}
+   SWORDSMANSHIP={80.0 90.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={35 45}
+   RESFIRE={10 20}
+   RESPOISON={35 45}
+ON=@NpcRestock
+   ITEM=loot_meer_captain
+   //50 - 100 Gold. Crossbow, 40-60 Bolts, Sword, 10-20 Reagents
+
+[EOF]

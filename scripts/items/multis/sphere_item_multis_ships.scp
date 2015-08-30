@@ -1,0 +1,488 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+
+
+[MULTIDEF 00]
+// Face N
+DEFNAME=i_multi_ship_small_n
+Name=Small Ship
+TYPE=T_SHIP
+VALUE=100000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Ship
+MULTIREGION=-2,-5,2,5
+COMPONENT=03e4e,1, 4	// tiller.
+COMPONENT=i_ship_hatch_n,0,-4	// hatch
+COMPONENT=03eb2,2,0		// plank
+COMPONENT=03eb1,-2,0	// plank
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 01]
+// Face E
+DEFNAME=i_multi_ship_small_e
+Name=Small Ship
+TYPE=T_SHIP
+VALUE=100000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Ship
+MULTIREGION=-5,-2,5,2
+COMPONENT=03e55,-4,0
+COMPONENT=i_ship_hatch_e,4, 0
+COMPONENT=03e85,0, 2
+COMPONENT=03e8a,0,-2
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 02]
+// Face S
+DEFNAME=i_multi_ship_small_s
+Name=Small Ship
+TYPE=T_SHIP
+VALUE=100000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Ship
+MULTIREGION=-2,-5,2,5
+COMPONENT=03e4b,0, -4
+COMPONENT=i_ship_hatch_s,0,  4
+COMPONENT=03eb2,2,  0
+COMPONENT=03eb1,-2, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 03]
+// Face W
+DEFNAME=i_multi_ship_small_w
+Name=Small Ship
+TYPE=T_SHIP
+VALUE=100000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Ship
+MULTIREGION=-5,-2,5,2
+COMPONENT=03e50,4, 0
+COMPONENT=i_ship_hatch_w,-4,0
+COMPONENT=03e85,0, 2
+COMPONENT=03e8a,0,-2
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 04]
+// Face N
+DEFNAME=i_multi_ship_dragon_small_n
+Name=Small Dragon Ship
+TYPE=T_SHIP
+VALUE=250000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Dragon Ship
+MULTIREGION=-2,-5,2,5
+COMPONENT=03e4e,1, 4, 0
+COMPONENT=i_ship_hatch_n,0,-4, 0
+COMPONENT=03eb2,2, 0, 0
+COMPONENT=03eb1,-2, 0, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 05]
+// Face E
+DEFNAME=i_multi_ship_dragon_small_e
+Name=Small Dragon Ship
+TYPE=T_SHIP
+VALUE=250000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=a mast
+MULTIREGION=-5,-2,5,2
+COMPONENT=03e55,-4,0
+COMPONENT=i_ship_hatch_e,4, 0
+COMPONENT=03e85,0, 2
+COMPONENT=03e8a,0,-2
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 06]
+// Face S
+DEFNAME=i_multi_ship_dragon_small_s
+Name=Small Dragon Ship
+TYPE=T_SHIP
+VALUE=250000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Dragon Ship
+MULTIREGION=-2,-5,2,5
+COMPONENT=03e4b,0, -4
+COMPONENT=i_ship_hatch_s,0,  4
+COMPONENT=03eb2,2,  0
+COMPONENT=03eb1,-2, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 07]
+// Face W
+DEFNAME=i_multi_ship_dragon_small_w
+Name=Small Dragon Ship
+TYPE=T_SHIP
+VALUE=250000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Small Dragon Ship
+MULTIREGION=-5,-2,5,2
+COMPONENT=03e50,4, 0
+COMPONENT=i_ship_hatch_w,-4,0
+COMPONENT=03e85,0, 2
+COMPONENT=03e8a,0,-2
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 08]
+// Face N
+DEFNAME=i_multi_ship_medium_n
+Name=Medium Ship
+TYPE=T_SHIP
+VALUE=350000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Ship
+MULTIREGION=-2,-6,2,6
+COMPONENT=03e4e,1, 5, 0
+COMPONENT=i_ship_hatch_n,0,-4, 0
+COMPONENT=03eb2,2, 0, 0
+COMPONENT=03eb1,-2, 0, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 09]
+// Face E
+DEFNAME=i_multi_ship_medium_e
+Name=Medium Ship
+TYPE=T_SHIP
+VALUE=350000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Ship
+MULTIREGION=-6,-2,6,2
+COMPONENT=03e55,-5,0, 0
+COMPONENT=i_ship_hatch_e,4, 0, 0
+COMPONENT=03e85,0, 2, 0
+COMPONENT=03e8a,0,-2, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 0a]
+// Face S
+DEFNAME=i_multi_ship_medium_s
+Name=Medium Ship
+TYPE=T_SHIP
+VALUE=350000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Ship
+MULTIREGION=-2,-6,2,5
+COMPONENT=03e4b,0,-5,0
+COMPONENT=i_ship_hatch_s,0,4,0
+COMPONENT=03eb2,2,0,0
+COMPONENT=03eb1,-2,0,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 0b]
+// Face W
+DEFNAME=i_multi_ship_medium_w
+Name=Medium Ship
+TYPE=T_SHIP
+VALUE=350000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Ship
+MULTIREGION=-6,-2,6,2
+COMPONENT=03e50,5, 0,0
+COMPONENT=i_ship_hatch_w,-4,0,0
+COMPONENT=03e85,0, 2,0
+COMPONENT=03e8a,0,-2,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 0c]
+// Face N
+DEFNAME=i_multi_ship_dragon_medium_n
+Name=Medium Dragon Ship
+TYPE=T_SHIP
+VALUE=450000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Dragon Ship
+MULTIREGION=-2,-6,2,6
+COMPONENT=03e4e,1, 5, 0
+COMPONENT=i_ship_hatch_n,0,-4, 0
+COMPONENT=03eb2,2, 0, 0
+COMPONENT=03eb1,-2, 0, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 0d]
+// Face E
+DEFNAME=i_multi_ship_dragon_medium_e
+Name=Medium Dragon Ship
+TYPE=T_SHIP
+VALUE=450000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Dragon Ship
+MULTIREGION=-6,-2,6,2
+COMPONENT=i_ship_tillerman,-5,0, 0
+COMPONENT=i_ship_hatch_e,4, 0, 0
+COMPONENT=03e87,0, 2, 0
+COMPONENT=03e8a,0,-2, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 0e]
+// Face S
+DEFNAME=i_multi_ship_dragon_medium_s
+Name=Medium Dragon Ship
+TYPE=T_SHIP
+VALUE=450000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Dragon Ship
+MULTIREGION=-2,-6,2,5
+COMPONENT=03e4b,0, -5,0
+COMPONENT=i_ship_hatch_s,0,  4,0
+COMPONENT=03ea9,2,  0,0
+COMPONENT=03eb1,-2, 0,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 0f]
+// Face W
+DEFNAME=i_multi_ship_dragon_medium_w
+Name=Medium Dragon Ship
+TYPE=T_SHIP
+VALUE=450000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Medium Dragon Ship
+MULTIREGION=-6,-2,6,2
+COMPONENT=03e50,5, 0
+COMPONENT=i_ship_hatch_w,-4,0
+COMPONENT=03e87,0, 2
+COMPONENT=03e8a,0,-2
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 010]
+// Face N
+DEFNAME=i_multi_ship_long_n
+Name=Long Ship
+TYPE=T_SHIP
+VALUE=550000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Ship
+MULTIREGION=-2,-7,2,7
+COMPONENT=03e4e,1, 5, 0
+COMPONENT=i_ship_hatch_n,0,-5, 0
+COMPONENT=03eb2,2, -1, 0
+COMPONENT=03eb1,-2, -1, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 011]
+// Face E
+DEFNAME=i_multi_ship_long_e
+Name=Long Ship
+TYPE=T_SHIP
+VALUE=550000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Ship
+MULTIREGION=-7,-2,7,2
+COMPONENT=03e55,-5,0, 0
+COMPONENT=i_ship_hatch_e,5, 0, 0
+COMPONENT=03e85,1, 2, 0
+COMPONENT=03e8a,1,-2, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 012]
+// Face S
+DEFNAME=i_multi_ship_long_s
+Name=Long Ship
+TYPE=T_SHIP
+VALUE=550000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Ship
+MULTIREGION=-2,-7,2,5
+COMPONENT=03e4b,0, -5,0
+COMPONENT=i_ship_hatch_s,0, 5,0
+COMPONENT=03eb2,2, 1,0
+COMPONENT=03eb1,-2, 1,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 013]
+// Face W
+DEFNAME=i_multi_ship_long_w
+Name=Long Ship
+TYPE=T_SHIP
+VALUE=550000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Ship
+MULTIREGION=-7,-2,7,2
+COMPONENT=03e50,5, 0,0
+COMPONENT=i_ship_hatch_w,-5,0,0
+COMPONENT=03e85,-1, 2,0
+COMPONENT=03e8a,-1,-2,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 014]
+// Face N
+DEFNAME=i_multi_ship_dragon_long_n
+Name=Long Dragon Ship
+TYPE=T_SHIP
+VALUE=650000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Dragon Ship
+MULTIREGION=-2,-7,2,7
+COMPONENT=03e4e,1, 5, 0
+COMPONENT=i_ship_hatch_n,0,-5, 0
+COMPONENT=03eb2,2, -1, 0
+COMPONENT=03eb1,-2, -1, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 015]
+// Face E
+DEFNAME=i_multi_ship_dragon_long_e
+Name=Long Dragon Ship
+TYPE=T_SHIP
+VALUE=650000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Dragon Ship
+MULTIREGION=-7,-2,7,2
+COMPONENT=03e55,-5,0, 0
+COMPONENT=i_ship_hatch_e,5, 0, 0
+COMPONENT=03e85,1, 2, 0
+COMPONENT=03e8a,1,-2, 0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 016]
+// Face S
+DEFNAME=i_multi_ship_dragon_long_s
+Name=Long Dragon Ship
+TYPE=T_SHIP
+VALUE=650000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Dragon Ship
+MULTIREGION=-2,-7,2,5
+COMPONENT=03e4b,0, -5,0
+COMPONENT=i_ship_hatch_s,0, 5,0
+COMPONENT=03eb2,2, 1,0
+COMPONENT=03eb1,-2, 1,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 017]
+// Face W
+DEFNAME=i_multi_ship_dragon_long_w
+Name=Long Dragon Ship
+TYPE=T_SHIP
+VALUE=650000
+HEIGHT=3
+CAN=CAN_I_BLOCK
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Long Dragon Ship
+MULTIREGION=-7,-2,7,2
+COMPONENT=03e50,5, 0,0
+COMPONENT=i_ship_hatch_w,-5,0,0
+COMPONENT=03e85,-1, 2,0
+COMPONENT=03e8a,-1,-2,0
+TSPEECH=spk_ship_cmds
+
+[MULTIDEF 018]
+// Face N
+DEFNAME=i_multi_ship_orc_n
+NAME=Orcish Galleon
+TYPE=T_SHIP
+VALUE=14000
+HEIGHT=14
+CAN=CAN_I_BLOCK
+
+CATEGORY=Multis
+SUBSECTION=Ships
+DESCRIPTION=Orcish Galleon
+
+TSPEECH=spk_ship_cmds
+
+MULTIREGION=-8,-9,8,12
+COMPONENT=014fa,2,1,14
+COMPONENT=014fa,-2,1,14
+COMPONENT=014fa,2,-3,14
+COMPONENT=014fa,-2,-3,14
+COMPONENT=014fa,2,5,14
+COMPONENT=014fa,-2,5,14
+COMPONENT=079a5,0,7
+COMPONENT=079a4,-1,7
+COMPONENT=079a6,1,7
+COMPONENT=0798d,0,9
+COMPONENT=0798b,-1,9
+COMPONENT=07990,1,9
+COMPONENT=07994,0,10
+COMPONENT=07992,-1,10
+COMPONENT=07997,1,10
+COMPONENT=07975,-2,6
+COMPONENT=07979,2,6
+COMPONENT=07924,0,-6
+COMPONENT=0793d,-2,-2
+COMPONENT=07941,2,-2
+COMPONENT=07944,-2,-1
+COMPONENT=07948,2,-1
+COMPONENT=07936,-2,-3
+COMPONENT=0793a,2,-3
+COMPONENT=0796e,-2,5
+COMPONENT=07972,2,5
+COMPONENT=07959,-2,2
+COMPONENT=0795d,2,2
+
+[eof]

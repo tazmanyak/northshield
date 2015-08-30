@@ -1,0 +1,268 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[dialog d_plant_polen]
+20,20
+page 0
+//bg
+resizepic 50 50 0e10 200 150
+tilepic 45 45 0CEF
+tilepic 45 118 0CF0
+tilepic 211 45 0CEB
+tilepic 211 118 0CEC
+//-bg
+
+button 70 67 0d4 0d4 1 0 1
+tilepic 57 65 01600
+
+dtext 108 67 0835 Reproduction
+
+button 80 116 0d4 0d4 1 0 3
+tilepic 66 117 01aa2
+
+button 128 116 0d4 0d4 1 0 4
+tilepic 113 120 01021
+
+button 177 116 0d4 0d4 1 0 5
+tilepic 160 121 0dcf
+
+button 70 163 0d2 0d2 1 0 6
+tilepic 56 164 01aa2
+
+button 138 163 0d2 0d2 1 0 7
+tilepic 123 167 01021
+
+button 212 163 0d2 0d2 1 0 8
+tilepic 195 168 0dcf
+
+if (<tag0.m_status>==9)
+button 212 67 0d4 0d4 1 0 10
+tilepic 202 68 0c61
+dtext 216 66 021 \
+endif
+
+bAddPollinationState 106, 116
+bAddResourcesState 149, 116
+bAddSeedsState 199, 116
+
+[dialog d_plant_polen button]
+on=1
+dialog d_plant_gump
+
+on=3
+src.codexofwisdom 67,1
+
+on=4
+src.codexofwisdom 69,1
+
+on=5
+src.codexofwisdom 68,1
+
+on=6
+if !(<biscrossable>)
+src.sysmessage @,,1 Mutant bitkiler polen uretemezler. // mutated plants do not produce polen
+return 1
+endif
+
+if !(<bpollenproducing>)
+src.sysmessage @,,1 Buyumenin bu asamasinda bitkiden polen alamazsiniz.// You cannot gather pollen from a plant in this stage of development!
+return 1
+endif
+
+if !strmatch('<bhealth>','Vibrent') && !strmatch('<bhealth>','healthy')
+src.sysmessage @,,1 Sagliksiz bir bitkiden polen alamazsiniz. // You cannot gather pollen from an unhealthy plant!
+return 1
+endif
+morex=10
+target
+src.sysmessage @,,1 Capraz polenleme yapmak istediginiz saksiyi seciniz. // Target the plant you wish to cross-pollinate to.
+return 1
+
+on=7
+if (<def0.planttype_<dtag0.m_planttype>_resources_<dtag0.m_planthue>>) && (<def0.planthue_<dtag0.m_planthue>_resources_<dtag0.m_planttype>>)
+	if !(<def0.planttype_<dtag0.m_planttype>_resources_<dtag0.m_planthue>>==<def0.planthue_<dtag0.m_planthue>_resources_<dtag0.m_planttype>>)
+	src.sysmessage @,,1 Bu bitki uzerinden alabileceginiz // This plant has no resources to gather!
+	return 1
+	endif
+else
+src.sysmessage @,,1 Bitki uzerinden alabileceginiz herhangi bir kaynak yok. // This plant has no resources to gather!
+return 1
+endif
+
+if !(<dtag0.m_availableresources>)
+src.sysmessage @,,1 Bitki uzerinden alabileceginiz herhangi bir kaynak yok. // This plant has no resources to gather!
+return 1
+endif
+
+tag0.m_availableresources -= 1
+serv.newitem <def0.planttype_<dtag0.m_planttype>_resources_<dtag0.m_planthue>>
+new.cont=<src.findlayer.layeR_pack.uid>
+src.sysmessage @,,1 Bitki uzerinden biraz kaynak edindiniz. // you gather some resources
+
+on=8
+if !(<biscrossable>)
+src.sysmessage @,,1 Mutant bitkilerlerden tohum alamazsiniz. // mutated plants do not give seed..
+return 1
+endif
+
+if !(<dtag0.m_availableseeds>)
+src.sysmessage @,,1 Geriye tohum kalmamis. // no seed left
+return 1
+endif
+
+tag0.m_availableseeds -= 1
+serv.newitem i_seed_plain
+new.tag0.m_planthue=<bSeedHue>
+new.tag0.m_planttype=<bSeedType>
+new.tag0.showtype=1
+new.color=<def.planthue_<bseedhue>_hue>
+new.cont=<src.findlayer.layeR_pack.uid>
+src.sysmessage @,,1 Bitkiden tohum elde ettiniz. // You gather seeds from the plant.
+
+on=10
+dialog d_plant_decorative
+
+[function bisprimary]
+if (<def.planthue_<dtag0.planthue>_planthue>==<def.planthue.red>) || (<def.planthue_<dtag0.planthue>_planthue>==<def.planthue.blue>) || (<def.planthue_<dtag0.planthue>_planthue>==<def.planthue.yellow>)
+return 1
+else
+return 0
+endif
+
+[function bgetnotbright]
+local.adres=<def.planthue_<dtag0.m_planthue>_planthue>& ~<def.planthue.bright>
+return <local.adres>
+
+[function bisbright]
+if (<def.planthue_<dtag0.m_planthue>_planthue>&<def.planthue.bright>)
+return 1
+else
+return 0
+endif
+
+[function biscrossable]
+if (<def.planthue_<dtag0.m_planthue>_planthue>&<def.planthue.crossable>)
+return 1
+else
+return 0
+endif
+
+[function bHueCross]
+ref1=<argv[0]>
+ref2=<argv[1]>
+
+if !(<ref1.biscrossable>) || !(<ref2.biscrossable>)
+return 0
+endif
+
+if (rand(100)==1)  //mutasyon
+return <eval {<def.planthue.black> 1 <def.planthue.white> 1}>
+endif
+
+if (<def.planthue_<ref1.dtag0.m_planthue>_planthue>==<def.planthue.plain>) || (<def.planthue_<ref1.dtag0.m_planthue>_planthue>==<def.planthue.plain>)
+return <def.planthue.plain>
+endif
+
+local.notbrightfirst=<ref1.bgetnotbright>
+local.notbrightsecond=<ref2.bgetnotbright>
+
+if (<local.notbrightfirst>==<local.notbrightsecond>)
+local.adres=<local.notbrightfirst> | <def.planthue.bright>
+return <local.adres>
+endif
+
+local.firstprimary=<ref1.biscrossable>
+local.secondprimary=<ref2.biscrossable>
+
+if (<local.firstprimary> && <local.secondprimary>)
+local.adres=<local.notbrightfirst> | <local.notbrightsecond>
+return <local.adres>
+endif
+
+if (<local.firstprimary> && !<local.secondprimary>)
+return <local.notbrightfirst>
+endif
+
+if (!<local.firstprimary> && <local.secondprimary>)
+return <local.notbrightsecond>
+endif
+
+local.adres=<local.notbrightfirst> & <local.notbrightsecond>
+return <local.adres>
+
+[function bAddPollinationState]
+if !(<bPollenProducing>)
+dtext <argv[0]> <argv[1]> 035 -
+//AddLabel( x, y, 0x35, "-" );
+elif (!<dtag0.m_pollen>)
+dtext <argv[0]> <argv[1]> 021 !
+//AddLabel( x, y, 0x21, "!" );
+else
+dtext <argv[0]> <argv[1]> 03f +
+//AddLabel( x, y, 0x3F, "+" );
+endif
+
+[function bAddResourcesState]
+local.total = <eval <dtag0.m_AvailableResources> + <dtag0.m_LeftResources>>
+if (<def0.planttype_<dtag0.m_planttype>_resources_<dtag0.m_planthue>>) && (<def0.planthue_<dtag0.m_planthue>_resources_<dtag0.m_planttype>>)
+	if !(<def0.planthue_<dtag0.m_planthue>_resources_<dtag0.m_planttype>>==<def0.planttype_<dtag0.m_planttype>_resources_<dtag0.m_planthue>>)
+	dtext <eval <argv[0]>+5> <argv[1]> 021 X
+	return 1
+	endif
+else
+dtext <eval <argv[0]>+5> <argv[1]> 021 X
+return 1
+endif
+if (!<local.total>)
+dtext <eval <argv[0]>+5> <argv[1]> 021 X
+else
+dtext <argv[0]> <argv[1]> <def0.planthue_<dtag0.m_planthue>_gumphue> <dtag0.m_availableresources>/<dlocal.total>
+endif
+
+[function bAddSeedsState]
+local.total=<eval <dtag0.m_availableseeds>+<dtag0.m_leftseeds>>
+if (!<biscrossable> || !<local.total>)
+dtext <eval <argv[0]>+5> <argv[1]> 021 X
+else
+dtext <argv[0]> <argv[1]> <def0.planthue_<bSeedHue>_gumphue> <dtag0.m_availableseeds>/<dlocal.total>
+endif
+
+[dialog d_plant_decorative]
+20,20
+page 0
+//arkaplan
+resizepic 50 50 0e10 200 150
+tilepic 45 45 0CEF
+tilepic 45 118 0CF0
+tilepic 211 45 0CEB
+tilepic 211 118 0CEC
+//-arkaplan
+dtext 115 85 044 Set plant
+dtext 82 106 044 to decorative mode?
+button 98 140 047e 0480 1 0 1
+button 168 140 0481 0483 1 0 2
+
+[dialog d_plant_decorative button]
+on=1
+dialog d_plant_polen
+
+on=2
+tag0.m_status=10 // it is decorative now.
+bupdate
+src.sysmessage @,,1 Bitkiyi budadiniz // you prune the plant.
+return 1
+
+[eof]

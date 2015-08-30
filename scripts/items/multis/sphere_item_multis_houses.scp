@@ -1,0 +1,1249 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Sunday, December 6 2009
+//// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Tuesday, October 15, 2013
+//
+VERSION=0.56c
+
+
+
+
+// NEEDS: _multis.scp - use EXTRACT to get multis' for other multi part items:
+// loom
+// cannon
+// beds
+// tables
+// ankhs
+// vat
+// forges
+// caskets
+// nest
+// catapults facing other dir.
+// ballista facing dir.
+// teleporters
+// trees
+
+
+[MULTIDEF 064]
+DEFNAME=i_multi_house_stone_plaster_small
+Name=Small Stone and Plaster House
+TYPE=T_MULTI
+VALUE=203800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Stone and Plaster House
+MULTIREGION=-3,-3,3,4
+COMPONENT=i_door_wood,0,3,7
+COMPONENT=i_sign_brass_2,2,4,5
+
+[MULTIDEF 066]
+DEFNAME=i_multi_house_stone_small
+Name=Small Stone House
+TYPE=T_MULTI
+VALUE=206000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Stone House
+MULTIREGION=-3,-3,3,4
+COMPONENT=i_door_wood,0,3,7
+COMPONENT=i_sign_brass_2,2,4,5
+
+[MULTIDEF 068]
+DEFNAME=i_multi_house_stone_brick_small
+Name=Small Brick House
+TYPE=T_MULTI
+VALUE=203800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Brick House
+MULTIREGION=-3,-3,3,4
+COMPONENT=i_door_wood,0,3,7
+COMPONENT=i_sign_brass_2,2,4,5
+
+[MULTIDEF 06a]
+DEFNAME=i_multi_house_stone_wood_small
+Name=Small Wood House
+TYPE=T_MULTI
+VALUE=203800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Wood House
+MULTIREGION=-3,-3,3,4
+COMPONENT=i_door_wood,0,3,7
+COMPONENT=i_sign_brass_2,2,4,5
+
+[MULTIDEF 06c]
+DEFNAME=i_multi_house_wood_plaster_small
+Name=Small Wood and Plaster House
+TYPE=T_MULTI
+VALUE=203800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Wood and Plaster House
+MULTIREGION=-3,-3,3,4
+COMPONENT=i_door_wood,0,3,7
+COMPONENT=i_sign_brass_2,2,4,5
+
+[MULTIDEF 06d]
+DUPEITEM=01006c
+
+[MULTIDEF 06e]
+DEFNAME=i_multi_house_wood_thatched_small
+Name=Small Wood House Thatched Roof
+TYPE=T_MULTI
+VALUE=203800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Wood House Thatched Roof
+MULTIREGION=-3,-3,3,4
+COMPONENT=i_door_wood,0,3,7
+COMPONENT=i_sign_brass_2,2,4,5
+
+[MULTIDEF 06f]
+DUPEITEM=01006e
+
+[MULTIDEF 070]
+DEFNAME=i_multi_tent_blue
+Name=Blue Tent
+TYPE=T_MULTI
+VALUE=22000
+CATEGORY=Multis
+SUBSECTION=Tents
+DESCRIPTION=Blue Tent
+MULTIREGION=-3,-3,4,4
+COMPONENT=0e43,0,-1,7
+
+[MULTIDEF 071]
+DUPEITEM=010070
+
+[MULTIDEF 072]
+DEFNAME=i_multi_tent_green
+Name=Green Tent
+TYPE=T_MULTI
+VALUE=22000
+CATEGORY=Multis
+SUBSECTION=Tents
+DESCRIPTION=Green Tent
+MULTIREGION=-3,-3,4,4
+COMPONENT=0e43,0,-1,7	// box
+
+[MULTIDEF 073]
+DUPEITEM=010072
+
+[MULTIDEF 074]
+DEFNAME=i_multi_house_3room
+Name=Three Room House
+TYPE=T_MULTI
+VALUE=504500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Three Room House
+MULTIREGION=-7,-7,6,6
+COMPONENT=i_door_wood,-1, 6, 7
+COMPONENT=06A7,0, 6, 7
+COMPONENT=i_door_wood,-3,-1, 7
+COMPONENT=i_door_wood,3,-1, 7	// Front door.
+COMPONENT=i_sign_brass_2,3, 7, 5	// Place the sign.
+
+[MULTIDEF 075]
+DUPEITEM=010074
+
+[MULTIDEF 076]
+DEFNAME=i_multi_house_wood_plaster_2story
+Name=Two Story Wood and Plaster House
+TYPE=T_MULTI
+VALUE=504500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Two Story Wood and Plaster House
+MULTIREGION=-7,-7,6,7
+COMPONENT=i_door_wood,-3, 6, 7
+COMPONENT=06A7,-2, 6, 7
+COMPONENT=i_door_wood,-2, 0, 27
+COMPONENT=i_door_wood,-3, 0, 7	// Front door.
+COMPONENT=i_sign_brass_2, 1, 7, 5	// Place the sign.
+
+[MULTIDEF 077]
+DUPEITEM=010076
+
+[MULTIDEF 078]
+DEFNAME=i_multi_house_stone_plaster_2story
+Name=Two Story Stone and Plaster House
+TYPE=T_MULTI
+VALUE=504500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Two Story Stone and Plaster House
+MULTIREGION=-7,-7,6,7
+COMPONENT=i_door_wood,-3, 6, 7
+COMPONENT=06A7,-2, 6, 7
+COMPONENT=i_door_wood,-3, 0, 27
+COMPONENT=i_door_wood,-3, 0, 7 // Front door.
+COMPONENT=i_sign_brass_2, 1, 7, 5 // Place the sign.
+
+[MULTIDEF 079]
+DUPEITEM=010078
+
+[MULTIDEF 07a]
+DEFNAME=i_multi_tower
+Name=Tower
+TYPE=T_MULTI
+VALUE=433200
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Tower
+MULTIREGION=-11,-7,12,8
+COMPONENT=067D,	 1, 4, 46
+COMPONENT=067D,	 1, 4, 26
+COMPONENT=i_door_metal,	 3,-2, 7
+COMPONENT=0677,	 1, 6, 7	// Front door 2.
+COMPONENT=i_door_metal,	 0, 6, 7	// Front door 1.
+COMPONENT=i_sign_brass_2,	 4, 7, 5	// Place the sign.
+
+[MULTIDEF 07b]
+DUPEITEM=01007a
+
+[MULTIDEF 07c]
+DEFNAME=i_multi_keep
+Name=Keep
+TYPE=T_MULTI
+VALUE=4200000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Keep
+MULTIREGION=-11,-11,12,12
+COMPONENT=0677,	 1, 10, 6	// Front door 2.
+COMPONENT=i_door_metal,	 0, 10, 6	// Front door 1.
+COMPONENT=i_sign_brass_2, 4, 11, 5	// Place the sign.
+
+[MULTIDEF 07d]
+DUPEITEM=01007c
+
+[MULTIDEF 07e]
+DEFNAME=i_multi_castle
+Name=Castle
+TYPE=T_MULTI
+VALUE=6350000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Castle
+MULTIREGION=-15,-15,15,16
+COMPONENT=0677, 1, 5, 6
+COMPONENT=i_door_metal, 0, 5, 6
+COMPONENT=0677, 1, 15, 6	// Front door 2.
+COMPONENT=i_door_metal, 0, 15, 6	// Front door 1.
+COMPONENT=i_sign_brass_2, 4, 16, 5	// Place the sign.
+
+[MULTIDEF 07f]
+//Name=Castle
+DUPEITEM=01007e
+
+[MULTIDEF 087]
+// ?
+DEFNAME=i_multi_shop_blacksmithy_large_2
+Name=Large Blacksmithy Shop
+TYPE=T_MULTI
+VALUE=504500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Large Blacksmithy Shop
+MULTIREGION=-7,-7,7,7
+COMPONENT=i_door_wood,	 4, -1, 7
+COMPONENT=06ad,	 1,  4, 7
+COMPONENT=06ad,	 1, -4, 7
+COMPONENT=06A7,	-3, 6, 7	// Front door 2.
+COMPONENT=i_door_wood,	-4, 6, 7	// Front door 1.
+COMPONENT=i_sign_brass_2,	 0, 7, 5	// Place the sign.
+
+[MULTIDEF 08c]
+// minor support diff from 4087
+DEFNAME=i_multi_shop_blacksmithy_large
+Name=Large Blacksmithy Shop
+TYPE=T_MULTI
+VALUE=504500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Large Blacksmithy Shop
+MULTIREGION=-7,-7,7,7
+COMPONENT=i_door_wood,	 4, -1, 7
+COMPONENT=06ad,	 1,  4, 7
+COMPONENT=06ad,	 1, -4, 7
+COMPONENT=06A7,	-3, 6, 7	// Front door 2.
+COMPONENT=i_door_wood,	-4, 6, 7	// Front door 1.
+COMPONENT=i_sign_brass_2,	 0, 7, 5	// Place the sign.
+
+[MULTIDEF 08d]
+DUPEITEM=01008c
+
+[MULTIDEF 096]
+DEFNAME=i_multi_house_patio_marble
+Name=Large Marble Patio House
+TYPE=T_MULTI
+VALUE=504500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Large Marble Patio House
+MULTIREGION=-7,-7,7,7
+COMPONENT=i_door_metal, -4, 3, 4
+COMPONENT=0677, -3, 3, 4
+COMPONENT=i_sign_brass_2, 0, 7, 0
+
+[MULTIDEF 098]
+// Small Tower
+DEFNAME=i_multi_tower_wizard
+Name=Wizards Tower
+TYPE=T_MULTI
+VALUE=358500
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Wizards Tower
+MULTIREGION=-3,-3,4,4
+COMPONENT=i_door_metal, 3, 3, 6
+COMPONENT=i_sign_brass_2, 1, 4, 5
+
+[MULTIDEF 09a]
+DEFNAME=i_multi_cabin_log_2story
+Name=Two Story Log Cabin
+TYPE=T_MULTI
+VALUE=400900
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Two Story Log Cabin
+MULTIREGION=-3,-6,4,7
+COMPONENT=06e5, 1, 4, 8
+COMPONENT=06e5, 1, 0, 29
+COMPONENT=i_sign_brass_2, 4, 7, 9
+COMPONENT=08a4, 3, -3, 8   //temp wood ladder, rope not working
+COMPONENT=08a2, 3, -4, 20  //temp wood ladder, rope not working
+
+[MULTIDEF 09c]
+DEFNAME=i_multi_house_patio_sand
+Name=Sandstone Patio House
+TYPE=T_MULTI
+VALUE=400900
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Sandstone Patio House
+MULTIREGION=-5,-4,6,4
+COMPONENT=i_door_wood_2, -1, 3, 6
+COMPONENT=i_sign_brass_2, 2, 4, 1
+//COMPONENT=01ec, 2, 4, 1
+
+[MULTIDEF 09e]
+DEFNAME=i_multi_villa_2story
+Name=Two Story Villa
+TYPE=T_MULTI
+VALUE=400900
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Two Story Villa
+MULTIREGION=-5,-5,5,6
+COMPONENT=i_door_wood, -3, -1, 25
+COMPONENT=06b3, 1, 0, 25
+COMPONENT=i_door_wood, 3, 1, 5
+COMPONENT=06a7, 4, 1, 5
+COMPONENT=i_sign_brass_2, 1, 6, 2
+
+[MULTIDEF 0a0]
+DEFNAME=i_multi_shop_stone_small
+Name=Small Stone Shop
+TYPE=T_MULTI
+VALUE=300600
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Stone Shop
+MULTIREGION=-3,-3,3,4
+COMPONENT=067b, -2, 0, 27
+COMPONENT=i_sign_brass_2, 3, 4, 7
+
+[MULTIDEF 0a2]
+DEFNAME=i_multi_shop_marble_small
+Name=Small Marble Shop
+TYPE=T_MULTI
+VALUE=323000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Small Marble Shop
+MULTIREGION=-3,-3,3,4
+COMPONENT=067b, -2, 0, 24
+COMPONENT=i_sign_brass_2, 3, 4, 5
+
+[MULTIDEF 03e8]
+// Treasure multi's don't work
+DEFNAME=i_multi_treasure
+Name=Treasure
+TYPE=T_MULTI
+VALUE=1000
+CATEGORY=Multis
+SUBSECTION=Useless
+DESCRIPTION=Treasure 1
+MULTIREGION=-4,-5,4,5
+
+[MULTIDEF 03e9]
+// Treasure multi's don't work
+DEFNAME=i_multi_treasure2
+Name=Treasure
+TYPE=T_MULTI
+VALUE=2000
+CATEGORY=Multis
+SUBSECTION=Useless
+DESCRIPTION=Treasure 2
+MULTIREGION=-4,-5,4,5
+
+[MULTIDEF 03ea]
+// Treasure multi's don't work
+DEFNAME=i_multi_treasure3
+Name=Treasure
+TYPE=T_MULTI
+VALUE=3000
+CATEGORY=Multis
+SUBSECTION=Useless
+DESCRIPTION=Treasure 3
+MULTIREGION=-4,-5,4,5
+
+[MULTIDEF 03eb]
+// Treasure multi's don't work
+DEFNAME=i_multi_treasure4
+Name=Treasure
+TYPE=T_MULTI
+VALUE=4000
+CATEGORY=Multis
+SUBSECTION=Useless
+DESCRIPTION=Treasure 4
+MULTIREGION=-4,-5,4,5
+
+[MULTIDEF 07d0]
+DEFNAME=i_multi_lattice
+Name=Lattice
+TYPE=T_MULTI
+VALUE=1000
+CATEGORY=Multis
+SUBSECTION=Other
+DESCRIPTION=Lattice 1
+MULTIREGION=-4,-5,4,5
+
+[MULTIDEF 07d7]
+DEFNAME=i_multi_lattice7
+Name=Lattice
+TYPE=T_MULTI
+VALUE=1000
+CATEGORY=Multis
+SUBSECTION=Other
+DESCRIPTION=Lattice 7
+MULTIREGION=-4,-5,4,5
+
+[MULTIDEF 0BB8]
+DEFNAME=i_multi_house_wheat_cottage
+Name=Wheat House
+TYPE=T_MULTI
+VALUE=75000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Wheat Cottage
+MULTIREGION=-4,-5,4,5
+
+[ITEMDEF 09388]
+DEFNAME=i_multi_evil_compound
+Name=Evil Compound
+TYPE=T_MULTI
+VALUE=10000000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Evil Compound
+MULTIREGION=-24,-12,24,13
+//************************
+// Pure custom multis,  MULTIREGION=0,0,0,0 is just fine. It will automatically union the items.
+
+[MULTIDEF 0e00]
+// N
+DEFNAME=i_multi_carpet_magic_n
+Name=Carpet
+ID=0ac1
+TYPE=T_SHIP
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Carpet
+MULTIREGION=0,0,0,0
+COMPONENT=0ac3,-1,-1
+COMPONENT=0af7,0,-1
+COMPONENT=0ac5,1,-1
+COMPONENT=0af8,1,0
+COMPONENT=0ac2,1,1
+COMPONENT=0af9,0,1
+COMPONENT=0ac4,-1,1
+COMPONENT=0af6,-1,0
+
+[MULTIDEF 0e01]
+// E
+DEFNAME=i_multi_carpet_magic_e
+Name=Carpet
+ID=0ac1
+TYPE=T_SHIP
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Carpet
+MULTIREGION=0,0,0,0
+COMPONENT=0ac3,-1,-1
+COMPONENT=0af7,0,-1
+COMPONENT=0ac5,1,-1
+COMPONENT=0af8,1,0
+COMPONENT=0ac2,1,1
+COMPONENT=0af9,0,1
+COMPONENT=0ac4,-1,1
+COMPONENT=0af6,-1,0
+
+[MULTIDEF 0e02]
+// S
+DEFNAME=i_multi_carpet_magic_s
+Name=Carpet
+ID=0ac1
+TYPE=T_SHIP
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Carpet
+MULTIREGION=0,0,0,0
+COMPONENT=0ac3,-1,-1
+COMPONENT=0af7,0,-1
+COMPONENT=0ac5,1,-1
+COMPONENT=0af8,1,0
+COMPONENT=0ac2,1,1
+COMPONENT=0af9,0,1
+COMPONENT=0ac4,-1,1
+COMPONENT=0af6,-1,0
+
+[MULTIDEF 0e03]
+// W
+DEFNAME=i_multi_carpet_magic_w
+Name=Carpet
+ID=0ac1
+TYPE=T_SHIP
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Carpet
+MULTIREGION=0,0,0,0
+COMPONENT=0ac3,-1,-1
+COMPONENT=0af7,0,-1
+COMPONENT=0ac5,1,-1
+COMPONENT=0af8,1,0
+COMPONENT=0ac2,1,1
+COMPONENT=0af9,0,1
+COMPONENT=0ac4,-1,1
+COMPONENT=0af6,-1,0
+
+[ITEMDEF i_multi_cage]
+Name=Cage
+TYPE=T_MULTI
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Cage
+MULTIREGION=0,0,0,0
+COMPONENT=i_fence_iron,-1, 0, 0
+COMPONENT=0822, 1,  1, 0
+COMPONENT=i_fence_iron, -1, 1, 0
+COMPONENT=i_fence_iron, 1,  0, 0
+COMPONENT=0823, 0, -1, 0
+COMPONENT=0823, 0,  1, 0
+COMPONENT=0823, 1, -1, 0
+
+[ITEMDEF i_multi_fount_brown]
+Name=Brown Fountain
+ID=019d3
+TYPE=T_MULTI
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Brown Fountain
+MULTIREGION=0,0,0,0
+COMPONENT=019cf,0, 1, 0
+COMPONENT=019ce,0, 2, 0
+COMPONENT=i_fountain_2,0, 3, 0
+COMPONENT=019d1,1, 0, 0
+COMPONENT=019d0,1, 1, 0
+COMPONENT=019cd,1, 2, 0
+COMPONENT=019c4,1, 3, 0
+COMPONENT=019ca,2, 0, 0
+COMPONENT=019cb,2, 1, 0
+COMPONENT=019cc,2, 2, 0
+COMPONENT=019c5,2, 3, 0
+COMPONENT=019c9,3, 0, 0
+COMPONENT=019c8,3, 1, 0
+COMPONENT=019c7,3, 2, 0
+COMPONENT=019c6,3, 3, 0
+
+ON=@Create
+	//SECTOR.ALLCLIENTS SOUND 42
+
+[ITEMDEF i_multi_fount_white]
+Name=White Fountain
+ID=5950
+TYPE=T_MULTI
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=White Fountain
+MULTIREGION=0,0,0,0
+COMPONENT=5953,-1,-1,0,0
+COMPONENT=5949,-1,0,0,0
+COMPONENT=5948,-1,1,0,0
+COMPONENT=5937,-1,2,0,0
+COMPONENT=5951,0,-1,0,0
+COMPONENT=5947,0,1,0,0
+COMPONENT=5938,0,2,0,0
+COMPONENT=5944,1,-1,0,0
+COMPONENT=5945,1,0,0,0
+COMPONENT=5946,1,1,0,0
+COMPONENT=5939,1,2,0,0
+COMPONENT=5943,2,-1,0,0
+COMPONENT=5942,2,0,0,0
+COMPONENT=5941,2,1,0,0
+
+ON=@Create
+	//SECTOR.ALLCLIENTS SOUND 42
+
+[MULTIDEF 01d11]
+DEFNAME=i_multi_blood_pent
+NAME=blood pentagram
+TYPE=T_MULTI
+CATEGORY=Multis
+SUBSECTION=Misc
+DESCRIPTION=Blood Pentagram
+MULTIREGION=0,0,0,0
+COMPONENT=01d09,-1,0
+COMPONENT=01cfa,-1,-1
+COMPONENT=01d0a,0,-1
+COMPONENT=01d08,-1,1
+COMPONENT=01d0b,1,-1
+COMPONENT=01d12,1,0
+COMPONENT=01d0f,1,1
+COMPONENT=01d07,-1,2
+COMPONENT=01d10,0,1
+COMPONENT=01cf9,-1,-2
+COMPONENT=01cfc,0,-2
+COMPONENT=01cfd,1,-2
+COMPONENT=01cfe,2,-2
+COMPONENT=01cff,3,-2
+COMPONENT=01cf9,-2,-1
+COMPONENT=01d0c,2,-1
+COMPONENT=01d00,3,-1
+COMPONENT=01cf8,-2,0
+COMPONENT=01d0d,2,0
+COMPONENT=01d01,3,0
+COMPONENT=01cf7,-2,1
+COMPONENT=01d0e,2,1
+COMPONENT=01d02,3,1
+COMPONENT=01cf6,-2,2
+//COMPONENT=01d08,-1,1
+COMPONENT=01d06,0,2
+COMPONENT=01d05,1,2
+COMPONENT=01d04,2,2
+COMPONENT=01d03,3,2
+COMPONENT=01cf5,-2,3
+COMPONENT=01cf4,-1,3
+COMPONENT=01cf3,0,3
+COMPONENT=01cf2,1,3
+COMPONENT=01cf1,2,3
+
+[ITEMDEF i_multi_catapult_s]
+// catapult facing south
+ID=5705
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=5708,-1,-1,0,0
+COMPONENT=5723,-1,0,0,0
+COMPONENT=5707,-1,1,0,0
+COMPONENT=5726,-1,2,0,0
+COMPONENT=5709,0,-1,0,0
+COMPONENT=5705,0,2,0,0
+COMPONENT=5710,1,-1,0,0
+COMPONENT=5717,1,0,0,0
+COMPONENT=5710,1,1,0,0
+COMPONENT=5731,1,2,0,0
+COMPONENT=5711,1,2,0,0
+
+[ITEMDEF i_multi_serp_pillar]
+ID=9032
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=9022,-2,0,0,0
+COMPONENT=9021,-2,1,0,0
+COMPONENT=9020,-2,2,0,0
+COMPONENT=9024,-1,-1,0,0
+COMPONENT=9029,-1,0,0,0
+COMPONENT=9028,-1,1,0,0
+COMPONENT=9027,-1,2,0,0
+COMPONENT=9025,0,-1,0,0
+COMPONENT=9031,0,1,0,0
+COMPONENT=9030,0,2,0,0
+COMPONENT=9026,1,-1,0,0
+COMPONENT=9034,1,0,0,0
+COMPONENT=9033,1,1,0,0
+COMPONENT=0233f,-1,0,11,0
+
+[ITEMDEF i_multi_light_house]
+ID=i_gold
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=6843 -4 -4 0 0
+COMPONENT=6844 -4 -3 0 0
+COMPONENT=6845 -4 -2 0 0
+COMPONENT=6842 -3 -4 0 0
+COMPONENT=6862 -3 -3 0 0
+COMPONENT=6861 -3 -2 0 0
+COMPONENT=6847 -3 -1 0 0
+COMPONENT=6849 -3 0 0 0
+COMPONENT=6841 -2 -4 0 0
+COMPONENT=6863 -2 -3 0 0
+COMPONENT=6859 -2 -2 0 0
+COMPONENT=6858 -2 -1 0 0
+COMPONENT=6855 -2 0 0 0
+COMPONENT=6852 -2 1 0 0
+COMPONENT=6820 -2 2 0 0
+COMPONENT=6839 -1 -3 0 0
+COMPONENT=6860 -1 -2 0 0
+COMPONENT=6821 -1 2 0 0
+COMPONENT=6835 0 -3 0 0
+COMPONENT=6832 0 -2 0 0
+COMPONENT=6822 0 2 0 0
+COMPONENT=6829 1 -2 0 0
+COMPONENT=6864 1 1 0 0
+COMPONENT=6823 1 2 0 0
+COMPONENT=6828 2 -2 0 0
+COMPONENT=6827 2 -1 0 0
+COMPONENT=6826 2 0 0 0
+COMPONENT=6825 2 1 0 0
+COMPONENT=6824 2 2 0 0
+
+[ITEMDEF i_multi_tree_pine]
+NAME=Pine Tree
+ID=3288
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=3289,0,0,0,0
+
+[ITEMDEF i_multi_statue]
+NAME=Statue
+ID=5022
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=5023,-1,0,0,0
+COMPONENT=5024,0,-1,0,0
+
+[ITEMDEF i_multi_tree_yew]
+NAME=Yew Tree
+ID=4803
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=4798 -5 5
+COMPONENT=4799 -4 4
+COMPONENT=4790 -4 4
+COMPONENT=4800 -3 3
+COMPONENT=4791 -3 3
+COMPONENT=4801 -2 2
+COMPONENT=4792 -2 2
+COMPONENT=4802 -1 1
+COMPONENT=4793 -1 1
+COMPONENT=4794 0 0
+COMPONENT=4804 1 -1
+COMPONENT=4795 1 -1
+COMPONENT=4805 2 -2
+COMPONENT=4796 2 -2
+COMPONENT=4806 3 -3
+COMPONENT=4797 3 -3
+COMPONENT=4807 4 -4
+
+[ITEMDEF i_multi_telescope]
+// telescope
+ID=i_gold
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=5268 -4 0 2 0
+COMPONENT=5211 -4 1 2 0
+COMPONENT=5210 -4 2 2 0
+COMPONENT=5269 -3 -1 2 0
+COMPONENT=5212 -3 2 2 0
+COMPONENT=5213 -3 3 2 0
+COMPONENT=5270 -2 -2 2 0
+COMPONENT=5273 -2 -1 2 0
+COMPONENT=5262 -2 1 2 0
+COMPONENT=5267 -2 2 2 0
+COMPONENT=5266 -2 3 2 0
+COMPONENT=5214 -2 4 2 0
+COMPONENT=5209 -2 5 2 0
+COMPONENT=5271 -1 -3 2 0
+COMPONENT=5215 -1 4 2 0
+COMPONENT=5217 -1 5 2 0
+COMPONENT=5274 0 -4 2 0
+COMPONENT=5272 0 -3 2 0
+COMPONENT=5263 0 -1 2 0
+COMPONENT=5261 0 1 2 0
+COMPONENT=5256 0 3 2 0
+COMPONENT=5216 0 4 2 0
+COMPONENT=5218 0 5 2 0
+COMPONENT=5264 1 -1 2 0
+COMPONENT=5259 1 0 2 0
+COMPONENT=5258 1 1 2 0
+COMPONENT=5254 1 2 2 0
+COMPONENT=5253 1 3 2 0
+COMPONENT=5244 2 -5 2 0
+COMPONENT=5265 2 -1 2 0
+COMPONENT=5260 2 0 2 0
+COMPONENT=5257 2 1 2 0
+COMPONENT=5255 2 2 2 0
+COMPONENT=5252 2 3 2 0
+COMPONENT=5219 2 5 2 0
+COMPONENT=5243 3 -5 2 0
+COMPONENT=5247 3 -2 2 0
+COMPONENT=5248 3 -1 2 0
+COMPONENT=5250 3 0 2 0
+COMPONENT=5225 3 1 2 0
+COMPONENT=5224 3 2 2 0
+COMPONENT=5221 3 3 2 0
+COMPONENT=5220 3 4 2 0
+COMPONENT=5242 4 -5 2 0
+COMPONENT=5241 4 -4 2 0
+COMPONENT=5239 4 -3 2 0
+COMPONENT=5246 4 -2 2 0
+COMPONENT=5249 4 -1 2 0
+COMPONENT=5251 4 0 2 0
+COMPONENT=5226 4 1 2 0
+COMPONENT=5223 4 2 2 0
+COMPONENT=5222 4 3 2 0
+COMPONENT=5240 5 -4 2 0
+COMPONENT=5237 5 -3 2 0
+COMPONENT=5236 5 -2 2 0
+COMPONENT=5231 5 -1 2 0
+COMPONENT=5230 5 0 2 0
+COMPONENT=5229 5 1 2 0
+COMPONENT=5228 5 2 2 0
+COMPONENT=5238 6 -3 2 0
+COMPONENT=5235 6 -2 2 0
+COMPONENT=5232 6 -1 2 0
+COMPONENT=5233 6 0 2 0
+COMPONENT=5234 6 1 2 0
+
+[ITEMDEF i_multi_skull_pile]
+ID=6875
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=6874 -1 1 0 0
+COMPONENT=6873 0 1 0 0
+COMPONENT=6877 1 -1 0 0
+COMPONENT=6876 1 0 0 0
+COMPONENT=6872 1 1 0 0
+COMPONENT=6878 2 -1 0 0
+COMPONENT=6879 2 0 0 0
+
+[ITEMDEF i_multi_coffin1]
+// east west facing
+ID=7288
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=7287 1 0 0 0
+COMPONENT=7292 1 -1 0 0
+COMPONENT=7291 0 -1 0 0
+COMPONENT=7289 -1 0 0 0
+COMPONENT=7290 -1 -1 0 0
+
+[ITEMDEF i_multi_coffin1_open]
+// east west facing open
+ID=7304
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=7302 2 0 0 0
+COMPONENT=7311 2 -1 0 0
+COMPONENT=7303 1 0 0 0
+COMPONENT=7310 1 -1 0 0
+COMPONENT=7309 0 -1 0 0
+COMPONENT=7305 -1 0 0 0
+COMPONENT=7308 -1 -1 0 0
+COMPONENT=7306 -2 0 0 0
+COMPONENT=7307 -2 -1 0 0
+
+[ITEMDEF i_multi_coffin2]
+// east west facing
+ID=7268
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=7264 1 1 0 0
+COMPONENT=7269 1 0 0 0
+COMPONENT=7265 0 1 0 0
+COMPONENT=7266 -1 1 0 0
+COMPONENT=7267 -1 0 0 0
+
+[ITEMDEF i_multi_coffin2_open]
+// east west facing open
+ID=7273
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=7272 1 1 0 0
+COMPONENT=7271 0 1 0 0
+COMPONENT=7563 0 0 6 0
+COMPONENT=7278 0 -1 0 0
+COMPONENT=7270 -1 1 0 0
+COMPONENT=7274 -1 0 0 0
+COMPONENT=7562 -1 0 6 0
+COMPONENT=7277 -1 -1 0 0
+COMPONENT=7275 -2 0 0 0
+COMPONENT=7276 -2 -1 0 0
+
+[ITEMDEF i_multi_coffin2n]
+// north south facing
+ID=7313
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=7312 0 1 0 0
+COMPONENT=7314 0 -1 0 0
+COMPONENT=7317 -1 1 0 0
+COMPONENT=7316 -1 0 0 0
+COMPONENT=7315 -1 -1 0 0
+
+[MULTIDEF 0105f]
+Name=upright loom
+defname i_multi_loom_w
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=01060 0 -1 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Loom W
+
+
+[MULTIDEF 01061]
+defname i_multi_loom_n
+Name=upright loom
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=01061 0 0 0 0
+COMPONENT=01062 1 0 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Loom N
+
+
+[MULTIDEF i_multi_flour_mill_w]
+ID=01920
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=01922 1 0 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Flour Mill (W)
+
+ON=@CREATE
+Attr=0010
+
+[MULTIDEF i_multi_flour_mill_n]
+ID=0192c
+Name=flour mill
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0192e 0 1 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Flour Mill (N)
+
+ON=@CREATE
+Attr=0010
+
+[MULTIDEF i_multi_forge_large_n]
+ID=i_forge_bellows_2_part_1_of_3_w
+Name=forge
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=i_forge_2_part_2_of_3_w 1 0 0 0
+COMPONENT=i_forge_2_part_3_of_3_w_2 2 0 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Large forge (N)
+
+ON=@CREATE
+Attr=0010
+
+[MULTIDEF i_multi_forge_large_w]
+ID=i_forge_bellows_2_part_1_of_3_n
+Name=forge
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=i_forge_2_part_2_of_3_n 0 1 0 0
+COMPONENT=i_forge_2_part_3_of_3_n 0 2 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Large Forge (W)
+
+ON=@CREATE
+Attr=0010
+
+[MULTIDEF i_multi_bed_small_n]
+ID=i_bed_7
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=i_bed_8 0 1 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Bed - Small (N)
+
+ON=@CREATE
+Attr=0010
+
+[MULTIDEF i_multi_bed_small_w]
+ID=i_bed_9
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=i_bed_11 1 0 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Bed - Small (W)
+
+ON=@CREATE
+Attr=0010
+
+[ITEMDEF i_multi_bed_large_w]
+ID=i_bed_30
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=i_bed_28 -1 0 0 0
+COMPONENT=i_bed_26 0 1 0 0
+COMPONENT=i_bed_27 -1 1 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Bed - Large (W)
+
+ON=@CREATE
+Attr=0010
+
+[ITEMDEF i_multi_bed_large_n]
+ID=i_bed_24
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=i_bed_25 0 -1 0 0
+COMPONENT=i_bed_20 1 0 0 0
+COMPONENT=i_bed_21 1 -1 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Bed - Large (N)
+
+ON=@CREATE
+Attr=0010
+
+[ITEMDEF i_multi_oven_w]
+ID=i_oven_stone
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=092c 0 -1 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Owen (W)
+
+ON=@CREATE
+Attr=0010
+
+[ITEMDEF i_multi_oven_n]
+ID=0930
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0931 -1 0 0 0
+
+Category= Multis
+Subsection=Misc
+Description=Owen (N)
+
+ON=@CREATE
+Attr=0010
+
+[ITEMDEF i_multi_troughw]
+// north facing water trough
+Name=water trough (n-s)
+ID=0b41
+TYPE=t_multi
+Category= Multis
+Subsection=Misc
+Description=Water Trough South
+MULTIREGION=0,0,0,0
+COMPONENT=0b42 0 1
+
+[ITEMDEF i_multi_troughe]
+// east facing water trough
+Name=water trough (e-w)
+ID=0b43
+TYPE=t_multi
+Category= Multis
+Subsection=Misc
+Description=Water Trough East
+MULTIREGION=0,0,0,0
+COMPONENT=0b44 1 0
+
+[function multirefresh]
+sysmessage @91 oldu
+
+[ITEMDEF i_multi_fireplace_e]
+// north facing water trough
+Name=Fireplace
+ID=095f
+TYPE=t_multi
+Category= Multis
+Subsection=Misc
+Description=Fireplace Souht
+MULTIREGION=0,0,0,0
+COMPONENT=0960 -1 0
+
+[ITEMDEF i_multi_fireplace_n]
+// north facing water trough
+Name=Fireplace
+ID=0951
+TYPE=t_multi
+Category= Multis
+Subsection=Misc
+Description=Fireplace N
+MULTIREGION=0,0,0,0
+COMPONENT=0952 0 -1
+
+[itemdef i_multi_coffin_wooden]
+Name=Wooden Coffin
+ID=01c41
+type=t_multi
+multiregion=0,0,0,0
+COMPONENT=01c42 1,0
+COMPONENT=01c46 2,0
+
+[itemdef i_multi_coffin_wooden_2]
+Name=Wooden Coffin
+ID=01c4f
+type=t_multi
+multiregion=0,0,0,0
+COMPONENT=01c50 0,1
+COMPONENT=01c51 0,2
+
+[MULTIDEF 01f4]
+DEFNAME=i_Wandering_Healer_Camp
+NAME=Wandering Healer Camp
+TYPE=T_MULTI
+MULTIREGION=-6,-5,6,5
+CATEGORY=MULTIS
+SUBSECTION=Wandering Tent
+DESCRIPTION=Wandering Healer Camp
+
+[MULTIDEF 01f5]
+DEFNAME=i_Wandering_Mage_Camp
+NAME=Wandering Mage Camp
+TYPE=T_MULTI
+MULTIREGION=-6,-5,6,5
+CATEGORY=MULTIS
+SUBSECTION=Wandering Tent
+DESCRIPTION=Wandering Mage Camp
+
+[MULTIDEF 01f6]
+DEFNAME=i_Wandering_Bank_Camp
+NAME=Wandering Bank Camp
+TYPE=T_MULTI
+MULTIREGION=-6,-5,6,5
+CATEGORY=MULTIS
+SUBSECTION=Wandering Tent
+DESCRIPTION=Wandering Bank Camp
+
+[MULTIDEF 0fa9]
+DEFNAME=i_Scaffold_and_Trailer
+NAME=Scaffold and Trailer
+TYPE=T_MULTI
+VALUE=166
+//MULTIREGION=-2,-1,2,2
+CATEGORY=MULTIS
+SUBSECTION=Misc
+DESCRIPTION=Scaffold and Trailer
+
+[MULTIDEF 018]
+DEFNAME=i_multi_castle_small
+NAME=Small Castle
+TYPE=T_MULTI
+VALUE=1022800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Castle
+MULTIREGION=-7,-8,8,8
+
+[MULTIDEF 019]
+DEFNAME=i_multi_castle_medium
+NAME=Medium Castle
+TYPE=T_MULTI
+VALUE=1022800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Castle
+MULTIREGION=-13,-17,12,17
+
+[MULTIDEF 01a]
+DEFNAME=i_multi_pyramid
+NAME=Pyramid
+TYPE=T_MULTI_CUSTOM
+VALUE=1022800
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Pyramid
+MULTIREGION=-24,-25,24,25
+COMPONENT=i_sign_brass_2, 4, 16, 5	// Place the sign.
+
+[MULTIDEF 01b]
+DEFNAME=i_multi_castle_classic
+Name=Classic Castle
+TYPE=T_MULTI
+VALUE=6350000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Castle
+MULTIREGION=-13,-13,13,13
+//COMPONENT=0677, 1, 5, 6
+//COMPONENT=i_door_metal, 0, 5, 6
+//COMPONENT=0677, 1, 15, 6	// Front door 2.
+//COMPONENT=i_door_metal, 0, 15, 6	// Front door 1.
+//COMPONENT=i_sign_brass_2, 4, 16, 5	// Place the sign.
+
+[MULTIDEF 01c]
+DEFNAME=i_multi_liman
+Name=Classic Castle
+TYPE=T_MULTI
+VALUE=6350000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Castle
+MULTIREGION=-15,-17,16,18
+COMPONENT=0677, 1, 5, 6
+COMPONENT=i_door_metal, 0, 5, 6
+COMPONENT=0677, 1, 15, 6	// Front door 2.
+COMPONENT=i_door_metal, 0, 15, 6	// Front door 1.
+COMPONENT=i_sign_brass_2, 4, 16, 5	// Place the sign.
+
+[MULTIDEF 01d]
+DEFNAME=i_multi_duel
+Name=Duel
+TYPE=T_MULTI
+VALUE=6350000
+CATEGORY=Multis
+SUBSECTION=Houses
+DESCRIPTION=Castle
+MULTIREGION=-18,-7,18,7
+
+
+[EOF]

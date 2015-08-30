@@ -1,0 +1,75 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[function sklStrtCheck]
+if (<src.flags>&statf_war)
+	src.flags = <src.flags>&~statf_war
+endif
+
+[SKILL 25]
+DEFNAME=Skill_Magery
+KEY=Magery
+TITLE=Mage
+PROMPT_MSG=
+STAT_STR=0
+STAT_INT=100
+STAT_DEX=0
+BONUS_STR=0
+BONUS_DEX=60		//BONUS_DEX=0
+BONUS_INT=200	//BONUS_INT=100
+BONUS_STATS=80	//BONUS_STATS=15
+//ADV_RATE=0,0,0
+//ADV_RATE=1.0,1.0,1.0
+VALUES=1,20,80
+//DELAY=1.0 // based on skill and difficulty.
+
+on=@start
+if <tag.suan_bandaj_var>
+	src.sys_error Şuanda büyü kullanamazsınız.
+	skill fail
+	return 1
+endif
+if <isdeath>
+	skill fail
+	return 1
+endif
+
+events -e_healing_bandage
+if <findid.i_new_bandageheal>
+	findid.i_new_bandageheal.remove
+	findid.i_heal_bekleme.remove
+	olumsuz1 * Bandajları yırtılır *
+	tag.suan_bandaj_var
+endif
+
+on=@select
+if <tag.suan_bandaj_var>
+	src.sys_error Şuanda büyü kullanamazsınız.
+	skill fail
+	return 1
+endif
+if <isdeath>
+	skill fail
+	return 1
+endif
+
+on=@success
+if <isdeath>
+	skill fail
+	return 1
+endif
+
+ON=@Fail
+	SRC.SYSMESSAGE The spell fizzles.,
+	//src.f_fizzle
+
+ON=@Abort
+	SRC.SYSMESSAGE @38,,1 Buyu durduruldu.
+	//src.f_fizzle
+
+[eof]

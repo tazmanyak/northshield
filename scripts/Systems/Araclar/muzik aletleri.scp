@@ -1,0 +1,84 @@
+[itemdef i_str_drum]
+defname i_str_drum
+id i_drum
+name Drum
+type t_str_drum
+
+on=@create
+attr attr_newbie|attr_static
+
+
+[typedef t_str_drum]
+on=@click
+message @1100 [Str]
+message @55 <name>
+return 1
+
+on=@dclick
+if !(<src.str> < 100) | 
+src.sysmessage @55 Sizin Str'niz zaten 100 Daha Fazla Yukseltemezsiniz.
+return 1
+elseIF !(<EVAL(<SRC.STR> + <SRC.DEX> + <SRC.INT>)> < 225)
+src.sysmessage @68,1,1 Stat'cap 225 Olmus, .stat ile lütfen statları kitleyiniz.
+return 1
+else
+src.str=<src.str>+1
+return 1
+endif
+
+[itemdef i_dex_drum]
+defname i_Dex_drum
+id i_drum
+name Drum
+type t_dex_drum
+
+on=@create
+attr attr_newbie|attr_Static
+
+[typedef t_dex_drum]
+on=@click
+message @1100 [Dex]
+message @55 <name>
+return 1
+endif
+
+on=@dclick
+if !(<src.dex> < 100)
+src.sysmessage @55 Sizin Dex'iniz Zaten 100 Daha Fazla Yukseltemezsiniz.
+return 1
+elseIF !(<EVAL(<SRC.STR> + <SRC.DEX> + <SRC.INT>)> < 225)
+src.sysmessage @68,1,1 Stat'cap 225 Olmus, .stat ile lütfen statları kitleyiniz.
+return 1
+else
+src.dex=<src.dex>+1
+return 1
+endif
+
+[itemdef i_int_drum]
+defname i_int_drum
+id i_drum
+name Drum
+type t_int_drum
+
+on=@create
+attr attr_newbie|attr_Static
+
+[typedef t_int_drum]
+on=@click
+message @1100 [Int]
+message @55 <name>
+return 1
+
+on=@dclick
+if !(<src.int> < 100)
+src.sysmessage @55 Sizin Int'iniz Zaten 100 Daha Fazla Yukseltemezsiniz.
+return 1
+elseIF !(<EVAL(<SRC.STR> + <SRC.DEX> + <SRC.INT>)> < 225)
+src.sysmessage @68,1,1 Stat'cap 225 Olmus, .stat ile lütfen statları kitleyiniz.
+return 1
+else
+src.int=<src.int>+1
+return 1
+endif
+
+[eof]

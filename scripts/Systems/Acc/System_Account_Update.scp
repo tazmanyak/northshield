@@ -1,0 +1,111 @@
+
+[defname north_spawn_list]
+// Lama //
+spawn_1 04001e29d
+spawn_2 04001e946
+spawn_3 04001e760
+spawn_4 04001e666
+spawn_5 04001e528
+spawn_6 04001e1bd
+// Desert //
+spawn_7 04001bbee
+spawn_8 04001c03a
+// Forest //
+spawn_9 04001bcb4
+spawn_10 04001bf26
+// Mid //
+spawn_11 04000fe23
+// Zost //
+spawn_12 040016a8a
+// Mustang //
+spawn_13 0400060a7
+// Yumurta //
+spawn_14 04001a0aa
+spawn_15 04001a7f8
+
+[function f_get_spawn_timer]
+for x 1 15
+	var.north_spawn_<dlocal.x> <uid.<def.spawn_<dlocal.x>>.timer>
+	//serv.log Spawn : <uid.<def.spawn_<dlocal.x>>.more1> - Sure <ftime <var.north_spawn_<dlocal.x>>>
+endfor
+
+[function f_set_spawn_timer]
+for x 1 15
+	uid.<def.spawn_<dlocal.x>>.timer <var.north_spawn_<dlocal.x>>
+endfor
+
+[itemdef i_savestone]
+id i_grave_stone
+type=t_script
+name=save stone
+
+
+on=@create
+attr attr_move_never
+color 0455
+
+on=@click
+message @07d5,3,1 [Save Update]
+message @07d5,3,1 [<timer> Sn Kaldi]
+return 1
+
+on=@timer
+if <var.save>
+	serv.save 1
+	//timerf 400,serv.savestatics
+	var.save 0
+else
+	serv.save
+	var.save 1
+endif
+timer 1000
+return 1
+
+[itemdef i_upstone]
+defname=i_upstone
+id i_grave_stone
+type=t_script
+name=ranking
+
+
+on=@create
+attr attr_move_never
+color 0455
+
+on=@click
+message @07d5,3,1 [Account Update]
+message @07d5,3,1 [<timer> Sn Kaldi]
+return 1
+
+on=@timer
+//uid.0a492.f_get_spawn_timer
+//serv.f_char_uid_yaratma
+//timerf 5,serv.f_update_sifre
+timerf 10,serv.f_update_pin
+timerf 25,serv.f_acc_update
+timerf 30, serv.account update
+//timerf 14400,uid.02342.f_aktar_vendor_db
+//timerf 3600,serv.vendor_item_listele
+//timerf 800, serv.save 1
+//timerf 600, serv.# // 10 dakikada bir kaydı yeniden başlat.
+
+//timerf 5000, db.connect
+//timerf 5000, db.query TRUNCATE TABLE son_tame
+//timerf 5010, db.close
+//timerf <eval 60*60*5>, db.query TRUNCATE TABLE son_olumler
+
+
+//serv.deletefile C:\AppServ\www\Web\spawntakip.php
+//serv.writefile C:\AppServ\www\Web\spawntakip.php
+//yazspawn
+timer 300
+return 1
+
+on=@pickup_ground
+src.sysmessage @066d,3,1 Lutfen bu tasi silmeyin veya yerinden oynatmayin.
+return 1
+
+
+
+[EOF]
+

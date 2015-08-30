@@ -1,0 +1,220 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Khaos, Anarch Cassius, Jeem, ShiryuX
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Combat System Functions
+
+[function combat.skill]
+doswitch <args>
+return <combat.skill.uor>
+return <combat.skill.aos>
+enddo
+
+[function combat.skill.uor]
+if <weapon>
+	if <weapon.tag0.override.skill>
+	return <weapon.tag0.override.skill>
+	else
+	return <weapon.skill>
+	endif
+else
+return wrestling
+endif
+
+[function combat.skill.aos]
+if !<weapon>
+return wrestling
+endif
+if <def.scp.ItemProp_MageWeapon> == 1
+	if <weapon.tag0.mageweapon>
+	return <combat.bestskill 1>
+	endif
+endif
+if <def.scp.ItemProp_BestWeaponSkill> == 1
+	if <weapon.tag0.BestWeaponSkill>
+	return <combat.bestskill>
+	endif
+endif
+if <weapon.tag0.override.skill>
+return <weapon.tag0.override.skill>
+else
+return <weapon.skill>
+endif
+
+[function combat.bestskill]
+local.skill = fencing
+if <archery> > <<local.skill>>
+local.skill = archery
+endif
+if <macefighting> > <<local.skill>>
+local.skill = macefighting
+endif
+if <swordsmanship> > <<local.skill>>
+local.skill = swordsmanship
+endif
+if <argv[0]>
+	if <magery> > <<local.skill>>
+	local.skill = magery
+	endif
+endif
+return <local.skill>
+
+[function shield]
+return <qval <findlayer.2.type> == t_shield ? <findlayer.2.uid>:0>
+
+
+///////////////////////////////////////////////////////////////
+//////// HIT SPEED
+///////////////////////////////////////////////////////////////
+[function f_combatsys_hitspeed]
+if !<isempty <tag.override.hitspeed>>
+	return <tag0.override.hitspeed>
+endif
+if !<isempty <args>>
+local.speed = <args>
+else
+local.speed = <qval <weapon> ? <weapon.speed> : 20>
+endif
+return <eval (<serv.SpeedScaleFactor> * 20) / ((<dex> + 100) * <feval <floatval 150 / <fval <local.speed>>>>)>
+// doswitch <def.scp.Combat_FormulasUsed>
+    // return <eval (<serv.SpeedScaleFactor> * 10) / ((<dex> + 100) * <feval <floatval 150 / <fval <local.speed>>>>)>
+    // begin // Custom - Reference to scp.Combat_HitSpeed
+        // doswitch <def.scp.Combat_HitSpeed>
+            // return <eval (<serv.SpeedScaleFactor> * 10) / ((<dex> + 100) * <feval <floatval 150 / <fval <local.speed>>>>)>
+            // return <eval 150000 / ((<stam> + 100) * <feval <floatval 150 / <fval <local.speed>>>>)>
+            // return <max <eval ((((<fval <local.speed>> * 4) / 10) - (<stamina> / 30)) * (100.0 / (100 + <qval <def.scp.ItemProp_SwingSpeedIncrease> ? <weapon.tag0.SwingSpeedIncrease> : 0>))) / 4>, 13>
+        // enddo
+    // end
+    // return <eval 150000 / ((<stam> + 100) * <feval <floatval 150 / <fval <local.speed>>>>)>
+    // return <max <eval ((((<fval <local.speed>> * 4) / 10) - (<stamina> / 30)) * (100.0 / (100 + <qval <def.scp.ItemProp_SwingSpeedIncrease> ? <weapon.tag0.SwingSpeedIncrease> : 0>))) / 4>, 13>
+// enddo
+
+
+///////////////////////////////////////////////////////////////
+//////// HIT CHANCE
+///////////////////////////////////////////////////////////////
+[function f_combatsys_hitchance]
+doswitch <def.scp.Combat_FormulasUsed>
+return <args> // SPHERE
+	begin // Custom - Reference to scp.Combat_HitChance
+		doswitch <def.scp.Combat_HitChance>
+		return <args>
+		return <qval <r100> <= <eval ((<<combat.skill.uor>> * 10) + 5000) / (((<src.<src.combat.skill.uor>> / 10) + 50) * 2)> ? 0 : -100>
+		return <qval <r100> <= <f_combatsys_hitchance_aos> ? 0 : -100>
+		enddo
+	end
+return <qval <r100> <= <eval ((<<combat.skill.uor>> * 10) + 5000) / (((<src.<src.combat.skill.uor>> / 10) + 50) * 2)> ? 0 : -100>
+return <qval <r100> <= <f_combatsys_hitchance_aos> ? 0 : -100>
+enddo
+
+[function f_combatsys_hitchance_aos]
+if <def.scp.ItemProp_HitChanceIncrease> == 1
+local.hitchance.bonus = <min <tag0.HitChanceIncrease>,<getargv 3 <def.itemprop_08>>>
+endif
+if <def.scp.ItemProp_DefenseChanceIncrease> == 1
+local.defchance.bonus = <min <src.tag0.DefenseChanceIncrease>,<getargv 3 <def.itemprop_03>>>
+endif
+local.hitchance = <eval <muldiv ((<<combat.skill.aos>> / 10) + 20),(100 + <local.hitchance.bonus>),100> * 100>
+local.defchance = <muldiv ((<src.<src.combat.skill.aos>> / 10) + 20),(100 + <local.defchance.bonus>),50>
+return <max <eval <local.hitchance> / <local.defchance>>,2>
+
+
+///////////////////////////////////////////////////////////////
+//////// BLOCK CHANCE
+///////////////////////////////////////////////////////////////
+[function f_combatsys_blockchance]
+doswitch <def.scp.Combat_FormulasUsed>
+return 0
+	begin
+		doswitch <def.scp.Combat_BlockChance>
+		return 0
+		return <qval <r100> <= <f_combatsys_blockchance_uor> ? 1 : 0>
+		return <qval <r100> <= <f_combatsys_blockchance_aos> ? 1 : 0>
+		enddo
+	end
+return <qval <r100> <= <f_combatsys_blockchance_uor> ? 1 : 0>
+return <qval <r100> <= <f_combatsys_blockchance_aos> ? 1 : 0>
+enddo
+
+[function f_combatsys_blockchance_uor]
+if <shield>
+return <eval <parrying> / 20>
+endif
+return -1
+
+[function f_combatsys_blockchance_aos]
+local.block.dex = <qval (<dex> < 80) ? <eval 80 - <dex>> : 0>
+if <parrying> >= 100.0
+local.block.parry = 5
+endif
+if <bushido> >= 100.0
+local.block.bushido = 5
+endif
+local.block.bushido = <max <local.block.bushido>,<local.block.parry>>
+if <shield>
+local.calc = <muldiv <max <eval (((<parrying> - <bushido>) / 4) / 10)>,0>,<eval 100 - <local.block.dex>>,100>
+return <eval <local.calc> + <local.block.bushido>>
+elif <weapon>
+local.calc = <max <eval ((<parrying> * <bushido>) / <qval <weapon.twohands> ? 41140 : 48000>) + <local.block.bushido>>,<eval (<parrying> / 80) + <local.block.parry>>>
+return <muldiv <local.calc>,<eval 100 - <local.block.dex>>,100>
+endif
+return -1
+
+[function f_combatsys_block]
+sysmessage <def.scp.combat_parries>
+src.sysmessage <def.scp.combat_parry>
+src.trigger @block,<def.tat_as_argo>,<uid>
+if <src.shield>
+uid.<src.shield>.trigger @block,<def.tat_as_argo>,<uid>
+else
+src.weapon.trigger @block,<def.tat_as_argo>,<uid>
+endif
+src.sound 329
+
+
+///////////////////////////////////////////////////////////////
+//////// DAMAGE BONUS
+///////////////////////////////////////////////////////////////
+[function f_combatsys_damagebonus_uor]
+local.bonus.tactics = <eval (<tactics> / 10) + 50>
+local.bonus.anatomy = <eval <anatomy> / 50>
+local.bonus.str = <eval <str> / 5>
+if <def.scp.Combat_UOR_LumberBonus>
+	if <weapon.type> == t_weapon_axe
+	local.bonus.lumber = <eval <lumberjacking> / 50>
+		if <lumberjacking> >= 100.0
+		local.bonus.lumber += 10
+		endif
+	else
+	local.bonus.lumber = 0
+	endif
+endif
+return <eval <local.bonus.tactics> + <local.bonus.anatomy> + <local.bonus.str> + <local.bonus.lumber>>
+
+[function f_combatsys_damagebonus_aos]
+float.bonus.tactics = <floatval <tactics> / 1.6>
+if <tactics> >= 100.0
+float.bonus.tactics += 6.25
+endif
+local.bonus.anatomy = <eval (<anatomy> / 2) + 5>
+local.bonus.lumber = <eval <lumberjacking> / 50>
+if <lumberjacking> >= 100.0
+local.bonus.lumber += 10
+endif
+float.bonus.str = <floatval <str> * 0.3>
+if <str> >= 100
+float.bonus.str += 5
+endif
+return <feval <floatval <float.bonus.tactics> + <local.bonus.anatomy> + <local.bonus.lumber> + <local.bonus.str>>>
+
+[eof]

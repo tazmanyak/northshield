@@ -1,0 +1,1045 @@
+[COMMENT system_Poker]
+//"
+// A running poker game is based on a specific in-game card ITEMDEF.
+// The state of the game is entirely stored as TAGs on this object and
+// in server VAR and LIST arrays related to that item by it's UID.
+// The game loop is based on the TIMER for the card item.  To start a
+// game, just create the item and double-click it to join:
+//
+//   .add i_cards_poker
+//
+// DEPENDENCIES:
+//
+//   This system depends on some generic functions, uncomment them at
+//   the end of this file if you don't have them already in another
+//   script.  Specifically they are:
+//
+//     f_sizeof
+//     f_getargv
+//     f_clearglobals
+//     f_ListToString
+// 
+// URGENT IMPROVEMENTS:
+// 
+//   - FIX CUSTOM BETTING (currently commented out)
+//   - PLAY TIMER (show countdown timer above the cards every 10 or 20 seconds)
+//     - force a fold if players don't play in time (currently if a player
+//       chooses not to play, the game is stuck indefinitely)
+//   - Implement proper 'who scores first' logic
+//   - Implement side-pot calculations (currently there is no side-pot)
+// 
+// LONG TERM IMPROVEMENTS:
+// 
+//   - limit all-in bets to max opponent stack size
+//   - if a player doesn't need to make a decision, dont force them to
+//   - poker table reset function (finds all i_cards_poker and deletes them)
+//   - unicode poker symbols (currently using letters for suits)
+//   - add disclaimer click-through
+//   - let table owner modify table limits
+//     - player limits (currently 2-8)
+//     - blind limits (currently 50/100)
+//     - buyin amount (currently 5000-10000)
+//     - the code has a 8 player max assumption (could be 10)
+//   - allow for multiple table owners
+//   - dynamic dialog element positions instead of DEFNAME based (i.e. origin)
+//   - allow players to play simultaneous games (currently only one allowed)
+//   - alternate table layouts
+//   - tournament play (blinds increase over time)
+//   - improved messages
+//     - individual card names
+//     - flop names
+//     - hand names
+//"
+
+
+[DEFNAME poker_system]
+PokerDefaultLogging=0        // zero means no logging, 3 is max
+PokerDefaultPlayers=2,8       // Min,Max players allowed
+PokerDefaultBuyin=50000,1000000  // Min,Max gold required to take a seat
+PokerDefaultBlinds=1000,2000     // Small,Big blind values
+PokerDefaultTimer=20         // Number of seconds per turn
+PokerDefaultText=032          // Default SYSMESSAGE text color
+
+PokerDisclaimer="Poker masasına katılmak üzersiniz.. Texas Hold'em Poker kurallarını bilmiyorsanız lütfen oynamayınız aksi taktirde çok kolay bir şekilde para kaybedeceksinizdir. Eğer denemek istiyorsanız katılımı düşük gold miktarı ile yapınız.. Masada harcanan gerçek paradır ve geri ödemesi yoktur."
+
+PokerDecision0="Unknown"
+PokerDecisionNone=0
+PokerDecision1="Fold"
+PokerDecisionFold=1
+PokerDecision2="Check/Fold"
+PokerDecisionCheckFold=2
+PokerDecision3="Check"
+PokerDecisionCheck=3
+PokerDecision4="Call"
+PokerDecisionCall=4
+PokerDecision5="Raise Blind"
+PokerDecisionRaiseBlind=5
+PokerDecision6="Raise Pot"
+PokerDecisionRaisePot=6
+PokerDecision7="Raise Custom"
+PokerDecisionRaiseCustom=7
+PokerDecision8="Raise Maximum"
+PokerDecisionRaiseMax=8
+PokerDecision9="All-in"
+PokerDecisionAllIn=9
+
+PokerStage0="Game Start"
+PokerStageGameStart=0
+PokerStage1="Buyin"
+PokerStageBuyin=1
+PokerStage2="Pick Dealer"
+PokerStagePickDealer=2
+PokerStage3="Take Ante"
+PokerStageTakeAnte=3
+PokerStage4="Shuffle"
+PokerStageShuffle=4
+PokerStage5="Deal"
+PokerStageDeal=5
+PokerStage6="Pre-Flop Betting"
+PokerStageBetPreflop=6
+PokerStage7="Flop"
+PokerStageFlop=7
+PokerStage8="Flop Betting"
+PokerStageBetFlop=8
+PokerStage9="Turn"
+PokerStageTurn=9
+PokerStage10="Turn Betting"
+PokerStageBetTurn=10
+PokerStage11="River"
+PokerStageRiver=11
+PokerStage12="River Betting"
+PokerStageBetRiver=12
+PokerStage13="Score"
+PokerStageScore=13
+PokerStage14="Game End"
+PokerStageGameEnd=14
+
+//Dialog icon and text positions (the default layout)
+PokerSeat1.Position.Empty=340 355
+PokerSeat1.Position.HandData=305 355
+PokerSeat1.Position.DealerIcon=290 361
+PokerSeat1.Position.SmallBlindIcon=315 365
+PokerSeat1.Position.BigBlindIcon=320 365
+PokerSeat1.Position.BetOnTableIcon=355 325
+PokerSeat1.Position.BetOnTableText=375 328
+PokerSeat1.Position.HoleCard1Back=365 359
+PokerSeat1.Position.HoleCard1Text=368 359
+PokerSeat1.Position.HoleCard2Back=395 359
+PokerSeat1.Position.HoleCard2Text=398 359
+PokerSeat1.Position.HoleCard1Folded=328 315
+PokerSeat1.Position.HoleCard2Folded=332 319
+PokerSeat1.Position.PlayerData=305 385
+PokerSeat1.Position.PlayerName=310 387
+PokerSeat1.Position.PlayerChipsIcon=300 410
+PokerSeat1.Position.PlayerChipsText=345 416
+
+PokerSeat2.Position.Empty=150 270
+PokerSeat2.Position.HandData=125 270
+PokerSeat2.Position.DealerIcon=110 276
+PokerSeat2.Position.SmallBlindIcon=135 280
+PokerSeat2.Position.BigBlindIcon=140 280
+PokerSeat2.Position.BetOnTableIcon=265 287
+PokerSeat2.Position.BetOnTableText=285 289
+PokerSeat2.Position.HoleCard1Back=175 274
+PokerSeat2.Position.HoleCard1Text=178 274
+PokerSeat2.Position.HoleCard2Back=205 274
+PokerSeat2.Position.HoleCard2Text=208 274
+PokerSeat2.Position.HoleCard1Folded=268 315
+PokerSeat2.Position.HoleCard2Folded=272 319
+PokerSeat2.Position.PlayerData=125 300
+PokerSeat2.Position.PlayerName=130 302
+PokerSeat2.Position.PlayerChipsIcon=120 325
+PokerSeat2.Position.PlayerChipsText=165 331
+
+PokerSeat3.Position.Empty=150 160
+PokerSeat3.Position.HandData=100 160
+PokerSeat3.Position.DealerIcon=85 166
+PokerSeat3.Position.SmallBlindIcon=110 170
+PokerSeat3.Position.BigBlindIcon=115 170
+PokerSeat3.Position.BetOnTableIcon=240 205
+PokerSeat3.Position.BetOnTableText=260 207
+PokerSeat3.Position.HoleCard1Back=150 164
+PokerSeat3.Position.HoleCard1Text=153 164
+PokerSeat3.Position.HoleCard2Back=180 164
+PokerSeat3.Position.HoleCard2Text=183 164
+PokerSeat3.Position.HoleCard1Folded=248 168
+PokerSeat3.Position.HoleCard2Folded=252 172
+PokerSeat3.Position.PlayerData=100 190
+PokerSeat3.Position.PlayerName=105 192
+PokerSeat3.Position.PlayerChipsIcon=95 215
+PokerSeat3.Position.PlayerChipsText=140 221
+
+PokerSeat4.Position.Empty=150 55
+PokerSeat4.Position.HandData=125 55
+PokerSeat4.Position.DealerIcon=110 61
+PokerSeat4.Position.SmallBlindIcon=135 65
+PokerSeat4.Position.BigBlindIcon=140 65
+PokerSeat4.Position.BetOnTableIcon=265 130
+PokerSeat4.Position.BetOnTableText=265 132
+PokerSeat4.Position.HoleCard1Back=175 59
+PokerSeat4.Position.HoleCard1Text=178 59
+PokerSeat4.Position.HoleCard2Back=205 59
+PokerSeat4.Position.HoleCard2Text=208 59
+PokerSeat4.Position.HoleCard1Folded=268 95
+PokerSeat4.Position.HoleCard2Folded=272 99
+PokerSeat4.Position.PlayerData=125 85
+PokerSeat4.Position.PlayerName=130 87
+PokerSeat4.Position.PlayerChipsIcon=120 110
+PokerSeat4.Position.PlayerChipsText=165 116
+
+PokerSeat5.Position.Empty=340 0
+PokerSeat5.Position.HandData=305 0
+PokerSeat5.Position.DealerIcon=290 6
+PokerSeat5.Position.SmallBlindIcon=315 10
+PokerSeat5.Position.BigBlindIcon=320 10
+PokerSeat5.Position.BetOnTableIcon=355 85
+PokerSeat5.Position.BetOnTableText=375 88
+PokerSeat5.Position.HoleCard1Back=355 4
+PokerSeat5.Position.HoleCard1Text=358 4
+PokerSeat5.Position.HoleCard2Back=385 4
+PokerSeat5.Position.HoleCard2Text=388 4
+PokerSeat5.Position.HoleCard1Folded=328 85
+PokerSeat5.Position.HoleCard2Folded=332 89
+PokerSeat5.Position.PlayerData=305 30
+PokerSeat5.Position.PlayerName=310 32
+PokerSeat5.Position.PlayerChipsIcon=300 55
+PokerSeat5.Position.PlayerChipsText=345 61
+
+PokerSeat6.Position.Empty=530 55
+PokerSeat6.Position.HandData=495 55
+PokerSeat6.Position.DealerIcon=480 61
+PokerSeat6.Position.SmallBlindIcon=505 65
+PokerSeat6.Position.BigBlindIcon=510 65
+PokerSeat6.Position.BetOnTableIcon=455 130
+PokerSeat6.Position.BetOnTableText=450 132
+PokerSeat6.Position.HoleCard1Back=545 59
+PokerSeat6.Position.HoleCard1Text=548 59
+PokerSeat6.Position.HoleCard2Back=575 59
+PokerSeat6.Position.HoleCard2Text=578 59
+PokerSeat6.Position.HoleCard1Folded=468 95
+PokerSeat6.Position.HoleCard2Folded=472 99
+PokerSeat6.Position.PlayerData=495 85
+PokerSeat6.Position.PlayerName=500 87
+PokerSeat6.Position.PlayerChipsIcon=490 110
+PokerSeat6.Position.PlayerChipsText=535 116
+
+PokerSeat7.Position.Empty=530 160
+PokerSeat7.Position.HandData=520 160
+PokerSeat7.Position.DealerIcon=505 166
+PokerSeat7.Position.SmallBlindIcon=530 170
+PokerSeat7.Position.BigBlindIcon=535 170
+PokerSeat7.Position.BetOnTableIcon=475 205
+PokerSeat7.Position.BetOnTableText=470 207
+PokerSeat7.Position.HoleCard1Back=570 164
+PokerSeat7.Position.HoleCard1Text=573 164
+PokerSeat7.Position.HoleCard2Back=600 164
+PokerSeat7.Position.HoleCard2Text=603 164
+PokerSeat7.Position.HoleCard1Folded=488 168
+PokerSeat7.Position.HoleCard2Folded=492 172
+PokerSeat7.Position.PlayerData=520 190
+PokerSeat7.Position.PlayerName=525 192
+PokerSeat7.Position.PlayerChipsIcon=515 215
+PokerSeat7.Position.PlayerChipsText=560 221
+
+PokerSeat8.Position.Empty=530 270
+PokerSeat8.Position.HandData=495 270
+PokerSeat8.Position.DealerIcon=480 276
+PokerSeat8.Position.SmallBlindIcon=505 280
+PokerSeat8.Position.BigBlindIcon=510 280
+PokerSeat8.Position.BetOnTableIcon=455 287
+PokerSeat8.Position.BetOnTableText=450 289
+PokerSeat8.Position.HoleCard1Back=545 274
+PokerSeat8.Position.HoleCard1Text=548 274
+PokerSeat8.Position.HoleCard2Back=575 274
+PokerSeat8.Position.HoleCard2Text=578 274
+PokerSeat8.Position.HoleCard1Folded=468 315
+PokerSeat8.Position.HoleCard2Folded=472 319
+PokerSeat8.Position.PlayerData=495 300
+PokerSeat8.Position.PlayerName=500 302
+PokerSeat8.Position.PlayerChipsIcon=490 325
+PokerSeat8.Position.PlayerChipsText=535 331
+
+
+///////////////////////////////////
+//                               //
+// This is the Heart of the game //
+//                               //
+///////////////////////////////////
+
+
+[ITEMDEF i_cards_poker]
+ID=0e17
+NAME=@,,1 Texas Hold'em Poker
+TYPE=t_normal
+WEIGHT=1.0
+RESOURCES=52 i_paper
+SKILLMAKE=Carpentry 5.0,t_carpentry
+CATEGORY=Games
+SUBSECTION=Cards
+DESCRIPTION=Multi-Player Poker
+
+on=@create
+attr attr_move_never
+
+ON=@Destroy
+   FOR x 1 8
+      IF (<REF1.TAG0.Player<dLOCAL.x>.Seated>)
+         f_pokerlog 1,"Cards destroyed, give bets back to players and convert chips to gold."
+         REF3=<UID.<REF1.TAG0.Player<dLOCAL.x>>>
+         IF !(<ISEMPTY <REF1.TAG0.Player<dLOCAL.x>.Cards>>)
+            LOCAL.TotalPlayersWithCards ++
+            REF1.TAG0.Player<dLOCAL.x>.Chips += <REF1.TAG0.Player<dLOCAL.x>.Bet>
+         ELSE
+            REF1.TAG0.CurrentPot += <REF1.TAG0.Player<dLOCAL.x>.Bet>
+         ENDIF
+         REF3.GOLD += <REF1.TAG0.Player<dLOCAL.x>.Chips>
+         f_pokerlog 2,"..Returning <dREF1.TAG0.Player<dLOCAL.x>.Chips> chips to <REF3.NAME>."
+      ENDIF
+   ENDFOR
+   IF (<LOCAL.TotalPlayersWithCards>)
+      LOCAL.PotShare=<EVAL <REF1.TAG0.CurrentPot>/<LOCAL.TotalPlayersWithCards>>
+      FOR x 1 8
+         IF (<REF1.TAG0.Player<dLOCAL.x>.Seated>) && !(<ISEMPTY <REF1.TAG0.Player<dLOCAL.x>.Cards>>)
+            REF3=<UID.<REF1.TAG0.Player<dLOCAL.x>>>
+            REF3.GOLD += <LOCAL.PotShare>
+            f_pokerlog 2,"..Returning <dLOCAL.PotShare> pot share to <REF3.NAME>."
+         ENDIF
+      ENDFOR
+   ENDIF
+   f_clearglobals POKERGame_<UID>
+ON=@DClick
+   IF (<TOPOBJ>!=<UID>)
+      f_pokerlog 1,"To start a game, the cards must be on the map"
+      RETURN 1
+   ENDIF
+   IF (<ISEMPTY <TAG.GlobalScope>>)
+      f_pokerlog 1,"There is no game, so create one and start the game timer"
+      f_clearglobals POKERGame_<UID>
+      f_Poker_SetupTable POKERGame_<UID>
+      TIMER=30
+   ENDIF
+   IF (<SRC.TAG0.PokerTable>==0)
+      f_pokerlog 1,"<SRC.NAME> joined pokertable <UID>"
+      SRC.TAG.PokerTable=<UID>
+      LIST.<TAG.GlobalScope>_PlayerUIDs.ADD <SRC>
+   ENDIF
+   IF (<SRC.TAG0.PokerTable>==<UID>)
+      DIALOG d_poker_pokertable
+   ELSE
+      IF (<UID.<SRC.TAG0.PokerTable>.ISITEM>)
+         SRC.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You are already playing poker at another table.
+      ELSE
+         f_pokerlog 1,"<SRC.NAME>'s old pokertable doesn't exist anymore"
+         SRC.TAG.PokerTable=
+      ENDIF
+   ENDIF
+   RETURN 1
+ON=@Timer
+   IF !(<ATTR>&attr_move_never)
+      RETURN 0
+   ENDIF
+   f_pokerlog 1,"Timer on pokertable <UID> triggered"
+   IF (<ISEMPTY <TAG.GlobalScope>>)
+      f_pokerlog 1,"The game just ended, clear globals"
+      f_clearglobals POKERGame_<UID>
+      IF (<ATTR>&attr_move_never)
+         f_pokerlog 1,"Allow the cards to be picked up and restore ATTRs"
+         ATTR=<TAG0.ATTRvalues>
+         CLEARTAGS
+         IF (<ATTR>&attr_decay)
+            f_pokerlog 1,"Since ATTR includes can_decay, set the timer"
+            TIMER=<EVAL <SERV.DecayTimer>*60>
+         ENDIF
+      ENDIF
+      RETURN 1
+   ENDIF
+   IF (<SERV.LIST.<TAG.GlobalScope>_PlayerUIDs.COUNT>==0)
+      f_pokerlog 1,"There are no more players, so end the game"
+      TAG.GlobalScope=
+      TIMER=1
+   ELSE
+      REF1=<UID>
+
+      FOR x 1 8
+         IF (<REF1.TAG0.Player<dLOCAL.x>.Seated>)
+            LOCAL.TotalPlayersSeated ++
+         ENDIF
+      ENDFOR
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageGameStart>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageGameStart> (<DEF.PokerStage<dDEF.PokerStageGameStart>>)"
+         IF (<LOCAL.TotalPlayersSeated> >= <TAG0.PlayersMin>)
+            f_pokerlog 2,"..The game has <dLOCAL.TotalPlayersSeated> ready players..."
+            REF1.TAG.CurrentStage=<DEF.PokerStageBuyin>
+         ELSE
+            f_pokerlog 2,"..There are only <dLOCAL.TotalPlayersSeated> ready players..."
+         ENDIF
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBuyin>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageBuyin> (<DEF.PokerStage<dDEF.PokerStageBuyin>>)"
+         FOR x 1 8
+            IF (<REF1.TAG0.Player<dLOCAL.x>.Seated>)
+               IF !(<REF1.TAG0.Player<dLOCAL.x>.Chips>)
+                  f_pokerlog 2,"..<UID.<REF1.TAG0.Player<dLOCAL.x>>.NAME> is out of chips... stand them up"
+                  LOCAL.BackToGameStart=1
+                  REF1.TAG0.Player<dLOCAL.x>.Bet=
+                  REF1.TAG0.Player<dLOCAL.x>.Chips=
+                  REF1.TAG0.Player<dLOCAL.x>.Seated=
+                  REF1.TAG0.Player<dLOCAL.x>.NextBet=
+                  REF1.TAG0.Player<dLOCAL.x>.Decision=
+               ELSE
+                  REF1.TAG0.Player<dLOCAL.x>.NeedCards=2
+               ENDIF
+            ENDIF
+         ENDFOR
+         IF (<LOCAL.BackToGameStart>)
+            REF1.TAG.CurrentStage=<DEF.PokerStageGameStart>
+         ELSE
+            REF1.TAG.CurrentStage=<DEF.PokerStagePickDealer>
+         ENDIF
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStagePickDealer>)
+         f_pokerlog 1,"Stage <dDEF.PokerStagePickDealer> (<DEF.PokerStage<dDEF.PokerStagePickDealer>>)"
+         WHILE (<LOCAL.DealerChosen>==0)
+            IF (<REF1.TAG0.CurrentDealer>==0)
+               REF1.TAG.CurrentDealer=<R1,8>
+            ELSE
+               REF1.TAG0.CurrentDealer ++
+            ENDIF
+            IF (<REF1.TAG0.CurrentDealer> > 8)
+               REF1.TAG.CurrentDealer=1
+            ENDIF
+            IF (<REF1.TAG0.Player<dREF1.TAG.CurrentDealer>.Seated>)
+               LOCAL.DealerChosen=1
+            ENDIF
+         ENDWHILE
+         f_pokerlog 2,"..The dealer will be Player<dREF1.TAG0.CurrentDealer>..."
+         REF1.TAG.CurrentStage=<DEF.PokerStageTakeAnte>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageTakeAnte>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageTakeAnte> (<DEF.PokerStage<dDEF.PokerStageTakeAnte>>)"
+         REF1.TAG.CurrentSmallBlind=<REF1.TAG0.CurrentDealer>
+         WHILE (<LOCAL.SmallBlindPaid>==0)
+            REF1.TAG.CurrentSmallBlind ++
+            IF (<REF1.TAG0.CurrentSmallBlind> > 8)
+               REF1.TAG.CurrentSmallBlind=1
+            ENDIF
+            IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentSmallBlind>.Seated>)
+               IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentSmallBlind>.Chips> < <REF1.TAG0.BlindSmall>)
+                  REF1.TAG.Player<dREF1.TAG0.CurrentSmallBlind>.Bet=<REF1.TAG0.Player<dREF1.TAG0.CurrentSmallBlind>.Chips>
+                  REF1.TAG.Player<dREF1.TAG0.CurrentSmallBlind>.Chips=0
+               ELSE
+                  REF1.TAG.Player<dREF1.TAG0.CurrentSmallBlind>.Bet=<REF1.TAG0.BlindSmall>
+                  REF1.TAG.Player<dREF1.TAG0.CurrentSmallBlind>.Chips=<EVAL <REF1.TAG0.Player<dREF1.TAG0.CurrentSmallBlind>.Chips>-<REF1.TAG0.BlindSmall>>
+               ENDIF
+               LOCAL.SmallBlindPaid=1
+            ENDIF
+         ENDWHILE
+         f_pokerlog 2,"..The small blind is Player<dREF1.TAG0.CurrentSmallBlind>."
+         REF1.TAG.CurrentBigBlind=<REF1.TAG0.CurrentSmallBlind>
+         WHILE (<LOCAL.BigBlindPaid>==0)
+            REF1.TAG.CurrentBigBlind ++
+            IF (<REF1.TAG0.CurrentBigBlind> > 8)
+               REF1.TAG.CurrentBigBlind=1
+            ENDIF
+            IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentBigBlind>.Seated>)
+               IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentBigBlind>.Chips> < <REF1.TAG0.BlindBig>)
+                  REF1.TAG.Player<dREF1.TAG.CurrentBigBlind>.Bet=<REF1.TAG0.Player<dREF1.TAG0.CurrentBigBlind>.Chips>
+                  REF1.TAG.Player<dREF1.TAG.CurrentBigBlind>.Chips=0
+               ELSE
+                  REF1.TAG.Player<dREF1.TAG.CurrentBigBlind>.Bet=<REF1.TAG0.BlindBig>
+                  REF1.TAG.Player<dREF1.TAG.CurrentBigBlind>.Chips=<EVAL <REF1.TAG0.Player<dREF1.TAG0.CurrentBigBlind>.Chips>-<REF1.TAG0.BlindBig>>
+               ENDIF
+               LOCAL.BigBlindPaid=1
+            ENDIF
+         ENDWHILE
+         f_pokerlog 2,"..The big blind is Player<dREF1.TAG0.CurrentBigBlind>."
+         REF1.TAG.CurrentStage=<DEF.PokerStageShuffle>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageShuffle>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageShuffle> (<DEF.PokerStage<dDEF.PokerStageShuffle>>)"
+         f_Poker_NewDeck <REF1.TAG.GlobalScope>_Deck
+         f_Poker_Shuffle <REF1.TAG.GlobalScope>_Deck
+         REF1.TAG.CurrentStage=<DEF.PokerStageDeal>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageDeal>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageDeal> (<DEF.PokerStage<dDEF.PokerStageDeal>>)"
+         REF1.TAG.CurrentPlayer=<REF1.TAG0.CurrentBigBlind>
+         WHILE (<LOCAL.CurrentPlayerSelected>==0)
+            REF1.TAG.CurrentPlayer ++
+            IF (<REF1.TAG0.CurrentPlayer> > 8)
+               REF1.TAG.CurrentPlayer=1
+            ENDIF
+            IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.NeedCards>)
+               LOCAL.TheCard=<SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0>
+               SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+               REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Cards=<LOCAL.TheCard>
+               REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.NeedCards --
+               REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.DealtCards ++
+               f_pokerlog 2,"..Player<dREF1.TAG0.CurrentPlayer> got the first card (<LOCAL.TheCard>)."
+               LOCAL.CurrentPlayerSelected=1
+            ENDIF
+         ENDWHILE
+         LOCAL.ThePlayer=<REF1.TAG0.CurrentPlayer>
+         WHILE (<LOCAL.DealCompleted>==0)
+            LOCAL.ThePlayer ++
+            IF (<LOCAL.ThePlayer> > 8)
+               LOCAL.ThePlayer=1
+            ENDIF
+            IF (<REF1.TAG0.Player<dLOCAL.ThePlayer>.NeedCards>)
+               LOCAL.TheCard=<SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0>
+               SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+               IF (<ISEMPTY <REF1.TAG.Player<dLOCAL.ThePlayer>.Cards>>)
+                  REF1.TAG0.Player<dLOCAL.ThePlayer>.Cards=<LOCAL.TheCard>
+                  f_pokerlog 2,"..Player<dLOCAL.ThePlayer> got their first card (<LOCAL.TheCard>)."
+               ELSE
+                  REF1.TAG.Player<dLOCAL.ThePlayer>.Cards .= ",<LOCAL.TheCard>"
+                  f_pokerlog 2,"..Player<dLOCAL.ThePlayer> got another card (<LOCAL.TheCard>)."
+               ENDIF
+               REF1.TAG0.Player<dLOCAL.ThePlayer>.NeedCards --
+               REF1.TAG0.Player<dLOCAL.ThePlayer>.DealtCards ++
+               IF (<REF1.TAG0.Player<dLOCAL.ThePlayer>.NeedCards>==0)
+                  REF1.TAG0.Player<dLOCAL.ThePlayer>.NeedCards=
+               ENDIF
+            ENDIF
+            IF (<REF1.TAG0.Player<dLOCAL.ThePlayer>.NeedCards>==0) && (<LOCAL.ThePlayer>==<REF1.TAG0.CurrentBigBlind>)
+               LOCAL.DealCompleted=1
+            ENDIF
+         ENDWHILE
+         REF1.TAG.CurrentStage=<DEF.PokerStageBetPreFLop>
+         REF1.TAG.CurrentBet=<REF1.TAG0.BlindBig>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBetPreFlop>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageBetPreFlop> (<DEF.PokerStage<dDEF.PokerStageBetPreFlop>>)"
+         REF1.f_Poker_Betting
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageFlop>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageFlop> (<DEF.PokerStage<dDEF.PokerStageFlop>>)"
+         f_pokerlog 2,"..First burn a card."
+         SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+         FOR x 0 2
+            LOCAL.TheCard=<SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0>
+            f_pokerlog 2,"..Flopped a (<LOCAL.TheCard>)."
+            IF (<ISEMPTY <REF1.TAG.CurrentCards>>)
+               REF1.TAG0.CurrentCards=<LOCAL.TheCard>
+            ELSE
+               REF1.TAG.CurrentCards .= ",<LOCAL.TheCard>"
+            ENDIF
+            SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+         ENDFOR
+         f_pokerlog 2,"..Flop done, who bets first?"
+         REF1.TAG.CurrentPlayer=<REF1.TAG0.CurrentDealer>
+         LOCAL.CurrentPlayerSelected=0
+         WHILE (<LOCAL.CurrentPlayerSelected>==0)
+            REF1.TAG.CurrentPlayer ++
+            IF (<REF1.TAG0.CurrentPlayer> > 8)
+               REF1.TAG.CurrentPlayer=1
+            ENDIF
+            IF !(<ISEMPTY <REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Cards>>)
+               f_pokerlog 2,"..Player<dREF1.TAG0.CurrentPlayer> bets first." 
+               LOCAL.CurrentPlayerSelected=1
+            ENDIF
+         ENDWHILE
+         REF1.TAG.CurrentStage=<DEF.PokerStageBetFlop>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBetFlop>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageBetFlop> (<DEF.PokerStage<dDEF.PokerStageBetFlop>>)"
+         REF1.f_Poker_Betting
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageTurn>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageTurn> (<DEF.PokerStage<dDEF.PokerStageTurn>>)"
+         f_pokerlog 2,"..First burn a card."
+         SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+         LOCAL.TheCard=<SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0>
+         REF1.TAG.CurrentCards .= ",<LOCAL.TheCard>"
+         SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+         f_pokerlog 2,"..Flopped a <LOCAL.TheCard>, who bets first?"
+         REF1.TAG.CurrentPlayer=<REF1.TAG0.CurrentDealer>
+         LOCAL.CurrentPlayerSelected=0
+         WHILE (<LOCAL.CurrentPlayerSelected>==0)
+            REF1.TAG.CurrentPlayer ++
+            IF (<REF1.TAG0.CurrentPlayer> > 8)
+               REF1.TAG.CurrentPlayer=1
+            ENDIF
+            IF !(<ISEMPTY <REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Cards>>)
+               f_pokerlog 2,"..Player<dREF1.TAG0.CurrentPlayer> bets first."
+               LOCAL.CurrentPlayerSelected=1
+            ENDIF
+         ENDWHILE
+         REF1.TAG.CurrentStage=<DEF.PokerStageBetTurn>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBetTurn>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageBetTurn> (<DEF.PokerStage<dDEF.PokerStageBetTurn>>)"
+         REF1.f_Poker_Betting
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageRiver>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageRiver> (<DEF.PokerStage<dDEF.PokerStageRiver>>)"
+         f_pokerlog 2,"..First burn a card."
+         SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+         LOCAL.TheCard=<SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0>
+         REF1.TAG.CurrentCards .= ",<LOCAL.TheCard>"
+         SERV.LIST.<REF1.TAG.GlobalScope>_Deck.0.REMOVE
+         f_pokerlog 2,"..Flopped a <LOCAL.TheCard>, who bets first?"
+         REF1.TAG.CurrentPlayer=<REF1.TAG0.CurrentDealer>
+         LOCAL.CurrentPlayerSelected=0
+         WHILE (<LOCAL.CurrentPlayerSelected>==0)
+            REF1.TAG.CurrentPlayer ++
+            IF (<REF1.TAG0.CurrentPlayer> > 8)
+               REF1.TAG.CurrentPlayer=1
+            ENDIF
+            IF !(<ISEMPTY <REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Cards>>)
+               f_pokerlog 2,"..Player<dREF1.TAG0.CurrentPlayer> bets first."
+               LOCAL.CurrentPlayerSelected=1
+            ENDIF
+         ENDWHILE
+         REF1.TAG.CurrentStage=<DEF.PokerStageBetRiver>
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBetRiver>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageBetRiver> (<DEF.PokerStage<dDEF.PokerStageBetRiver>>)"
+         REF1.f_Poker_Betting
+      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageScore>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageScore> (<DEF.PokerStage<dDEF.PokerStageScore>>)"
+         LOCAL.BestScore=10000
+
+         LOCAL.TotalPlayersWithCards=0
+         FOR x 1 8
+            IF !(<ISEMPTY <REF1.TAG.Player<dLOCAL.x>.Cards>>)
+               LOCAL.TotalPlayersWithCards ++
+               REF1.TAG.CurrentWinner=<LOCAL.x>
+            ENDIF
+         ENDFOR
+         IF (<LOCAL.TotalPlayersWithCards> > 1)
+            FOR x 1 8
+               f_pokerlog 2,"..Checking Player<dLOCAL.x>..."
+               IF !(<ISEMPTY <REF1.TAG.Player<dLOCAL.x>.Cards>>)
+                  LOCAL.TheCards=<TAG.GlobalScope>_Player<dLOCAL.x>,<REF1.TAG.CurrentCards>,<REF1.TAG.Player<dLOCAL.x>.Cards>
+                  f_pokerlog 3,"....Combined cards: <LOCAL.TheCards>"
+                  f_Poker_NewHand <LOCAL.TheCards>
+                  f_Poker_BestHand <TAG.GlobalScope>_Player<dLOCAL.x>
+                  LOCAL.TheBestHand=<f_ListToString <TAG.GlobalScope>_Player<dLOCAL.x>Best>
+                  LOCAL.Player<dLOCAL.x>.Score=<f_Poker_ScoreHand <f_Poker_ShortHand <LOCAL.TheBestHand>>>
+                  IF (<LOCAL.Player<dLOCAL.x>.Score> < <LOCAL.BestScore>)
+                     LOCAL.BestScore=<LOCAL.Player<dLOCAL.x>.Score>
+                     REF1.TAG.CurrentWinner=<LOCAL.x>
+                  ENDIF
+                  LIST.<TAG.GlobalScope>_Player<dLOCAL.x>.CLEAR
+                  LIST.<TAG.GlobalScope>_Player<dLOCAL.x>Best.CLEAR
+                  f_pokerlog 3,"....Player<dLOCAL.x>'s BestHand=<LOCAL.TheBestHand> (score=<dLOCAL.Player<dLOCAL.x>.Score>)."
+               ELSE
+                  LOCAL.Player<dLOCAL.x>.Score=10000
+                  f_pokerlog 3,"....Player<dLOCAL.x>'s BestHand=N/A (score=<dLOCAL.Player<dLOCAL.x>.Score>)."
+               ENDIF
+            ENDFOR
+         ENDIF
+         f_pokerlog 2,"..Player<dREF1.TAG0.CurrentWinner> (<UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentWinner>>.NAME>) wins <dREF1.TAG0.CurrentPot> chips!"
+
+         FOR x 0 <EVAL <LIST.<TAG.GlobalScope>_PlayerUIDs.COUNT>-1>
+            REF3=<LIST.<TAG.GlobalScope>_PlayerUIDs.<dLOCAL.x>>
+            IF (<REF3.ISONLINE>)
+                REF3.SYSMESSAGE @<DEF.PokerDefaultText>,,1 <UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentWinner>>.NAME> wins <dREF1.TAG0.CurrentPot> chips!
+            ENDIF
+         ENDFOR
+
+         REF1.TAG0.Player<dREF1.TAG0.CurrentWinner>.Chips=<EVAL <REF1.TAG0.Player<dREF1.TAG0.CurrentWinner>.Chips>+<REF1.TAG0.CurrentPot>>
+         REF1.TAG.CurrentPot=
+         REF1.TAG.CurrentStage=<DEF.PokerStageGameEnd>
+         REF1.TAG0.ShowWinnerDetails=1
+      ENDIF
+
+//      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageShowHands>)
+//         f_pokerlog 2,"..Who scores first?"
+//         //FIXME: The player who made the initial bet or the player who made the last raise shows their hand first...
+//         IF (<REF1.TAG0.LastToRaise>) && !(<ISEMPTY <REF1.TAG.Player<dREF1.TAG0.LastToRaise>.Cards>>)
+//            LOCAL.FirstToShow=<REF1.TAG0.LastToRaise>
+//         ELSEIF (<REF1.TAG0.FirstToBet>) && !(<ISEMPTY <REF1.TAG.Player<dREF1.TAG0.FirstToBet>.Cards>>)
+//            LOCAL.FirstToShow=<REF1.TAG0.FirstToBet>
+//         ELSE
+//            LOCAL.FirstToShow=<REF1.TAG0.CurrentSmallBlind>
+//         ENDIF
+//      ENDIF
+
+      IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageGameEnd>)
+         f_pokerlog 1,"Stage <dDEF.PokerStageGameEnd> (<DEF.PokerStage<dDEF.PokerStageGameEnd>>)"
+         IF (<REF1.TAG0.ShowWinnerDetails>)
+            REF1.TAG0.ShowWinnerDetails=
+            REF1.TAG0.LastToRaise=
+            REF1.TAG0.FirstToBet=
+         ELSE
+            FOR x 1 8
+               //Cleanup TAGs related to players that left (so new players can take that seat)
+               //.
+               REF1.TAG.Player<dLOCAL.x>.Bet=
+               REF1.TAG.Player<dLOCAL.x>.Cards=
+               REF1.TAG.Player<dLOCAL.x>.DealtCards=
+               REF1.TAG.Player<dLOCAL.x>.Decision=
+               REF1.TAG.Player<dLOCAL.x>.NeedCards=
+               REF1.TAG.Player<dLOCAL.x>.NextBet=
+            ENDFOR
+            REF1.TAG.CurrentBigBlind=
+            REF1.TAG.CurrentCards=
+            REF1.TAG.CurrentPlayer=
+            REF1.TAG.CurrentSmallBlind=
+            REF1.TAG.CurrentStage=
+            REF1.TAG.CurrentStatus=
+   //         REF1.TAG.CurrentWinner=
+            REF1.TAG.CurrentStage=<DEF.PokerStageGameStart>
+            IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>==0) && !(<ISEMPTY <REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Cards>>)
+SERV.LOG Player is allin
+               LOCAL.CurrentPlayerIsAllIn=1
+            ENDIF
+         ENDIF
+      ENDIF
+      REF1.f_Poker_RefreshTable
+      IF (<LOCAL.CurrentPlayerIsAllIn>)
+         TIMER=10
+      ELSE
+         TIMER=<DEF.PokerDefaultTimer>
+      ENDIF
+   ENDIF
+   RETURN 1
+
+
+////////////////////////////////////////
+//                                    //
+// These are poker specific functions //
+//                                    //
+////////////////////////////////////////
+
+
+[FUNCTION f_pokerlog]
+IF (<EVAL <DEF.PokerDefaultLogging>> >= <ARGV[0]>)
+   SERV.LOG Poker: <ARGV[1]>
+ENDIF
+
+
+[FUNCTION f_Poker_SetupTable]
+TAG.ATTRvalues=<ATTR>
+ATTR=attr_identified|attr_decay|attr_move_never
+
+TAG.CreatorID=<SRC>
+TAG.GlobalScope=POKERGame_<UID>
+TAG.BlindSmall=<STRARG <DEF.PokerDefaultBlinds>>
+TAG.BlindBig=<STREAT <DEF.PokerDefaultBlinds>>
+TAG.BuyinMin=<STRARG <DEF.PokerDefaultBuyin>>
+TAG.BuyinMax=<STREAT <DEF.PokerDefaultBuyin>>
+TAG.PlayersMin=<STRARG <DEF.PokerDefaultPlayers>>
+TAG.PlayersMax=<STREAT <DEF.PokerDefaultPlayers>>
+TAG.CurrentStage=<DEF.PokerStageGameStart>
+
+
+[FUNCTION f_Poker_RefreshTable]
+f_pokerlog 1,"Display the table to all players:"
+FOR x 0 <EVAL <LIST.<TAG.GlobalScope>_PlayerUIDs.COUNT>-1>
+   REF3=<LIST.<TAG.GlobalScope>_PlayerUIDs.<dLOCAL.x>>
+   IF (<REF3.ISONLINE>)
+      TRYSRC <REF3> DIALOG d_poker_pokertable
+      f_pokerlog 2,"..<EVAL <LOCAL.x>+1>: <REF3.NAME>"
+   ELSE
+      f_pokerlog 2,"..<EVAL <LOCAL.x>+1>: <REF3.NAME> (offline)"
+   ENDIF
+ENDFOR
+
+
+[FUNCTION f_Poker_Betting]
+REF1=<UID>
+REF2=<UID.<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>>>
+f_pokerlog 2,"..It's <REF2.NAME> turn, the pot is <dREF1.TAG0.CurrentPot>."
+f_pokerlog 2,"....their current bet is <dREF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet> of <dREF1.TAG0.CurrentBet>."
+f_pokerlog 2,"....they have <dREF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>."
+LOCAL.TheDecision=<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Decision>
+f_pokerlog 2,"....they want to <DEF.PokerDecision<dLOCAL.TheDecision>>..."
+LOCAL.CallAmount=<EVAL <REF1.TAG0.CurrentBet>-<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet>>
+IF (<LOCAL.CallAmount> > <REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>)
+   LOCAL.CallAmount=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>
+ENDIF
+f_pokerlog 2,"......to call it will cost <dLOCAL.CallAmount>..."
+LOCAL.RaiseBlindAmount=<EVAL <LOCAL.CallAmount> + <REF1.TAG0.BlindBig>>
+IF (<LOCAL.RaiseBlindAmount> > <REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>)
+   LOCAL.RaiseBlindAmount=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>
+ENDIF
+f_pokerlog 2,"......to call and RaiseBlind it will cost <dLOCAL.RaiseBlindAmount>..."
+      FOR x 1 8
+         IF (<LOCAL.x> != <REF1.TAG0.CurrentPlayer>)
+            LOCAL.OpponentStack=<EVAL <REF1.TAG0.Player<dLOCAL.x>.Chips> + <REF1.TAG0.Player<dLOCAL.x>.Bet>>
+            IF (<LOCAL.OpponentStack> > <LOCAL.BiggestOpponentStack>)
+               LOCAL.BiggestOpponentStack=<LOCAL.OpponentStack>
+            ENDIF
+            LOCAL.OpponentChipsInPlay += <REF1.TAG0.Player<dLOCAL.x>.Bet>
+         ENDIF
+      ENDFOR
+LOCAL.RaisePotAmount=<EVAL <REF1.TAG0.CurrentPot> + <LOCAL.OpponentChipsInPlay>>
+IF (<LOCAL.RaisePotAmount> > <REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>)
+   LOCAL.RaisePotAmount=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>
+ENDIF
+f_pokerlog 2,"......to RaisePot it will cost <dLOCAL.RaisePotAmount>..."
+LOCAL.RaiseMaxAmount=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>
+f_pokerlog 2,"......to call and RaiseMax it will cost <dLOCAL.RaiseMaxAmount>..."
+
+IF (<LOCAL.TheDecision>==<DEF.PokerDecisionNone>)
+   REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 It is your turn... Better hurry up!
+   f_pokerlog 2,"..<REF2.NAME> hasn't made a decision yet... remind them."
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionFold>)
+   REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Cards=
+   REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.NextBet=
+   REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Decision=<DEF.PokerDecisionNone>
+   REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You fold your hand.
+   f_pokerlog 2,"..<REF2.NAME> decided to fold."
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionCheckFold>)
+   IF (<LOCAL.CallAmount>)
+      REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Cards=
+      REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.NextBet=
+      REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Decision=<DEF.PokerDecisionFold>
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You fold your hand.
+      f_pokerlog 2,"..<REF2.NAME> decided to fold."
+   ELSE
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You check the bet.
+      f_pokerlog 2,"..<REF2.NAME> decided to check."
+   ENDIF
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionCheck>)
+   IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Bet> < <REF1.TAG0.CurrentBet>)
+      REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.NextBet=
+      REF1.TAG.Player<dREF1.TAG0.CurrentPlayer>.Decision=<DEF.PokerDecisionNone>
+      LOCAL.TheDecision=<DEF.PokerDecisionNone>
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You cannot check anymore... you can only fold, call, or raise!
+      f_pokerlog 2,"..<REF2.NAME> can no longer check, cancel their decision."
+   ELSE
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You check the bet.
+      f_pokerlog 2,"..<REF2.NAME> decided to check."
+   ENDIF
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionCall>)
+   IF (<LOCAL.CallAmount>)
+      IF (<LOCAL.CallAmount> > <REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips>)
+         REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet += <REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>
+         REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Chips=0
+         REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Decision=<DEF.PokerDecisionAllIn>
+         REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You are 'all-in' at <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+         f_pokerlog 2,"..<REF2.NAME> called the bet and is now all-in."
+         LOCAL.CalculateTheSidePot=1
+      ELSE
+         REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet += <LOCAL.CallAmount>
+         REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips -= <LOCAL.CallAmount>
+         REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You call the bet at <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+         f_pokerlog 2,"..<REF2.NAME> called the bet."
+      ENDIF
+   ELSE
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 No need to call... checking instead.
+      f_pokerlog 2,"..<REF2.NAME> did not need to call, they checked instead."
+   ENDIF
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionRaiseBlind>)
+   IF (<LOCAL.RaiseBlindAmount> > <REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>)
+      REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet += <REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>
+      REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Chips=0
+      REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Decision=<DEF.PokerDecisionAllIn>
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You are 'all-in' at <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+      f_pokerlog 2,"..<REF2.NAME> raised the bet by a blind and is now all-in."
+      LOCAL.CalculateTheSidePot=1
+   ELSE
+      REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet += <LOCAL.RaiseBlindAmount>
+      REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips -= <LOCAL.RaiseBlindAmount>
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You raise to <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+      f_pokerlog 2,"..<REF2.NAME> raised the bet by a blind."
+   ENDIF
+   IF (<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet> > <REF1.TAG0.CurrentBet>)
+      REF1.TAG0.LastToRaise=<REF1.TAG0.CurrentPlayer>
+      REF1.TAG0.CurrentBet=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet>
+   ENDIF
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionRaisePot>)
+   IF (<LOCAL.RaisePotAmount> > <REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>)
+      REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet += <REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>
+      REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Chips=0
+      REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Decision=<DEF.PokerDecisionAllIn>
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You are 'all-in' at <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+      f_pokerlog 2,"..<REF2.NAME> raised the bet by a pot and is now all-in."
+      LOCAL.CalculateTheSidePot=1
+   ELSE
+      REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet += <LOCAL.RaisePotAmount>
+      REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Chips -= <LOCAL.RaisePotAmount>
+      REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You raise to <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+      f_pokerlog 2,"..<REF2.NAME> raised the bet by a pot."
+   ENDIF
+   IF (<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet> > <REF1.TAG0.CurrentBet>)
+      REF1.TAG0.LastToRaise=<REF1.TAG0.CurrentPlayer>
+      REF1.TAG0.CurrentBet=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet>
+   ENDIF
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionRaiseCustom>)
+   //FIXME!!!
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionRaiseMax>)
+   REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet += <REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Chips>
+   REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Chips=0
+   REF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Decision=<DEF.PokerDecisionAllIn>
+   REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You are 'all-in' at <dREF1.TAG.Player<dREF1.TAG.CurrentPlayer>.Bet>.
+   f_pokerlog 2,"..<REF2.NAME> raised all-in."
+   LOCAL.CalculateTheSidePot=1
+   IF (<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet> > <REF1.TAG0.CurrentBet>)
+      REF1.TAG0.LastToRaise=<REF1.TAG0.CurrentPlayer>
+      REF1.TAG0.CurrentBet=<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet>
+   ENDIF 
+ELSEIF (<LOCAL.TheDecision>==<DEF.PokerDecisionAllIn>)
+   REF2.SYSMESSAGE @<DEF.PokerDefaultText>,,1 You are 'all-in'.
+   f_pokerlog 2,"..<REF2.NAME> is still all-in."
+ENDIF
+
+IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBetRiver>)
+   IF (<REF1.TAG0.Player<dREF1.TAG0.CurrentPlayer>.Bet>) && !(<REF1.TAG0.FirstToBet>)
+      REF1.TAG0.FirstToBet=<REF1.TAG0.CurrentPlayer>
+   ENDIF
+   f_pokerlog 2,"..Player<dREF1.TAG0.FirstToBet> is first to bet the river."
+   f_pokerlog 2,"..Player<dREF1.TAG0.LastToRaise> is last to raise the river."
+ENDIF
+
+FOR x 1 8
+   IF !(<ISEMPTY <REF1.TAG.Player<dLOCAL.x>.Cards>>)
+      REF3=<UID.<REF1.TAG0.Player<dLOCAL.x>>>
+      IF (<REF1.TAG0.Player<dLOCAL.x>.Bet> < <REF1.TAG0.CurrentBet>) && (<REF1.TAG0.Player<dLOCAL.x>.Chips>)
+         LOCAL.BettingIsNotFinished=1
+         IF (<REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Decision> > <DEF.PokerDecisionCheckFold>)
+            REF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Decision=<DEF.PokerDecisionNone>
+            REF3.SYSMESSAGE @<DEF.PokerDefaultText>,,1 The stakes have changed, you should consider your bet.
+         ENDIF
+      ENDIF
+      IF (<LOCAL.CalculateTheSidePot>)
+         IF (STRLEN(<LOCAL.SidePotUIDs>)==1)
+            LOCAL.SidePotUIDs=<REF3>
+         ELSE
+            LOCAL.SidePotUIDs .= ,<REF3>
+         ENDIF
+      ENDIF
+   ENDIF
+ENDFOR
+
+IF (<LOCAL.CalculateTheSidePot>)
+   //FIXME!!!
+   f_pokerlog 2,"..There may be a side-pot at: <dREF1.TAG0.Player<dREF1.TAG.CurrentPlayer>.Bet>."
+   f_pokerlog 2,"....Possibly split by: <LOCAL.SidePotUIDs>"
+ENDIF
+
+IF (<LOCAL.TheDecision>)
+   IF (<REF1.TAG0.CurrentStage>==<DEF.PokerStageBetPreflop>)
+      //Pre-Flop betting ends with the big blind.
+      IF (<REF1.TAG0.CurrentPlayer>==<REF1.TAG0.CurrentBigBlind>)
+         REF1.TAG0.BetsArePlaced=1
+         f_pokerlog 2,"..The first round of betting has occured."
+      ENDIF
+   ELSE
+      //Flop, Turn, and River betting ends with the dealer or the player with cards to their right.
+      LOCAL.TheLastBettor=<REF1.TAG0.CurrentDealer>
+      WHILE (<LOCAL.FoundTheLastBettor>==0)
+         IF !(<ISEMPTY <REF1.TAG.Player<dLOCAL.TheLastBettor>.Cards>>)
+            LOCAL.FoundTheLastBettor=1
+         ELSE
+            LOCAL.TheLastBettor --
+            IF (<LOCAL.TheLastBettor> < 1)
+               LOCAL.TheLastBettor=8
+            ENDIF
+         ENDIF
+      ENDWHILE
+      IF (<REF1.TAG0.CurrentPlayer>==<LOCAL.TheLastBettor>)
+         REF1.TAG0.BetsArePlaced=1
+         f_pokerlog 2,"..The first round of betting has occured."
+      ENDIF
+   ENDIF
+   LOCAL.NextPlayer=<REF1.TAG0.CurrentPlayer>
+   WHILE (<LOCAL.NextPlayerFound>==0)
+      LOCAL.NextPlayer ++
+      IF (<LOCAL.NextPlayer> > 8)
+         LOCAL.NextPlayer=1
+      ENDIF
+      IF !(<ISEMPTY <REF1.TAG.Player<dLOCAL.NextPlayer>.Cards>>)
+         REF1.TAG0.CurrentPlayer=<LOCAL.NextPlayer>
+         LOCAL.NextPlayerFound=1
+         f_pokerlog 2,"..The next player is Player<dREF1.TAG0.CurrentPlayer>."
+      ENDIF
+   ENDWHILE
+ENDIF
+
+IF (<REF1.TAG0.BetsArePlaced>) && (<LOCAL.BettingIsNotFinished>==0)
+   f_pokerlog 2,"..Betting is complete, rake the bets into the pot."
+   REF1.TAG.CurrentBet=
+   REF1.TAG.BetsArePlaced=
+   LOCAL.TotalPlayersWithCards=0
+   FOR x 1 8
+      IF (<REF1.TAG0.Player<dLOCAL.x>>)
+         REF1.TAG.Player<dLOCAL.x>.Decision=
+         REF1.TAG.Player<dLOCAL.x>.NextBet=
+      ENDIF
+      IF (<REF1.TAG0.Player<dLOCAL.x>.Bet>)
+         REF1.TAG0.CurrentPot=<EVAL <REF1.TAG0.CurrentPot>+<REF1.TAG0.Player<dLOCAL.x>.Bet>>
+         REF1.TAG.Player<dLOCAL.x>.Bet=
+      ENDIF
+      IF !(<ISEMPTY <REF1.TAG.Player<dLOCAL.x>.Cards>>)
+         LOCAL.TotalPlayersWithCards ++
+      ENDIF
+   ENDFOR
+   IF (<LOCAL.TotalPlayersWithCards>==1)
+      REF1.TAG.CurrentStage=<DEF.PokerStageScore>
+   ELSE
+      REF1.TAG.CurrentStage ++
+   ENDIF
+ENDIF
+
+
+/////////////////////////////////
+//                             //
+// These are generic functions //
+// that the system relies on.  //
+//                             //
+/////////////////////////////////
+
+
+[FUNCTION f_sizeof]
+RETURN <EVAL <ARGV>>
+
+[FUNCTION f_getargv]
+LOCAL.String=<STRARG <ARGS>>
+ARGS=<STREAT <ARGS>>
+RETURN <ARGV[<LOCAL.String>]>
+
+[FUNCTION f_clearglobals]
+IF (<ARGV>==0)
+   SERV.LOG Missing arguments!
+   RETURN 0
+ENDIF
+SERV.CLEARVARS <ARGS>
+SERV.CLEARLISTS <ARGS>
+RETURN 1
+
+[FUNCTION f_ListToString]
+//"
+// Usage: f_ListToString Array
+//
+// This function takes a LIST object named Array and returns it as a comma
+// separated string.
+//
+// Limitations:
+// - Does not quote values that contain commas
+// - Converts numbers to hex
+//"
+IF (<ARGV>==0)
+   SERV.LOG Missing arguments!
+   RETURN 0
+ENDIF
+FOR x 0 <EVAL <LIST.<ARGV[0]>.COUNT>-1>
+   LOCAL.ThisValue=<LIST.<ARGV[0]>.<dLOCAL.x>>
+   IF (<LOCAL.x>==0)
+      LOCAL.Output=<LOCAL.ThisValue>
+   ELSE
+      LOCAL.Output .= ,<LOCAL.ThisValue>
+   ENDIF
+ENDFOR
+RETURN <LOCAL.Output>
+
+[EOF]

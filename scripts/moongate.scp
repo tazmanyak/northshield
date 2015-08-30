@@ -1,0 +1,865 @@
+﻿// -----------------------------------------------
+// -- Script Tanitimi	   : Moongate 	[DeStRoY]	--
+// -----------------------------------------------
+
+[itemdef i_gater]
+name gater
+id i_handr_1
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_can_decay
+
+On=@Equip
+timer 30
+src.dialog d_gatetravel
+	
+On=@Timer
+remove
+return 1
+
+
+[Dialog d_gatetravel]
+50,125
+Resizepic 0 0 5120 250 140
+Resizepic 10 70 3000 230 60
+htmlgump 10 10 230 50 0 1 0
+gumppic 15 77 2291
+Button 72 77 4006 4007 1 0 1
+Button 72 100 4018 4019 1 0 0
+Text 105 80 0 1
+Text 105 100 0 2
+
+[Dialog d_gatetravel TEXT]
+<findid.i_gater.link.link.region.name>. Gecmek istediginizden emin misiniz?
+Evet, Gececegim.
+Iptal
+
+[Dialog d_gatetravel BUTTON]
+On=0
+findid.i_gater.remove
+
+On=1 // gate'e gir
+//if !(<isevent.e_landtrade>)
+	if <isneartype t_anti_rune_book 50>
+		src.sys_error Bu alanda gate'den geçemezsiniz.
+		return 1
+	endif
+	serv.newitem i_gold
+	new.attr attr_invis
+	new.p <findid.i_gater.morep>
+	ref1 <new.uid>
+	if <ref1.f_spawn_check_exist>
+		src.sys_error Gitmeye çalıştığınız alan spawn alanı olduğundan dolayı geçişiniz engellenmiştir.
+		ref1.remove
+		return 1
+	else
+		ref1.remove
+	endif
+	if !(<findid.i_spdelay_NEW>)
+		if !(<findid.i_gater.link.isitem>)
+			sysmessage @,,1 Gate geçemeden kapanmış.
+			findid.i_gater.remove
+		elseif (<findid.i_gater.link.distance> > 3)
+			sysmessage @,,1 Gate'e ulaşamıyorsunuz.
+			findid.i_gater.remove
+		else	
+			GO <findid.i_gater.morep>
+			findid.i_gater.timer 2
+		endif
+	else
+		sysmessage @,,1 Frozen iken kullanamazsınız.
+		findid.i_gater.remove
+	endif	
+//else 
+//	sysmessage @55 Ticaret sirasinda kullanamazsiniz.
+//	findid.i_gater.remove
+//endif
+
+
+[itemdef i_moongater]
+name moongater
+id i_handr_1
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 10
+src.dialog d_facet_moongate
+src.dialogclose d_runebook
+src.dialogclose d_runebook_rename
+src.dialogclose d_runebook_localname
+	
+on=@unequip
+src.dialogclose d_facet_moongate
+
+On=@Timer
+remove
+return 1
+
+[itemdef i_moongate_safe]
+Name Moongate
+ID i_moongate_blue
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0810
+attr=08050
+
+On=@Step
+DORAND 5
+src.go 5369,2253,-28
+src.go 5366,2248,-28
+src.go 5371,2238,-28
+src.go 5376,2255,-28
+src.go 5376,2238,-28
+ENDDO
+
+[itemdef i_moongate_e]
+Name Moongate
+ID i_moongate_blue
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0995
+attr=08050
+
+
+On=@Dclick
+//src.ctag0.stone = <uid>
+//src.events +e_move2
+//src.dialog d_facet_moongate
+
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+elseif (<src.hits> < <src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+elseif (<distance> > 3)
+src.sysmessage @0481,,1 Yeterince yakin degilsiniz.
+else
+src.dialog d_facet_moongate
+endif
+RETURN 1
+
+on=@step
+src.sysmessage @07a1,1,1 Lutfen cift tiklayiniz.
+//src.ctag0.stone = <uid>
+//src.events +e_move2
+Return 1
+
+//if (<src.tag.gateacti> == 1)
+//return 1
+//endif
+//if (<src.findid i_rune_poison>)
+//src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+//elseif (<src.hits> < <src.str>)
+//src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+//elseif (<distance> > 3)
+//src.sysmessage @0481,,1 Yeterince yakin degilsiniz.
+//else
+//src.dialog d_facet_moongate
+//src.tag.gateacti 1
+//RETURN 1 
+//endif
+
+On=@Click
+message @07ac Moongate
+return 1
+
+
+
+
+[dialog d_facet_moongate]
+50,50
+nomove
+PAGE 0
+
+
+resizepic 250 0 3600 320 380
+
+text 290 20 38 0
+text 290 50 1152 1
+text 290 70 1152 2
+text 290 90 1152 3
+text 290 110 162 4
+text 290 130 995 5
+text 290 150 33 6
+text 290 170 33 7
+text 290 190 33 8
+text 290 210 33 9
+text 280 250 50 10
+text 280 270 50 11
+//text 290 230 1152 10
+//text 290 250 95 11
+//text 290 270 1152 12
+//text 290 290 95 13
+
+button 270 50 55 56 1 0 1
+button 270 70 55 56 1 0 2
+button 270 90 55 56 1 0 3
+button 270 110 55 56 1 0 4
+button 270 130 55 56 1 0 5
+button 270 150 55 56 1 0 6
+button 270 170 55 56 1 0 7
+button 270 190 55 56 1 0 8
+button 270 210 55 56 1 0 9
+//button 270 230 55 56 1 0 10
+//button 270 250 55 56 1 0 11
+//button 270 270 55 56 1 0 12
+//button 270 290 55 56 1 0 13
+
+[dialog d_facet_moongate text]
+         Moongate Menu 
+Pazar Alani //[ <uid.040002c12.morex> kisi var ]
+Bilet Alani
+Boya Alani
+Ice Land //[ <uid.040002e62.morex> kisi var ]
+Despise Level 3 [Lord Khaos Bolgesi]
+Despise [Biletci Npc Bolgesi]
+Wrong  [Biletci Npc Bolgesi]
+Pk Sehri //[ <uid.040002a13.morex> kisi var ]
+Moonglow //[ <uid.04000185f.morex> kisi var ] //[ <uid.<var.moonglowcheck>.morex> kisi var ] ////
+-
+-
+
+[dialog d_facet_moongate button]
+On=0
+findid.i_moongater.remove
+//src.events -e_move2
+
+src.sysmessage @0481,1,1 Kapattiniz.
+
+On=1
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go Pazar Alani
+src.events -e_mekan
+//src.events +e_safe
+//src.events -e_safe2
+src.events -e_sp
+src.events -e_chs
+src.events -e_brt
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX
+On=2
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+if (<src.findlayer.25>)
+src.sysmessage @55,,1 Binekle giremezsiniz.
+return 1
+endif
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.sysmessage @55,,1 Etrafta binegin varken bu alana giremessiniz.
+return 1
+endif
+endif
+endfor
+IF (<targ.DISTANCE> <=3)
+src.go 5155,1501			//1383,1501,10
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events +e_sp
+src.events -e_brt
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX
+On=3
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+go 5666,2337
+src.events -e_mekan
+//src.events -e_safe
+//src.events -e_safe2
+src.events -e_sp
+src.events -e_brt
+src.events -e_chs
+return 1	
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX
+On=4
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+go 4064,631
+src.events -e_mekan
+//src.events +e_safe
+//src.events -e_safe2
+src.events -e_sp
+src.events -e_brt
+src.events -e_chs
+//events -e_cpvp
+//events -e_dropfix
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX
+On=5
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+DORAND 3
+src.go 5510,843,45
+src.go 5508,851,45
+src.go 5514,847,45
+ENDDO
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+serv.allclients sysmessage @07a7,1,1 <src.name> , Lord Khaos bolgesine giris yapti.
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX
+
+On=6
+//src.sysmessage @0810 Monster Zone Kapatilmistir.
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+		go 1302,1081
+	events -e_mekan
+	events -e_safe
+	events -e_safe2
+	events -e_sp
+	events -e_brt
+	events -e_chs
+	events -e_cpvp
+//	events -e_dropfix
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX
+
+On=7
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+go 2050,239,10
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+//events -e_cpvp
+//events -e_dropfix
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX	
+On=8
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go pk sehri
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+serv.allclients sysmessage @07a7,1,1 <src.name> , Pk Sehri bolgesine giris yapti.
+//events -e_cpvp
+//events -e_dropfix
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+SRC.FIX	
+//On=12
+//if <src.action> == skill_magery
+//sysmessage @38,,1 Buyu yaparken gecemessiniz...
+//return 1
+//endif
+//if (<src.findid i_rune_poison>)
+//src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+//return 1
+//elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+//src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+//return 1
+//endif
+//IF (<targ.DISTANCE> <=3)
+//	go 5311,2156,-28
+//	events -e_mekan
+//	events -e_safe
+//	events -e_safe2
+//	events -e_brt
+//	events -e_chs
+//	events -e_dropfix
+//ELSE
+//src.SYSMESSAGE @0481,,1 Suanlik Kapalidir.
+//return 1
+//ENDIF
+//SRC.FIX
+On=9
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+DORAND 4
+src.go 4454,1166
+src.go 4454,1163
+src.go 4454,1169
+src.go 4451,1166
+ENDDO
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+serv.allclients sysmessage @07a7,1,1 <src.name> , Moonglow bolgesine giris yapti.
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+/////////////////////////////////////////////////////////// Dungeon Travel
+
+[itemdef i_dungeon_gate]
+Name=Dungeon Gate
+ID=i_moongate_blue
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0888
+attr=08050
+
+On=@Step
+src.sysmessage @0810 Cift tiklayiniz.
+//if (<src.findid i_rune_poison>)
+//src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+//elseif (<src.hits> < <src.str>)
+//src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+//elseif (<distance> > 3)
+//src.sysmessage @0481,,1 Yeterince yakin degilsiniz.
+//else
+//src.dialog d_gate_travel
+//RETURN 1 
+//endif
+
+On=@Dclick
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+elseif (<src.hits> < <src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+elseif (<distance> > 3)
+src.sysmessage @0481,,1 Yeterince yakin degilsiniz.
+else
+src.dialog d_gate_travel
+endif
+RETURN 1 
+
+
+On=@Click
+message @07ac Dungeon Gate
+return 1
+
+[dialog d_gate_travel]
+50,50
+nomove
+PAGE 0
+
+resizepic 230 10 3500 220 330
+resizepic 240 20 3000 200 310
+resizepic 250 30 3000 180 290
+resizepic 275 20 3000 140 20
+
+text 290 20 50 0
+text 290 50 50 1
+text 290 70 50 2
+text 290 90 50 3
+text 290 110 50 4
+text 290 130 50 5
+text 290 150 50 6
+text 290 170 50 7
+
+button 270 50 55 56 1 0 1
+button 270 70 55 56 1 0 2
+button 270 90 55 56 1 0 3
+button 270 110 55 56 1 0 4
+button 270 130 55 56 1 0 5
+button 270 150 55 56 1 0 6
+button 270 170 55 56 1 0 7
+
+[dialog d_gate_travel text]
+Dungeon Menu 
+Covetous
+Deceit
+Despise
+Destard
+Hythloth
+Shame
+Wrong
+
+[dialog d_gate_travel button]
+On=0
+findid.i_moongater.remove
+src.sysmessage @0481,1,1 Kapattiniz.
+
+//////////////////////
+
+On=1
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go covetous
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+////////////////////////
+
+On=2
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go deceit
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+///////////////////////
+
+On=3
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go despise
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+////////////////////////
+
+On=4
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go destard
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+////////////////////////
+
+On=5
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go Hythloth
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+///////////////////////
+
+On=6
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go shame
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+///////////////////////////////////////
+
+On=7
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Moongate'leri Kullanamazsiniz.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.sysmessage @0481,,1 Yaraliyken Moongate'leri Kullanamazsiniz.
+return 1
+endif
+IF (<targ.DISTANCE> <=3)
+src.go Wrong
+src.events -e_mekan
+src.events -e_safe
+src.events -e_safe2
+src.events -e_brt
+src.events -e_sp
+src.events -e_chs
+return 1
+ELSE
+SRC.SYSMESSAGE @0481,,1 Moongateden cok uzaktasiniz.
+return 1
+ENDIF
+
+////////////////////////
+
+[ITEMDEF i_stone_stat_3x] 
+id=0ed5
+Name Stat Stone
+
+ON=@Click
+message @54 Stat Stone
+return 1
+
+ON=@create
+Color=0810
+attr=08050
+
+ON=@DCLick
+If (<distance> < 3)
+if (<src.flags>&statf_dead)
+src.smx olu iken kullanamazsin iste
+return 1
+endif
+src.events -e_spr
+src.str 100
+src.dex 100
+src.int 100
+src.stat 1
+src.findlayer(1).bounce
+src.findlayer(2).bounce
+src.findlayer(3).bounce
+src.findlayer(4).bounce
+src.findlayer(5).bounce
+src.findlayer(6).bounce
+src.findlayer(7).bounce
+src.findlayer(8).bounce
+src.findlayer(10).bounce
+src.findlayer(12).bounce
+src.findlayer(13).bounce
+src.findlayer(14).bounce
+src.findlayer(17).bounce
+src.findlayer(18).bounce
+src.findlayer(19).bounce
+src.findlayer(20).bounce
+src.findlayer(22).bounce
+src.findlayer(23).bounce
+src.findlayer(24).bounce
+src.sysmessage @0810 Statlariniz ayarlandi. Lutfen koruma altina aliniz.
+return 1
+else
+src.sysmessage @38,1,1 Uzaksin.
+return 1
+endif
+
+
+[EOF]

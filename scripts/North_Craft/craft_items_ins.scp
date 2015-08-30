@@ -1,0 +1,82 @@
+[defname def_ins_items]
+// total page
+inscription_pagesum	9
+// circle 1
+inscription_0_1		i_scroll_clumsy
+inscription_1_1		i_scroll_create_food
+inscription_2_1		i_scroll_feeblemind
+inscription_3_1		i_scroll_heal
+inscription_4_1		i_scroll_magic_arrow
+inscription_5_1		i_scroll_night_sight
+inscription_6_1		i_scroll_reactive_armor
+inscription_7_1		i_scroll_weaken
+// circle 2
+inscription_0_2		i_scroll_agility
+inscription_1_2		i_scroll_cunning
+inscription_2_2		i_scroll_cure
+inscription_3_2		i_scroll_harm
+inscription_4_2		i_scroll_magic_trap
+inscription_5_2		i_scroll_magic_untrap
+inscription_6_2		i_scroll_protection
+inscription_7_2		i_scroll_strength
+// circle 3
+inscription_0_3		i_scroll_bless
+inscription_1_3		i_scroll_fireball
+inscription_2_3		i_scroll_magic_lock
+inscription_3_3		i_scroll_poison
+inscription_4_3		i_scroll_telekinesis
+inscription_5_3		i_scroll_teleport
+inscription_6_3		i_scroll_unlock
+inscription_7_3		i_scroll_wall_of_stone
+// circle 4
+inscription_0_4		i_scroll_archcure
+inscription_1_4		i_scroll_archprotection
+inscription_2_4		i_scroll_curse
+inscription_3_4		i_scroll_fire_field
+inscription_4_4		i_scroll_greater_heal
+inscription_5_4		i_scroll_lightning
+inscription_6_4		i_scroll_mana_drain
+inscription_7_4		i_scroll_recall
+// circle 5
+inscription_0_5		i_scroll_blade_spirits
+inscription_1_5		i_scroll_dispel_field
+inscription_2_5		i_scroll_incognito
+inscription_3_5		i_scroll_magic_reflection
+inscription_4_5		i_scroll_mind_blast
+inscription_5_5		i_scroll_paralyze
+inscription_6_5		i_scroll_poison_field
+inscription_7_5		i_scroll_summon_creature
+// circle 6
+inscription_0_6		i_scroll_dispel
+inscription_1_6		i_scroll_energy_bolt
+inscription_2_6		i_scroll_explosion
+inscription_3_6		i_scroll_invisibility
+inscription_4_6		i_scroll_mark
+inscription_5_6		i_scroll_mass_curse
+inscription_6_6		i_scroll_paralyze_field
+inscription_7_6		i_scroll_reveal
+// circle 7
+inscription_0_7		i_scroll_chain_lightning
+inscription_1_7		i_scroll_energy_field
+inscription_2_7		i_scroll_flamestrike
+inscription_3_7		i_scroll_gate_travel
+inscription_4_7		i_scroll_mana_vampire
+inscription_5_7		i_scroll_mass_dispel
+inscription_6_7		i_scroll_meteor_swarm
+inscription_7_7		i_scroll_polymorph
+// circle 8
+inscription_0_8		i_scroll_earthquake
+inscription_1_8		i_scroll_energy_vortex
+inscription_2_8		i_scroll_resurrection
+inscription_3_8		i_scroll_summon_elem_air
+inscription_4_8		i_scroll_summon_daemon
+inscription_5_8		i_scroll_summon_elem_earth
+inscription_6_8		i_scroll_summon_elem_fire
+inscription_7_8		i_scroll_summon_elem_water
+
+inscription_0_9		i_runebook
+inscription_1_9		i_runebook_kopya
+inscription_2_9		i_spellbook
+inscription_3_9		i_full_spellbook
+
+[EOF]

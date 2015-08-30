@@ -1,0 +1,512 @@
+
+///////////////////////////////////////////////////////////////////////////////////
+//////////////////////////REAGENT VASE///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+[TYPEDEF t_reagent_vase]
+ON = @DClick
+	IF <UseInPack>
+		RETURN 1
+	ENDIF
+	DIALOG d_regvase1
+	RETURN 1
+
+ON = @TargOn_Item
+	IF <SRC.TARG.UseInPack>
+		SRC.SYSMESSAGE Vase must be in the backpack and a reagent
+		RETURN 1
+	ELSEIF <SRC.TARG.TYPE> != t_reagent
+		SRC.SYSMESSAGE You can only fill vase with reagents
+		RETURN 1
+	ELSEIF !<SRC.TARG.IsReagent>
+		SRC.SYSMESSAGE You cant put this in vase
+		RETURN 1
+	ENDIF
+	f_vase_reagent_add <SRC.TARG.BaseID>
+	RETURN 1
+
+[FUNCTION IsReagent]
+	IF (0)
+	//normal
+	ELSEIF <SRC.TARG.BaseID> == i_reag_black_pearl
+	ELSEIF <SRC.TARG.BaseID> == i_reag_blood_moss
+	ELSEIF <SRC.TARG.BaseID> == i_reag_garlic
+	ELSEIF <SRC.TARG.BaseID> == i_reag_ginseng
+	ELSEIF <SRC.TARG.BaseID> == i_reag_mandrake_root
+	ELSEIF <SRC.TARG.BaseID> == i_reag_nightshade
+	ELSEIF <SRC.TARG.BaseID> == i_reag_sulfur_ash
+	ELSEIF <SRC.TARG.BaseID> == i_reag_spider_silk
+	//pagan
+	ELSEIF <SRC.TARG.BaseID> == i_reag_batwing
+	ELSEIF <SRC.TARG.BaseID> == i_reag_blackmoor
+	ELSEIF <SRC.TARG.BaseID> == i_reag_blood_spawn
+	ELSEIF <SRC.TARG.BaseID> == i_reag_bone
+	ELSEIF <SRC.TARG.BaseID> == i_reag_brimstone
+	ELSEIF <SRC.TARG.BaseID> == i_reag_daemon_bone
+	ELSEIF <SRC.TARG.BaseID> == i_reag_dead_wood
+	ELSEIF <SRC.TARG.BaseID> == i_reag_dragon_blood
+	ELSEIF <SRC.TARG.BaseID> == i_reag_executioners_cap
+	ELSEIF <SRC.TARG.BaseID> == i_reag_eye_of_newt
+	ELSEIF <SRC.TARG.BaseID> == i_reag_fertile_dirt
+	ELSEIF <SRC.TARG.BaseID> == i_reag_obsidian
+	ELSEIF <SRC.TARG.BaseID> == i_reag_pig_iron
+	ELSEIF <SRC.TARG.BaseID> == i_reag_pumice
+	ELSEIF <SRC.TARG.BaseID> == i_reag_serpent_scale
+	ELSEIF <SRC.TARG.BaseID> == i_reag_blood_vial
+	ELSEIF <SRC.TARG.BaseID> == i_reag_volcanic_ash
+	ELSEIF <SRC.TARG.BaseID> == i_reag_worm_heart
+	ELSE
+		RETURN 0
+	ENDIF
+	RETURN 1
+
+[FUNCTION f_vase_reagent_add]
+	local.old.amount=<eval <tag0.reg<eval regvase_slot_<args>>>>
+	local.add.amount=<eval <SRC.TARG.AMOUNT>>
+	TRY tag0.reg<eval regvase_slot_<args>> = <eval <local.old.amount> + <local.add.amount>>
+	SRC.SYSMESSAGE You put <eval <SRC.TARG.AMOUNT>> <SRC.TARG.NAME>s in <NAME>
+	SRC.TARG.REMOVE
+
+[FUNCTION f_show_ragent_pic]
+	DOSWITCH <ARGS>
+		local.empty=1
+		tilepic 154 *15 3962
+		tilepic 154 *15 3963
+		tilepic 154 *15 3972
+		tilepic 154 *15 3973
+		tilepic 154 *15 3974
+		tilepic 154 *15 3976
+		tilepic 152 *15 3980
+		tilepic 154 *15 3981
+		tilepic 154 *15 3960	//pagan - batwing
+		tilepic 152 *15 3961	//bloodmore
+		tilepic 158 *15 3964	//bloodspawn
+		tilepic 150 *15 3966	//bone
+		tilepic 154 *15 3967	//brimstone
+		tilepic 157 *15 3968	//demon bone
+		tilepic 157 *15 3984	//dead wood
+		tilepic 157 *15 3970	//dargon blood
+		tilepic 153 *15 3971	//ex cap
+		tilepic 154 *15 3975	//eye of newt
+		tilepic 160 *15 3969	//fertile dirt
+		tilepic 154 *15 3977	//obsidian
+		tilepic 153 *15 3978	//
+		tilepic 154 *15 3979	//
+		tilepic 160 *15 3982	//
+		tilepic 154 *15 3965	//
+		tilepic 154 *15 3983	//
+		tilepic 157 *15 3985
+	ENDDO
+
+//////////////////////////////////////////////////////////////
+[DIALOG d_regvase1]
+150,100
+page 0
+	gumppic 0 60 65
+	resizepic 135 0 5170 300 450
+	resizepic 0 250 2620 160 135
+//
+dorigin 70 150
+	FOR picnum 1 26
+		IF <tag0.reg<eval <local.picnum>>>
+			local.x=<eval RAND(50) - RAND(50)>
+			local.y=<eval RAND(50) - RAND(50)>
+			tilepic +<eval <local.x> + RAND(5) - RAND(5)> +<eval <local.y> + RAND(5) - RAND(5)> <eval <f_get_reagent_pic <eval <local.picnum>>>>
+			//tilepic +<eval <local.x> + RAND(5) - RAND(5)> +<eval <local.y> + RAND(5) - RAND(5)> <eval <f_get_reagent_pic <eval <local.picnum>>>>
+			//tilepic +<eval <local.x> + RAND(5) - RAND(5)> +<eval <local.y> + RAND(5) - RAND(5)> <eval <f_get_reagent_pic <eval <local.picnum>>>>
+		ENDIF
+	ENDIF
+dorigin 160 15
+	dhtmlgump +0 -12 255 20 0 0 <def.bfont> color=#6B4931<def.r1><def.center><NAME>
+//	dhtmlgump +0 *20 255 20 0 0 <def.bfont> color=#6B4931<def.r1><def.center>===== Common Reagents =====
+	for num 1 26
+		f_show_ragent_pic <eval <local.num>>
+		IF <tag0.reg<eval <local.num>>>
+			dhtmlgump +30 -5 150 20 0 0 <def.bfont> color=#6B4931<def.r1><def.small><def0.regvase_slot_<eval <local.num>>>
+			IF <tag0.reg<eval <local.num>>> < 50
+				dhtmlgump +180 -5 60 20 0 0 <def.bfont> color=#FF0000<def.r1><def.small><def.DIV_RIGHT><eval <tag0.reg<eval <local.num>>>>
+			ELSE
+				dhtmlgump +180 -5 60 20 0 0 <def.bfont> color=#6B4931<def.r1><def.small><def.DIV_RIGHT><eval <tag0.reg<eval <local.num>>>>
+			ENDIF
+			button +240 -2 10740 10741 1 0 <eval <local.num>>
+		ELSE
+			dhtmlgump +30 -5 150 20 0 0 <def.bfont> color=#CC895A<def.r1><def.small><def0.regvase_slot_<eval <local.num>>>
+		ENDIF
+	ENDFOR
+
+dorigin 7 245
+	button +0 *15 10740 10741 1 0 120
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>add reagent
+
+	button +0 *20 10740 10741 1 0 101
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>get 25 each normal reg
+	button +0 *15 10740 10741 1 0 102
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>get 50 each normal reg
+	button +0 *15 10740 10741 1 0 103
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>get 100 each normal reg
+
+	button +0 *20 10740 10741 1 0 114
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>get 25 each pagan reg
+	button +0 *15 10740 10741 1 0 115
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>get 50 each pagan reg
+	button +0 *15 10740 10741 1 0 116
+	dhtmlgump +20 -3 135 20 0 0 <def.bfont> color=#808080<def.r1><def.small>get 100 each pagan reg
+
+	RETURN 0
+
+[DIALOG d_regvase1 TEXT]
+
+[FUNCTION f_take_allreags]
+//argn1 amount
+//argn2 from
+//argn3 to
+	FOR num <argn2> <argn3>
+		IF <tag0.reg<eval <local.num>>> < <argn1>
+			SRC.SYSMESSAGE you do not have enought reagents to fill bag
+			RETURN 1
+		ENDIF
+	ENDFOR
+	if (<argn2> > 8 )
+		serv.newitem tm_pag_bag<argn1>
+	else
+		serv.newitem tm_reg_bag<argn1>
+	endif
+	new.bounce
+	FOR number <argn2> <argn3>
+		TRY tag.reg<eval <local.number>>= <eval <tag0.reg<eval <local.number>>> - <argn1>>
+	ENDFOR
+
+[DIALOG d_regvase1 BUTTON]
+ON = 101
+	f_take_allreags 25 1 8
+ON = 102
+	f_take_allreags 50 1 8
+ON = 103
+	f_take_allreags 100 1 8
+ON = 114
+	f_take_allreags 25 9 26
+
+ON = 115
+	f_take_allreags 50 9 26
+
+ON = 116
+	f_take_allreags 100 9 26
+
+ON = 120
+	target
+	SRC.SYSMESSAGE Which reagent do you want to fill vase with
+	RETURN 1
+
+//////////////////////////////////////buttons for 50 or less regs
+ON = 1 30
+	IF <tag0.reg<ARGN>> < 1
+		 SRC.SYSMESSAGE you do not have of that reagent 
+		 RETURN 1
+	ENDIF
+	local.amount=<eval <tag0.reg<ARGN>> >
+	IF <local.amount> > 50
+		local.amount=50
+	ENDIF
+	serv.newitem <def0.regvase_slot_id_<argn>>
+	new.amount <local.amount>
+	new.bounce
+	TRY tag0.reg<ARGN>= <eval <tag0.reg<ARGN>> - <local.amount>>
+	RETURN 1
+
+
+
+[FUNCTION f_get_reagent_pic]
+	DOSWITCH <ARGS>
+		RETURN 3962		///0 - unused
+		RETURN 3962
+		RETURN 3963
+		RETURN 3972
+		RETURN 3973
+		RETURN 3974
+		RETURN 3976
+		RETURN 3980
+		RETURN 3981
+		RETURN 3960	//pagan - batwing
+		RETURN 3961	//bloodmore
+		RETURN 3964	//bloodspawn
+		RETURN 3966	//bone
+		RETURN 3967	//brimstone
+		RETURN 3968	//demon bone
+		RETURN 3984	//dead wood
+		RETURN 3970	//dargon blood
+		RETURN 3971	//ex cap
+		RETURN 3975	//eye of newt
+		RETURN 3969	//fertile dirt
+		RETURN 3977	//obsidian
+		RETURN 3978	//
+		RETURN 3979	//
+		RETURN 3982	//
+		RETURN 3965	//
+		RETURN 3983	//
+		RETURN 3985
+	ENDDO
+
+
+
+[DEFNAME def_regvase_numbers]
+regvase_slot_i_reag_black_pearl			1
+regvase_slot_i_reag_blood_moss			2
+regvase_slot_i_reag_garlic				3
+regvase_slot_i_reag_ginseng				4
+regvase_slot_i_reag_mandrake_root		5
+regvase_slot_i_reag_nightshade			6
+regvase_slot_i_reag_sulfur_ash			7
+regvase_slot_i_reag_spider_silk			8
+//
+regvase_slot_i_reag_batwing				9
+regvase_slot_i_reag_blackmoor			10
+regvase_slot_i_reag_blood_spawn			11
+regvase_slot_i_reag_bone				12
+regvase_slot_i_reag_brimstone			13
+regvase_slot_i_reag_daemon_bone			14
+regvase_slot_i_reag_dead_wood			15
+regvase_slot_i_reag_dragon_blood		16
+regvase_slot_i_reag_executioners_cap	17
+regvase_slot_i_reag_eye_of_newt			18
+regvase_slot_i_reag_fertile_dirt		19
+regvase_slot_i_reag_obsidian			20
+regvase_slot_i_reag_pig_iron			21
+regvase_slot_i_reag_pumice				22
+regvase_slot_i_reag_serpent_scale		23
+regvase_slot_i_reag_blood_vial			24
+regvase_slot_i_reag_volcanic_ash		25
+regvase_slot_i_reag_worm_heart			26
+
+
+regvase_slot_1							Black Pearl
+regvase_slot_2							Blood Moss
+regvase_slot_3							Garlic
+regvase_slot_4							Ginseng
+regvase_slot_5							Mandrake
+regvase_slot_6							Nightshade
+regvase_slot_7							Sulphorous Ash
+regvase_slot_8							Spider Silk
+
+regvase_slot_9							Batwing
+regvase_slot_10							Blackmoor
+regvase_slot_11							Bloodspawn
+regvase_slot_12							Bone
+regvase_slot_13							Brimstone
+regvase_slot_14							Deamon Bone
+regvase_slot_15							Dead Wood
+regvase_slot_16							Dragons Blood
+regvase_slot_17							Excutioner's Cap
+regvase_slot_18							Eye of Newt
+regvase_slot_19							Fertile Dirt
+regvase_slot_20							Obsidian
+regvase_slot_21							Pig Iron
+regvase_slot_22							Pumice
+regvase_slot_23							Serpent's Scale
+regvase_slot_24							Vial of Blood
+regvase_slot_25							Volcanic Ash
+regvase_slot_26							Wyrms Heart
+
+regvase_slot_id_1						i_reag_black_pearl
+regvase_slot_id_2						i_reag_blood_moss
+regvase_slot_id_3						i_reag_garlic
+regvase_slot_id_4						i_reag_ginseng
+regvase_slot_id_5						i_reag_mandrake_root
+regvase_slot_id_6						i_reag_nightshade
+regvase_slot_id_7						i_reag_sulfur_ash
+regvase_slot_id_8						i_reag_spider_silk
+regvase_slot_id_9						i_reag_batwing
+regvase_slot_id_10						i_reag_blackmoor
+regvase_slot_id_11						i_reag_blood_spawn
+regvase_slot_id_12						i_reag_bone
+regvase_slot_id_13						i_reag_brimstone
+regvase_slot_id_14						i_reag_daemon_bone
+regvase_slot_id_15						i_reag_dead_wood
+regvase_slot_id_16						i_reag_dragon_blood
+regvase_slot_id_17						i_reag_executioners_cap
+regvase_slot_id_18						i_reag_eye_of_newt
+regvase_slot_id_19						i_reag_fertile_dirt
+regvase_slot_id_20						i_reag_obsidian
+regvase_slot_id_21						i_reag_pig_iron
+regvase_slot_id_22						i_reag_pumice
+regvase_slot_id_23						i_reag_serpent_scale
+regvase_slot_id_24						i_reag_blood_vial
+regvase_slot_id_25						i_reag_volcanic_ash
+regvase_slot_id_26						i_reag_worm_heart
+
+
+
+[ITEMDEF i_dl_reagent_vase]
+DEFNAME=i_regvase1 
+//ID=0b48
+ID=i_basket_2
+NAME=reagent basket		//vase
+VALUE=60000
+TYPE=t_reagent_vase
+
+CATEGORY=#_dungeon
+SUBSECTION = Moria
+DESCRIPTION = [items] Reagent Vase
+
+ON = @Create
+	COLOR	= 0712	//0838
+	tag0.REG1=0	 //NORMAL REGS
+	tag0.REG2=0
+	tag0.REG3=0
+	tag0.REG4=0
+	tag0.REG5=0
+	tag0.REG6=0
+	tag0.REG7=0
+	tag0.REG8=0	 
+	
+	tag0.REG9=0	//PAGAN REGS
+	tag0.REG10=0
+	tag0.REG11=0
+	tag0.REG12=0
+	tag0.REG13=0
+	tag0.REG14=0
+	tag0.REG15=0
+	tag0.REG16=0	 
+	tag0.REG17=0
+	tag0.REG18=0
+	tag0.REG19=0
+	tag0.REG20=0
+	tag0.REG21=0
+	tag0.REG22=0
+	tag0.REG23=0	 
+	tag0.REG24=0
+	tag0.REG25=0
+	tag0.REG26=0
+
+
+/////////////////////////////////////////////////////////
+
+[ITEMDEF i_bag_reagents]
+ID=i_bag
+TYPE=T_CONTAINER
+NAME=reagent bag
+TDATA2=03D
+FLIP=1
+WEIGHT=2
+VALUE=0
+
+ON = @Create
+	COLOR	= 0838
+
+ON = @Click
+	MESSAGE <NAME>
+	RETURN 1
+
+ON = @DClick
+	IF <RESCOUNT> < 1
+		REMOVE
+		RETURN 1
+	ENDIF
+
+[template tm_reg_bag25]
+DEFNAME=reg_bag25
+CONTAINER=i_bag_reagents
+	ITEM=i_reag_black_pearl, 25
+	ITEM=i_reag_blood_moss, 25
+	ITEM=i_reag_garlic, 25
+	ITEM=i_reag_ginseng, 25
+	ITEM=i_reag_mandrake_root, 25
+	ITEM=i_reag_nightshade, 25
+	ITEM=i_reag_sulfur_ash, 25
+	ITEM=i_reag_spider_silk, 25
+
+[template tm_reg_bag50]
+DEFNAME=reg_bag50								 //100t
+CONTAINER=i_bag_reagents
+	ITEM=i_reag_black_pearl, 50
+	ITEM=i_reag_blood_moss, 50
+	ITEM=i_reag_garlic, 50
+	ITEM=i_reag_ginseng, 50
+	ITEM=i_reag_mandrake_root, 50
+	ITEM=i_reag_nightshade, 50
+	ITEM=i_reag_sulfur_ash, 50
+	ITEM=i_reag_spider_silk, 50
+
+[template tm_reg_bag100]
+DEFNAME=reg_bag100
+CONTAINER=i_bag_reagents
+	ITEM=i_reag_black_pearl, 100
+	ITEM=i_reag_blood_moss, 100
+	ITEM=i_reag_garlic, 100
+	ITEM=i_reag_ginseng, 100
+	ITEM=i_reag_mandrake_root, 100
+	ITEM=i_reag_nightshade, 100
+	ITEM=i_reag_sulfur_ash, 100
+	ITEM=i_reag_spider_silk, 100
+
+[template tm_pag_bag100]
+DEFNAME=pag_bag100
+CONTAINER=i_bag_reagents
+	ITEM=i_reag_batwing, 100
+	ITEM=i_reag_blackmoor, 100
+	ITEM=i_reag_blood_spawn, 100
+	ITEM=i_reag_bone, 100				 //150t
+	ITEM=i_reag_brimstone, 100
+	ITEM=i_reag_daemon_bone, 100
+	ITEM=i_reag_dead_wood, 100
+	ITEM=i_reag_dragon_blood, 100
+	ITEM=i_reag_executioners_cap, 100
+	ITEM=i_reag_eye_of_newt, 100
+	ITEM=i_reag_fertile_dirt, 100
+	ITEM=i_reag_obsidian, 100
+	ITEM=i_reag_pig_iron, 100
+	ITEM=i_reag_pumice, 100
+	ITEM=i_reag_serpent_scale, 100
+	ITEM=i_reag_blood_vial, 100
+	ITEM=i_reag_volcanic_ash, 100
+	ITEM=i_reag_worm_heart, 100
+
+[template tm_pag_bag50]
+DEFNAME=pag_bag50
+CONTAINER=i_bag_reagents
+	ITEM=i_reag_batwing, 50
+	ITEM=i_reag_blackmoor, 50
+	ITEM=i_reag_blood_spawn, 50
+	ITEM=i_reag_bone, 50
+	ITEM=i_reag_brimstone, 50
+	ITEM=i_reag_daemon_bone, 50
+	ITEM=i_reag_dead_wood, 50
+	ITEM=i_reag_dragon_blood, 50
+	ITEM=i_reag_executioners_cap, 50
+	ITEM=i_reag_eye_of_newt, 50
+	ITEM=i_reag_fertile_dirt, 50
+	ITEM=i_reag_obsidian, 50
+	ITEM=i_reag_pig_iron, 50
+	ITEM=i_reag_pumice, 50
+	ITEM=i_reag_serpent_scale, 50
+	ITEM=i_reag_blood_vial, 50
+	ITEM=i_reag_volcanic_ash, 50
+	ITEM=i_reag_worm_heart, 50
+
+
+[template tm_pag_bag25]
+DEFNAME=pag_bag25
+CONTAINER=i_bag_reagents
+	ITEM=i_reag_batwing, 25
+	ITEM=i_reag_blackmoor, 25
+	ITEM=i_reag_blood_spawn, 25
+	ITEM=i_reag_bone, 25
+	ITEM=i_reag_brimstone, 25
+	ITEM=i_reag_daemon_bone, 25
+	ITEM=i_reag_dead_wood, 25
+	ITEM=i_reag_dragon_blood, 25
+	ITEM=i_reag_executioners_cap, 25
+	ITEM=i_reag_eye_of_newt, 25
+	ITEM=i_reag_fertile_dirt, 25
+	ITEM=i_reag_obsidian, 25
+	ITEM=i_reag_pig_iron, 25
+	ITEM=i_reag_pumice, 25
+	ITEM=i_reag_serpent_scale, 25
+	ITEM=i_reag_blood_vial, 25
+	ITEM=i_reag_volcanic_ash, 25
+	ITEM=i_reag_worm_heart, 25
+
+
+
+[EOF]	
+
+

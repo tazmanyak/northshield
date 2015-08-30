@@ -1,0 +1,394 @@
+[FUNCTION F_SET_PENTAGRAM_COLOR]
+FORITEMS 3
+	IF (<BASEID> == i_pentagram)
+	COLOR=<ARGN1>
+	ENDIF
+ENDFOR
+
+[ITEMDEF i_champion_idol]
+ID=01f18
+TYPE=T_NORMAL
+NAME=Idol of the Champion
+
+ON=@Create
+ATTR |= <DEF.ATTR_MOVE_NEVER>
+
+ON=@Dclick
+IF (<SRC.account.plevel> > 6)
+SDIALOG D_CUSTOM_CHAMP
+RETURN 1
+ENDIF
+
+on=@click
+
+if ( <MOREX> == 0 )
+message @33,,1 <ftime <timer>>
+message @,,1 <name>
+
+
+
+else
+
+message @68,,1 Lvl Dusmesine <eval (<timer> /60)> Dakika.
+message @,,1 S.Durumu (<EVAL (<TAG0.WHITESKULLS>> / 4) //(%<EVAL (<more1>*160)/100>)
+message @33,,1 Seviye ( <eval <MOREX> > / 16 )
+
+endif
+
+return 1
+
+ON=@Timer
+IF (<TAG0.IDLE>)
+TAG.IDLE=
+F_SET_PENTAGRAM_COLOR 03a5
+TAG.VALORTIMES=
+TIMER=1440*60
+	IF (<MAP> == 2) || (<MAP> == 3)
+	TIMER=<EVAL 60*10>
+	ENDIF
+ELIF (!(<TAG0.ACTIVE>)) && (!(<TAG0.IDLE>))
+SERV.LOG @ChampSYS Spawn activating (<TAG.MONSTERGROUP> / <REGION.NAME> (<P>)).
+duyurx Champion Spawnı aktif oldu.
+//REGION.FLAGS &= ~<DEF.region_flag_nodecay>
+//REGION.FLAGS &= ~<DEF.region_antimagic_teleport>
+//REGION.FLAGS |= <HVAL <DEF.region_flag_announce>|<DEF.region_antimagic_recall_in>|<DEF.region_antimagic_recall_out>|<DEF.region_antimagic_gate>>
+	IF (<TAG0.RANDOM>)
+		DORAND 7
+		TAG.MONSTERGROUP=Abyss
+		TAG.MONSTERGROUP=ColdBlood
+		TAG.MONSTERGROUP=ForestLord
+		TAG.MONSTERGROUP=UnholyTerror
+		TAG.MONSTERGROUP=VerminHord
+		TAG.MONSTERGROUP=Arachnid
+		TAG.MONSTERGROUP=SleepingDragon
+		ENDDO
+	ENDIF
+	IF (<TAG0.MAXSPAWNS>)
+	LOCAL.MONSTERSTOSPAWN=<TAG0.MAXSPAWNS>
+	ELSE
+	LOCAL.MONSTERSTOSPAWN=<DEF.TOTALMONSTERS>
+	ENDIF
+	FOR <LOCAL.MONSTERSTOSPAWN>
+	SERV.NEWNPC <HVAL <DEF.champ_<TAG0.MONSTERGROUP>_1>>
+	NEW.REMOVEFROMVIEW
+	NEW.FLAGS |= <DEF.STATF_INVISIBLE>
+	NEW.TAG.CHAMPION.LEVEL=1
+	NEW.P=<P>
+	NEW.MOVE <HVAL {-<TAG0.RANGE> <TAG0.RANGE>}> <HVAL {-<TAG0.RANGE> <TAG0.RANGE>}>
+		IF (<MAP> == 2)
+		NEW.F_CREATE_PARAGON 1
+		ENDIF
+	NEW.FIX
+		WHILE (<NEW.ISSTUCK>) || (<NEW.ISNEARTYPE T_WATER>) || (<NEW.P.TERRAIN> == 0244) || (<NEW.ISNEARTYPE T_WALL>)
+		NEW.P=<P>
+		NEW.MOVE <HVAL {-<TAG0.RANGE> <TAG0.RANGE>}> <HVAL {-<TAG0.RANGE> <TAG0.RANGE>}>
+		NEW.FIX
+		ENDWHILE
+	NEW.HOME=<NEW.P>
+	NEW.HOMEDIST=6
+	NEW.FLAGS &= ~<DEF.STATF_INVISIBLE>
+	NEW.UPDATE
+	NEW.TAG.CHAMPIONIDOL=<UID>
+	NEW.EVENTS +E_CHAMPION_MINION
+	ENDFOR
+MORE1=0
+MOREX=1
+TAG.CANDLES=
+SERV.NEWITEM i_skull_candle
+NEW.TAG.ALWAYSSEND=1
+NEW.COLOR=33
+NEW.TIMER -1
+NEW.ATTR=ATTR_MOVE_NEVER
+TAG0.CANDLES ++
+TRY TAG0.CANDLE.<dTAG0.CANDLES>=<NEW>
+NEW.P=<P>
+NEW.CANDLEP=<TAG0.CANDLES>
+TAG.ACTIVE=1
+TIMER=-1
+F_SET_PENTAGRAM_COLOR 0
+TAG.VALORTIMES=1
+ELIF (<FLOATVAL <MORE1>> >= <FLOATVAL (<QUANTOSMONSTROS>*20)/100>)
+REMOVEWHITECANDLES
+MORE1=0
+TIMER=<DEF.CHAMPIONLEVELMINUTE>
+ELIF (<FLOATVAL <MORE1>> < <FLOATVAL (<QUANTOSMONSTROS>*20)/100>)
+REMOVEWHITECANDLES
+MORE1=0
+	IF (<MOREX> != 1)
+	UID.<TAG0.CANDLE.<dTAG0.CANDLES>>.REMOVE
+	TAG.CANDLE.<dTAG0.CANDLES>
+	TAG0.CANDLES --
+	MOREX --
+	TIMER=<DEF.CHAMPIONLEVELMINUTE>
+	REGION.LIGHT=<EVAL <MOREX>+1>
+	ELSE
+	REGION.LIGHT=1
+	TAG.VALORTIMES=1
+	TIMER=-1
+	ENDIF
+ENDIF
+TAG.NOTYET
+RETURN 1
+
+[FUNCTION CANDLEP]
+DOSWITCH <EVAL <ARGN1>-1>
+	BEGIN
+	MOVE NW
+	MOVE NW
+	END
+	BEGIN
+	MOVE N
+	MOVE N
+	MOVE W
+	END
+	BEGIN
+	MOVE N
+	MOVE N
+	END
+	BEGIN
+	MOVE N
+	MOVE N
+	MOVE E
+	END
+	BEGIN
+	MOVE E
+	MOVE E
+	MOVE N
+	MOVE N
+	END
+	BEGIN
+	MOVE E
+	MOVE E
+	MOVE N
+	END
+	BEGIN
+	MOVE E
+	MOVE E
+	END
+	BEGIN
+	MOVE E
+	MOVE E
+	MOVE S
+	END
+	BEGIN
+	MOVE E
+	MOVE E
+	MOVE S
+	MOVE S
+	END
+	BEGIN
+	MOVE S
+	MOVE S
+	MOVE E
+	END
+	BEGIN
+	MOVE S
+	MOVE S
+	END
+	BEGIN
+	MOVE S
+	MOVE S
+	MOVE W
+	END
+	BEGIN
+	MOVE S
+	MOVE S
+	MOVE W
+	MOVE W
+	END
+	BEGIN
+	MOVE S
+	MOVE W
+	MOVE W
+	END
+	BEGIN
+	MOVE W
+	MOVE W
+	END
+	BEGIN
+	MOVE N
+	MOVE W
+	MOVE W
+	END
+ENDDO
+FIX
+NUDGEUP 1
+
+[FUNCTION WHITESKULLLOC]
+DOSWITCH <EVAL <ARGN1>-1>
+	BEGIN
+	MOVE N
+	MOVE W
+	END
+	BEGIN
+	MOVE N
+	MOVE E
+	END
+	BEGIN
+	MOVE S
+	MOVE E
+	END
+	BEGIN
+	MOVE S
+	MOVE W
+	END
+ENDDO
+FIX
+
+[FUNCTION REMOVEWHITECANDLES]
+FOR <TAG0.WHITESKULLS>
+TRY UID.<TAG0.WHITESKULLS.<dLOCAL._FOR>>.REMOVE
+TAG.WHITESKULLS
+TRY TAG.WHITESKULLS.<dLOCAL._FOR>
+ENDFOR
+
+[REGIONTYPE R_CHAMPION_SPAWN]
+ON=@Enter
+//FLAGS &= ~<DEF.region_flag_nodecay>
+//FLAGS &= ~<DEF.region_antimagic_teleport>
+//IF (<SRC.ISPLAYER>) && (<SRC.MAP> != 3)
+//SRC.MUSIC 65
+//ENDIF
+
+//ON=@CliPeriodic
+//IF (<SRC.ISPLAYER>) && (<SRC.MAP> != 3)
+//SRC.MUSIC 65
+//ENDIF
+
+[ITEMDEF i_champion_spawn]
+NAME=Champion Spawn
+ID=i_stairs_stone
+TYPE=t_multi
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Champion Spawn
+//MULTIREGION=-42,-42,42,42
+MULTIREGION=-1,-1,1,1
+COMPONENT=i_stairs_stone 1 0 0 0
+COMPONENT=i_stairs_stone -1 0 0 0
+COMPONENT=i_stairs_stone 0 1 0 0
+COMPONENT=i_stairs_stone 1 1 0 0
+COMPONENT=i_stairs_stone -1 1 0 0
+COMPONENT=i_stairs_stone 0 -1 0 0
+COMPONENT=i_stairs_stone 1 -1 0 0
+COMPONENT=i_stairs_stone -1 -1 0 0
+COMPONENT=03ef 0 2 0 0
+COMPONENT=03ef -1 2 0 0
+COMPONENT=03ef 1 2 0 0
+COMPONENT=03f8 2 2 0 0
+COMPONENT=03f6 -2 2 0 0
+COMPONENT=03f2 -2 1 0 0
+COMPONENT=03f2 -2 0 0 0
+COMPONENT=03f2 -2 -1 0 0
+COMPONENT=03f3 -2 -2 0 0
+COMPONENT=03f1 -1 -2 0 0
+COMPONENT=03f1 0 -2 0 0
+COMPONENT=03f1 1 -2 0 0
+COMPONENT=03f5 2 -2 0 0
+COMPONENT=03f0 2 -1 0 0
+COMPONENT=03f0 2 0 0 0
+COMPONENT=03f0 2 1 0 0
+COMPONENT=0fea 0 0 5 0
+COMPONENT=0fee 1 0 5 0
+COMPONENT=i_pentagram -1 0 5 0
+COMPONENT=0fec 0 1 5 0
+COMPONENT=0fed 1 1 5 0
+COMPONENT=0fe9 -1 1 5 0
+COMPONENT=0fe8 0 -1 5 0
+COMPONENT=0feb 1 -1 5 0
+COMPONENT=0fe7 -1 -1 5 0
+
+ON=@Create
+ATTR=ATTR_MOVE_NEVER
+TIMER -1
+TIMERF 1,REGION.EVENTS +R_CHAMPION_SPAWN
+TIMERF 1,REGION.FLAGS=<HVAL <REGION.FLAGS>&~<DEF.region_flag_nodecay>>
+
+[FUNCTION RANDOMMONSTERGROUP]
+TAG.RANDOM=1
+DORAND 7
+TAG.MONSTERGROUP=Abyss
+TAG.MONSTERGROUP=ColdBlood
+TAG.MONSTERGROUP=ForestLord
+TAG.MONSTERGROUP=UnholyTerror
+TAG.MONSTERGROUP=VerminHord
+TAG.MONSTERGROUP=Arachnid
+TAG.MONSTERGROUP=SleepingDragon
+ENDDO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[itemdef i_champion_gate]
+Name Gate
+ID i_moongate_black
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0
+attr=08050
+timer 3
+
+
+On=@step
+src.sysmessage @07a1,1,1 Lutfen cift tiklayiniz.
+RETURN 1
+
+on=@timer
+say @0810,8 a
+say @33,,1 ! <name> !
+say @,,1 (Sacred Champ Area)   
+timer 3
+return 1
+
+on=@dclick
+src.findid.i_rb_delay.remove
+src.findid.i_rb_delay2.remove
+if (<src.findid.i_gatetimerkoydum>)
+	src.sysmessage @69,1,1 Tekrar isinlanmak icin <src.findid.i_gatetimerkoydum.timer> saniye beklemelisiniz.
+	return 1
+endif
+
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Gate'leri Kullanamazsiniz.
+elseif (<src.hits> < <src.str>)
+src.sysmessage @0481,,1 Yaraliyken Gate'leri Kullanamazsiniz.
+else
+dorand 4
+src.go 5738,1986,-28
+src.go 5741,1983,-28
+src.go 5741,1989,-28
+src.go 5743,1986,-28
+enddo
+if (<src.isevent.fix>)
+src.newitem i_gatetimerkoydum
+src.act.equip
+serv.allclients sysmessage @33,,1 <src.name> , <name> bolgesine giris yapti.
+endif
+endif
+RETURN 1
+
+
+
+
+
+
+
+
+[EOF]

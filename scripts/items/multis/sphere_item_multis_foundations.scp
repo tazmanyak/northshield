@@ -1,0 +1,1505 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, April 5 2008 by Mordaunt
+//
+
+[ITEMDEF i_deed_gardenshed_south]
+ID=i_deed
+NAME=deed to a garden shed
+TYPE=t_deed
+CATEGORY=Provisions - Deeds
+SUBSECTION=Multi Item Deeds
+DESCRIPTION=Polar Bearskin Rug deed
+ON=@Create
+   MORE=i_multi_gardenshed_south
+
+
+// 7x* foundations
+[MULTIDEF 013ec]
+DEFNAME=i_multi_foundation_7x7
+TYPE=t_multi_custom
+NAME=7x7 2-Story Customizable House
+VALUE=133000
+MULTIREGION=-3,-3,3,4
+COMPONENT=0b98,-3,4,7
+COMPONENT=0009,-3,3,7
+COMPONENT=0bd2,-3,4,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=7x7 2-Story Customizable House
+
+[MULTIDEF 013ed]
+DEFNAME=i_multi_foundation_7x8
+TYPE=t_multi_custom
+NAME=7x8 2-Story Customizable House
+VALUE=137000
+MULTIREGION=-3,-3,3,5
+COMPONENT=0b98,-3,5,7
+COMPONENT=0009,-3,4,7
+COMPONENT=0bd2,-3,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=7x8 2-Story Customizable House
+
+[MULTIDEF 013ee]
+DEFNAME=i_multi_foundation_7x9
+TYPE=t_multi_custom
+NAME=7x9 2-Story Customizable House
+VALUE=141000
+MULTIREGION=-3,-4,3,5
+COMPONENT=0b98,-3,5,7
+COMPONENT=0009,-3,4,7
+COMPONENT=0bd2,-3,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=7x9 2-Story Customizable House
+
+[MULTIDEF 013ef]
+DEFNAME=i_multi_foundation_7x10
+TYPE=t_multi_custom
+NAME=7x10 2-Story Customizable House
+VALUE=145000
+MULTIREGION=-3,-4,3,6
+COMPONENT=0b98,-3,6,7
+COMPONENT=0009,-3,5,7
+COMPONENT=0bd2,-3,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=7x10 2-Story Customizable House
+
+[MULTIDEF 013f0]
+DEFNAME=i_multi_foundation_7x11
+TYPE=t_multi_custom
+NAME=7x11 2-Story Customizable House
+VALUE=149000
+MULTIREGION=-3,-5,3,6
+COMPONENT=0b98,-3,6,7
+COMPONENT=0009,-3,5,7
+COMPONENT=0bd2,-3,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=7x11 2-Story Customizable House
+
+[MULTIDEF 013f1]
+DEFNAME=i_multi_foundation_7x12
+TYPE=t_multi_custom
+NAME=7x12 2-Story Customizable House
+VALUE=153000
+MULTIREGION=-3,-5,3,7
+COMPONENT=0b98,-3,7,7
+COMPONENT=0009,-3,6,7
+COMPONENT=0bd2,-3,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=7x12 2-Story Customizable House
+
+
+// 8x* foundations
+[MULTIDEF 013f8]
+DEFNAME=i_multi_foundation_8x7
+TYPE=t_multi_custom
+NAME=8x7 2-Story Customizable House
+VALUE=137500
+MULTIREGION=-3,-3,4,3
+COMPONENT=0b98,-3,4,7
+COMPONENT=0009,-3,3,7
+COMPONENT=0bd2,-3,4,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x7 2-Story Customizable House
+
+[MULTIDEF 013f9]
+DEFNAME=i_multi_foundation_8x8
+TYPE=t_multi_custom
+NAME=8x8 2-Story Customizable House
+VALUE=142000
+MULTIREGION=-3,-3,4,4
+COMPONENT=0b98,-3,5,7
+COMPONENT=0009,-3,4,7
+COMPONENT=0bd2,-3,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x8 2-Story Customizable House
+
+[MULTIDEF 013fa]
+DEFNAME=i_multi_foundation_8x9
+TYPE=t_multi_custom
+NAME=8x9 2-Story Customizable House
+VALUE=146500
+MULTIREGION=-3,-4,4,4
+COMPONENT=0b98,-3,5,7
+COMPONENT=0009,-3,4,7
+COMPONENT=0bd2,-3,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x9 2-Story Customizable House
+
+[MULTIDEF 013fb]
+DEFNAME=i_multi_foundation_8x10
+TYPE=t_multi_custom
+NAME=8x10 2-Story Customizable House
+VALUE=151000
+MULTIREGION=-3,-4,4,5
+COMPONENT=0b98,-3,6,7
+COMPONENT=0009,-3,5,7
+COMPONENT=0bd2,-3,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x10 2-Story Customizable House
+
+[MULTIDEF 013fc]
+DEFNAME=i_multi_foundation_8x11
+TYPE=t_multi_custom
+NAME=8x11 2-Story Customizable House
+VALUE=155500
+MULTIREGION=-3,-5,4,5
+COMPONENT=0b98,-3,6,7
+COMPONENT=0009,-3,5,7
+COMPONENT=0bd2,-3,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x11 2-Story Customizable House
+
+[MULTIDEF 013fd]
+DEFNAME=i_multi_foundation_8x12
+TYPE=t_multi_custom
+NAME=8x12 2-Story Customizable House
+VALUE=160000
+MULTIREGION=-3,-5,4,6
+COMPONENT=0b98,-3,7,7
+COMPONENT=0009,-3,6,7
+COMPONENT=0bd2,-3,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x12 2-Story Customizable House
+
+
+[MULTIDEF 013fe]
+DEFNAME=i_multi_foundation_8x13
+TYPE=t_multi_custom
+NAME=8x13 2-Story Customizable House
+VALUE=164500
+MULTIREGION=-3,-6,4,7
+COMPONENT=0b98,-3,7,7
+COMPONENT=0009,-3,6,7
+COMPONENT=0bd2,-3,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=8x13 2-Story Customizable House
+
+//9x* foundations
+[MULTIDEF 01404]
+DEFNAME=i_multi_foundation_9x7
+TYPE=t_multi_custom
+NAME=9x7 2-Story Customizable House
+VALUE=142000
+MULTIREGION=-4,-3,4,3
+COMPONENT=0b98,-4,4,7
+COMPONENT=0009,-4,3,7
+COMPONENT=0bd2,-4,4,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x7 2-Story Customizable House
+
+[MULTIDEF 01405]
+DEFNAME=i_multi_foundation_9x8
+TYPE=t_multi_custom
+NAME=9x8 2-Story Customizable House
+VALUE=147000
+MULTIREGION=-4,-3,4,4
+COMPONENT=0b98,-4,5,7
+COMPONENT=0009,-4,4,7
+COMPONENT=0bd2,-4,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x8 2-Story Customizable House
+
+[MULTIDEF 01406]
+DEFNAME=i_multi_foundation_9x9
+TYPE=t_multi_custom
+NAME=9x9 2-Story Customizable House
+VALUE=152000
+MULTIREGION=-4,-4,4,4
+COMPONENT=0b98,-4,5,7
+COMPONENT=0009,-4,4,7
+COMPONENT=0bd2,-4,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x9 2-Story Customizable House
+
+[MULTIDEF 01407]
+DEFNAME=i_multi_foundation_9x10
+TYPE=t_multi_custom
+NAME=9x10 2-Story Customizable House
+VALUE=157000
+MULTIREGION=-4,-4,4,5
+COMPONENT=0b98,-4,6,7
+COMPONENT=0009,-4,5,7
+COMPONENT=0bd2,-4,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x10 2-Story Customizable House
+
+[MULTIDEF 01408]
+DEFNAME=i_multi_foundation_9x11
+TYPE=t_multi_custom
+NAME=9x11 2-Story Customizable House
+VALUE=162000
+MULTIREGION=-4,-5,4,5
+COMPONENT=0b98,-4,6,7
+COMPONENT=0009,-4,5,7
+COMPONENT=0bd2,-4,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x11 2-Story Customizable House
+
+[MULTIDEF 01409]
+DEFNAME=i_multi_foundation_9x12
+TYPE=t_multi_custom
+NAME=9x12 2-Story Customizable House
+VALUE=167000
+MULTIREGION=-4,-5,4,6
+COMPONENT=0b98,-4,7,7
+COMPONENT=0009,-4,6,7
+COMPONENT=0bd2,-4,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x12 2-Story Customizable House
+
+[MULTIDEF 0140a]
+DEFNAME=i_multi_foundation_9x13
+TYPE=t_multi_custom
+NAME=9x13 2-Story Customizable House
+VALUE=172000
+MULTIREGION=-4,-6,4,6
+COMPONENT=0b98,-4,7,7
+COMPONENT=0009,-4,6,7
+COMPONENT=0bd2,-4,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x13 2-Story Customizable House
+
+[MULTIDEF 0140b]
+DEFNAME=i_multi_foundation_9x14
+TYPE=t_multi_custom
+NAME=9x14 3-Story Customizable House
+VALUE=777000
+MULTIREGION=-4,-6,4,7
+COMPONENT=0b98,-4,8,7
+COMPONENT=0009,-4,7,7
+COMPONENT=0bd2,-4,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=9x14 3-Story Customizable House
+
+//10x* foundations
+[MULTIDEF 01410]
+DEFNAME=i_multi_foundation_10x7
+TYPE=t_multi_custom
+NAME=10x7 2-Story Customizable House
+VALUE=146500
+MULTIREGION=-4,-3,5,3
+COMPONENT=0b98,-4,4,7
+COMPONENT=0009,-4,3,7
+COMPONENT=0bd2,-4,4,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x7 2-Story Customizable House
+
+[MULTIDEF 01411]
+DEFNAME=i_multi_foundation_10x8
+TYPE=t_multi_custom
+NAME=10x8 2-Story Customizable House
+VALUE=152000
+MULTIREGION=-4,-3,5,4
+COMPONENT=0b98,-4,5,7
+COMPONENT=0009,-4,4,7
+COMPONENT=0bd2,-4,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x8 2-Story Customizable House
+
+[MULTIDEF 01412]
+DEFNAME=i_multi_foundation_10x9
+TYPE=t_multi_custom
+NAME=10x9 2-Story Customizable House
+VALUE=157500
+MULTIREGION=-4,-4,5,4
+COMPONENT=0b98,-4,5,7
+COMPONENT=0009,-4,4,7
+COMPONENT=0bd2,-4,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x9 2-Story Customizable House
+
+[MULTIDEF 01413]
+DEFNAME=i_multi_foundation_10x10
+TYPE=t_multi_custom
+NAME=10x10 2-Story Customizable House
+VALUE=163000
+MULTIREGION=-4,-4,5,5
+COMPONENT=0b98,-4,6,7
+COMPONENT=0009,-4,5,7
+COMPONENT=0bd2,-4,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x10 2-Story Customizable House
+
+[MULTIDEF 01414]
+DEFNAME=i_multi_foundation_10x11
+TYPE=t_multi_custom
+NAME=10x11 2-Story Customizable House
+VALUE=168500
+MULTIREGION=-4,-5,5,5
+COMPONENT=0b98,-4,6,7
+COMPONENT=0009,-4,5,7
+COMPONENT=0bd2,-4,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x11 2-Story Customizable House
+
+[MULTIDEF 01415]
+DEFNAME=i_multi_foundation_10x12
+TYPE=t_multi_custom
+NAME=10x12 2-Story Customizable House
+VALUE=174000
+MULTIREGION=-4,-5,5,6
+COMPONENT=0b98,-4,7,7
+COMPONENT=0009,-4,6,7
+COMPONENT=0bd2,-4,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x12 2-Story Customizable House
+
+[MULTIDEF 01416]
+DEFNAME=i_multi_foundation_10x13
+TYPE=t_multi_custom
+NAME=10x13 2-Story Customizable House
+VALUE=179500
+MULTIREGION=-4,-6,5,6
+COMPONENT=0b98,-4,7,7
+COMPONENT=0009,-4,6,7
+COMPONENT=0bd2,-4,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x13 2-Story Customizable House
+
+[MULTIDEF 01417]
+DEFNAME=i_multi_foundation_10x14
+TYPE=t_multi_custom
+NAME=10x14 3-Story Customizable House
+VALUE=955000
+MULTIREGION=-4,-6,5,7
+COMPONENT=0b98,-4,8,7
+COMPONENT=0009,-4,7,7
+COMPONENT=0bd2,-4,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x14 3-Story Customizable House
+
+[MULTIDEF 01418]
+DEFNAME=i_multi_foundation_10x15
+TYPE=t_multi_custom
+NAME=10x15 3-Story Customizable House
+VALUE=990500
+MULTIREGION=-4,-7,5,8
+COMPONENT=0b98,-4,8,7
+COMPONENT=0009,-4,7,7
+COMPONENT=0bd2,-4,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=10x15 3-Story Customizable House
+
+//11x* foundations
+[MULTIDEF 0141c]
+DEFNAME=i_multi_foundation_11x7
+TYPE=t_multi_custom
+NAME=11x7 2-Story Customizable House
+VALUE=151000
+MULTIREGION=-5,-3,5,3
+COMPONENT=0b98,-5,4,7
+COMPONENT=0009,-5,3,7
+COMPONENT=0bd2,-5,4,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x7 2-Story Customizable House
+
+[MULTIDEF 0141d]
+DEFNAME=i_multi_foundation_11x8
+TYPE=t_multi_custom
+NAME=11x8 2-Story Customizable House
+VALUE=157000
+MULTIREGION=-5,-3,5,4
+COMPONENT=0b98,-5,5,7
+COMPONENT=0009,-5,4,7
+COMPONENT=0bd2,-5,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x8 2-Story Customizable House
+
+[MULTIDEF 0141e]
+DEFNAME=i_multi_foundation_11x9
+TYPE=t_multi_custom
+NAME=11x9 2-Story Customizable House
+VALUE=163000
+MULTIREGION=-5,-4,5,4
+COMPONENT=0b98,-5,5,7
+COMPONENT=0009,-5,4,7
+COMPONENT=0bd2,-5,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x9 2-Story Customizable House
+
+[MULTIDEF 0141f]
+DEFNAME=i_multi_foundation_11x10
+TYPE=t_multi_custom
+NAME=11x10 2-Story Customizable House
+VALUE=169000
+MULTIREGION=-5,-4,5,5
+COMPONENT=0b98,-5,6,7
+COMPONENT=0009,-5,5,7
+COMPONENT=0bd2,-5,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x10 2-Story Customizable House
+
+[MULTIDEF 01420]
+DEFNAME=i_multi_foundation_11x11
+TYPE=t_multi_custom
+NAME=11x11 2-Story Customizable House
+VALUE=175000
+MULTIREGION=-5,-5,5,5
+COMPONENT=0b98,-5,6,7
+COMPONENT=0009,-5,5,7
+COMPONENT=0bd2,-5,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x11 2-Story Customizable House
+
+[MULTIDEF 01421]
+DEFNAME=i_multi_foundation_11x12
+TYPE=t_multi_custom
+NAME=11x12 2-Story Customizable House
+VALUE=181000
+MULTIREGION=-5,-5,5,6
+COMPONENT=0b98,-5,7,7
+COMPONENT=0009,-5,6,7
+COMPONENT=0bd2,-5,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x12 2-Story Customizable House
+
+[MULTIDEF 01422]
+DEFNAME=i_multi_foundation_11x13
+TYPE=t_multi_custom
+NAME=11x13 2-Story Customizable House
+VALUE=187000
+MULTIREGION=-5,-6,5,6
+COMPONENT=0b98,-5,7,7
+COMPONENT=0009,-5,6,7
+COMPONENT=0bd2,-5,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x13 2-Story Customizable House
+
+[MULTIDEF 01423]
+DEFNAME=i_multi_foundation_11x14
+TYPE=t_multi_custom
+NAME=11x14 3-Story Customizable House
+VALUE=993000
+MULTIREGION=-5,-6,5,7
+COMPONENT=0b98,-5,8,7
+COMPONENT=0009,-5,7,7
+COMPONENT=0bd2,-5,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x14 3-Story Customizable House
+
+[MULTIDEF 01424]
+DEFNAME=i_multi_foundation_11x15
+TYPE=t_multi_custom
+NAME=11x15 3-Story Customizable House
+VALUE=999000
+MULTIREGION=-5,-7,5,7
+COMPONENT=0b98,-5,8,7
+COMPONENT=0009,-5,7,7
+COMPONENT=0bd2,-5,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x15 3-Story Customizable House
+
+[MULTIDEF 01425]
+DEFNAME=i_multi_foundation_11x16
+TYPE=t_multi_custom
+NAME=11x16 3-Story Customizable House
+VALUE=1105000
+MULTIREGION=-5,-7,5,8
+COMPONENT=0b98,-5,9,7
+COMPONENT=0009,-5,8,7
+COMPONENT=0bd2,-5,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=11x16 3-Story Customizable House
+
+//12x* foundations
+[MULTIDEF 01428]
+DEFNAME=i_multi_foundation_12x7
+TYPE=t_multi_custom
+NAME=12x7 2-Story Customizable House
+VALUE=155500
+MULTIREGION=-5,-3,6,3
+COMPONENT=0b98,-5,4,7
+COMPONENT=0009,-5,3,7
+COMPONENT=0bd2,-5,4,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x7 2-Story Customizable House
+
+[MULTIDEF 01429]
+DEFNAME=i_multi_foundation_12x8
+TYPE=t_multi_custom
+NAME=12x8 2-Story Customizable House
+VALUE=162000
+MULTIREGION=-5,-3,6,4
+COMPONENT=0b98,-5,5,7
+COMPONENT=0009,-5,4,7
+COMPONENT=0bd2,-5,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x8 2-Story Customizable House
+
+[MULTIDEF 0142a]
+DEFNAME=i_multi_foundation_12x9
+TYPE=t_multi_custom
+NAME=12x9 2-Story Customizable House
+VALUE=168500
+MULTIREGION=-5,-4,6,4
+COMPONENT=0b98,-5,5,7
+COMPONENT=0009,-5,4,7
+COMPONENT=0bd2,-5,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x9 2-Story Customizable House
+
+[MULTIDEF 0142b]
+DEFNAME=i_multi_foundation_12x10
+TYPE=t_multi_custom
+NAME=12x10 2-Story Customizable House
+VALUE=175000
+MULTIREGION=-5,-4,6,5
+COMPONENT=0b98,-5,6,7
+COMPONENT=0009,-5,5,7
+COMPONENT=0bd2,-5,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x10 2-Story Customizable House
+
+
+[MULTIDEF 0142c]
+DEFNAME=i_multi_foundation_12x11
+TYPE=t_multi_custom
+NAME=12x11 2-Story Customizable House
+VALUE=181500
+MULTIREGION=-5,-5,6,5
+COMPONENT=0b98,-5,6,7
+COMPONENT=0009,-5,5,7
+COMPONENT=0bd2,-5,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x11 2-Story Customizable House
+
+[MULTIDEF 0142d]
+DEFNAME=i_multi_foundation_12x12
+TYPE=t_multi_custom
+NAME=12x12 2-Story Customizable House
+VALUE=188000
+MULTIREGION=-5,-5,6,6
+COMPONENT=0b98,-5,7,7
+COMPONENT=0009,-5,6,7
+COMPONENT=0bd2,-5,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x12 2-Story Customizable House
+
+[MULTIDEF 0142e]
+DEFNAME=i_multi_foundation_12x13
+TYPE=t_multi_custom
+NAME=12x13 2-Story Customizable House
+VALUE=194500
+MULTIREGION=-5,-6,6,6
+COMPONENT=0b98,-5,7,7
+COMPONENT=0009,-5,6,7
+COMPONENT=0bd2,-5,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x13 2-Story Customizable House
+
+[MULTIDEF 0142f]
+DEFNAME=i_multi_foundation_12x14
+TYPE=t_multi_custom
+NAME=12x14 3-Story Customizable House
+VALUE=1101000
+MULTIREGION=-5,-6,6,7
+COMPONENT=0b98,-5,8,7
+COMPONENT=0009,-5,7,7
+COMPONENT=0bd2,-5,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x14 3-Story Customizable House
+
+[MULTIDEF 01430]
+DEFNAME=i_multi_foundation_12x15
+TYPE=t_multi_custom
+NAME=12x15 3-Story Customizable House
+VALUE=1107500
+MULTIREGION=-5,-7,6,7
+COMPONENT=0b98,-5,8,7
+COMPONENT=0009,-5,7,7
+COMPONENT=0bd2,-5,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x15 3-Story Customizable House
+
+[MULTIDEF 01431]
+DEFNAME=i_multi_foundation_12x16
+TYPE=t_multi_custom
+NAME=12x16 3-Story Customizable House
+VALUE=1114000
+MULTIREGION=-5,-7,6,8
+COMPONENT=0b98,-5,9,7
+COMPONENT=0009,-5,8,7
+COMPONENT=0bd2,-5,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x16 3-Story Customizable House
+
+[MULTIDEF 01432]
+DEFNAME=i_multi_foundation_12x17
+TYPE=t_multi_custom
+NAME=12x17 3-Story Customizable House
+VALUE=1120500
+MULTIREGION=-5,-8,6,8
+COMPONENT=0b98,-5,9,7
+COMPONENT=0009,-5,8,7
+COMPONENT=0bd2,-5,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=12x17 3-Story Customizable House
+
+//13x* foundations
+[MULTIDEF 01435]
+DEFNAME=i_multi_foundation_13x8
+TYPE=t_multi_custom
+NAME=13x8 2-Story Customizable House
+VALUE=167000
+MULTIREGION=-6,-3,6,4
+COMPONENT=0b98,-6,5,7
+COMPONENT=0009,-6,4,7
+COMPONENT=0bd2,-6,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x8 2-Story Customizable House
+
+[MULTIDEF 01436]
+DEFNAME=i_multi_foundation_13x9
+TYPE=t_multi_custom
+NAME=13x9 2-Story Customizable House
+VALUE=174000
+MULTIREGION=-6,-4,6,4
+COMPONENT=0b98,-6,5,7
+COMPONENT=0009,-6,4,7
+COMPONENT=0bd2,-6,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x9 2-Story Customizable House
+
+[MULTIDEF 01437]
+DEFNAME=i_multi_foundation_13x10
+TYPE=t_multi_custom
+NAME=13x10 2-Story Customizable House
+VALUE=181000
+MULTIREGION=-6,-4,6,5
+COMPONENT=0b98,-6,6,7
+COMPONENT=0009,-6,5,7
+COMPONENT=0bd2,-6,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x10 2-Story Customizable House
+
+[MULTIDEF 01438]
+DEFNAME=i_multi_foundation_13x11
+TYPE=t_multi_custom
+NAME=13x11 2-Story Customizable House
+VALUE=188000
+MULTIREGION=-6,-5,6,5
+COMPONENT=0b98,-6,6,7
+COMPONENT=0009,-6,5,7
+COMPONENT=0bd2,-6,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x11 2-Story Customizable House
+
+[MULTIDEF 01439]
+DEFNAME=i_multi_foundation_13x12
+TYPE=t_multi_custom
+NAME=13x12 2-Story Customizable House
+VALUE=195000
+MULTIREGION=-6,-5,6,6
+COMPONENT=0b98,-6,7,7
+COMPONENT=0009,-6,6,7
+COMPONENT=0bd2,-6,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x12 2-Story Customizable House
+
+[MULTIDEF 0143a]
+DEFNAME=i_multi_foundation_13x13
+TYPE=t_multi_custom
+NAME=13x13 2-Story Customizable House
+VALUE=210200
+MULTIREGION=-6,-6,6,6
+COMPONENT=0b98,-6,7,7
+COMPONENT=0009,-6,6,7
+COMPONENT=0bd2,-6,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x13 2-Story Customizable House
+
+[MULTIDEF 0143b]
+DEFNAME=i_multi_foundation_13x14
+TYPE=t_multi_custom
+NAME=13x14 3-Story Customizable House
+VALUE=1109000
+MULTIREGION=-6,-6,6,7
+COMPONENT=0b98,-6,8,7
+COMPONENT=0009,-6,7,7
+COMPONENT=0bd2,-6,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x14 3-Story Customizable House
+
+[MULTIDEF 0143c]
+DEFNAME=i_multi_foundation_13x15
+TYPE=t_multi_custom
+NAME=13x15 3-Story Customizable House
+VALUE=1116000
+MULTIREGION=-6,-7,6,7
+COMPONENT=0b98,-6,8,7
+COMPONENT=0009,-6,7,7
+COMPONENT=0bd2,-6,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x15 3-Story Customizable House
+
+[MULTIDEF 0143d]
+DEFNAME=i_multi_foundation_13x16
+TYPE=t_multi_custom
+NAME=13x16 3-Story Customizable House
+VALUE=1123000
+MULTIREGION=-6,-7,6,8
+COMPONENT=0b98,-6,9,7
+COMPONENT=0009,-6,8,7
+COMPONENT=0bd2,-6,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x16 3-Story Customizable House
+
+[MULTIDEF 0143e]
+DEFNAME=i_multi_foundation_13x17
+TYPE=t_multi_custom
+NAME=13x17 3-Story Customizable House
+VALUE=1130000
+MULTIREGION=-6,-8,6,8
+COMPONENT=0b98,-6,9,7
+COMPONENT=0009,-6,8,7
+COMPONENT=0bd2,-6,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x17 3-Story Customizable House
+
+[MULTIDEF 0143f]
+DEFNAME=i_multi_foundation_13x18
+TYPE=t_multi_custom
+NAME=13x18 3-Story Customizable House
+VALUE=1137000
+MULTIREGION=-6,-8,6,9
+COMPONENT=0b98,-6,10,7
+COMPONENT=0009,-6,9,7
+COMPONENT=0bd2,-6,10,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=13x18 3-Story Customizable House
+
+//14x* foundations
+[MULTIDEF 01442]
+DEFNAME=i_multi_foundation_14x9
+TYPE=t_multi_custom
+NAME=14x9 3-Story Customizable House
+VALUE=1195000
+MULTIREGION=-6,-4,7,4
+COMPONENT=0b98,-6,5,7
+COMPONENT=0009,-6,4,7
+COMPONENT=0bd2,-6,5,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x9 3-Story Customizable House
+
+[MULTIDEF 01443]
+DEFNAME=i_multi_foundation_14x10
+TYPE=t_multi_custom
+NAME=14x10 3-Story Customizable House
+VALUE=1170000
+MULTIREGION=-6,-4,7,5
+COMPONENT=0b98,-6,6,7
+COMPONENT=0009,-6,5,7
+COMPONENT=0bd2,-6,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x10 3-Story Customizable House
+
+[MULTIDEF 01444]
+DEFNAME=i_multi_foundation_14x11
+TYPE=t_multi_custom
+NAME=14x11 3-Story Customizable House
+VALUE=194500
+MULTIREGION=-6,-5,7,5
+COMPONENT=0b98,-6,6,7
+COMPONENT=0009,-6,5,7
+COMPONENT=0bd2,-6,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x11 3-Story Customizable House
+
+[MULTIDEF 01445]
+DEFNAME=i_multi_foundation_14x12
+TYPE=t_multi_custom
+NAME=14x12 3-Story Customizable House
+VALUE=1102000
+MULTIREGION=-6,-5,7,6
+COMPONENT=0b98,-6,7,7
+COMPONENT=0009,-6,6,7
+COMPONENT=0bd2,-6,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x12 3-Story Customizable House
+
+[MULTIDEF 01446]
+DEFNAME=i_multi_foundation_14x13
+TYPE=t_multi_custom
+NAME=14x13 3-Story Customizable House
+VALUE=1109500
+MULTIREGION=-6,-6,7,6
+COMPONENT=0b98,-6,7,7
+COMPONENT=0009,-6,6,7
+COMPONENT=0bd2,-6,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x13 3-Story Customizable House
+
+[MULTIDEF 01447]
+DEFNAME=i_multi_foundation_14x14
+TYPE=t_multi_custom
+NAME=14x14 3-Story Customizable House
+VALUE=1117000
+MULTIREGION=-6,-6,7,7
+COMPONENT=0b98,-6,8,7
+COMPONENT=0009,-6,7,7
+COMPONENT=0bd2,-6,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x14 3-Story Customizable House
+
+[MULTIDEF 01448]
+DEFNAME=i_multi_foundation_14x15
+TYPE=t_multi_custom
+NAME=14x15 3-Story Customizable House
+VALUE=1124500
+MULTIREGION=-6,-7,7,7
+COMPONENT=0b98,-6,8,7
+COMPONENT=0009,-6,7,7
+COMPONENT=0bd2,-6,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x15 3-Story Customizable House
+
+[MULTIDEF 01449]
+DEFNAME=i_multi_foundation_14x16
+TYPE=t_multi_custom
+NAME=14x16 3-Story Customizable House
+VALUE=1132000
+MULTIREGION=-6,-7,7,8
+COMPONENT=0b98,-6,9,7
+COMPONENT=0009,-6,8,7
+COMPONENT=0bd2,-6,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x16 3-Story Customizable House
+
+[MULTIDEF 0144a]
+DEFNAME=i_multi_foundation_14x17
+TYPE=t_multi_custom
+NAME=14x17 3-Story Customizable House
+VALUE=1139500
+MULTIREGION=-6,-8,7,8
+COMPONENT=0b98,-6,9,7
+COMPONENT=0009,-6,8,7
+COMPONENT=0bd2,-6,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x17 3-Story Customizable House
+
+[MULTIDEF 0144b]
+DEFNAME=i_multi_foundation_14x18
+TYPE=t_multi_custom
+NAME=14x18 3-Story Customizable House
+VALUE=1147000
+MULTIREGION=-6,-8,7,9
+COMPONENT=0b98,-6,10,7
+COMPONENT=0009,-6,9,7
+COMPONENT=0bd2,-6,10,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=14x18 3-Story Customizable House
+
+//15x* foundations  
+[MULTIDEF 0144f]
+DEFNAME=i_multi_foundation_15x10
+TYPE=t_multi_custom
+NAME=15x10 3-Story Customizable House
+VALUE=193000
+MULTIREGION=-7,-4,7,5
+COMPONENT=0b98,-7,6,7
+COMPONENT=0009,-7,5,7
+COMPONENT=0bd2,-7,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x10 3-Story Customizable House
+
+[MULTIDEF 01450]
+DEFNAME=i_multi_foundation_15x11
+TYPE=t_multi_custom
+NAME=15x11 3-Story Customizable House
+VALUE=1101000
+MULTIREGION=-7,-5,7,5
+COMPONENT=0b98,-7,6,7
+COMPONENT=0009,-7,5,7
+COMPONENT=0bd2,-7,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x11 3-Story Customizable House
+
+[MULTIDEF 01451]
+DEFNAME=i_multi_foundation_15x12
+TYPE=t_multi_custom
+NAME=15x12 3-Story Customizable House
+VALUE=1109000
+MULTIREGION=-7,-5,7,6
+COMPONENT=0b98,-7,7,7
+COMPONENT=0009,-7,6,7
+COMPONENT=0bd2,-7,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x12 3-Story Customizable House
+
+[MULTIDEF 01452]
+DEFNAME=i_multi_foundation_15x13
+TYPE=t_multi_custom
+NAME=15x13 3-Story Customizable House
+VALUE=1117000
+MULTIREGION=-7,-6,7,6
+COMPONENT=0b98,-7,7,7
+COMPONENT=0009,-7,6,7
+COMPONENT=0bd2,-7,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x13 3-Story Customizable House
+
+[MULTIDEF 01453]
+DEFNAME=i_multi_foundation_15x14
+TYPE=t_multi_custom
+NAME=15x14 3-Story Customizable House
+VALUE=1125000
+MULTIREGION=-7,-6,7,7
+COMPONENT=0b98,-7,8,7
+COMPONENT=0009,-7,7,7
+COMPONENT=0bd2,-7,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x14 3-Story Customizable House
+
+[MULTIDEF 01454]
+DEFNAME=i_multi_foundation_15x15
+TYPE=t_multi_custom
+NAME=15x15 3-Story Customizable House
+VALUE=1133000
+MULTIREGION=-7,-7,7,7
+COMPONENT=0b98,-7,8,7
+COMPONENT=0009,-7,7,7
+COMPONENT=0bd2,-7,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x15 3-Story Customizable House
+
+[MULTIDEF 01455]
+DEFNAME=i_multi_foundation_15x16
+TYPE=t_multi_custom
+NAME=15x16 3-Story Customizable House
+VALUE=1141000
+MULTIREGION=-7,-7,7,8
+COMPONENT=0b98,-7,9,7
+COMPONENT=0009,-7,8,7
+COMPONENT=0bd2,-7,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x16 3-Story Customizable House
+
+[MULTIDEF 01456]
+DEFNAME=i_multi_foundation_15x17
+TYPE=t_multi_custom
+NAME=15x17 3-Story Customizable House
+VALUE=1149000
+MULTIREGION=-7,-8,7,8
+COMPONENT=0b98,-7,9,7
+COMPONENT=0009,-7,8,7
+COMPONENT=0bd2,-7,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x17 3-Story Customizable House
+
+[MULTIDEF 01457]
+DEFNAME=i_multi_foundation_15x18
+TYPE=t_multi_custom
+NAME=15x18 3-Story Customizable House
+VALUE=1157000
+MULTIREGION=-7,-8,7,9
+COMPONENT=0b98,-7,10,7
+COMPONENT=0009,-7,9,7
+COMPONENT=0bd2,-7,10,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=15x18 3-Story Customizable House
+
+[MULTIDEF 0145c]
+DEFNAME=i_multi_foundation_16x11
+TYPE=t_multi_custom
+NAME=16x11 3-Story Customizable House
+VALUE=1107500
+MULTIREGION=-7,-5,8,5
+COMPONENT=0b98,-7,6,7
+COMPONENT=0009,-7,5,7
+COMPONENT=0bd2,-7,6,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x11 3-Story Customizable House
+
+[MULTIDEF 0145d]
+DEFNAME=i_multi_foundation_16x12
+TYPE=t_multi_custom
+NAME=16x12 3-Story Customizable House
+VALUE=1116000
+MULTIREGION=-7,-5,8,6
+COMPONENT=0b98,-7,7,7
+COMPONENT=0009,-7,6,7
+COMPONENT=0bd2,-7,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x12 3-Story Customizable House
+
+[MULTIDEF 0145e]
+DEFNAME=i_multi_foundation_16x13
+TYPE=t_multi_custom
+NAME=16x13 3-Story Customizable House
+VALUE=1124500
+MULTIREGION=-7,-6,8,6
+COMPONENT=0b98,-7,7,7
+COMPONENT=0009,-7,6,7
+COMPONENT=0bd2,-7,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x13 3-Story Customizable House
+
+[MULTIDEF 0145f]
+DEFNAME=i_multi_foundation_16x14
+TYPE=t_multi_custom
+NAME=16x14 3-Story Customizable House
+VALUE=1133000
+MULTIREGION=-7,-6,8,7
+COMPONENT=0b98,-7,8,7
+COMPONENT=0009,-7,7,7
+COMPONENT=0bd2,-7,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x14 3-Story Customizable House
+
+[MULTIDEF 01460]
+DEFNAME=i_multi_foundation_16x15
+TYPE=t_multi_custom
+NAME=16x15 3-Story Customizable House
+VALUE=1141500
+MULTIREGION=-7,-7,8,7
+COMPONENT=0b98,-7,8,7
+COMPONENT=0009,-7,7,7
+COMPONENT=0bd2,-7,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x15 3-Story Customizable House
+
+[MULTIDEF 01461]
+DEFNAME=i_multi_foundation_16x16
+TYPE=t_multi_custom
+NAME=16x16 3-Story Customizable House
+VALUE=1150000
+MULTIREGION=-7,-7,8,8
+COMPONENT=0b98,-7,9,7
+COMPONENT=0009,-7,8,7
+COMPONENT=0bd2,-7,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x16 3-Story Customizable House
+
+[MULTIDEF 01462]
+DEFNAME=i_multi_foundation_16x17
+TYPE=t_multi_custom
+NAME=16x17 3-Story Customizable House
+VALUE=1158500
+MULTIREGION=-7,-8,8,8
+COMPONENT=0b98,-7,9,7
+COMPONENT=0009,-7,8,7
+COMPONENT=0bd2,-7,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x17 3-Story Customizable House
+
+[MULTIDEF 01463]
+DEFNAME=i_multi_foundation_16x18
+TYPE=t_multi_custom
+NAME=16x18 3-Story Customizable House
+VALUE=1167000
+MULTIREGION=-7,-8,8,9
+COMPONENT=0b98,-7,10,7
+COMPONENT=0009,-7,9,7
+COMPONENT=0bd2,-7,10,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=16x18 3-Story Customizable House
+
+//17x* foundations
+[MULTIDEF 01469]
+DEFNAME=i_multi_foundation_17x12
+TYPE=t_multi_custom
+NAME=17x12 3-Story Customizable House
+VALUE=1123000
+MULTIREGION=-8,-5,8,6
+COMPONENT=0b98,-8,7,7
+COMPONENT=0009,-8,6,7
+COMPONENT=0bd2,-8,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x12 3-Story Customizable House
+
+[MULTIDEF 0146a]
+DEFNAME=i_multi_foundation_17x13
+TYPE=t_multi_custom
+NAME=17x13 3-Story Customizable House
+VALUE=1132000
+MULTIREGION=-8,-6,8,6
+COMPONENT=0b98,-8,7,7
+COMPONENT=0009,-8,6,7
+COMPONENT=0bd2,-8,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x13 3-Story Customizable House
+
+[MULTIDEF 0146b]
+DEFNAME=i_multi_foundation_17x14
+TYPE=t_multi_custom
+NAME=17x14 3-Story Customizable House
+VALUE=1141000
+MULTIREGION=-8,-6,8,7
+COMPONENT=0b98,-8,8,7
+COMPONENT=0009,-8,7,7
+COMPONENT=0bd2,-8,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x14 3-Story Customizable House
+
+[MULTIDEF 0146c]
+DEFNAME=i_multi_foundation_17x15
+TYPE=t_multi_custom
+NAME=17x15 3-Story Customizable House
+VALUE=1150000
+MULTIREGION=-8,-7,8,7
+COMPONENT=0b98,-8,8,7
+COMPONENT=0009,-8,7,7
+COMPONENT=0bd2,-8,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x15 3-Story Customizable House
+
+[MULTIDEF 0146d]
+DEFNAME=i_multi_foundation_17x16
+TYPE=t_multi_custom
+NAME=17x16 3-Story Customizable House
+VALUE=1159500
+MULTIREGION=-8,-7,8,8
+COMPONENT=0b98,-8,9,7
+COMPONENT=0009,-8,8,7
+COMPONENT=0bd2,-8,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x16 3-Story Customizable House
+
+[MULTIDEF 0146e]
+DEFNAME=i_multi_foundation_17x17
+TYPE=t_multi_custom
+NAME=17x17 3-Story Customizable House
+VALUE=1168000
+MULTIREGION=-8,-8,8,8
+COMPONENT=0b98,-8,9,7
+COMPONENT=0009,-8,8,7
+COMPONENT=0bd2,-8,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x17 3-Story Customizable House
+
+[MULTIDEF 0146f]
+DEFNAME=i_multi_foundation_17x18
+TYPE=t_multi_custom
+NAME=17x18 3-Story Customizable House
+VALUE=1177500
+MULTIREGION=-8,-8,8,9
+COMPONENT=0b98,-8,10,7
+COMPONENT=0009,-8,9,7
+COMPONENT=0bd2,-8,10,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=17x18 3-Story Customizable House
+
+//18x* foundations
+[MULTIDEF 01476]
+DEFNAME=i_multi_foundation_18x13
+TYPE=t_multi_custom
+NAME=18x13 3-Story Customizable House
+VALUE=1139500
+MULTIREGION=-8,-6,9,6
+COMPONENT=0b98,-8,7,7
+COMPONENT=0009,-8,6,7
+COMPONENT=0bd2,-8,7,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=18x13 3-Story Customizable House
+
+[MULTIDEF 01477]
+DEFNAME=i_multi_foundation_18x14
+TYPE=t_multi_custom
+NAME=18x14 3-Story Customizable House
+VALUE=1149000
+MULTIREGION=-8,-6,9,7
+COMPONENT=0b98,-8,8,7
+COMPONENT=0009,-8,7,7
+COMPONENT=0bd2,-8,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=18x14 3-Story Customizable House
+
+[MULTIDEF 01478]
+DEFNAME=i_multi_foundation_18x15
+TYPE=t_multi_custom
+NAME=18x15 3-Story Customizable House
+VALUE=1158500
+MULTIREGION=-8,-7,9,7
+COMPONENT=0b98,-8,8,7
+COMPONENT=0009,-8,7,7
+COMPONENT=0bd2,-8,8,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=18x15 3-Story Customizable House
+
+[MULTIDEF 01479]
+DEFNAME=i_multi_foundation_18x16
+TYPE=t_multi_custom
+NAME=18x16 3-Story Customizable House
+VALUE=1168000
+MULTIREGION=-8,-7,9,8
+COMPONENT=0b98,-8,9,7
+COMPONENT=0009,-8,8,7
+COMPONENT=0bd2,-8,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=18x16 3-Story Customizable House
+
+[MULTIDEF 0147a]
+DEFNAME=i_multi_foundation_18x17
+TYPE=t_multi_custom
+NAME=18x17 3-Story Customizable House
+VALUE=1177500
+MULTIREGION=-8,-8,9,8
+COMPONENT=0b98,-8,9,7
+COMPONENT=0009,-8,8,7
+COMPONENT=0bd2,-8,9,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=18x17 3-Story Customizable House
+
+
+[MULTIDEF 01D4C]
+DEFNAME=i_multi_pk_1
+TYPE=t_multi
+NAME=Killers Area
+
+[MULTIDEF 0FA2]
+DEFNAME=i_multi_pk_2
+TYPE=t_multi
+NAME=Killers Area
+
+[MULTIDEF 0147b]
+DEFNAME=i_multi_foundation_18x18
+TYPE=t_multi_custom
+NAME=18x18 3-Story Customizable House
+VALUE=1187000
+MULTIREGION=-8,-8,9,9
+COMPONENT=0b98,-8,10,7
+COMPONENT=0009,-8,9,7
+COMPONENT=0bd2,-8,10,7
+
+CATEGORY=Multis
+SUBSECTION=House Foundations
+DESCRIPTION=18x18 3-Story Customizable House
+
+[itemdef i_static_1]
+id 04070
+name Sacred Krallik
+type t_multi_custom
+value 120000
+category Multis
+subsection houses
+description Sacred Static Areas
+MULTIREGION=-15,-15,15,16
+//component i_dispelerev,0,0,2
+//component i_door_wood,0,3,6
+//component i_sgn_brasskoy,2,4,5
+component i_sign_brass,0,0,2
+//tspeech spk_house_cmdskoy
+
+On=@Create
+//timer 1036800
+morey 625
+morez 6
+
+On=@TargOn_Item
+htargitemkoy
+return 1
+
+On=@TargOn_Char
+htargcharkoy
+return 1
+
+[EOF]

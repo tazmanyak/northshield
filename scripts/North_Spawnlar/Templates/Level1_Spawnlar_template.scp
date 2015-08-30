@@ -1,0 +1,13 @@
+[TEMPLATE Ruin_Silah]
+CATEGORY=Item Templates
+SUBSECTION=Monster Loot Templates
+DESCRIPTION=Vanquishing Silahlar
+CONTAINER=i_bag
+ITEM=random_weapon_ //{ i_cutlass 1 i_sword_long 1 i_sword_viking 1 i_sword_broad 1 i_scimitar 1 i_katana 1 i_bardiche 1 i_halberd 1 i_kryss 1 i_war_fork 1 i_spear_short 1 i_spear 1 i_mace 1 i_mace_war 1 i_club 1 i_axe_war 1 i_hammer_pick 1 i_maul 1 }
+morey 20.0
+tag0.magicweapon Ruin
+attr attr_magic
+
+
+[EOF]
+

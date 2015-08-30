@@ -1,0 +1,731 @@
+﻿// PUBLIC CHAt //
+
+
+[function f_call_chat]
+
+if <argv[0]> == 1
+  if <list.chat_world.count>
+		return <def.br><list.chat_world.<argv[1]>>
+  endif
+else
+  if <list.chat_guild.count>
+		return <def.br><list.chat_guild.<argv[1]>>
+  endif
+endif
+	
+
+
+[DIALOG d_chat_public]
+100,100
+
+resizepic 36 36 2620 430 179
+resizepic 36 212 2620 430 130
+button 46 185 2445 2445 0 1 0
+button 152 185 2445 2445 0 2 0
+button 252 185 2445 2445 0 0 3
+button 354 312 2445 2445 1 0 1
+text 79 186 42 1
+text 189 186 42 2
+text 289 186 42 8
+radio 44 311 210 211 1 1
+radio 125 310 210 211 0 2
+text 71 312 42 3
+text 152 311 42 4
+textentry 44 225 412 76 42 0 5
+text 386 312 42 6
+
+
+page 1
+htmlgump 44 44 416 141 0 1 1
+page 2
+htmlgump 44 44 416 141 7 1 1
+
+
+
+[DIALOG d_chat_public text]
+<def.bfont> color=#FF0000<def.r1>Public Chat ( Hakaret etmeyiniz. ):<f_call_chat 1,0><f_call_chat 1,1><f_call_chat 1,2><f_call_chat 1,3><f_call_chat 1,4><f_call_chat 1,5><f_call_chat 1,6><f_call_chat 1,7><f_call_chat 1,8><f_call_chat 1,9><f_call_chat 1,10><f_call_chat 1,11><f_call_chat 1,12><f_call_chat 1,13><f_call_chat 1,14><f_call_chat 1,15><f_call_chat 1,16><f_call_chat 1,17><f_call_chat 1,18><f_call_chat 1,19><f_call_chat 1,20>
+World
+Guild
+World
+Guild
+-
+Gönder
+<def.bfont> color=#FF0000<def.r1>Guilds Chat ( Hakaret etmeyiniz. ):<f_call_chat 2,0><f_call_chat 2,1><f_call_chat 2,2><f_call_chat 2,3><f_call_chat 2,4><f_call_chat 2,5><f_call_chat 2,6><f_call_chat 2,7><f_call_chat 2,8><f_call_chat 2,9><f_call_chat 2,10><f_call_chat 2,11><f_call_chat 2,12><f_call_chat 2,13><f_call_chat 2,14><f_call_chat 2,15><f_call_chat 2,16><f_call_chat 2,17><f_call_chat 2,18><f_call_chat 2,19><f_call_chat 2,20>
+Kapat
+[DIALOG d_chat_public button]
+
+
+ON=1 2 // mesaj gönder
+	if <isempty <argtxt[0]>>
+		src.sys_error Mesaj yazmadınız.
+		src.dialog d_chat_public 1
+		return 1
+	endif
+	if <eval(strlen(<argtxt[0]>))> > 150
+		src.sys_error 150 karakterden fazla mesaj gönderemezsiniz.
+		src.dialog d_chat_public 1
+		return 1
+	endif
+	if <argchk[1]>
+		if <list.chat_world.count> > 150
+			list.chat.world.clear
+		endif
+		list.chat_world.add <def.bfont> color=#000000<def.r1><rtime.time>-<def.bfont> color=#FF0000<def.r1>  <src.name> : <def.bfont> color=##000000<def.r1><argtxt[0]>
+		//serv.allclients chat_yenile
+		//f_chat_public_sirala
+		src.sys_error World Mesaj gönderildi.
+		src.dialog d_chat_public 1
+	elif <argchk[2]>
+		if <list.chat_guild.count> > 150
+			list.chat_guild.clear
+		endif
+		if !<src.guild>
+			src.sys_error Sadece guild ve faction üyeleri bu chat kanalını kullanabilir.
+			src.dialog d_chat_public 1
+			return 1
+		endif
+		list.chat_guild.add <def.bfont> color=#000000<def.r1><rtime.time>-<def.bfont> color=#FF0000<def.r1>  <src.name> : <def.bfont> color=##000000<def.r1><argtxt[0]>
+		//serv.allclients chat_yenile
+		src.sys_error Mesaj gönderildi
+		src.dialog d_chat_public 2
+	endif
+
+on=3
+src.ctag.chat_public
+src.sys_error Chati kapattınız.
+src.findid.i_chat_guncelle.remove
+src.closealldialogs
+src.sys_error Chati kapattınız.
+[function f_chat_public_sirala]
+
+for x 0 <list.chat_world.count>
+	//list.chat_world.<dlocal.x>.remove
+	//if <list.chat_world.<dlocal.x>>
+	list.chat_world.<eval 20 - <dlocal.x>>.insert <list.chat_world.<dlocal.x>>
+	//endif
+endfor
+
+
+
+//------------------------------------------------------------------------------
+//	Commands
+//------------------------------------------------------------------------------
+//	chat, ch, c
+//		This is the main chat command. Use it to send a message to all
+//		users.
+//------------------------------------------------------------------------------
+//	guild, g, gc
+//		Used to send messages to other guildmembers.
+//------------------------------------------------------------------------------
+//	staff, s
+//		This commands sends a message to the staff channel, which only
+//		users with a plevel of two or greater may view.
+//------------------------------------------------------------------------------
+//	chatban, chatunban
+//		This bans or unbans a player. If you choose chatban, it allows
+//		you to state a reason for banning the player. If you don't wish
+//		to supply a reason, simply hit the 'esc' key.
+//------------------------------------------------------------------------------
+//	options
+//		Shows a simple options dialog.
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat Options
+//------------------------------------------------------------------------------
+[defname chat_options]
+default_staffcolor	080		//Default color when a staffmember sends a message.	Default: 080
+default_chatcolor	052		//Default color when a player sends a message.		Default: 052
+chaterror_color		080		//Color of any error messages.						Default: 080
+staffchat_color		2301	//Default color of the staff channel.				Default: 2301
+guildchat_color		060		//Default color of the guild channel.				Default: 060
+ircchat_color		120		//Default color of the IRC message channel.			Default: 120
+irc_enabled			1		//Is IRC connectivity enabled?						Default: 1
+
+//------------------------------------------------------------------------------
+//	END OF CHAT OPTIONS
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Plevel Settings
+//------------------------------------------------------------------------------
+[plevel 1]
+chatoff
+chaton
+chat
+ch
+c
+g
+
+[plevel 2]
+chatunban
+setcolor
+chatban
+staff
+s
+
+
+//------------------------------------------------------------------------------
+//	IRC Message handler - sendircmessage
+//------------------------------------------------------------------------------
+[function sendircmessage]
+if (<def.irc_enabled>)
+	serv.allclients sysmessage @<eval <def.ircchat_color>>,,1, <def.l1>IRC<def.r1><strarg <args>>: <streat <args>>
+endif
+//------------------------------------------------------------------------------
+//	END OF FUNCTION SENDIRCMESSAGE
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Connected Message - displayconnect
+//------------------------------------------------------------------------------
+[function displayconnect]
+serv.allclients sysmessage @<eval <def.ircchat_color>>,,1, IRC now connected!
+//------------------------------------------------------------------------------
+//	END OF FUNCTION DISPLAYCONNECT
+//------------------------------------------------------------------------------
+[function chat_deneme]
+local.deneme  <array am,göt,yarrak,sik,çük,annesiz,aq,a.q,orosbu,orispi,horosbu,çoçuğu,www,@,.com,.gen.tr,götünü,sikko,yar<<ram,amıh,amcık,götlek,şırfıntı>
+serv.log <local.deneme>
+//------------------------------------------------------------------------------
+//	Main Chat function - chat
+//------------------------------------------------------------------------------
+[function chat_yenile]
+if <ctag.chat_public>
+	closealldialogs
+	dialog d_chat_public 1
+endif
+
+[itemdef i_chat_guncelle]
+id = i_memory
+TYPE=t_eq_script
+name Chat guncel
+
+on=@timer
+//trysrc <cont.uid> src.c
+remove
+return 1
+
+[function chat]
+
+src.sys_error Lütfen foruma eklenen Public Chat'i kullanınız. Oyun için chat kaldırılmıştır.
+return 1
+//if !<src.ctag.chat_public>
+//	src.ctag.chat_public 1
+//	src.closealldialogs
+//	src.dialog d_chat_public 1
+//	serv.newitem i_chat_guncelle
+//	new.timer 1
+//	new.cont <src.uid>
+//else
+//	src.closealldialogs
+//	src.dialog d_chat_public 1
+//endif
+
+
+
+//return 1
+if <src.isevent.e_cpvp>
+	src.sys_error Pvp'de kullanamazsınız.
+	return 1
+endif
+if <src.isevent.e_jailed>
+	src.sys_error Jail'de bu sistemi kullanamazsınız.
+	return 1
+endif
+if <eval <src.tag.kufur_uyari>> >= 3
+	if !<src.tag.kufur_ceza>
+		src.sys_error 3'den fazla uyarı aldığınız için 5 dakika kanalı kullanamazsınız.
+		src.src.tag.kufur_ceza 1
+		src.timerf 300, src.tag.kufur_uyari
+		src.timerf 300, src.tag.kufur_ceza
+		return 1
+	else
+		src.sysmessage @,,1 3'den fazla uyarı aldığınız için 5 dakika kanalı kullanamazsınız.
+		return 1
+	endif
+endif
+
+//if rand(100) == 1
+//src.duyur Public Chat'in amacı oyuncuların birbirleriyle etkişimini artırmaktır. Normal konuşma ortamı olarak kurulmamıştır. Bir ticari amaç ya da benzeri faaliyetlerinizi kısaca burdan oyunculara ulaşmak için gerçekleştirebilirsiniz.Chat içerisinde hakaret eden kişi her hakaret başına +1 ceza puanı alır ve her 3 uyarıda bir 5 dakika kanala girişiniz engellenir.
+//endif
+
+local.file C:\Sphere\kufur_list.txt
+file.close <local.file>
+if <file.open <local.file>>
+	for 0 <file.filelines <local.file>>
+		if strmatch(*<file.readline <dlocal._for>>*,<args>)
+			src.message @,,1 Hakaret ettiğiniz için +1 uyarı aldınız.
+			src.tag.kufur_uyari +=1
+			return 1
+		endif
+	endfor
+file.close
+endif
+
+
+//------------------------------------------------------------------------------
+//	Check if they have chat disabled.
+//------------------------------------------------------------------------------
+if (<tag0.chat.off>)
+	sysmessage @<def.chaterror_color>,,1 Chat kapatılmıştır ve artık mesajları ekranda görmeyeceksiniz fakat journalden takip edebilirsiniz.
+	return 1
+endif
+
+//------------------------------------------------------------------------------
+//	Check if they are banned from using the chat system
+//------------------------------------------------------------------------------
+if (<tag0.chat.bansend>) && !(<isgm>)
+	sysmessage @<def.chaterror_color>,,1, Public chatten uzaklaştırılmışsınız.
+	//----------------------------------------------------------------------
+	//	Check if a reason was supplied. If so, show it.
+	//----------------------------------------------------------------------
+	if (strlen(<tag0.chat.banreason>) > 1)
+		sysmessage @<def.chaterror_color>,,1, Sebebi: <tag.chat.banreason>
+	endif
+	//----------------------------------------------------------------------
+	//	Check if the "display staff member's name" option was set. 
+	//		If so, display the name.
+	//----------------------------------------------------------------------
+	if (strlen(<tag0.chat.banner>) > 1)
+		sysmessage @<def.chaterror_color>,,1, Yasaklayan: <tag0.chat.banner>
+	endif
+
+	//----------------------------------------------------------------------
+	//	They are banned from sending a message. Stop processing here.
+	//----------------------------------------------------------------------
+	return 1
+endif
+
+//------------------------------------------------------------------------------
+//	Make sure they entered text to send.
+//------------------------------------------------------------------------------
+if (<isempty <args>>)
+	sysmessage @<def.chaterror_color>,,1, Mesaj göndermek için birşeyler yazmalısınız!
+	return 1
+endif
+
+//------------------------------------------------------------------------------
+//	Spam catcher to make sure player can't send a message more than once
+//		every two seconds.
+//------------------------------------------------------------------------------
+if ((<eval <serv.time>-<ctag0.chat.lastchat>>) < 30)
+	sysmessage @<def.chaterror_color>,,1, Yeni bir mesaj göndermek için en az 2-3 saniye beklemeniz gerekmektedir.
+	return 1 // End it here. Nothing else to do.
+endif
+
+//------------------------------------------------------------------------------
+//	Check if they are a staffmember.
+//------------------------------------------------------------------------------
+if (<isgm>)
+	//----------------------------------------------------------------------
+	//	Check if they have their own custom chat color set.
+	//----------------------------------------------------------------------
+	if (<tag0.chat.chat_color>)
+		//--------------------------------------------------------------
+		//	Apply color formatting to the args and send the message.
+		//--------------------------------------------------------------
+		sendcolormessage <tag0.chat.chat_color> <args>
+		return 1 // End it here. Nothing else to do.
+	endif
+	//----------------------------------------------------------------------
+	//	Send the default staff-colored message.
+	//----------------------------------------------------------------------
+	sendcolormessage <def.default_staffcolor> <args>
+	serv.writefile2 C:\North_Player_Log_Arsivi\Public_Chat\public_chat.txt <serv.rtime>- |<name>| : <args>
+	return 1 // End if here. Nothing else to do.
+endif
+
+//------------------------------------------------------------------------------
+//	They are not a staffmember. Send the default-colored message.
+//------------------------------------------------------------------------------
+sendcolormessage <def.default_chatcolor> <args>
+serv.writefile2 C:\North_Player_Log_Arsivi\Public_Chat\public_chat.txt <serv.rtime>- |<name>| : <args>
+ctag.chat.lastchat=<serv.time>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION CHAT
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Send colored messages function - sendcolormessage
+//------------------------------------------------------------------------------
+[function sendcolormessage]
+serv.allclients receivemessage @<eval <strarg <args>>>,,1, <def.l1>Public<def.r1><name>: <streat <args>>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION SENDCOLORMESSAGE
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Message receiver function - receivemessage
+//		This function is used so that chat can be turned off without
+//		any real script processing at all.
+//------------------------------------------------------------------------------
+[function receivemessage]
+if !(<tag0.chat.off>)
+	sysmessage <args>
+else
+	sysmessage @0,,1 <args>
+endif
+//------------------------------------------------------------------------------
+//	END OF FUNCTION RECEIVEMESSAGE
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat disabler function - chatoff
+//------------------------------------------------------------------------------
+[function chatoff]
+if (<tag0.chat.off>)
+	sysmessage @<def.chaterror_color>,,1, Chat zaten kapatılmış.
+else
+	tag.chat.off=1
+	sysmessage @2301,,1, Chat has been disabled.
+endif
+//------------------------------------------------------------------------------
+//	END OF FUNCTION CHATOFF
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat enabler function - chaton
+//------------------------------------------------------------------------------
+[function chaton]
+if !(<tag0.chat.off>)
+	sysmessage @<def.chaterror_color>,,1, Chat zaten açık durumda.
+else
+	tag.chat.off=0
+	sysmessage @2301,,1, Chat açıldı.
+endif
+//------------------------------------------------------------------------------
+//	END OF FUNCTION CHATON
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat function alias - ch
+//------------------------------------------------------------------------------
+[function ch]
+chat <args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION CH
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat function alias - c
+//------------------------------------------------------------------------------
+[function c]
+chat <args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION C
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Ban function - chatban
+//------------------------------------------------------------------------------
+[function chatban]
+//------------------------------------------------------------------------------
+//	Target the player.
+//------------------------------------------------------------------------------
+sysmessage @2301,,1, Chatten kimi banlamak istiyorsun?
+targetf f_chatban
+[function f_chatban]
+//------------------------------------------------------------------------------
+//	Make sure it is a player.
+//------------------------------------------------------------------------------
+if (<argo.isitem>) || (<argo.npc>)
+	sysmessage @2301,,1, Bir oyuncuyu seçmelisin!
+	return 1
+endif
+//------------------------------------------------------------------------------
+//	Reset the base ban options, in case they don't enter a reason.
+//------------------------------------------------------------------------------
+obj=<argo.uid>
+obj.tag.chat.bansend=1
+obj.tag.chat.banner=<name>
+obj.tag.chat.banreason=
+var.argo=<argo.uid>
+//------------------------------------------------------------------------------
+//	Get the reason for banning the player from chat.
+//------------------------------------------------------------------------------
+sysmessage @2301,,1, Yasaklama sebebini girip entera basın: ['esc' basarak sebep belirtmeyebilirsin.]
+PROMPTCONSOLE f_chatban_prompt
+[function f_chatban_prompt]
+obj=<var.argo>
+obj.tag.chat.banreason=<args>
+var.argo=
+//------------------------------------------------------------------------------
+//	END OF FUNCTION CHATBAN
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Unban function - chatunban
+//------------------------------------------------------------------------------
+[function chatunban]
+//------------------------------------------------------------------------------
+//	Target the player.
+//------------------------------------------------------------------------------
+sysmessage @2301,,1, Chatten kimin banını kaldırmak istiyorsun?
+targetf f_chatunban
+[function f_chatunban]
+//------------------------------------------------------------------------------
+//	Make sure it is a player.
+//------------------------------------------------------------------------------
+if (!(strmatch(c*,<argo.baseid>)) && (<argo.brain>))
+	sysmessage @<def.chaterror_color>,,1, Oyuncu seçmelisin!
+	return 1
+endif
+//------------------------------------------------------------------------------
+//	Reset the ban options.
+//------------------------------------------------------------------------------
+obj=<argo.uid>
+obj.tag.chat.bansend=
+obj.tag.chat.banreason=
+obj.tag.chat.banner=
+//------------------------------------------------------------------------------
+//	END OF FUNCTION CHATUNBAN
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Staff Chat function - staff
+//------------------------------------------------------------------------------
+[function staff]
+//------------------------------------------------------------------------------
+//	Make sure they entered text to send.
+//------------------------------------------------------------------------------
+if (<isempty <args>>)
+	sysmessage @<def.chaterror_color>,,1, You must enter a message to send!
+	return 1
+endif
+serv.allclients receivestaffmessage <def.staffchat_color>,<args>,<name>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION STAFF
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Staff message receiving funtion - receivestaffmessage
+//------------------------------------------------------------------------------
+[function receivestaffmessage]
+if (<account.plevel> > 1)
+	sysmessage @<eval <argv[0]>>,,1, <def.l1>Staff<def.r1><argv[2]>: <argv[1]>
+endif
+//------------------------------------------------------------------------------
+//	END OF FUNCTION RECEIVESTAFFMESSAGE
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Staff function alias - s
+//------------------------------------------------------------------------------
+[function s]
+staff <args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION S
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Custom color-setting function - setcolor
+//------------------------------------------------------------------------------
+[function setcolor]
+tag.chat.chat_color=<args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION SETCOLOR
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat options main dialog - d_chat_options_main
+//------------------------------------------------------------------------------
+[DIALOG d_chat_options_main]
+0,0
+page 0
+
+if (<isgm>)
+	resizepic 0 0 5054 300 83 //curved stone
+	gumppictiled 12 12 277 60 3004 //white paper
+else
+	resizepic 0 0 5054 300 63 //curved stone
+	gumppictiled 12 12 277 40 3004 //white paper
+endif
+
+//-Menu box
+//lines
+gumppictiled 11 11 278 1 2624 //top black line
+gumppictiled 11 32 278 1 2624 //bottom black line
+gumppictiled 11 12 1 20 2624 //left black line
+gumppictiled 288 12 1 20 2624 //right black line
+
+gumppictiled 108 12 180 20 3604 //navy blue box, top right
+gumppictiled 108 12 1 20 2624 //Menu right black line
+dtext 14 12 0 Chat Options //Menu title
+gumppictiled 263 12 1 20 2624 //top navy blue box black divider
+
+//-Menu item
+//button
+gumppictiled 263 33 25 20 3604 //small blue button box
+button 268 35 5601 5605 1 0 1 //button
+gumppictiled 263 33 1 20 2624 //button left black line
+//lines
+gumppictiled 288 33 1 20 2624 //right black line
+gumppictiled 11 33 1 20 2624 //left black line
+gumppictiled 11 53 278 1 2624 //bottom black line
+dtext 14 33 0 Chat Status - <qval (<tag0.chat.off>) ? Disabled : Enabled> //Menu Item
+
+if (<isgm>)
+	//-Menu item
+	//button
+	gumppictiled 263 53 25 20 3604 //small blue button box
+	button 268 55 5601 5605 1 0 2 //button
+	gumppictiled 263 53 1 20 2624 //button left black line
+	//lines
+	gumppictiled 288 53 1 20 2624 //right black line
+	gumppictiled 11 53 1 20 2624 //left black line
+	gumppictiled 11 53 278 1 2624 //top black line
+	gumppictiled 11 73 278 1 2624 //bottom black line
+	dtext 14 53 <qval (<var0.chatcolor>) ? <tag.chat.chat_color> : 0> <qval (<var0.chatcolor>) ? Chat Color - <tag.chat.chat_color> : Chat Color> //Menu Item
+endif
+
+[DIALOG d_chat_options_main button]
+//------------------------------------------------------------------------------
+//	Chaton/off
+//------------------------------------------------------------------------------
+onbutton=1
+//------------------------------------------------------------------------------
+//	Chat if disabled. Enable it.
+//------------------------------------------------------------------------------
+if (<tag0.chat.off>)
+	tag.chat.off=
+else
+	tag.chat.off=1
+endif
+options
+
+//------------------------------------------------------------------------------
+//	Chat Color
+//------------------------------------------------------------------------------
+onbutton=2
+//------------------------------------------------------------------------------
+//	Prompt for chat color.
+//------------------------------------------------------------------------------
+HuePicker <FINDLAYER.LAYER_HAIR>,Renk
+//sysmessage @2301,,1, Please enter your new chat color: [Press 'esc' for no change]
+//PROMPTCONSOLE f_changechatcolor
+//------------------------------------------------------------------------------
+//	END OF DIALOG D_CHAT_OPTIONS_MAIN
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Chat options function - options
+//------------------------------------------------------------------------------
+[Plevel 1]
+options
+[function options]
+dialogclose d_chat_options_main
+//------------------------------------------------------------------------------
+//	If they're a GM and have a custom color, let them set that.
+//------------------------------------------------------------------------------
+var.chatcolor=
+if (<tag0.chat.chat_color>)
+	var.chatcolor=1
+endif
+dialog d_chat_options_main
+var.chatcolor=
+
+//------------------------------------------------------------------------------
+//	Change chat color promptconsole return function - f_changechatcolor
+//------------------------------------------------------------------------------
+[function f_changechatcolor]
+//------------------------------------------------------------------------------
+//	Reset the chat color, if they entered 'reset'.
+//------------------------------------------------------------------------------
+if (strmatch(*reset*,strtolower(<args>))
+	tag.chat.chat_color=
+//------------------------------------------------------------------------------
+//	Set the chat color to whatever color they entered.
+//------------------------------------------------------------------------------
+elseif (!(<isempty <args>>) && (<isnum <args>>))
+	tag.chat.chat_color=<args>
+else
+	sysmessage @<def.chaterror_color>,,1, You must enter a number!
+endif
+options
+//------------------------------------------------------------------------------
+//	END OF FUNCTION F_CHANGECHATCOLOR
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Guild chat function - g
+//------------------------------------------------------------------------------
+//[function g]
+//------------------------------------------------------------------------------
+//	Make sure they entered text to send.
+//------------------------------------------------------------------------------
+//if (<isempty <args>>)
+//	sysmessage @<def.chaterror_color>,,1, You must enter a message to send!
+//	return 1
+//endif
+
+//------------------------------------------------------------------------------
+//	Make sure they are in a guild.
+//------------------------------------------------------------------------------
+//if !(<guild>)
+//	sysmessage @<def.chaterror_color>,,1, You are not in a guild!
+//	return 1
+//endif
+
+//------------------------------------------------------------------------------
+//	Send the message.
+//------------------------------------------------------------------------------
+//serv.allclients guildchat_receive <args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION G
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	G ALIAS FUNCTION - GUILD
+//------------------------------------------------------------------------------
+//[function guild]
+//g <args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION GUILD
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	G ALIAS FUNCTION - GC
+//------------------------------------------------------------------------------
+//[function gc]
+//g <args>
+//------------------------------------------------------------------------------
+//	END OF FUNCTION GC
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//	Guild chat message receive function - guildchat_receive
+//------------------------------------------------------------------------------
+[function guildchat_receive]
+//------------------------------------------------------------------------------
+//	Make sure the player is in the same guild as the sender.
+//------------------------------------------------------------------------------
+if (<guild>==<src.guild>)
+	sysmessage @<def.guildchat_color>,,1, <def.l1>Guild<def.r1><name>: <args>
+endif
+//------------------------------------------------------------------------------
+//	END OF FUNCTION GUILDCHAT_RECEIVE
+//------------------------------------------------------------------------------
+
+[EOF]

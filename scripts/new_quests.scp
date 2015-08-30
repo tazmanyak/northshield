@@ -1,0 +1,40 @@
+// Northern Shield
+// Leader
+// Event Bosslar
+// Droplar degistirilebilir
+
+
+
+
+[CHARDEF c_mystic_corpse]
+NAME=Mystic Corpse
+SOUND=snd_monster_zombie1
+ID=c_zombie
+CAN=MT_RUN|MT_WALK
+DAM=500,0
+ARMOR=135
+
+CATEGORY=Monsters
+SUBSECTION=Undeads
+DESCRIPTION=Mystic Corpse
+
+
+ON=@Create
+COLOR=0932
+NPC=brain_undead
+STR=6500
+DEX=355
+INT=100
+
+PARRYING={90.0 100.0}
+MAGICRESISTANCE={100.0}
+TACTICS={99.0 100.0}
+WRESTLING={120.0 130.0}
+POISONING={300.0 800.0}
+FAME={300 5000}
+KARMA={-6000 -6200}
+
+ITEM=i_gold {17000 25000}
+ITEM=force_silah
+
+[EOF]

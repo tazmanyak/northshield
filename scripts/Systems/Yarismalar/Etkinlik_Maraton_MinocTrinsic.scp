@@ -1,0 +1,73 @@
+[function f_KosucuTopList_MinocTrinsic]
+
+ref1 <uid>
+
+
+if (<ref1.tag.KosuSuresi> < <var.MT_Champ_Time>)
+	var0.MT_Champ 		<ref1>
+	var0.MT_Champ_Time 	<ref1.tag.KosuSuresi>
+endif
+
+
+if !strregex(^[0-9]+$, <list.Kosucu_MTSure.findelem <ref1.tag.KosuSuresi>>)
+	list.Kosucu_MT.ADD <ref1.Name>
+	list.Kosucu_MTSure.ADD <ref1.tag.KosuSuresi>
+endif
+
+FOR 3
+	ref1 <uid>
+	local.r1 <ref1.tag.KosuSuresi>
+	local.r2 <list.Kosucu_MTSure.<dlocal._for>>
+		if (<local.r1> < <local.r2>)
+			if (<eval <local._for>> == 2)
+				list.Kosucu_MTSure.3.REMOVE
+				list.Kosucu_MTSure.3.INSERT <list.Kosucu_MTSure.2>
+				list.Kosucu_MT.3.REMOVE
+				list.Kosucu_MT.3.INSERT <list.Kosucu_MT.2>
+
+				list.Kosucu_MTSure.2.REMOVE
+				list.Kosucu_MTSure.2.INSERT <ref1.tag.KosuSuresi>
+				list.Kosucu_MT.2.REMOVE
+				list.Kosucu_MT.2.INSERT <ref1>
+
+ref1.message @33,,1 Tebrikler 2. siraya yerlestiniz !!!
+				return 1
+			endif
+			if (<eval <local._for>> == 1)
+				list.Kosucu_MTSure.3.REMOVE
+				list.Kosucu_MTSure.3.INSERT <list.Kosucu_MTSure.2>
+				list.Kosucu_MT.3.REMOVE
+				list.Kosucu_MT.3.INSERT <list.Kosucu_MT.2>
+
+				list.Kosucu_MTSure.2.REMOVE
+				list.Kosucu_MTSure.2.INSERT <list.Kosucu_MTSure.1>
+				list.Kosucu_MT.2.REMOVE
+				list.Kosucu_MT.2.INSERT <list.Kosucu_MT.1>
+
+				list.Kosucu_MTSure.1.REMOVE
+				list.Kosucu_MTSure.1.INSERT <ref1.tag.KosuSuresi>
+				list.Kosucu_MT.1.REMOVE
+				list.Kosucu_MT.1.INSERT <ref1>
+
+ref1.message @33,,1 Tebrikler 1. siraya yerlestiniz !!!
+				return 1
+			endif
+			if (<eval <local._for>> == 3)
+				list.Kosucu_MTSure.<local._for>.REMOVE
+				list.Kosucu_MTSure.<local._for>.INSERT <ref1.tag.KosuSuresi>
+				list.Kosucu_MT.<local._for>.REMOVE
+				list.Kosucu_MT.<local._for>.INSERT <ref1>
+
+ref1.message @33,,1 Tebrikler 3. siraya yerlestiniz !!!
+				return 1
+			endif
+		endif
+
+ENDFOR
+src.dialog d_kosucu
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+[EOF]

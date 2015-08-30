@@ -1,0 +1,801 @@
+﻿///////////////////////////////////////////////////////////////
+//////// HATCHETS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f43]
+//Hatchet
+DEFNAME=i_hatchet
+RESOURCES=4 i_ingot_iron
+TYPE=t_weapon_axe
+FLIP=1
+DAM=13,16
+SPEED=2.7
+SKILL=Swordsmanship
+REQSTR=20
+TWOHANDS=N
+WEIGHT=4
+SKILLMAKE=TINKERING 30.0, t_tinker_tools
+DUPELIST=0f44
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Hatchets
+DESCRIPTION=Hatchet
+
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+on=@create
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+
+[ITEMDEF 0f44]
+DUPEITEM=0f43
+
+
+//////// TWO HANDED AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01442]
+DEFNAME=i_axe_two_hand
+RESOURCES=16 i_ingot_iron
+WEIGHT=8
+TYPE=t_weapon_axe
+FLIP=1
+DAM=16,19
+SPEED=3.5
+SKILL=Swordsmanship
+REQSTR=40
+TWOHANDS=Y
+DUPELIST=01443
+SKILLMAKE=BLACKSMITHING 33.0
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Two Handed Axes
+DESCRIPTION=Two Handed Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+
+[ITEMDEF 01443]
+DUPEITEM=01442
+
+///////////////////////////////////////////////////////////////
+//////// LARGE BATTLE AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013fa]
+DEFNAME=i_axe_battle_large
+RESOURCES=12 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 28.0
+WEIGHT=6
+TYPE=t_weapon_axe
+FLIP=1
+DAM=17,20
+SPEED=3.7
+SKILL=Swordsmanship
+REQSTR=80
+TWOHANDS=Y
+DUPELIST=013fb
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Large Battle Axes
+DESCRIPTION=Large Battle Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+[ITEMDEF 013fb]
+DUPEITEM=013fa
+///////////////////////////////////////////////////////////////
+//////// ORNATE AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d28]
+DEFNAME=i_ornate_axe
+NAME=Ornate Axe
+TYPE=t_weapon_axe
+DAM=17,20
+SKILL=Swordsmanship
+REQSTR=45
+TWOHANDS=Y
+SPEED=3.7
+WEIGHT=12
+RESOURCES=18 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 70.0
+DUPELIST=02d34
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Ornate Axes
+DESCRIPTION=Ornate Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+///////////////////////////////////////////////////////////////
+//////// EXECUTIONER'S AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f45]
+DEFNAME=i_axe_exec
+RESOURCES=14 i_ingot_iron
+TYPE=t_weapon_axe
+FLIP=1
+DAM=15,18
+SPEED=3.2
+SKILL=Swordsmanship
+REQSTR=40
+TWOHANDS=Y
+WEIGHT=8
+SKILLMAKE=BLACKSMITHING 34.2
+DUPELIST=0f46
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Executioner's Axes
+DESCRIPTION=Executioner's Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+[ITEMDEF 0f46]
+DUPEITEM=0f45
+
+///////////////////////////////////////////////////////////////
+//////// DOUBLE AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f4b]
+DEFNAME=i_axe_double
+RESOURCES=12 i_ingot_iron
+TYPE=t_weapon_axe
+FLIP=1
+DAM=15,18
+SPEED=3.2
+SKILL=Swordsmanship
+REQSTR=45
+TWOHANDS=Y
+WEIGHT=8
+SKILLMAKE=BLACKSMITHING 29.3
+DUPELIST=0f4c
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Double Axes
+DESCRIPTION=Double Axe
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+[ITEMDEF 0f4c]
+DUPEITEM=0f4b
+
+///////////////////////////////////////////////////////////////
+//////// BATTLE AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f47]
+DEFNAME=i_axe_battle
+RESOURCES=14 i_ingot_iron
+TYPE=t_weapon_axe
+FLIP=1
+DAM=16,19
+SPEED=3.5
+SKILL=Swordsmanship
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=4
+SKILLMAKE=BLACKSMITHING 30.5
+DUPELIST=0f48
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Axes
+DESCRIPTION=Battle Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+[ITEMDEF 0f48]
+DUPEITEM=0f47
+
+
+///////////////////////////////////////////////////////////////
+//////// AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f49]
+DEFNAME=i_axe
+RESOURCES=14 i_ingot_iron
+TYPE=t_weapon_axe
+FLIP=1
+DAM=14,17
+SPEED=3.0
+SKILL=Swordsmanship
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=4
+SKILLMAKE=BLACKSMITHING 34.2
+DUPELIST=0f4a
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Axes
+DESCRIPTION=Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+[ITEMDEF 0f4a]
+DUPEITEM=0f49
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////IRON///////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////// CUTLASSES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01440]
+DEFNAME=i_cutlass
+RESOURCES=8 i_ingot_iron
+WEIGHT=8
+TYPE=T_WEAPON_SWORD
+FLIP=1
+DAM=10,14
+SPEED=45
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=01441
+SKILLMAKE=BLACKSMITHING 24.3
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Cutlasses
+DESCRIPTION=Cutlass
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+[ITEMDEF 01441]
+DUPEITEM=01440
+
+
+///////////////////////////////////////////////////////////////
+//////// LONGSWORDS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f60]
+DEFNAME=i_sword_long
+RESOURCES=12 i_ingot_iron
+TYPE=T_WEAPON_SWORD
+FLIP=1
+speed 3.5
+dam 14,18
+SKILL=Swordsmanship
+REQSTR=35
+TWOHANDS=N
+WEIGHT=7
+SKILLMAKE=BLACKSMITHING 28.0
+DUPELIST=0f61
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Longswords
+DESCRIPTION=Longsword
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding 
+
+
+///////////////////////////////////////////////////////////////
+//////// VIKING SWORDS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013b9]
+DEFNAME=i_sword_viking
+RESOURCES=14 i_ingot_iron
+WEIGHT=6
+TYPE=T_WEAPON_SWORD
+FLIP=1
+dam 15,19
+speed 3.7
+SKILL=Swordsmanship
+REQSTR=40
+TWOHANDS=N
+DUPELIST=013ba
+SKILLMAKE=BLACKSMITHING 24.3
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Viking Swords
+DESCRIPTION=Viking Sword
+
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+///////////////////////////////////////////////////////////////
+//////// BROADSWORDS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f5e]
+DEFNAME=i_sword_broad
+RESOURCES=10 i_ingot_iron
+TYPE=T_WEAPON_SWORD
+FLIP=1
+DAM=13,17
+speed 3.2
+SKILL=Swordsmanship
+REQSTR=30
+TWOHANDS=N
+WEIGHT=6
+SKILLMAKE=BLACKSMITHING 35.4
+DUPELIST=0f5f
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Broadswords
+DESCRIPTION=Broadsword
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+src.events +e_armorignore_Sw
+
+on=@unequip
+src.events -e_bleeding  
+src.events -e_armorignore_Sw
+
+///////////////////////////////////////////////////////////////
+//////// SCIMITARS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013b5]
+DEFNAME=i_scimitar
+RESOURCES=10 i_ingot_iron
+WEIGHT=5
+TYPE=T_WEAPON_SWORD
+FLIP=1
+speed 3.6
+dam 12,16
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=013b6
+SKILLMAKE=BLACKSMITHING 31.7
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Scimitars
+DESCRIPTION=Scimitar
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding   
+
+///////////////////////////////////////////////////////////////
+//////// KATANAS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013fe]
+DEFNAME=i_katana
+RESOURCES=8 i_ingot_iron
+WEIGHT=5
+TYPE=T_WEAPON_SWORD
+FLIP=1
+dam 10,14
+speed 48
+SKILL=Swordsmanship
+REQSTR=25
+TWOHANDS=N
+DUPELIST=013ff
+SKILLMAKE=BLACKSMITHING 44.1
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Katanas
+DESCRIPTION=Katana
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+///////////////////////////////////////////////////////////////
+//////// RADIANT SCIMITARS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d27]
+DEFNAME=i_Radiant_Scimitar
+Name=Radiant Scimitar
+TYPE=T_WEAPON_SWORD
+SKILL=Swordsmanship
+REQSTR=20
+TWOHANDS=N
+DAM=12,16
+SPEED=26
+WEIGHT=9
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 75.0
+DUPELIST=02d33
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Radiant Scimitars
+DESCRIPTION=Radiant Scimitar
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+///////////////////////////////////////////////////////////////
+//////// WAR CLEAVERS
+///////////////////////////////////////////////////////////////
+
+[ITEMDEF 02d23]
+DEFNAME=i_war_cleaver
+Name=War Cleaver
+SKILLMAKE=BLACKSMITHING 70.0
+RESOURCES=18 i_ingot_iron
+TYPE=T_WEAPON_SWORD
+DAM=10,12
+SKILL=Swordsmanship
+REQSTR=15
+TWOHANDS=N
+SPEED=36
+WEIGHT=5
+DUPELIST=02d2f
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=War Cleavers
+DESCRIPTION=War Cleaver
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding  
+
+///////////////////////////////////////////////////////////////
+//////// RUNE BLADES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d26]
+DEFNAME=i_rune_blade
+Name=Rune Blade
+TYPE=T_WEAPON_SWORD
+DAM=15,17
+SKILL=Swordsmanship
+REQSTR=30
+TWOHANDS=Y
+SPEED=28
+WEIGHT=7
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 70.0
+DUPELIST=02d32
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Rune Blades
+DESCRIPTION=Rune Blade
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding   
+
+
+///////////////////////////////////////////////////////////////
+//////// CRESCENT BLADES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026c1]
+DEFNAME=i_crescent_blade
+NAME=Crescent Blade
+TYPE=t_weapon_sword
+RESOURCES=14 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 45.0
+WEIGHT=4.0
+SPEED=25
+DAM=11,16
+REQSTR=55
+DUPELIST=026cb
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Crescent Blades
+DESCRIPTION=Crescent Blade
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_bleeding
+
+on=@unequip
+src.events -e_bleeding   
+
+///////////////////////////////////////////////////////////////
+//////// BARDICHES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f4d]
+DEFNAME=i_bardiche
+RESOURCES=18 i_ingot_iron
+TYPE=t_weapon_sword
+FLIP=1
+dam 17,20
+speed 3.7
+range=2
+SKILL=Swordsmanship
+REQSTR=45
+TWOHANDS=Y
+WEIGHT=7
+SKILLMAKE=BLACKSMITHING 31.7
+DUPELIST=0f4e
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Bardiches
+DESCRIPTION=Bardiche
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount  
+
+
+///////////////////////////////////////////////////////////////
+//////// HALBERDS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0143e]
+DEFNAME=i_halberd
+RESOURCES=20 i_ingot_iron
+WEIGHT=16
+TYPE=t_weapon_sword
+FLIP=1
+dam 18,21
+speed=3.9
+range=2
+SKILL=Swordsmanship
+REQSTR=95
+TWOHANDS=Y
+DUPELIST=0143f
+SKILLMAKE=BLACKSMITHING 39.1
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Halberds
+DESCRIPTION=Halberd
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount
+
+///////////////////////////////////////////////////////////////
+//////// SCYTHES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 026ba]
+DEFNAME=i_scythe
+NAME=Scythe
+TYPE=t_weapon_axe
+RESOURCES=14 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 39.0
+WEIGHT=5
+DAM=15,18
+SPEED=27
+RANGE=2
+REQSTR=45
+DUPELIST=026c4
+CATEGORY=Provisions - Weapons - Swordsmanship
+SUBSECTION=Scythes
+DESCRIPTION=Scythe
+
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount 
+
+[ITEMDEF 026ca]
+DUPEITEM=026c0
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////ccccc///////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[EOF]

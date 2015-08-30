@@ -1,0 +1,118 @@
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+[function f_mac_yarat]
+if ( <DB.connected> )
+	local.cnum=0
+	for 0 <eval <serv.accounts>-1>
+		
+		local.acctnum=<local._for>
+		for <serv.account.<eval <local.acctnum>>> 
+			if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+				local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+				local.mac_adress = <serv.account.<eval <local.acctnum>>.tag.last_mac>
+				db.query insert into smf_themes(id_member, id_theme, variable, value, status) VALUES ('<eval <local.member>>', '1', 'cust_macadr', '<local.mac_adress>', '0')
+			endif
+		endfor
+	endfor
+endif
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_acc_resetsifre] // forum ve oyun ayni anda sifre resetleme.
+if ( <DB.connected> )
+	//local.cnum=0
+	for 0 <eval <serv.accounts>-1>
+		
+		local.acctnum=<local._for>
+		//for <serv.account.<eval <local.acctnum>>> 
+		if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+			local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+			serv.account <serv.account.<eval <local.acctnum>>.name> password <RANDOMDOUBLE>
+			serv.account <serv.account.<eval <local.acctnum>>.name> tag0.sifresi "<local.db>"
+			serv.log <serv.account.<eval <local.acctnum>>.password <RANDOMDOUBLE>>
+			DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>'
+			while (!<isempty <db.row.<dlocal._while>.id_member>>)
+				DB.query "UPDATE smf_members SET passwd='<RANDOMDOUBLE>' WHERE id_member='<eval <local.member>>'"
+					
+			endwhile		
+		endif
+		//endfor
+	endfor
+endif
+
+
+
+[function f_char_uid_yaratma]
+
+if ( <DB.connected> )
+	for 0 <eval <serv.accounts>-1>
+		local.cnum=0
+		local.acctnum=<local._for>
+		for <serv.account.<eval <local.acctnum>>> 
+			if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+				local.charuid = <serv.account.<eval <local.acctnum>>.LASTIP>
+
+				local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+				local.name = <serv.account.<eval <local.acctnum>>.name>
+
+				DB.QUERY UPDATE smf_members SET charuid='<local.charuid>' WHERE id_member='<eval <local.member>>' //and variable='cust_oyunku'	
+				DB.QUERY UPDATE smf_members SET accountname='<local.name>' WHERE id_member='<eval <local.member>>'
+			endif
+		local.cnum += 1
+		endfor
+	endfor
+endif
+
+
+
+
+
+
+////////////// Sifre degistirme dialog.
+
+
+
+[DIALOG d_yenisifreaq]
+0,0
+page 0
+nomove
+noclose
+resizepic 107 67 9200 352 249
+text 123 80 32 0
+htmlgump 113 103 343 148 1 1 1
+text 113 260 32 2
+textentry 117 285 200 20 32 0 3
+button 359 284 247 248 1 0 1
+
+[DIALOG d_yenisifreaq text]
+North Shield Uo Zorunlu Sifre Degistirme.
+Lutfen sifrenizi bir onceki sifreden farkli yapiniz ayrica, eger forum ve oyun ve sifreniz ayni ise bir an once forum sifrenizide degistiriniz.Hic bir sekilde e-mail adreslerinizdeki sifrelerinizi bizim sunucumuzda kullanmayiniz.Yazilan tum kosullar sizlerin guvenligini en dust duzeyde tutmayi amaclamaktatir. Gerekenleri yerine getirmeyen kisilerin ilerde karsilasacagi sorunlardan dolayi north shield sorumlu olmayacaktir ve hic bir sekilde yarimcida olunmayacaktir. Bu uygulama Oympus Ultima Online bünyesinde her ay gerçeklestirilen bir uygulamadir. Lütfen burda yazilanlari dikkate alip uygulayiniz aksi taktirde durum bizim sorumlulugumuzunun disina cikacaktir.
+YENI SIFRENIZI YAZINIZ.
+****
+
+[DIALOG d_yenisifreaq button]
+on=0
+return 1
+ON=1
+if strmatch('<argtxt[0]>','****') || <isempty <argtxt[0]>>
+	src.dialog d_yenisifreaq
+	src.sysmessage @60,1,1 Hatali karakter yada bos girdi girdiniz.
+	return 1
+endif
+local.member = <src.account.tag0.memberid>
+src.password <argtxt[0]>
+src.sysmessage @60,1,1 Yeni sifreniz : <argtxt[0]>
+//serv.log #<src.account.name> : Sifre : <argtxt[0]>
+//src.weblink platform.olympusuo.com/index.php?action=profile;area=account;u=<eval <src.account.tag.memberid>>
+src.account.tag.sifresinigirdi1 1
+src.account.tag.sifresi "<argtxt[0]>"
+//DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+DB.query "UPDATE smf_themes SET value='<argtxt[0]>' WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+closealldialogs
+return 1
+
+
+[EOF]

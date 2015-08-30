@@ -1,0 +1,75 @@
+// Staff Kontrol
+
+
+[function f_connector_staff_check]
+//if !<src.account.tag.sifresinigirdi>
+//	src.dialog d_yenisifreaq
+//endif
+if ( <DB.connected> )
+	if <account.plevel> > 1
+
+
+
+	  if strmatch('<account.name>','tazmanyak') && (strmatch('<account.tag.last_computer>','BURAK-BURAK'))
+		tag0.conkullaniyor 1
+		return 1	
+	  elseif strmatch('<account.name>','rhodos') && (strmatch('<account.tag.last_computer>','ATAKAN'))
+		tag0.conkullaniyor 1
+		return 1
+	  elseif strmatch('<account.name>','reina') && (strmatch('<account.tag.last_computer>','DARKNESSILVERMA'))
+	  	tag0.conkullaniyor 1	
+	  	return 1
+	  elseif strmatch('<account.name>','rasengan') && (strmatch('<account.tag.last_computer>','SABRI-PC'))
+		tag0.conkullaniyor 1
+		return 1
+	  elseif strmatch('<account.name>','elliotta') && (strmatch('<account.tag.last_computer>','ADMIN'))
+		tag0.conkullaniyor 1
+		return 1
+	  else
+		local.id = <account.tag0.memberid>
+		DB.QUERY SELECT * FROM smf_members WHERE id_member='<eval <local.id>>'
+		if <ddb.row.numrows>
+		while (!<isempty <db.row.<dlocal._while>.nahgirersin>>)
+			tag0.conkullaniyor <db.row.<dlocal._while>.nahgirersin>
+		endwhile
+	  endif
+	
+	endif
+
+	if strmatch('<account.name>','tazmanyak') && !(strmatch('<account.tag.last_computer>','BURAK-BURAK'))
+		tag0.conkullaniyor 0
+		serv.log #Avatar adli staff karakterin hesabina baska pc den girilmeye calisildi
+		serv.log #Kisinin Ip si : <account.LASTIP> :: Pc name : <account.tag.last_computer> :: Mac : <account.TAG.last_mac>
+		serv.blockip <account.LASTIP>
+		return 1	
+	elseif strmatch('<account.name>','rhodos') && !(strmatch('<account.tag.last_computer>','ATAKAN'))
+		tag0.conkullaniyor 0
+		serv.log #Rhodos adli staff karakterin hesabina baska pc den girilmeye calisildi
+		serv.log #Kisinin Ip si : <account.LASTIP> :: Pc name : <account.tag.last_computer> :: Mac : <account.TAG.last_mac>	
+		serv.blockip <account.LASTIP>
+		return 1
+	elseif strmatch('<account.name>','reina') && !(strmatch('<account.tag.last_computer>','DARKNESSILVERMA'))
+		tag0.conkullaniyor 0	
+		serv.log #Reina adli staff karakterin hesabina baska pc den girilmeye calisildi
+		serv.log #Kisinin Ip si : <account.LASTIP> :: Pc name : <account.tag.last_computer> :: Mac : <account.TAG.last_mac>
+		serv.blockip <account.LASTIP>
+		return 1
+	elseif strmatch('<account.name>','rasengan') && !(strmatch('<account.tag.last_computer>','SABRI-PC'))
+		tag0.conkullaniyor 0
+		serv.log #Rasengan adli staff karakterin hesabina baska pc den girilmeye calisildi
+		serv.log #Kisinin Ip si : <account.LASTIP> :: Pc name : <account.tag.last_computer> :: Mac : <account.TAG.last_mac>	
+		serv.blockip <account.LASTIP>
+		return 1
+	elseif strmatch('<account.name>','elliotta') && (strmatch('<account.tag.last_computer>','ADMIN'))
+		tag0.conkullaniyor 0
+		serv.log #Gvz adli staff karakterin hesabina baska pc den girilmeye calisildi
+		serv.log #Kisinin Ip si : <account.LASTIP> :: Pc name : <account.tag.last_computer> :: Mac : <account.TAG.last_mac>	
+		serv.blockip <account.LASTIP>
+		return 1
+	endif
+
+	
+
+endif
+
+[EOF]

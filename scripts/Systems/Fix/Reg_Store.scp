@@ -1,0 +1,289 @@
+﻿
+
+/////////////// INGOT STORE ///////////////////
+
+[itemdef i_store_ingot]
+id=i_box_brass
+name Ingot Store
+value=5500
+weight=3
+type=t_script
+
+on=@create
+color=0455
+//attr=attr_newbie
+//Newbie Kendinize Göre Ayarlayın.
+
+on=@dclick
+
+if (<src.flags>&statf_dead|statf_freeze|statf_stone)
+src.sys_error Şu Anki Durumunuzda Kullanamazsınız.
+elif (<topobj> != <src>)
+src.sys_error Sadece Üzerinizdeyken Kullanabilirsiniz.
+else
+src.sys_error Önemli : Tek Seferde En Fazla 200 Adet İngot Çıkartabilirsiniz..
+dialog d_ingot_store
+endif
+return 1
+
+on=@targon_char
+target @38,,1 Sadece İngot Ekleyebilirsiniz.
+return 1
+
+on=@targon_item
+if (<src.targ.topobj> != <src>)
+target @38,,1 Sadece Üzerinizdeki İngotları Ekleyebilirsiniz.
+//elif (<src.targ.type> != t_ingot)
+//target @38,,1 Sadece İngot Ekleyebilirsiniz.
+elif !(<src.targ.amount>) || !(<src.targ.ingotlarin>)
+target @38,,1 Bu İngotlari Ekleyemezsiniz.
+else
+try tag0.<src.targ.baseid>=<eval (<tag0.<src.targ.baseid>>+<src.targ.amount>)>
+src.sys_error <src.targ.amount> Adet <src.targ.name> Eklediniz.
+src.targ.remove
+src.closealldialogs
+dialog d_ingot_store
+target
+endif
+return 1
+
+[dialog d_ingot_store]
+0,0
+makebg 50,60,250,430
+dtext 145 42 69 İngot Store
+dorigin 70 70
+//Ingotları Sıralıyoruz.
+for 0 13
+dtext +50 *20 <qval(<isempty <tag.<ingot_borsasi <dlocal._for>>>>)?38:040> <serv.itemdef.<ingot_borsasi <dlocal._for>>.name> - (<dtag0.<ingot_borsasi <dlocal._for>>>)
+tilepic +10 +2 <serv.itemdef.<ingot_borsasi <dlocal._for>>.id>
+checkbox -5 +3 210 211 0 <dlocal._for>
+endfor
+//Sol Miktar Butonu
+dtext 70 395 69 Miktar:
+resizepic 70 420 3000 50 30
+dtextentry 80 425 40 20 1153 0 0
+button 80 455 4006 4007 1 0 13
+//Sağ Butonlar
+button 140 410 9904 9903 1 0 10
+dtext 170 410 69 El İle Ekle
+button 140 440 9904 9903 1 0 11
+dtext 170 440 69 Tüm İngotları Ekle
+
+[dialog d_ingot_store button]
+on=10
+target @040,,1 Eklemek İstediginiz İngot'u Seçiniz.
+return 1
+
+on=11
+ref1=<uid>
+forcont <src.findlayer(layer_pack)> 1
+if (<type> == t_ingot) && (<ingotlarin>)
+ref1.tag0.<baseid>=<eval (<ref1.tag0.<baseid>>+<amount>)>
+src.sys_error <amount> Adet <name> Eklendi.
+remove
+endif
+endfor
+dialog d_ingot_store
+
+on=12
+ref1=<uid>
+for 0 13
+if !(<isempty <ref1.tag.<ingot_borsasi <dlocal._for>>>>)
+serv.newitem <ingot_borsasi <dlocal._for>>,<ref1.dtag0.<ingot_borsasi <dlocal._for>>>,<src.findlayer(layer_pack)>
+new.contp 50,50
+src.sys_error <ref1.dtag0.<ingot_borsasi <dlocal._for>>> Adet <serv.itemdef.<ingot_borsasi <dlocal._for>>.name> Çikartildi.
+ref1.tag0.<ingot_borsasi <dlocal._for>>=
+endif
+endfor
+
+on=13
+if !(<isnum <argtxt[0]>>)
+src.sys_error Sadece Rakam Girebilirsiniz.
+elif (<dargtxt[0]> > 200)
+src.sys_error Bir Seferde En Fazla 200 İngot Çıkartabilirsiniz.
+elif (<argtxt[0]> <= 0)
+src.sys_error Hatali Adet Girdiniz.
+else
+for 0 13
+if (<argchk[<dlocal._for>]> == 1)
+if (<dtag0.<ingot_borsasi <dlocal._for>>> < <dargtxt[0]>)
+src.sys_error Belirttiğiniz Miktarda <serv.itemdef.<ingot_borsasi <dlocal._for>>.name> Bulunmuyor.
+elif (<argtxt[0]> <= 0) || !(<isnum <argtxt[0]>>)
+src.sys_error Hatali Adet Girdiniz.
+return 1
+else
+serv.newitem <ingot_borsasi <dlocal._for>>,<dargtxt[0]>,<src.findlayer(layer_pack)>
+src.sys_error <dargtxt[0]> Adet <serv.itemdef.<ingot_borsasi <dlocal._for>>.name> Çikarttiniz.
+try tag0.<ingot_borsasi <dlocal._for>>=<eval (<dtag0.<ingot_borsasi <dlocal._for>>>-<dargtxt[0]>)>
+endif
+endif
+endfor
+endif
+dialog d_ingot_store
+
+[function ingot_borsasi]
+doswitch <dargn>
+return i_ingot_iron
+return i_ingot_dull_copper
+return i_ingot_copper
+return i_ingot_bronze
+return i_ingot_gold
+return i_ingot_agapite
+return i_ingot_shadow
+return i_ingot_silver
+return i_ingot_verite
+return i_ingot_valorite
+return i_ingot_mytheril
+return i_ingot_bloodrock
+return i_ingot_blackrock
+//return i_kil_tasi
+return i_kil
+enddo
+
+[function ingotlarin]
+if ((<baseid> == i_kil) || (<baseid> == i_ingot_iron) || (<baseid> == i_ingot_dull_copper) || (<baseid> == i_ingot_copper) || (<baseid> == i_ingot_bronze) || (<baseid> == i_ingot_gold) || (<baseid> == i_ingot_agapite) || (<baseid> == i_ingot_shadow)|| (<baseid> == i_ingot_silver) || (<baseid> == i_ingot_verite) || (<baseid> == i_ingot_valorite) || (<baseid> == i_ingot_mytheril) || (<baseid> == i_ingot_bloodrock) || (<baseid> == i_ingot_blackrock))
+return 1
+else
+return 0
+endif
+// YENI REG STORE
+
+[itemdef i_store_reg]
+id=i_crystal_green_big
+name Reagent Store
+value=5500
+weight=3
+type=t_script
+
+on=@create
+color=07a1
+//attr=attr_newbie
+//Newbie Kendinize Göre Ayarlayın.
+
+on=@dclick
+
+if (<src.flags>&statf_dead|statf_freeze|statf_stone)
+src.sys_error Şu Anki Durumunuzda Kullanamazsınız.
+elif (<topobj> != <src>)
+src.sys_error Sadece Üzerinizdeyken Kullanabilirsiniz.
+else
+src.sys_error Önemli : Tek Seferde En Fazla 200 Adet Reagent Çıkartabilirsiniz..
+dialog d_reg_store
+endif
+return 1
+
+on=@targon_char
+target @38,,1 Sadece Reagent Ekleyebilirsiniz.
+return 1
+
+on=@targon_item
+if (<src.targ.topobj> != <src>)
+target @38,,1 Sadece Üzerinizdeki Reagentleri Ekleyebilirsiniz.
+elif (<src.targ.type> != t_reagent)
+target @38,,1 Sadece Reagent Ekleyebilirsiniz.
+elif !(<src.targ.amount>) || !(<src.targ.reglerin>)
+target @38,,1 Bu Reagentleri Ekleyemezsiniz.
+else
+try tag0.<src.targ.baseid>=<eval (<tag0.<src.targ.baseid>>+<src.targ.amount>)>
+src.sys_error <src.targ.amount> Adet <src.targ.name> Eklediniz.
+src.targ.remove
+src.closealldialogs
+dialog d_reg_store
+target
+endif
+return 1
+
+[dialog d_reg_store]
+0,0
+makebg 50,60,250,430
+dtext 137 42 69 Reagent Store
+dorigin 70 70
+//regları Sıralıyoruz.
+for 0 7
+dtext +50 *20 <qval(<isempty <tag.<reg_borsasi <dlocal._for>>>>)?38:040> <serv.itemdef.<reg_borsasi <dlocal._for>>.name> - (<dtag0.<reg_borsasi <dlocal._for>>>)
+tilepic +10 +2 <serv.itemdef.<reg_borsasi <dlocal._for>>.id>
+checkbox -5 +3 210 211 0 <dlocal._for>
+endfor
+//Sol Miktar Butonu
+dtext 70 395 69 Miktar:
+resizepic 70 420 3000 50 30
+dtextentry 80 425 40 20 1153 0 0
+button 80 455 4006 4007 1 0 13
+//Sağ Butonlar
+button 140 410 9904 9903 1 0 10
+dtext 170 410 69 El İle Ekle
+button 140 440 9904 9903 1 0 11
+dtext 170 440 69 Tüm Reagentleri Ekle
+
+[dialog d_reg_store button]
+on=10
+target @040,,1 Eklemek İstediginiz Reagent'i Seçiniz.
+return 1
+
+on=11
+ref1=<uid>
+forcont <src.findlayer(layer_pack)> 1
+if (<type> == t_reagent) && (<reglerin>)
+ref1.tag0.<baseid>=<eval (<ref1.tag0.<baseid>>+<amount>)>
+src.sys_error <amount> Adet <name> Eklendi.
+remove
+endif
+endfor
+dialog d_reg_store
+
+on=12
+ref1=<uid>
+for 0 7
+if !(<isempty <ref1.tag.<reg_borsasi <dlocal._for>>>>)
+serv.newitem <reg_borsasi <dlocal._for>>,<ref1.dtag0.<reg_borsasi <dlocal._for>>>,<src.findlayer(layer_pack)>
+new.contp 137,124
+src.sys_error <ref1.dtag0.<reg_borsasi <dlocal._for>>> Adet <serv.itemdef.<reg_borsasi <dlocal._for>>.name> Çikartildi.
+ref1.tag0.<reg_borsasi <dlocal._for>>=
+endif
+endfor
+
+on=13
+if !(<isnum <argtxt[0]>>)
+src.sys_error Sadece Rakam Girebilirsiniz.
+elif (<dargtxt[0]> > 999)
+src.sys_error Bir Seferde En Fazla 999 Reagent Çıkartabilirsiniz.
+elif (<argtxt[0]> <= 0)
+src.sys_error Hatali Adet Girdiniz.
+else
+for 0 7
+if (<argchk[<dlocal._for>]> == 1)
+if (<dtag0.<reg_borsasi <dlocal._for>>> < <dargtxt[0]>)
+src.sys_error Belirttiğiniz Miktarda <serv.itemdef.<reg_borsasi <dlocal._for>>.name> Bulunmuyor.
+elif (<argtxt[0]> <= 0) || !(<isnum <argtxt[0]>>)
+src.sys_error Hatali Adet Girdiniz.
+return 1
+else
+serv.newitem <reg_borsasi <dlocal._for>>,<dargtxt[0]>,<src.findlayer(layer_pack)>
+new.contp 137,124
+src.sys_error <dargtxt[0]> Adet <serv.itemdef.<reg_borsasi <dlocal._for>>.name> Çikarttiniz.
+try tag0.<reg_borsasi <dlocal._for>>=<eval (<dtag0.<reg_borsasi <dlocal._for>>>-<dargtxt[0]>)>
+endif
+endif
+endfor
+endif
+dialog d_reg_store
+
+[function reg_borsasi]
+doswitch <dargn>
+return i_reag_ginseng
+return i_reag_blood_moss
+return i_reag_mandrake_root
+return i_reag_sulfur_ash
+return i_reag_black_pearl
+return i_reag_garlic
+return i_reag_spider_silk
+return i_reag_nightshade
+enddo
+
+[function reglerin]
+if ((<baseid> == i_reag_ginseng) || (<baseid> == i_reag_blood_moss) || (<baseid> == i_reag_mandrake_root) || (<baseid> == i_reag_sulfur_ash) || (<baseid> == i_reag_black_pearl) || (<baseid> == i_reag_garlic) || (<baseid> == i_reag_spider_silk)|| (<baseid> == i_reag_nightshade))
+return 1
+else
+return 0
+endif
+[eof]

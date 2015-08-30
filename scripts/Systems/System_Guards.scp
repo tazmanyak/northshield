@@ -1,0 +1,115 @@
+[chardef c_guard]
+id c_man
+NAME=#NAMES_HUMANMALE
+CAN=mt_walk|mt_run
+TEVENTS=e_event_guard
+armor=40
+dam=40
+
+ON=@CREATE
+str=75000
+int=10000
+dex=500
+HITS=75000
+color=0
+
+archery=600.0
+swordsmanship=600.0
+tactics=600.0
+anatomy=600.0
+parrying=200.0
+
+fame=10000
+karma=10000
+//color_o_blackrock
+
+ITEMNEWBIE=i_guards_remove
+ITEMNEWBIE=i_helm_plate_blackrock
+ITEMNEWBIE=i_platemail_arms_blackrock
+ITEMNEWBIE=i_platemail_leggings_blackrock
+ITEMNEWBIE=i_platemail_chest_blackrock
+ITEMNEWBIE=i_platemail_gorget_blackrock
+ITEMNEWBIE=i_platemail_gloves_blackrock
+itemnewbie=i_scythe_blackrock
+//ITEMNEWBIE=i_shield_heater_blackrock
+//item=i_mt_armor_steed
+color color_o_blackrock
+
+on=@click
+message @,,1 ( Guards )
+
+
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
+[chardef c_guard_f]
+id c_woman
+NAME=#NAMES_HUMANfemale
+CAN=mt_walk|mt_run
+TEVENTS=e_event_guard
+armor=40
+dam=40
+
+ON=@CREATE
+str=75000
+int=10000
+dex=500
+HITS=75000
+color color_o_bloodrock
+
+archery=600.0
+swordsmanship=600.0
+tactics=600.0
+anatomy=600.0
+parrying=200.0
+
+fame=10000
+karma=10000
+ITEMNEWBIE=i_guards_remove
+ITEMNEWBIE=i_helm_plate_bloodrock
+ITEMNEWBIE=i_platemail_arms_bloodrock
+ITEMNEWBIE=i_platemail_leggings_bloodrock
+ITEMNEWBIE=i_platemail_chest_bloodrock
+ITEMNEWBIE=i_platemail_gorget_bloodrock
+ITEMNEWBIE=i_platemail_gloves_bloodrock
+ITEMNEWBIE=i_helm_plate_bloodrock
+itemnewbie=i_scythe_bloodrock
+//ITEMNEWBIE=i_shield_heater_blackrock
+//item=i_mt_armor_steed
+color color_o_bloodrock
+
+on=@click
+message @,,1 ( Guards )
+
+
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+[ITEMDEF i_guards_remove]
+NAME=Guards Silici
+ID=i_memory
+TYPE=t_eq_script
+LAYER=30
+
+on=@create
+timer 5
+
+ON=@Timer
+cont.remove 
+return 1
+
+
+[events e_event_guard]
+
+on=@hittry
+if !<src.region.guarded>
+	return 1
+endif
+
+on=@attack
+if <src.region.guarded>
+		src.hits 0
+endif
+
+[eof]

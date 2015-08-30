@@ -1,0 +1,672 @@
+
+
+
+[itemdef i_alvers]
+defname=i_alver
+id=3796
+name=Itemler
+TYPE=t_script
+
+ON=@Create
+COlor=0440
+attr=attr_move_never
+
+On=@Click
+message @033,3 <serv.name>
+message @1953,3 Alis-veris Tasi
+return 1
+
+on=@dclick
+if (<distance> > 3)
+src.sysmessage @0481,,1 Yeterince yakin degilsiniz.
+else
+src.dialogclose d_alisveris
+src.dialog d_alisveris
+RETURN 1 
+endif
+
+[dialog d_alisveris]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 220 280
+resizepic 10 10 3000 200 250
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+button 35 110 2224 2117 1 0 4
+button 35 130 2224 2117 1 0 5
+button 35 150 2224 2117 1 0 6
+button 35 170 2224 2117 1 0 7
+button 35 190 2224 2117 1 0 8
+button 35 210 2224 2117 1 0 9
+button 35 230 2224 2117 1 0 10
+
+
+dtext 80 50 1152 Alchemy
+dtext 80 70 1153 Animal Trainer
+dtext 80 90 1152 Blacksmith
+dtext 80 110 1153 Bowyer
+dtext 80 130 1152 Carpenter
+dtext 80 150 1153 Mage
+dtext 80 170 1152 Tailor
+dtext 80 190 1153 Tinker
+dtext 80 210 1153 Gemi (ucretli)
+dtext 80 230 1153 Provisioner (ucretli)
+
+[dialog d_alisveris button]
+on=1
+src.dialog d_alisveris_alchemy
+return 1
+
+on=2
+src.dialog d_alisveris_animaltrainer
+return 1
+
+on=3
+src.dialog d_alisveris_blacksmith
+return 1
+
+on=4
+src.dialog d_alisveris_bowyer
+return 1
+
+on=5
+src.dialog d_alisveris_carpenter
+return 1
+
+on=6
+src.dialog d_alisveris_mage
+return 1
+
+on=7
+src.dialog d_alisveris_tailor
+return 1
+
+on=8
+src.dialog d_alisveris_tinker
+return 1
+
+on=9
+src.sysmessage @39,,1 Hata: Kullanım dışı.
+//src.dialog d_gemi
+return 1
+
+on=10
+src.dialog d_pezo
+return 1
+
+
+[dialog d_alisveris_alchemy]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 130
+resizepic 10 10 3000 255 110
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+
+dtext 80 20 1152 Alchemy Menu
+
+dtext 80 50 1152 Mortal & Pestle 
+dtext 80 70 1152 Empty Bottle (10)
+
+[dialog d_alisveris_alchemy button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+on=2
+src.newitem=i_bottle_empty,10
+src.act.bounce
+src.sysmessage @07a1 Bos Sise Alindi
+else
+src.sysmessage @07a1 Bos Sise icin 0 Gold Gerekmektedir...
+
+on=1
+src.newitem=i_mortar_pestle
+src.act.bounce
+src.sysmessage @07a1 Mortar Paste Alindi
+else
+src.sysmessage @07a1 Mortar Paste icin 100 Gold Gerekmektedir...
+
+
+[dialog d_alisveris_animaltrainer]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 220
+resizepic 10 10 3000 255 200
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+button 35 110 2224 2117 1 0 4
+//button 35 130 2224 2117 1 0 5
+//button 35 150 2224 2117 1 0 6
+//button 35 170 2224 2117 1 0 7
+
+dtext 80 20 1152 Animal Trainer Menu
+
+dtext 80 50 1152 Herding Sopasi 
+dtext 80 70 1152 Taming Staff 
+dtext 80 90 1152 Saman 
+dtext 80 110 1152 Animal Deed 
+//dtext 80 130 1152 Taming Staff
+//dtext 80 150 1152 Animal Deed
+//dtext 80 170 1152 Saman
+
+[dialog d_alisveris_animaltrainer button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+on=1
+src.newitem=i_shepherds_crook
+src.act.bounce
+src.sysmessage @07a1 Herding Sopasi Alindi
+else
+src.sysmessage @07a1 Herding Sopasi icin 250 Gold Gerekmektedir...
+
+
+
+on=2
+src.newitem=i_staff_taming
+src.act.bounce
+src.sysmessage @07a1 Taming staff Alindi
+else
+src.sysmessage @07a1 Taming staff icin 250 Gold Gerekmektedir...
+
+on=3
+src.newitem=i_hay_sheaf
+src.act.bounce
+src.sysmessage @07a1 Saman Alindi
+else
+src.sysmessage @07a1 Saman icin 50 Gold Gerekmektedir...
+
+
+on=4
+src.newitem=i_deed_animal
+src.act.bounce
+src.sysmessage @07a1 Animal Deed Alindi
+else
+src.sysmessage @07a1 Animal Deed icin 200 Gold Gerekmektedir...
+
+
+[dialog d_alisveris_blacksmith]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 150
+resizepic 10 10 3000 255 130
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+button 35 110 2224 2117 1 0 4
+
+dtext 80 20 1152 Blacksmith Menu
+
+dtext 80 50 1152 Smith's Hammer 
+dtext 80 70 1152 Iron Ingot (50) -2500gp-
+dtext 80 90 1152 Bronze Ingot (50) -5000gp-
+dtext 80 110 1152 Dagger
+
+[dialog d_alisveris_blacksmith button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+on=4
+src.newitem=i_dagger
+src.act.bounce
+src.sysmessage @07a1 Dagger Alindi
+else
+src.sysmessage @07a1 Smith's Hammer icin 100 Gold Gerekmektedir...
+
+on=1
+src.newitem=i_hammer_smith
+src.act.bounce
+src.sysmessage @07a1 Smith's Hammer Alindi
+else
+src.sysmessage @07a1 Smith's Hammer icin 100 Gold Gerekmektedir...
+
+
+on=2
+
+if <SRC.RESTEST 2500 i_gold>
+SRC.CONSUME 2500 i_gold
+src.newitem=i_ingot_iron,50
+src.act.bounce
+src.sysmessage @07a1 Iron Ingot Alindi
+else
+src.sysmessage @07a1 Iron Ingot icin 2500 Gold Gerekmektedir...
+
+on=3
+
+if <SRC.RESTEST 5000 i_gold>
+SRC.CONSUME 5000 i_gold
+src.newitem=i_ingot_bronze,50
+src.act.bounce
+src.sysmessage @07a1 Bronze Ingot Alindi
+else
+src.sysmessage @07a1 Bronze Ingot icin 5000 Gold Gerekmektedir...
+
+
+
+[dialog d_alisveris_bowyer]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 130
+resizepic 10 10 3000 255 110
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+
+dtext 80 20 1152 Bowyer Menu
+
+dtext 80 50 1152 Arrow (200)
+dtext 80 70 1152 Bolt (200) 
+
+[dialog d_alisveris_bowyer button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+on=1
+src.newitem=i_arrow,200
+src.act.bounce
+src.sysmessage @07a1 Arrow Alindi
+else
+src.sysmessage @07a1 Arrow icin 1000 Gold Gerekmektedir...
+
+on=2
+src.newitem=i_xbolt,200
+src.act.bounce
+src.sysmessage @07a1 Bolt Alindi
+else
+src.sysmessage @07a1 Bolt icin 1000 Gold Gerekmektedir...
+
+
+[dialog d_alisveris_carpenter]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 150
+resizepic 10 10 3000 255 130
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+
+dtext 80 20 1152 Carpenter Menu
+
+dtext 80 50 1152 Log (100) 
+dtext 80 70 1152 Board (100)
+dtext 80 90 1152 Saw 
+
+[dialog d_alisveris_carpenter button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+on=1
+src.newitem=i_log,100
+src.act.bounce
+src.sysmessage @07a1 Log Alindi
+else
+src.sysmessage @07a1 Log icin 2000 Gold Gerekmektedir...
+
+
+on=2
+src.newitem=i_board,100
+src.act.bounce
+src.sysmessage @07a1 Board Alindi
+else
+src.sysmessage @07a1 Board icin 2000 Gold Gerekmektedir...
+
+
+on=3
+src.newitem=i_saw
+src.act.bounce
+src.sysmessage @07a1 Saw Alindi
+else
+src.sysmessage @07a1 Saw icin 2000 Gold Gerekmektedir...
+
+
+[dialog d_alisveris_mage]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 150
+resizepic 10 10 3000 255 130
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+//button 35 110 2224 2117 1 0 4
+
+dtext 80 20 1152 Mage Menu
+
+dtext 80 50 1152 Reg Cristali 90'lik -3200gp-
+dtext 80 70 1152 Recall Rune (3) 
+dtext 80 90 1152 Blank Scroll (100) 
+//dtext 80 110 1152 Reg Cristali 90'lik
+
+[dialog d_alisveris_mage button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+on=1
+
+if <SRC.RESTEST 3200 i_gold>
+SRC.CONSUME 3200 i_gold
+src.newitem=i_magic_reg90
+src.act.bounce
+src.sysmessage @07a1 90'lik Reg Cristali Alindi
+else
+src.sysmessage @07a1 90'lik Reg Cristali icin 3200 Gold Gerekmektedir...
+
+on=2
+src.newitem=i_rune_marker,3
+src.act.bounce
+src.sysmessage @07a1 Bos Rune Alindi
+else
+src.sysmessage @07a1 Bos Rune icin 100 Gold Gerekmektedir...
+
+on=3
+src.newitem=i_scroll_blank,100
+src.act.bounce
+src.sysmessage @07a1 Bos Scroll Alindi
+else
+src.sysmessage @07a1 Bos Scroll icin 1000 Gold Gerekmektedir...
+
+
+[dialog d_alisveris_tailor]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 170
+resizepic 10 10 3000 255 150
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+button 35 110 2224 2117 1 0 4
+
+dtext 80 20 1152 Tailor Menu
+
+dtext 80 50 1152 Kumas (100) 
+dtext 80 70 1152 Dikis Kutusu 
+dtext 80 90 1152 Makas -16gp-
+dtext 80 110 1152 Boya Tupu & Boya 
+
+[dialog d_alisveris_tailor button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+on=1
+src.newitem=i_cloth,100
+src.act.bounce
+src.sysmessage @07a1 Kumas Alindi
+else
+src.sysmessage @07a1 Kumas icin 1000 Gold Gerekmektedir...
+
+on=2
+src.newitem=i_sewing_kit
+src.act.bounce
+src.sysmessage @07a1 Dikis Kutusu Alindi
+else
+src.sysmessage @07a1 Dikis Kutusu icin 500 Gold Gerekmektedir...
+
+
+on=3
+src.newitem=i_scissors
+src.act.bounce
+src.sysmessage @07a1 Makas Alindi
+else
+src.sysmessage @07a1 Makas icin 16 Gold Gerekmektedir...
+
+on=4
+src.sysmessage @39,,1 Hata: Bu eşya menüden kaldırılmış.
+//src.newitem=i_dye_tub
+//src.act.bounce
+//src.newitem i_dyes
+//src.act.bounce
+//src.sysmessage @07a1 Boya tupu ve Boya Alindi
+//else
+//src.sysmessage @07a1 Boya tupu ve Boya icin 250 Gold Gerekmektedir...
+
+
+
+[dialog d_alisveris_tinker]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 130
+resizepic 10 10 3000 255 110
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+
+dtext 80 20 1152 Tinker Menu
+
+dtext 80 50 1152 Tinker Tools 
+dtext 80 70 1152 Axel And Gears (5) 
+dtext 80 90 1152 Lock Pick (5) 
+
+[dialog d_alisveris_tinker button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+on=1
+src.newitem=i_tinker_tools
+src.act.bounce
+src.sysmessage @07a1 Tinker Tools Alindi
+else
+src.sysmessage @07a1 Tinker Tools icin 100 Gold Gerekmektedir...
+
+on=2
+src.newitem=i_axel_and_gears,5
+src.act.bounce
+src.sysmessage @07a1 Axel And Gears Alindi
+else
+src.sysmessage @07a1 Axel And Gears icin 100 Gold Gerekmektedir...
+
+
+on=3
+src.newitem=i_lockpick,5
+src.act.bounce
+src.sysmessage @07a1 Lock Pick Alindi
+else
+src.sysmessage @07a1 Lock Pick icin 100 Gold Gerekmektedir...
+
+
+
+
+
+
+[dialog d_gemi]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 220
+resizepic 10 10 3000 255 200
+
+button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+button 35 90 2224 2117 1 0 3
+button 35 110 2224 2117 1 0 4
+
+dtext 80 20 1152 Gemi Menu
+
+dtext 80 50 1152 Small Ship -16000gp-
+dtext 80 70 1152 Long Ship -19000gp-
+dtext 80 90 1152 Dragon Ship -23000gp-
+dtext 80 110 1152 Pusula -100gp-
+
+
+[dialog d_gemi button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+
+on=1
+if <SRC.RESTEST 16000 i_gold>
+SRC.CONSUME 16000 i_gold
+src.newitem=i_deed_ship_dragon_small_n
+src.act.bounce
+src.sysmessage @07a1 Small Ship Alindi
+else
+src.sysmessage @07a1 Small Ship icin 16000 Gold Gerekmektedir...
+
+on=2
+if <SRC.RESTEST 19000 i_gold>
+SRC.CONSUME 19000 i_gold
+src.newitem=i_deed_ship_long_n
+src.act.bounce
+src.sysmessage @07a1 Long Ship Alindi
+else
+src.sysmessage @07a1 Long Ship icin 19000 Gold Gerekmektedir...
+
+on=3
+if <SRC.RESTEST 23000 i_gold>
+SRC.CONSUME 23000 i_gold
+src.newitem=i_deed_ship_dragon_long_n
+src.act.bounce
+src.sysmessage @07a1 Dragon Ship Alindi
+else
+src.sysmessage @07a1 Dragon Ship icin 23000 Gold Gerekmektedir...
+
+on=4
+src.newitem=i_sextant
+src.act.bounce
+src.sysmessage @07a1 Pusula Alindi
+else
+src.sysmessage @07a1 Pusula icin 100 Gold Gerekmektedir...
+
+
+
+[dialog d_pezo]
+150,150
+nomove
+PAGE 0
+resizepic 0 0 5054 275 220
+resizepic 10 10 3000 255 200
+
+//button 35 50 2224 2117 1 0 1
+button 35 70 2224 2117 1 0 2
+//button 35 90 2224 2117 1 0 3
+button 35 110 2224 2117 1 0 4
+button 35 130 2224 2117 1 0 5
+button 35 150 2224 2117 1 0 6
+button 35 170 2224 2117 1 0 7
+
+
+dtext 80 20 1152 Provisioner Menu
+
+//dtext 80 50 1152 Aile Deed -53000gp-
+dtext 80 70 1152 Aileden Cikma -53000gp-
+//dtext 80 90 1152 Evlilik Deed -53000gp-
+dtext 80 110 1152 Bosanma Deed -53000gp-
+dtext 80 130 1152 Sac Tasarimi -5000gp-
+dtext 80 150 1152 Sakal Tasarimi -5000gp-
+dtext 80 170 1152 Sac Boyasi -1000gp-
+
+[dialog d_pezo button]
+
+on=0
+src.dialog d_alisveris
+return 1
+
+
+on=1
+if <SRC.RESTEST 53000 i_gold>
+SRC.CONSUME 53000 i_gold
+src.newitem=i_soyadim
+src.act.bounce
+src.sysmessage @07a1 Aile Deed Alindi
+else
+src.sysmessage @07a1 Aile Kurma Deed icin 53000 Gold Gerekmektedir...
+
+on=2
+if <SRC.RESTEST 53000 i_gold>
+SRC.CONSUME 53000 i_gold
+src.newitem=i_soyadi_sil
+src.act.bounce
+src.sysmessage @07a1 Aileden Cikma Deed Alindi
+else
+src.sysmessage @07a1 Aileden Cikma Deed icin 53000 Gold Gerekmektedir...
+
+on=3
+if <SRC.RESTEST 53000 i_gold>
+SRC.CONSUME 53000 i_gold
+src.newitem=i_deed_evlilik
+src.act.bounce
+src.sysmessage @07a1 Evlilik Deed Alindi
+else
+src.sysmessage @07a1 Evlilik Deed icin 53000 coin Gerekmektedir...
+
+on=4
+if <SRC.RESTEST 53000 i_gold>
+SRC.CONSUME 53000 i_gold
+src.newitem=i_deed_bosanma
+src.act.bounce
+src.sysmessage @07a1 Bosanma Deed Alindi
+else
+src.sysmessage @07a1 Bosanma Deed icin 53000 Gold Gerekmektedir...
+
+on=5
+if <SRC.RESTEST 5000 i_gold>
+SRC.CONSUME 5000 i_gold
+src.newitem=i_deed_hair
+src.act.bounce
+src.sysmessage @07a1 Sac Tasarimi Alindi
+else
+src.sysmessage @07a1 Sac Tasarimi icin 5000 Gold Gerekmektedir...
+
+on=6
+if <SRC.RESTEST 5000 i_gold>
+SRC.CONSUME 5000 i_gold
+src.newitem=i_deed_beard
+src.act.bounce
+src.sysmessage @07a1 Sakal Tasarimi Alindi
+else
+src.sysmessage @07a1 Sakal Tasarimi icin 5000 Gold Gerekmektedir...
+
+on=7
+if <SRC.RESTEST 1000 i_gold>
+SRC.CONSUME 1000 i_gold
+src.newitem=i_bottle_hair_dye
+src.act.bounce
+src.sysmessage @07a1 Sac Boyasi Alindi
+else
+src.sysmessage @07a1 Sac Boyasi icin 1000 Gold Gerekmektedir...
+
+
+
+
+[eof]

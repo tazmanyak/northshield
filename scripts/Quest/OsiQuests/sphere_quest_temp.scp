@@ -1,0 +1,13 @@
+
+[TYPEDEF t_luck_item]
+
+on=@equip
+src.events +e_luck_item
+
+on=@unequip
+src.events -e_luck_item
+
+[events e_luck_item]
+
+[EOF]
+

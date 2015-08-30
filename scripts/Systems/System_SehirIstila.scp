@@ -1,0 +1,2740 @@
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Yeni Istila Sistemi 
+// 
+// Sehirler : Cove , Vesper , Occlo , Moonglow
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// var.city_cove	
+// var.city_vesper	
+// var.city_occlo	
+// var.city_moonglow	
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//
+// Sehir Kasasi Uid : REgion.Tag.Kasa
+// 
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+[itemdef i_sehir_istila]
+type=t_script
+id=i_grave_Stone
+name=Sehir Istilasi
+
+on=@create
+attr attr_move_never|08000
+color 0455
+timer 86400
+
+on=@click
+message @69,,1 Sehir Stone
+return 1
+
+on=@dclick
+
+tag.vendorgeliri <src.region.tag.vendorgeliri>
+
+sdialog d_istila_sehir_yeni
+
+return 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Bolumu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320	
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290	
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+	src.sysmessage @33,,1 Guild Master olmalisiniz.
+	return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+	src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+	return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+	src.sysmessage @33,,1 Bu sehir zaten size ait.
+	return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+	if <baseid> == c_city_boss
+	ref1 <uid>
+	endif
+endfor
+
+foritems 15
+	if <baseid> == i_sehir_istila
+		tag.boss <ref1>
+		ref2 <uid>
+	endif
+endfor
+
+forchars 15
+	if <baseid> == c_city_boss
+		tag.stone <ref2>
+	endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+	src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+	return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif
+if (<act.baseid>=c_blade_spirit) 
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<act.baseid>=c_demon) 
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<act.baseid>=c_bear_polar) 
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+	return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+	findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+	sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+	findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+	findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+	findid(i_bow).CONT=<UID>
+else
+	findid(i_bow).CONT=<findlayer(21).UID>
+	findid(i_kryss_blackrock).CONT=<UID>
+	findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+	if !<ref1.guild>
+	ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+	return 1
+	endif
+
+	if !(<tag.guild.uid> == <ref1.guild.uid>)
+	ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+	return 1
+	endif
+
+	if <ref1.guild.masteruid> == <ref1>
+	elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+	else
+		ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+		return 1	
+	endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+	remove
+ENDFOR
+
+[EOF][DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF]
+[DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF][DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF]
+[DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF][DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF]
+[DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF][DIALOG d_istila_sehir_yeni]
+0,0
+page 0
+
+dhtmlgump 120 20 300 20 0 0 <def.bfont_lgreen> <src.region.name> Sehri
+
+Page 1
+resizepic 10 0 9200 320 320
+gumppictiled 20 10 300 300 2624
+
+ref2 <tag.guild.uid>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Guild : <def.bfont_white> <ref2.name> , <ref2.ABBREV>
+dhtmlgump 30 80 300 20 0 0 <def.bfont_lgray> Master : <def.bfont_white> <ref2.master>
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Uye Sayisi : <def.bfont_white> <ref2.member.count>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Vendor Geliri : <def.bfont_white> <eval <src.region.tag.vendorgeliri>>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Gunluk Bagimsiz Gelir : <def.bfont_white> Saatte 25.000 Gold
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Guarded : <def.bfont_white> Kapali
+
+dhtmlgump 70 270 300 20 0 0 <def.bfont_lred> Istila baslat !
+button 35 270 4005 4007 1 0 1
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Boss Bilgi
+button 35 240 4005 4007 0 2 0
+
+Page 2
+resizepic 10 0 9200 320 290
+gumppictiled 20 10 300 270 2624
+
+ref3 <tag.boss>
+
+dhtmlgump 30 50 300 20 0 0 <def.bfont_lgray> Name : <def.bfont_white> <ref3.name>
+
+dhtmlgump 30 110 300 20 0 0 <def.bfont_lgray> Hits / Str : <def.bfont_white> <ref3.hits> / <ref3.str>
+dhtmlgump 30 140 300 20 0 0 <def.bfont_lgray> Stam / Dex : <def.bfont_white> <ref3.stam> / <ref3.dex>
+dhtmlgump 30 170 300 20 0 0 <def.bfont_lgray> Mana / Int : <def.bfont_white>  1 / 1
+dhtmlgump 30 200 300 20 0 0 <def.bfont_lgray> Kill : <def.bfont_white>  <ref3.kills>
+
+dhtmlgump 70 240 300 20 0 0 <def.bfont_lgray> Geri
+button 35 240 4005 4007 0 1 0
+
+[DIALOG d_istila_sehir_yeni button]
+on=0
+src.sysmessage @33,,1 Kapattiniz.
+
+on=1
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Guild Master olmalisiniz.
+return 1
+endif
+
+if !(<src.guild.masteruid> == <src.uid>)
+src.sysmessage @33,,1 Guild Master olmaniz gerekmektedir.
+return 1
+endif
+
+if (<src.guild.uid> == <tag.guild.uid>)
+src.sysmessage @33,,1 Bu sehir zaten size ait.
+return 1
+endif
+
+ref1 <tag.boss>
+ref2 <tag.guild>
+
+src.events +e_istilaci
+src.tag.boss <tag.boss>
+
+ref1.stone 0
+ref1.tag.masterguild <ref2>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Stafflar Icin Stone & Boss Ayarlama Fonksiyonu
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_ayarcekiver]
+forchars 15
+if <baseid> == c_city_boss
+ref1 <uid>
+endif
+endfor
+
+foritems 15
+if <baseid> == i_sehir_istila
+tag.boss <ref1>
+ref2 <uid>
+endif
+endfor
+
+forchars 15
+if <baseid> == c_city_boss
+tag.stone <ref2>
+endif
+endfor
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Istilaci EVent
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_istilaci]
+on=@click
+message @07a1,,1 ( Istilaci )
+
+on=@death
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Olduruldugunuz icin istilaniz sonucsuz kaldi.
+
+on=@logout
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+
+on=@RegionLeave
+events -e_istilaci
+uid.<tag.boss>.city_boss
+tag.boss
+sysmessage @33,,1 Sehirden uzaklastiginiz icin istilaniz sonucsuz kaldi.
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[function city_boss]
+go <home>
+hits <str>
+sakinles
+stone 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[chardef c_city_boss]
+id c_man
+name City Boss
+CAN=mt_walk|mt_run
+armor=40
+dam=20,40
+range 2
+
+ON=@CREATE
+//Title=Koruma
+str=800
+int=1
+dex=250
+color=0
+food -1
+
+archery=400.0
+swordsmanship=400.0
+tactics=400.0
+anatomy=400.0
+parrying=100.0
+
+fame=0
+karma=-5000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS_blackrock
+ITEMNEWBIE=i_PLATEMAIL_leggings_blackrock
+ITEMNEWBIE=i_PLATEMAIL_chest_blackrock
+ITEMNEWBIE=i_PLATEMAIL_GORGET_blackrock
+ITEMNEWBIE=i_PLATEMAIL_gloves_blackrock
+ITEMNEWBIE=i_helm_closed_blackrock
+ITEMNEWBIE=i_bow
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_kryss_blackrock
+hitpoints 65000
+tag0.saglamlik 65000
+ITEMNEWBIE=i_SHIELD_HEATER_blackrock
+item=i_koy_gorevli_heal
+timer 1
+item=i_mt_horse_brown_dk
+
+ON=@GETHIT
+if <src.isplayer>
+IF !(<src.GUILD>)
+src.sysmessage @33,,1 Boss'a zarar vemeniz icin guild uyesi olmalisiniz.
+return 1
+endif
+endif
+
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_blade_spirit)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_demon)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+if (<act.baseid>=c_bear_polar)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+src.remove
+endif
+
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * Poison Resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+
+on=@attack
+//ref1 <tag.masterguild>
+//ref2 <src.guild.name>
+
+//say <name>
+//say <src.name>
+//say <act.name>
+
+if (<tag.masterguild> == <src.guild.uid>)
+return 1
+else
+endif
+
+
+if <findid.i_rune_PARALYZE_FIELD>
+findid.i_rune_PARALYZE_FIELD.remove
+endif
+
+on=@NPCActFight
+
+IF (<CANSEELOS <src>>)
+else
+sakinles
+//	go <Home>
+
+endif
+
+
+if (<argn1> > 4)
+findid(i_kryss_blackrock).CONT=<findlayer(21).UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<findlayer(21).UID>
+findid(i_bow).CONT=<UID>
+else
+findid(i_bow).CONT=<findlayer(21).UID>
+findid(i_kryss_blackrock).CONT=<UID>
+findid(i_SHIELD_HEATER_blackrock).CONT=<UID>
+endif
+
+on=@death
+REF1 <ATTACKER.MAX>
+REF2 <tag.stone>
+tag.masterguild <ref1.guild.uid>
+
+region.tag.guild.uid <ref1.guild.uid>
+
+ref2.tag.guild.uid <ref1.guild.uid>
+
+city_boss
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Sehir Kasasi
+//
+////////////////////////////////////////////////////////////////////////////////
+
+[typedef t_sehir_kasasi]
+on=@dclick
+ref1 <src.uid>
+foritems 10
+if <baseid> == i_sehir_istila
+
+if !<ref1.guild>
+ref1.sysmessage @33,,1 Guildiniz olmadan imkansiz.
+return 1
+endif
+
+if !(<tag.guild.uid> == <ref1.guild.uid>)
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+
+if <ref1.guild.masteruid> == <ref1>
+elif strmatch('<ref1.GUILD.MemberFromUID.<REF1>.GuildTitle>','Defterdar')
+else
+ref1.sysmessage @33,,1 Bu kasayi ancak Guild Master ve Defterdar acabilir.
+return 1
+endif
+endif
+endfor
+
+on=@Dropon_Self
+src.sysmessage @33,,1 Bu kasaya ekleme yapamazsin.
+return 1
+
+on=@timer
+serv.newitem i_gold
+new.amount 25000
+new.cont <uid>
+timer 3600
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+[function sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+remove
+ENDFOR
+
+[EOF]

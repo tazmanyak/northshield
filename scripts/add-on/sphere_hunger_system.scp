@@ -1,0 +1,372 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// NeliX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Hunger system.
+
+
+
+/////////////////////////////PLAYER SET
+[FUNCTION f_alimentation]
+SERV.NEWITEM i_food_and_drink_sys_mem,1,<UID>
+TAG.COUNT_FOOD=0
+TAG.COUNT_DRINK=0
+FOOD=<DDEF0.SCP.MAXFOOD>
+TAG.DRINK=<DDEF0.SCP.MAXDRINK>
+RETURN 1
+
+/////////////////////////////PLAYER CAN VIEW HIS FOOD/DRINK LEVEL WITH THIS FUNCTION
+[FUNCTION food2]
+IF (<DDEF.SCP.HUNGER_ON_OFF>)
+	SYSMESSAGELOC -1,1042971,<DEF0.SCP.FOOD_<EVAL <FOOD>>> and <DEF0.SCP.DRINK_<DTAG0.DRINK>>
+	RETURN 1
+ENDIF
+
+/////////////////////////////FOOD TEST
+[function f_test_food]
+IF (<ISPLAYER>) && (<ISONLINE>) && (!<FLAGS>&statf_dead)
+	IF (<DTAG0.COUNT_FOOD> == <EVAL <DDEF0.SCP.MAXCOUNT_FOOD>-1>)
+		IF (<EVAL <FOOD>> == 1)
+			KILL
+			MESSAGE @32 You are starving and dead for this!
+			FOOD=4  ///FOOD VALUE IS RESTORED TO THIS
+			IF (<DTAG0.ANEMIA> > 0) || (<DTAG0.SCABIES> > 0)
+				IF (<DDEF0.SCP.MORE_ILLINESS>)
+					IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 50)	///WHEN PLAYER DIES THE CHANCE IS MORE THAN WHEN THE PLAYER HAVE FOOD <= 3
+						DORAND 2
+							BEGIN
+								IF (<DTAG0.ANEMIA> == 0)
+									ANEMIA
+								ENDIF
+							END	
+							BEGIN
+								IF (<DTAG0.SCABIES> == 0)
+									SCABIES
+								ENDIF
+							END
+						ENDDO
+					ENDIF
+				ENDIF
+			ELSE
+				IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 50)		///WHEN PLAYER DIES THE CHANCE IS MORE THAN WHEN THE PLAYER HAVE FOOD <= 3
+					DORAND 2
+						BEGIN
+							IF (<DTAG0.ANEMIA> == 0)
+								ANEMIA
+							ENDIF
+						END	
+						BEGIN
+							IF (<DTAG0.SCABIES> == 0)
+								SCABIES
+							ENDIF
+						END
+					ENDDO
+				ENDIF
+			ENDIF
+		ELSEIF (<EVAL <FOOD>> <= 5)
+			DAMAGE <DDEF0.SCP.DAMAGE_AMOUNT_FOOD>,dam_god
+			STAMINA -= <DDEF0.SCP.STAMINA_AMOUNT_FOOD>
+			IF (<DTAG0.ANEMIA> > 0) || (<DTAG0.SCABIES> > 0)
+				IF (<DDEF0.SCP.MORE_ILLINESS>)
+					IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 25)
+						DORAND 2
+							BEGIN
+								IF (<DTAG0.ANEMIA> == 0)
+									ANEMIA
+								ENDIF
+							END	
+							BEGIN
+								IF (<DTAG0.SCABIES> == 0)
+									SCABIES
+								ENDIF
+							END
+						ENDDO
+					ENDIF
+				ENDIF
+			ELSE
+				IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 25)
+					DORAND 2
+						BEGIN
+							IF (<DTAG0.ANEMIA> == 0)
+								ANEMIA
+							ENDIF
+						END	
+						BEGIN
+							IF (<DTAG0.SCABIES> == 0)
+								SCABIES
+							ENDIF
+						END
+					ENDDO
+				ENDIF
+			ENDIF
+			FOOD -= 1
+			SYSMESSAGELOC -1,1042971,You lost a point of food.
+			MESSAGE @32 You're hungry and lost some wellness for this!
+		ELSE
+			FOOD -= 1
+			SYSMESSAGELOC -1,1042971,You lost a point of food.
+		ENDIF	
+		TAG0.COUNT_FOOD=0
+	ELSE
+		TAG0.COUNT_FOOD += 1
+	ENDIF
+ENDIF
+
+/////////////////////////////DRINK TEST
+[FUNCTION f_test_drink]
+IF (<ISPLAYER>) && (<ISONLINE>) && (!<FLAGS>&statf_dead)
+	if (<DTAG0.COUNT_DRINK> == <EVAL <DDEF0.SCP.MAXCOUNT_DRINK>-1>)
+		IF (<DTAG0.DRINK> == 1)
+			KILL 
+			MESSAGE @32 You're VERY VERY thirsty and dead for this!
+			TAG0.DRINK=4 //Drink value is restored to this
+			IF (<DTAG0.ANEMIA> > 0) || (<DTAG0.SCABIES> > 0)
+				IF (<DDEF0.SCP.MORE_ILLINESS>)
+					IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 25) ///WHEN PLAYER DIES THE CHANCE IS MORE THAN WHEN THE PLAYER HAVE DRINK <= 3
+						DORAND 2
+							BEGIN
+								IF (<DTAG0.ANEMIA> == 0)
+									ANEMIA
+								ENDIF
+							END	
+							BEGIN
+								IF (<DTAG0.SCABIES> == 0)
+									SCABIES
+								ENDIF
+							END
+						ENDDO
+					ENDIF
+				ENDIF
+			ELSE
+				IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 25)
+					DORAND 2
+						BEGIN
+							IF (<DTAG0.ANEMIA> == 0)
+								ANEMIA
+							ENDIF
+						END	
+						BEGIN
+							IF (<DTAG0.SCABIES> == 0)
+								SCABIES
+							ENDIF
+						END
+					ENDDO
+				ENDIF
+			ENDIF
+		ELSEIF (<DTAG0.DRINK> <= 3)
+			DAMAGE <DDEF0.SCP.DAMAGE_AMOUNT_DRINK>,dam_god
+			STAMINA -= <DDEF0.SCP.STAMINA_AMOUNT_DRINK>
+			IF (<DTAG0.ANEMIA> > 0) || (<DTAG0.SCABIES> > 0)
+				IF (<DDEF0.SCP.MORE_ILLINESS>)
+					IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 15) ///WHEN PLAYER DIES THE CHANCE IS MORE THAN WHEN THE PLAYER HAVE DRINK <= 3
+						DORAND 2
+							BEGIN
+								IF (<DTAG0.ANEMIA> == 0)
+									ANEMIA
+								ENDIF
+							END	
+							BEGIN
+								IF (<DTAG0.SCABIES> == 0)
+									SCABIES
+								ENDIF
+							END
+						ENDDO
+					ENDIF
+				ENDIF
+			ELSE
+				IF (<EVAL <R<DDEF0.SCP.CHANCE_ILLINESS>>> < 15)
+					DORAND 2
+						BEGIN
+							IF (<DTAG0.ANEMIA> == 0)
+								ANEMIA
+							ENDIF
+						END	
+						BEGIN
+							IF (<DTAG0.SCABIES> == 0)
+								SCABIES
+							ENDIF
+						END
+					ENDDO
+				ENDIF
+			ENDIF
+			SYSMESSAGELOC -1,1042971,You lost a point of drink.
+			TAG0.DRINK -= 1
+			MESSAGE @32 You're thirsty and lost some wellness for this!
+		ELSE
+			SYSMESSAGELOC -1,1042971,You lost a point of drink.
+			TAG0.DRINK -= 1
+		ENDIF
+		TAG0.COUNT_DRINK=0
+	ELSE
+		TAG0.COUNT_DRINK += 1
+	ENDIF
+ENDIF
+
+/////////////////////////////INCREASES
+[FUNCTION food_increase]
+FOOD += 1
+SYSMESSAGELOC -1,1042971,<DEF0.SCP.FOOD_<EVAL <FOOD>>>
+RETURN 1
+
+[FUNCTION drink_increase]
+TAG0.DRINK += 1
+SYSMESSAGELOC -1,1042971,<DEF0.SCP.DRINK_<DTAG0.DRINK>>
+RETURN 1
+
+/////////////////////////////MEMORY
+[ITEMDEF i_food_and_drink_sys_mem]
+ID=i_memory
+TYPE=t_eq_script
+
+ON=@CREATE
+ATTR=attr_decay|attr_invis|attr_newbie
+TIMER=60
+
+ON=@TIMER
+IF (<DDEF0.SCP.HUNGER_ON_OFF>)
+	CONT.F_TEST_FOOD
+	CONT.F_TEST_DRINK
+	IF (<CONT.DTAG0.ANEMIA> > 0)
+		CONT.F_TEST_ANEMIA
+	ENDIF
+	IF (<CONT.DTAG0.SCABIES> > 0)
+		CONT.F_TEST_SCABIES
+	ENDIF
+	TIMER=60
+	RETURN 1
+ELSE
+	TIMER=-1
+	RETURN 1
+ENDIF
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////			////////////////////////////////////////
+///////////////////////////	ILLINESS	////////////////////////////////////////
+///////////////////////////			////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////SCABIES
+[FUNCTION scabies]
+TAG0.SCABIES=10
+SYSMESSAGELOC -1,1042971,You contracted an illiness.
+
+[FUNCTION scabies_cure] //CURE FOR SCABIES TO ADD SOME POTION OR SPELL
+TAG.SCABIES=
+EVENTS -e_scabies
+FLAGS &= ~statf_hallucinating
+
+[FUNCTION f_test_scabies]
+IF (<DTAG0.SCABIES> > 0) && (<ISONLINE>) && (!<FLAGS>&statf_dead)
+	IF (<DTAG0.SCABIES> == 1)
+		FLAGS |= statf_hallucinating
+		MESSAGE @32 <STREAT <DEF0.SCP.SCABIES_<DTAG0.SCABIES>>>
+		LOCAL.RANGE_MAL=<EVAL <STRARG <DEF0.SCP.SCABIES_<DTAG0.SCABIES>>>>
+		LOCAL.MAL_MANA=<EVAL <R<DLOCAL.RANGE_MAL>,<EVAL <LOCAL.RANGE_MAL>+4>>>
+		IF (<EVAL <MANA>-<LOCAL.MAL_MANA>> <= 0)
+			MANA=0
+		ELSE
+			MANA -= <DLOCAL.MAL_MANA>
+		ENDIF
+		EVENTS +e_scabies
+		TAG.SCABIES=
+		RETURN 1
+	ELSE
+		TAG0.SCABIES -= 1
+		MESSAGE @32 <STREAT <DEF0.SCP.SCABIES_<DTAG0.SCABIES>>
+		RETURN 1
+	ENDIF
+ENDIF
+
+[EVENTS e_scabies]
+ON=@SPELLSELECT
+IF (<DDEF.SCP.HUNGER_ON_OFF>)
+	SRC.CTAG.CAST=(RAND(1,9))
+	RETURN 0
+ENDIF
+
+ON=@SPELLCAST
+IF (<DDEF0.SCP.HUNGER_ON_OFF>)
+	IF (<DCTAG0.CAST>>==2)
+		SRC.SYSMESSAGELOC -1,1042971,You can't cast the spell!
+		SRC.CTAG.CAST=
+		RETURN 1
+	ELSEIF (<DCTAG0.CAST>>==4)
+		SRC.SYSMESSAGELOC -1,1042971,You can't cast the spell!
+		SRC.CTAG.CAST=
+		RETURN 1
+	ELSEIF (<DCTAG0.CAST>>==6)
+		SRC.SYSMESSAGELOC -1,1042971,You can't cast the spell!
+		SRC.CTAG.CAST=
+		RETURN 1
+	ELSEIF (<DCTAG0.CAST>>==8)
+		SRC.SYSMESSAGELOC -1,1042971,You can't cast the spell!
+		SRC.CTAG.CAST=
+		RETURN 1
+	ELSE
+		SRC.CTAG.CAST=
+		RETURN 0
+	ENDIF
+ENDIF
+
+
+/////////////////////////////ANEMIA
+[FUNCTION anemia]
+TAG0.ANEMIA=10
+SYSMESSAGELOC -1,1042971,You contracted an illiness.
+
+[FUNCTION f_test_anemia]
+IF (<DTAG0.ANEMIA> > 0) && (<ISONLINE>) && (!<FLAGS>&statf_dead)
+	IF (<DTAG0.ANEMIA> == 1)
+		MESSAGE @32 <STREAT <DEF0.SCP.ANEMIA_<DTAG0.ANEMIA>>>
+		LOCAL.RANGE_MAL=<EVAL <STRARG <DEF0.SCP.ANEMIA_<DTAG0.ANEMIA>>>>
+		LOCAL.MAL_STAM=<EVAL <R<DLOCAL.RANGE_MAL>,<EVAL <LOCAL.RANGE_MAL>*2>>>
+		IF (<EVAL <STAM>-<DLOCAL.MAL_STAM>> <= 0)
+			STAM=0
+		ELSE
+			STAM -= <DLOCAL.MAL_STAM>
+		ENDIF
+		EVENTS +e_anemia
+		TAG.ANEMIA=
+		RETURN 1
+	ELSE
+		TAG0.ANEMIA -= 1
+		MESSAGE @32 <STREAT <DEF0.SCP.ANEMIA_<DTAG0.ANEMIA>>>
+		RETURN 1
+	ENDIF
+ENDIF
+
+[EVENTS e_anemia]
+ON=@ITEMEQUIPTEST
+IF (<DDEF0.SCP.HUNGER_ON_OFF>)
+	LOCAL.CHANCE=<R1,10>
+	IF (<DLOCAL.CHANCE> == 2) || (<DLOCAL.CHANCE> == 4) || (<DLOCAL.CHANCE> == 6) || (<DLOCAL.CHANCE> == 8) || (<DLOCAL.CHANCE> == 10)
+		SRC.MESSAGE @32 You can't equip the item! You are weak!
+		RETURN 1
+	ENDIF
+ENDIF
+
+
+///////////////////FUNCTION TO RESET/ADD THE SYSTEM TO ALL PLAYERS
+[FUNCTION F_food_drink_reset_after_switch]
+FORCHARS 6144
+	IF (<ISPLAYER>)
+		IF (<FINDID.i_food_and_drink_sys_mem>)
+			FINDID.i_food_and_drink_sys_mem.TIMER=60
+		ELSE
+			F_ALIMENTATION
+		ENDIF
+	ENDIF
+ENDFOR
+[EOF]

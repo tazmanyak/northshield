@@ -1,0 +1,105 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Anarch Cassius - Original scripter of this
+// ShiryuX - Updated it and changed some code.
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Followers functions and support.
+
+// Transfer Function
+[function f_transfer_pet]
+ref12 = <args>
+if <argo.isevent.e_pet_donation>
+	src.sys_error Bunu transfer edemezsiniz.
+	return 1
+endif
+if <argo.uid> == <uid>
+sysmessage You can't transfer to yourself!
+return 1
+endif
+if <argo.findtype.t_eq_trade_window>
+sysmessage @,,2 1010507
+return 1
+endif
+argo.events +e_pet_transfer
+serv.newitem <serv.chardef.<ref12.baseid>.icon>
+new.attr = attr_move_never
+new.color = <ref12.color>
+new.link = <args>
+new.more1 = <argo.uid>
+new.type = t_trade_pet
+new.timerf 2,trigger @timer
+argo.trysrc <uid> TradeWindow <new>
+return 1
+endif
+
+[events e_pet_transfer]
+on=@tradeaccepted
+for <argn1>
+	if <ref<dlocal._for>.type> == t_trade_pet
+		if <def.scp.Followers> == 1
+		local.slots = <qval <ref<dlocal._for>.link.tag0.control.slots> ? <ref<dlocal._for>.link.tag0.control.slots> : 1>
+			if <eval <curfollower>+<local.slots>> > <maxfollower>
+			sysmessage You have too many followers.
+			return 1
+			endif
+		src.curfollower -= <local.slots>
+		curfollower += <local.slots>
+		endif
+	ref<dlocal._for>.link.memoryfindtype.memory_ipet.remove
+	ref<dlocal._for>.link.f_MakePetOf <uid>
+	ref<dlocal._for>.remove
+	endif
+endfor
+events -e_pet_transfer
+
+[typedef t_trade_pet]
+ON=@Click
+message <link.name>
+return 1
+
+ON=@ClientToolTip
+src.addcliloc 1062613,<link.name>
+
+ON=@Timer
+if <cont.type> == t_eq_trade_window
+timerf 2,trigger @Timer
+else
+uid.<more1>.events -e_pet_transfer
+remove
+endif
+return 1
+
+// Stable function
+[function f_stable_npc]
+if <argo.uid> == <src.uid>
+src.sysmessage You can't stable yourself.
+return 1
+endif
+if <argo.memoryfindtype.memory_ipet.link> == <src.uid>
+local.stablenpc = <argo.uid>
+src.curfollower -= <qval <argo.tag0.control.slots> ? <argo.tag0.control.slots> : 1>
+argo.shrink
+	foritems 10
+		if <type> == t_figurine
+			if <more2> == <local.stablenpc>
+			ref77 = <uid>
+			endif
+		endif
+	endfor
+	ref77.removefromview
+	ref77.tag0.master = <src.uid>
+	ref77.cont = <args>
+	argo.sysmessage You have saved your pet.
+endif
+
+[eof]

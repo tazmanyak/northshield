@@ -1,0 +1,42 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Traps for containers/chests/treasures
+// t_trap
+// TAG.Trap.Type = spell
+// TAG.Trap.Level = intensity
+
+[defname spherecommunitypack_traps]
+// spell
+scp.trap_1	"1001" // Dart
+scp.trap_2	"1002" // Poison
+scp.trap_3	"1003" // Explosion
+//scp.trap_4	"1004" // Magic
+
+[typedef t_trapped]
+on=@dclick
+local.req = <strarg <serv.spell.<tag.trap.type>.skillreq>>
+if <def.scp.RemoveTraps_PassiveUse> == 1
+	if <src.removetrap> >= <local.req>
+	local.diff = <eval ((<local.req> - <src.removetrap>) * 2) + 50.0>
+		if <r> < <local.diff>
+		tevents -t_trapped
+		return 0
+		endif
+	endif
+endif
+src.spelleffect <tag0.trap.type>,<tag0.trap.level>,1
+return 1
+
+[eof]

@@ -1,0 +1,275 @@
+
+
+
+[function stargate_setup]
+
+newitem i_paver_stone	//stargate platform
+new.p=<p>
+new.move sw 2
+newitem i_paver_stone
+new.p=<p>
+new.move sw 2
+new.move e
+newitem i_paver_stone
+new.p=<p>
+new.move s 2
+newitem i_paver_stone
+new.p=<p>
+new.move s 2
+new.move e
+newitem i_paver_stone
+new.p=<p>
+new.move se 2
+newitem i_paver_stone
+new.p=<p>
+new.move se 2
+new.move n
+newitem i_paver_stone
+new.p=<p>
+new.move e 2
+newitem i_paver_stone
+new.p=<p>
+new.move e 2
+new.move n
+newitem i_paver_stone
+new.p=<p>
+new.move ne 2
+newitem i_paver_stone
+new.p=<p>
+new.move ne 2
+new.move w
+newitem i_paver_stone
+new.p=<p>
+new.move n 2
+newitem i_paver_stone
+new.p=<p>
+new.move n 2
+new.move w
+newitem i_paver_stone
+new.p=<p>
+new.move nw 2
+newitem i_paver_stone
+new.p=<p>
+new.move nw 2
+new.move s
+newitem i_paver_stone
+new.p=<p>
+new.move w 2
+newitem i_paver_stone
+new.p=<p>
+new.move w 2
+new.move s
+newitem i_stairs_stone_2	//stargate pad and surrounding stairs
+new.p=<p>
+newitem i_paver_stone
+new.p=<p>
+new.nudgeup 5
+newitem 071f
+new.p=<p>
+new.move s
+newitem 074d
+new.p=<p>
+new.move sw
+newitem 074c
+new.p=<p>
+new.move ne
+newitem 074b
+new.p=<p>
+new.move se
+newitem 074a
+new.p=<p>
+new.move nw
+newitem 0749
+new.p=<p>
+new.move w
+newitem 0737
+new.p=<p>
+new.move n
+newitem 0736
+new.p=<p>
+new.move e
+newitem i_stairs_stone_2	//stargate arch
+new.p=<p>
+new.move s
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move s
+new.nudgeup 5
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move s
+new.nudgeup 10
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move s
+new.nudgeup 15
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move s
+new.nudgeup 20
+newitem 071f	
+new.p=<p>
+new.move s
+new.nudgeup 25
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move n
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move n
+new.nudgeup 5
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move n
+new.nudgeup 10
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move n
+new.nudgeup 15
+newitem i_stairs_stone_2	
+new.p=<p>
+new.move n
+new.nudgeup 20
+newitem 0737	
+new.p=<p>
+new.move n
+new.nudgeup 25
+newitem i_stairs_stone_2	
+new.p=<p>
+new.nudgeup 25
+
+foritems 3
+color <def0.stargate_color>
+endfor
+
+newitem i_brazier	//cosmetic additions
+new.p=<p>
+new.nudgeup 30
+newitem i_fire	
+new.flip
+new.p=<p>
+new.nudgeup 33
+newitem i_torch_wall_lit
+new.p=<p>
+new.move se
+new.nudgeup 20
+newitem i_torch_wall_lit
+new.p=<p>
+new.move ne
+new.nudgeup 20
+
+while !<local.sequence_selected>
+local.a=<eval {1 5}>	//pick the stargate sequence
+local.b=<eval {1 5}>
+local.c=<eval {1 5}>
+local.d=<eval {1 5}>
+local.e=<eval {1 5}>
+if !<valid_stargate_sequence <local.a><local.b><local.c><local.d><local.e>>
+local.sequence_selected=1
+endif
+endwhile
+
+newitem i_stargate_controller
+new.p=<p>
+new.move ne 2
+new.tag0.sequence=<local.a><local.b><local.c><local.d><local.e>
+new.tag0.symbol_1=<local.a>
+new.tag0.symbol_2=<local.b>
+new.tag0.symbol_3=<local.c>
+new.tag0.symbol_4=<local.d>
+new.tag0.symbol_5=<local.e>
+
+list.stargate_destinations.add <new.uid>
+
+newitem <def0.stargate_symbol_<dlocal.a>>	//add sequence runner to platform
+new.color=<def0.stargate_rune_color>
+new.flip
+new.p=<p>
+new.move sw 2
+new.nudgeup
+newitem <def0.stargate_symbol_<dlocal.b>>
+new.color=<def0.stargate_rune_color>
+new.flip
+new.p=<p>
+new.move sw 2
+new.move e
+new.nudgeup
+newitem <def0.stargate_symbol_<dlocal.c>>
+new.color=<def0.stargate_rune_color>
+new.flip
+new.p=<p>
+new.move sw 2
+new.move e 2
+new.nudgeup
+newitem <def0.stargate_symbol_<dlocal.d>>
+new.color=<def0.stargate_rune_color>
+new.flip
+new.p=<p>
+new.move sw 2
+new.move e 3
+new.nudgeup
+newitem <def0.stargate_symbol_<dlocal.e>>
+new.color=<def0.stargate_rune_color>
+new.flip
+new.p=<p>
+new.move sw 2
+new.move e 4
+new.nudgeup
+
+foritems 3	//make the items type 0 , non-movable , and name them all stargate
+attr=010
+name=Stargate
+events=+t_protected_item
+endfor
+
+[function stargate_remove]
+foritems 3
+events=-t_protected_item
+remove
+endfor
+
+[function valid_stargate_sequence]
+for 0 <eval <list.stargate_destinations.count> -1>
+ref1=<list.stargate_destinations.<dlocal._for>>
+if <ref1.tag0.sequence>==<args>
+return <ref1.uid>
+endif
+endfor
+
+[function open_stargate]
+ref1=<args>
+serv.newitem i_stargate
+new.morep <eval <ref1.p.x>-2>,<eval <ref1.p.y>+2>,<eval <ref1.z>+5>
+new.p=<p>
+new.move sw 2
+new.nudgeup 15
+new.update
+serv.newitem i_stargate
+new.morep <eval <ref1.p.x>-2>,<eval <ref1.p.y>+2>,<eval <ref1.z>+5>
+new.p=<p>
+new.move sw 2
+new.nudgeup 5
+new.update
+if !<def0.stargates_one_way>
+ref2=<new.uid>
+serv.newitem i_stargate
+new.morep=<ref2.p>
+new.p <ref2.morep>
+new.update
+serv.newitem i_stargate
+new.morep=<ref2.p>
+new.p <ref2.morep>
+new.nudgeup 10
+new.update
+endif
+serv.newitem i_stargate_summon_effect
+new.p=<p>
+new.move sw 2
+new.nudgeup 5
+new.update
+
+
+
+
+
+[eof]

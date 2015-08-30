@@ -1,0 +1,125 @@
+[CHARDEF 021]
+DEFNAME=c_lizardman
+NAME=lizard man
+ICON=i_pet_lizman
+SOUND=snd_monster_lzrdmn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=8,12
+ARMOR=25
+DESIRES=r_swamp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=50.3
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_LIZARDMAN
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Lizardmen
+DESCRIPTION=Lizardman
+ON=@Create
+   NAME=#NAMES_LIZARDMAN
+   TITLE=the lizard man
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   DEX={86 105}
+   INT={36 60}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={55.0 80.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={50.0 70.0}
+ON=@NPCRestock
+   ITEM=loot_lizardman
+   //50 - 75 Gold
+   //Special: Level 1 Treasure Map
+
+[CHARDEF 023]
+DEFNAME=c_lizardman_spear
+NAME=lizard man
+ICON=i_pet_lizman
+SOUND=snd_monster_lzrdmn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=8,12
+ARMOR=25
+DESIRES=r_swamp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=50.3
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_LIZARDMAN
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Lizardmen
+DESCRIPTION=Lizardman (Spear)
+ON=@Create
+   NAME=#NAMES_lizardman
+   TITLE=the lizard man
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   DEX={86 105}
+   MAXSTAM={86 105}
+   INT={36 60}
+   FENCING={50.0 70.0}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={55.0 80.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={50.0 70.0}
+
+ON=@NPCRestock
+   ITEM=loot_lizardman
+   ITEM=i_spear
+   //50 - 75 Gold
+   //Special: Level 1 Treasure Map
+
+[CHARDEF 024]
+DEFNAME=c_lizardman_mace
+NAME=lizard man
+ICON=i_pet_lizman
+SOUND=snd_monster_lzrdmn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=8,12
+ARMOR=25
+DESIRES=r_swamp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=50.3
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_LIZARDMAN
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Lizardmen
+DESCRIPTION=Lizardman (Mace)
+ON=@Create
+   NAME=#NAMES_lizardman
+   TITLE=the lizard man
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   DEX={86 105}
+   INT={36 60}
+   MAXMANA={36 60}
+   MACEFIGHTING={50.0 70.0}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={55.0 80.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={50.0 70.0}
+ON=@NPCRestock
+   ITEM=loot_lizardman
+   ITEM=i_mace
+   //50 - 75 Gold
+   //Special: Level 1 Treasure Map
+
+[EOF]

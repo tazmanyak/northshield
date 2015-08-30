@@ -1,0 +1,87 @@
+[defname def_blacksmith_iron_items]
+// total page
+blacksmith_iron_pagesum		9
+// platemail
+blacksmith_iron_0_1		i_platemail_leggings
+blacksmith_iron_1_1		i_platemail_chest
+blacksmith_iron_2_1		i_platemail_arms
+blacksmith_iron_3_1		i_platemail_helm
+blacksmith_iron_4_1		i_platemail_gorget
+blacksmith_iron_5_1		i_platemail_gloves
+blacksmith_iron_6_1		i_shield_heater
+blacksmith_iron_7_1		i_ringmail_gloves
+blacksmith_iron_8_1		i_ringmail_leggings
+blacksmith_iron_9_1		i_ringmail_sleeves
+blacksmith_iron_10_1		i_ringmail_tunic
+
+blacksmith_iron_11_1		i_chainmail_coif
+blacksmith_iron_12_1		i_chainmail_leggings
+blacksmith_iron_13_1		i_chainmail_tunic
+// swords
+blacksmith_iron_0_2		i_katana
+blacksmith_iron_1_2		i_scimitar
+blacksmith_iron_2_2		i_cutlass
+blacksmith_iron_3_2		i_bardiche
+blacksmith_iron_4_2		i_halberd
+blacksmith_iron_5_2		i_sword_long
+blacksmith_iron_6_2		i_sword_viking
+blacksmith_iron_7_2		i_axe
+blacksmith_iron_8_2		i_sword_broad
+blacksmith_iron_9_2		i_axe_battle
+blacksmith_iron_10_2	i_axe_two_hand
+blacksmith_iron_11_2	i_axe_exec
+blacksmith_iron_12_2	i_ornate_axe
+blacksmith_iron_13_2	i_axe_battle_large
+
+// fence
+blacksmith_iron_0_3		i_dagger
+blacksmith_iron_1_3		i_kryss
+blacksmith_iron_2_3		i_pitchfork
+blacksmith_iron_3_3		i_spear
+blacksmith_iron_4_3		i_spear_short
+blacksmith_iron_5_3		i_war_fork
+// mace
+blacksmith_iron_0_4		i_axe_war
+blacksmith_iron_1_4		i_hammer_pick
+blacksmith_iron_2_4		i_hammer_war
+blacksmith_iron_3_4		i_maul
+blacksmith_iron_4_4		i_mace
+blacksmith_iron_5_4		i_mace_war
+blacksmith_iron_6_4		i_hammer_smith
+	
+blacksmith_iron_0_5		i_shield_north	
+blacksmith_iron_1_5		i_bascinet
+blacksmith_iron_2_5		i_helm_closed
+blacksmith_iron_3_5		i_helm_open
+blacksmith_iron_4_5		i_helm_nose
+blacksmith_iron_5_5		i_platemail_helm
+
+blacksmith_iron_0_6		i_chainmail_hatsuburi
+blacksmith_iron_1_6		i_platemail_hatsuburi
+blacksmith_iron_2_6		i_plate_jingasa_heavy
+blacksmith_iron_3_6		i_plate_jingasa_light
+blacksmith_iron_4_6		i_plate_jingasa_small
+blacksmith_iron_5_6		i_platemail_kabuto_decorative
+blacksmith_iron_6_6		i_platemail_kabuto_battle
+blacksmith_iron_7_6		i_platemail_kabuto
+blacksmith_iron_8_6		i_circlet
+blacksmith_iron_9_6		i_circlet_royal
+blacksmith_iron_10_6	i_circlet_gemmed
+
+blacksmith_iron_0_7		i_platemail_mempo
+blacksmith_iron_1_7		i_platemail_do
+blacksmith_iron_2_7		i_platemail_hiro_sode
+blacksmith_iron_3_7		i_platemail_suneate
+blacksmith_iron_4_7		i_platemail_haidate
+
+blacksmith_iron_0_8		i_shield_buckler
+blacksmith_iron_1_8		i_shield_round_bronze
+blacksmith_iron_2_8		i_shield_kite_metal
+blacksmith_iron_3_8		i_shield_kite_wood
+blacksmith_iron_4_8		i_shield_round_metal
+blacksmith_iron_5_8		i_shield_order
+blacksmith_iron_6_8		i_shield_chaos
+
+blacksmith_iron_0_9		i_forge_elven
+
+[EOF]

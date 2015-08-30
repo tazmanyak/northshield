@@ -1,0 +1,298 @@
+﻿[typedef t_itemaktar_bushel]
+
+on=@click
+message @,,1 [Eşya Aktarım Kutusu]
+return 1
+
+on=@dclick
+if <color> !=07a1
+	color 07a1
+endif
+src.sys_normal Eşyalarınızı bushel içerisine aktarabilirsiniz. Aktarılan eşyalar tüm karakterleriniz tarafından görülebilecektir.
+
+
+[plevel 1]
+itemaktar
+
+[function itemaktar]
+src.sys_error Bankanızdaki Bushel içerisinde koyduğunuz itemlar tüm karakterleriniz tarafından görülebilir.
+src.sys_error Komut kullanımı kaldırılmıştır.
+return 1
+
+if <src.isevent.e_jailed>
+	src.sys_error Jailde iken yapamazsınız.
+	return 1
+endif
+src.transfer_new
+return 1
+if <argn> == 1
+	src.dialog d_char_list_bank
+	return 1
+endif
+if (<src.account.tag.pinkabul>==0)
+src.sms Giris yapmalisiniz..[ .Pin ]
+return 1
+endif
+dialogclose d_char_list
+dialog d_char_list
+
+[dialog d_char_list]
+230,130
+PAGE 0
+//resizepic 0 0 5120 310 280
+//resizepic 12 10 3000 290 260
+
+resizepic 0 0 9200 310 280
+gumppictiled 10 10 290 260 2624
+
+
+dtext 60 20 1153 <serv.name> Item Transfer Menusu
+dtext 25 50 1153 Hangi karaktere item aktarilacak?
+for 0 <eval <account.chars>-1>
+dtext 65 <eval (<dlocal._for>*30)+90> 025 <account.char.<dlocal._for>.name>
+endfor
+for 1 <eval <account.chars>>
+button 30 <eval (<dlocal._for>*30)+60> 4020 4022 1 0 <dlocal._for>
+endfor
+
+[dialog d_char_list button]
+on=0
+sysmessage @1153 Item aktarmaktan vazgectiniz..
+
+on=1 5
+if (<src.account.char.<eval <argn>-1>.uid> == <src.uid>)
+src.sysmessage @1153 Bagli oldugunuz karakterinize item yollayamazsiniz...
+return 1
+endif
+try ctag.<src.account.name><eval <argn>-1> <src.account.char.<eval <argn>-1>.uid>
+targetf item_at <eval <argn>-1>
+src.sysmessage @1153 hangi itemi aticaksiniz?
+
+
+[function item_at]
+ref1=<argo.uid>
+if !(<ref1.isitem>)
+src.sysmessage @1153 Sadece item yollayabilirsiniz...
+return 1
+endif
+if (<src.findlayer.29.uid> == <ref1.cont.uid>)
+ref1.cont <uid.<ctag.<account.name><argn>>.findlayer.29.uid>
+update
+src.sysmessage @1153 Tebrikler, <account.char.<argn>.name>'e <ref1.amount> adet <ref1.name> yolladiniz...
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Item_Transfer\<src.account.name>.txt <serv.rtime> - <src.name> - <account.char.<argn>.name>'e <ref1.amount> adet <ref1.name> yolladi. 
+else
+src.sysmessage @1153 Sadece bankanizdaki itemleri yollayabilirsiniz..
+return 1
+endif
+//------------------------------------
+
+[dialog d_char_list_bank]
+230,130
+PAGE 0
+//resizepic 0 0 5120 310 280
+//resizepic 12 10 3000 290 260
+
+resizepic 0 0 9200 310 280
+gumppictiled 10 10 290 260 2624
+
+
+dtext 60 20 1153 <serv.name> Item Transfer Menusu
+dtext 25 50 1153 Hangi karaktere item aktarilacak?
+for 0 <eval <account.chars>-1>
+dtext 65 <eval (<dlocal._for>*30)+90> 025 <account.char.<dlocal._for>.name>
+endfor
+for 1 <eval <account.chars>>
+button 30 <eval (<dlocal._for>*30)+60> 4020 4022 1 0 <dlocal._for>
+endfor
+
+[dialog d_char_list_bank button]
+on=0
+sysmessage @1153 Item aktarmaktan vazgectiniz..
+
+on=1 5
+if (<src.account.char.<eval <argn>-1>.uid> == <src.uid>)
+src.sysmessage @1153 Bagli oldugunuz karakterinize item yollayamazsiniz...
+return 1
+endif
+ref2 = <src.account.char.<eval <argn>-1>.uid>
+trysrc <uid> ref2.bank
+
+//targetf item_ac_bank <eval <argn>-1>
+src.sysmessage @1153 hangi itemi aticaksiniz?
+
+
+[function item_ac_bank]
+ref1=<argo.uid>
+if !(<ref1.isitem>)
+src.sysmessage @1153 Sadece item yollayabilirsiniz...
+return 1
+endif
+if (<src.findlayer.29.uid> == <ref1.cont.uid>)
+ref1.cont <uid.<ctag.<account.name><argn>>.findlayer.29.uid>
+update
+src.sysmessage @1153 Tebrikler, <account.char.<argn>.name>'e <ref1.amount> adet <ref1.name> yolladiniz...
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Item_Transfer\<src.account.name>.txt <serv.rtime> - <src.name> - <account.char.<argn>.name>'e <ref1.amount> adet <ref1.name> yolladi. 
+else
+src.sysmessage @1153 Sadece bankanizdaki itemleri yollayabilirsiniz..
+return 1
+endif
+
+
+//--------------------------------------------- Yeni Transfer ------------------------- //
+
+[DEFNAME Transfer_Buttons]
+TRANSFER_Send_Button 		"0FAB 0FAD"
+TRANSFER_Receive_Button		"0FAE 0FB0"
+TRANSFER_Natural_Button		"4005 4007"
+TRANSFER_Navigation_Button	"04B9 04BA"
+
+
+[function transfer_new]
+IF (<SRC.FLAGS> & statf_dead|statf_freeze|statf_war)
+  RETURN 1
+ELSE
+  CLEARCTAGS Transfer
+  DIALOGCLOSE d_transfer_send
+  DIALOGCLOSE d_transfer_end
+  SDIALOG d_transfer
+ENDIF
+
+[DIALOG d_transfer]
+0,0
+
+makebg 100,100,320,210
+dtext 190 80 1153 TNS Item Transfer
+DTEXT 125 120 0480 Esya aktarmak istediğiniz karakterinizi seciniz.
+DORIGIN 180 140
+FOR 0 <EVAL (<ACCOUNT.CHARS> -1)>
+ if !strmatch(*Bos Slot*,<ACCOUNT.CHAR.<dLOCAL._FOR>.name>)
+  DTEXT +15 *20 <QVAL (<ACCOUNT.CHAR.<dLOCAL._FOR>.UID> == <SRC>)? 38:040> <ACCOUNT.CHAR.<dLOCAL._FOR>.NAME>
+  IF (<ACCOUNT.CHAR.<dLOCAL._FOR>.UID> != <SRC>)
+    BUTTON -55 *0 <DEF.TRANSFER_Send_Button> 1 0 <EVAL (<LOCAL._FOR> + 1)>
+    BUTTON -25 *0 <DEF.TRANSFER_Receive_Button> 1 0 <EVAL (<LOCAL._FOR> + 6)>
+  ENDIF
+  endif
+ENDFOR
+
+[DIALOG d_transfer BUTTON]
+ON = 1 5
+SRC.CTAG.Transfer_Char = <ACCOUNT.CHAR.<EVAL (<ARGN> -1)>.UID>
+SRC.CTAG.Transfer_Length = 0
+SRC.CTAG.Transfer_Pack = <SRC.FINDLAYER(Layer_BankBox)>
+SDIALOG d_transfer_send
+
+ON = 6 10
+REF1 = <ACCOUNT.CHAR.<EVAL (<ARGN> - 6)>.UID>
+SRC.CTAG.Transfer_Char = <SRC>
+SRC.CTAG.Transfer_Length = 0
+SRC.CTAG.Transfer_Pack = <REF1.FINDLAYER(Layer_BankBox)>
+SDIALOG d_transfer_send
+
+[DIALOG d_transfer_send]
+0,0
+
+makebg 100,100,300,300
+dtext 185 80 1153 TNS Item Transfer
+BUTTON 365 363 9903 9905 1 0 20001
+BUTTON 115 363 9909 9911 1 0 20002
+DORIGIN 190 100
+REF2 = <SRC.CTAG.Transfer_Pack>
+FOR <SRC.dCTAG0.Transfer_Length> <EVAL (<SRC.CTAG0.Transfer_Length> + 11)>
+  IF (<REF2.FINDCONT.<dLOCAL._FOR>>)
+    REF3 = <REF2.FINDCONT.<dLOCAL._FOR>>
+    IF (<REF3.ISWEAPON>) && (<REF3.MOREY> > 0)
+      DTEXT -10 *20 1153 <REF3.NAME> (<REF3.giveitemmorey>)
+    ELSE
+      DTEXT -10 *20 1153 <QVAL (<REF3.AMOUNT> < 2) ? :<REF3.AMOUNT>> <REF3.NAME>
+    ENDIF
+    BUTTON -45 *0 <DEF.TRANSFER_Natural_Button> 1 0 <EVAL (<LOCAL._FOR> + 1)>
+    IF (<REF3.TYPE> == t_container)
+      IF (<REF3.RESCOUNT> > 0)
+        BUTTON -65 +5 <DEF.TRANSFER_Navigation_Button> 1 0 <EVAL (<LOCAL._FOR> + 10000)>
+      ENDIF
+    ENDIF
+  ENDIF
+ENDFOR
+
+[DIALOG d_transfer_send BUTTON]
+ON = 0
+CLEARCTAGS Transfer
+
+ON = 1 9999
+REF66 = <SRC.CTAG.Transfer_Pack>
+SRC.CTAG.Transfer_SendItem <REF66.FINDCONT.<EVAL (<ARGN> - 1)>.UID>
+SRC.DIALOGCLOSE d_transfer_end
+SDIALOG d_transfer_end
+
+ON = 10000 20000
+REF77 = <SRC.CTAG.Transfer_Pack>
+SRC.CTAG.Transfer_Pack = <REF77.FINDCONT.<EVAL (<ARGN> - 10000)>.UID>
+SRC.CTAG.Transfer_Length 0
+SDIALOG d_transfer_send
+
+ON = 20001
+SRC.CTAG0.Transfer_Length +=12
+SDIALOG d_transfer_send
+
+ON = 20002
+IF (<SRC.dCTAG0.Transfer_Length> > 0)
+  SRC.CTAG.Transfer_Length -=12
+ENDIF
+SDIALOG d_transfer_send
+  
+[DIALOG d_transfer_end]
+0,0
+
+makebg 100,100,340,200
+dtext 205 80 1153 TNS Item Transfer
+IF (<SRC.CTAG0.Transfer_Char>)
+  REF1 = <SRC.CTAG.Transfer_Char>
+ELSE
+  REF1 = <SRC>
+ENDIF
+REF2 = <SRC.CTAG0.Transfer_SendItem>
+DHTMLGUMP 125 125 310 40 0 0 <def.bfont_white>Bu esyayı "<REF1.NAME>" isimli karakterinize aktarmak istediğinize emin misiniz?
+RESIZEPIC 120 175 2620 65 65
+TILEPICHUE 125 185 <REF2.DISPIDDEC> <EVAL <REF2.COLOR>>
+DTEXT 200 185 040 Esya:
+IF (<REF2.ISWEAPON>) && (<REF2.MOREY> > 0)
+  DTEXT 240 185 0480 <REF2.NAME> (<REF2.giveitemmorey>)
+ELSE
+  DTEXT 240 185 0480 <REF2.NAME>
+ENDIF
+DTEXT 200 205 040 Adet: 
+DTEXT 240 205 0480 <QVAL (<REF2.AMOUNT> < 2) ? -:<REF2.AMOUNT>>
+BUTTON 125 250 <DEF.TRANSFER_Natural_Button> 1 0 1
+DTEXT 160 250 1153 Gonder (Transfer Tutarı: 500 gp.)
+
+[DIALOG d_transfer_end BUTTON]
+ON = 0
+CLEARCTAGS Transfer
+
+ON = 1
+REF1 = <SRC.CTAG0.Transfer_Char>
+REF2 = <SRC.CTAG0.Transfer_SendItem>
+ if <ref2.isevent.t_cantalar_bankada>
+		src.sys_error Yaptığınız hataya teşkil etkmektedir. Uyarılmadan hesabınız kapatılır. Hama sömürme denemesi +1 olarak kaydedildi.
+		return 1
+	endif
+IF !((<REF1>) || (<REF2>))
+  SRC.SYS_ERROR Teknik bir hata olustu.
+ELSE
+  IF (<SRC.GOLD> < 500)
+    SRC.SYS_ERROR Transfer icin yeterli altınınız bulunmuyor. (500 gp.)
+  ELSE
+    
+    SRC.GOLD -=500
+    REF2.CONT = <REF1.FINDLAYER(Layer_BankBox)>
+    REF2.Update
+    SRC.Update
+    SRC.SYS_NORMAL <REF2.NAME> isimli esyanızı, <REF1.NAME> isimli karakterinize aktardınız.
+    SERV.LOG ## ITEM TRANSFER
+    SERV.LOG /* char: <REF1.NAME>/<REF1>, item: <REF2.NAME>/<REF2>
+    SERV.LOG ##
+  ENDIF
+ENDIF
+CLEARCTAGS Transfer
+
+[EOF]

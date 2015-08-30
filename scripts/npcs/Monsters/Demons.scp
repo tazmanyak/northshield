@@ -1,0 +1,1020 @@
+
+[function f_sil_plat]
+forchars 65000
+	if (<id> == c_dragon_stygian_red)
+		remove
+	endif
+endfor
+
+
+
+[CHARDEF 01024]
+DEFNAME=c_m_kraken
+NAME=Kraken
+ID=c_CORPSER
+SOUND=snd_MONSTER_CORPSR1
+ICON=i_pet_CORPSER
+DAM=20,47
+ARMOR=35
+RESOURCES=10 t_eerie_stuff
+
+//ALIGNMENT=CHAOTIC
+CAN=MT_WALK|MT_SWIM
+FOODTYPE=24 t_meat_raw
+AVERSIONS=r_civilization
+
+
+ON=@Create
+COLOR=01e9
+STR={755 780}
+DEX={80 90}
+INT={26 40}
+
+PARRYING={15.0 25.0}
+MAGICRESISTANCE={15.0 20.0}
+TACTICS={35.0 55.0}
+WRESTLING={50.0 70.0}
+HIDING=75.0
+
+NPC=brain_monster
+
+FAME={4000 6000}
+KARMA={-5000 -5999}
+
+ITEM=loot_KRAKEN
+
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Kraken
+
+[chardef c_demon_poly]
+id 0a
+NAME=daemon
+ICON=i_pet_demon
+//SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS
+dam 10
+
+ON=@Create
+   NAME=#NAMES_DEMON
+   TITLE=the minor demon knight
+   COLOR=colors_demon
+   NPC=brain_monster
+   
+[CHARDEF 0a]
+DEFNAME=c_demon
+NAME=daemon
+ICON=i_pet_demon
+//SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS
+DAM=11,39
+ARMOR=45
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw,2 i_reag_daemon_bone
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=89.8
+TAG.Control.Slots=4
+TAG.Luck.Loot=loot_daemon_luck
+TAG.Slayer=SLAYER_DEMON
+//TSPEECH=spk_demon
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Daemon
+ON=@Create
+   NAME=#NAMES_DEMON
+   TITLE=the minor demon knight
+   COLOR=colors_demon
+   NPC=brain_monster
+   FAME=1000
+   KARMA=-10000
+   STR={475 505}
+   MAXHITS={285 305}
+   DEX={75 95}
+   MAXSTAM={75 95}
+   INT={300 325}
+   MAXMANA={300 325}
+   EVALUATINGINTEL={70.0 80.0}
+   MAGERY={70.0 80.0}
+   MAGICRESISTANCE={85.0 95.0}
+   MEDITATION={90.0 100.0}
+   SWORDSMANSHIP={60.0 80.0}
+   TACTICS={70.0 80.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 15}
+   RESCOLD={30 40}
+   RESENERGY={30 40}
+   RESFIRE={50 60}
+   RESPOISON={20 30}
+
+ON=@NPCRestock
+   ITEM=loot_demon
+   // 550 - 650 Gold. 2 Medium Level Scrolls, Magic Items
+   //Special: Level 4 Treasure Maps
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+[CHARDEF 026]
+//FIXME: No Stratics data yet
+DEFNAME=c_demon_blackgate
+NAME=black gate daemon
+ICON=i_pet_demon_blackgate
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=133,149
+ARMOR=60
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_reag_daemon_bone
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=114.5
+TAG.DamCold=25
+TAG.DamEnergy=25
+TAG.DamFire=25
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+//TSPEECH=spk_demon
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Demon (dark)
+ON=@Create
+   NPC=brain_monster
+   NAME=#NAMES_DEMON
+   TITLE=the black gate daemon
+   FAME=10000
+   KARMA=-10000
+   STR={690 900}
+   MAXHITS={4000 4999}
+   DEX={150 180}
+   MAXSTAM={150 180}
+   INT={140 150}
+   MAXMANA={140 150}
+   EVALUATINGINTEL={90.0 100.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={90.0 100.0}
+   MEDITATION={90.0 100.0}
+   PARRYING={90.0 100.0}
+   TACTICS={99.0 100.0}
+   WRESTLING={98.0 99.0}
+   MODAR={0 20}
+   RESCOLD={20 30}
+   RESENERGY={40 50}
+   RESFIRE={50 60}
+   RESPOISON={70 80}
+ON=@NPCRestock
+   ITEM=loot_demon
+
+[CHARDEF 066]
+//FIXME: No Stratics data yet
+//FIXME: cannot be provoked
+DEFNAME=c_demon_exodus
+NAME=exodus demon
+ICON=i_pet_demon
+SOUND=snd_exodus1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP|MT_GHOST//|MT_PASSWALLS
+DAM=121,140
+RANGE=3
+ARMOR=75
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+//AVERSIONS=
+FOODTYPE=50 t_meat_raw
+RESOURCES=5 i_ribs_raw,3 i_reag_daemon_bone
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=154.5
+TAG.DamCold=20
+TAG.DamEnergy=20
+TAG.DamFire=20
+TAG.DamPoison=20
+TAG.HitPoison=5//Lethal
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Demon (Exodus)
+RESLEVEL=2
+RESDISPDNID=c_demon
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_dragon
+   FAME=24000
+   KARMA=-24000
+   STR={1550 1890}
+   MAXHITS={9000 9999}
+   DEX={210 230}
+   MAXSTAM={210 230}
+   INT={250 390}
+   MAXMANA={250 390}
+   ARCHERY={100.0 125.0}
+   DETECTINGHIDDEN={90.0 100.0}
+   EVALUATINGINTEL={100.0 125.0}
+   FENCING={100.0 125.0}
+   HIDING={100.0 125.0}
+   MACEFIGHTING={100.0 125.0}
+   MAGERY={100.0 125.0}
+   MAGICRESISTANCE={100.0 125.0}
+   MEDITATION={100.0 125.0}
+   PARRYING={100.0 125.0}
+   //POISONING={100.0 125.0}
+   STEALTH={100.0 125.0}
+   SWORDSMANSHIP={100.0 125.0}
+   TACTICS={100.0 125.0}
+   WRESTLING={100.0 125.0}
+   MODAR={0 15}
+   RESCOLD={60 70}
+   RESENERGY={60 70}
+   RESFIRE={60 70}
+   RESPOISON={60 70}
+ON=@NpcRestock
+//   ITEM=loot_balron
+
+[CHARDEF 095]
+DEFNAME=c_succubus
+NAME=succubus
+ICON=i_pet_demon_2//FIXME: no succubus icon?
+SOUND=snd_succubus1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP|MT_FEMALE
+DAM=57,94
+ARMOR=80
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw,2 i_reag_daemon_bone
+BLOODCOLOR=colors_white
+MOVERATE=130
+TAG.Barding.Diff=107.2
+TAG.DamEnergy=25
+TAG.Luck.Loot=loot_succubus_luck
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Succubus
+ON=@Create
+   NPC=brain_monster
+   FAME=24000
+   KARMA=-24000
+   STR={488 620}
+   MAXHITS={312 353}
+   DEX={121 170}
+   MAXSTAM={121 170}
+   INT={128 157}
+   MAXMANA={498 657}
+   EVALUATINGINTEL={90.0 100.0}
+   MAGERY={99.0 100.0}
+   MAGICRESISTANCE={100.0 150.0}
+   MEDITATION={90.0 100.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={50 60}
+   RESFIRE={70 80}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   ITEM=loot_succubus
+   //1000 - 1200 Gold. 2 Medium Level Scrolls, Magic Items
+   //Special: Level 5 Treasure Map
+ON=@GetHit
+   //Life Drain Aura Attack
+   IF (RAND(3)==0)
+      REF11=<UID>
+      FORCHARS 3
+         IF (<ISPLAYER>) || (<FLAGS>&statf_pet)
+            LOCAL.DAM=<R10,20>
+            DAMAGE <LOCAL.DAM> <DEF.dam_physical> <REF11>
+            REF11.HITS += <LOCAL.DAM>
+            IF (<REF11.HITS> > <REF11.MAXHITS>)
+               REF11.HITS=<REF11.MAXHITS>
+            ENDIF
+            SRC.SYSMESSAGELOC 1070848//"You feel your life force being stolen away!"
+         ENDIF
+      END
+      REF11=
+   ENDIF
+
+[CHARDEF 0f1]
+DEFNAME=c_oni
+NAME=oni
+ICON=i_pet_oni
+SOUND=snd_monster_oni
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=57,99
+ARMOR=65
+DESIRES=r_desert,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=106.5
+TAG.DamEnergy=20
+TAG.DamFire=10
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Oni
+RESLEVEL=3
+RESDISPDNID=c_man
+RESDISPDNHUE=55
+ON=@Create
+   NPC=brain_monster
+   FAME=12000
+   KARMA=-12000
+   STR={800 905}
+   MAXHITS={400 530}
+   DEX={150 200}
+   MAXSTAM={150 200}
+   INT={170 200}
+   MAXMANA={170 200}
+   ANATOMY={85.0 95.0}
+   EVALUATINGINTEL={100.0 125.0}
+   MAGERY={96.0 106.0}
+   MAGICRESISTANCE={85.0 100.0}
+   MEDITATION={27.0 43.0}
+   TACTICS={85.0 100.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 15}
+   RESCOLD={35 50}
+   RESENERGY={45 65}
+   RESFIRE={50 70}
+   RESPOISON={45 70}
+ON=@NpcRestock
+   ITEM=loot_oni
+   //1600 - 1850 Gold. Magic Items, Random Items
+   //Special: Level 4 Treasure Map, Bonsai Seed
+ON=@Hit
+   //Angry Fire Attack
+   IF (RAND(5)==1) && (<MANA> > 20)
+      MANA -= 20
+      SRC.SYSMESSAGELOC color_text,1070823//"The creature hits you with its Angry Fire."
+      SRC.SPELLEFFECT s_explosion,<MAGERY>,0,<UID>
+      SRC.EFFECT 3,i_fx_explode,1,16,0
+      SRC.SOUND snd_spell_explosion
+   ENDIF
+
+[CHARDEF 0f7]
+//FIXME: Lowers Fire Resistance.
+//FIXME: Reflects Damage.
+DEFNAME=c_fan_dancer
+NAME=fan dancer
+ICON=i_pet_fandancer
+//SOUND=FIXME
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=24,44
+ARMOR=40
+DESIRES=r_ruins,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=30 t_food,t_drink
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=97.0
+TAG.Slayer=SLAYER_DEMON
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Fan Dancer
+RESLEVEL=3
+RESDISPDNID=c_woman
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=8900
+   KARMA=-8900
+   STR={315 375}
+   MAXHITS={350 420}
+   DEX={100 155}
+   MAXSTAM={100 155}
+   INT={80 95}
+   MAXMANA={80 95}
+   ANATOMY={85.0 95.0}
+   FENCING={85.0 95.0}
+   MAGICRESISTANCE={100.0 110.0}
+   TACTICS={85.0 95.0}
+   WRESTLING={85.0 95.0}
+   MODAR={0 20}
+   RESCOLD={50 70}
+   RESENERGY={40 60}
+   RESFIRE={50 70}
+   RESPOISON={50 70}
+ON=@NpcRestock
+   ITEM=loot_fan_dancer
+   //700 - 1000 Gold. Magic Items, Tessen, 2 Gems
+   //Special: Bonsai Seed, Origami Paper, level 3 treasure map
+ON=@GetHit
+   //Thrown Weapon Attack (tessen)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+      SRC.TARG.EFFECT 0,i_tessen,2,1
+      IF (RAND(5)==0)
+         SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+      ENDIF
+   ENDIF
+
+[CHARDEF 0fa]
+//FIXME: Rage Attack
+DEFNAME=c_tsuki_wolf
+NAME=tsuki wolf
+ICON=i_pet_wolf_tsuki
+SOUND=snd_monster_tsuki_wolf
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=48,73
+ARMOR=40
+DESIRES=r_forests,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=25 i_hide,4 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=130
+TAG.Barding.Diff=87.4
+TAG.DamCold=5
+TAG.DamEnergy=5
+TAG.Slayer=SLAYER_DEMON//FIXME: Needs SLAYER_WOLF as well
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Tsuki Wolf
+RESLEVEL=3
+RESDISPDNID=c_dog
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=8500
+   KARMA=-8500
+   STR={400 450}
+   MAXHITS={380 440}
+   DEX={150 200}
+   MAXSTAM={150 200}
+   INT={65 75}
+   MAXMANA={65 75}
+   ANATOMY={65.0 75.0}
+   MAGICRESISTANCE={65.0 70.0}
+   TACTICS={95.0 110.0}
+   WRESTLING={98.0 108.0}
+   MODAR={0 20}
+   RESCOLD={50 70}
+   RESENERGY={50 70}
+   RESFIRE={50 70}
+   RESPOISON={50 70}
+ON=@NpcRestock
+   ITEM=loot_tsuki_wolf
+   //900 - 1200 Gold. Magic Items, Body Parts, Bones, Armor
+   //Special: Fragrant Seed, Peculiar Seed, level 3 Treasure Map
+
+[CHARDEF 012f]
+DEFNAME=c_devourer_souls
+NAME=devourer of souls
+ICON=i_pet_devourer_souls
+SOUND=snd_monster_zombie1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=89,114
+ARMOR=45
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_reag_daemon_bone
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=114.3
+TAG.DamCold=20
+TAG.DamEnergy=20
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Devourer of Souls
+RESLEVEL=3
+RESDISPDNID=c_skeleton
+RESDISPDNHUE=55
+ON=@Create
+   NPC=brain_monster
+   FAME=9500
+   KARMA=-9500
+   STR={801 950}
+   MAXHITS={645 655}
+   DEX={126 175}
+   MAXSTAM={126 175}
+   INT={201 250}
+   MAXMANA={201 250}
+   ANATOMY={45.0 55.0}
+   EVALUATINGINTEL={90.0 100.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={90.0 105.0}
+   MEDITATION={90.0 100.0}
+   TACTICS={75.0 85.0}
+   WRESTLING={80.0 100.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={40 50}
+   RESFIRE={25 35}
+   RESPOISON={60 70}
+ON=@NpcRestock
+   ITEM=loot_devourer_of_souls
+   //1000 - 1200 Gold. 30-60 Necromancy Reagents, Magic Items
+   //Special: 10-20 Daemon Bone, Level 4 Treasure Map
+ON=@Hit
+   //Dismount Attack
+   IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+      MANA -= 20
+      SRC.DISMOUNT
+      SRC.EMOTE knocked off mount!
+      SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+   ENDIF
+   //Poison Spell Attack
+   IF ( (<MANA> >= 18) && (RAND(5)==0) && !(<SRC.FLAGS>&statf_poisoned) )
+      MANA -= 18
+      SRC.SPELLEFFECT s_poison,<MAGERY>,1,<UID>
+      SRC.EFFECT 3,i_fx_sparkle,1,16,0,044
+      SRC.SOUND snd_spell_poison
+   ENDIF
+
+[CHARDEF 0133]
+DEFNAME=c_gibberling
+NAME=gibberling
+ICON=i_pet_gibberling
+SOUND=snd_monster_harpy1
+CAN=MT_WALK|MT_USEHANDS
+DAM=25,34
+ARMOR=45
+DESIRES=t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=40 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=58.7
+TAG.DamEnergy=60
+TAG.DamFire=40
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Gibberling
+RESLEVEL=3
+RESDISPDNID=c_headless
+RESDISPDNHUE=55
+ON=@Create
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={141 165}
+   MAXHITS={85 100}
+   DEX={101 125}
+   MAXSTAM={101 125}
+   INT={56 80}
+   MAXMANA={56 80}
+   ANATOMY={15.0 25.0}
+   MAGICRESISTANCE={45.0 70.0}
+   TACTICS={67.0 92.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD={25 35}
+   RESENERGY={30 40}
+   RESFIRE={25 35}
+   RESPOISON={10 20}
+ON=@NpcRestock
+   ITEM=loot_gibberling
+   //50 - 100 Gold.
+ON=@Hit
+   //Dismount Attack
+   IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+      MANA -= 20
+      SRC.DISMOUNT
+      SRC.EMOTE knocked off mount!
+      SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+   ENDIF
+
+[CHARDEF 013a]
+DEFNAME=c_ravager
+NAME=ravager
+ICON=i_pet_ravager
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=37,49
+ARMOR=50
+DESIRES=t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_reag_blood_vial
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=62.8
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Ravager
+RESLEVEL=3
+RESDISPDNID=c_headless
+RESDISPDNHUE=80
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={251 275}
+   MAXHITS={161 175}
+   DEX={101 125}
+   MAXSTAM={101 125}
+   INT={66 90}
+   MAXMANA={66 90}
+   ARCHERY={70.0 90.0}
+   FENCING={70.0 90.0}
+   MACEFIGHTING={70.0 90.0}
+   MAGICRESISTANCE={50.0 75.0}
+   PARRYING={75.0 100.0}
+   SWORDSMANSHIP={70.0 90.0}
+   TACTICS={75.0 100.0}
+   WRESTLING={70.0 90.0}
+   MODAR={0 10}
+   RESCOLD={60 70}
+   RESENERGY={20 30}
+   RESFIRE={50 60}
+   RESPOISON={30 40}
+ON=@NpcRestock
+   ITEM=loot_ravager
+   //275 - 325 Gold.
+   //Special: Level 4 treasure map
+ON=@Hit
+   //Crushing Blow Attack
+   IF (<MANA> >= 25)
+      MANA -= 25
+      ARGN1 = <ARGN1> + <ARGN1> / 2  //adds 50% damage
+      ARGN2 = <DEF.dam_physical>
+   ENDIF
+ON=@GetHit
+   //Thrown Weapon Attack (arms)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+      SRC.TARG.EFFECT 0,random_body_parts_1,2,1
+      IF (RAND(5)==0)
+         SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+      ENDIF
+   ENDIF
+
+[CHARDEF 02d1]
+//FIXME: Incomplete Stratics data
+DEFNAME=c_maddening_horror
+NAME=maddening horror
+ICON=i_pet_maddening_horror
+SOUND=snd_monster_maddening_horror
+DAM=15,27
+ARMOR=50
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=137.1
+TAG.DamCold=40
+TAG.DamEnergy=40
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Maddening Horror
+ON=@Create
+   NPC=brain_monster
+   FAME=23000
+   KARMA=-23000
+   STR={220 250}
+   MAXHITS={500 550}
+   DEX={90 100}
+   MAXSTAM={90 100}
+   INT={850 900}
+   MAXMANA={850 900}
+   ANATOMY={40.0 50.0}
+   EVALUATINGINTEL={120.0 130.0}
+   MAGERY={120.0 130.0}
+   NECROMANCY={120.0 130.0}
+   MAGICRESISTANCE={175.0 200.0}
+   MEDITATION={100.0 125.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={85.0 95.0}
+   MODAR={0 10}
+   RESCOLD={50 60}
+   RESENERGY={55 65}
+   RESFIRE={25 35}
+   RESPOISON={40 50}
+ON=@NpcRestock
+   ITEM=loot_maddening_horror
+
+[CHARDEF 0308]
+DEFNAME=c_horde_minion
+NAME=horde minion
+ICON=i_pet_demon_horde
+SOUND=snd_monster_headls1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=6,11
+ARMOR=15
+DESIRES=r_forests,t_coin,t_gold,t_potion
+AVERSIONS=r_civilization,e_carnivores2,e_carnivores3
+FOODTYPE=20 t_meat_raw
+RESOURCES=1 i_reag_daemon_bone
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=27.3
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Horde Minion (small)
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=500
+   KARMA=-500
+   STR={16 40}
+   MAXHITS={10 24}
+   DEX={31 60}
+   MAXSTAM={31 60}
+   INT={11 25}
+   MAXMANA={11 25}
+   MAGICRESISTANCE={5.0 15.0}
+   TACTICS={0.0 15.0}
+   WRESTLING={25.0 40.0}
+   MODAR={0 5}
+   RESCOLD=0
+   RESENERGY=0
+   RESFIRE={5 10}
+   RESPOISON=0
+ON=@NpcRestock
+   ITEM=loot_horde_minion
+   //Body Parts, Bones
+
+[CHARDEF 0310]
+DEFNAME=c_demon_arcane
+NAME=arcane demon
+ICON=i_pet_demon_arcane
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=23,31
+ARMOR=50
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=55 t_meat_raw
+RESOURCES=1 i_reag_blood_vial
+BLOODCOLOR=colors_blood
+MOVERATE=110
+TAG.Barding.Diff=88.0
+TAG.DamFire=20
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Arcane Demon
+ON=@Create
+   NPC=brain_monster
+   FAME=7000
+   KARMA=-10000
+   STR={131 150}
+   MAXHITS={101 115}
+   DEX={126 145}
+   MAXSTAM={126 145}
+   INT={101 150}
+   MAXMANA={301 350}
+   ANATOMY={20.0 25.0}
+   EVALUATINGINTEL={70.0 80.0}
+   MAGERY={80.0 90.0}
+   MAGICRESISTANCE={85.0 95.0}
+   MEDITATION={70.0 80.0}
+   PARRYING={70.0 80.0}
+   TACTICS={70.0 80.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD={10 20}
+   RESENERGY={30 40}
+   RESFIRE={70 80}
+   RESPOISON={50 60}
+ON=@NpcRestock
+   ITEM=loot_demon_arcane
+   //250 - 300 Gold.
+
+[CHARDEF 0311]
+DEFNAME=c_demon_moloch
+NAME=moloch
+ICON=i_pet_demon_moloch
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=41,61
+ARMOR=60
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=55 t_meat_raw
+RESOURCES=1 i_reag_blood_vial
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=72.5
+TAG.Luck.Loot=loot_moloch_luck
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Moloch Demon
+ON=@Create
+   NPC=brain_monster
+   FAME=7500
+   KARMA=-7500
+   STR={331 360}
+   MAXHITS={171 200}
+   DEX={66 85}
+   MAXSTAM={66 85}
+   INT={41 64}
+   MAXMANA={41 64}
+   ANATOMY={15.0 20.0}
+   MAGICRESISTANCE={65.0 75.0}
+   PARRYING={75.0 90.0}
+   TACTICS={75.0 90.0}
+   WRESTLING={70.0 90.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={20 30}
+   RESFIRE={60 70}
+   RESPOISON={20 30}
+ON=@NpcRestock
+   ITEM=loot_demon_moloch
+   //300 - 350 Gold.
+ON=@Hit
+   //Whirlwind Attack
+   IF (<MANA> >= 15)
+      MANA -= 15
+      REF11=<UID>
+      FORCHARS 2
+         FORCHARMEMORYTYPE MEMORY_FIGHT
+            IF (<LINK>==<REF11>) && !(<SRC>==<CONT.UID>) && (<CONT.ISPLAYER>)
+               CONT.DAMAGE <ARGN1>/2 <ARGN2> <REF11>
+            ENDIF
+         ENDFOR
+      ENDFOR
+   ENDIF
+
+[CHARDEF 0318]
+DEFNAME=c_demon_chaos
+NAME=chaos demon
+ICON=i_pet_demon_chaos
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=22,32
+ARMOR=50
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=50 t_meat_raw
+RESOURCES=1 i_ribs_raw,1 i_reag_blood_vial
+BLOODCOLOR=colors_blood
+MOVERATE=130
+TAG.Barding.Diff=71.5
+TAG.DamFire=15
+TAG.Luck.Loot=loot_chaos_daemon_luck
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Chaos Demon
+ON=@Create
+   NPC=brain_monster
+   FAME=3000
+   KARMA=-4000
+   STR={106 130}
+   MAXHITS={91 110}
+   DEX={170 200}
+   MAXSTAM={170 200}
+   INT={56 80}
+   MAXMANA={56 80}
+   ANATOMY={25.0 35.0}
+   MAGICRESISTANCE={85.0 95.0}
+   TACTICS={70.0 80.0}
+   WRESTLING={95.0 100.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={20 30}
+   RESFIRE={60 70}
+   RESPOISON={20 30}
+ON=@NPCRestock
+   ITEM=loot_demon_chaos
+   // 175 - 225 Gold.
+ON=@Hit
+   //Dismount Attack
+   IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+      MANA -= 20
+      SRC.DISMOUNT
+      SRC.EMOTE knocked off mount!
+      SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+   ENDIF
+
+[CHARDEF 031c]
+//FIXME: No Stratics entry
+DEFNAME=c_horde_demon_large
+NAME=horde demon lord
+ICON=i_pet_demon_horde
+SOUND=snd_monster_ogre1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=21,42
+ARMOR=35
+DESIRES=r_forests,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=1 i_ribs_raw,1 i_reag_daemon_bone,1 i_reag_blood_vial
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=58.0
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Horde Demon (large)
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=4500
+   KARMA=-4500
+   STR={400 550}
+   MAXHITS={350 400}
+   DEX={75 100}
+   MAXSTAM={75 100}
+   INT={100 150}
+   MAXMANA={200 250}
+   ANATOMY={20.0 35.0}
+   EVALUATINGINTEL={70.0 85.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={90.0 100.0}
+   MEDITATION={75.0 100.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={80.0 100.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={40 50}
+   RESFIRE={60 70}
+   RESPOISON={35 45}
+ON=@NpcRestock
+   ITEM=loot_horde_demon_large
+
+[CHARDEF 03e7]
+//FIXME: No Stratics data
+//FIXME: Bad animation in 3d client
+DEFNAME=c_multicolored_horde_minion
+NAME=multi colored horde demon
+ICON=i_pet_demon_horde
+SOUND=snd_monster_demon1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=44,88
+ARMOR=45
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=60 t_meat_raw
+RESOURCES=1 i_ribs_raw,1 i_reag_daemon_bone,1 i_reag_blood_vial
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=98.1
+TAG.DamEnergy=60
+TAG.Slayer=SLAYER_DEMON
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Demons
+DESCRIPTION=Horde Demon (colored)
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=7000
+   KARMA=-7000
+   STR={550 750}
+   MAXHITS={450 550}
+   INT={300 390}
+   DEX={90 120}
+   ARCHERY={80.0 90.0}
+   EVALUATINGINTEL={99.0 100.0}
+   FENCING={80.0 90.0}
+   MACEFIGHTING={80.0 90.0}
+   MAGERY={99.0 100.0}
+   MAGICRESISTANCE={90.0 120.0}
+   MEDITATION={99.0 100.0}
+   PARRYING={80.0 90.0}
+   SWORDSMANSHIP={80.0 90.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 15}
+   RESCOLD={30 40}
+   RESENERGY={60 70}
+   RESFIRE={30 40}
+   RESPOISON={60 70}
+ON=@NpcRestock
+   ITEM=loot_drake
+
+[EOF]

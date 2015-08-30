@@ -1,0 +1,229 @@
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Monday, November 24, 2003
+//
+VERSION=0.56b
+
+[ITEMDEF 02006]
+//corpse (all corpses normally are here)
+DEFNAME=i_corpse
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Corpses
+DESCRIPTION=All Corpses (Ogre default)
+
+[ITEMDEF 02013]
+//leatherworker
+
+[ITEMDEF 0200a]
+//armourer
+
+[ITEMDEF 02019]
+//tailor
+
+[ITEMDEF 0201e]
+//weapon trainer
+
+[ITEMDEF 0201f]
+//weaponsmith
+
+[ITEMDEF 02008]
+//peasant
+
+[ITEMDEF 02009]
+//noble
+
+[ITEMDEF 0200b]
+//baker
+
+[ITEMDEF 0200c]
+//bowyer
+
+[ITEMDEF 0200d]
+//butcher
+
+[ITEMDEF 0200e]
+//guard
+
+[ITEMDEF 0200f]
+//healer
+
+[ITEMDEF 02010]
+//innkeeper
+
+[ITEMDEF 02011]
+//jailer
+
+[ITEMDEF 02012]
+//jeweler
+
+[ITEMDEF 02014]
+//mage
+
+[ITEMDEF 02015]
+//pirate
+
+[ITEMDEF 02016]
+//provisioner
+
+[ITEMDEF 02017]
+//sailor
+
+[ITEMDEF 0201a]
+//spinner
+
+[ITEMDEF 0201b]
+//tavernkeeper
+
+[ITEMDEF 0201c]
+//thief
+
+[ITEMDEF 0201d]
+//tinker
+
+[ITEMDEF 02020]
+//woodworker
+
+[ITEMDEF 02021]
+//sculptor
+
+[ITEMDEF 02022]
+//artist
+
+[ITEMDEF 02023]
+//alchemist
+
+[ITEMDEF 02024]
+//glassblower
+
+[ITEMDEF 02025]
+//musician
+
+[ITEMDEF 02026]
+//fisherman
+
+[ITEMDEF 02027]
+//waiter
+
+[ITEMDEF 02028]
+//animal trainer
+
+[ITEMDEF 02029]
+//rancher
+
+[ITEMDEF 0202a]
+//cobbler
+
+[ITEMDEF 0202b]
+//beggar
+
+[ITEMDEF 0202c]
+//scribe
+
+[ITEMDEF 0202d]
+//miner
+
+[ITEMDEF 0202e]
+//mayor
+
+[ITEMDEF 0202f]
+//gambler
+
+[ITEMDEF 02030]
+//brigand
+
+[ITEMDEF 02031]
+//architect
+
+[ITEMDEF 02032]
+//cartographer
+
+[ITEMDEF 02033]
+//gypsy
+
+[ITEMDEF 02034]
+//herbalist
+
+[ITEMDEF 02035]
+//judge
+
+[ITEMDEF 02036]
+//cook
+
+[ITEMDEF 03d64]
+//dead orc captain
+DEFNAME=i_corpse_orc_cap
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Orc Captain
+
+[ITEMDEF 03d65]
+//corpse of orc
+DEFNAME=i_corpse_orc
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Orc
+
+[ITEMDEF 03d66]
+//corpse of skeleton
+DEFNAME=i_corpse_skel
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Skeleton
+
+[ITEMDEF 03d67]
+//corpse
+DEFNAME=i_corpse_blank
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Human
+
+[ITEMDEF 03d68]
+//corpse
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Human
+
+[ITEMDEF 03d69]
+//deer corpse
+DEFNAME=i_corpse_deer
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Deer
+
+[ITEMDEF 03d6a]
+//wolf corpse
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Wolf
+
+[ITEMDEF 03d6b]
+//corpse of rabbit
+TYPE=T_CORPSE
+TDATA2=09
+CATEGORY=Miscellaneous
+SUBSECTION=Alpha Corpses
+DESCRIPTION=Rabbit
+
+[EOF]

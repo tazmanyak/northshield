@@ -1,0 +1,144 @@
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Monday, November 24, 2003
+//
+VERSION=0.56b
+
+[ITEMDEF 014ef]
+DEFNAME=i_deed
+TYPE=t_deed
+FLIP=1
+RESOURCES=1 I_PAPER, 1 i_WAX_SEAL
+WEIGHT=1
+CATEGORY=Provisions - Deeds
+SUBSECTION=Base Deeds
+DESCRIPTION=Deed (Blank)
+DUPELIST=014f0
+
+[ITEMDEF 014f0]
+DUPEITEM=014ef
+
+[ITEMDEF 014f1]
+DEFNAME=i_deed_ship
+TYPE=t_deed
+FLIP=1
+RESOURCES=1 I_PAPER
+WEIGHT=1
+CATEGORY=Provisions - Deeds
+SUBSECTION=Base Deeds
+DESCRIPTION=Ship Plans (EMPTY)
+DUPELIST=014f2
+
+on=@create
+attr 04
+
+[ITEMDEF 014f2]
+DUPEITEM=014f1
+
+[ITEMDEF i_deed_bboardw]
+NAME=Deed to a Bulletin Board W
+ID=i_deed
+RESOURCES=i_deed,i_bulletin_board
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Bulletin Board W
+
+ON=@Create
+MORE=i_bulletin_board
+
+[ITEMDEF i_deed_bboardn]
+NAME=Deed to a Bulletin Board N
+ID=i_deed
+RESOURCES=i_deed,i_bulletin_board_2
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Bulletin Board N
+
+ON=@Create
+MORE=i_bulletin_board_2
+
+[ITEMDEF i_deed_spinwheel]
+NAME=Deed to a Spinning Wheel
+ID=i_deed
+RESOURCES=i_deed,i_spinning_wheel
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Spinning Wheel
+
+ON=@Create
+MORE=i_spinning_wheel
+
+[ITEMDEF I_DEED_ANVIL]
+NAME=Deed to an Anvil
+ID=i_deed
+RESOURCES=i_deed,i_anvil
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Anvil
+
+ON=@Create
+MORE=i_anvil
+
+
+[ITEMDEF I_DEED_DUMMYN]
+NAME=Deed to a Training Dummy (North)
+ID=i_deed
+RESOURCES=i_deed,i_training_dummy_n
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Training Dummy (N)
+
+ON=@Create
+	MORE=i_training_dummy_n
+
+[ITEMDEF I_DEED_ARCHBUTTEW]
+NAME=Deed to a Archery Butte (West)
+ID=i_deed
+RESOURCES=i_deed,i_archery_butte
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Archery Butte (W)
+
+ON=@Create
+	MORE=i_archery_butte
+
+[ITEMDEF I_DEED_ARCHBUTTEN]
+NAME=Deed to a Archery Butte (North)
+ID=i_deed
+RESOURCES=i_deed,i_archery_butte2
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Archery Butte (N)
+
+ON=@Create
+	MORE=i_archery_butte2
+
+[ITEMDEF I_DEED_PICKPOCKN]
+NAME=Deed to a Pickpocket Dip (North)
+ID=i_deed
+RESOURCES=i_deed,i_pickpocket_dip_n
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Deeds
+DESCRIPTION=Pickpocket Dip (N)
+
+ON=@Create
+	MORE=i_pickpocket_dip_n
+
+[ITEMDEF i_deed_pickpockw]
+NAME=Deed to a Pickpocket Dip (West)
+ID=i_deed
+RESOURCES=i_deed,i_pickpocket_dip_w
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Deeds
+DESCRIPTION=Pickpocket Dip (W)
+
+ON=@Create
+	MORE=i_pickpocket_dip_w
+
+[EOF]

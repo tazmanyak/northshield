@@ -1,0 +1,536 @@
+[Plevel 1]
+yetenekler
+
+[function yetenekler]
+src.weblink forum.tns.gen.tr/web/
+
+
+//MAGIC RESISTANCE
+[function gainMagicResist]
+if ((<skilllock[26]> == 0) && (<skilltotal> < 700.0) && (<MagicResistance><1000))  
+	if (<MagicResistance><300)
+		if (rand(5) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><400) 
+		if (rand(7) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><500) 
+		if (rand(10) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><600)
+		if (rand(15) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><700)
+		if (rand(20) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><800)
+		if (rand(25) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><900)
+		if (rand(30) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	elseif (<MagicResistance><1000)
+		if (rand(50) == 1) 
+			MagicResistance (<MagicResistance> + 1)
+		endif
+	endif
+endif
+
+
+[function f_skillgain_four_to_one]
+if (<eval <SRC.WEIGHT>+10> > <SRC.MAXWEIGHT>) // Fazla agirlikta skill alamasin itler. Makrocular sizi.
+	SRC.SYSMESSAGE @,,1 Agirliginiz fazla oldugu icin konsantre olamiyorsunuz.
+	RETURN 1
+endif
+
+if (<src.<SERV.SKILL.<src.tag.skillgain_north>.KEY>> == 1000)
+	return 1
+elseif (<src.skilltotal> < 7000) 
+	DORAND 4
+		src.Gainalmafonk
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+	enddo
+endif
+
+
+[function f_skillgain_five_to_one]
+if (<eval <SRC.WEIGHT>+10> > <SRC.MAXWEIGHT>) // Fazla agirlikta skill alamasin itler. Makrocular sizi.
+	SRC.SYSMESSAGE @,,1 Agirliginiz fazla oldugu icin konsantre olamiyorsunuz.
+	RETURN 1
+endif
+
+if (<src.<SERV.SKILL.<src.tag.skillgain_north>.KEY>> == 1000)
+	return 1
+elseif (<src.skilltotal> < 7000) 
+	DORAND 5
+		src.Gainalmafonk
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+	enddo
+endif
+
+
+[function f_skillgain_ten_to_one]
+if (<eval <SRC.WEIGHT>+10> > <SRC.MAXWEIGHT>) // Fazla agirlikta skill alamasin itler. Makrocular sizi.
+	SRC.SYSMESSAGE @,,1 Agirliginiz fazla oldugu icin konsantre olamiyorsunuz.
+	RETURN 1
+endif
+
+if (<src.<SERV.SKILL.<src.tag.skillgain_north>.KEY>> == 1000)
+	return 1
+elseif (<src.skilltotal> < 7000) 
+	DORAND 8
+		src.Gainalmafonk
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+	enddo
+endif
+
+
+[function f_skillgain_three_to_one]
+if (<eval <SRC.WEIGHT>+10> > <SRC.MAXWEIGHT>) // Fazla agirlikta skill alamasin itler. Makrocular sizi.
+	SRC.SYSMESSAGE @,,1 Agirliginiz fazla oldugu icin konsantre olamiyorsunuz.
+	RETURN 1
+endif
+
+if (<src.<SERV.SKILL.<src.tag.skillgain_north>.KEY>> == 1000)
+	return 1
+elseif (<src.skilltotal> < 7000) 
+	DORAND 3
+		src.Gainalmafonk
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+		src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+	enddo
+endif
+
+
+[function f_skillgain_north]
+local.hour=<serv.rtime.format %H>
+if (<eval <SRC.WEIGHT>+10> > <SRC.MAXWEIGHT>) // Fazla agirlikta skill alamasin itler. Makrocular sizi.
+	SRC.SYSMESSAGE @,,1 Agirliginiz fazla oldugu icin konsantre olamiyorsunuz.
+	RETURN 1
+endif
+
+if (<eval <src.tag.skillgain_olympus>> == 33)
+	return 1
+endif
+
+if (<src.<SERV.SKILL.<src.tag.skillgain_north>.KEY>> == 1000)
+	return 1
+elseif (<src.skilltotal> < 700.0) 
+	//DORAND 2
+		src.Gainalmafonk
+		//src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+	//enddo
+endif
+//else
+//	if (<eval <local.hour>>==19) || (<eval <local.hour>>==20)
+//		src.Gainalmafonk
+//	else
+//		DORAND 2
+//			src.sysmessage @33,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazanamadiniz...
+//			src.Gainalmafonk
+////		enddo
+//	endif
+//endif
+
+[function Gainalmafonk]
+src.<SERV.SKILL.<src.tag.skillgain_north>.KEY> +=1
+////src.sysmessage @69,,1 <SERV.SKILL.<tag.skillgain_north>.KEY> yetenegi kazandiniz...
+src.sysmessage @,,1 <SERV.SKILL.<src.tag.skillgain_north>.KEY> : <src.<SERV.SKILL.<tag.skillgain_north>.KEY>>
+
+
+////////////////////////////////////////////////////
+//////////////////////////////////////////////////// Healing & Anatomy
+
+[function skillgain_anatomy&healing]
+skillgain_healing
+skillgain_anatomy
+
+[function skillgain_healing]
+if (<skilllock[17]> > 0)
+elseif (<skilltotal> == 700.0)
+elseif (<healing> == 1000)
+else
+        //DORAND 2		
+        //sysmessage @33,,1 Healing yetenegi kazanamadiniz...
+        Gainalmafonk_heal
+        ///enddo
+
+endif
+
+[function skillgain_anatomy]
+	if (<skilllock[1]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<anatomy> == 1000)
+        else
+	DORAND 3
+	sysmessage @33,,1 Anatomy yetenegi kazanamadiniz...
+	Gainalmafonk_anatomy
+        sysmessage @33,,1 Anatomy yetenegi kazanamadiniz...
+        enddo
+        endif
+        
+
+[function Gainalmafonk_heal]
+if !<var.ph>
+	if rand(15)==1
+		healing (<healing> + 1) 
+		sysmessage @69,,1 Healing yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <healing>  
+	endif
+else
+	healing (<healing> + 1) 
+	sysmessage @69,,1 Healing yetenegi kazandiniz...
+	sysmessage @69,,1 Yeni yeteneginiz : <healing>  
+endif
+
+[function Gainalmafonk_anatomy]
+if !<var.ph>
+	if rand(15)==1
+		
+		anatomy (<anatomy> + 1)
+		sysmessage @69,,1 Anatomy yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Anatomy>
+	endif
+else
+		anatomy (<anatomy> + 1)
+		sysmessage @69,,1 Anatomy yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Anatomy>
+endif
+
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////veterinary
+
+[function skillgain_anatomy&veterinary]
+skillgain_veterinary
+skillgain_anatomy
+
+
+[function skillgain_veterinary]
+	if (<skilllock[39]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<veterinary> == 1000)
+        else
+        DORAND 7
+	sysmessage @33,,1 Veterinary yetenegi kazanamadiniz...
+	sysmessage @33,,1 Veterinary yetenegi kazanamadiniz...
+	sysmessage @33,,1 Veterinary yetenegi kazanamadiniz...		
+        sysmessage @33,,1 Veterinary yetenegi kazanamadiniz...
+	sysmessage @33,,1 Veterinary yetenegi kazanamadiniz...
+        Gainalmafonk_Veterinary
+        sysmessage @33,,1 Veterinary yetenegi kazanamadiniz...
+        enddo
+        endif
+
+
+
+[function skillgain_blacksmithing]
+	if (<skilllock[39]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<Blacksmithing> == 1000)
+        else
+        DORAND 5		
+        sysmessage @33,,1 Blacksmith yetenegi kazanamadiniz...
+        Gainalmafonk_Blacksmithing
+        sysmessage @33,,1 Blacksmith yetenegi kazanamadiniz...
+	sysmessage @33,,1 Blacksmith yetenegi kazanamadiniz...
+	sysmessage @33,,1 Blacksmith yetenegi kazanamadiniz...
+        enddo
+        endif
+
+
+[function Gainalmafonk_Veterinary]
+Veterinary (<Veterinary> + 1)
+sysmessage @69,,1 Veterinary yetenegi kazandiniz...
+sysmessage @69,,1 Yeni yeteneginiz : <Veterinary>
+
+
+[function Gainalmafonk_Blacksmithing]
+Veterinary (<blacksmithing> + 1)
+sysmessage @69,,1 Blacksmith yetenegi kazandiniz...
+sysmessage @69,,1 Yeni yeteneginiz : <Blacksmithing>
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Taming
+
+[function skillgain_taming]
+	if (<skilllock[35]> > 0)
+    elseif (<skilltotal> == 700.0)
+	elseif (<taming> == 1000)
+    elseif (<taming> < 50.0)
+		Gainalmafonk_taming
+	elseif (<taming> < 60.0)
+		if (rand(15) == 1)
+			Gainalmafonk_taming
+       	endif
+	elseif (<taming> < 70.0)
+		if (rand(20) == 1)
+			Gainalmafonk_taming
+       	endif
+	elseif (<taming> < 80.0)
+		if (rand(30) == 1)
+			Gainalmafonk_taming
+       	endif
+	elseif (<taming> < 90.0)
+		if (rand(35) == 1)
+			Gainalmafonk_taming
+       	endif
+
+	elseif (<taming> < 100.0)
+		if (rand(40) == 1)
+			Gainalmafonk_taming
+       	endif
+    endif
+        
+
+[function Gainalmafonk_taming]
+if !<var.ph>
+	if rand(15)==1
+		taming (<taming> + 1) 
+		sysmessage @69,,1 Taming yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <taming>  
+	endif
+else
+		taming (<taming> + 1) 
+		sysmessage @69,,1 Taming yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <taming>  
+endif
+
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Animal Lore
+[function skillgain_Animallore]
+	if (<skilllock[35]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<Animallore> == 1000)
+        elseif (<Animallore> < 50.0)
+	Gainalmafonk_Animallore
+	elseif (<Animallore> < 70.0)
+		if (rand(4) == 1)
+			Gainalmafonk_Animallore
+       	endif
+	elseif (<Animallore> < 80.0)
+		if (rand(6) == 1)
+			Gainalmafonk_Animallore
+       	endif
+	elseif (<Animallore> < 90.0)
+		if (rand(8) == 1)
+			Gainalmafonk_Animallore
+       	endif
+	elseif (<Animallore> < 100.0)
+		if (rand(10) == 1)
+			Gainalmafonk_Animallore
+       	endif
+    endif
+        
+
+[function Gainalmafonk_Animallore]
+if !<var.ph>
+	if rand(15)==1
+		
+		Animallore (<Animallore> + 1) 
+		sysmessage @69,,1 Animallore yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Animallore>
+	endif
+else
+		Animallore (<Animallore> + 1) 
+		sysmessage @69,,1 Animallore yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Animallore>
+endif
+
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Camping
+[function skillgain_camping]
+	if (<skilllock[10]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<camping> == 1000)
+        else
+	DORAND 2
+	sysmessage @33,,1 Camping yetenegi kazanamadiniz...
+	Gainalmafonk_camping
+        enddo
+        endif
+       
+
+[function Gainalmafonk_camping]
+if !<var.ph>
+	if rand(15)==1
+		
+		camping (<camping> + 1)
+		sysmessage @69,,1 Camping yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <camping>
+	endif
+else
+		camping (<camping> + 1)
+		sysmessage @69,,1 Camping yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <camping>
+endif
+
+
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Poisoning
+[function skillgain_poison]
+	if (<skilllock[30]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<Poisoning> == 1000)
+        else
+	//DORAND 2
+	//sysmessage @33,,1 Poisoning yetenegi kazanamadiniz...
+	Gainalmafonk_Poisoning
+       // enddo
+        endif
+       
+
+[function Gainalmafonk_Poisoning]
+if !<var.ph>
+	if rand(15)==1
+		
+		Poisoning (<Poisoning> + 1)
+		sysmessage @69,,1 Poisoning yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Poisoning>
+	endif
+else
+		Poisoning (<Poisoning> + 1)
+		sysmessage @69,,1 Poisoning yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Poisoning>
+endif
+
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Provocation
+[function skillgain_provocation]
+	if (<skilllock[22]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<PROVOCATION> == 1000)
+        else
+	Gainalmafonk_Provocation
+        endif
+       
+
+[function Gainalmafonk_Provocation]
+if !<var.ph>
+	if rand(15)==1
+		
+	
+		PROVOCATION (<PROVOCATION> + 1)
+		sysmessage @69,,1 Provocation yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <PROVOCATION>
+	endif
+else
+		PROVOCATION (<PROVOCATION> + 1)
+		sysmessage @69,,1 Provocation yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <PROVOCATION>
+endif
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Peacemaking
+[function skillgain_Peacemaking]
+	if (<skilllock[9]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<Peacemaking> == 1000)
+        else
+	Gainalmafonk_Peacemaking
+        endif
+       
+
+[function Gainalmafonk_Peacemaking]
+if !<var.ph>
+	if rand(15)==1
+		
+		Peacemaking (<Peacemaking> + 1)
+		sysmessage @69,,1 Peacemaking yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Peacemaking>
+	endif
+else
+		Peacemaking (<Peacemaking> + 1)
+		sysmessage @69,,1 Peacemaking yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Peacemaking>
+endif
+
+
+
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////Musicianship
+[function skillgain_Musicianship]
+
+	if (<skilllock[29]> > 0)
+        elseif (<skilltotal> == 700.0)
+	elseif (<Musicianship> == 1000)
+        else
+	Gainalmafonk_Musicianship
+	endif
+       
+
+[function Gainalmafonk_Musicianship]
+if !<var.ph>
+	if rand(15)==1
+		
+		Musicianship (<Musicianship> + 1)
+		sysmessage @69,,1 Musicianship yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Musicianship>
+	endif
+else
+		Musicianship (<Musicianship> + 1)
+		sysmessage @69,,1 Musicianship yetenegi kazandiniz...
+		sysmessage @69,,1 Yeni yeteneginiz : <Musicianship>
+endif
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_ph_stone_y]
+NAME=PH Stone
+ID=i_gravestone_7
+TYPE=t_script
+
+on=@create
+attr 08000
+timer 20
+
+on=@dclick
+local.hour=<serv.rtime.format %H>
+say <eval <local.hour>>
+return 1
+
+on=@timer
+local.hour=<serv.rtime.format %H>
+
+if (<eval <local.hour>>==19) || (<eval <local.hour>>==20)
+	serv.allclients sysmessage @33,,1 [ Ph Duyuru ! ][19:00-21:00]
+	serv.allclients sysmessage @69,,1 Combat & Craft yeteneklerinin gain orani arttirilmistir.
+	timer 120
+	return 1
+endif
+timer 20
+return 1
+
+[EOF]

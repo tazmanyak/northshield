@@ -1,0 +1,70 @@
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Tuesday, December 7, 2005
+// By Blizzard
+VERSION=0.56b
+
+[ITEMDEF 025e4]
+DEFNAME=i_armor_female_shorts_spiked
+NAME=Spiked Shorts
+TYPE=t_armor
+ARMOR=
+REQSTR=
+SKILLMAKE=
+RESOURCES=
+DUPELIST=025e5
+CATEGORY=Provisions - Armor
+SUBSECTION=Female Armor
+DESCRIPTION=Spiked Shorts
+
+ON=@CREATE
+	HITPOINTS={50 60}
+
+[ITEMDEF 025e5]
+DUPEITEM=025e4
+
+[ITEMDEF 025e6]
+DEFNAME=i_armor_female_harness_amazon
+NAME=Amazon Harness
+TYPE=t_armor
+ARMOR=
+REQSTR=
+RESOURCES=
+SKILLMAKE=
+DUPELIST=025e7
+CATEGORY=Provisions - Armor
+SUBSECTION=Female Armor
+DESCRIPTION=Amazon Harness
+
+ON=@CREATE
+	HITPOINTS={50 60}
+
+[ITEMDEF 025e7]
+DUPEITEM=025e6
+
+[ITEMDEF 025e8]
+DEFNAME=i_armor_female_harness_elite
+NAME=Elite Harness
+TYPE=t_armor
+ARMOR=
+REQSTR
+RESOURCES=
+SKILLMAKE=
+DUPELIST=025e9
+CATEGORY=Provisions - Armor
+SUBSECTION=Female Armor
+DESCRIPTION=Elite Harness
+
+ON=@CREATE
+	HITPOINTS={50 60}
+
+[ITEMDEF 025e9]
+DUPEITEM=025e8
+
+[EOF]

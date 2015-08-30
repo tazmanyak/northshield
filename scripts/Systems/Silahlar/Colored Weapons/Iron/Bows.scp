@@ -1,0 +1,303 @@
+
+[ITEMDEF 013b1]
+DEFNAME=i_bow
+TYPE=T_WEAPON_BOW
+FLIP=1
+SKILLMAKE=30.0 BOWCRAFT
+RESOURCES=7 i_log
+WEIGHT=6
+DAM=15,19
+SPEED=4.2
+RANGE=2,15
+SKILL=Archery
+REQSTR=30
+TWOHANDS=Y
+DUPELIST=013b2
+TDATA3=i_arrow
+TDATA4=i_arrow_x
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Bows
+DESCRIPTION=Bow
+
+
+ON=@Create
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=50
+	
+
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Saglamlik: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+return 1
+
+on=@equiptest
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.archery> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 archery , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.archery> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 archery , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.archery> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah icin en az 70.0 archery , 70.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.archery> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah icin en az 80.0 archery , 80.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.archery> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah icin en az 90.0 archery , 90.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+on=@equip
+src.events +e_armorignore_bow
+
+on=@unequip
+src.events -e_armorignore_bow
+
+///////////////////////////////////////////////////////////////
+//////// CROSSBOWS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0f4f]
+DEFNAME=i_crossbow
+TYPE=T_WEAPON_XBOW
+FLIP=1
+RESOURCES=7 i_log
+SKILLMAKE=60.0 BOWCRAFT
+DAM=18,22
+SPEED=4.2
+RANGE=2,15
+SKILL=Archery
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=7
+DUPELIST=0f50
+TDATA3=i_xbolt
+TDATA4=i_xbolt_x
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Crossbows
+DESCRIPTION=Crossbow
+
+ON=@Create
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=50
+	
+
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Saglamlik: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+return 1
+
+on=@equiptest
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.archery> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 archery , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.archery> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 archery , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.archery> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah icin en az 70.0 archery , 70.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.archery> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah icin en az 80.0 archery , 80.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.archery> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah icin en az 90.0 archery , 90.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+on=@equip
+src.events +e_paradarbe_crossbow
+//src.events +e_armorignore_bow
+
+on=@unequip
+src.events -e_paradarbe_crossbow
+src.events -e_armorignore_bow
+
+[ITEMDEF 0f50]
+DUPEITEM=0f4f
+
+///////////////////////////////////////////////////////////////
+//////// HEAVY CROSSBOWS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013fc]
+DEFNAME=i_crossbow_heavy
+TYPE=T_WEAPON_XBOW
+FLIP=1
+SKILLMAKE=80.0 BOWCRAFT
+RESOURCES=10 i_log
+WEIGHT=9
+DAM=21,24
+SPEED=2.5
+RANGE=2,15
+SKILL=archery
+REQSTR=80
+TWOHANDS=Y
+TDATA3=i_xbolt
+TDATA4=i_xbolt_x
+DUPELIST=013fd
+CATEGORY=Provisions - Weapons - Archery
+SUBSECTION=Crossbows
+DESCRIPTION=Heavy Crossbow
+
+ON=@Create
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=50
+	
+
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Saglamlik: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+return 1
+
+on=@equiptest
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.archery> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 archery , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.archery> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 archery , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.archery> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah icin en az 70.0 archery , 70.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.archery> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah icin en az 80.0 archery , 80.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.archery> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah icin en az 90.0 archery , 90.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+on=@equip
+src.events +e_dismount_crossbow_heavy
+//src.events +e_armorignore_bow
+
+on=@unequip
+src.events -e_dismount_crossbow_heavy
+//src.events -e_armorignore_bow
+
+
+
+[EOF]

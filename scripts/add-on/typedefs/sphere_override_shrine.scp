@@ -1,0 +1,143 @@
+﻿[TYPEDEF T_SHRINE]
+ON=@DCLICK
+if !(<src.flags>&statf_dead)
+	message @,,1 Sadece ölüler yeniden hayata dönebilir.
+	return 1
+endif
+
+IF STRMATCH("t_multi*","<UID.<REGION.UID>.TYPE>") || <src.region.tag.koyburasi>
+  IF ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISFRIEND <SRC>>) || !<isempty <src.region.tag.koyuid>>)
+	if !<src.findid.i_shrine_timer>)
+		serv.newitem i_shrine_timer
+		src.new.equip
+		//SRC.MOVE 1
+		src.spelleffect 59 100.0
+		SRC.SOUND 00f7
+		src.update
+		return 1
+	else
+		src.sys_error Tekrar reslenebilmeniz için <src.findid.i_shrine_timer.timer> saniye kadar beklemeniz gerekmektedir.
+		return 1
+	endif
+  else
+	//src.notice Eve üye olmadığınız için reslenemezsiniz.
+	message @,,1 Evde reslenebilmek için eve üye olmanız gerekmektedir.
+	return 1
+else
+	//SRC.MOVE 1
+	src.spelleffect 59 100.0
+	SRC.SOUND 00f7
+	src.update
+	return 1
+endif
+
+
+
+[ITEMDEF i_shrine_timer]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Bulk Order Deed Timer
+
+ON=@Equip
+TIMER=60
+//IF (<SRC.<MORE1>> <= 60.0)
+//TIMER=<HVAL 60*60*2>
+//ELSE
+//TIMER=<HVAL 60*60*4>
+//ENDIF
+
+ON=@Timer
+cont.sys_error Tekrar reslenebilirsiniz.
+REMOVE
+RETURN 1
+
+
+
+
+
+
+[DIALOG D_TITHING]
+160,40
+src.closealldialogs
+
+PAGE 0
+gumppic 30 30 102
+xmfhtmlgump 95 100 120 100 1060198 0 0 //May your wealth bring blessings to those in need, if tithed upon this most sacred site.
+local.gold = <src.rescount i_gold>
+if <src.ctag0.offer> > <local.gold>
+src.ctag0.offer = <local.gold>
+elif <src.ctag0.offer> < 0
+src.ctag0.offer = 0
+endif
+dtext 57 274 0 Gold:
+dtext 87 274 53 <EVAL <LOCAL.GOLD>-<SRC.CTAG0.OFFER>>
+dtext 137 274 0 Tithe:
+dtext 172 274 53 <SRC.dCTAG0.OFFER>
+button 105 230 5220 5220 1 0 1
+button 113 230 5222 5222 1 0 1
+dtext 108 228 0 <
+dtext 112 228 0 <
+button 127 230 5223 5223 1 0 2
+dtext 131 228 0 <
+button 147 230 5224 5224 1 0 3
+dtext 153 228 0 >
+button 168 230 5220 5220 1 0 4
+button 176 230 5222 5222 1 0 4
+dtext 172 228 0 >
+dtext 176 228 0 >
+button 217 272 4023 4024 1 0 5
+
+[DIALOG D_TITHING BUTTON]
+ON=0
+// You have decided to tithe no gold to the shrine.
+SRC.MESSAGE @,,2 1060193
+SRC.CTAG.OFFER=
+
+ON=1 4
+DOSWITCH <EVAL <ARGN1>-1>
+SRC.CTAG.OFFER=0
+SRC.CTAG0.OFFER -= 100
+SRC.CTAG0.OFFER += 100
+SRC.CTAG.OFFER=<SRC.RESCOUNT i_gold>
+ENDDO
+DIALOG D_TITHING
+
+ON=5
+LOCAL.OFFER=<SRC.CTAG0.OFFER>
+IF (<LOCAL.OFFER> > <SRC.RESCOUNT i_gold>)
+LOCAL.OFFER=<SRC.RESCOUNT i_gold>
+ELIF (<LOCAL.OFFER> < 0)
+LOCAL.OFFER=0
+ENDIF
+IF (<EVAL <SRC.TITHING>+<LOCAL.OFFER>> > 30000)
+LOCAL.OFFER=<EVAL 30000-<SRC.TITHING>>
+ENDIF
+IF (<LOCAL.OFFER> <= 0)
+SRC.MESSAGE @,,2 1060193
+SRC.CTAG.OFFER=
+RETURN 1
+ENDIF
+REF1=<SRC.FINDLAYER.layer_pack>
+IF (<REF1>) && (<SRC.RESCOUNT i_gold> >= <LOCAL.OFFER>)
+SRC.CONSUME <LOCAL.OFFER> i_gold
+SRC.TITHING += <LOCAL.OFFER>
+SRC.MESSAGE @,,2 1060195 //You tithe gold to the shrine as a sign of devotion.
+SRC.SOUND=0243
+SRC.SOUND=02E6
+ELSE
+SRC.MESSAGE @,,2 1060194 //You do not have enough gold to tithe that amount!
+ENDIF
+SRC.CTAG.OFFER=
+
+[ITEMDEF i_resu_timer]
+ID=i_memory
+TYPE=t_eq_script
+
+ON=@EQUIP
+TIMER = <def.scp.ResurrectionDelay>
+
+ON=@TIMER
+REMOVE
+RETURN 1
+
+[EOF]

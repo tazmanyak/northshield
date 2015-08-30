@@ -1,0 +1,392 @@
+[COMMENT poker_system_functions]
+//"
+// BASED ON: http://search.cpan.org/~pip/Games-Cards-Poker-1.2.565CHh5/Poker.pm
+//
+//  Usage: f_Poker_NewDeck CardArray
+//  Usage: f_Poker_NewHand CardArray,CardA,CardB,...
+//  Usage: f_Poker_Shuffle CardArray
+//  Usage: f_Poker_SortCards CardArray
+//  Usage: f_Poker_RankCards CardA,CardB
+//  Usage: f_Poker_ShortHand CardA,CardB,CardC,CardD,CardE
+//  Usage: f_Poker_ScoreHand ShortHand
+//  Usage: f_Poker_Hands CardArray
+//  Usage: f_Poker_BestHand CardArray
+//  Usage: f_Poker_CardName CardSymbol
+//  Usage: f_Poker_HandName ShortHand
+//
+// LICENSE:
+//
+//  Most source code should be Free!
+//    Code I have lawful authority over is and shall be!
+//  Copyright: (c) 2004, Pip Stuart.
+//  Copyleft : This software is licensed under the GNU General Public
+//    License (version 2), and as such comes with NO WARRANTY.  Please
+//    consult the Free Software Foundation (http://FSF.Org) for
+//    important information about your freedom.
+//
+// AUTHOR: Pip Stuart <Pip@CPAN.Org>
+// PORTER: RanXerox
+//
+//"
+
+
+[FUNCTION f_Poker_NewDeck]
+//"
+// Usage: f_Poker_NewDeck CardArray
+//
+// Clears any existing LIST object named CardArray, then loads it with
+// a full deck of CardSymbols.
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_NewDeck: needs a CardArray"
+   RETURN 1
+ENDIF
+LOCAL.Input=<ARGS>
+LIST.<LOCAL.Input>.CLEAR
+FOR Cards 0 <EVAL <f_sizeof <DEF.POKER.Card.Symbols>>-1>
+   FOR Suits 0 <EVAL <f_sizeof <DEF.POKER.Suit.Symbols>>-1>
+      LOCAL.TheCard=<f_getargv <dLOCAL.Cards> <DEF.POKER.Card.Symbols>><f_getargv <dLOCAL.Suits> <DEF.POKER.Suit.Symbols>>
+      LIST.<LOCAL.Input>.ADD <LOCAL.TheCard>
+   ENDFOR
+ENDFOR
+//f_pokerlog 1,"Poker_NewDeck: CardArray=<LOCAL.Input> (size=<LIST.<LOCAL.Input>.COUNT>)"
+
+
+[FUNCTION f_Poker_NewHand]
+//"
+// Usage: f_Poker_NewHand CardArray,CardSymbol,CardSymbol,...
+//
+// Clears any existing LIST object named CardArray, then loads it with
+// the specified CardSymbols, then sorts it.
+//"
+IF (<ARGV> < 2)
+   f_pokerlog 1,"Poker_NewHand: needs a CardArray and at least one CardSymbol"
+   RETURN 1
+ENDIF
+LOCAL.Input=<ARGV[0]>
+LIST.<LOCAL.Input>.CLEAR
+FOR Cards 1 <EVAL <ARGV>-1>
+   LOCAL.TheCard=<f_getargv <dLOCAL.Cards> <ARGS>>
+   LIST.<LOCAL.Input>.ADD <LOCAL.TheCard>
+ENDFOR
+f_Poker_SortCards <LOCAL.Input>
+//f_pokerlog 1,"Poker_NewHand: CardArray=<LOCAL.Input> (size=<LIST.<LOCAL.Input>.COUNT>)"
+
+
+[FUNCTION f_Poker_Shuffle]
+//"
+// Usage: f_Poker_Shuffle CardArray
+//
+// Shuffles an existing LIST object named CardArray, which is assumed to
+// contain CardSymbols.
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_Shuffle: needs a CardArray"
+   RETURN 1
+ENDIF
+LOCAL.Input=<ARGS>
+FOR LoopNumber 0 <EVAL <LIST.<LOCAL.Input>.COUNT>-1>
+   LOCAL.Rand=<R0,<EVAL <LIST.<LOCAL.Input>.COUNT>-1>>
+   LOCAL.CardA=<STRSUB 1 2 <LIST.<LOCAL.Input>.<dLOCAL.LoopNumber>>>
+   LOCAL.CardB=<STRSUB 1 2 <LIST.<LOCAL.Input>.<dLOCAL.Rand>>>
+   LIST.<LOCAL.Input>.<dLOCAL.LoopNumber>=<LOCAL.CardB>
+   LIST.<LOCAL.Input>.<dLOCAL.Rand>=<LOCAL.CardA>
+ENDFOR
+//f_pokerlog 1,"Poker_Shuffle: CardArray=<LOCAL.Input> (size=<LIST.<LOCAL.Input>.COUNT>)"
+
+
+[FUNCTION f_Poker_SortCards]
+//"
+// Usage: f_Poker_SortCards CardArray
+//
+// Sorts an existing LIST object named CardArray, which is assumed to contain
+// CardSymbols.  The sort order has highest ranked cards (Ace) first (suit is
+// ignored.)
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_SortCards: needs a CardArray"
+   RETURN 1
+ENDIF
+LOCAL.Input=<ARGS>
+LOCAL.InputSize=<LIST.<LOCAL.Input>.COUNT>
+IF (<LOCAL.InputSize> < 2)
+   f_pokerlog 1,"Poker_SortCards: CardArray <LOCAL.Input> is too small to sort"
+   RETURN 1
+ENDIF
+//f_pokerlog 1,"Poker_SortCards: Start sorting <LOCAL.Input> (size=<LOCAL.InputSize>)"
+LOCAL.Swapped=1
+WHILE (<dLOCAL.Swapped>==1)
+   LOCAL.Swapped=0
+   FOR LoopNumber 1 <EVAL <LOCAL.InputSize>-1>
+      IF (<LOCAL.LoopNumber>)
+         LOCAL.CardA="<STRSUB 1 2 <LIST.<LOCAL.Input>.<EVAL <LOCAL.LoopNumber>-1>>>"
+         LOCAL.CardB="<STRSUB 1 2 <LIST.<LOCAL.Input>.<dLOCAL.LoopNumber>>>"
+//         f_pokerlog 2,"Poker_SortCards: ..Loop=<dLOCAL.LoopNumber>: Is <LOCAL.CardA> ranked higher than <LOCAL.CardB>?"
+         IF (<f_Poker_RankCards <LOCAL.CardA>,<LOCAL.CardB>>==-1) //CardA ranks lower than CardB
+//            f_pokerlog 3,"Poker_SortCards: ....swap them"
+            LIST.<LOCAL.Input>.<EVAL <LOCAL.LoopNumber>-1>=<LOCAL.CardB>
+            LIST.<LOCAL.Input>.<dLOCAL.LoopNumber>=<LOCAL.CardA>
+            LOCAL.Swapped=1
+//         ELSE
+//            f_pokerlog 3,"Poker_SortCards: ....skipping"
+         ENDIF
+      ENDIF
+   ENDFOR
+   LOCAL.InputSize=<EVAL <LOCAL.InputSize>-1>
+ENDWHILE
+//f_pokerlog 1,"Poker_SortCards: Sorting Completed"
+
+
+[FUNCTION f_Poker_RankCards]
+//"
+// Usage: f_Poker_RankCards CardSymbolA,CardSymbolB
+//
+// Compares CardSymbolA to CardSymbolB
+//
+// Returns: -1 if CardSymbolA ranks lower than CardSymbolB
+// Returns:  0 if CardSymbolA ranks equal to CardSymbolB
+// Returns:  1 if CardSymbolA ranks higher than CardSymbolB
+//"
+IF (<ARGV>!=2)
+   f_pokerlog 1,"Poker_RankCards: needs two CardSymbols"
+   RETURN 1
+ENDIF
+LOCAL.CardA.Rank=<f_getargv 2 <DEF.POKER.Card.<ARGV[0]>>>
+LOCAL.CardB.Rank=<f_getargv 2 <DEF.POKER.Card.<ARGV[1]>>>
+//f_pokerlog 1,"Poker_RankCards: CardA Rank=<dLOCAL.CardA.Rank> CardB Rank=<dLOCAL.CardB.Rank>"
+IF (<LOCAL.CardA.Rank> < <LOCAL.CardB.Rank>)
+//   f_pokerlog 1,"Poker_RankCards: CardA ranks higher than CardB"
+   RETURN 1
+ELSEIF (<LOCAL.CardA.Rank> > <LOCAL.CardB.Rank>)
+//   f_pokerlog 1,"Poker_RankCards: CardA ranks lower than CardB"
+   RETURN -1
+ELSE
+//   f_pokerlog 1,"Poker_RankCards: CardA ranks equal to CardB"
+   RETURN 0
+ENDIF
+
+
+[FUNCTION f_Poker_ShortHand]
+//"
+// Usage: f_Poker_ShortHand CardSymbolA,CardSymbolB,CardSymbolC,CardSymbolD,CardSymbolE,...
+//
+// Returns a scalar string containing the abbreviated Poker description
+// of the hand.  For example, 'As,Ks,Qs,Js,Ts' returns 'AKQJTs' (for a
+// Royal Flush.)  The trailing 's' indicates the cards are suited.
+//
+// f_Poker_ShortHand calls f_Poker_SortCards on its parameters before
+// doing the abbreviation to make sure that the return value is consistent.
+//
+// f_Poker_ShortHand can be called on fewer cards than a full hand of 5 to
+// obtain other useful abbreviations, for example:
+//
+//   f_Poker_ShortHand CardA,CardB
+//
+// Returns the abbreviated form of a player's two hole (pocket) cards.
+//
+//   f_Poker_ShortHand CardA,CardB,CardC
+//
+// Returns the abbreviated form of the three community cards which
+// flop onto the board in Hold'Em.
+//"
+IF (<ARGV> < 2) || (<ARGV>==4) || (<ARGV> > 5)
+   f_pokerlog 1,"Poker_ShortHand: needs 2, 3, or 5 CardSymbols"
+   RETURN 1
+ENDIF
+f_Poker_NewHand CardsToSort_<UID>,<ARGS>
+f_Poker_SortCards CardsToSort_<UID>
+LOCAL.ShortHand=<STRSUB 1 1 <LIST.CardsToSort_<UID>.0>>
+LOCAL.FirstSuit=<STRSUB 2 1 <LIST.CardsToSort_<UID>.0>>
+LOCAL.Suited=1
+//f_pokerlog 1,"Poker_ShortHand: CardArray=CardsToSort_<UID>"
+//f_pokerlog 2,"Poker_ShortHand: ..Card0 ThisCard=<LOCAL.ShortHand> ThisSuit=<LOCAL.FirstSuit> Suited? Yes"
+FOR Card 1 <EVAL <ARGV>-1>
+   LOCAL.ThisCard=<STRSUB 1 1 <LIST.CardsToSort_<UID>.<dLOCAL.Card>>>
+   LOCAL.ThisSuit=<STRSUB 2 1 <LIST.CardsToSort_<UID>.<dLOCAL.Card>>>
+   LOCAL.ShortHand .= <QVAL <ISNUM <LOCAL.ThisCard>>?<dLOCAL.ThisCard>:<LOCAL.ThisCard>>
+   IF (STRCMP(<LOCAL.ThisSuit>,<LOCAL.FirstSuit>)!=0)
+      LOCAL.Suited=0
+   ENDIF
+//   f_pokerlog 2,"Poker_ShortHand: ..Card<dLOCAL.Card> ThisCard=<QVAL <ISNUM <LOCAL.ThisCard>>?<dLOCAL.ThisCard>:<LOCAL.ThisCard>> ThisSuit=<LOCAL.ThisSuit> Suited? <QVAL <dLOCAL.Suited>?Yes:No>"
+ENDFOR
+LIST.CardsToSort_<UID>.CLEAR
+IF (<LOCAL.Suited>)
+   LOCAL.ShortHand .= s
+ENDIF
+//f_pokerlog 1,"Poker_ShortHand: Returns <LOCAL.ShortHand>"
+RETURN <LOCAL.ShortHand>
+
+
+[FUNCTION f_Poker_ScoreHand]
+//"
+// Usage: f_Poker_ScoreHand ShortHand
+//
+// This function accepts a ShortHand argument, then looks it up on a
+// precomputed DEFLIST of scores, and returns that score.  Note, lower
+// scores are better hands.
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_ScoreHand: needs a ShortHand"
+   RETURN 1
+ENDIF
+LOCAL.ShortHand=<ARGS>
+LOCAL.Score=7462
+IF !(<ISEMPTY <DEF.POKER.Hands.<LOCAL.ShortHand>>>)
+   LOCAL.Score=<f_getargv 1 <DEF.POKER.Hands.<LOCAL.ShortHand>>>
+ENDIF
+//f_pokerlog 1,"f_Poker_ScoreHand: ShortHand=<LOCAL.ShortHand> Score=<dLOCAL.Score>"
+RETURN <dLOCAL.Score>
+
+
+[FUNCTION f_Poker_Hands]
+//"
+// Usage: f_Poker_Hands CardArray
+//
+// This function takes a LIST object named CardArray that contains at least
+// 5 CardSymbols and creates a new LIST object named CardArrayHands that
+// contains all the possible 5 card hand combinations from CardArray.
+//
+// NOTE: It is assumed the caller of this function will clean up the LIST
+//       object named CardArrayHands.
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"f_Poker_Hands: needs a CardArray"
+   RETURN 0
+ENDIF
+LOCAL.Input=<ARGV[0]>
+LOCAL.InputSize=<EVAL <LIST.<LOCAL.Input>.COUNT>-1>
+IF (<LOCAL.InputSize> < 5)
+   f_pokerlog 1,"f_Poker_Hands: CardArray <LOCAL.Input> is too small"
+   RETURN 0
+ENDIF
+f_Poker_SortCards <LOCAL.Input>
+FOR i 0 <EVAL <LOCAL.InputSize>-4>
+   FOR j <EVAL <LOCAL.i>+1> <EVAL <LOCAL.InputSize>-3>
+      FOR k <EVAL <LOCAL.j>+1> <EVAL <LOCAL.InputSize>-2>
+         FOR l <EVAL <LOCAL.k>+1> <EVAL <LOCAL.InputSize>-1>
+            FOR m <EVAL <LOCAL.l>+1> <EVAL <LOCAL.InputSize>>
+               LOCAL.CardI=<LIST.<LOCAL.Input>.<dLOCAL.i>>
+               LOCAL.CardJ=<LIST.<LOCAL.Input>.<dLOCAL.j>>
+               LOCAL.CardK=<LIST.<LOCAL.Input>.<dLOCAL.k>>
+               LOCAL.CardL=<LIST.<LOCAL.Input>.<dLOCAL.l>>
+               LOCAL.CardM=<LIST.<LOCAL.Input>.<dLOCAL.m>>
+               LOCAL.ThisCombo=<LOCAL.CardI>,<LOCAL.CardJ>,<LOCAL.CardK>,<LOCAL.CardL>,<LOCAL.CardM>
+               LIST.<LOCAL.Input>Hands.ADD <LOCAL.ThisCombo>
+//               f_pokerlog 2,"f_Poker_Hands: ..Combo<dLOCAL.Counter>=<LOCAL.ThisCombo>"
+               LOCAL.Counter ++
+            ENDFOR
+         ENDFOR
+      ENDFOR
+   ENDFOR
+ENDFOR
+
+
+[FUNCTION f_Poker_BestHand]
+//"
+// Usage: f_Poker_BestHand CardArray
+//
+// This function takes a LIST object named CardArray that contains at least
+// 5 CardSymbols (normally 7 in Hold'em) and creates a new LIST object named
+// CardArrayBest that include the 5 CardSymbols that yield the best score.
+//
+// NOTE: It is assumed the caller of this function will clean up the LIST
+//       object named CardArrayBest.
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_BestHand: needs a CardArray"
+   RETURN 1
+ENDIF
+LOCAL.Input=<ARGS>
+LOCAL.InputSize=<LIST.<LOCAL.Input>.COUNT>
+IF (<LOCAL.InputSize> < 5)
+   f_pokerlog 1,"Poker_BestHand: CardArray <LOCAL.Input> is too small"
+   RETURN 1
+ENDIF
+f_Poker_Hands <LOCAL.Input>
+LOCAL.HandCount=<LIST.<LOCAL.Input>Hands.COUNT>
+LOCAL.BestScore=10000
+LOCAL.BestHand=0
+//f_pokerlog 1,"Poker_BestHand: Checking <dLOCAL.HandCount> hands"
+FOR i 0 <EVAL <LOCAL.HandCount>-1>
+   LOCAL.ThisHand=<LIST.<LOCAL.Input>Hands.<dLOCAL.i>>
+   LOCAL.ThisShortHand=<f_Poker_ShortHand <LOCAL.ThisHand>>
+   LOCAL.ThisShortHandScore=<f_Poker_ScoreHand <LOCAL.ThisShortHand>>
+//   f_pokerlog 2,"Poker_BestHand: ..Hand<dLOCAL.i>=<LOCAL.ThisShortHand> score=<dLOCAL.ThisShortHandScore>"
+   IF (<LOCAL.ThisShortHandScore> < <LOCAL.BestScore>)
+//      f_pokerlog 3,"Poker_BestHand: ....This Hand is better than Hand<dLOCAL.BestHand>"
+      LOCAL.BestHand=<LOCAL.i>
+      LOCAL.BestScore=<LOCAL.ThisShortHandScore>
+   ENDIF
+ENDFOR
+LOCAL.TheBestHand=<LIST.<LOCAL.Input>Hands.<dLOCAL.BestHand>>
+LIST.<LOCAL.Input>Hands.CLEAR
+LIST.<LOCAL.Input>Best.CLEAR
+f_Poker_NewHand <LOCAL.Input>Best,<LOCAL.TheBestHand>
+//f_pokerlog 1,"Poker_BestHand: BestHand=<LOCAL.TheBestHand>"
+
+
+[FUNCTION f_Poker_CardName]
+//"
+// Usage: f_Poker_CardName CardSymbol
+//
+// This function takes an abbreviated card symbol (e.g., 'As', 'Kh', '2c')
+// and returns the expanded full name of the card ('Ace of Spades', 'King
+// of Hearts', 'Two of Clubs').
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_CardName: needs a CardSymbol argument"
+   RETURN 1
+ENDIF
+LOCAL.CardSymbol=<ARGS>
+IF !(<ISEMPTY <DEF.POKER.Card.<LOCAL.CardSymbol>>>)
+   LOCAL.CardName=<f_getargv 3 <DEF.POKER.Card.<LOCAL.CardSymbol>>>
+ELSE
+   LOCAL.CardName=Unknown Card
+ENDIF
+//f_pokerlog 1,"Poker_CardName: Name=<LOCAL.CardName>"
+RETURN <LOCAL.CardName>
+
+
+[FUNCTION f_Poker_CardSymbol]
+//"
+// Usage: f_Poker_CardSymbol CardSymbol
+//
+// This function takes an abbreviated card symbol (e.g., 'As', 'Kh', '2c')
+// and returns the printable characters for the card.
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_CardName: needs a CardSymbol argument"
+   RETURN 1
+ENDIF
+LOCAL.CardSymbol=<ARGS>
+IF !(<ISEMPTY <DEF.POKER.Card.<LOCAL.CardSymbol>>>)
+   LOCAL.CardName=<f_getargv 0 <DEF.POKER.Card.<LOCAL.CardSymbol>>><f_getargv 1 <DEF.POKER.Card.<LOCAL.CardSymbol>>>
+ELSE
+   LOCAL.CardName=Unknown
+ENDIF
+//f_pokerlog 1,"Poker_CardName: Name=<LOCAL.CardName>"
+RETURN <LOCAL.CardName>
+
+
+[FUNCTION f_Poker_HandName]
+//"
+// Usage: f_Poker_HandName ShortHand
+//
+// This function takes a ShortHand parameter ('AKQJTs', 'KJJJ4', etc) and
+// return's its name (e.g., 'Royal Flush', 'Three-of-a-Kind', etc.)
+//"
+IF (<ARGV>==0)
+   f_pokerlog 1,"Poker_HandName: needs a ShortHand argument"
+   RETURN 1
+ENDIF
+LOCAL.ShortHand=<ARGS>
+IF !(<ISEMPTY <DEF.POKER.Hands.<LOCAL.ShortHand>>>)
+   LOCAL.HandName=<f_getargv 3 <DEF.POKER.Hands.<LOCAL.ShortHand>>>
+ELSE
+   LOCAL.HandName=Unknown Hand
+ENDIF
+f_pokerlog 1,"Poker_HandName: Name=<LOCAL.HandName>"
+RETURN <LOCAL.HandName>
+
+
+[EOF]

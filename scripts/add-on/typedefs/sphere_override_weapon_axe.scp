@@ -1,0 +1,329 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[TYPEDEF t_weapon_axe]
+
+on=@targon_item
+if <src.cansee <argo.uid>>
+ref1 = <uid.<argo.region.uid>.more2>
+	if <argo.baseid> == i_addon_trash_barrel
+	src.face <argo>
+	argo.sound 011c
+	argo.remove
+	src.sysmessage @,,1 You destroy the item.
+	return 1
+	endif
+	if (<ref1.isowner <src>>) || (<ref1.iscoowner <src>>)
+		if <argo.tag0.deed>
+		local.toadd = <argo.tag0.deed>
+		argo.remove
+		elif <argo.link.tag0.deed>
+		local.toadd = <argo.link.tag0.deed>
+		argo.link.remove
+		endif
+	serv.newitem <local.toadd>
+	new.cont = <src.findlayer.21>
+	return 1
+	endif
+endif
+
+
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Sağlamlık: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+src.sys_error Damage:<dam> - Hız:<speed> 
+return 1
+
+on=@equiptest
+if ((<twohands>) && <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error Cift el silahlari mage seviyeniz 40.0 üzerinde zehirli olarak kullanamazsınız.
+		return 1
+	endif
+endif
+if <hitpoints> > <eval <maxhits>>
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+
+if <hitpoints> <= 1 
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+if ((<twohands>) && (!<def0.scp.poisoning_weapontwohands>) && (!<tag0.override.poisonable>))
+  if <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error 40 magery ustu poisonlu olarak cift el silah kullanamazsiniz.
+		return 1
+	endif
+  endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.swordsmanship> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 Swordsmanship , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.swordsmanship> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 Swordsmanship , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.swordsmanship> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah icin en az 70.0 Swordsmanship, 70.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.swordsmanship> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah icin en az 80.0 Swordsmanship , 80.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.swordsmanship> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah icin en az 90.0 Swordsmanship , 90.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+[typedef t_weapon_mace_sharp]
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Sağlamlık: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+src.sys_error Damage:<dam> - Hız:<speed> 
+return 1
+
+on=@equiptest
+if ((<twohands>) && <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error Cift el silahlari mage seviyeniz 40.0 üzerinde zehirli olarak kullanamazsınız.
+		return 1
+	endif
+endif
+if <hitpoints> > <eval <maxhits>>
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+
+if <hitpoints> <= 1 
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.macefighting> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 Macefighting , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.Macefighting> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 Macefighting , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.Macefighting> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah icin en az 70.0 Macefighting , 70.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.Macefighting> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah icin en az 80.0 Macefighting , 80.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.Macefighting> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah icin en az 90.0 Macefighting , 90.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+
+[typedef t_weapon_mace_smith]
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @33,1,1 [ Sağlamlık: <hitpoints>/<eval <maxhits>> ]
+message @,,1 <name>
+src.sys_error Damage:<dam> - Hız:<speed> 
+return 1
+
+on=@equiptest
+if ((<twohands>) && <isevent.t_weapon_poisoned>
+	if <src.magery> > 40.0
+		src.sys_error Cift el silahlari mage seviyeniz 40.0 üzerinde zehirli olarak kullanamazsınız.
+		return 1
+	endif
+endif
+if <hitpoints> > <eval <maxhits>>
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+
+if <hitpoints> <= 1 
+	src.sys_error Silahiniz cok eskidigi icin kayboldu.
+	remove
+	return 1
+endif
+if (strmatch("<tag0.magicweapon>","Ruin"))
+if (<src.macefighting> < 40.0) || (<src.tactics> < 40.0)
+src.sysmessage @,,1 Bu silah icin en az 40.0 Macefighting , 40.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Might"))
+if (<src.Macefighting> < 60.0) || (<src.tactics> < 60.0)
+src.sysmessage @,,1 Bu silah icin en az 60.0 Macefighting , 60.0 Tactics skilline ihtiyaciniz var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Force"))
+if (<src.Macefighting> < 70.0) || (<src.tactics> < 70.0)
+src.sysmessage @,,1 Bu silah için en az 70.0 Macefighting , 70.0 Tactics skilline ihtiyacınız var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+if (<src.Macefighting> < 80.0) || (<src.tactics> < 80.0)
+src.sysmessage @,,1 Bu silah için en az 80.0 Macefighting , 80.0 Tactics skilline ihtiyacınız var.
+return 1
+endif
+endif
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+if (<src.Macefighting> < 90.0) || (<src.tactics> < 90.0)
+src.sysmessage @,,1 Bu silah için en az 90.0 Macefighting , 90.0 Tactics skilline ihtiyacınız var.
+return 1
+endif
+endif
+
+on=@targon_item
+if <baseid> != i_tongs
+	return 1
+else
+	if (!<src.isneartype t_forge 3>) || (!<src.isneartype t_anvil 3>)
+		src.sys_error Anvil ve forge yakın olmalısınız.
+		return 1
+	elif !<argo.isitem>
+		src.sys_error Bu eşya yenilenemez.
+		return 1
+	elif <argo.isweapon>
+		src.sys_error Bu eşya yenilenemez.
+		return 1
+	elif <argo.topobj> != <src.uid>
+		src.sys_error Eşya çantanızda değil.
+		return 1
+	elif (<argo.skillmake.1.key> != skill_blacksmith) || !((<argo.type> == t_armor) || (<argo.type> == t_shield) || (<argo.isweapon))
+		src.sys_error Bunu tamir edemezsiniz.
+		return 1
+	elif <argo.more1l> >= <argo.more1h>
+		argo.hitpoints <argo.maxhits>
+		src.sys_error Eşya zaten hasarsız.
+		return 1
+		endif
+	if <argo.more1h> <= 0
+		src.sys_error Bunu tamir edemezsiniz.
+		return 1
+	endif
+	src.f_loopanim 11,3,1
+	src.f_loopsound 42,3,1
+	local.difficulty = <eval ((((<argo.more1h> - <argo.more1l>) * 1250) / <argo.more1h>) - 250) / 10>
+	local.decrease = <eval 30 - (<src.blacksmithing> / 33)>
+	if <local.decrease> < 0
+		local.decrease = 0
+	endif
+	local.decrease += <eval {2 4}>
+	argo.more1h = <eval (<argo.more1h> * (100 - <local.decrease>)) / 100>
+	if <local.difficulty> > <r100>
+		src.sys_error Tamir edemediniz.
+		return 1
+	else
+	argo.more1l = <argo.more1h>
+	src.sys_error Başarıyla tamir ettiniz.
+	endif
+	return 1
+endif
+
+[eof]

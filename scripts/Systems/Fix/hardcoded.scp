@@ -1,0 +1,626 @@
+﻿/////////////////////////////////
+//
+//
+//Staff Komutlari
+//
+//
+/////////////////////////////////    
+
+[function f_oncommand] /// SErv.triger kendisi sakin ola silinmesin.
+
+if (<src.account.plevel> == 1)
+	if strmatch(*katıl*,'<args>') || strmatch(*katil*,'<args>')
+		src.katilim
+		return 1
+	endif
+endif
+
+
+
+if (<src.account.plevel> > 1)
+	if !<src.tag.staffbasarili>
+		src.sys_error Pininizi girmeden hiç bir işlemi gerçekleştiremezsiniz.
+		return 1
+	endif
+	//if !<tag.staffbasarili>
+	//	src.sysmessage @,,1 Staff guvenlik dogrulamasini gecmeden hic bir yetkiyi kullanamazsiniz.
+	//	return 1
+	//endif
+endif
+
+if <def.scp.JailSystem> == 1
+	if !strcmpi(jail,<strarg <args>>)
+		if <account.plevel> >= 4
+		f_resenddialog d_jailcore
+		endif
+	return 1
+	elif !strcmpi(forgive,<strarg <args>>)
+		if <account.plevel> >= 4
+		targetf f_forgive
+		endif
+	return 1
+	endif
+endif
+
+
+local.commandname01=<strarg <args>>
+local.commandparameter01=<streat <args>>
+local.commandname02=<strarg <local.commandparameter01>>
+local.commandparameter02=<streat <local.commandparameter01>>
+
+
+local.commandname01=<strarg <args>>
+local.commandparameter01=<streat <args>>
+local.commandname02=<strarg <local.commandparameter01>>
+local.commandparameter02=<streat <local.commandparameter01>>
+
+
+if !(strmatch('<args>','mtele') || strmatch('<args>','admin'))
+	src.tag.komut <args>
+endif
+
+
+
+
+if strmatch('control','<local.commandname01>') || strmatch(*mysql*,'<local.commandname01>') || strmatch(*save*,'<local.commandname01>') || strmatch('<local.commandname01>','privset') || strmatch('<local.commandname01>','serv') || strmatch('<local.commandname01>','serv.import') || strmatch('<local.commandname01>','serv.export') ||strmatch('<local.commandname01>','serv.resync') || strmatch('<local.commandname01>','serv.account') || strmatch('<local.commandname01>','account') || strmatch(*mysql*,'<local.commandname01>')
+	if strmatch("tazmanyak","<src.account.name>") || strmatch("noxier","<src.account.name>")
+		return 0
+	else
+		src.sys_error Boyle bir komut bulunmamaktadir.
+		return 1
+	endif
+elseif ( strmatch('<local.commandname01>','add') )
+	SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ADD.txt ADD: Saat: (<serv.rtime>): ITEM : <local.commandparameter01> 
+	SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\ADD.txt ---------------------------------------------------------------------------------------------------------------
+	//return 1
+elseif (strmatch('<strsub 0 1 <local.commandname01>>','x')) && (strmatch('<strsub 1 2 <local.commandname01>>',''))
+	if (<src.account.plevel> > 1)
+		src.sysmessage @38,,1 Kullanacağınız <local.commandname01><local.commandparameter01> kodunu x ile kod arasında bosluk bırakmadan yazınız.
+		return 1
+	endif
+elseif strmatch('<local.commandname01>','goname') || strmatch('<local.commandname01>','xgoname')
+	if  strmatch('<local.commandparameter01>','Rhodos') || strmatch('<local.commandparameter01>','Xeon') || strmatch('<local.commandparameter01>','Rasengan')
+		//src.sysmessage @1153,,1 Bu imkansiz dostum. //./Rhodos
+		return 1
+	endif
+	if  strmatch('<local.commandparameter01>','Mustang') || strmatch('<local.commandparameter01>','Shire') || strmatch('<local.commandparameter01>','Forest Ostard') || strmatch('<local.commandparameter01>','Desert Ostard') || strmatch('<local.commandparameter01>','Frenzied Ostard') || strmatch('<local.commandparameter01>','Llama') || strmatch('<local.commandparameter01>','Silver Steed') || strmatch('<local.commandparameter01>','Kii Rin')
+		if (<src.account.plevel> < 7)
+		return 1
+		endif
+	endif
+
+elseif ( strmatch('<local.commandname01>','color') )
+		src.sysmessage @33,,1 Lütfen "xcolor" komutunu kullanınız.
+		//targetf override_kolor <local.commandparameter02>
+		return 1
+elseif ( strmatch('<local.commandname01>','stone') )
+		sysmessage @33,,1 Lütfen "xstone" komutunu kullanınız.
+		return 1
+
+elseif ( strmatch('<local.commandname01>','name') )
+		sysmessage @33,,1 Lütfen "xname" komutunu kullanınız.
+		return 1
+elseif ( strmatch('<local.commandname01>','timer') )
+		sysmessage @33,,1 Lütfen "xtimer" komutunu kullanınız.
+		return 1
+elseif ( strmatch('<local.commandname01>','open') )
+		sysmessage @33,,1 Lütfen "xopen" komutunu kullanınız.
+		return 1
+// elseif ( strmatch('<local.commandname01>','info') )
+		// sysmessage @33,,1 Lütfen "xinfo" komutunu kullanınız.
+		// return 1
+
+elseif strmatch('<local.commandname01>','xcolor') 
+	if (<src.account.plevel> > 3)
+		targetf override_kolor <local.commandparameter01>
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1
+	endif
+elseif strmatch('<local.commandname01>','set') || strmatch('<local.commandname01>','xset')  || strmatch('<local.commandname01>','xamount') || strmatch('<local.commandname01>','xdupe')
+	if (<src.account.plevel> < 7)
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1
+	endif
+elseif ( strmatch('<local.commandname01>','remove') || strmatch('<local.commandname01>','xremove') )
+
+	if !strmatch('<src.account.name>','tazmanyak') || strmatch('<src.account.name>','noxier')
+		if (<src.account.plevel> >= 6)
+			targetf override_remove
+			src.sysmessage @,,1 Neyi silecegiz patron 
+			return 1
+		else
+			src.sysmessage @33,,1 Yetkiniz yok.
+			return 1	
+		endif
+	endif
+elseif strmatch('<local.commandname01>','xbounce')
+	if (<src.account.plevel> > 3)
+		targetf override_bounce
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1	
+	endif
+elseif strmatch('<local.commandname01>','xbank')
+	if (<src.account.plevel> > 6)
+		return 0
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1	
+	endif
+elseif strmatch('<local.commandname01>','xopen')
+	if (<src.account.plevel> > 6)
+		return 0
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1	
+	endif
+elseif strmatch('<local.commandname01>','xedit')
+	if (<src.account.plevel> > 5)
+		targetf override_edit
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1	
+	endif
+elseif strmatch('<local.commandname01>','xname')
+	if (<src.account.plevel> > 6)
+		targetf override_name <local.commandparameter01>
+		src.sysmessage @,,1 Neyin ismini degistirecegiz patron ?
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1	
+	endif
+elseif ( strmatch('<local.commandname01>','tweak') ) || strmatch('<local.commandname01>','xinfo') || strmatch('<local.commandname01>','xtweak')
+	if (<src.account.plevel> > 3)
+		targetf override_info
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1	
+	endif
+elseif ( strmatch('<local.commandname01>','xstone') )
+	if (<src.account.plevel> >= 3)	
+		targetf override_xstone <local.commandparameter02>
+		src.sysmessage @,,1 Kimi stone edecegiz patron ?
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1
+	endif
+elseif ( strmatch('<local.commandname01>','events') || strmatch('<local.commandname01>','xevents') )
+	if (<src.account.plevel> < 7)
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1
+	//if ( strmatch('*e_auction_showitem*','<local.commandparameter01>') )
+
+	elseif ( strmatch('*gmfix*','<local.commandparameter01>') )
+
+			src.sysmessage @038 Bu komutu kullanma yetkin yok!!!
+			return 1
+
+	elseif ( strmatch('*0*','<local.commandparameter01>') )
+
+			src.sysmessage @038 Bu komutu kullanma yetkin yok!!!
+			return 1
+
+	else
+		return 0
+	endif
+elseif (strmatch('<local.commandname01>','xtimer'))
+	if (<src.account.plevel> > 6)	
+		src.sysmessage @,,1 Lütfen timer ayarini <eval <local.commandparameter01>> yapmak istediginiz esyayi seciniz.
+		targetf override_ttimer <eval <local.commandparameter01>>
+		return 1
+	else
+		src.sysmessage @33,,1 Yetkiniz yok.
+		return 1
+	endif
+elseif ( strmatch('<local.commandname01>','jail') || ( strmatch('<local.commandname01>','xjail') )
+	sys_error .ja menu kullanınız.
+	return 1
+elseif ( strmatch('<local.commandname01>','page') || ( strmatch('<local.commandname01>','xpage') )
+	sys_error .pg kullanınız.
+	return 1
+elseif ( strmatch('<local.commandname01>','gocli') )
+	return 0
+elseif (strmatch('<local.commandname02>','uid') )
+	sysmessage @38 Kapaliyiz..
+	return 1
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////
+[function override_kolor]
+OBJ=<ARGO.UID>
+if <src.account.plevel> < 6
+	if ( <obj.staffitem> ) 
+		src.sysmessage @33,,1 Bu esyayi boyama yetkin yok.
+		return 1
+ 
+	elseif (<obj.isplayer>) 
+		src.sysmessage @33,,1 Bu kisiyi boyama yetkin yok.
+		return 1
+	else
+		obj.color <args>
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): COLOR , uygulanan esya <obj.name> , renk <args>
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+		return 0
+	endif
+else
+	obj.color <args>
+	SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): COLOR , uygulanan esya <obj.name> , renk <args>
+	SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+	return 0
+endif
+obj // obj yi temizledik
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+[function override_remove]
+obj=<argo.uid>
+
+if  strmatch('<obj.id>','c_vendor_player_burak') || (<argo.TAG0.Access>) || strmatch('<obj.baseid>','i_strongbox') || strmatch('<obj.baseid>','i_spawn_koruma') || strmatch('<obj.baseid>','i_anti_mark_koy') || strmatch('<obj.baseid>','i_spawncikarici') || strmatch('<obj.baseid>','i_guildstone') || strmatch('<obj.baseid>','i_yeni_anons_tasi') || strmatch('<obj.baseid>','i_etkinlik_stone')) && (<src.account.plevel> < 7)
+src.sysmessage @,,1 Bunu silmeye yetkin yok.
+return 1
+endif
+
+if (<obj.cont>)
+	if (<src.uid> != <obj.topobj.uid>) // kendi çantamdan bi?i mi silecem?
+		if (<uid.<obj.topobj.uid>.isplayer>)// player ustunde mi kullaniyom
+			if (<src.account.plevel> <= <obj.topobj.account.plevel>) // lvl i benle ayni yoksa benden yuksek mi?
+				src.sysmessage @33,,1 Karsi tarafin pleveli senle ayni yada senden buyuk.
+				return 1
+			else
+				obj.remove// dusuk lvl li baskasinin cantasindan silebiliyorum
+					SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Remove , trg.id : <obj.uid> , trg.name: <obj.name> , removed (<obj.p>) / Baskasinin cantasidan
+					SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+				src.sysmessage @,,1 Item silindi : <obj.name>	
+			obj
+			endif
+		else // player olmayan char - itemlar
+			obj.remove// dusuk lvl li baskasinin cantasindan silebiliyorum
+					SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Remove , trg.id : <obj.uid> , trg.name: <obj.name> , removed (<obj.p>) / Baskasinin cantasidan
+					SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+	src.sysmessage @,,1 Item silindi : <obj.name>
+			obj
+		endif			
+	else
+		obj.remove // kendi cantamdan bisi silecem
+					SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Remove , trg.id : <obj.uid> , trg.name: <obj.name> , removed (<obj.p>) / Kendi Cantasindan
+					SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+	src.sysmessage @,,1 Item silindi : <obj.name>
+		obj
+	endif
+else
+	if strmatch('<obj.type>','t_spawn_char') //&& ((<bu_infolanan_binekmi <serv.chardef.<obj.more1>.TEVENTS>>) //|| (<obj.more1> == c_yumurta_mid) || (<obj.more1> == c_yumurta_forest) || (<obj.more1> == c_yumurta_desert) || (<obj.more1> == c_yumurta_zostrich) || (<obj.more1> == c_daemon_gate_keeper)))
+		if (<src.account.plevel> < 7 )
+			src.sysmessage @38,3,1 Bu itemi silmeye yetkiniz yok :)
+			//src.s <serv.rtime> zamaninda <obj.p>(<obj.region.name>) bolgesinde bulunan <serv.chardef.<obj.more1>.name> adli binegin infosuna bakmaya calisti.
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt <src.name> <serv.rtime> zamaninda <obj.p>(<obj.region.name>) bolgesinde bulunan <serv.chardef.<obj.more1>.name> adli binegin spawnina remove atmaya çalisti.
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+			//serv.log  Cmd: Info, src.acc: <src.account.name>-<src.name>, trg.id : <obj.uid>,trg.name: (<obj.name>), trg.id:(<obj.baseid>) [playermi?: <obj.isplayer>];  [bakamadi]
+			//if !(<src.ctag.kontrolcu> == 1)
+			//	return 1
+			//endif
+		endif
+	endif	
+	if strmatch('<obj.baseid>','i_auction_board')
+		src.sysmessage @38,3,1 Bu itemi silmeye yetkiniz yok :)
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+	if strmatch('<obj.baseid>','i_char_deletor')
+		src.sysmessage @38,3,1 Bu itemi silmeye yetkiniz yok :)
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+	obj.remove // yerden vs.den silecem
+	SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Remove , trg.id : <obj.uid> , trg.name: <obj.name> , removed (<obj.p>) / Yerden
+	SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+	src.sysmessage @,,1 Item silindi : <obj.name>
+	obj
+endif
+obj
+return 0
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function override_edit]
+obj=<argo.uid>
+	if strmatch('<obj.baseid>','i_auction_board')
+		src.sysmessage @38,3,1 Bu itemin icerigini goremezsiniz.
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+	if strmatch('<obj.baseid>','i_kutu_stable_satis')
+		src.sysmessage @38,3,1 Bu itemin icerigini goremezsiniz.
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+		
+	obj.edit
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Edit , trg.id : <obj.uid>, trg.name: <obj.name> , p (<obj.p>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+obj
+return 0
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function override_xstone]
+obj=<argo.uid>
+if (<obj.ischar>)//char'sa
+	if (<obj.isplayer>)
+		if (<src.account.plevel> < <obj.account.plevel> )
+			src.sysmessage @38,3,1 Sizden yuksek rutbeli birini stone edemezsiniz.
+			return 1
+		endif
+	endif
+		if !(<obj.flags>&statf_stone) // stone deilse
+			obj.stone 1 // stonela
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Stone ETTI , trg.id : <obj.uid>,trg.name: <obj.name> , stoned1 (<obj.p>)
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+		else // yeni sistemden once stone edilmisse
+			obj.stone 0 // stone ac
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Stone Acti , trg.id : <obj.uid>,trg.name: <obj.name> , stoned1 (<obj.p>)
+			SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+		endif
+	
+endif
+obj
+return 0
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function override_ttimer]
+obj=<argo.uid>
+	if strmatch('<obj.baseid>','i_auction_board')
+		src.sysmessage @38,3,1 Bu itemin timer ayari ile oynayamazsiniz.
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+	if strmatch('<obj.baseid>','i_char_deletor')
+		src.sysmessage @38,3,1 Bu itemin timer ayari ile oynayamazsiniz.
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+	if strmatch('<obj.baseid>','i_kutu_stable_satis')
+		src.sysmessage @38,3,1 Bu itemin timer ayari ile oynayamazsiniz.
+		if !(<src.ctag.kontrolcu> == 1)
+			return 1
+		endif
+	endif
+	if strmatch('<obj.type>','t_spawn_char')// && ((<bu_infolanan_binekmi <serv.chardef.<obj.more1>.TEVENTS>>) //|| (<obj.more1> == c_yumurta_mid) || (<obj.more1> == c_yumurta_forest) || (<obj.more1> == c_yumurta_desert) || (<obj.more1> == c_yumurta_zostrich) || (<obj.more1> == c_daemon_gate_keeper)))
+		if (<src.account.plevel> < 4)
+			src.sysmessage @38,3,1 Bu itemin timer ayari ile oynayamazsiniz.
+			if !(<src.ctag.kontrolcu> == 1)
+				return 1
+			endif
+		endif
+	endif
+		
+	obj.timer <args>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Timer , uygulanan esya <obj.name> , uid : <obj.uid> , P: <obj.p> , Yeni Sures <args>
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+obj
+return 0
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function override_info]
+obj=<argo.uid>
+	if (<obj.isplayer>)
+		if (<src.account.plevel> < <obj.account.plevel> )
+			src.sysmessage @38,3,1 Sizden yuksek rutbeli biri uzerinde calistirmazsiniz.
+			return 1
+		endif
+	endif
+
+obj.info
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Info , trg.id : <obj.uid>, trg.name: <obj.name> , p (<obj.p>)
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+obj
+return 0
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function override_name]
+obj=<argo.uid>
+	if (<obj.isplayer>)
+		if (<src.account.plevel> < <obj.account.plevel> )
+			src.sysmessage @38,3,1 Sizden yuksek rutbeli biri uzerinde calistirmazsiniz.
+			return 1
+		endif
+	endif
+src.sysmessage @33,,1 Eski Isim : "<obj.name>" 
+src.sysmessage @69,,1 Yeni Isim : "<args>"
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt Komutlar: Saat: (<serv.rtime>): Name , trg.id : <obj.uid>, p (<obj.p>) , Eski Isim "<obj.name>" ; Yeni isim "<args>"
+SERV.WRITEFILE2 C:\SERVER_LOGLARI\<src.account.name>\Kullanilan_Komutlar.txt ---------------------------------------------------------------------------------------------------------------
+obj.name <args>
+obj
+return 0
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function staffitem]
+if (<isitem>)
+	if ( strmatch('<baseid>','i_robe_gm') || strmatch('<baseid>','i_staff_horse') || strmatch('<baseid>','i_gm_robe') || strmatch('<baseid>','i_mt_horse_staff')
+		return 1
+	else
+		return 0
+	endif
+elseif (<ischar>)
+	if (<isplayer>)
+		if (<account.plevel> >1)
+			return 1
+		else
+			return 0
+		endif
+	else
+		return 0
+	endif
+else
+	return 0
+endif
+
+
+
+
+
+
+[itemdef i_artmul]
+id=i_spellbook
+name=Art Mul
+type =t_spellbook
+
+on=@dclick
+sdialog d_art_mul
+return 1
+
+[dialog d_art_mul]
+0,0
+
+if <more> < 0
+more = 0
+endif
+local._art = <more>
+
+resizepic 138 10 2600 600 520
+resizepic 138 520 2600 600 100
+for 32
+tilepic <eval 170+(70*<dlocal._x>)> <eval 30+(120*<dlocal._y>)> <dlocal._art>
+dtext <eval 180+(70*<dlocal._x>)> <eval 10+(120*<dlocal._y>)> 2000 <local._art>
+local._art ++
+if <local._y> = 3
+local._x ++
+local._y = 0
+else
+local._y ++
+endif
+endfor
+if <more>
+button 400 565 4014 4015 1 0 1
+endif
+if <more> < 03fc4
+button 435 565 4005 4006 2 0 2
+endif
+if <more>
+button 350 565 4014 4015 3 0 3
+endif
+if <more> < 03fc4
+button 485 565 4005 4006 4 0 4
+endif
+
+[dialog d_art_mul button]
+on=1
+more -=4
+dialogclose d_art_mul
+dialog d_art_mul
+
+on=2
+more +=4
+dialogclose d_art_mul
+dialog d_art_mul
+
+on=3
+more -=32
+dialogclose d_art_mul
+dialog d_art_mul
+
+on=4
+more +=32
+dialogclose d_art_mul
+dialog d_art_mul
+
+
+
+[plevel 7]
+openscript2222222222
+
+[function openscript2222222222]
+CTAG.FILEINUSE <ARGS>
+CTAG.TOTALLINES
+DIALOG D_OPENSCRIPT 1 <ARGS>
+
+[DIALOG D_OPENSCRIPT]
+10,20
+//src.closealldialogs
+PAGE 0
+resizepic 0 0 2620 1030 790
+button 40 760 2117 2118 1 0 1
+dtext 60 760 0ad Atualizar & resync
+
+button 340 740 2117 2118 1 0 2
+dtext 360 730 0ad Trocar:
+DTEXTENTRY 410 730 500 20 88 -1 O que?
+dtext 360 750 0ad Por:
+DTEXTENTRY 410 750 500 20 88 -2 O que?
+
+PAGE 1
+LOCAL.PAGE=1
+IF !(<FILE.INUSE>)
+FILE.MODE.APPEND=1
+IF (<FILE.OPEN <STRARG <ARGS>>>) //IF (0<FILE.OPEN <ARGS> >)
+LOCAL.AUMENTAR=1
+WHILE ((STRCMPI(<FILE.READLINE <HVAL <LOCAL._WHILE>+1>>,<FILE.READLINE 0>))
+IF (<LOCAL.AUMENTAR> >= 40)
+LOCAL.AUMENTAR=1
+button 40 730 2117 2118 0 <EVAL <LOCAL.PAGE>+1> 0
+dtext 60 730 0ad Proximo
+LOCAL.PAGE += 1
+PAGE <LOCAL.PAGE>
+button 120 730 2117 2118 0 <EVAL <LOCAL.PAGE>-1> 0
+dtext 140 730 0ad Anterior
+ENDIF
+DTEXTENTRY 40 <EVAL 18*<LOCAL.AUMENTAR>> 1000 20 88 <LOCAL._WHILE> <FILE.READLINE <HVAL <LOCAL._WHILE>+1>>
+DTEXT 5 <EVAL 18*<LOCAL.AUMENTAR>> 0ad L(<EVAL <LOCAL._WHILE>+1>)
+LOCAL.AUMENTAR += 1
+ENDWHILE
+SRC.CTAG.TOTALLINES=<LOCAL._WHILE>
+DTEXTENTRY 40 <EVAL 18*<LOCAL.AUMENTAR>> 1000 20 88 <LOCAL._WHILE> <FILE.READLINE 0>
+DTEXT 5 <EVAL 18*<LOCAL.AUMENTAR>> 0ad L(<EVAL <LOCAL._WHILE>+1>)
+FILE.CLOSE
+ENDIF
+ENDIF
+
+[DIALOG D_OPENSCRIPT BUTTON]
+ON=1
+FILE.CLOSE
+FILE.DELETEFILE <CTAG.FILEINUSE>
+FILE.MODE.CREATE=1
+IF (<FILE.OPEN <CTAG.FILEINUSE>>)
+FOR 0 <CTAG0.TOTALLINES>
+FILE.WRITELINE <ARGTXT[<LOCAL._FOR>]>
+ENDFOR
+ENDIF
+FILE.CLOSE
+SERV.RESYNC
+CTAG.FILEINUSE
+CTAG.TOTALLINES
+
+[EOF]
+if strmatch("haciyatmaz","<account.name>") || strmatch("kralciplak","<account.name>") || strmatch("vanderus","<account.name>") || strmatch("tazmanyak","<account.name>")
+	if strmatch("pghelper","<args>")
+		if !<src.tag.page_helper>
+			src.tag.page_helper 1
+			src.sys_normal Page Helper açıldı.
+			return 1
+		else
+			src.tag.page_helper
+			src.sys_error Page Helper kapatıldı.
+			return 1
+		endif
+	endif
+endif
+
+	if strmatch(*pg*,<args>)
+		src.<args>
+		return 1
+	endif
+endif
+

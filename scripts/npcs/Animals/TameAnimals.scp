@@ -1,0 +1,40 @@
+[CHARDEF 058]
+DEFNAME=c_goat
+NAME=goat
+ICON=i_pet_goat_billy
+SOUND=snd_animals_goat1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=3,4
+ARMOR=5
+DESIRES=r_civilization
+AVERSIONS=e_carnivores,e_carnivores2,e_carnivores3
+RESOURCES=2 i_ribs_raw,8 i_hide
+FOODTYPE=15 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=5.4
+TAG.Control.Slots=1
+CATEGORY=Animals
+SUBSECTION=Tame
+DESCRIPTION=Goat
+ON=@Create
+   NPC=brain_animal
+   FAME=150
+   KARMA=0
+   STR={15 20}
+   MAXHITS={10 15}
+   DEX={15 20}
+   MAXSTAM={15 20}
+   INT={5 10}
+   MAXMANA={5 10}
+   MAGICRESISTANCE={5.0 10.0}
+   TACTICS={5.0 10.0}
+   TAMING={10.0 15.0}
+   WRESTLING={5.0 10.0}
+   MODAR={0 10}
+   RESCOLD=0
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON=0
+
+[EOF]

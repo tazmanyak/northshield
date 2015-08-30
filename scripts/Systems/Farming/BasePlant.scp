@@ -1,0 +1,655 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[function isAccessible]
+if <uid.<region.uid>.link.houseplayeraccess <src.uid>> >= 3
+return 1
+endif
+return 0
+
+[itemdef i_bowl_empty]
+ID=i_bowl_pewter
+TYPE=t_plant_base
+NAME=empty bowl
+VALUE=58
+
+[typedef t_plant_base]
+on=@dropon_ground
+if !(<tag0.m_status> >= 10) && !(<tag0.m_status>==0) // not decorative or there is really a plant ?
+	if (<tag0.cantaat> < <serv.time>)
+	bReset
+	say @03c1,6,1,1 cicek zehirlendigi icin yasam fonksiyonlarini kaybetti..  // no oxygen left.
+	else
+	tag0.cantaat=0
+	endif
+endif
+bupdate
+
+on=@pickup_ground
+if !(<tag0.m_status> >= 10) && !(<tag0.m_status>==0)
+message @03c1,6,1,1 Cicegi yerinden oynattiniz. Cicegi 60 saniye icerisinde tekrar yerine koymazsaniz hayatini kaybedecek.
+tag0.cantaat=<eval <serv.time>+600>
+endif
+bupdate
+
+on=@dclick
+if !(<tag0.m_dirt>) && !(<tag0.m_fertiledirt>)  // no dirt or fertile dirt ?
+src.message @,,1 Eklemek istediginiz topragi seciniz //select a dirt patch to use
+targetg
+morex=1
+return 1
+else
+	if (<tag0.m_status>==10)  // decorative plant status.
+	bupdate
+	return 1
+	else
+		if !(<isaccessible>)
+		src.message @03c1,6,1,1 Bunu yapmaya yetkiniz yok !
+		return 1
+		endif
+		if (<topobj.uid>==<src.uid>)
+			if (<tag0.cantaat> < <serv.time>) && !(<tag0.m_status>==0)
+			src.message @03c1,6,1,1 Cicek zehirlendigi icin hayatini kaybetti..
+			bReset
+			bupdate
+			return 1
+			endif
+		endif
+		if (<tag0.m_status>==11)  // died status
+		bReset
+		bupdate
+		return 1
+		endif
+	bupdate
+	dialog d_plant_Gump  // not died , not decorative ? open gump.
+	return 1
+	endif
+endif
+
+on=@targon_item
+if (<morex>==1) // dirt adding operation :P
+	if (<src.targ.baseid>==i_reag_fertile_dirt)
+		if !(<src.targ.amount> >= 20)
+		src.sysmessage @,,1 yeteri kadar toprak yok. // not enough fertile dirt.
+		return 1
+		endif
+		if !(<src.targ.topobj.uiD>==<src.uid>)
+		src.sysmessage @,,1 Cantanizda olmasi gerekiyor // not in pack ?
+		return 1
+		endif
+	tag0.m_fertiledirt=1
+	src.targ.consume=20
+	src.sysmessage @,,1 Topragi eklediniz. // added dirt yeah !
+	bUpdate
+	return 1
+	else
+	src.sysmessage @,,1 Bu bir toprak degil.  // not a dirt
+	return 1
+	endif
+endif
+
+if (<morex>==2) // add some water ?
+	if !(<tag0.m_dirt>) && !(<tag0.m_fertiledirt>)
+	src.sysmessage @03c1,6,1,1 Saksı bos durumda.
+	return 1
+	endif
+
+	if !(<src.targ.topobj.uiD>==<src.uid>)
+	src.sysmessage @03c1,6,1,1 Ulasamiyorsunuz.
+	return 1
+	endif
+
+	if !(<src.targ.baseid>==i_pitcher_water)
+	src.sysmessage @03c1,6,1,1 Bu pekte suya benzemiyor.
+	return 1
+	endif
+
+src.targ.id=i_pitcher_glass
+src.targ.updatex
+tag0.m_water += 1
+sound 575
+message @03c1,6,1,1 Saksiya su eklediniz.
+	if (<tag0.m_Water> > 4)
+	tag0.m_water=4  // can't exceed level 4 water
+	endif
+return 1
+endif
+
+if (<morex>==3)  // add poison to kill infest !
+	if !(<tag0.m_dirt>) && !(<tag0.m_fertiledirt>)
+	src.sysmessage @03c1,6,1,1 Saksi bos durumda.
+	return 1
+	endif
+
+	if !(<src.targ.topobj.uiD>==<src.uid>)
+	src.sysmessage @03c1,6,1,1 Ulasamiyorsunuz.
+	return 1
+	endif
+
+	if !(<src.targ.baseid>==i_potion_poison) && !(<src.targ.baseid>==i_potion_poisongreat)
+	src.sysmessage @03c1,6,1,1 Bu bir zehir degil.
+	return 1
+	endif
+
+tag0.m_poisonpotion += 1
+sound 576
+message @03c1,6,1,1 Zehiri eklediniz.
+//serv.newitem i_bottle_empty
+//new.cont=<src.findlayer.layer_pack.uid>
+//new.contp=<src.targ.contp>
+//src.targ.remove
+argo.consume 1
+return 1
+endif
+
+if (<morex>==4)  // you must cure your plant against fungus...
+	if !(<tag0.m_dirt>) && !(<tag0.m_fertiledirt>)
+	src.sysmessage @03c1,6,1,1 Saksi bos durumda.
+	return 1
+	endif
+
+	if !(<src.targ.topobj.uiD>==<src.uid>)
+	src.sysmessage @03c1,6,1,1 Ulasamiyorsunuz.
+	return 1
+	endif
+
+	if !(<src.targ.baseid>==i_potion_cure) && !(<src.targ.baseid>==i_potion_curegreat)
+	src.sysmessage @03c1,6,1,1 Bu bir tedavi degil.
+	return 1
+	endif
+
+tag0.m_curepotion += 1
+sound 576
+message @03c1,6,1,1 Tedaviyi eklediniz.
+//serv.newitem i_bottle_empty
+//new.cont=<src.findlayer.layer_pack.uid>
+//new.contp=<src.targ.contp>
+//src.targ.remove
+argo.consume 1
+return 1
+endif
+
+if (<morex>==5) // and sometimes need healing..
+	if !(<tag0.m_dirt>) && !(<tag0.m_fertiledirt>)
+	src.sysmessage @03c1,6,1,1 Saksi bos durumda.
+	return 1
+	endif
+
+	if !(<src.targ.topobj.uiD>==<src.uid>)
+	src.sysmessage @03c1,6,1,1 Ulasamiyorsunuz.
+	return 1
+	endif
+
+	if !(<src.targ.baseid>==i_potion_heal) && !(<src.targ.baseid>==i_potion_healgreat)
+	src.sysmessage @03c1,6,1,1 Bu bir can iksiri degil.
+	return 1
+	endif
+
+tag0.m_healpotion += 1
+sound 576
+message @03c1,6,1,1 Can iksirini eklediniz.
+//serv.newitem i_bottle_empty
+//new.cont=<src.findlayer.layer_pack.uid>
+//new.contp=<src.targ.contp>
+//src.targ.remove
+argo.consume 1
+return 1
+endif
+
+if (<morex>==6) // plant must have resist against infestation
+	if !(<tag0.m_dirt>) && !(<tag0.m_fertiledirt>)
+	src.sysmessage @03c1,6,1,1 Saksi bos durumda.
+	return 1
+	endif
+
+	if !(<src.targ.topobj.uiD>==<src.uid>)
+	src.sysmessage @03c1,6,1,1 Ulasamiyorsunuz.
+	return 1
+	endif
+
+	if !(<src.targ.baseid>==i_potion_strength) && !(<src.targ.baseid>==i_potion_strengthgreat)
+	src.sysmessage @03c1,6,1,1 Bu guclendirici bir iksir degil.
+	return 1
+	endif
+
+tag0.m_strengthpotion += 1
+sound 576
+message @03c1,6,1,1 Guclendirici iksiri eklediniz.
+//serv.newitem i_bottle_empty
+//new.cont=<src.findlayer.layer_pack.uid>
+//new.contp=<src.targ.contp>
+//src.targ.remove
+argo.consume 1
+return 1
+endif
+
+if (<morex>==10)  // MUTATE THE PLANT
+	if (<src.targ.baseid> != i_bowl_empty)
+	src.sysmessage @03c1,6,1,1 Bu bir saksi degil ?
+	return 1
+	endif
+
+	if !(<src.targ.bisgrowable>) || (<src.targ.tag0.m_status> < 7)
+	src.sysmessage @,,1 Buyumenin bu asamasinda cicekten polenleri alamazsiniz.   // You cannot gather pollen from a plant in this stage of development!
+	return 1
+	endif
+
+	if !(<src.targ.biscrossable>)
+	src.sysmessage @,,1 Mutant bitkileri caprazlayamazsiniz  // you can't cross mutated plants..
+	return 1
+	endif
+
+	/////put your own housing security code here
+	if !(<src.targ.isaccessible>) || (<src.targ.distance <src>> > 2)
+	src.sysmessage @03c1,6,1,1 Guvenli olmak zorunda.
+	return 1
+	endif
+
+	if (<src.targ.tag0.m_pollinated>)
+	src.sysmessage @,,1 Zaten suanda polenlenmis durumda. // already pollinated..
+	return 1
+	endif
+
+	if !strmatch('<src.targ.bhealth>','Vibrent') && !strmatch('<src.targ.bhealth>','healthy')
+	src.sysmessage @,,1 Sagliksiz bitki // unhealthy plants
+	return 1
+	endif
+
+	if (<src.targ.uid>==<uid>)
+	tag0.m_pollinated=1
+	tag0.m_seedhue=<dtag0.m_planthue>
+	tag0.m_seedTYPE=<dtag0.m_planttype>
+	src.sysmessage @,,1 Bitkiyi kendisi ile polenlediniz. // // You pollinate the plant with its own pollen.
+	else
+	src.targ.tag0.m_pollinated=1
+	src.targ.tag0.m_seedhue=<bHuetoPlant <bhuecross <uid>,<src.targ.uid>>>
+	src.targ.tag0.m_seedTYPE=<btypecross <uid>,<src.targ.uid>>
+	src.sysmessage @,,1 Basarili bir sekilde bitkiyi capraz polenlediniz. // You successfully cross-pollinate the plant.
+	endif
+endif
+return 1
+
+on=@targon_ground
+if (<morex>==1)
+//DIRT TERRAIN
+	if (<src.targp.terrain>==09) || (<src.targp.terrain>==015) || (<src.targp.terrain>==071) || (<src.targp.terrain>==07c) || (<src.targp.terrain>==082) || (<src.targp.terrain>==0a7) || (<src.targp.terrain>==0dc) || (<src.targp.terrain>==0e3) || (<src.targp.terrain>==0e8) || (<src.targp.terrain>==0eb) || (<src.targp.terrain>==0141) || (<src.targp.terrain>==0144) || (<src.targp.terrain>==014c) || (<src.targp.terrain>==015c) || (<src.targp.terrain>==0169) || (<src.targp.terrain>==0174) || (<src.targp.terrain>==01dc) || (<src.targp.terrain>==01ef) || (<src.targp.terrain>==0272) || (<src.targp.terrain>==0275) || (<src.targp.terrain>==027e) || (<src.targp.terrain>==0281) || (<src.targp.terrain>==02d0) || (<src.targp.terrain>==02d7) || (<src.targp.terrain>==02e5) || (<src.targp.terrain>==02ff) || (<src.targp.terrain>==0303) || (<src.targp.terrain>==031f) || (<src.targp.terrain>==032c) || (<src.targp.terrain>==032f) || (<src.targp.terrain>==033d) || (<src.targp.terrain>==0340) || (<src.targp.terrain>==0345) || (<src.targp.terrain>==0345) || (<src.targp.terrain>==034c) || (<src.targp.terrain>==0355) || (<src.targp.terrain>==0358) || (<src.targp.terrain>==0367) || (<src.targp.terrain>==036e) || (<src.targp.terrain>==0377) || (<src.targp.terrain>==037a) || (<src.targp.terrain>==038d) || (<src.targp.terrain>==0390) || (<src.targp.terrain>==0395) || (<src.targp.terrain>==039c) || (<src.targp.terrain>==03a5) || (<src.targp.terrain>==03a8) || (<src.targp.terrain>==03f6) || (<src.targp.terrain>==0405) || (<src.targp.terrain>==0547) || (<src.targp.terrain>==054e) || (<src.targp.terrain>==0553) || (<src.targp.terrain>==0556) || (<src.targp.terrain>==0597) || (<src.targp.terrain>==059e) || (<src.targp.terrain>==0623) || (<src.targp.terrain>==063a) || (<src.targp.terrain>==06f3) || (<src.targp.terrain>==06fa) || (<src.targp.terrain>==0777) || (<src.targp.terrain>==0791) || (<src.targp.terrain>==079a) || (<src.targp.terrain>==07a9) || (<src.targp.terrain>==07ae) || (<src.targp.terrain>==07b1) || (<src.targp.terrain>==0983) || (<src.targp.terrain>==070) || (<src.targp.terrain>==071) || (<src.targp.terrain>==072) || (<src.targp.terrain>==073) || (<src.targp.terrain>==074) || (<src.targp.terrain>==075) || (<src.targp.terrain>==076) || (<src.targp.terrain>==077) || (<src.targp.terrain>==078) || (<src.targp.terrain>==079) || (<src.targp.terrain>==080)
+	tag0.m_dirt=1
+	src.sysmessage @,,1 Saksiyi taze toprakla doldurdunuz.  // you fill bowl with fresh dirt
+	bUpdate
+	return 1
+	else
+	src.sysmessage @,,1 Bu bir toprak degil.// not a dirt !!
+	return 1
+	endif
+endif
+
+on=@click
+if (<tag0.m_status>==0)
+	if (<tag0.m_fertiledirt>) || (<tag0.dirt>)
+	name=bowl of dirt
+	else
+	name=empty bowl
+	endif
+else
+	if (<tag0.m_status> = 11)
+	name=dead plant
+	elif (<tag0.m_status> = 10)
+	name=decorative <serv.itemdef.<def.planttype_<dtag0.m_planttype>_itemid>.name>
+	elif (<tag0.m_status> >= 7)
+	name=<bhealth> <serv.itemdef.<def.planttype_<dtag0.m_planttype>_itemid>.name>
+	else
+		if (<tag0.m_water> <= 1)
+		local.yazi1=hard
+		local.cliloc1=1060826
+		elif (<tag0.m_water> <= 2)
+		local.yazi1=soft
+		local.cliloc1=1060827
+		elif (<tag0.m_water> <= 3)
+		local.yazi1=squishy
+		local.cliloc1=1060828
+		else
+		local.yazi1=sopping wet
+		local.cliloc1=1060829
+		endif
+
+		if (<tag0.m_status> <= 1)
+		local.yazi2=seed
+		elif (<tag0.m_status> <= 2)
+		local.yazi2=sapling
+		elif (<tag0.m_status> <= 4)
+		local.yazi2=plant
+		elif (<tag0.m_status> <= 7)
+		local.yazi2=fullgrown plant
+		endif
+
+		name=bowl of <local.yazi1> dirt with a <bhealth> <def.planthue_<dtag0.m_planthue>_name> <local.yazi2>
+	endif
+endif
+
+on=@timer
+if !(<isevent.t_locked_down>)
+tag0.m_indicator=0
+timer 60*60*19
+return 1
+endif
+
+if !(<bisgrowable>)
+timer 60*60*19
+return 1
+endif
+
+if (<tag0.m_status>==0)
+	if (<tag0.m_water> > 2) || (rand(100) < 10)
+	tag0.m_water -= 1
+	timer 60*60*19
+	return 1
+	endif
+endif
+
+bApplyBeneficEffects
+
+if !(<bApplyMaladiesEffects>)
+timer 60*60*6
+return 1
+endif
+
+bGrow
+morez=0
+bUpdate
+bUpdateMaladies
+timer 60*60*19
+return 1
+
+[function bisgrowable]
+if (<tag0.m_status> <= 9) && (<tag0.m_status> >= 0)
+return 1
+else
+return 0
+endif
+
+[function bHits]
+if (<argv>)
+	if (<argv[0]> < 0)
+	tag0.m_hits=0
+	elif (<argv[0]> > <bmaxhits>)
+	tag0.m_hits=<bmaxhits>
+	else
+	tag0.m_hits=<argv[0]>
+	endif
+
+	if (<tag0.m_hits>==0)
+	bDie
+	endif
+else
+return <tag0.m_hits>
+endif
+
+[function bmaxhits]
+return <eval 10+(<tag0.m_status>*2)>
+
+[function bUpdate]
+if ( <tag0.m_status> >= 11 )
+dispid = 01B9D
+color = <def.planthue_<dtag0.m_planthue>_hue>
+elif ( <tag0.m_status> >= 7 )
+dispid = <def.planttype_<dtag0.m_planttype>_itemid>
+color = <def.planthue_<dtag0.m_planthue>_hue>
+elif ( <tag0.m_status> >= 4 )
+dispid = 01600
+color = 0
+else
+dispid = 01602
+	if (<tag0.m_Status>==0)
+		if (<tag0.m_fertiledirt>) || (<tag0.m_dirt>)
+		dispid=01602
+		else
+		dispid=i_bowl_pewter
+		endif
+	endif
+color = 0
+endif
+
+[function bApplyBeneficEffects]
+if ( <tag0.m_poisonpotion> >= <tag0.m_Infestation> )
+tag0.m_poisonpotion -= <tag0.m_Infestation>
+tag0.m_Infestation = 0
+else
+tag0.m_Infestation -= <tag0.m_poisonpotion>
+tag0.m_poisonpotion = 0
+endif
+
+if ( <tag0.m_CurePotion> >= <tag0.m_Fungus> )
+tag0.m_CurePotion -= <tag0.m_Fungus>
+tag0.m_Fungus = 0
+else
+tag0.m_Fungus -= <tag0.m_CurePotion>
+tag0.m_CurePotion = 0
+endif
+
+if ( <tag0.m_HealPotion> >= <tag0.m_Poison> )
+tag0.m_HealPotion -= <tag0.m_Poison>
+tag0.m_Poison = 0
+else
+tag0.m_Poison -= <tag0.m_HealPotion>
+tag0.m_HealPotion = 0
+endif
+
+if ( <tag0.m_HealPotion> >= <tag0.m_Disease> )
+tag0.m_HealPotion -= <tag0.m_Disease>
+tag0.m_Disease = 0
+else
+tag0.m_Disease -= <tag0.m_HealPotion>
+tag0.m_HealPotion = 0
+endif
+
+if !(<bHasMaladies>)
+	if ( <tag0.m_HealPotion> > 0 )
+	bHits += <eval <tag0.m_HealPotion> * 7>
+	else
+	bHits += 2
+	endif
+endif
+
+tag0.m_HealPotion = 0
+
+[function bApplyMaladiesEffects]
+if ( <tag0.m_Infestation> > 0 )
+local.damage += <eval <tag0.m_Infestation> * (2+rand(2))>
+endif
+if ( <tag0.m_Fungus> > 0 )
+local.damage += <eval <tag0.m_Fungus> * (2+rand(2))>
+endif
+if ( <tag0.m_Poison> > 0 )
+local.damage += <eval <tag0.m_Poison> * (2+rand(2))>
+endif
+if ( <tag0.m_Disease> > 0 )
+local.damage += <eval <tag0.m_Disease> * (2+rand(2))>
+endif
+if ( <tag0.m_Water> > 2 )
+local.damage += <eval ( <eval <tag0.m_Water> - 2> ) * (2+rand(2))>
+elif ( <tag0.m_Water> < 2 )
+local.damage += <eval ( <eval 2 - <tag0.m_Water>> ) * (2+rand(2))>
+endif
+
+bHits -= <local.damage>
+if (<bIsGrowable>) && (<tag0.m_Status> > 0)
+return 1
+else
+return 0
+endif
+
+[function bPollenproducing]
+if (<tag0.m_status> >= 7) && (<biscrossable>)
+return 1
+else
+return 0
+endif
+
+[function newSeed]
+serv.newitem i_seed_plain
+new.tag0.m_plantTYPE=<argv[0]>
+new.tag0.m_planthue=<argv[1]>
+new.color=<def.planthue_<new.dtag0.m_planthue>_hue>
+new.tag0.showTYPE=<argv[2]>
+new.cont=<findlayer.layer_pack.uid>
+sysmessage @03c1,6,1,1 Size ozel tohum verildi.  // classical runuo text :P
+
+[function bGrow]
+local.perc=<eval (100*<bhits>)/<bmaxhits>>
+if (<local.perc> < 66)
+tag0.m_indicator=1
+elif ((<tag0.m_fertiledirt>) && (<tag0.m_status> <= 5) && (rand(100) < 30))
+tag0.m_status += 2
+tag0.m_indicator=4
+elif (<tag0.m_status> < 9)
+tag0.m_status += 1
+tag0.m_indicator=3
+else
+	if (<def.planttype_<dtag0.m_planttype>_crossable>) && (<tag0.m_leftseeds> > 0) && (<tag0.m_pollinated>)
+	tag0.m_leftseeds -= 1
+	tag0.m_availableseeds += 1
+	endif
+
+	if (<tag0.m_leftresources>) && (<bSeedHue>)
+	tag0.m_availableresources += 1
+	tag0.m_leftresources -= 1
+	endif
+	tag0.m_indicator=3
+endif
+
+if (<tag0.m_status> >= 9) && !(<tag0.m_pollinated>)
+tag0.m_pollinated=1
+tag0.m_seedTYPE=<tag0.m_planttype>
+tag0.m_seedhue=<tag0.m_planthue>
+endif
+
+[function bSeedType]
+if (<argv>)
+tag0.m_seedTYPE=<argv[0]>
+else
+	if !(<tag0.m_pollinated>)
+	return <dtag0.m_planttype>
+	else
+	return <dtag0.m_seedtype>
+	endif
+endif
+
+[function bSeedHue]
+if (<argv>)
+tag0.m_seedhue=<argv[0]>
+else
+	if !(<tag0.m_pollinated>)
+	return <dtag0.m_planthue>
+	else
+	return <dtag0.m_seedhue>
+	endif
+endif
+
+[function bupdatemaladies]
+local.infeschance=<eval 30 - ((<tag0.m_strengthpotion>*7)+((<tag0.m_water>-2)*10)>
+
+if (<def.planttype_<dtag0.m_planttype>_flowery>)
+local.infeschance += 10
+endif
+
+if (<def.planthue_<dtag0.m_planthue>_planthue>&<def.planthue.bright>) // if bright color , more chance for infestations.
+local.infeschance += 10
+endif
+
+if (rand(100) < <local.infeschance>)
+	if (<tag0.m_infestation> < 2)
+	tag0.m_infestation += 1
+	endif
+endif
+
+local.funguschance=<eval 15 - ((<tag0.m_strengthpotion>*7)+((<tag0.m_water>-2)*10)>
+if (rand(100) < <local.funguschance>)
+	if (<tag0.m_fungus> < 2)
+	tag0.m_fungus += 1
+	endif
+endif
+
+if (<tag0.m_water> > 2 || rand(100) < 90)
+tag0.m_water -= 1
+endif
+
+if (<tag0.m_poisonpotion> > 0)
+tag0.m_poison += <tag0.m_poisonpotion>
+tag0.m_poisonpotion=0
+	if (<tag0.m_poison> > 2)
+	tag0.m_poison=2
+	endif
+endif
+
+if (<tag0.m_curepotion> > 0)
+	tag0.m_disease += <tag0.m_curepotion>
+	tag0.m_curepotion=0
+	if (<tag0.m_disease> > 2)
+	tag0.m_disease=2
+	endif
+endif
+tag0.m_strengthpotion=0
+
+[function bdie]
+if ( <tag0.m_status> >= 7 )
+tag0.m_status=11
+else
+tag0.m_status=0
+breset
+endif
+
+[function breset] // rezet the plant
+timer 60*60*19
+name=empty bowl
+
+morez=0
+tag0.m_Indicator = 0
+tag0.m_status=0
+
+bHits = <bMaxHits>
+tag0.m_water = 0
+tag0.m_Infestation = 0
+tag0.m_Fungus = 0
+tag0.m_Poison = 0
+tag0.m_Disease = 0
+
+tag0.m_PoisonPotion = 0
+tag0.m_CurePotion = 0
+tag0.m_HealPotion = 0
+tag0.m_StrengthPotion = 0
+
+tag0.m_Pollinated = 0
+tag0.m_AvailableSeeds = 0
+tag0.m_LeftSeeds = 8
+
+tag0.m_AvailableResources = 0
+tag0.m_LeftResources = 8
+
+[function biscrossable]
+if (<def.planttype_<dtag0.m_planttype>_crossable>) && (<def.planthue_<dtag0.m_planthue>_planthue>&<def.planthue.crossable>)
+return 1
+else
+return 0
+endif
+
+[function bhasmaladies]
+if (<tag0.Infestation> > 0) || (<tag0.m_Fungus> > 0) || (<tag0.m_Poison> > 0) || (<tag0.m_Disease> > 0) || (<tag0.m_Water> != 2)
+return 1
+else
+return 0
+endif
+
+[eof]

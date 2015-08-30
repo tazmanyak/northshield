@@ -1,0 +1,115 @@
+[EVENTS e_paragon]
+ON=@Death
+IF (<ATTACKER>)
+	FOR 0 <EVAL <ATTACKER>-1>
+		IF (<ATTACKER.<dLOCAL._FOR>.DAM>)
+		REF1=<ATTACKER.<dLOCAL._FOR>>
+			IF (<REF1.FLAGS>&STATF_PET)
+			REF1=<REF1.OWNER>
+			ENDIF
+			IF (<REF1.ISPLAYER>)
+if (rand(40)==1)
+	src.newitem tm_treasure_chest_lvl_5
+	NEW.P <P>
+	new.nudgeup 2
+	new.morey = 2 //bunuda silme
+	new.events +t_treasure_chest
+	new.timer 300 // timer ayarla
+	new.TAG.Map.Level 5
+	ref1.tag.hazinekasam <new.uid> // bunu silme ha ! kasanin kendine ayarli sahibi acma meselesi
+	remove
+elseif (rand(30)==1)
+	src.newitem tm_treasure_chest_lvl_4
+	NEW.P <P>
+	new.nudgeup 2
+	new.morey = 2 //bunuda silme
+	new.events +t_treasure_chest
+	new.timer 300 // timer ayarla
+	new.TAG.Map.Level 4
+	ref1.tag.hazinekasam <new.uid> // bunu silme ha ! kasanin kendine ayarli sahibi acma meselesi
+	remove
+elseif (rand(20)==1)
+	src.newitem tm_treasure_chest_lvl_3
+	new.TAG.Map.Level 3
+	NEW.P <P>
+	new.nudgeup 2
+	new.morey = 2 //bunuda silme
+	new.events +t_treasure_chest
+	new.timer 300 // timer ayarla
+	ref1.tag.hazinekasam <new.uid> // bunu silme ha ! kasanin kendine ayarli sahibi acma meselesi
+	remove
+elseif (rand(10)==1)
+	src.newitem tm_treasure_chest_lvl_2
+	new.TAG.Map.Level 2
+	NEW.P <P>
+	new.nudgeup 2
+	new.morey = 2 //bunuda silme
+	new.events +t_treasure_chest
+	new.timer 300 // timer ayarla
+	ref1.tag.hazinekasam <new.uid> // bunu silme ha ! kasanin kendine ayarli sahibi acma meselesi
+	remove
+else
+	src.newitem tm_treasure_chest_lvl_1
+	new.TAG.Map.Level 1
+	NEW.P <P>
+	new.nudgeup 2
+	new.morey = 2 //bunuda silme
+	new.events +t_treasure_chest
+	new.timer 300 // timer ayarla
+	ref1.tag.hazinekasam <new.uid> // bunu silme ha ! kasanin kendine ayarli sahibi acma meselesi
+	remove
+endif
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDFOR
+endif
+//NEWGOLD=<EVAL <RESCOUNT I_GOLD>*3>
+
+//ref1 = <attacker.max> // encok damage veren alir kasayi.
+
+
+ENDIF
+//IF (<FLOATVAL 0.1> > <RANDOMDOUBLE>)
+//RANDMAGICITEMGREAT
+//ENDIF
+
+
+[FUNCTION F_CREATE_PARAGON]
+IF (((<FLAGS>&statf_spawned) && (!(<ISEVENT.e_paragon>))) || (<ARGN1>))
+	IF ((!(<TAG0.IAMACHAMPION>)) && (!(<FLAGS>&STATF_PET)) && (!(<ISVENDOR>)))
+		IF (<MAXHITS> > 150)
+			IF (rand(150)==1)
+			SERV.LOG <NAME> (<UID>) spawned as paragon on <REGION.NAME> (<P>)
+			COLOR=0879
+			NAME=<NAME>
+			TAMING=0
+			OSTR += <EVAL ((<OSTR>*10)/100)>
+			ODEX += <EVAL ((<ODEX>*20)/100)>
+			OINT += <EVAL ((<OINT>*20)/100)>
+			MAXHITS *= 5
+			HITS=<MAXHITS>
+			STAM=<MAXSTAM>
+			MANA=<MAXMANA>
+			KARMA += <EVAL ((<KARMA>*40)/100)>
+			FAME += <EVAL ((<FAME>*40)/100)>
+			TAG.OVERRIDE.MOVERATE=<EVAL <MOVERATE>-((40*<MOVERATE>)/100)>
+				IF (<TAG0.OVERRIDE.MOVERATE> < 20)
+				TAG.OVERRIDE.MOVERATE=20
+				ENDIF
+				FOR 0 54
+					IF (<I.<SERV.SKILL.<dLOCAL._FOR>.KEY>>)
+					TRY I.<SERV.SKILL.<dLOCAL._FOR>.KEY>=<EVAL ((<I.<SERV.SKILL.<dLOCAL._FOR>.KEY>>*120)/100)>
+					ENDIF
+				ENDFOR
+			NPC=brain_monster
+			TAG.OVERRIDE.REGENVAL_0=10
+			TAG.OVERRIDE.REGENVAL_2=10
+			EVENTS +e_paragon
+			//TAG0.TREASUREMAP.LEVEL ++
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+
+[EOF]

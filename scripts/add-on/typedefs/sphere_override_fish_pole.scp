@@ -1,0 +1,41 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Swindler, Kell, Melen, syn - Original credits from original version
+// ShiryuX - Updating and adapting to 56b Sphere Community Pack
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Edited Fishing Pole to be able to use the new treasure system
+// Included functions and that kind of things in the script.
+
+[typedef t_fish_pole]
+on=@targon_item
+if <def.scp.Fishing_SOSTreasure> == 0
+return 0
+endif
+if <argo.baseid> == i_sos_tile
+src.anim 12
+src.sound 027
+	dorand 3
+	src.f_pullout_treasure <argo.uid>
+	src.f_fishing_bones <argo.uid>
+	src.f_fishing_items <argo.uid>
+	enddo
+else
+src.sysmessage <def.scp.fishing_nofish>
+endif
+return 1
+
+on=@targon_char
+src.sysmessage <def.scp.fishing_ischar>
+return 1
+
+[eof]

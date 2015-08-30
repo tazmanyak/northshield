@@ -1,0 +1,1216 @@
+[itemdef i_timerheal] 
+id=i_memory 
+type=t_eq_script 
+name=Timer Bebegim 
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+on=@equip
+timer 15
+if (<cont.action> == id(skill_magery)) || (<cont.action> == skill_magery))
+cont.f_fizzle
+cont.sysmessage @33,,1 Buyu atarken pot ictiginiz icin buyunuz basarisiz oldu!
+cont.action -1
+return 1
+endif
+
+on=@timer
+cont.sysmessage @68,,1 Potion icebilirsiniz...
+remove
+return 1
+
+
+
+
+
+//////////////////////////////////////BY DESTROY/////////////////////////////////////////
+
+[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+    <serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+	src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+	return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+	src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+	return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+	src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+	return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF[function potion]
+src.potsay
+src.dialogclose d_potion_say
+src.dialog d_potion_say
+return 1
+
+
+[dialog d_potion_say]
+50,50
+nomove
+
+resizepic 0 0 3600 330 250
+
+text 25 20 38 0
+text 30 50 1152 1
+text 30 80 1152 2
+text 30 110 1152 3
+text 30 140 1152 4
+text 180 50 38 5
+text 180 80 38 6
+text 180 110 38 7
+text 180 140 38 8
+text 50 200 38 9
+
+[dialog d_potion_say text]
+<serv.name> Potions Menusu
+Greater Heal
+Greater Cure
+Total Refresh
+Deadly Poison
+: <eval <var.ghealpot>> Adet.
+: <eval <var.gcurepot>> Adet.
+: <eval <var.trefpot>> Adet.
+: <eval <var.dpoipot>> Adet.
+.Potion Yazarak Kullanabilirsiniz.
+
+[dialog d_potion_say button]
+onbutton 0
+src.sysmessage @07a1 Menu kapandi..
+
+
+[function potsay]
+var.ghealpot 00
+var.gcurepot 00
+var.trefpot 00
+var.dpoipot 00
+forcont <findlayer.21.uid> 20
+if (<baseid> == i_potion_healgreat)
+var.ghealpot <var.ghealpot>+1
+elseif (<baseid> == i_potion_curegreat)
+var.gcurepot <var.gcurepot>+1
+elseif (<baseid> == i_potion_refreshtotal)
+var.trefpot <var.trefpot>+1
+elseif (<baseid> == i_potion_poisondeadly)
+var.dpoipot <var.dpoipot>+1
+endif
+endfor
+
+[PLEVEL 2]
+potion
+
+
+
+
+[EOF]
+
+[plevel 1]
+gheal
+gcure
+refresh
+bandaj
+bleed
+heal
+cure
+
+[function heal]
+gheal
+
+[function cure]
+gcure
+
+[FUNCTION gheal]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_healgreat>
+src.sysmessage @0810 Cantanizda G.Heal Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_healgreat.dclick
+sysmessage Cantanizda <src.findid.i_potion_healgreat.amount> G.Heal Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION gcure]
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_curegreat>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_curegreat.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_curegreat.amount> G.Cure Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF
+
+[FUNCTION refresh]
+IF !(<src.RESTEST i_potion_refreshtotal>
+src.sysmessage @0810 Cantanizda G.Cure Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_refreshtotal.dclick
+sysmessage Cantanizda <src.findid.i_potion_refreshtotal.amount> T.Refresh Potion Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bandaj]
+IF !(<src.RESTEST i_bandage>
+src.sysmessage @0810 Cantanizda Bandaj bulunmuyor.
+return 1
+ELSE
+src.findid.i_bandage.dclick
+sysmessage @0810 Cantanizda <src.findid.i_bandage.amount> Bandaj Bulunmakta.
+return 0
+eNDIF
+
+[FUNCTION bleed]
+
+if (<src.findid.i_timerheal>)
+src.sysmessage @69,1,1 Suan pot icemessiniz kalan sure : <src.findid.i_timerheal.timer> saniye.
+return 1
+endif
+IF !(<src.RESTEST i_potion_bleed>
+src.sysmessage @0810 Cantanizda Bleed Potion bulunmuyor.
+return 1
+ELSE
+src.findid.i_potion_bleed.dclick
+sysmessage @0810 Cantanizda <src.findid.i_potion_bleed.amount> Bleed Potion Bulunmakta.
+//src.newitem i_timerheal
+//src.act.equip
+return 0
+eNDIF

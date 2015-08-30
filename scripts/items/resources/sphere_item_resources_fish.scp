@@ -1,0 +1,132 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 09cc]
+DEFNAME=i_fish_big_1
+VALUE=2
+TYPE=T_FISH
+WEIGHT=1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Fish (Whole)
+
+[ITEMDEF 09cd]
+DEFNAME=i_fish_big_2
+VALUE=2
+TYPE=T_FISH
+WEIGHT=1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Fish
+
+[ITEMDEF 09ce]
+DEFNAME=i_fish_big_3
+VALUE=2
+TYPE=T_FISH
+WEIGHT=1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Fish
+
+[ITEMDEF 09cf]
+DEFNAME=i_fish_big_4
+VALUE=2
+TYPE=T_FISH
+WEIGHT=1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Fish
+
+[ITEMDEF i_prized_fish]
+NAME=Prized Fish // 1041073
+ID=0dd6
+TYPE=t_script
+WEIGHT=1
+SKILLMAKE=FISHING 0.1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Prized Fish
+VALUE=1000
+
+on=@create
+color=color_o_fishprize
+
+on=@dclick
+src.modint += 5
+src.timerf 5,modint -= 5
+remove
+return 1
+
+[ITEMDEF i_wondrous_fish]
+NAME=Wondrous Fish // 1041074
+ID=0dd6
+TYPE=t_script
+WEIGHT=1
+SKILLMAKE=FISHING 0.1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Wondrous Fish
+VALUE=1000
+
+on=@create
+color=color_o_fishwondrous
+
+on=@dclick
+src.moddex += 5
+src.timerf 5,moddex -= 5
+remove
+return 1
+
+[ITEMDEF i_truly_rare_fish]
+NAME=Truly Rare Fish // 1041075
+ID=0dd6
+TYPE=t_script
+WEIGHT=1
+SKILLMAKE=FISHING 0.1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Truly Rare Fish
+VALUE=1000
+
+on=@create
+COLOR=color_o_fishtrulyrare
+
+on=@dclick
+src.modstr += 5
+src.timerf 5,modstr -= 5
+remove
+return 1
+
+[ITEMDEF i_highly_peculiar_fish]
+NAME=Highly Peculiar Fish // 1041076
+ID=0dd6
+TYPE=t_script
+WEIGHT=1
+SKILLMAKE=FISHING 0.1
+CATEGORY=Resources - Fishing
+SUBSECTION=Fishes
+DESCRIPTION=Highly Peculiar Fish
+VALUE=1000
+
+on=@create
+COLOR=color_o_fishpeculiarhighly
+
+on=@dclick
+if <src.stam> == <src.maxstam>
+src.sysmessage You feel fully refreshed already.
+else
+src.sysmessage You feel refreshed.
+src.stamina += 10
+	if <src.stam> > <src.maxstam>
+	src.stam = <src.maxstam>
+	endif
+remove
+endif
+return 1
+
+[eof]

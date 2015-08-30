@@ -1,0 +1,327 @@
+[ITEMDEF 0f78]
+//i_reag_BATWING
+DEFNAME=i_reag_batwing
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Necromancy
+DESCRIPTION=BatWing
+
+[ITEMDEF 0f79]
+//Blackmoor
+DEFNAME=i_reag_blackmoor
+TYPE=T_REAGENT
+PILE=1
+value=5
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Blackmoor
+
+[ITEMDEF 0f7a]
+//Black Pearl
+DEFNAME=i_reag_black_pearl
+value=5
+TYPE=T_REAGENT
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Black Pearl
+
+[ITEMDEF 0f7b]
+//Blood Moss
+DEFNAME=i_reag_blood_moss
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Blood Moss
+
+[ITEMDEF 0f7c]
+// Bloodspawn
+DEFNAME=i_reag_blood_spawn
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Bloodspawn
+
+[ITEMDEF 0f7d]
+// Daemon Blood
+DEFNAME=i_reag_daemon_blood
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Necromancy
+DESCRIPTION=Daemon Blood
+
+[ITEMDEF i_reag_blood_vial]
+// Vial of Blood
+DEFNAME=i_reag_blood_vial
+ID=0F7D
+NAME=Vial%s of Blood
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Vial of Blood
+
+[ITEMDEF 0f7e]
+// Bone
+DEFNAME=i_reag_bone
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Bone
+
+[ITEMDEF 0f7f]
+// Brimstone
+DEFNAME=i_reag_brimstone
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Brimstone
+
+[ITEMDEF 0f80]
+// Daemon Bone
+DEFNAME=i_reag_daemon_bone
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Daemon Bone
+
+[ITEMDEF 0f81]
+// Fertile Dirt
+DEFNAME=i_reag_fertile_dirt
+TYPE=T_REAGENT
+value=5000
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Fertile Dirt
+
+[ITEMDEF 0f82]
+// Dragons Blood
+DEFNAME=i_reag_dragon_blood
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Dragons Blood
+
+[ITEMDEF 0f83]
+//Executioner's Cap
+DEFNAME=i_reag_executioners_cap
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Executioner's Cap
+
+[ITEMDEF 0f84]
+//Garlic Bulb
+DEFNAME=i_reag_garlic
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Garlic
+
+[ITEMDEF 0f85]
+//Ginseng (root)
+DEFNAME=i_reag_ginseng
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Ginseng
+
+[ITEMDEF 0f86]
+//Mandrake Root
+DEFNAME=i_reag_mandrake_root
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Mandrake
+
+[ITEMDEF 0f87]
+// Eye of Newt
+DEFNAME=i_reag_eye_of_newt
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Eye of Newt
+
+[ITEMDEF 0f88]
+//Nightshade
+DEFNAME=i_reag_nightshade
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Nightshade
+
+[ITEMDEF 0F89]
+// Obsidian
+DEFNAME=i_reag_obsidian
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Obsidian
+
+[ITEMDEF 0f8a]
+//Pig Iron
+DEFNAME=i_reag_pig_iron
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Necromancy
+DESCRIPTION=Pig Iron
+
+[ITEMDEF 0f8b]
+//Pumice
+DEFNAME=i_reag_pumice
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Pumice
+
+[ITEMDEF 0f8c]
+//Sulphorous Ash
+DEFNAME=i_reag_sulfur_ash
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Sulphorous Ash
+
+[ITEMDEF 0f8d]
+//Spider's Silk
+DEFNAME=i_reag_spider_silk
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Normal
+DESCRIPTION=Spiders Silk
+
+[ITEMDEF 0f8e]
+//Nox Crystal
+DEFNAME=i_reag_nox_crystal
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Necromancy
+DESCRIPTION=Nox Crystal
+
+[ITEMDEF i_reag_serpent_scale]
+//Serpent's Scales
+DEFNAME=i_reag_serpent_scale
+ID=0F8E
+NAME=Serpent's Scale%s
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Serpent's Scales
+
+[ITEMDEF 0f8f]
+//grave dust
+DEFNAME=i_reag_grave_dust
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Necromancy
+DESCRIPTION=Grave Dust
+
+[ITEMDEF i_reag_volcanic_ash]
+//Volcanic Ash
+DEFNAME=i_reag_volcanic_ash
+ID=0F8F
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Volcanic Ash
+
+[ITEMDEF 0f90]
+//Dead Wood
+DEFNAME=i_reag_dead_wood
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Dead Wood
+
+[ITEMDEF 0f91]
+// Wyrms Heart
+DEFNAME=i_reag_wyrm_heart
+DEFNAME2=worm_heart
+TYPE=T_REAGENT
+value=5
+PILE=1
+WEIGHT=.1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Reagents - Pagan
+DESCRIPTION=Wyrms Heart
+
+
+[eof]

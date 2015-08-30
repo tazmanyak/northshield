@@ -1,0 +1,138 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, November 15, 2003
+//
+VERSION=0.56b
+
+
+[events e_mezar_etkinlik]
+
+on=@regionenter
+if <region.guarded>
+	src.invul 1
+	src.go <home>
+else
+	src.invul 0
+endif
+
+
+[EVENTS e_Undead]
+
+on=@hunger
+return 1
+
+ON=@EnvironChange
+	Return 0
+	// Enter "//" before Return 0, if you want to make script working
+	// i like the dark
+	if (<sector.isdark>) || (<flags>& (statf_nightsight|statf_indoors))
+		if (!<tag0.lightstr>)
+			return 0
+		endif
+		anim 011
+		bark 4
+		str=<tag.lightstr>	// restore me.
+		hits=<str>
+		tag.lightstr=
+		karma=<tag0.lightkarma>
+		tag.lightkarma=//just dispose of this.
+		fame=<tag0.lightfame>
+		tag.lightfame=
+		flags ^= statf_conjured	// no loot if killed.
+		return 0
+	endif
+	// i can't live in light areas. weaken me ? or destroy me ?
+	anim 014
+	bark 4
+	if (<tag0.lightstr>)
+		return 0
+	endif
+	if ( <flags>&statf_conjured	)
+		remove
+		return 1
+	endif
+	flags |= statf_conjured	// no loot if killed.
+	tag.lightstr=<str>
+	str=1
+	hits=1	// very weak.
+	tag.lightkarma=<karma>	// killing it means nothing now.
+	karma=-2
+	tag.lightfame=<fame>
+	fame=10
+	return 0
+
+[EVENTS e_Carnivores]
+// weak carnivores.
+
+[EVENTS e_Carnivores2]
+// normal carnivores.
+
+[EVENTS e_Carnivores3]
+ON=@Gethit
+///if (<hits> < 5)
+//message @,,1 * Kendini Iyilestirir *
+//effect=3,i_fx_heal_effect,6,35,1
+//sound snd_spell_greater_heal
+//hits=(<hits> + 5)
+//endif
+
+//if <act.findid.i_rune_summon_creature>
+//sayua 0481,2,0,eng,* Buyu Etkisini Kaldirir *
+//act.remove
+//endif
+
+
+//if (<act.baseid>=c_bear_polar)
+//message @,,1 * Buyu Etkisini Kaldirir *
+//effect=3,i_fx_heal_effect,6,35,1
+///sound snd_spell_greater_heal
+//act.remove
+//endif
+
+//if (<flags> &statf_poisoned)
+////message @,,1 * Zehiri Iyilestirir *
+//sound snd_spell_cure
+//findid.i_rune_poison.remove
+//endif
+
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==20) || (<argn>==28) || (<argn>==39) || (<argn>==47)
+
+return 1
+
+IF (<src.findid.i_rune_clumsy>) || (<src.findid.i_rune_feeblemind>) || (<src.findid.i_rune_magic_arrow>) || (<src.findid.i_rune_weaken>) || (<src.findid.i_rune_poison>)) || (<src.findid.c_fx_poison_field>))
+src.findid.i_rune_clumsy.remove
+src.findid.i_rune_feeblemind.remove
+src.findid.i_rune_magic_arrow.remove
+src.findid.i_rune_weaken.remove
+src.findid.i_rune_poison.remove
+src.findid.c_fx_poison_field.remove
+src.findid.i_fx_poison_field_fire_ns.remove
+src.findid.i_fx_field_paralyze.remove
+//src.findid.i_rune_earthquake.remove
+//src.findid.i_rude_chain_lightning.remove
+//src.findid.i_rune_meteor_swarm.remove
+SPELLEFFECT=s_cure,150.0,1
+//message @,,1 * Etkilenmez *
+endif
+endif
+
+// strong carnivores.
+
+[EVENTS e_Terathan]
+
+[EVENTS e_Ophidian]
+
+[EVENTS e_Notoriety]
+
+[EOF]
+
+

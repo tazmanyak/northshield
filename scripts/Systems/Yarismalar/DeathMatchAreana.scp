@@ -1,0 +1,439 @@
+[itemdef i_pvparena_mola]
+Name PvP Arena Mola Timer
+ID i_fire
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0
+attr=08000
+timer 1200
+timerf 1140,serv.allclients sysmessage @68,,1 Pvp Arena molasi bitmesine 1 dakika kaldi.
+
+on=@click
+say @,,1 Molanin bitmesine <eval(<timer>/60)> dakika var.
+return 1
+
+on=@timer
+serv.allclients sysmessage @68,,1 Pvp Arena molasi bitmistir.
+region.safe 0
+src.newitem i_pvparena_start
+new.p <p>
+remove
+return 1
+
+
+
+[itemdef i_pvparena_start]
+Name PvP Arena Timer
+ID i_fire
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=07a1
+attr=08000
+timer 3600
+timerf 3540,region.allclients message @,,1 Molaya 1 dakika kaldi.
+
+on=@click
+say @,,1 Molaya <eval(<timer>/60)> dakika var.
+return 1
+
+
+on=@timer
+region.allclients say @,,1 20 Dakika Mola!
+region.safe 1
+src.newitem i_pvparena_mola
+new.p <p>
+remove
+return 1
+
+[itemdef i_moonglow_gate2]
+Name Gate
+ID i_moongate_black
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0
+attr=08050
+timer 3
+
+
+On=@step
+src.sysmessage @07a1,1,1 Lutfen cift tiklayiniz.
+RETURN 1
+
+on=@timer
+say @0810,8 a
+say @0810,8 a
+say @1153 <name>   
+timer 3
+return 1
+
+on=@dclick
+src.findid.i_rb_delay.remove
+src.findid.i_rb_delay2.remove
+src.f_fizzle
+if (<src.findid.i_gatetimerkoydum>)
+	src.sysmessage @69,1,1 Tekrar isinlanmak icin <src.findid.i_gatetimerkoydum.timer> saniye beklemelisiniz.
+	return 1
+endif
+
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Gate'leri Kullanamazsiniz.
+elseif (<src.hits> < <src.str>)
+src.sysmessage @0481,,1 Yaraliyken Gate'leri Kullanamazsiniz.
+else
+dorand 3
+src.go 4454,1161
+src.go 4453,1168
+src.go 4456,1165
+enddo
+if (<src.isevent.fix>)
+src.newitem i_gatetimerkoydum
+src.act.equip
+serv.allclients sysmessage @07a7,1,1 <src.name> , <name> bolgesine giris yapti.
+endif
+endif
+RETURN 1
+
+
+
+[itemdef i_britain_gate]
+Name Gate
+ID i_moongate_black
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0
+attr=08050
+timer 3
+
+
+On=@step
+src.sysmessage @07a1,1,1 Lutfen cift tiklayiniz.
+RETURN 1
+
+on=@timer
+say @0810,8 a
+say @0810,8 a
+say @1153 <name>   
+timer 3
+return 1
+
+on=@dclick
+src.findid.i_rb_delay.remove
+src.findid.i_rb_delay2.remove
+src.f_fizzle
+if (<src.findid.i_gatetimerkoydum>)
+	src.sysmessage @69,1,1 Tekrar isinlanmak icin <src.findid.i_gatetimerkoydum.timer> saniye beklemelisiniz.
+	return 1
+endif
+
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Gate'leri Kullanamazsiniz.
+elseif (<src.hits> < <src.str>)
+src.sysmessage @0481,,1 Yaraliyken Gate'leri Kullanamazsiniz.
+else
+dorand 3
+src.go 1380,1498,10
+src.go 1380,1503,10
+src.go 1383,1500,10
+enddo
+if (<src.isevent.fix>)
+src.newitem i_gatetimerkoydum
+src.act.equip
+serv.allclients sysmessage @07a7,1,1 <src.name> , <name> bolgesine giris yapti.
+endif
+endif
+RETURN 1
+
+
+
+
+
+
+[itemdef i_skor_arena]
+id i_bulletin_board
+name Skorlar
+type t_eq_script
+
+on=@create
+attr=attr_static|attr_move_never
+
+on=@dclick
+src.istatistik
+return 1
+
+[itemdef i_pvp_arena_gate]
+Name Gate
+ID i_moongate_black
+Type t_eq_script
+Weight 0
+
+On=@create
+Color=0
+attr=08050
+timer 3
+
+
+On=@step
+src.sysmessage @07a1,1,1 Lutfen cift tiklayiniz.
+RETURN 1
+
+on=@timer
+say @0810,8 a
+say @0810,8 a
+say @1153 <name>
+timer 3
+return 1
+
+on=@dclick
+
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.sysmessage @55,,1 Etrafta binegin varken bu alana giremessin.
+return 1
+endif
+endif
+endfor
+
+src.findid.i_rb_delay.remove
+src.findid.i_rb_delay2.remove
+src.f_fizzle
+if <src.action> == skill_magery
+sysmessage @38,,1 Buyu yaparken gecemessiniz...
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.sysmessage @0481,,1 Uzerinizde Zehir Varken Gate'leri Kullanamazsiniz.
+elseif (<src.hits> < <src.str>)
+src.sysmessage @0481,,1 Yaraliyken Gate'leri Kullanamazsiniz.
+else
+dorand 2
+src.go Pvp Arena hazirlanma odasi 1
+src.go Pvp Arena hazirlanma odasi 2
+enddo
+if (<src.isevent.fix>)
+serv.allclients sysmessage @68,,1 <src.name>, Pvp Arenaya giris yapti.
+endif
+endif
+RETURN 1
+
+
+
+[ITEMDEF i_pvp_arena_stone]
+NAME=PVP Arena Stone
+ID=i_gravestone_18
+TYPE=t_normal
+
+ON=@Create
+color=0810
+attr=attr_static
+
+ON=@Click
+message @,,1 <name>
+return 1
+
+ON=@Dclick
+if (<src.findid.i_serptimer>)
+	src.sysmessage @69,1,1 Tekrar girmek icin <src.findid.i_serptimer.timer> saniye beklemelisiniz.
+	return 1
+else
+sdialog PvpArenaDialog
+endif
+
+
+[DIALOG PvpArenaDialog]
+0, 0
+PAGE 0
+resizepic 39 37 5120 300 192
+text 150 89 1152 0
+text 176 148 1152 1
+button 194 142 5033 5034 1 0 2
+button 56 142 5035 5036 1 0 1
+
+[DIALOG PvpArenaDialog TEXT]
+Pvp Arena 
+
+
+
+[DIALOG PvpArenaDialog BUTTON]
+on=0
+
+on=1
+src.closedialog PvpArenaDialog
+
+on=2
+
+if (strmatch("<src.region.name>","Pvp Arena hazirlanma odasi 1")) || (strmatch("<src.region.name>","Pvp Arena hazirlanma odasi 2"))
+
+DORAND 5
+src.xxtop10
+src.go 5947,2440
+src.go 5958,2440
+src.go 5966,2440
+src.go 5966,2425
+src.go 5947,2425
+enddo
+
+elseif (strmatch("<src.region.name>","Pvp Arena")) && (<src.hits> == <src.str>)
+dorand 2
+src.go Pvp Arena hazirlanma odasi 1
+src.go Pvp Arena hazirlanma odasi 2
+enddo
+
+else
+src.say @,,1 Yaralisiniz...
+return 1
+endif
+endif
+endif
+
+
+
+[events e_pvp_Arena]
+
+on=@click
+if (<eval <tag.pan>> < 5)
+	message @,,1 [Novice] [Puan : <eval <tag.pan>>]
+elseif (<eval <tag.pan>> < 10)
+	message @,,1 [Apperantice] [Puan : <eval <tag.pan>>]
+elseif (<eval <tag.pan>> < 50)
+	message @,,1 [Journeyman] [Puan : <eval <tag.pan>>]
+elseif (<eval <tag.pan>> < 100)
+	message @,,1 [Expert] [Puan : <eval <tag.pan>>]
+elseif (<eval <tag.pan>> < 500)
+	message @,,1 [Adept] [Puan : <eval <tag.pan>>]
+elseif (<eval <tag.pan>> < 1000)
+	message @,,1 [Master] [Puan : <eval <tag.pan>>]
+elseif (<eval <tag.pan>> < 2500)
+	message @,,1 [Grand Master] [Puan : <eval <tag.pan>>]
+endif
+
+on=@logout
+src.hits 0
+
+on=@spellcast
+if (<argn>==47) || (<argn>==32) || (<argn>==52) || (<argn>==24) || (<argn>==57) || (<argn>==54) || (<argn>==50) || (<argn>==49) || (<argn>==45) || (<argn>==43) || (<argn>==40) || (<argn>==39) || (<argn>==28) || (<argn>==38) || (<argn>==44) || (<argn>==58) || (<argn>==61)
+src.sysmessage @1976,1,1,1 Duello'da bu buyuleri kullanamazsiniz..
+f_fizzle
+skill fail
+return 1
+endif
+
+on=@itemdclick
+if (<act.baseid> == i_shrink_deed) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse_brown_dk)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_c_golem2)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_c_golem1)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_runebook) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_binek_zeka)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.type> == t_figurine)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+
+
+on=@death  /// Burak dingili lan aminisiktiiim @kill niye eklion dümbük surdan yapsana
+
+
+if (strmatch('<src.account.lastip>','<act.account.lastip>'))
+act.message @,,1 Ayni ip adresine sahip kisiler puan kazanamaz.
+act.say @,,1 Ceza puani -4
+act.tag.pan <eval <act.tag0.pan> -4>
+act.xxtop10
+endif
+
+
+if (<src.fame> < 1250)
+act.say @,,1 Fame Dusuk !
+act.say @,,1 Puan kazanamaz.
+endif
+
+if (<src.tag0.pan> > 0 ) 
+src.tag.pan <eval <src.tag0.pan> -1>
+src.say @,,1 1 Puan kaybetti.
+src.xxtop10
+endif
+
+
+if (<act.isplayer>)
+if (<src.fame> > 1250)
+src.fame <eval <src.fame> -250>
+act.tag.pan <eval <act.tag0.pan> +2>
+act.say @,,1 2 Puan kazandi.
+act.xxtop10
+if (<act.fame> < 10000)
+act.fame <eval <act.fame> +150>
+
+endif
+endif
+endif
+
+
+dorand 2
+src.go Pvp Arena Hazirlanma Odasi 2
+src.go Pvp Arena Hazirlanma Odasi 1
+enddo
+
+src.newitem i_serptimer
+src.act.equip
+src.hits 100
+src.mana 100
+src.stam 100
+src.findid.i_rune_poison.remove
+return 1
+
+on=@Skillstart
+
+if ((<action> == id(skill_hiding)) || (<action> == skill_hiding) || (<action> == id(skill_stealth)) || (<action> == skill_stealth)) || (<action> == skill_poisoning))
+src.sysmessage @38,,1 Burada Olmaz.
+	return 1
+endif
+
+on=@itemdropon_ground
+act.bounce
+src.sysmessage @,,1 Burda yere item atamazsin.
+return 1
+
+on=@mount
+return 1
+
+
+
+[EOF]

@@ -1,0 +1,265 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 06-Apr-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// jeem - All the script
+//
+// SCRIPT DOCUMENTATION
+// Auto-pilot for ships. Make pins on a map, then drop the map onto the tiller man. Give the command "start"
+// to start moving toward destination.
+// For manual selection of the destination. Execute ".xadd_destination X,Y" and then ".xstartmovement"
+// functions on the ship.
+
+[function add_destination]
+if !<argn3>
+	tag.ship_dest_<dtag0.ship_dest_total> = <argn1>,<argn2>
+	tag0.ship_dest_total ++
+else
+	if <tag0.ship_dest_total>
+		for <tag0.ship_dest_total> 0
+			tag.ship_dest_<eval (<local._for> + 1)> = <tag.ship_dest_<dlocal._for>>
+		endfor
+		tag.ship_dest_0 = <argn1>,<argn2>
+		tag0.ship_dest_total ++
+	endif
+endif
+
+[function startmovement]
+if <tag0.ship_dest_total>
+	if !<tag0.autopilot>
+		f_land_check <p.x>,<p.y>,<tag.ship_dest_0>,<map>
+	endif
+	moveship <tag.ship_dest_0>
+	tag.autopilot = 1
+endif
+
+[function pausemovement]
+if <tag0.autopilot>
+	timerf clear
+	tag.AutoPilot = -1
+endif
+
+[function stopmovement]
+list.ship_course_<uid>.clear
+cleartags ship_dest_
+if <tag0.autopilot>
+	timerf clear
+	tag.autopilot =
+endif
+
+[function moveship] // moveship X,Y
+if (<serv.map(<argn1>,<argn2>,<map>).type> != t_water)
+	tiller.say @,,1 This is a ship, it cannot go in land!
+	tag.autopilot =
+	return
+endif
+
+if !(<canshipfit <baseid>,<p.x>,<eval (<p.y> - <shipspeed.tiles>)>,<map>>) && !(<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>n,<p.x>,<eval (<p.y> - <shipspeed.tiles>)>,<map>>) && !(<canshipfit <baseid>,<eval (<p.x> + <shipspeed.tiles>)>,<p.y>,<map>>) && !(<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>e,<eval (<p.x> + <shipspeed.tiles>)>,<p.y>,<map>>) && !(<canshipfit <baseid>,<p.x>,<eval (<p.y> + <shipspeed.tiles>)>,<map>>) && !(<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>s,<p.x>,<eval (<p.y> + <shipspeed.tiles>)>,<map>>) && !(<canshipfit <baseid>,<eval (<p.x> - <shipspeed.tiles>)>,<p.y>,<map>>) && !(<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>w,<eval (<p.x> - <shipspeed.tiles>)>,<p.y>,<map>>)
+	tiller.say @,,1 We are stuck, cap'n!
+	list.ship_course_<uid>.clear
+	tag.autopilot =
+	return
+endif
+
+if !<list.ship_course_<uid>.count>
+	list.ship_course_<uid>.add "<p.x>o<p.y>o<map>"
+endif
+
+local.direction = -1
+local.current_lowest = <eval (((<abs <eval (<p.x> - <argn1>)>> + <abs <eval (<p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>) + (10 * <shipspeed.tiles>)>
+local.distance = <distance <argn1>,<argn2>,0,<map>>
+if (<list.ship_course_<uid>.findelem "<p.x>o<eval (<p.y> - <shipspeed.tiles>)>o<map>"> == -1) && (<canshipfit <baseid>,<p.x>,<eval (<p.y> - <shipspeed.tiles>)>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <p.x>,<eval (<p.y> - <shipspeed.tiles>)>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 0 // North
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<p.x>o<eval (<p.y> - <shipspeed.tiles>)>o<map>"> == -1) && (<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>n,<p.x>,<eval (<p.y> - <shipspeed.tiles>)>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <p.x>,<eval (<p.y> - <shipspeed.tiles>)>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 0 // North
+		local.turn = 1
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<eval (<p.x> + <shipspeed.tiles>)>o<p.y>o<map>"> == -1) && (<canshipfit <baseid>,<eval (<p.x> + <shipspeed.tiles>)>,<p.y>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <eval (<p.x> + <shipspeed.tiles>)>,<p.y>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 2 // East
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<eval (<p.x> + <shipspeed.tiles>)>o<p.y>o<map>"> == -1) && (<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>e,<eval (<p.x> + <shipspeed.tiles>)>,<p.y>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <eval (<p.x> + <shipspeed.tiles>)>,<p.y>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 2 // East
+		local.turn = 1
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<p.x>o<eval (<p.y> + <shipspeed.tiles>)>o<map>"> == -1) && (<canshipfit <baseid>,<p.x>,<eval (<p.y> + <shipspeed.tiles>)>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <p.x>,<eval (<p.y> + <shipspeed.tiles>)>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 4 // South
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<p.x>o<eval (<p.y> + <shipspeed.tiles>)>o<map>"> == -1) && (<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>s,<p.x>,<eval (<p.y> + <shipspeed.tiles>)>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <p.x>,<eval (<p.y> + <shipspeed.tiles>)>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 4 // South
+		local.turn = 1
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<eval (<p.x> - <shipspeed.tiles>)>o<p.y>o<map>"> == -1) && (<canshipfit <baseid>,<eval (<p.x> - <shipspeed.tiles>)>,<p.y>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <eval (<p.x> - <shipspeed.tiles>)>,<p.y>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 6 // West
+	endif
+	new.remove
+endif
+if (<list.ship_course_<uid>.findelem "<eval (<p.x> - <shipspeed.tiles>)>o<p.y>o<map>"> == -1) && (<canshipfit <strsub 0 <eval (strlen(<baseid>) - 1)> <baseid>>w,<eval (<p.x> - <shipspeed.tiles>)>,<p.y>,<map>>)
+	serv.newitem i_gold
+	new.attr |= attr_invis
+	new.p <eval (<p.x> - <shipspeed.tiles>)>,<p.y>,<p.z>,<map>
+	if ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> < <local.current_lowest>) || ((<eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)> == <local.current_lowest>) && (<new.distance <argn1>,<argn2>,0,<map>> < <local.distance>)))
+		local.current_lowest = <eval (((<abs <eval (<new.p.x> - <argn1>)>> + <abs <eval (<new.p.y> - <argn2>)>>) * 10) / <shipspeed.tiles>)>
+		local.distance = <new.distance <argn1>,<argn2>,0,<map>>
+		local.direction = 6 // West
+		local.turn = 1
+	endif
+	new.remove
+endif
+
+if <local.current_lowest> < <eval (<shipspeed.tiles> * 10) + 5>
+	tiller.say @,,1 We've arrived at our destination, sir.
+	trigger @AP_ReachDest
+	list.ship_course_<uid>.clear
+	tag.autopilot =
+	return
+endif
+
+if <local.direction> == -1
+	tiller.say @,,1 Recalibrating course!
+	list.ship_course_<uid>.clear
+	timerf <eval (<shipspeed.period> / 10)>,moveship <argn1>,<argn2>
+	return
+endif
+
+if <local.turn>
+	shipface <dlocal.direction>
+endif
+shipmove <dlocal.direction>
+list.ship_course_<uid>.add "<p.x>o<p.y>o<map>"
+timerf <eval (<shipspeed.period> / 10)>,moveship <argn1>,<argn2>
+
+[function canshipfit] // <canshipfit BaseID,X,Y,M>
+local.baseid <argv[0]>
+local.x = <argv[1]>
+local.y = <argv[2]>
+local.m = <argv[3]>
+
+args=<serv.itemdef.<local.baseid>.multiregion>
+for x_axis <eval (<local.x> + <argv[0]>)> <eval (<local.x> + <argv[2]>)>
+	for y_axis <eval (<local.y> + <argv[1]>)> <eval (<local.y> + <argv[3]>)>
+		if <serv.map(<dlocal.x_axis>,<dlocal.y_axis>,<dlocal.m>).type> != t_water
+			return 0
+		endif
+		if <serv.map(<dlocal.x_axis>,<dlocal.y_axis>,<dlocal.m>).statics>
+			for 0 <eval (<serv.map(<dlocal.x_axis>,<dlocal.y_axis>,<dlocal.m>).statics> - 1)>
+				if (<serv.map(<dlocal.x_axis>,<dlocal.y_axis>,<dlocal.m>).statics.<dlocal._for>.tflags>&tilef_impassable) || (<serv.map(<dlocal.x_axis>,<dlocal.y_axis>,<dlocal.m>).statics.<dlocal._for>.can>&can_i_block)
+					return 0
+				endif
+			endfor
+		endif
+	endfor
+endfor
+return 1
+
+[typedef t_ship]
+on=@AP_ReachDest
+tag.ship_dest_0 =
+tag0.ship_dest_total --
+if <tag0.ship_dest_total>
+	for 1 <tag.ship_dest_total>
+		tag.ship_dest_<eval (<local._for> - 1)> = <tag.ship_dest_<dlocal._for>>
+		tag.ship_dest_<dlocal._for> =
+	endfor
+	startmovement
+endif
+
+[function f_land_check] // <f_land_check StartX,StartY,DestX,DestY,Map>
+if !((<abs <eval (<argv[2]> - <argv[0]>)>> > 50) || (<abs <eval (<argv[3]> - <argv[1]>)>> > 50))
+	return 0
+endif
+local.axis = <qval (<abs <eval (<argv[2]> - <argv[0]>)>> < 50) ? Y:X>
+if !strcmpi(<local.axis>,Y)
+	for _for1 1 <eval (<abs <eval (<argv[3]> - <argv[1]>)>> / 30)>
+		if <serv.map(<argv[0]>,<eval (<argv[1]> <qval (<argv[1]> < <argv[3]>) ? +:-> (<local._for1> * 30))>,<argv[4]>).type> != t_water
+			for _for2 1 10
+				if <serv.map(<eval (<argv[0]> + (<local._for2> * 30))>,<eval (<argv[1]> <qval (<argv[1]> < <argv[3]>) ? +:-> (<local._for1> * 30))>,<argv[4]>).type> == t_water
+					add_destination <eval (<argv[0]> + (<local._for2> * 30))>,<eval (<argv[1]> <qval (<argv[1]> < <argv[3]>) ? +:-> (<local._for1> * 30))>,1
+					return 1
+				endif
+				if <serv.map(<eval (<argv[0]> + (<local._for2> * 30))>,<eval (<argv[1]> <qval (<argv[1]> < <argv[3]>) ? +:-> (<local._for1> * 30))>,<argv[4]>).type> == t_water
+					add_destination <eval (<argv[0]> - (<local._for2> * 30))>,<eval (<argv[1]> <qval (<argv[1]> < <argv[3]>) ? +:-> (<local._for1> * 30))>,1
+					return 1
+				endif
+			endfor
+		endif
+	endfor
+else
+	for _for1 1 <eval (<abs <eval (<argv[2]> - <argv[0]>)>> / 30)>
+		if <serv.map(<eval (<argv[0]> <qval (<argv[0]> < <argv[2]>) ? +:-> (<local._for1> * 30))>,<argv[1]>,<argv[4]>).type> != t_water
+			for _for2 1 10
+				if <serv.map(<eval (<argv[0]> <qval (<argv[0]> < <argv[2]>) ? +:-> (<local._for1> * 30))>,<eval (<argv[1]> + (<local._for2> * 30))>,<argv[4]>).type> == t_water
+					add_destination <eval (<argv[0]> <qval (<argv[0]> < <argv[2]>) ? +:-> (<local._for1> * 30))>,<eval (<argv[1]> + (<local._for2> * 30))>,1
+					return 1
+				endif
+				if <serv.map(<eval (<argv[0]> <qval (<argv[0]> < <argv[2]>) ? +:-> (<local._for1> * 30))>,<eval (<argv[1]> - (<local._for2> * 30))>,<argv[4]>).type> == t_water
+					add_destination <eval (<argv[0]> <qval (<argv[0]> < <argv[2]>) ? +:-> (<local._for1> * 30))>,<eval (<argv[1]> - (<local._for2> * 30))>,1
+					return 1
+				endif
+			endfor
+		endif
+	endfor
+endif
+return 0
+
+[eof]

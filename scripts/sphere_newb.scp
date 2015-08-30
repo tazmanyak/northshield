@@ -1,0 +1,580 @@
+﻿[events e_newbiedungeon]
+
+on=@login
+timerf clear
+
+on=@logout
+timerf 15,go 5156,1507
+
+on=@death
+hits <str>
+stam <dex>
+mana <int>
+go 5156,1507
+return 1
+
+on=@kill
+if !<argo.isplayer>
+	serv.newitem i_gold
+	new.amount <argo.str>
+	new.bounce
+	sysmessage @69,,1 <argo.str> Gold cantaniza aktarildi.
+
+	if <argo.str> > 75
+		if (rand(3)==1)
+		serv.newitem ruin_silah
+		new.bounce
+		say @07a1,,1 * Silah bulundu *
+		endif
+	endif
+
+endif
+return 1
+
+on=@ItemDropOn_Ground
+act.bounce
+return 1
+
+
+
+
+on=@spelleffect
+if (<serv.spell.<argn>.flags>&SPELLFLAG_HARM) || (<serv.spell.<argn>.flags>&spellflag_field)
+if <src.isplayer>
+src.sysmessage @07a1,1,1 Insanlara zararli buyuler atamazsiniz.
+return 1
+endif
+endif
+
+on=@attack
+if <src.isplayer>
+src.sysmessage @07a1,1,1 Insanlara saldiramazsiniz.
+return 1
+endif
+
+on=@mount
+return 1
+
+on=@hit
+if <src.isplayer>
+src.sysmessage @07a1,1,1 Insanlara saldiramazsiniz.
+return 1
+endif
+
+on=@spellcast
+
+
+if (<serv.spell.<argn>.flags>&SPELLFLAG_SUMMON) || (<serv.spell.<argn>.flags>&spellflag_field)
+src.f_fizzle
+action -1
+return 1
+endif
+
+if (<argn> == 40) || (<argn> == 22)
+src.f_fizzle
+action -1
+return 1
+endif
+
+
+on=@gethit
+if <src.isplayer>
+src.sysmessage @07a1,1,1 Insanlara saldiramazsiniz.
+return 1
+endif
+
+
+
+[function f_newbie_items]
+
+if  <ALCHEMY> == 50.0
+	serv.newitem i_mortar_pestle
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_BOTTLE_EMPTY,15
+	new.attr attr_newbie
+	new.bounce
+
+	serv.newitem i_reag_black_pearl,15
+	new.attr attr_newbie
+	new.bounce
+
+	serv.newitem i_reag_garlic,15
+	new.attr attr_newbie
+	new.bounce
+
+	serv.newitem i_reag_ginseng,15
+	new.attr attr_newbie
+	new.bounce
+
+	serv.newitem i_reag_spider_silk,15
+	new.attr attr_newbie
+	new.bounce
+
+	serv.newitem i_robe
+	new.color colors_all
+	new.attr attr_newbie
+	new.bounce
+
+	//serv.newitem random_shoes
+	//new.color colors_all
+	//new.attr attr_newbie
+	//new.bounce
+endif
+
+if <ANATOMY> == 50.0
+	// Anatomy is best skill
+	serv.newitem i_bandage,15
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if  <ANIMALLORE> == 50.0
+	// Animal Lore 
+	serv.newitem i_shepherds_crook
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <ITEMID> == 50.0
+	// Item Identification is best skill
+	serv.newitem i_staff_gnarled
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <ARMSLORE> == 50.0
+	// Armslore is best skill
+	serv.newitem random_start_weapon
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if  <PARRYING> == 50.0
+	// Parrying is best skill
+	serv.newitem i_shield_wood
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <BEGGING> == 50.0
+	// Begging is best skill
+	serv.newitem i_staff_gnarled
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <BLACKSMITHING> == 50.0
+	// Blacksmithing is best skill
+	serv.newitem i_hammer_smith
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_apron_half
+	new.color colors_brown
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <BOWCRAFT> == 50.0
+	// Bowcraft/Fletching is best skill
+	serv.newitem i_log,14
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_feather,5
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_arrow_shaft,5
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_hatchet
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <PEACEMAKING> == 50.0
+	// Peacemaking is best skill
+	serv.newitem random_instrument
+	new.attr attr_newbie
+	new.bounce
+
+	elif  <CAMPING> == 50.0
+	// Camping is best skill
+	serv.newitem i_kindling,5
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_bedroll
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <CARPENTRY> == 50.0
+	// Carpentry is best skill
+	serv.newitem i_saw
+	//i_hammer
+	serv.newitem i_plane_moulding
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_nails
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_plane_jointing
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_plane_smoothing
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_scorp
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_inshave
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_log,10
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_board,10
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_apron_half
+	new.color colors_brown
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <CARTOGRAPHY> == 50.0
+	// Cartography is best skill
+	serv.newitem i_map_blank,4
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_sextant
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <COOKING> == 50.0
+	// Cooking is best skill
+	serv.newitem i_eggs_fresh
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_fish_big_2
+	new.attr attr_newbie
+	new.bounce
+	//serv.newitem i_sugar_sack
+	//new.attr attr_newbie
+	//new.bounce
+	serv.newitem i_flour_sack
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_pitcher_water
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_kindling,2
+	new.attr attr_newbie
+	new.bounce
+endif
+if <DetectingHidden> == 50.0
+// Detecting Hidden is best skill
+	serv.newitem i_cape
+	new.color colors_black
+	new.attr attr_newbie
+	new.bounce
+endif
+
+
+if <HEALING> == 50.0
+// Healing is best skill
+	serv.newitem i_bandage,5
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_scissors
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <FISHING> == 50.0
+// Fishing is best skill
+	serv.newitem i_fishing_pole
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_hat_floppy
+	new.attr attr_newbie
+	new.bounce
+	new.color colors_brown
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <HERDING> == 50.0
+	// Herding is best skill
+	serv.newitem i_shepherds_crook
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <HIDING> == 50.0
+// Hiding is best skill
+	serv.newitem i_cape
+	new.color colors_black
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <PROVOCATION> == 50.0
+	// Provocation is best skill
+	serv.newitem random_instrument
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <INSCRIPTION> == 50.0
+// Inscription is best skill
+	serv.newitem i_scroll_blank,2
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_book_lg
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <LOCKPICKING> == 50.0
+// Lockpicking is best skill
+	serv.newitem i_lockpick,5
+	new.attr attr_newbie
+	new.bounce
+endif
+
+
+if <MUSICIANSHIP> == 50.0
+// Musicianship is best skill
+	serv.newitem random_instrument
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <POISONING> == 50.0
+	// Poisoning is best skill
+	serv.newitem i_potion_poison,2
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <ARCHERY> == 50.0
+// Archery is best skill
+	serv.newitem i_bow
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_arrow,25
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <TAILORING> == 50.0
+	// Tailoring is best skill
+	serv.newitem i_sewing_kit
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_knife_skinning
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_scissors
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <TAMING> == 50.0
+	// Animal Training is best skill
+	serv.newitem i_shepherds_crook
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_taming_staff
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <TINKERING> == 50.0
+// Tinkering is best skill
+	serv.newitem i_clock_frame
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_springs
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_tinker_tools
+	new.attr attr_newbie
+	new.bounce
+	serv.newitem i_apron_half
+	new.attr attr_newbie
+	new.bounce
+	new.color colors_brown
+endif
+
+if <TRACKING> == 50.0
+	// Tracking is best skill
+	serv.newitem i_knife_skinning
+	serv.newitem i_boots_calf
+	new.color colors_brown
+endif
+
+if <SWORDSMANSHIP> == 50.0
+	// Swordsmanship is best skill
+	serv.newitem i_sword_long
+	new.attr attr_newbie
+	new.tag0.upgradable 0
+	new.bounce
+endif
+
+if <MACEFIGHTING> == 50.0
+	// Mace Fighting is best skill
+	serv.newitem i_mace
+	new.attr attr_newbie
+	new.tag0.upgradable 0
+	new.bounce
+endif
+
+if <FENCING> == 50.0
+	// Fencing is best skill
+	serv.newitem i_spear
+	new.attr attr_newbie
+	new.tag0.upgradable 0
+	new.bounce
+endif
+
+if <WRESTLING> == 50.0
+	// Wrestling is best skill
+	new.tem i_leather_gloves
+	new.attr attr_newbie
+	new.bounce
+endif
+
+if <LUMBERJACKING> == 50.0
+	// Lumberjacking is best skill
+	serv.newitem i_hatchet
+	new.attr attr_newbie
+	new.tag0.upgradable 0
+	new.bounce
+endif
+
+if <MINING> == 50.0
+	// Mining is best skill
+	serv.newitem i_pickaxe
+	new.attr attr_newbie
+	new.tag0.upgradable 0
+	new.bounce
+endif
+
+
+[ITEMDEF i_newbie_chest]
+ID=i_box_decorative
+NAME=Newbie Chest (lutfen, duzenli tutunuz)
+type=t_container
+
+ON=@Create
+ATTR=ATTR_MOVE_NEVER
+
+ON=@Dropon_Self
+IF ((<ARGO.ISWEAPON>) || (<ARGO.ISARMOR>))
+SAY @946,3,1 Tum North Shield oyuncuları sana teşekkürlerini sunuyor!
+ELSE
+SAY @946,3,1 Sadece armor ve silah lütfen.
+RETURN 1
+ENDIF
+
+ON=@Dclick
+IF ((!(<eval <src.age>/60> < <eval 24*7>)) && (!(<SRC.ISGM>)))
+src.sys_error Oyundan başlangıçtan 7 günü geçiren karakterler bu alana giremezler.
+RETURN 1
+ENDIF
+
+
+
+[NEWBIE MALE_DEFAULT]
+
+[NEWBIE FEMALE_DEFAULT]
+
+
+
+
+[NEWBIE ALCHEMY]
+ITEM=i_mortar_pestle
+ITEM=i_BOTTLE_EMPTY,{20 30}
+
+[NEWBIE PARRYING]
+ITEM=i_shield_wood
+
+[NEWBIE BLACKSMITHING]
+ITEM=i_hammer_smith
+item=i_ingot_iron,{5 15}
+
+[NEWBIE BOWCRAFT]
+ITEM=i_log,14
+ITEM=i_feather,5
+ITEM=i_arrow_shaft,5
+
+[NEWBIE CARPENTRY]
+ITEM=i_log,{20 30}
+ITEM=i_board,{5 15}
+item=i_saw
+
+[NEWBIE CARTOGRAPHY]
+ITEM=i_map_blank,{10 25}
+ITEM=i_sextant
+
+[NEWBIE COOKING]
+ITEM=i_kindling,{20 30}
+
+[NEWBIE HEALING]
+ITEM=i_bandage,{20 30}
+
+[NEWBIE FISHING]
+ITEM=i_fishing_pole
+item=i_kindling,{5 17}
+
+[NEWBIE HERDING]
+ITEM=i_shepherds_crook
+
+[NEWBIE INSCRIPTION]
+ITEM=i_scroll_blank,{20 27}
+
+[NEWBIE LOCKPICKING]
+ITEM=i_lockpick,5
+
+[NEWBIE SNOOPING]
+ITEM=i_lockpick,4
+
+[NEWBIE ARCHERY]
+ITEM=i_bow
+ITEM=i_arrow,{100 165}
+
+[NEWBIE STEALING]
+ITEM=i_lockpick,4
+
+[NEWBIE TAILORING]
+ITEM=i_sewing_kit
+item=i_cloth,{5 32}
+
+[NEWBIE TAMING]
+ITEM=i_staff_taming
+
+[NEWBIE TINKERING]
+ITEM=i_tinker_tools
+
+[NEWBIE VETERINARY]
+ITEM=i_bandage,5
+
+[NEWBIE SWORDSMANSHIP]
+ITEM=i_sword_long
+
+[NEWBIE MACEFIGHTING]
+ITEM=i_mace
+
+[NEWBIE FENCING]
+ITEM=i_spear
+
+[NEWBIE LUMBERJACKING]
+ITEM=i_hatchet
+
+[NEWBIE MINING]
+ITEM=i_pickaxe
+
+[EOF]
+

@@ -1,0 +1,151 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[TYPEDEF t_deed]
+ON=@DClick
+
+IF (<DISPID>==i_gold)
+ TIMERF 60,TRIGGER @TargOn_Cancel
+ENDIF
+if <serv.itemdef(<more1>).type> == t_ship
+	if !<tag0.target>
+		f_ResendDialog d_ship_placement
+		return 1
+	endif
+endif
+
+
+IF (<CONT> != <SRC.FINDLAYER.21>)
+  SRC.SYSMESSAGE @,,1 Esya cantinizda degil !
+  return 1
+ELIF !(<SRC.ISGM>)
+  IF STRMATCH("t_multi*","<SERV.ITEMDEF.<MORE1>.TYPE>")
+	if (<src.findid i_rune_poison>)
+		src.sysmessage @0481,,1 Uzerinizde zehir Varken bunu yapamazsiniz.
+		return 1
+	elif (<src.hits> < <src.str>)
+		src.sysmessage @0481,,1 Yaraliyken bunu kullanamazsiniz.
+		return 1
+	elif (<src.CHECK_ACCOUNT_TYPEDEF t_multi*> >= <DEF.scp.House_MaxPerAccount>)
+		SRC.SYSMESSAGE @,,1 Suanda zaten bir eve sahipsiniz.
+		return 1
+ 	endif
+endif
+
+
+
+
+
+
+ON=@TargOn_Ground
+if strmatch(*doom*,<src.region.name>) || strmatch(*despise*,<src.region.name>)
+	foritems 50
+		if <baseid> == i_anti_mark_koy
+			src.sys_error Bu alana kuramazsiniz.
+			return 1
+		endif
+	endfor
+endif
+
+IF !(<SRC.ISGM>)
+  IF !STRMATCH("*ship*","<BASEID>")
+    //IF (<SRC.TAG0.House.PlacementDelay> > <SERV.TIME>)
+    //  SRC.SYSMESSAGE @,,1  <eval (<SRC.TAG0.House.PlacementDelay>-<SERV.TIME>)/864000> sure sonra tekrar bir ev kurabilirsiniz.
+    //  return 1
+    IF !(<DEF.scp.House_PlaceIlshenar>) && (<SRC.TARGP.M>==2)
+      SRC.SYSMESSAGE @,,1 Bu alana ev kurulamaz.
+      TRIGGER @TargOn_Cancel
+      return 1
+    ENDIF
+  ENDIF
+  SRC.TIMERF 1,HouseIsPlaced <MORE1> <BASEID> <SRC.TARGP>
+ENDIF
+
+ON=@TargOn_Char
+SRC.SYSMESSAGE @,,1 Evinizi duzgun bir zemine kurabilirsiniz.
+TRIGGER @TargOn_Cancel
+return 1
+
+ON=@TargOn_Item
+SRC.SYSMESSAGE @,,1 Evinizi duzgun bir zemine kurabilirsiniz.
+TRIGGER @TargOn_Cancel
+return 1
+
+ON=@TargOn_Cancel
+IF (<DISPID>==i_gold)
+ SRC.SDIALOG d_house_placement_tool
+ REMOVE
+ENDIF
+tag.target =
+
+[dialog d_ship_placement]
+150,200
+
+page 0
+resizepic 0 0 5054 220 170
+resizepic 10 10 3000 200 150
+
+dhtmlgump 20 20 180 70 0 0 <DEF.BFONT_black> Gemiyi hangi yonde yerlestirmek istiyorsunuz ?
+//xmfhtmlgump 20 20 180 70 1116329 1 0 // Select the ship direction for placement.
+
+
+dhtmlgump 55 100 140 25 0 0 <DEF.BFONT_black> BATI
+//xmfhtmlgump 55 100 140 25 1116330 0 0 // WEST
+button 20 100 4005 4007 1 0 1
+
+dhtmlgump 145 100 140 25 0 0 <DEF.BFONT_black> KUZEY
+
+//xmfhtmlgump 145 100 140 25 1116331 0 0 // NORTH
+button 110 100 4005 4007 1 0 2
+
+dhtmlgump 55 125 140 25 0 0 <DEF.BFONT_BLACK> GUNEY
+
+//xmfhtmlgump 55 125 140 25 1116332 0 0 // SOUTH
+button 20 125 4005 4007 1 0 3
+
+dhtmlgump 145 125 140 25 0 0 <DEF.BFONT_black> DOGU
+
+//xmfhtmlgump 145 125 140 25 1116333 0 0 // EAST
+button 110 125 4005 4007 1 0 4
+
+[dialog d_ship_placement button]
+on=1
+more1 = <strsub 0 <eval strlen(<more1>) - 1> <more1>>w
+tag.target = 1
+use
+//src.timerf 2, src.f_gemi_sure_ver
+
+on=2
+more1 = <strsub 0 <eval strlen(<more1>) - 1> <more1>>n
+tag.target = 1
+use
+//src.timerf 2, src.f_gemi_sure_ver
+	
+	
+
+on=3
+more1 = <strsub 0 <eval strlen(<more1>) - 1> <more1>>s
+tag.target = 1
+use
+//src.timerf 2, src.f_gemi_sure_ver
+
+on=4
+more1 = <strsub 0 <eval strlen(<more1>) - 1> <more1>>e
+tag.target = 1
+use
+////src.timerf 2, src.f_gemi_sure_ver
+
+[function f_gemi_sure_ver]
+foritems 30
+	if <type> == t_ship_tiller
+		timer 30
+		link.timer 60*60*12
+	endif
+endfor
+
+[eof]

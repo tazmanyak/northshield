@@ -1,0 +1,238 @@
+
+[CHARDEF 023d]
+DEFNAME=c_vortex
+NAME=Energy Vortex
+CAN=MT_WALK|mt_run
+SOUND=snd_ELEMENTL_AIRELEM5
+ICON=i_FX_Blade_Spirit_1
+DAM=20,28
+ARMOR=10
+RESLEVEL=1
+RESDISPDNID=c_elemental_air
+RESDISPDNHUE=01a2
+BLOODCOLOR=colors_pink
+CATEGORY=Miscellaneous
+SUBSECTION=Blade Spirits
+DESCRIPTION=Energy Vortex
+
+on=@click
+if (strmatch("<*","<name>") || (strmatch("@*","<name>") || (strmatch("balance*","<name>") || (strmatch("bank*","<name>")
+remove
+return 1
+endif
+update
+var.title
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+ON=@Create
+FLAGS=statf_conjured
+NPC=brain_beserk
+STR={200 350}
+DEX=3500
+INT=100
+
+TACTICS=500.0
+WRESTLING=500.0
+POISONING=100.0
+FAME=2000
+KARMA=-3000
+
+ITEMNEWBIE=i_light_source
+ATTR=attr_magic|attr_newbie
+
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Energy Vortex
+
+On=@SpellEffect
+if ((<argn> == 41) || (<argn> == 54))
+	effect 2,i_fx_smoke,3,40,1
+	hits 0
+endif
+
+
+
+
+[CHARDEF 08]
+DEFNAME=c_corpser
+NAME=Corpser
+SOUND=snd_MONSTER_CORPSR1
+ICON=i_pet_CORPSER
+ANIM=06147f
+CAN=mt_Walk|MT_NONHUM
+DAM=3,30
+ARMOR=9
+//RESOURCES=10 t_eerie_stuff
+FOODTYPE=24 t_meat_raw
+//SHELTER=r_jungle,r_swamp,r_forests
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Corpser
+
+ON=@Create
+	NPC=brain_monster
+	FAME={200 1000}
+	KARMA={-999 -2000}
+	STR={155 180}
+	DEX={26 45}
+	INT={26 40}
+	PARRYING={15.0 25.0}
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={45.0 60.0}
+	WRESTLING={45.0 60.0}
+	HIDING={75.0 80.0}
+ON=@NPCRestock
+	ITEM=loot_CORPSER
+
+[CHARDEF 044]
+DEFNAME=c_gazer_elder
+NAME=Elder Gazer
+ICON=i_pet_gazer
+SOUND=snd_monster_gazer1
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=23,59
+ARMOR=45
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=90.2
+TAG.DamEnergy=50
+//TAG.Luck.Loot=FIXME
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Elder Gazer
+ON=@Create
+   NPC=brain_monster
+   FAME=6000
+   KARMA=-10000
+   STR={296 325}
+   DEX={86 105}
+   INT={291 385}
+   ANATOMY={62.0 100.0}
+   EVALUATINGINTEL={90.0 105.0}
+   MAGERY={90.0 105.0}
+   MAGICRESISTANCE={25.0 60.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={80.0 100.0}
+ON=@NpcRestock
+   ITEM=loot_gazer_elder
+
+[CHARDEF 049]
+DEFNAME=c_harpy_stone
+NAME=Stone Harpy
+ICON=i_pet_harpy
+SOUND=snd_monster_harpy1
+CAN=MT_WALK|MT_FLY|MT_FEMALE|MT_USEHANDS|MT_NONHUM
+DAM=20,40
+ARMOR=45
+DESIRES=r_mountains,r_ruins,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_bird_raw,50 i_feather
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=70.3
+TAG.DamPoison=25
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Harpy
+ON=@Create
+   NPC=brain_monster
+   FAME=4500
+   KARMA=-4500
+   STR={296 320}
+   DEX={86 110}
+   INT={51 75}
+   MAGICRESISTANCE={50.0 65.0}
+   TACTICS={70.0 100.0}
+   WRESTLING={70.0 100.0}
+ON=@NPCRestock
+   ITEM=loot_harpy_stone
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 04]
+DEFNAME=c_gargoyle
+NAME=Gargoyle
+ICON=i_pet_garg
+SOUND=snd_monster_gargyl1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=14,27
+ARMOR=30
+DESIRES=r_ruins,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Gargoyles
+DESCRIPTION=Gargoyle
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={145 175}
+   DEX={75 95}
+   INT=25
+   EVALUATINGINTEL={70.0 85.0}
+   MAGERY={70.0 85.0}
+   MAGICRESISTANCE={70.0 85.0}
+   MEDITATION={65.0 75.0}
+   PARRYING={50.0 70.0}
+   TACTICS={50.0 70.0}
+   WRESTLING={40.0 80.0}
+ON=@NPCRestock
+   ITEM=loot_gargoyle
+
+[CHARDEF 016]
+DEFNAME=c_gazer
+NAME=Gazer
+SOUND=snd_MONSTER_GAZER1
+ICON=i_pet_GAZER
+ANIM=06007f
+DAM=3,12
+ARMOR=18
+RESOURCES=4 i_ribs_raw
+CAN=MT_WALK
+FOODTYPE=
+//SHELTER=r_caves,r_dungeon
+DESIRES=c_gazer
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Gazer
+
+ON=@Create
+	NPC=brain_monster
+	FAME={600 5000}
+	KARMA={-3000 -3999}
+	//ALIGNMENT=EVIL
+	STR={96 125}
+	DEX={86 105}
+	INT={140 165}
+	PARRYING={55.0 65.0}
+	MAGERY={50.0 65.0}
+	MAGICRESISTANCE={50.0 65.0}
+	TACTICS={50.0 70.0}
+	WRESTLING={50.0 70.0}
+	//SPELLCIRCLES=3-5
+
+ON=@NPCRestock
+	ITEM=loot_GAZER
+
+[EOF]
+

@@ -1,0 +1,165 @@
+[FUNCTION teleportersakla]
+src.findid.i_teleportsakla.remove
+src.newitem i_teleportsakla
+src.act.equip
+ACT.TARGETG Nereye atalim bebegim?
+return 1
+
+[ITEMDEF i_teleportsakla]
+NAME=move
+WEIGHT=1
+LAYER=layer_special
+TYPE=t_eq_script
+
+
+ON=@CREATE
+ATTR=attr_newbie|attr_move_never|attr_magic
+timer 10
+
+//ON=@EQUIP
+//targp NEREYE KOYALIM ?
+
+ON=@TARGON_ITEM
+src.sysmessage @0810 Buraya olmaz.
+RETURN 1
+
+ON=@TARGON_CHAR
+RETURN 1
+
+ON=@TARGON_GROUND
+src.newitem=i_teleporteribuldum
+src.new.p=<src.targp>
+return 1
+
+on=@timer
+remove
+
+[ITEMDEF i_teleporteribuldum]
+NAME=Etkinlik
+ID=i_floor_marble
+TYPE=t_script
+
+on=@create
+attr 080
+color 0
+timer 5000
+timerf 60, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 120, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 220, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 320, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 420, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 520, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 620, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 720, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 820, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 920, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 1020, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 1120, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 1220, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+timerf 1420, serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi.
+
+on=@timer
+serv.allclients sysmessage @0810 Gizli teleporter hala bulunamadi ve silindi.
+remove
+return 1
+
+	
+ON=@Click
+message @68,1,1 <serv.name> <name>
+return 1 
+
+ON=@DCLick
+return 1
+
+on=@step
+
+if (<src.flags>&statf_dead)
+src.go Pazar Alani
+endif
+
+serv.allclients sysmessage @0810 Gizli teleporteri <src.name> bulmustur ve 100k gold kazanmistir.
+src.newitem i_deed_100k
+src.act.bounce
+src.go Pazar Alani
+remove
+return 1
+
+
+
+[ITEMDEF i_topuksampiyonutasi]
+NAME=Topuk Sampiyonu
+ID=02d11
+TYPE=t_script
+
+on=@create
+attr 08000
+color 0
+	
+ON=@Click
+message @68,1,1 Topuk Yarismasi Sampiyonu
+message @07a1,1,1 <var.gmtopukkazanan>
+return 1 
+
+ON=@DCLick
+return 1
+
+[ITEMDEF i_exposampiyonutasi]
+NAME=Expo Sampiyonu
+ID=02d11
+TYPE=t_script
+
+on=@create
+attr 08000
+color 0
+	
+ON=@Click
+message @68,1,1 Explosion Yarismasi Sampiyonu
+message @07a1,1,1 <var.explosionkazanan>
+return 1 
+
+ON=@DCLick
+return 1
+
+
+
+[CHARDEF c_yarisnpc]
+NAME=Yaris Npcsi
+//TEVENTS=e_dismount_b
+ID=c_crane
+tevents=e_crash_fix
+DAM=1,2
+ARMOR=30
+CAN=MT_RUN|mt_walk
+AVERSIONS=r_water
+BLOODCOLOR=0819
+
+
+ON=@Create
+COLOR {0 1 2 3 4 5 6 7 8 9}
+STR=1
+DEX {100 200 300 400}
+INT=1
+
+FAME=0
+KARMA=0
+
+PARRYING={90.0 100.0}
+MAGICRESISTANCE={1290.0 1900.0}
+TACTICS={90.0 100.0}
+WRESTLING={90.0 100.0}
+
+npc=brain_monster
+
+
+ITEM=i_gold
+
+on=@dclick
+src.sysmessage @0810 Yaris atlarina binemezsiniz.
+return 1
+
+on=@click
+message @07a1,1,1 Crane
+return 1
+
+
+[eof]

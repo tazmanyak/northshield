@@ -1,0 +1,148 @@
+[ITEMDEF i_spawntasiyumurta]
+NAME=Egg Spawn
+ID=i_grave_stone
+TYPE=t_script
+WEIGHT=20
+
+on=@create
+attr 08000
+color 0900
+timer 1800
+	
+ON=@Click
+message @05 Spawn Stone (Egg)
+return 1 
+
+ON=@DClick
+src.sysmessage @68,1,1 Spawn cikmasina kalan sure <timer> saniye. 
+src.sysmessage @68,1,1 Spawn turu: Egg
+return 1
+
+on=@timer
+
+serv.newitem i_eggspawn
+
+dorand 6
+new.p 3922,190,-10 
+new.p 4009,309 
+new.p 4020,434,3 
+new.p 1967,270,8 
+new.p 5621,785,60 
+new.p 5280,805,1
+enddo
+
+serv.allclients sysmessage @07e5,,1 Spawn duyuru: Egg spawn oldu.
+var.eggaktifmi Aktif
+timer 1800
+return 1
+
+[itemdef i_eggspawn]
+NAME=Egg Spawn
+ID=i_fruit_coconut
+TYPE=t_script
+WEIGHT=20
+
+on=@create
+attr 08000
+color 0900
+timer 5
+	
+ON=@Click
+message @05 Spawn Stone
+return 1 
+
+ON=@DClick
+return 1
+
+on=@timer
+
+serv.newitem i_eggspawnikuluckada
+new.p <p>
+
+for 2
+newnpc c_dragon_red
+new.p <p>
+new.home <p>
+new.homedist=12
+local.npc1=<new.uid>
+serv.newitem=i_spawnlevelsil
+new.cont=<local.npc1>
+new.timer=600
+endfor
+
+for 5
+newnpc c_rotting
+new.p <p>
+new.home <p>
+new.homedist=10
+local.npc1=<new.uid>
+serv.newitem=i_spawnlevelsil
+new.cont=<local.npc1>
+new.timer=600
+endfor
+
+for 5
+newnpc c_m_orc_bomber
+new.p <p>
+new.home <p>
+new.homedist=10
+local.npc1=<new.uid>
+serv.newitem=i_spawnlevelsil
+new.cont=<local.npc1>
+new.timer=600
+endfor
+
+for 4
+newnpc c_spider_giant
+new.p <p>
+new.home <p>
+new.homedist=2
+local.npc1=<new.uid>
+serv.newitem=i_spawnlevelsil
+new.cont=<local.npc1>
+new.timer=600
+endfor
+
+var.eggnerde <region.name>
+
+remove
+return 1
+
+
+[ITEMDEF i_eggspawnikuluckada]
+NAME=Egg
+ID=i_nest_with_eggs
+TYPE=t_script
+WEIGHT=20
+
+on=@create
+attr 08000
+color 0
+timer 600
+	
+ON=@Click
+message @05 Egg
+return 1 
+
+ON=@DClick
+if (<distance> > 1)
+src.sysmessage @080a Yumurtaya uzaksiniz.
+return 1
+endif
+
+var.eggaktifmi Alindi
+src.newitem i_egg_ostard
+src.act.bounce
+remove
+
+return 1
+
+on=@timer
+var.eggaktifmi Silindi
+remove
+return 1
+
+[eof][eof]
+[eof][eof]
+[eof][eof]
+[eof][eof]

@@ -1,0 +1,25 @@
+[TEMPLATE loot_level4_monster]
+CATEGORY=Item Templates
+SUBSECTION=Monster Loot Templates
+DESCRIPTION=level 5 monster
+CONTAINER=i_backpack
+ITEM=i_gold,{5000 7500}
+ITEM=random_jewelry
+ITEM=random_potion,{1 2}
+ITEM=random_wands
+ITEM=i_treasure_map_lvl_4,R3
+
+
+
+[TEMPLATE Power_Silah]
+CATEGORY=Item Templates
+SUBSECTION=Monster Loot Templates
+DESCRIPTION=Vanquishing Silahlar
+CONTAINER=i_bag
+ITEM=random_weapon_ //{ i_cutlass 1 i_sword_long 1 i_sword_viking 1 i_sword_broad 1 i_scimitar 1 i_katana 1 i_bardiche 1 i_halberd 1 i_kryss 1 i_war_fork 1 i_spear_short 1 i_spear 1 i_mace 1 i_mace_war 1 i_club 1 i_axe_war 1 i_hammer_pick 1 i_maul 1 }
+morey 80.0
+tag0.magicweapon Power
+attr attr_magic
+
+[EOF]
+

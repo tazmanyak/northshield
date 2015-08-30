@@ -1,0 +1,213 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[itemdef i_green_thorn]
+ID=i_arrow_x
+NAME=green thorn
+TYPE=t_normal
+
+on=@create
+color=042
+
+on=@dclick
+if (<attr>&attr_move_never)
+src.sysmessage You can't touch this.
+return 1
+endif
+
+if !(<topobj.uid>==<src.uid>)
+src.sysmessage It must be in your pack.
+return 1
+endif
+targetg @042 Choose a spot to push the thorn.
+return 1
+
+on=@targon_ground
+if (<src.targp.terrain>==03) || (<src.targp.terrain>==04) || (<src.targp.terrain>==05) || (<src.targp.terrain>==06) || (<src.targp.terrain>==0231) || (<src.targp.terrain>==0232)
+serv.newitem i_green_thorn
+new.cont=<src.uid>
+new.dispid=0a13
+new.p=<src.targp>
+new.attr |= attr_move_never
+new.morex=1
+new.morez=5
+new.timer=1
+new.z += 2
+consume=1
+src.emote You push the strange thorn into the ground
+return 1
+endif
+
+on=@timer
+if (<moreX>==1)
+	if (<morez> > 0)
+	serv.newitem random_reagent,{100 200}
+	new.moveto=<eval <p.x>-(rand(3)-rand(3))>,<eval <p.y>-(rand(3)-rand(3))>,<p.z>
+	new.updatex
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move n
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move e
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move s
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move w
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move nw
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move ne
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move se
+	new.updatex
+	new.timer=2
+
+	serv.newitem 0914
+	new.attr attr_decay
+	new.moveto=<p>
+	new.move sw
+	new.updatex
+	new.timer=2
+
+	serv.newitem 031f5
+	new.attr attr_decay
+	new.moveto=<p>
+	new.updatex
+	new.timer=2
+
+	sound 319
+	morez -= 1
+	timer 2
+	return 1
+	else
+	remove
+	return 1
+	endif
+endif
+
+[itemdef i_red_leaf]
+NAME=red leaf
+ID=01e85
+TYPE=t_normal
+
+on=@create
+color=021
+
+on=@dclick
+target @03c1,6,1,1 Choose a book you wish to seal with the wax from the red leaf.
+return 1
+
+on=@targon_item
+if (<src.targ.type>==t_book)
+	if (<src.targ.more2>==0)
+		if (<src.targ.topobj.uid>==<src.uid>)
+		src.targ.name=<src.targ.name> (sealed)
+		src.targ.more2=01
+		src.sysmessage @03c1,6,1,1  You seal the ink to the page using wax from the red leaf.
+		consume=1
+		return 1
+		else
+		src.sysmessage @03c1,6,1,1 It must be in your pack
+		return 1
+		endif
+	else
+	src.sysmessage @03c1,6,1,1 The ink in this book has already been sealed.
+	return 1
+	endif
+else
+src.sysmessage @03c1,6,1,1 You can only use red leaves to seal the ink into book pages!
+return 1
+endif
+
+[itemdef i_orange_petal]
+ID=01021
+NAME=orange petal
+TYPE=t_normal
+
+on=@create
+color=02b
+
+on=@dclick
+if (<src.tag0.petaltimer> > <serv.time>)
+src.sysmessage @03c1,6,1,1 You can't use it yet.
+return 1
+endif
+src.emote use orange petal
+src.tag0.petaltimer <eval <serv.time>+7200>
+src.anim 31
+src.effect 3,i_fx_sparkle,15,15,15
+src.sound snd_spell_protection
+consume 1
+src.events +e_orange_petal
+serv.newitem i_mem_petal
+src.new.equip
+return 1
+
+[events e_orange_petal]
+on=@spelleffect
+if (<argn1>==S_poison)
+return 1
+endif
+
+[itemdef i_mem_petal]
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+on=@create
+timer 120
+
+on=@timer
+remove
+return 1
+
+on=@unequip
+src.events -e_orange_petal
+src.sysmessage @0ad You are no longer resisted to poison.
+
+[eof]

@@ -1,0 +1,278 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0b34]
+DEFNAME=i_table_nightstand
+NAME=Small Table
+TYPE=t_table
+FLIP=0
+SKILLMAKE=CARPENTRY 42.1, t_carpentry
+RESOURCES=17 i_log
+DUPELIST=0b35,0b36,0b3a,0b3c
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Small Table
+
+[ITEMDEF 0b35]
+DUPEITEM=0b34
+
+[ITEMDEF 0b36]
+DUPEITEM=0b34
+
+[ITEMDEF 0b3a]
+DUPEITEM=0b34
+
+[ITEMDEF 0b3c]
+DUPEITEM=0b34
+
+[ITEMDEF 0b49]
+DEFNAME=i_table_writing
+NAME=Writing Table
+TYPE=t_table
+FLIP=1
+SKILLMAKE=CARPENTRY 63.1, t_carpentry
+RESOURCES=17 i_log
+WEIGHT=15
+DUPELIST=0b4a,0b4b,0b4c
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Writing Table
+
+[ITEMDEF 0b4a]
+DUPEITEM=0b49
+
+[ITEMDEF 0b4b]
+DUPEITEM=0b49
+
+[ITEMDEF 0b4c]
+DUPEITEM=0b49
+
+[ITEMDEF 0b7c]
+DEFNAME=i_table_wood_rough_small
+NAME=Large Table
+TYPE=t_table
+FLIP=1
+SKILLMAKE=CARPENTRY 63.1, t_carpentry
+RESOURCES=23 i_log
+WEIGHT=25
+DUPELIST=0b8f
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Large Table
+
+[ITEMDEF 0b8f]
+DUPEITEM=0b7c
+
+[ITEMDEF 0b7d]
+DEFNAME=i_table_wood_rough_board
+NAME=Yew-Wood Table
+TYPE=t_table
+FLIP=1
+SKILLMAKE=CARPENTRY 40.0, t_carpentry
+RESOURCES=27 i_log
+WEIGHT=3
+DUPELIST=0b90
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Yew-Wood Table
+
+[ITEMDEF 0b90]
+DUPEITEM=0b7d
+
+[ITEMDEF 02819]
+DEFNAME=i_table_low_elegant
+NAME=Elegant Low Table
+TYPE=t_table
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+RESOURCES=35 i_log
+WEIGHT=25
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Elegant Low Table
+
+[ITEMDEF 0281a]
+DEFNAME=i_table_low_plain
+NAME=Plain Low Table
+TYPE=t_table
+SKILLMAKE=CARPENTRY 80.0, t_carpentry
+RESOURCES=35 i_log
+WEIGHT=25
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Plain Low Table
+
+[ITEMDEF 02de1]
+DEFNAME=i_table_ornate
+NAME=Ornate Table
+TYPE=t_table
+SKILLMAKE=CARPENTRY 85.0, t_carpentry
+RESOURCES=60 i_log
+WEIGHT=25
+DUPELIST=02de2
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Ornate Table
+
+[ITEMDEF 02de2]
+DUPEITEM=02de1
+
+[ITEMDEF 04041]
+DEFNAME=i_table_ter_mur
+NAME=Ter-Mur Style Table
+TYPE=t_table
+SKILLMAKE=CARPENTRY 75.0, t_carpentry
+RESOURCES=50 i_log
+WEIGHT=25
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Ter-Mur Style Table
+
+
+///////////////////////////////////////////////////////////////
+//////// TABLE PARTS
+///////////////////////////////////////////////////////////////
+// These are used as components for craftable deeds.
+[ITEMDEF 03077]
+DEFNAME=i_alchemist_table_s_1_2
+NAME=Alchemist Table
+TYPE=t_table
+WEIGHT=50
+DUPELIST=03078,03079,0307a
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Alchemist Table (South - 1 of 2)
+
+[ITEMDEF 03078]
+DEFNAME=i_alchemist_table_s_2_2
+DUPEITEM=03077
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Alchemist Table (South - 2 of 2)
+
+[ITEMDEF 03079]
+DEFNAME=i_alchemist_table_e_1_2
+DUPEITEM=03077
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Alchemist Table (East - 1 of 2)
+
+[ITEMDEF 0307a]
+DEFNAME=i_alchemist_table_e_2_2
+DUPEITEM=03077
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Alchemist Table (East - 2 of 2)
+
+[ITEMDEF 03092]
+DEFNAME=i_hardwood_table_e_1_3
+NAME=Hardwood Table
+TYPE=t_table
+WEIGHT=50
+DUPELIST=03093,03094,03095,03096,03097
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Hardwood Table (East - 1 of 3)
+
+[ITEMDEF 03093]
+DEFNAME=i_hardwood_table_e_2_3
+DUPEITEM=03092
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Hardwood Table (East - 2 of 3)
+
+[ITEMDEF 03094]
+DEFNAME=i_hardwood_table_e_3_3
+DUPEITEM=03092
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Hardwood Table (East - 3 of 3)
+
+[ITEMDEF 03095]
+DEFNAME=i_hardwood_table_s_1_3
+DUPEITEM=03092
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Hardwood Table (South - 1 of 3)
+
+[ITEMDEF 03096]
+DEFNAME=i_hardwood_table_s_2_3
+DUPEITEM=03092
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Hardwood Table (South - 2 of 3)
+
+[ITEMDEF 03097]
+DEFNAME=i_hardwood_table_s_3_3
+DUPEITEM=03092
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Hardwood Table (South - 3 of 3)
+
+[ITEMDEF 0402f]
+DEFNAME=i_long_table_e_2_2
+NAME=Long Table
+TYPE=t_table
+WEIGHT=50
+DUPELIST=04030,04031,04032
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Long Table (East - 2 of 2)
+
+[ITEMDEF 04030]
+DEFNAME=i_long_table_e_1_2
+DUPEITEM=0402f
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Long Table (East - 1 of 2)
+
+[ITEMDEF 04031]
+DEFNAME=i_long_table_s_1_2
+DUPEITEM=0402f
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Long Table (South - 2 of 2)
+
+[ITEMDEF 04032]
+DEFNAME=i_long_table_n_1_2
+DUPEITEM=0402f
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Long Table (South - 1 of 2)
+
+[ITEMDEF 04033]
+DEFNAME=i_short_table_4_4
+NAME=Short Table
+TYPE=t_table
+WEIGHT=50
+DUPELIST=04034,04035,04036
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Short Table (4 of 4)
+
+[ITEMDEF 04034]
+DEFNAME=i_short_table_3_4
+DUPEITEM=04033
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Short Table (3 of 4)
+
+[ITEMDEF 04035]
+DEFNAME=i_short_table_2_4
+DUPEITEM=04033
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Short Table (2 of 4)
+
+[ITEMDEF 04036]
+DEFNAME=i_short_table_1_4
+DUPEITEM=04033
+CATEGORY=Decoration - Furniture
+SUBSECTION=Tables
+DESCRIPTION=Short Table (1 of 4)
+
+[eof]

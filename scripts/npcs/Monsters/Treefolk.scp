@@ -1,0 +1,146 @@
+[CHARDEF 02f]
+DEFNAME=c_reaper
+NAME=reaper
+ICON=i_pet_reaper
+SOUND=snd_monster_reaper1
+CAN=MT_NONMOVER|MT_NONHUM
+DAM=17,20
+ARMOR=35
+DESIRES=r_forests,r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=55 t_kindling
+RESOURCES=3 i_log
+BLOODCOLOR=colors_brown
+MOVERATE=200
+TAG.Barding.Diff=74.1
+TAG.DamPoison=20
+CATEGORY=Monsters
+SUBSECTION=Treefolk
+DESCRIPTION=Reaper
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={66 215}
+   MAXHITS={40 129}
+   DEX={66 75}
+   MAXSTAM=0
+   INT={101 250}
+   MAXMANA={101 250}
+   EVALUATINGINTEL={90.0 100.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={100.0 125.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={50.0 60.0}
+   MODAR={0 10}
+   RESCOLD={10 20}
+   RESENERGY={40 50}
+   RESFIRE=0
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_reaper
+   //125 - 175 Gold. 10 Logs or Boards, 5 Reagents, 2 Dead Wood
+   //Special: Level 2 Treasure Map
+
+[CHARDEF 011d]
+//Stratics indicates this is just a new reaper animation
+DEFNAME=c_reaper_redux
+NAME=elder reaper
+ICON=i_pet_reaper
+SOUND=snd_monster_reaper1
+CAN=MT_WALK|MT_NONHUM
+DAM=20,35
+ARMOR=40
+DESIRES=r_forests,r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_kindling
+RESOURCES=3 i_log,10 i_kindling,3 i_reag_dead_wood
+BLOODCOLOR=colors_brown
+MOVERATE=200
+TAG.Barding.Diff=85.5
+TAG.DamPoison=25
+TAG.HitPoison=3//Greater
+CATEGORY=Monsters
+SUBSECTION=Treefolk
+DESCRIPTION=Elder Reaper
+RESLEVEL=5
+RESDISPDNID=c_reaper
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=5500
+   KARMA=-5500
+   STR={310 400}
+   MAXHITS={200 300}
+   DEX={66 75}
+   MAXSTAM={75 110}
+   INT={190 285}
+   MAXMANA={190 285}
+   ANATOMY={90.0 100.0}
+   EVALUATINGINTEL={70.0 80.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={85.0 100.0}
+   MEDITATION={90.0 100.0}
+   //POISONING={55.0 70.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={80.0 100.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={50 60}
+   RESFIRE=0
+   RESPOISON={40 50}
+ON=@NpcRestock
+   ITEM=random_jewel,{1 4}
+   ITEM=i_gold,{280 330}
+
+[CHARDEF 012d]
+DEFNAME=c_treefellow
+NAME=treefellow
+ICON=i_pet_treefellow
+SOUND=snd_monster_reaper1
+CAN=MT_WALK|MT_NONHUM
+DAM=26,35
+ARMOR=20
+DESIRES=r_jungle,r_forests,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_fruit,t_grain
+TAG.Barding.Diff=58.9
+TAG.Slayer=SLAYER_FEY
+CATEGORY=Monsters
+SUBSECTION=Treefolk
+DESCRIPTION=Treefellow
+RESLEVEL=3
+RESDISPDNID=c_reaper
+RESDISPDNHUE=0ad
+ON=@Create
+   NPC=brain_monster
+   FAME=500
+   KARMA=1500
+   STR={195 220}
+   MAXHITS={115 135}
+   DEX={30 55}
+   MAXSTAM={30 55}
+   INT={65 90}
+   MAXMANA={65 90}
+   ANATOMY={10.0 20.0}
+   MAGICRESISTANCE={40.0 55.0}
+   TACTICS={65.0 90.0}
+   WRESTLING={65.0 85.0}
+   MODAR={0 5}
+   RESCOLD={50 60}
+   RESENERGY={20 30}
+   RESFIRE=0
+   RESPOISON={30 35}
+ON=@NpcRestock
+   ITEM=loot_treefellow
+   //125 - 175 Gold. 20-35 Logs
+ON=@Hit
+   //Dismount Attack
+   IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+      MANA -= 20
+      SRC.DISMOUNT
+      SRC.EMOTE knocked off mount!
+      SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+   ENDIF
+
+[EOF]

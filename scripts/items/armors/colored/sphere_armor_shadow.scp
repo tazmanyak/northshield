@@ -1,0 +1,355 @@
+[ITEMDEF i_PLATEMAIL_chest_SHADOW]
+NAME=Shadow Platemail
+ID=i_platemail_chest
+ARMOR=60
+REQSTR=60
+WEIGHT=10
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 76.0
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_ARMS_SHADOW]
+NAME=Shadow Platemail Arms
+ID=i_platemail_arms
+ARMOR=60
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 64.5
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_leggings_SHADOW]
+NAME=Shadow Platemail Legs
+ID=i_platemail_leggings
+ARMOR=60
+REQSTR=60
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 67.8
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATE_HELM_SHADOW]
+NAME=Shadow Plate Helm
+ID=i_platemail_helm
+ARMOR=60
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 59.6
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_PLATEMAIL_GORGET_SHADOW]
+NAME=Shadow Platemail Gorget
+ID=i_platemail_gorget
+ARMOR=60
+REQSTR=40
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 51.4
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_GLOVES_SHADOW]
+NAME=Shadow Platemail Gauntlets
+ID=i_platemail_gloves
+ARMOR= 60
+REQSTR=40
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 54.7
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_PLATEMAIL_FEMALE_SHADOW]
+NAME=Shadow Female Platemail
+ID=i_armor_female_plate
+ARMOR= 22
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 71.0
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_CHAINMAIL_COIF_SHADOW]
+NAME=Shadow Chainmail Coif
+ID=i_chainmail_coif
+ARMOR= 30
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 28.6
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={36 44}
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_SHADOW]
+NAME=Shadow Chainmail Leggings
+ID=i_chainmail_leggings
+ARMOR= 30
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 32.1
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_CHAINMAIL_TUNIC_SHADOW]
+NAME=Shadow Chainmail Tunic
+ID=i_chainmail_tunic
+ARMOR= 30
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Chainmail Tunic
+RESOURCES=20 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 44.8
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_RINGMAIL_LEGGINGS_SHADOW]
+NAME=Shadow Ringmail Leggings
+ID=i_ringmail_leggings
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 28.6
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_SLEEVES_SHADOW]
+NAME=Shadow Ringmail Sleeves
+ID=i_ringmail_sleeves
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 25.3
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_GLOVES_SHADOW]
+NAME=Shadow Ringmail Gloves
+ID=i_ringmail_gloves
+ARMOR= 20
+REQSTR=20
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 18.8
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_TUNIC_SHADOW]
+NAME=Shadow Ringmail Tunic
+ID=i_ringmail_tunic
+ARMOR= 20
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 32.1
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_BUCKLER_SHADOW]
+NAME=Shadow Buckler
+ID=i_shield_buckler
+ARMOR= 9
+REQSTR=15
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 6.0
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_HEATER_SHADOW]
+NAME=Shadow Heater Shield
+ID=I_SHIELD_HEATER
+ARMOR= 22
+REQSTR=30
+WEIGHT=8
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 41.6
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={31 37}
+
+[ITEMDEF i_SHIELD_METAL_SHADOW]
+NAME=Shadow Metal Shield
+ID=i_shield_round_metal
+ARMOR= 13
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 16.0
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_HELM_CLOSED_SHADOW]
+NAME=Shadow Closed Helm
+ID=i_helm_closed
+ARMOR=30
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 59.6
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELM_OPEN_SHADOW]
+NAME=Shadow Helmet
+ID=i_helm_open
+ARMOR=30
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 59.6
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //=100
+
+[ITEMDEF i_BASCINET_SHADOW]
+NAME=Shadow Bascinet
+ID=i_bascinet
+ARMOR=30
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 20.2
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELM_NOSE_SHADOW]
+NAME=Shadow Bascinet
+ID=i_helm_nose
+ARMOR=30
+REQSTR=0
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Shadow
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 59.6
+
+
+ON=@Create
+	COLOR=color_o_shadow
+	HITPOINTS=100 //={101 115}
+	
+[eof]

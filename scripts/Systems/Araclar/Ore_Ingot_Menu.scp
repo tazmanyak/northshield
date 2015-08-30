@@ -1,0 +1,419 @@
+[Plevel 1]
+ores
+ingots
+regs
+
+// INGOT & ORE MENU by Destroy
+
+// gumplarýn çýkartýlmasý için YA .ingots ya da .ores kullanýlmalýdýr. 
+// aksi halde renkli yazmada sorun yaþanýr. 
+// command a .ores .ingots eklenmeli. 
+
+// BUG LIST
+// Bugsiz.  05,09,2002
+// nah bugsiz, close ne lan dürzü? satir 204'te idi
+
+
+[function ores]
+src.dialogclose d_ores_xenia
+src.dialog d_ores_xenia
+return 1
+src.dialog d_ores_xenia
+return 1
+
+/////ORES///
+[dialog d_ores_xenia]
+0, 10
+page 0
+
+
+resizepic 0 30 2620 175 340
+checkertrans 5 35 165 330
+
+htmlgump 17 40 160 20 0 0 0
+htmlgump 20 70 120 20 1 0 0
+htmlgump 20 90 120 20 2 0 0
+htmlgump 20 110 120 20 3 0 0
+htmlgump 20 130 120 20 4 0 0
+htmlgump 20 150 120 20 5 0 0
+htmlgump 20 170 120 20 6 0 0
+htmlgump 20 190 120 20 7 0 0
+htmlgump 20 210 120 20 8 0 0
+htmlgump 20 230 120 20 9 0 0
+htmlgump 20 250 120 20 10 0 0
+htmlgump 20 270 120 20 11 0 0
+htmlgump 20 290 120 20 12 0 0
+htmlgump 20 310 120 20 13 0 0
+
+htmlgump 120 70 120 20 14 0 0
+htmlgump 120 90 120 20 15 0 0
+htmlgump 120 110 120 20 16 0 0
+htmlgump 120 130 120 20 17 0 0
+htmlgump 120 150 120 20 18 0 0
+htmlgump 120 170 120 20 19 0 0
+htmlgump 120 190 120 20 20 0 0
+htmlgump 120 210 120 20 21 0 0
+htmlgump 120 230 120 20 22 0 0
+htmlgump 120 250 120 20 23 0 0
+htmlgump 120 270 120 20 24 0 0
+htmlgump 120 290 120 20 25 0 0
+htmlgump 120 310 120 20 26 0 0
+
+button 20 340 1209 1210 1 0 1
+htmlgump 45 340 35 20 27 0 0
+
+button 140 340 1209 1210 1 0 2
+htmlgump 100 340 35 20 28 0 0
+
+
+
+[dialog d_ores_xenia text]
+<serv.name> Ore Menu
+Iron
+Dull Copper
+Copper
+Bronze
+Silver
+Golden
+Shadow
+Agapite
+Verite
+Mytheril
+Valorite
+Bloodrock
+Blackrock
+
+<SRC.FINDLAYER{21}.FINDID{i_ore_iron}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_dull_copper}.AMOUNT> 
+<SRC.FINDLAYER{21}.FINDID{i_ore_copper}.AMOUNT> 
+<SRC.FINDLAYER{21}.FINDID{i_ore_bronze}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_silver}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_gold}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_shadow}.AMOUNT> 
+<SRC.FINDLAYER{21}.FINDID{i_ore_agapite}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_verite}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_mytheril}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_valorite}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_bloodrock}.AMOUNT>
+<SRC.FINDLAYER{21}.FINDID{i_ore_blackrock}.AMOUNT>
+
+Regs
+Ingots
+
+[dialog d_ores_xenia button]
+on=1
+src.dialog d_reg_xenia
+on=2
+src.dialog d_ingots_xenia
+
+
+
+
+
+// INGOT ÝÇÝN RENK BELÝRLEME
+[function ingot_text_color] 
+var.cnt <eval <rescount i_ingot_<args>>>
+if (<var.cnt> < 1)
+	try var.<args> 0
+elif (<var.cnt> > 0) && (<var.cnt> < 20)
+	try var.<args> 56
+elif (<var.cnt> > 19) && (<var.cnt> < 40)
+	try var.<args> = 340
+else 
+	try var.<args> = 114
+endif
+
+// ORE ÝÇÝN RENK BELÝRLEME
+[function ore_text_color] 
+var.cnt <eval <rescount i_ore_<args>>>
+if (<var.cnt> < 1)
+	try var.<args> 0
+elif (<var.cnt> > 0) && (<var.cnt> < 20)
+	try var.<args> 56
+elif (<var.cnt> > 19) && (<var.cnt> < 40)
+	try var.<args> = 340
+else 
+	try var.<args> = 114
+endif
+
+// HER INGOT ÝÇÝN RENK ARAR
+[function ingots] 
+ingot_text_color agapite
+ingot_text_color bronze
+ingot_text_color copper 
+ingot_text_color dull_copper
+ingot_text_color gold
+ingot_text_color iron
+ingot_text_color mytheril
+ingot_text_color silver
+ingot_text_color shadow
+//ingot_text_color steel
+ingot_text_color verite
+ingot_text_color valorite
+dialog d_nbl_ingot
+var.agapite
+var.bronze
+var.dull_copper
+var.gold
+var.iron
+var.mytheril
+var.silver
+var.shadow
+//var.steel
+var.verite
+var.valorite
+
+
+// HER ORE ÝÇÝN RENK ARAR 
+[function ores]
+ore_text_color agapite
+ore_text_color bronze
+ore_text_color copper
+ore_text_color dull_copper
+ore_text_color gold
+ore_text_color iron
+ore_text_color mytheril
+ore_text_color silver
+ore_text_color shadow
+//ore_text_color steel
+ore_text_color verite
+ore_text_color valorite
+dialog d_nbl_ore
+var.agapite
+var.bronze
+var.dull_copper
+var.gold
+var.iron
+var.mytheril
+var.silver
+var.shadow
+//var.steel
+var.verite
+var.valorite
+
+
+// INGOT MENUSU 
+[DIALOG d_nbl_ingot]
+0, 0
+PAGE 0
+
+
+resizepic 53 50 2620 400 430
+checkertrans 58 55 390 420
+
+//resizepic 95 65 3000 160 28 // MENÜ ADI FONTU 
+text 100 70 86 0  // MENÜ ADI 
+
+tilepic 360 70 <eval 01bf1> // INGOT
+
+button 314 420 4005 4007 1 0 1 // ORE BUTTON
+text 350 420 86 25  // ORE MENU
+
+button 314 450 4017 4019 1 0 2
+text 350 450 38 26  // ORE MENU
+
+
+//ROW 1  BACKGROUND
+gumppic 95 127 2443 
+gumppic 225 127 2443
+gumppic 355 127 2443
+
+//ROW 2
+gumppic 95 207 2443 
+gumppic 225 207 2443
+gumppic 355 207 2443
+
+//ROW 3
+gumppic 95 287 2443 
+gumppic 225 287 2443
+gumppic 355 287 2443
+
+//ROW 4
+//gumppic 95 367 2443 
+gumppic 225 367 2443
+gumppic 355 367 2443
+
+
+// TEXTS  BAÞLIK
+// ROW 1
+text 100 105 455 1
+text 230 105 455 2
+text 360 105 455 3
+
+// ROW 2
+text 100 185 455 4
+text 230 185 455 5
+text 360 185 455 6
+
+// ROW 3
+text 100 265 455 7
+text 230 265 455 8
+text 360 265 455 9
+
+// ROW 4
+//text 100 345 455 10
+text 230 345 455 11
+text 360 345 455 12
+
+
+// TEXT DEÐER
+text 105 128 <var.agapite> 13 // agapite
+text 235 128 <var.bronze> 14 // bronze
+text 365 128 <var.copper> 15 // copper
+
+text 105 208 <var.dull_copper> 16 // dull_copper
+text 235 208 <var.gold> 17 // gold
+text 365 208 <var.iron> 18 // iron
+
+text 105 288 <var.mytheril> 19 // mytheril
+text 235 288 <var.silver> 20 // silver
+text 365 288 <var.shadow> 21 // shadow
+ 
+//text 105 368 <var.steel> 22 // steel
+text 235 368 <var.valorite> 23 // valorite
+text 365 368 <var.verite> 24 // verite
+
+
+[DIALOG  d_nbl_ingot TEXT]
+North Shield Ingot Menu 	// 0
+Agapite			// 1	
+Bronze
+Copper
+Dull Copper
+Gold			// 5
+Iron
+Mytheril
+Silver
+Shadow
+Steel			// 10
+Valorite
+Verite
+<SRC.RESCOUNT{i_ingot_Agapite}.AMOUNT> // Iron Ingot 
+<SRC.RESCOUNT{i_ingot_bronze}.AMOUNT> // Iron Ingot 
+<SRC.RESCOUNT{i_ingot_Copper}.AMOUNT> // Shadow Ingot 
+<SRC.RESCOUNT{i_ingot_dull_copper}.AMOUNT> // Iron Ingot    // 15
+<SRC.RESCOUNT{i_ingot_Gold}.AMOUNT> // Dull Copper Ingot 
+<SRC.RESCOUNT{i_ingot_Iron}.AMOUNT> // Copper Ingot 
+<SRC.RESCOUNT{i_ingot_Mytheril}.AMOUNT> // Bronze Ingot 
+<SRC.RESCOUNT{i_ingot_Silver}.AMOUNT> // Gold Ingot 
+<SRC.RESCOUNT{i_ingot_shadow}.AMOUNT> // Silver Ingot 		//20
+-
+<SRC.RESCOUNT{i_ingot_valorite}.AMOUNT> // Verite Ingot 
+<SRC.RESCOUNT{i_ingot_verite}.AMOUNT> // Mytheril Ingot 
+Ore Menu
+Kapat
+
+[DIALOG  d_nbl_ingot BUTTON]
+ONBUTTON=1 
+SRC.ORES 
+
+
+
+// ORE MENUSU
+[DIALOG d_nbl_ore]
+0, 0
+PAGE 0
+
+resizepic 53 50 2620 400 430
+checkertrans 58 55 390 420
+text 100 70 86 0  // Imaginary ORE MENUSU  
+tilepic 360 60 <eval 019b9> // ORE 
+
+button 314 420 4005 4007 1 0 1 // ORE BUTTON
+text 350 420 86 25  // ORE MENU
+
+button 314 450 4017 4019 1 0 2
+text 350 450 38 26  // ORE MENU
+
+
+//ROW 1  BACKGROUND
+gumppic 95 127 2443 
+gumppic 225 127 2443
+gumppic 355 127 2443
+
+gumppic 95 207 2443 
+gumppic 225 207 2443
+gumppic 355 207 2443
+
+gumppic 95 287 2443 
+gumppic 225 287 2443
+gumppic 355 287 2443
+
+//gumppic 95 367 2443 
+gumppic 225 367 2443
+gumppic 355 367 2443
+
+
+// TEXTS  BAÞLIK
+// ROW 1
+text 100 105 455 1
+text 230 105 455 2
+text 360 105 455 3
+
+text 100 185 455 4
+text 230 185 455 5
+text 360 185 455 6
+
+text 100 265 455 7
+text 230 265 455 8
+text 360 265 455 9
+
+//text 100 345 455 10
+text 230 345 455 11
+text 360 345 455 12
+
+
+// TEXT DEÐER
+text 105 128 <var.agapite> 13
+text 235 128 <var.Bronze> 14
+text 365 128 <var.Copper> 15
+
+text 105 208 <var.Dull_Copper> 16
+text 235 208 <var.Gold> 17
+text 365 208 <var.Iron> 18
+
+text 105 288 <var.Mytheril> 19
+text 235 288 <var.Silver> 20
+text 365 288 <var.Shadow> 21
+ 
+//text 105 368 <var.Steel> 22
+text 235 368 <var.Valorite> 23
+text 365 368 <var.Verite> 24
+
+
+[DIALOG  d_nbl_ore TEXT]
+North Shield Ore Menu 	// 0
+Agapite			// 1	
+Bronze
+Copper
+Dull Copper
+Gold			// 5
+Iron
+Mytheril
+Silver
+Shadow
+Steel			// 10
+Valorite
+Verite
+<SRC.RESCOUNT{i_ore_Agapite}.AMOUNT> // Iron Ingot 
+<SRC.RESCOUNT{i_ore_bronze}.AMOUNT> // Iron Ingot 
+<SRC.RESCOUNT{i_ore_Copper}.AMOUNT> // Shadow Ingot 
+<SRC.RESCOUNT{i_ore_dull_copper}.AMOUNT> // Iron Ingot    // 15
+<SRC.RESCOUNT{i_ore_Gold}.AMOUNT> // Dull Copper Ingot 
+<SRC.RESCOUNT{i_ore_Iron}.AMOUNT> // Copper Ingot 
+<SRC.RESCOUNT{i_ore_Mytheril}.AMOUNT> // Bronze Ingot 
+<SRC.RESCOUNT{i_ore_Silver}.AMOUNT> // Gold Ingot 
+<SRC.RESCOUNT{i_ore_shadow}.AMOUNT> // Silver Ingot 		//20
+-
+<SRC.RESCOUNT{i_ore_valorite}.AMOUNT> // Verite Ingot 
+<SRC.RESCOUNT{i_ore_verite}.AMOUNT> // Mytheril Ingot 
+Ingot Menu
+Kapat
+
+[DIALOG  d_nbl_ore BUTTON]
+ONBUTTON=0
+
+ONBUTTON=1
+SRC.INGOTS 
+
+[EOF]

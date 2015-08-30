@@ -1,0 +1,113 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Slayer groups, used as defnames, bitmask. Pretty much easy to use, works as FLAGS.
+// Example, Ice Elemental will have the following tag:
+// TAG.SLAYER = SLAYER_SNOWELEM|SSLAYER_ICE
+// Note that only applied the Snow Elemental Slayer and the Ice Slayer.
+// Elemental (Super)Slayer is not used, since that is a weapon flag/property
+// On NPCs you can only use the first list, the second one is _ONLY_ for weapons.
+
+// Example, a Weapon which its slayer group is Elemental, will use
+// TAG.SLAYER = SSLAYER_ELEMENTAL
+// But never SLAYER_ELEMENTAL, since it is not a lesser group for weapons, just for NPCs.
+
+// A weapon which its slayer group is Ogre Slayer, will use
+// TAG.SLAYER.LESS = SLAYER_OGRE
+// Or if the weapon have a Super Slayer group would use
+// TAG.SLAYER.SUPER = SSLAYER_UNDEAD
+
+[DEFNAME SphereCommunityPack_NPC_Weapon_Slayers]
+SLAYER_ORC		0000000001 // Orc Slayer
+SLAYER_OGRE		0000000002 // Ogre Slayer
+SLAYER_TROLL		0000000004 // Troll Slayer
+SLAYER_REPOND		0000000008 // (NOT A LESSER GROUP FOR WEAPONS!) Repond Slayer (Anything that don't fit in Orc/Ogre/Troll but is Repond)
+SLAYER_UNDEAD		0000000010 // Undead Slayer
+SLAYER_AIRELEM		0000000020 // Air Elemental Slayer
+SLAYER_BLOODELEM	0000000040 // Blood Elemental Slayer
+SLAYER_EARTHELEM	0000000080 // Earth Elemental Slayer
+SLAYER_POISONELEM	0000000100 // Poison Elemental Slayer
+SLAYER_SNOWELEM		0000000200 // Snow Elemental Slayer
+SLAYER_WATERELEM	0000000400 // Water Elemental Slayer
+SLAYER_ELEMENTAL	0000000800 // (NOT A LESSER GROUP FOR WEAPONS!) Elemental Slayer (Anything that don't fit in other slayer but is Elemental)
+SLAYER_GARGOYLE		0000001000 // Gargoyle Slayer
+SLAYER_DEMON		0000002000 // (NOT A LESSER GROUP FOR WEAPONS!) Demon Slayer (Not gargoyle but still a demon)
+SLAYER_SCORPION		0000004000 // Scorpion Slayer
+SLAYER_SPIDER		0000008000 // Spider Slayer
+SLAYER_TERATHAN		0000010000 // Terathan Slayer
+SLAYER_FEY		0000020000 // Fey Slayer
+SLAYER_DRAGON		0000040000 // Dragon Slayer
+SLAYER_LIZARDMAN	0000080000 // Lizardman Slayer
+SLAYER_OPHIDIAN		0000100000 // Ophidian Slayer
+SLAYER_SNAKE		0000200000 // Snake Slayer
+SLAYER_REPTILE		0000400000 // (NOT A LESSER GROUP FOR WEAPONS!) Reptile Slayer (Don't fit in the other categories but is Reptile)
+
+// Some slayer groups that I missed in the trip:
+SLAYER_FIREELEM		0000800000 // Fire Elemental
+
+// Just don't use them, for now.
+//SSLAYER_BAT		0000800000 // Bat Slayer
+//SSLAYER_BEAR		0001000000 // Bear Slayer
+//SSLAYER_BEETLE	0002000000 // Beetle Slayer
+//SSLAYER_BIRD		0004000000 // Bird Slayer 
+//SSLAYER_BOVINE	0008000000 // Bovine Slayer (Cows)
+//SSLAYER_FLAME		0010000000 // Flame Slayer
+//SSLAYER_ICE		0020000000 // Ice Slayer
+//SSLAYER_MAGE		0040000000 // Mage Slayer
+//SSLAYER_VERMIN	0080000000 // Vermin Slayer (Rats)
+//SSLAYER_WOLF		0100000000 // Wolf Slayer
+
+
+[DEFNAME SphereCommunityPack_Weapon_Slayers]
+SSLAYER_REPOND		000000000f // Repond = Orc + Ogre + Troll + Repond
+SSLAYER_UNDEAD		0000000010 // Undead = Undead
+SSLAYER_ELEMENTAL	0000800fe0 // Elemental = Fire + Air + Blood + Earth + Poison + Snow + Water + Elemental
+SSLAYER_DEMON		0000003000 // Demon = Demon + Gargoyle
+SSLAYER_ARACHNID	000001c000 // Arachnid = Scorpion + Spider + Terathan
+SSLAYER_FEY		0000020000 // Fey = Fey
+SSLAYER_REPTILE		00007c0000 // Reptile = Dragon + Lizardman + Ophidian + Snake + Reptile
+
+
+[DEFNAME SphereCommunityPack_Slayers_Clilocs]
+// lesser slayers cliloc
+slayer_01_cliloc	1060470 // orc slayer
+slayer_02_cliloc	1060468 // ogre slayer
+slayer_04_cliloc	1060480 // troll slayer
+slayer_010_cliloc	1060479 // undead slayer
+slayer_020_cliloc	1060457 // air elemental slayer
+slayer_040_cliloc	1060459 // blood elemental slayer
+slayer_080_cliloc	1060463 // earth elemental slayer
+slayer_0100_cliloc	1060471 // poison elemental slayer
+slayer_0200_cliloc	1060476 // snow elemental slayer
+slayer_0400_cliloc	1060481 // water elemental slayer
+slayer_01000_cliloc	1060466 // gargoyle slayer
+slayer_04000_cliloc	1060474 // scorpion slayer
+slayer_08000_cliloc	1060477 // spider slayer
+slayer_010000_cliloc	1060478 // terathan slayer		
+slayer_040000_cliloc	1060462 // dragon slayer
+slayer_080000_cliloc	1060467 // lizardman slayer
+slayer_0100000_cliloc	1060469 // ophidian slayer
+slayer_0200000_cliloc	1060475 // snake slayer
+slayer_0800000_cliloc	1060465 // fire elemental slayer
+
+// super slayers cliloc
+slayer_0f_cliloc	1060472 // repond slayer
+slayer_010_cliloc	1060479 // undead slayer
+slayer_0800fe0_cliloc	1060464 // elemental slayer
+slayer_03000_cliloc	1060460 // demon slayer
+slayer_01c000_cliloc	1060458 // arachnid slayer
+slayer_020000_cliloc	1070855 // fey slayer
+slayer_07c0000_cliloc	1060473 // reptile slayer
+
+[eof]

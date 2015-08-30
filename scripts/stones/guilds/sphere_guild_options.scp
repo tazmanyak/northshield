@@ -1,0 +1,103 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DEFNAME GuildOptions]
+//Align Names
+Guild.AlignName.0		"Standart"
+Guild.AlignName.1		"Order"
+Guild.AlignName.2		"Chaos"
+
+//Rank Names
+Guild.RankName.0		"Acemi"
+Guild.RankName.1		"Uye"
+Guild.RankName.2		"Guild Lideri"
+
+//Rank Privileges
+Guild.Priv.CanInvitePlayer		"1"
+Guild.Priv.CanKickPlayers		"2"
+Guild.Priv.AccessGuildItems		"1"	//Unused
+Guild.Priv.CanPromoteDemote		"2"
+Guild.Priv.AllianceControl		"2"
+Guild.Priv.CanControlWarStatus		"2"
+Guild.Priv.CanSetMemberTitle		"2"
+Guild.Priv.CanVoteForGuildMaster	"1"
+Guild.Priv.CanUseChat			"0"
+
+//Misc Settings
+Guild.RegistrationFee			"5000000"		//Price for create a new guild
+Guild.NameMaxLenght			"20"
+Guild.NameChangeDelay			"6048000"	//6048000 = 7 Days (in tenths of second)
+Guild.AbbrevMaxLenght			"4"
+Guild.AbbrevChangeDelay			"10080"//1Hafta//"6048000"//1 ay
+Guild.CharterMaxLenght			"50"
+Guild.WebsiteMaxLenght			"50"
+Guild.PlayerTitleMaxLenght		"20"
+Guild.EnableChangeName			"1"
+Guild.EnableChangeAbbrev		"1"
+Guild.EnableAlign			"1"
+Guild.EnableAdvancedSearch		"1"
+Guild.EnableVoteForGuildMaster		"0"
+Guild.EnableChangeChatColor		"0"
+Guild.DisbandRefundPercent		"0"		//% of 'RegistrationFee' that will return to GuildMaster on guild disband
+Guild.CharGenericEvent			"e_guild"
+
+//Chat Settings
+Guild.EnableGuildChat		"1"
+Guild.ChatDelay			"4"	//Delay between messages in guild chat (in tenth of second)
+
+[DEFNAME GuildChatColors]
+Guild.ChatColor.1		"0"
+Guild.ChatColor.2		"025"
+Guild.ChatColor.3		"035"
+Guild.ChatColor.4		"065"
+Guild.ChatColor.5		"03a"
+
+
+[DEFNAME GuildHTMLDefinitions]
+Guild.DialogFont.DarkBlue	"<basefont color=#00007b>"
+Guild.DialogFont.Green		"<basefont color=#006300>"
+Guild.DialogFont.Red		"<basefont color=#b22222>"
+
+
+// ------------------------------------------------------
+// -------   Hardcoded functions called by Sphere  ------
+// ------------------------------------------------------
+
+[DEFNAME DEF_STONESYS_MEMBERPRIV]
+// You MUST NEVER modify the values in this block
+STONEPRIV_CANDIDATE			0
+STONEPRIV_MEMBER			1
+STONEPRIV_MASTER			2
+STONEPRIV_UNUSED			3
+STONEPRIV_ACCEPTED			4	// The candidate has been accepted. But they have not dclicked on the stone yet.
+
+[DEFNAME DEF_STONESYS_STONEPRIV]
+// You MUST NEVER modify the values in this block
+STONEPRIV_WEDECLARED			1
+STONEPRIV_THEYDECLARED			2
+STONEPRIV_ENEMY				3	// Internally this is 100 (3 for scripting purpose)
+
+[DEFNAME DEF_STONESYS_TYPENAME]
+STONECONFIG_TYPENAME_GUILD	 	"Guild"
+STONECONFIG_TYPENAME_TOWN 		"Town"
+STONECONFIG_TYPENAME_UNK	 	"Unk"
+
+[DEFNAME DEF_STONESYS_PRIVNAME]
+STONECONFIG_PRIVNAME_PRIVID-0	 	"a candidate of"
+STONECONFIG_PRIVNAME_PRIVID-1		"a member of"
+STONECONFIG_PRIVNAME_PRIVID-2		"the master of"
+STONECONFIG_PRIVNAME_PRIVID-4		"accepted in"
+STONECONFIG_PRIVNAME_PRIVID-100		"the enemy of"
+STONECONFIG_PRIVNAME_PRIVUNK		"unknown"
+
+[DEFNAME DEF_STONESYS_VARIOUSNAME]
+STONECONFIG_VARIOUSNAME_ABBREVON	 	"On"
+STONECONFIG_VARIOUSNAME_ABBREVOFF 		"Off"
+STONECONFIG_VARIOUSNAME_NONMEMBER 		"nonmember"
+STONECONFIG_VARIOUSNAME_YOURSELF	 	"yourself"
+STONECONFIG_VARIOUSNAME_PENDVOTE	 	"vote pending"
+STONECONFIG_VARIOUSNAME_MASTERGENDERMALE	"Master"
+STONECONFIG_VARIOUSNAME_MASTERGENDERFEMALE	"Mistress"
+
+[EOF]

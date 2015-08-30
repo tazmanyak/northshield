@@ -1,0 +1,340 @@
+// Sifre Güncelleme
+
+
+[function f_update_sifre]
+//serv.log #SifreTest...
+f_option_mysql 1
+db.connect
+if ( <DB.connected> )
+	//local.cnum=0
+	for 0 <eval <serv.accounts>-1>
+		
+		local.acctnum=<local._for>
+		//for <serv.account.<eval <local.acctnum>>> 
+		if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+			local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+			DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+			if <ddb.row.numrows>		
+				while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?´;:^%$*¨!<#._~|=+&/æ{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+					if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+						local.accname <serv.account.<eval <local.acctnum>>.name>
+						serv.account <local.accname> password <db.row.<dlocal._while>.value>
+						serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+						serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+					endif	
+					//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+				endwhile		
+			endif
+	
+		endif
+		//local.cnum += 1
+		//endfor
+	endfor
+db.close
+endif
+
+
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+			//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+			//	if <ddb.row.numrows>			
+			//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+			//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+			//			s <db.row.<dlocal._while>.acc_sifre>
+			//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+			//			serv.account <local.accname> tag0.sifresi "<local.db>"
+			//		endwhile
+			//	endif
+			//endif	[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif
+[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif	[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif
+[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif	[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif
+[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif	[function f_update_sifre]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+//local.cnum=0
+for 0 <eval <serv.accounts>-1>
+
+local.acctnum=<local._for>
+//for <serv.account.<eval <local.acctnum>>>
+if (<serv.account.<eval <local.acctnum>>.tag0.memberid>)
+local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_oyun'
+if <ddb.row.numrows>
+while (!<isempty <db.row.<dlocal._while>.value>>)     //while (!<ISBADSTR <db.row.<dlocal._while>.value>>)//while (!<isempty <db.row.<dlocal._while>.value>> || (<STRPOS 0 41 <db.row.<dlocal._while>.value>>=-1) || (STRMATCH(*<ASC [[]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC ]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [(]>*,<ASC <db.row.<dlocal._while>.value>>))) || (STRMATCH(*<ASC ->*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC [}`>?ï¿½;:^%$*ï¿½!<#._~|=+&/ï¿½{]>*,<ASC <db.row.<dlocal._while>.value>>)) || (STRMATCH(*<ASC @>*,<ASC <db.row.<dlocal._while>.value>>))
+if !(strmatch('<db.row.<dlocal._while>.value>','<serv.account.<eval <local.acctnum>>.tag.sifresi>'))
+local.accname <serv.account.<eval <local.acctnum>>.name>
+serv.account <local.accname> password <db.row.<dlocal._while>.value>
+serv.account <local.accname> tag.sifresi "<db.row.<dlocal._while>.value>"
+serv.log Acc : <serv.account.<eval <local.acctnum>>.name> , Yeni Sifre : <db.row.<dlocal._while>.value>
+endif
+//DB.EXECUTE "UPDATE smf_members SET acc_sifre='<db.row.<dlocal._while>.value>' WHERE id_member='<eval <local.member>>'"
+endwhile
+endif
+
+endif
+//local.cnum += 1
+//endfor
+endfor
+endif
+
+[EOF]
+
+//if !(strmatch('<local.sifre>','<local.db>'))
+//	DB.QUERY "SELECT * FROM smf_members WHERE id_member='<eval <local.member>>' //AND variable='cust_oyunku'
+//	if <ddb.row.numrows>
+//		while (!<isempty <db.row.<dlocal._while>.member_name>>)
+//			local.accname = <DB.ROW.<eval <LOCAL.R>>.member_name>
+//			s <db.row.<dlocal._while>.acc_sifre>
+//			serv.log Acc : <local.accname> , Yeni Sifre : <db.row.<dlocal._while>.acc_sifre>
+//			serv.account <local.accname> tag0.sifresi "<local.db>"
+//		endwhile
+//	endif
+//endif

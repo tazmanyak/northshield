@@ -1,0 +1,204 @@
+﻿[Comment Kufür Sistemi]
+Aciklama: Oyuncular .kufur yazip cikan target i sikayet etmek istedikleri oyuncuya tikladiklarinda 1 dakikalik kayit a girer.
+Kayit altinda oldugunu kufur eden oyuncu farkedemez.1 dakika sonunda butun yetkililerin görucegi bir alt yazi gecer.
+Not: Altta verdigim kisim sphere_speech.scp de speak_player a eklenicek.
+Yazar: Destroy
+Tarih: 30 Haziran 2008- Saat: 18.17
+UzunluK:commentlerle birlikte 151 satir
+
+[function kufursistemikur]
+db.connect
+db.execute "create table kufur_sys (id int unsigned not null auto_increment primary key,kufuredenuid text,sikayetedenuid text,tarih text,kufurcuismi text,sikayetciismi text,konusmaicerik text)";
+serv.log Kufur sistemi kuruldu
+db.close
+[plevel 1]
+küfür
+ihbar
+
+[itemdef i_kufur_ettin] 
+name Kufur Etmis Bu IT
+id=i_memory
+type=t_eq_script
+
+on=@timer 
+cont.notice Konuşma cezanız sona ermiştir.Umarım bundan sonra daha dikkatli konuşursunuz !
+//tag.kufurettiulanbu
+cont.tag.kufurettiulanbu
+remove
+return 1
+
+
+[function ihbar]
+src.sys_error Size hakaret eden kişileri Options'dan IGNORE edebilirsiniz. Sonsuza kadar mesajlarını görmeyebilirsiniz.
+src.sys_error Hakaret vb konular için page atmayınız.
+return 1
+//src.sys_error Kufur eden kisiyi Screen Shot (SS) alarak foruma sikayet edebilirsiniz.
+if (<account.plevel> > 1)
+	if <argn> == 1
+		targetf f_kufur
+	else
+		ctag.dialogindex 0
+		sdialog d_kufurayar
+	endif
+else
+targetf f_kufur
+sysmessage @69,1,1 Yetkililere bildirmek istediginiz player i seciniz.
+endif
+
+[function küfür]
+//src.sys_error Kufur eden kisiyi Screen Shot (SS) alarak foruma sikayet edebilirsiniz.
+if (<account.plevel> > 1)
+	if <argn> == 1
+		targetf f_kufur
+	else
+		ctag.dialogindex 0
+		sdialog d_kufurayar
+	endif
+else
+targetf f_kufur
+sysmessage @69,1,1 Yetkililere bildirmek istediginiz player i seciniz.
+endif
+
+[function f_kufur]
+obj=<argo>
+if <obj.uid> == <src.uid>
+sysmessage @,,1 Kendinizi sikayet edemezsiniz.
+elif <obj.restest 1 i_kufurkayit>
+sysmessage @69,1,1 Kisi zaten kayit altinda.
+elif <obj.isplayer>
+newitem i_kufurkayit
+new.tag0.tarih <serv.rtime>
+new.tag0.sikayeteden <uid>
+new.tag0.sikayetedenisim <name>
+new.cont <obj.uid>
+obj.tag0.nededi -
+endif
+
+[itemdef i_kufurkayit]
+id i_memory
+name kayitci
+layer layer_special
+TYPE=t_eq_script
+
+on=@create
+attr attr_decay|attr_invis|attr_newbie
+timer 60
+
+on=@timer
+db.connect
+db.execute "insert into kufur_sys VALUES (NULL, '<cont.uid>', '<tag0.sikayeteden>', '<tag0.tarih>', '<cont.name>', '<tag0.sikayetedenisim>', '<cont.tag0.nededi>');"
+obj=<uid.<tag0.sikayeteden>>
+obj.sysmessage @69,1,1 Ettiğiniz şikayet yetkililer tarafından değerlendilecektir. Veritabanına kaydedilmiştir.
+//serv.allclients kufurduyur <obj.name> Isimli kisi, <cont.name> isimli kisinin kufur ettigini ihbar etti.
+db.close
+remove
+return 1
+
+[function kufurduyur]
+if (<account.plevel> > 1)
+sysmessage @0810 <args>
+endif
+
+[dialog d_kufurayar]
+0,0
+//nomove
+resizepic 0 0 9200 400 650	
+gumppictiled 10 10 380 630 2624
+dhtmlgump 120 *10 300 30 0 0  <def.BFONT_white> Küfür Kayıt Menü //<def.BFONT_RED> <serv.name> 
+dhtmlgump 50 *25 300 30 0 0 <def.BFONT_lred> Şikayetçi
+dhtmlgump 150 *0 300 30 0 0 <def.BFONT_lred> Küfürbaz
+dhtmlgump 250 *0 300 30 0 0 <def.BFONT_lred> Tarih
+db.connect
+db.query "select * from kufur_sys order by tarih desc limit <eval <ctag.dialogindex>>,<eval <ctag.dialogindex>+25>";
+for x 0 25
+
+
+if <db.row.<dlocal.x>.kufuredenuid>
+local.y ((<dlocal.x>*20)+55)
+button 20 <eval <local.y>+3> 2511 2510 1 0 <eval <db.row.<dlocal.x>.id>+10>
+dhtmlgump 50 <dlocal.y> 300 30 0 0 <def.BFONT_white> <db.row.<dlocal.x>.sikayetciismi>
+dhtmlgump 150 <dlocal.y> 300 30 0 0 <def.BFONT_white> <db.row.<dlocal.x>.kufurcuismi>
+dhtmlgump 250 <dlocal.y> 300 30 0 0 <def.BFONT_white> <db.row.<dlocal.x>.tarih>
+endif
+endfor
+button 20 570 2511 2510 1 0 1
+button 20 600 2511 2510 1 0 2
+dhtmlgump 40 570 550 30 0 0 <def.BFONT_lred> Ileri
+dhtmlgump 40 600 580 30 0 0 <def.BFONT_lred> Geri
+db.close
+[dialog d_kufurayar BUTTON]
+on=1
+ctag.dialogindex += 25
+sdialog d_kufurayar
+on=2
+if <ctag.dialogindex> > 0
+ctag.dialogindex -= 25
+endif
+sdialog d_kufurayar
+return 1
+on=3 99999999
+ctag.kufurid <eval (<argn1>-10)>
+ctag.dialogindex 0
+sdialog d_kufurayrinti
+return 1
+
+[dialog d_kufurayrinti]
+0,0
+//nomove
+
+resizepic 0 0 9200 400 400	
+gumppictiled 10 10 380 380 2624
+db.connect
+db.query "select * from kufur_sys where id = '<eval <ctag.kufurid>>' limit 1"
+//dhtmlgump 90 *10 300 30 0 0  <def.BFONT_SIZE7> <def.BFONT_white> Şikayet Detayları
+dhtmlgump 50 *25 300 30 0 0 <def.BFONT_lgreen> Şikayetçi: <def.bfont_lred> <db.row.0.sikayetciismi>
+dhtmlgump 50 *25 300 30 0 0 <def.BFONT_lgreen> Küfürbaz: <def.bfont_lred> <db.row.0.kufurcuismi>
+dhtmlgump 50 *25 300 30 0 0 <def.BFONT_lgreen> Tarih: <def.bfont_lred> <db.row.0.tarih>
+dhtmlgump 50 *25 300 30 0 0 <def.BFONT_lgreen> Kayıt altına alınan konuşma:
+dhtmlgump 50 *35 300 60 1 1 <db.row.0.konusmaicerik> 
+button 50 *80 2511 2510 1 0 1
+dhtmlgump 70 *0 300 30 0 0 <def.BFONT_lred> Şikayetçiye git
+button 50 *20 2511 2510 1 0 2
+dhtmlgump 70 *0 300 30 0 0 <def.BFONT_lred> Küfürbaza git
+button 50 *20 2511 2510 1 0 3
+dhtmlgump 70 *0 300 30 0 0 <def.BFONT_lred> Şikayeti sil
+button 50 *20 2511 2510 1 0 4
+dhtmlgump 70 *0 300 30 0 0 <def.BFONT_lred> Cezalandır
+db.close
+[dialog d_kufurayrinti button]
+on=1 4
+db.connect
+if (<argn> == 1)
+obj=<uid.<db.row.0.sikayetedenuid>>
+src.go <obj.p>
+db.close
+elif (<argn> == 2)
+ref1=<uid.<db.row.0.kufuredenuid>>
+//obj.tag.sucu Kufur / Hakaret
+src.go <ref1.p>
+db.close
+elif <argn> == 3
+db.execute "delete from kufur_sys where id='<eval <ctag0.kufurid>>';"
+ctag0.kufurid= 
+db.close
+elif (<argn> == 4)
+	db.query "select * from kufur_sys where id = '<eval <ctag.kufurid>>' limit 1"
+	ref1=<uid.<db.row.0.kufuredenuid>>
+	//serv.log <ref1.name>
+	serv.newitem i_kufur_ettin
+	new.timer 3600*12
+	new.cont <ref1>
+	db.close
+endif
+//obj.go jail
+//obj.events e_hapis
+//obj.tag0.otohapis +=1
+//newitem i_jailcik
+//new.timer <eval <obj.tag0.otohapis>*7200>
+//new.cont <obj.uid>
+//db.execute "delete from kufur_sys where id='<ctag0.kufurid>';"
+ctag0.kufurid= 
+sdialog d_kufurayar
+db.close
+
+[eof]

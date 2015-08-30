@@ -1,0 +1,2072 @@
+
+[ITEMDEF i_deed_ankh]
+NAME=deed to an ankh
+ID=i_deed
+SKILLMAKE=BLACKSMITHING 85.0, MAGERY 80.0
+RESOURCES=100 i_ingot_iron, 100 i_scroll_resurrection
+weight=80
+
+On=@DClick
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+
+if !(<link.tag0.ankhkurulu> == 0) // bir eve max 1 adet koyabiliyoz
+	src.sysmessage @55,3,1 Bu eve daha fazla ankh sabitlenemez.
+	return 1
+endif	
+
+serv.newitem i_ankh
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+src.new.link <src.region.uid>
+src.new.p <src.p>
+//src.new.attr attr_move_never
+//src.new.flip
+src.new.flip
+src.new.flip
+src.new.flip
+src.new.flip
+src.new.update
+
+
+src.newitem i_ankh
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+//src.new.attr 010
+src.new.move 0 -1
+//src.new.flip
+src.new.flip,5
+src.new.update
+
+//local.multibase=
+//try link.tag.ankhkurulu 1
+remove
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////halý tipleri//////////////////////
+
+////////////////////mavi kahve/////////////////
+
+[ITEMDEF i_deed_carpet_bluebrown]
+NAME=deed to a blue-brown carpet 
+ID=i_deed
+RESOURCES=100 i_cloth, 20 i_hides_cut
+SKILLMAKE=TAILORING 84.2, t_carpentry
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=hali tip 1
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+
+
+src.newitem 0ad1
+src.new.tag.anaitem=<baseid>
+local.item=<src.new.uid>
+src.new.tag.ek_ev=1
+src.new.link <src.region.uid>
+src.new.p <src.p>
+src.new.attr attr_move_never
+src.new.update
+local.mlink <src.new.link.uid>
+local.m1 <src.new.uid>
+
+src.newitem 0ad8
+src.new.p <src.p>
+src.new.move 1
+src.new.attr attr_move_never
+src.new.update
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+local.m2 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	local.mlink
+	local.m1
+	local.m2
+	return 1
+endif
+
+src.newitem 0ad5
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move 1 -1
+src.new.attr attr_move_never
+src.new.update
+local.m3 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	return 1
+endif
+
+src.newitem 0ad2
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move 1 1
+src.new.attr attr_move_never
+src.new.update
+local.m4 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	return 1
+endif
+
+src.newitem 0ad9
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move 0 1
+src.new.attr attr_move_never
+src.new.update
+local.m5 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	return 1
+endif
+
+src.newitem 0ad7
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move 0 -1
+src.new.attr attr_move_never
+src.new.update
+local.m6 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	return 1
+endif
+
+src.newitem 0ad6
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move -1 0
+src.new.attr attr_move_never
+src.new.update
+local.m7 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	try src.uid.<local.m7>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	local.m7
+	return 1
+endif
+
+src.newitem 0ad4
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move -1 1
+src.new.attr attr_move_never
+src.new.update
+local.m8 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	try src.uid.<local.m7>.remove
+	try src.uid.<local.m8>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	local.m7
+	local.m8
+	return 1
+endif
+
+src.newitem 0ad3
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.move -1 -1
+src.new.attr attr_move_never
+src.new.update
+local.m9 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	try src.uid.<local.m7>.remove
+	try src.uid.<local.m8>.remove
+	try src.uid.<local.m9>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	local.m7
+	local.m8
+	local.m9
+	return 1
+endif
+
+try src.new.link.tag.<local.m1>part1 <local.m2>
+try src.new.link.tag.<local.m1>part2 <local.m3>
+try src.new.link.tag.<local.m1>part3 <local.m4>
+try src.new.link.tag.<local.m1>part4 <local.m5>
+try src.new.link.tag.<local.m1>part5 <local.m6>
+try src.new.link.tag.<local.m1>part6 <local.m7>
+try src.new.link.tag.<local.m1>part7 <local.m8>
+try src.new.link.tag.<local.m1>part8 <local.m9>
+local.mlink
+local.m1
+local.m2
+local.m3
+local.m4
+local.m5
+local.m6
+local.m7
+local.m8
+local.m9
+//try link.tag.locknumber <eval(<link.tag.locknumber> + 1)>
+remove
+
+
+////////////////////mavi kýrmýzý/////////////////
+
+[ITEMDEF i_deed_carpet_bluered]
+NAME=deed to a blue-red carpet 
+ID=i_deed
+RESOURCES=100 i_cloth, 20 i_hides_cut
+SKILLMAKE=TAILORING 84.2, t_carpentry
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=hali tip 2
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+
+
+src.newitem 0aec
+src.new.link <src.region.uid>
+src.new.tag.anaitem=<baseid>
+local.item=<src.new.uid>
+src.new.tag.ek_ev=1
+src.new.p <src.p>
+src.new.attr attr_move_never
+src.new.update
+local.mlink <src.new.link.uid>
+local.m1 <src.new.uid>
+
+src.newitem 0af4
+src.new.p <src.p>
+src.new.move 1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m2 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	local.mlink
+	local.m1
+	local.m2
+	return 1
+endif
+
+src.newitem 0af1
+src.new.p <src.p>
+src.new.move 1 -1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m3 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	return 1
+endif
+
+src.newitem 0aee
+src.new.p <src.p>
+src.new.move 1 1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m4 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	return 1
+endif
+
+src.newitem 0af5
+src.new.p <src.p>
+src.new.move 0 1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m5 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	return 1
+endif
+
+src.newitem 0af3
+src.new.p <src.p>
+src.new.move 0 -1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m6 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	return 1
+endif
+
+src.newitem 0af2
+src.new.p <src.p>
+src.new.move -1 0
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m7 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	try src.uid.<local.m7>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	local.m7
+	return 1
+endif
+
+src.newitem 0af0
+src.new.p <src.p>
+src.new.move -1 1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m8 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	try src.uid.<local.m7>.remove
+	try src.uid.<local.m8>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	local.m7
+	local.m8
+	return 1
+endif
+
+src.newitem 0aef
+src.new.p <src.p>
+src.new.move -1 -1
+src.new.attr attr_move_never
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+src.new.update
+local.m9 <src.new.uid>
+if !(strmatch('<src.new.region.uid>','<src.uid.<local.m1>.region.uid>'))
+	src.sysmessage @38 Esyanin bir kismi bu konumda evin disina tasacagi icin buraya yerlestiremezsiniz.
+	try src.uid.<local.m1>.remove
+	try src.uid.<local.m2>.remove
+	try src.uid.<local.m3>.remove
+	try src.uid.<local.m4>.remove
+	try src.uid.<local.m5>.remove
+	try src.uid.<local.m6>.remove
+	try src.uid.<local.m7>.remove
+	try src.uid.<local.m8>.remove
+	try src.uid.<local.m9>.remove
+	local.mlink
+	local.m1
+	local.m2
+	local.m3
+	local.m4
+	local.m5
+	local.m6
+	local.m7
+	local.m8
+	local.m9
+	return 1
+endif
+
+try src.new.link.tag.<local.m1>part1 <local.m2>
+try src.new.link.tag.<local.m1>part2 <local.m3>
+try src.new.link.tag.<local.m1>part3 <local.m4>
+try src.new.link.tag.<local.m1>part4 <local.m5>
+try src.new.link.tag.<local.m1>part5 <local.m6>
+try src.new.link.tag.<local.m1>part6 <local.m7>
+try src.new.link.tag.<local.m1>part7 <local.m8>
+try src.new.link.tag.<local.m1>part8 <local.m9>
+local.mlink
+local.m1
+local.m2
+local.m3
+local.m4
+local.m5
+local.m6
+local.m7
+local.m8
+local.m9
+try link.tag.locknumber <eval(<link.tag.locknumber> + 1)>
+remove
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////
+// Deed Check Functions//////////////
+/////////////////////////////////////
+[function tradecheck]
+if !(<src.isgm>)
+	if (<topobj.uid> != <src.uid>)
+		src.sysmessage @38 Cantada olmasi lazim
+		return 1
+	else
+		return 0
+	endif
+endif
+
+[function penaltycheck]
+if (<src.findid.i_redeed_penalty>)
+	src.sysmessage @38 Evi 3 sn sonra kurabilirsiniz.
+	return 1
+else
+	return 0
+endif
+
+[function bilmem]
+if (<src.findid.i_redeed_penalty>) && !(<src.isgm>)
+	if (<src.findid.i_redeed_penalty.timer>==-1)
+		src.findid.i_redeed_penalty.remove
+	else
+		src.sysmessage @38 Bu evi ancak eval(<src.findid.i_redeed_penalty.timer>/60)> dk [<src.findid.i_redeed_penalty.timer> sn] sonra kurabilirsiniz.
+		return 1
+	endif
+else
+	return 0
+endif
+
+[function acchousecheck]
+if !(<src.isgm>)
+	if !(strmatch('<src.account.tag.HOUSE>','')) || !(strmatch('<src.account.tag.HOUSEUID>','') // tagler bos deilse
+		obj = <src.account.tag.HOUSEUID>
+		if (<obj.type>==t_multi)  // bu meret house mu=
+			src.sysmessage @38 Ikinci bir ev kurabilmek icin diger
+			src.sysmessage @38 karakterlerinizden birine ait evi yikmalisiniz.
+			src.sysmessage @55 Ev: <obj.name>
+			obj
+			return 1
+		else   // deilmis salliyoz..
+			src.account.tag.HOUSEUID 0
+			src.account.tag.HOUSE 0
+			obj
+			return 0
+		endif
+	else // tag yok dert yok.
+		return 0
+	endif
+else
+	return 0
+endif
+
+[function housecheck]
+if !(<src.isgm>)
+	if (<src.isevent.e_house>)
+		if !((<eval <src.uid>> == <eval <src.region.tag.owner>>) || (strmatch('<src.region.tag.account>','<src.account>')) || (<eval <src.region.tag.co1uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co2uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co3uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co4uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co5uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co6uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co7uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co8uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f1uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f2uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f3uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f4uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f5uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f6uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f7uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f8uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f9uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f10uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f11uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f12uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f13uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f14uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f15uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f16uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f17uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f18uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f19uid>> == <eval <src.uid>>) || (<eval <src.region.tag.f20uid>> == <eval <src.uid>>))
+			src.sysmessage @38,3,1 Sadece kendi veya ortak yada dost oldugunuz evinize kurabilirsiniz.
+			return 1
+		elseif (strmatch('<link.tag.build>','hatali'))
+			src.sysmessage @38,3,1 Eviniz hatali olarak isaretlenmis. Esya koyamazsiniz.
+			return 1
+		elseif (<eval <link.tag.locknumber>> >= <eval <link.morey>>)
+			src.sysmessage @38,3,1 Bu eve daha fazla esya koyamazsiniz.
+			return 1
+		else
+			return 0
+		endif
+	else
+		src.sysmessage @38,3,1 Evde degilsiniz.
+		return 1
+	endif
+else
+	return 0
+endif
+
+[function atwarstatus]
+if !(<src.isgm>)
+	if (<src.memoryfindtype.memory_fight>)
+		src.sysmessage @38 Son savasinizdan belirli bir sure gecmedikce bu esyayi kullanamazsiniz.
+		return 1
+	else
+		return 0
+	endif
+else
+	return 0
+endif
+
+[function housecheck444]
+if !(<src.isgm>)
+	if (<src.isevent.e_house>)
+		if !((<eval <src.uid>> == <eval <src.region.tag.owner>>) || (strmatch('<src.region.tag.account>','<src.account>')) || (<eval <src.region.tag.co1uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co2uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co3uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co4uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co5uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co6uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co7uid>> == <eval <src.uid>>) || (<eval <src.region.tag.co8uid>> == <eval <src.uid>>) 
+			src.sysmessage @38,3,1 Sadece kendi veya ortak oldugunuz evinize kurabilirsiniz.
+			return 1
+		elseif (strmatch('<link.tag.build>','hatali'))
+			src.sysmessage @38,3,1 Eviniz hatali olarak isaretlenmis. Esya koyamazsiniz.
+			return 1
+		elseif (<eval(<link.tag.locknumber>)> >= <eval(<link.morey>)>)
+			src.sysmessage @38,3,1 Bu eve daha fazla esya koyamazsiniz.
+			return 1
+		else
+			return 0
+		endif
+	else
+		src.sysmessage @38,3,1 Evde degilsiniz.
+		return 1
+	endif
+else
+	return 0
+endif
+
+
+
+[function f_item_region_check]
+if (strmatch('<args>',''))
+		if !(strmatch('<region.uid>','<link>'))
+			return 1
+		else
+			return 0
+		endif
+elseif (strmatch('<streat <args>>','remove'))
+	foritems <strarg <args>>  // kac kare icindeki
+		if (<type> == <obj.type>) // type i ne?
+			remove
+		endif
+	endfor
+else
+	foritems <strarg <args>>  // kac kare icindeki
+		if (<type> == <streat <args>>) // type i ne?
+			if !(strmatch('<region.uid>','<link>'))
+				return 1
+			else
+				attr 010
+			endif
+		endif
+	endfor
+endif
+
+[function tiktik]
+if (<f_item_region_check 5 t_bed> == 1)
+	sysmessage @55 disardaymis
+endif
+
+[function deedresell]
+dialog d_deed_resell
+return 1
+
+[DIALOG d_deed_resell]
+0, 0
+nomove
+PAGE 0
+resizepic 5 0 3500 300 150
+
+htmlgump 115 9 100 20 0 0 0
+htmlgump 24 35 275 20 1 0 0
+htmlgump 24 47 80 20 2 0 0
+htmlgump 24 77 80 20 3 0 0
+htmlgump 72 77 220 40 4 0 0
+htmlgump 24 97 220 40 5 0 0
+button 39 127 2311 2312 1 0 1
+button 205 127 243 241 1 0  0
+
+[DIALOG d_deed_resell TEXT]
+Deed Resell
+Bu tapu yu iade etmek istediginize
+emin misiniz?
+Tapu:
+<name>
+Degeri: [<value> gp]
+
+
+[DIALOG d_deed_resell BUTTON]
+on=0
+src.sysmessage @55,3,1 Tapu iade islemi iptal edildi.
+return 1
+
+on=1
+if (<cont.uid> != <src.findlayer.21.uid>)
+	src.sysmessage @38,3,1 Bu islem icin deed'in cantanizda olmasi gerekli.
+	return 1
+endif
+if (<value> > 65000)
+	local.bolunen <eval(<value>)>
+	local.bolum <eval(<eval(<local.bolunen>)>/ 65000)>
+	src.sysmessage <local.bolum>
+	local.kalan <eval(<eval(<local.bolunen>)> - <eval(<local.bolum> * 65000)>)>
+	src.sysmessage <eval(<local.kalan>)>
+	for <eval(<local.bolum>)>
+		src.newitem i_gold
+		src.new.amount 65000
+		src.new.bounce
+	endfor
+	src.newitem i_gold
+	src.new.amount <local.kalan>
+	src.new.bounce
+else
+	src.newitem i_gold
+	src.new.amount <value>
+	src.new.bounce
+endif
+remove// deed i sildik. cantadan alip baska yere koysa bile :pp
+//serv.log Dresell : <src.Account>/<src.Name> [<src.uid>]  : <baseid> / value : [<value>] gp
+return 1
+
+[function deedclick]
+if (<cont.uid> == (<src.findlayer.21.uid>)
+	if (<more> != i_unused)
+		if !(<src.memoryfindtype.08000>) || (<src.memoryfindtype.08000.more2> != <uid>)
+			deedresell
+		endif
+	else
+		src.sysmessage @38,3,1 Bu tapu hatali kaydedilmis.
+	endif
+endif
+
+/// END OF DEED CHECK FUNCTIONS///////////////
+//////////////////////////////////////////////
+
+
+
+
+
+[ITEMDEF i_deed_small_bed_w]
+NAME=deed to a small bed (w)
+ID=i_deed
+RESOURCES=100 i_cloth, 5 i_log
+SKILLMAKE=CARPENTRY 78.9, TAILORING 75.0, t_carpentry
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Small Bed(W)
+
+On=@Create
+ATTR=attr_newbie
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+
+
+attr 010
+src.newitem i_bed_9
+src.new.link <src.region.uid>
+src.new.p <src.p>
+src.new.attr attr_move_never
+more= <src.new.uid>
+src.new.update
+src.newitem i_bed_11
+src.new.p <src.p>
+src.new.move 1
+src.new.attr attr_move_never
+src.new.link <src.region.uid>
+src.new.more <more>
+tryp 0  uid.<more>.more = <src.new.uid>
+src.new.update
+if !(strmatch('<src.new.region.uid>','<src.new.link>'))
+	tryp 0 uid.<more>.attr 00
+	tryp 0 uid.<more>.remove
+	tryp 0 src.new.attr 00
+	tryp 0 src.new.remove
+	src.sysmessage @65 Esyanin bir kismi ev sinirlari disina cikti.
+else
+	try link.tag.locknumber <eval(<link.tag.locknumber> + 1)>
+	remove
+endif
+return 1
+
+[ITEMDEF i_deed_small_bed_n]
+NAME=deed to a small bed (n)
+ID=i_deed
+RESOURCES=100 i_cloth, 5 i_log
+SKILLMAKE=CARPENTRY 78.9, TAILORING 75.0, t_carpentry
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Small Bed(N)
+
+On=@Create
+ATTR=attr_newbie
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+
+attr 010
+src.newitem i_bed_7
+src.new.link <src.region.uid>
+src.new.p <src.p>
+src.new.attr attr_move_never
+more= <src.new.uid>
+src.new.update
+src.newitem i_bed_8
+src.new.p <src.p>
+src.new.move 0 1
+src.new.attr attr_move_never
+src.new.link <src.region.uid>
+src.new.more <more>
+tryp 0  uid.<more>.more = <src.new.uid>
+src.new.update
+if !(strmatch('<src.new.region.uid>','<src.new.link>'))
+	tryp 0 uid.<more>.attr 00
+	tryp 0 uid.<more>.remove
+	tryp 0 src.new.attr 00
+	tryp 0 src.new.remove
+	src.sysmessage @65 Esyanin bir kismi ev sinirlari disina cikti.
+else
+	try link.tag.locknumber <eval(<link.tag.locknumber> + 1)>
+	remove
+endif
+
+
+[ITEMDEF i_deed_loom_n]
+NAME=deed to a loom (n)
+ID=i_deed
+RESOURCES=85 i_log,25 i_cloth
+SKILLMAKE=CARPENTRY 84.2, TAILORING 65.0
+type=t_normal
+
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle -2
+local.multibase <uid>
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem 01062
+src.new.p <p>
+src.new.attr 010
+src.new.flip
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem 01061
+src.new.p <p>
+src.new.attr 010
+src.new.move 0 -1
+src.new.flip
+src.new.flip
+src.new.flip
+src.new.update
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+
+
+
+[function f_gmcx]
+ref1=<uid>
+foritems 6144
+ if !<isempty <tag.anaitem>>
+ ref1.p=<p>
+ ref1.update
+ return 1
+ endif
+endfor
+
+[function bot_addonekle]
+if !(<local.evuygun>==1)
+return 1
+endif
+serv.newitem i_gold
+new.p <p>
+new.move <args>
+ref1=<local.multibase>
+if !(strmatch('<new.region.uid>','<ref1.region.uid>'))
+local.evuygun 0
+else
+local.evuygun 1
+endif
+new.remove
+
+
+//ev ekleri
+
+[ITEMDEF i_deed_wheel_n]
+NAME=spinning wheel
+ID=i_deed
+type=t_normal
+
+RESOURCES=75 i_log,25 i_cloth
+SKILLMAKE=CARPENTRY 73.6, TAILORING 65.0
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Wheel(N)
+
+On=@Create
+attr 04
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+ //IF !(<ATTR> & attr_move_never)
+ //src.sys_error Eve sabitlemelisiniz.
+ //return 1
+ //endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+IF ((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+	src.newitem i_spinning_wheel
+	src.new.p <p>
+	src.new.attr <src.new.attr>|attr_move_never
+	src.new.update
+	src.new.tag.anaitem=<baseid>
+	src.new.tag.ek_ev=1
+	remove
+else 
+	src.sys_error Bu esyayi sadece kendi evinize yerlestirebilirsiniz.
+	return 1
+endif
+
+
+[ITEMDEF I_DEED_FORGE]
+NAME=Forge
+ID=i_deed
+type=t_normal
+RESOURCES=5 i_log, 75 i_ingot_iron
+SKILLMAKE=CARPENTRY 73.6, BLACKSMITHING 75.0
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Forge
+
+On=@Create
+attr 04
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+ //IF !(<ATTR> & attr_move_never)
+ //src.sys_error Eve sabitlemelisiniz.
+ //return 1
+ //endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+ IF ((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+	src.newitem i_forge
+	src.new.link <src.region.uid>
+	src.new.p <p>
+	src.new.attr <src.new.attr>|attr_move_never
+	src.new.update
+	src.new.tag.anaitem=<baseid>
+	src.new.tag.ek_ev=1
+	remove
+else 
+	src.sys_error Bu esyayi sadece kendi evinize yerlestirebilirsiniz.
+	return 1
+endif
+
+
+
+
+[ITEMDEF 05010]
+DEFNAME=I_DEED_DUMMYW
+NAME=Training Dummy(D-B)
+ID=i_deed
+type=t_normal
+RESOURCES=55 i_log , 60 i_cloth
+SKILLMAKE=carpentry 68.4 , tailoring 50.0
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Training Dummy (W)
+
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+ //IF !(<ATTR> & attr_move_never)
+ //src.sys_error Eve sabitlemelisiniz.
+ //return 1
+ //endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+ IF ((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+	src.newitem i_training_dummy
+	src.new.p <p>
+	src.new.attr <src.new.attr>|attr_move_never
+	src.new.update
+	src.new.tag.anaitem=<baseid>
+	src.new.tag.ek_ev=1
+	remove
+else 
+	src.sys_error Bu esyayi sadece kendi evinize yerlestirebilirsiniz.
+	return 1
+endif
+
+
+[ITEMDEF i_deed_dummyn]
+NAME=training dummy(K-G)
+ID=i_deed
+type=t_normal
+RESOURCES=55 i_log, 60 i_cloth
+SKILLMAKE=CARPENTRY 68.4, TAILORING 50.0
+
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Training Dummy (N)
+
+On=@Create
+attr 04
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+ //IF !(<ATTR> & attr_move_never)
+ //src.sys_error Eve sabitlemelisiniz.
+ //return 1
+ //endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+ IF ((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+	src.newitem i_training_dummy
+	src.new.p <p>
+	src.new.attr <src.new.attr>|attr_move_never
+	src.new.dispid 01070
+	src.new.update
+	src.new.tag.anaitem=<baseid>
+	src.new.tag.ek_ev=1
+	remove
+else 
+	src.sys_error Bu esyayi sadece kendi evinize yerlestirebilirsiniz.
+	return 1
+endif
+
+
+/////////
+
+[ITEMDEF I_DEED_flour_mill_n]
+DEFNAME=I_DEED_flour_mill_n
+NAME=Loom(K-G)
+ID=i_deed
+RESOURCES=100 i_log , 50 i_ingot_iron
+SKILLMAKE=carpentry 94.7 , tinkering 75.0
+type=t_normal
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Flour Mill N
+
+ON=@Create
+MORE=i_multi_flour_mill_n
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+[ITEMDEF I_DEED_flour_mill_w]
+DEFNAME=I_DEED_flour_mill_w
+NAME=Loom(D-B)
+ID=i_deed
+RESOURCES=100 i_log , 50 i_ingot_iron
+SKILLMAKE=carpentry 94.7 , tinkering 75.0
+type=t_normal
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Flour Mill w
+
+ON=@Create
+MORE=i_multi_flour_mill_w
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+/////////// tamamdýr//
+// [ITEMDEF i_deed_pentagram]
+// NAME=Pentagram
+// ID=i_deed
+// RESOURCES=100 i_log,40 i_ingot_iron
+// SKILLMAKE=CARPENTRY 100.0, MAGERY 75.0
+// type=t_deed_house_addon
+// CATEGORY=Provisions - Deeds
+// SUBSECTION=Item Deeds
+// DESCRIPTION=Pentagram
+// on=@click
+// message Deed : Pentagram 
+// return 1
+
+// on=@create
+// MORE=i_multi_pentagram
+
+[ITEMDEF i_deed_pentagram]
+NAME=Pentagram
+ID=i_deed
+RESOURCES=100 i_log,40 i_ingot_iron
+SKILLMAKE=CARPENTRY 100.0, MAGERY 75.0
+type=t_script
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Pentagram
+on=@click
+message Deed : Pentagram 
+return 1
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+// if <src.is_kapiya_yakin>
+// src.sys_error Kapiya cok yakinsiniz.
+// return 1
+// endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+// local.multibase <uid>
+// local.evuygun 1
+// bot_addonekle 0 -2
+// bot_addonekle 0 2
+// bot_addonekle -2 -2
+// bot_addonekle 2 -2
+// bot_addonekle 2 0
+// bot_addonekle -2 0
+// bot_addonekle 2 2
+// bot_addonekle -2 2
+// if !(<dvar0.evuygun>==1)
+// src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+// local.multibase=
+// return 1
+// else 
+
+serv.newitem 0fea
+new.p <p>
+new.attr 010
+local.item=<new.uid>
+new.tag.anaitem=<baseid>
+new.tag.ek_ev=1
+
+serv.newitem 0fe8
+new.p <p>
+new.attr 010
+new.move 0 -1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+serv.newitem 0fe7
+new.p <p>
+new.attr 010
+new.move -1 -1,
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+serv.newitem 0feb
+new.p <p>
+new.attr 010
+new.move 1 -1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+
+serv.newitem 0fee
+new.p <p>
+new.attr 010
+new.move 1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+serv.newitem i_pentagram
+new.p <p>
+new.attr 010
+new.move -1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+serv.newitem 0fed
+new.p <p>
+new.attr 010
+new.move 1 1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+serv.newitem 0fec
+new.p <p>
+new.attr 010
+new.move 0 1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+
+serv.newitem 0fe9
+new.p <p>
+new.attr 010
+new.move -1 1
+new.link <local.item>
+new.tag.ev_eki=1
+new.tag.ek_ev=1
+local.multibase=
+remove
+
+
+return 1
+
+
+
+
+///////bed
+
+[ITEMDEF i_deed_large_bed_n]
+NAME=deed to a large bed (n)
+ID=i_deed
+RESOURCES=150 i_log,150 i_cloth
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0
+type=t_normal
+
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 0 -2
+bot_addonekle 2 0
+bot_addonekle 2 -2
+
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem i_bed_27
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_28
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 0 -1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+
+src.newitem i_bed_26
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_30
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 1 -1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+//bed
+
+[ITEMDEF i_deed_large_bed_w]
+NAME=deed to a large bed (w)
+ID=i_deed
+RESOURCES=150 i_log,150 i_cloth
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0
+type=t_normal
+
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 0 -2
+bot_addonekle 2
+bot_addonekle 2 -2
+local.multibase <uid>
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem i_bed_24
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_25
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 0 -1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_20
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_21
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 1 -1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+
+[ITEMDEF i_deed_loom_w]
+NAME=deed to a loom (w)
+ID=i_deed
+RESOURCES=85 i_log,25 i_cloth
+SKILLMAKE=CARPENTRY 84.2, TAILORING 65.0
+type=t_normal
+
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+src.sys_error Sadece kendi evinizde kullanabilirsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sys_error Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sys_error Kapiya cok yakinsiniz.
+return 1
+endif
+
+if (<topobj.uid> == <src.uid>)
+	src.sysmessage @,,1 Kurmak istediginiz yere birakin ve cift tiklayin.
+	return 1
+endif
+
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle -2
+local.multibase <uid>
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem 01062
+src.new.p <p>
+src.new.attr 010
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem 01061
+src.new.p <p>
+src.new.attr 010
+src.new.move -1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+
+
+
+
+[ITEMDEF i_deed_small_bed_n]
+NAME=deed to a small bed (n)
+ID=i_deed
+RESOURCES=55 i_log,25 i_cloth
+SKILLMAKE=CARPENTRY 78.0, TAILORING 60.0
+type=t_normal
+
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+return 1
+endif
+if !(<attr>&attr_move_never)
+src.sys_error Bu deedi evinize sabitlemeden kullanamazsiniz.
+return 1
+endif
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 0 3
+local.multibase <uid>
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem i_bed_7
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_8
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 0 1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+
+
+
+[ITEMDEF i_deed_small_bed_w]
+NAME=deed to a small bed (w)
+ID=i_deed
+RESOURCES=55 i_log,25 i_cloth
+SKILLMAKE=CARPENTRY 78.0, TAILORING 60.0
+type=t_normal
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+return 1
+endif
+if !(<attr>&attr_move_never)
+src.sys_error Bu deedi evinize sabitlemeden kullanamazsiniz.
+return 1
+endif
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 2
+local.multibase <uid>
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem i_bed_9
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem i_bed_11
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+
+[ITEMDEF i_addon_water_D]
+NAME=Water Trough(D-B)
+ID=i_deed
+RESOURCES=75 i_log
+SKILLMAKE=CARPENTRY 94.7
+type=t_normal
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Water Trough(N)
+
+on=@dclick
+if (<src.hits> < <src.str>)
+	src.sys_error Yarali iken kullanamazsiniz...
+	return 1
+endif
+
+
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)) && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+	src.sys_error Sadece kendi evinize kurabilirsiniz.
+	return 1
+endif
+if !(<attr>&attr_move_never)
+	src.sys_error Bu deedi evinize sabitlemeden kullanamazsiniz.
+	return 1
+endif
+	local.multibase <uid>
+	local.evuygun 1
+	bot_addonekle -2 0
+	local.multibase <uid>
+if !(<local.evuygun>==1)
+	src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+	local.multibase=
+	return 1
+endif
+
+src.newitem 0b44
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem 0b43
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move -1 0
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+return 1
+
+
+[function f_gmc]
+ref1=<uid>
+foritems 6144
+if !<isempty <tag.ek_ev>>
+ref1.p=<p>
+ref1.update
+return 1
+endif
+
+[ITEMDEF i_addon_water_Y]
+NAME=Water Trough(K-G)
+ID=i_deed
+RESOURCES=75 i_log
+SKILLMAKE=CARPENTRY 94.7
+type=t_normal
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Water Trough(W)
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+IF !((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+return 1
+endif
+if !(<attr>&attr_move_never)
+src.sys_error Bu deedi evinize sabitlemeden kullanamazsiniz.
+return 1
+endif
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 0 2
+local.multibase <uid>
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem 0b41
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem 0b42
+src.new.p <p>
+src.new.attr 010
+src.new.type t_normal
+src.new.move 0 1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+local.multibase=
+remove
+
+
+[ITEMDEF i_addon_forge_large_Y]
+NAME=Large Forge(K-G)
+ID=i_deed
+RESOURCES=5 i_log,100 i_ingot_iron
+SKILLMAKE=CARPENTRY 78.9, BLACKSMITHING 80.0
+type=t_normal
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Large Forge[Y]
+
+on=@click
+message Deed : <name>
+return 1
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+IF !((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+return 1
+endif
+
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 0 -2
+bot_addonekle 0 2
+
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+if (<attr>&attr_move_never)
+src.newitem i_forge_2_part_2_of_3_n
+src.new.p <p>
+src.new.attr 010
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem i_forge_bellows_2_part_1_of_3_n
+src.new.p <p>
+src.new.attr 010
+src.new.move 0 -1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+src.newitem i_forge_2_part_3_of_3_n_2
+src.new.p <p>
+src.new.attr 010
+src.new.move 0 1
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+local.multibase=
+remove
+else 
+src.sys_error Bu deedi evinize sabitlemeden kullanamazsiniz.
+endif
+return 1
+
+
+
+[ITEMDEF i_addon_forge_large_d]
+NAME=Large Forge(D-B)
+ID=i_deed
+RESOURCES=5 i_log,100 i_ingot_iron
+SKILLMAKE=CARPENTRY 78.9, BLACKSMITHING 80.0
+type=t_normal
+CATEGORY=Provisions - Deeds
+SUBSECTION=Item Deeds
+DESCRIPTION=Large Forge(W)
+
+on=@click
+message Deed : <name>
+return 1
+
+On=@DClick
+if (<src.hits> < <src.str>)
+src.sys_error Yarali iken kullanamazsiniz...
+return 1
+endif
+
+
+IF !((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+return 1
+endif
+if !(<attr>&attr_move_never)
+src.sys_error Bu deedi evinize sabitlemeden kullanamazsiniz.
+return 1
+endif
+local.multibase <uid>
+local.evuygun 1
+bot_addonekle 2 0
+bot_addonekle -2 0
+
+if !(<local.evuygun>==1)
+src.sys_error Bu deedi buraya kuramazsiniz bazi parcalari evin disina tasiyor.
+local.multibase=
+return 1
+endif
+
+src.newitem 0197e
+src.new.p <p>
+src.new.attr 010
+local.item=<src.new.uid>
+src.new.tag.anaitem=<baseid>
+src.new.tag.ek_ev=1
+
+src.newitem 0197a
+src.new.p <p>
+src.new.attr 010
+src.new.move -1 0
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+
+src.newitem 01983
+src.new.p <p>
+src.new.attr 010
+src.new.move 1 0
+src.new.link <local.item>
+src.new.tag.ev_eki=1
+src.new.tag.ek_ev=1
+local.multibase=
+remove
+
+[EOF]
+

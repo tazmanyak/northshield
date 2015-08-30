@@ -1,0 +1,2236 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: 02-Jan-2007
+//
+// General NOTES:
+// Get rid of STAMINA= MANA= and HITPOINTS=
+// Move NPC specific stuff after NPC=brain_type and body specific stuff up. (CAN=)
+// Make sure all humans have proper speech blocks.
+VERSION=0.56
+[CHARDEF 0df]
+DEFNAME=c_sheep_shorn
+NAME=Lamb
+SOUND=snd_ANIMALS_SHEEP1
+ICON=i_pet_SHEEP
+ANIM=01fff
+DAM=1,2
+ARMOR=3
+RESOURCES=15 i_ribs_raw, 4 I_WOOL
+CAN=MT_WALK|MT_RUN
+FOODTYPE=25 t_crops, 5 t_grain, 64 t_grass
+DESIRES=c_SHEEP_WOOLLY,c_SHEEP_SHORN,c_man,c_woman
+AVERSIONS=e_carnivores3
+//TEVENTS=e_all_npcs
+//TEVENTS=e_tameable
+
+DESCRIPTION=Lamb
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+
+
+
+[events e_scop_poison]
+
+on=@hit
+if rand(2)==1
+dorand 4
+src.poison 250
+src.poison 500
+src.poison 750
+src.poison 100
+enddo
+endif
+[CHARDEF 05]
+DEFNAME=c_eagle
+NAME=Eagle
+SOUND=snd_ANIMALS_EAGLE1
+ICON=i_pet_EAGLE
+ANIM=03a0c1f
+CAN=MT_WALK|MT_FLY
+DAM=4,10
+ARMOR=11
+RESOURCES=36 i_feather, 1 I_BIRD_RAW
+FOODTYPE=10 t_fruit,t_meat_raw,t_food_raw
+DESIRES=
+//SHELTER=r_foliage,r_mountains
+AVERSIONS=r_civilization,e_carnivores2
+DESCRIPTION=Eagle
+SUBSECTION=Air (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=50
+	KARMA={-100 -199}
+	STR={31 47}
+	DEX={36 60}
+	INT={8 23}
+	PARRYING={25.0 40.0}
+	MAGICRESISTANCE={15.0 30.0}
+	TACTICS={18.0 37.0}
+	WRESTLING={20.0 30.0}
+	TAMING=35.0
+
+[CHARDEF 06]
+DEFNAME=c_bird
+//DEFNAME2=FOREST_BIRDS
+NAME=#NAMES_BIRDS
+SOUND=snd_ANIMALS_FRSTBRD1
+ICON=i_pet_BIRD
+ANIM=03e007f
+CAN=MT_WALK|MT_FLY
+DAM=1
+ARMOR=0
+RESOURCES=2 i_ribs_raw,25 i_feather
+FOODTYPE=3 t_crops, 6 t_fruit, 3 t_grain
+DESIRES=t_foliage,c_BIRD
+//SHELTER=t_foliage,t_GRASS
+AVERSIONS=t_water,c_man,c_woman
+DESCRIPTION=Bird
+SUBSECTION=Air (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	COLOR=colors_bird
+	FAME=30
+	KARMA={-1 -99}
+	STR={75 85}
+	DEX=25
+	INT={1 4}
+	PARRYING=5.0
+	MAGICRESISTANCE=5.0
+	TACTICS=5.0
+	WRESTLING=5.0
+	TAMING=10.0
+
+[CHARDEF 012]
+// Ettin with big stone axe.
+DEFNAME=c_ettin_w_axe
+NAME=Ettin
+SOUND=snd_MONSTER_ETTIN1
+ICON=i_pet_ETTIN
+ANIM=078c7f
+DAM=8,20
+ARMOR=19
+RESOURCES=20 i_ribs_raw
+CAN=MT_WALK|MT_USEHANDS
+FOODTYPE=15 t_meat_raw
+//SHELTER=r_forests,r_mountains
+DESIRES=c_ettin,c_ettin_w_axe
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Ettins, Ogres, Trolls, Cyclops, and Titans
+DESCRIPTION=Ettin (Axe)
+
+ON=@Create
+	NPC=brain_monster
+	FAME={600 5000}
+	KARMA={-2000 -2999}
+	//ALIGNMENT=EVIL
+	STR={135 165}
+	DEX={56 75}
+	INT={31 55}
+	SWORDSMANSHIP={45.0 65.0}
+	PARRYING={50.0 60.0}
+	MAGICRESISTANCE={40.0 55.0}
+	TACTICS={50.0 70.0}
+	WRESTLING={50.0 60.0}
+
+ON=@NPCRestock
+	ITEM={ rich_monster_backpack 3 filthy_rich_monster_backpack 1 }
+	ITEM={ average_gold_pile 3 rich_gold_pile 1 }
+	ITEM=i_axe_double
+
+[CHARDEF 015]
+DEFNAME=c_snake_giant
+//DEFNAME2=GIANT_SERPENT
+NAME=Giant Serpent
+SOUND=snd_MONSTER_SEASERP1
+ICON=i_pet_SNAKE_GIANT
+ANIM=078c7f
+DAM=5,19
+ARMOR=16
+RESOURCES=8 i_ribs_raw
+CAN=MT_WALK|MT_SWIM
+FOODTYPE=6 t_meat_raw
+//SHELTER=r_dungeon,r_jungle
+AVERSIONS=r_civilization
+DESCRIPTION=Giant Serpent
+SUBSECTION=Giant Insects and Reptiles
+CATEGORY=Monsters
+
+ON=@Create
+	NPC=brain_monster
+	//ALIGNMENT=EVIL
+	FAME={600 2000}
+	KARMA={-3000 -3999}
+	COLOR=colors_snake
+	STR={185 215}
+	DEX={56 80}
+	INT={56 85}
+	PARRYING={45.0 60.0}
+	MAGICRESISTANCE={25.0 40.0}
+	TACTICS={65.0 70.0}
+	WRESTLING={40.0 60.0}
+	POISONING={70.0 100.0}
+
+
+[CHARDEF 01c]
+DEFNAME=c_spider_giant
+NAME=Giant Spider
+SOUND=snd_MONSTER_GISPIDR1
+ICON=i_pet_SPIDER_GIANT
+ANIM=078c7f
+DAM=3,15
+ARMOR=8
+RESOURCES={ 3 8 } i_reag_spider_silk
+CAN=MT_WALK
+FOODTYPE=15 t_meat_raw
+//SHELTER=t_WEB,r_caves,r_dungeon
+CATEGORY=Monsters
+SUBSECTION=Giant Insects and Reptiles
+DESCRIPTION=Giant Spider
+
+ON=@Create
+	NPC=brain_monster
+	FAME={300 1000}
+	KARMA={-999 -2999}
+	//ALIGNMENT=EVIL
+	STR={76 100}
+	DEX={76 95}
+	INT={36 60}
+	PARRYING={35.0 55.0}
+	MAGICRESISTANCE={25.0 40.0}
+	TACTICS={35.0 50.0}
+	WRESTLING={50.0 65.0}
+	POISONING={60.0 80.0}
+	TAMING=70.0
+
+ON=@NPCRestock
+	ITEM=i_backpack
+	ITEM={i_reag_spider_silk 1 0 1},{3 6}
+
+[CHARDEF 01d]
+DEFNAME=c_gorilla
+NAME=Gorilla
+SOUND=snd_ANIMALS_GORILLA1
+ICON=i_pet_GORILLA
+ANIM=079c7f
+DAM=2,12
+ARMOR=10
+RESOURCES=6 i_ribs_raw,2 i_fur_dark
+CAN=MT_WALK
+FOODTYPE=25 t_crops,25 t_fruit, 25 t_grain
+//SHELTER=r_foliage,r_jungle
+//DESIRES=r_jungle,GORILLAS
+AVERSIONS=r_civilization
+DESCRIPTION=Gorilla
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=175
+	KARMA=-1
+	STR={53 95}
+	DEX={36 55}
+	INT={36 60}
+	PARRYING={43.0 53.0}
+	MAGICRESISTANCE={43.0 58.0}
+	TACTICS={43.0 58.0}
+	WRESTLING={43.0 58.0}
+	TAMING=5.0
+
+[CHARDEF 01f]
+DEFNAME=c_headless
+//DEFNAME2=HEADLESS_ONES
+NAME=Headless
+SOUND=snd_MONSTER_HEADLS1
+ICON=i_pet_HEADLESS
+ANIM=078c7f
+DAM=3,12
+ARMOR=9
+RESOURCES=4 i_ribs_raw
+CAN=MT_WALK|MT_USEHANDS
+FOODTYPE=
+//SHELTER=r_mountains,r_dungeon
+DESIRES=i_gold,c_headless
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Headless
+
+ON=@Create
+	NPC=brain_monster
+	//ALIGNMENT=EVIL
+	FAME={300 1000}
+	KARMA={-1000 -1999}
+	COLOR=colors_skin
+	STR={26 50}
+	DEX={36 55}
+	INT={16 30}
+	PARRYING={35.0 45.0}
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={25.0 40.0}
+	WRESTLING={25.0 40.0}
+
+ON=@NPCRestock
+	ITEM=loot_HEADLESS
+
+
+[CHARDEF 027]
+DEFNAME=c_mongbat
+NAME=Subterranean Mongbat
+SOUND=snd_MONSTER_MNGBAT1
+ICON=i_pet_mongbat
+ANIM=03f8c7f
+DAM=3,9
+ARMOR=10
+RESOURCES=3 i_ribs_raw, 6 i_hide, 2 i_reag_batwing
+CAN=MT_WALK|MT_FLY
+FOODTYPE=9 t_meat_raw
+//SHELTER=r_caves,r_dungeon,r_spooky
+DESIRES=C_MONGBAT
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Subterranean Mongbat
+
+ON=@Create
+	NPC=brain_monster
+	FAME={100 300}
+	KARMA={-2000 -2999}
+	//ALIGNMENT=EVIL
+	STR={56 80}
+	DEX={61 80}
+	INT={26 50}
+	PARRYING={50.0 60.0}
+	MAGICRESISTANCE={15.0 30.0}
+	TACTICS={35.0 50.0}
+	WRESTLING={20.0 35.0}
+
+ON=@NPCRestock
+	ITEM=loot_MONGBAT
+
+
+[CHARDEF 02f]
+DEFNAME=c_reaper
+NAME=Reaper
+SOUND=snd_MONSTER_REAPER1
+ICON=i_pet_REAPER
+ANIM=078c7f
+DAM=5,15
+ARMOR=20
+RESOURCES=8 i_reag_bone
+FOODTYPE=15 t_meat_raw
+CAN=MT_WALK
+//SHELTER=r_jungle,r_swamp,r_forests
+DESIRES=r_foliage
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Reaper
+
+ON=@Create
+	NPC=brain_monster
+	STR={66 215}
+	DEX={66 75}
+	INT={86 235}
+	PARRYING={55.0 65.0}
+	MAGERY={40.0 50.0}
+	MAGICRESISTANCE={35.0 50.0}
+	TACTICS={45.0 60.0}
+	WRESTLING={50.0 60.0}
+	FAME={100 3000}
+	KARMA={-3000 -5999}
+	//ALIGNMENT=CHAOTIC
+	//SPELLCIRCLES=1-2
+
+ON=@NPCRestock
+	ITEM=loot_REAPER
+
+[CHARDEF 030]
+DEFNAME=c_scorpion_giant
+NAME=Giant Scorpion
+SOUND=snd_MONSTER_GSCORP1
+ICON=i_pet_SCORP
+ANIM=078c7f
+CAN=MT_WALK
+DAM=3,12
+ARMOR=14
+RESOURCES=8 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+//SHELTER=r_dungeon,r_caves,r_desert
+AVERSIONS=r_civilization
+DESCRIPTION=Giant Scorpion
+SUBSECTION=Giant Insects and Reptiles
+CATEGORY=Monsters
+TEVENTS=e_scop_poison
+
+ON=@Create
+	NPC=brain_monster
+	STR={73 115}
+	DEX={76 95}
+	INT={16 30}
+	PARRYING={60.0 70.0}
+	MAGICRESISTANCE={30.0 35.0}
+	TACTICS={60.0 75.0}
+	WRESTLING={50.0 65.0}
+	POISONING={80.0 100.0}
+	TAMING=120.0
+	FAME={100 2000}
+	KARMA={-2000 -2999}
+	//ALIGNMENT=EVIL
+
+[CHARDEF 033]
+DEFNAME=c_slime
+NAME=Slime
+SOUND=snd_MONSTER_SLIME1
+ICON=i_pet_SLIME
+ANIM=060c7f
+CAN=MT_WALK
+DAM=1,5
+ARMOR=4
+//RESOURCES=5 t_eerie_stuff
+FOODTYPE=35 t_meat_raw,t_garbage,t_leather,t_food,t_fruit,t_cloth,t_crops
+//SHELTER=r_caves
+DESIRES=c_slime
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Slime
+
+ON=@Create
+	NPC=brain_monster
+	FAME={100 1000}
+	KARMA={-999 -1999}
+	//ALIGNMENT=EVIL
+	COLOR=colors_slime
+	STR={22 34}
+	DEX={16 21}
+	INT={16 20}
+	PARRYING={15.0 21.0}
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={19.0 34.0}
+	WRESTLING={19.0 34.0}
+	POISONING={30.0 50.0}
+	TAMING=40.0
+
+ON=@NPCRestock
+	ITEM=loot_SLIME
+
+[CHARDEF 034]
+DEFNAME=c_snake
+//DEFNAME2=SILVER_SERPENT
+NAME=Snake
+SOUND=snd_ANIMALS_SNAKE1
+ICON=i_pet_SNAKE
+ANIM=078c7f
+DAM=1,4
+ARMOR=8
+RESOURCES=1 i_ribs_raw
+CAN=MT_WALK
+FOODTYPE=t_meat_raw
+//SHELTER=r_caves,r_dungeon,r_desert
+DESIRES=i_gold
+DESCRIPTION=Snake
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	//ALIGNMENT=EVIL
+	COLOR=colors_snake
+	STR={22 34}
+	DEX={16 25}
+	INT={6 10}
+	PARRYING={15.0 25.0}
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={19.0 34.0}
+	WRESTLING={19.0 34.0}
+	TAMING=70.0
+	FAME=20
+	KARMA={-99 -199}
+
+
+[CHARDEF 035]
+DEFNAME=c_troll_w_axe
+NAME=Troll
+SOUND=snd_MONSTER_TROLL1
+ICON=i_pet_TROLL
+ANIM=078c7f
+DAM=5,17
+ARMOR=20
+RESOURCES=10 i_ribs_raw
+CAN=MT_WALK|MT_USEHANDS
+FOODTYPE=15 t_meat_raw
+//SHELTER=r_forests,r_mountains
+DESIRES=i_gold
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Ettins, Ogres, Trolls, Cyclops, and Titans
+DESCRIPTION=Troll
+
+ON=@Create
+	NPC=brain_monster
+	STR={175 205}
+	DEX={46 65}
+	INT={46 70}
+	PARRYING={45.0 60.0}
+	MAGICRESISTANCE={45.0 60.0}
+	TACTICS={50.0 70.0}
+	WRESTLING={50.0 70.0}
+	FAME={100 5000}
+	KARMA={-3000 -3999}
+	//ALIGNMENT=EVIL
+
+ON=@NPCRestock
+	ITEM=loot_TROLL
+
+[CHARDEF 037]
+DEFNAME=c_troll_w_mace
+NAME=Troll
+SOUND=snd_MONSTER_TROLL1
+ICON=i_pet_TITAN
+ANIM=078c7f
+CAN=MT_WALK|MT_USEHANDS
+DAM=10,23
+ARMOR=20
+RESOURCES=10 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+//SHELTER=r_forests,r_mountains
+DESIRES=i_gold
+AVERSIONS=r_civilization
+CATEGORY=Monsters
+SUBSECTION=Ettins, Ogres, Trolls, Cyclops, and Titans
+DESCRIPTION=Troll (Mace)
+
+ON=@Create
+	NPC=brain_monster
+	STR={175 205}
+	DEX={46 65}
+	INT={46 70}
+	MACEFIGHTING={50.0 70.0}
+	PARRYING={45.0 60.0}
+	MAGICRESISTANCE={45.0 60.0}
+	TACTICS={50.0 70.0}
+	WRESTLING={50.0 70.0}
+	FAME={100 5000}
+	KARMA={-3000 -3999}
+	//ALIGNMENT=EVIL
+
+ON=@NPCRestock
+	ITEM=i_mace
+	ITEM=loot_TROLL
+
+[CHARDEF 03a]
+DEFNAME=c_wisp
+NAME=Wisp
+SOUND=snd_MONSTER_WISP1
+ICON=i_pet_WISP
+ANIM=078c7f
+DAM=15,20
+ARMOR=20
+CAN=MT_WALK|MT_FLY|MT_FIRE_IMMUNE|MT_USEHANDS
+FOODTYPE=t_spell
+RESOURCES=t_magic
+//SHELTER=r_swamp,r_jungle,r_forests
+AVERSIONS=r_civilization
+CATEGORY=Miscellaneous
+SUBSECTION=Wisp
+DESCRIPTION=Wisp
+
+ON=@Create
+	NPC=brain_animal
+	FAME={0 100}
+	KARMA=0
+	//ALIGNMENT=NEUTRAL
+	STR={195 225}
+	DEX={195 225}
+	INT={195 225}
+	PARRYING=80.0
+	MAGERY=80.0
+	MAGICRESISTANCE=80.0
+	TACTICS=80.0
+	WRESTLING=80.0
+	//SPELLCIRCLES=5-7
+	ITEMNEWBIE=i_light_source
+	ATTR=attr_magic|attr_newbie
+
+[CHARDEF 04c]
+DEFNAME=c_cyclops
+NAME=Cyclops
+SOUND=snd_MONSTER_CYCLOPS1
+ICON=i_pet_CYCLOPS
+ANIM=078c7f
+CAN=MT_WALK|MT_USEHANDS
+DAM=30,35
+ARMOR=35
+RESOURCES=10 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+DESIRES=c_cyclops,t_arock
+//SHELTER=r_forests,r_mountains
+AVERSIONS=r_civilization
+RESLEVEL=1
+RESDISPDNID=c_ogre
+RESDISPDNHUE=01a0
+CATEGORY=Monsters
+SUBSECTION=Ettins, Ogres, Trolls, Cyclops, and Titans
+DESCRIPTION=Cyclops
+
+ON=@Create
+	NPC=brain_monster
+	FAME={100 2000}
+	KARMA={-4000 -4999}
+	STR={635 885}
+	DEX={105 215}
+	INT={31 55}
+	PARRYING={90.0 150.0}
+	MAGICRESISTANCE={60.0 75.0}
+	TACTICS={90.0 150.0}
+	WRESTLING={90.0 150.0}
+	//ALIGNMENT=EVIL
+
+ON=@NPCRestock
+	ITEM=loot_CYCLOPS
+
+[CHARDEF 050]
+DEFNAME=c_toad_giant
+NAME=Giant Toad
+SOUND=snd_MONSTER_GIANTTOAD1
+ICON=i_pet_toad_giant
+ANIM=078c7f
+DAM=2,20
+ARMOR=12
+RESOURCES=6 i_ribs_raw,12 i_hide
+CAN=MT_WALK
+FOODTYPE=5 t_meat_raw
+//SHELTER=r_swamp,r_water,r_caves
+AVERSIONS=r_civilization
+RESLEVEL=1
+RESDISPDNID=c_rat_giant
+RESDISPDNHUE=01a0
+DESCRIPTION=Giant Toad
+SUBSECTION=Giant Insects and Reptiles
+CATEGORY=Monsters
+
+ON=@Create
+	NPC=brain_monster
+	STR={76 100}
+	DEX={6 25}
+	INT={11 20}
+	PARRYING={38.0 72.0}
+	MAGICRESISTANCE={25.0 40.0}
+	TACTICS={40.0 60.0}
+	WRESTLING={40.0 60.0}
+	TAMING=85.0
+	FAME={100 2000}
+	KARMA={-2000 -2999}
+	//ALIGNMENT=EVIL
+
+[CHARDEF 051]
+DEFNAME=c_bullfrog
+NAME=Bull Frog
+SOUND=snd_MONSTER_BULLFROG1
+ICON=i_pet_bullfrog
+ANIM=078c7f
+CAN=MT_WALK
+DAM=1,2
+ARMOR=8
+RESOURCES=2 i_ribs_raw,4 i_hide
+FOODTYPE=5 t_meat_raw
+//SHELTER=r_swamp,r_water,r_caves
+AVERSIONS=r_civilization
+RESLEVEL=1
+RESDISPDNID=c_rat_giant
+RESDISPDNHUE=01a2
+CATEGORY=Animals
+SUBSECTION=Land (Wild)
+DESCRIPTION=Bull Frog
+
+ON=@Create
+	NPC=brain_animal
+	FAME=150
+	KARMA=-1
+	STR={46 70}
+	DEX={6 25}
+	INT={11 20}
+	PARRYING={38.0 72.0}
+	MAGICRESISTANCE={25.0 40.0}
+	TACTICS={40.0 60.0}
+	WRESTLING={40.0 60.0}
+	TAMING=40.0
+
+ON=@NPCRestock
+	ITEM=loot_BULLFROG
+
+[CHARDEF 05f]
+// This body cannot be viewed on newer clients and will cause
+// client crashes. Use c_sea_monster instead.
+DEFNAME=c_sea_monster_old
+NAME=Sea Monster
+SOUND=snd_MONSTER_SEASERP1
+ICON=i_pet_snake
+CAN=MT_SWIM
+ANIM=078c7f
+DAM=5,15
+ARMOR=15
+RESOURCES=50 i_ribs_raw,8 i_scale_blue
+FOODTYPE=25 t_meat_raw,t_fish
+DESIRES=t_ship
+//SHELTER=r_water
+AVERSIONS=r_civilization
+RESLEVEL=1
+RESDISPDNID=c_sea_serpent
+RESDISPDNHUE=0123
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Sea Monster
+
+ON=@Create
+	NPC=brain_monster
+	FAME={2000 6000}
+	KARMA={-3000 -3999}
+	//ALIGNMENT=NEUTRAL
+	STR={165 225}
+	DEX={58 85}
+	INT={53 85}
+	PARRYING={65.0 75.0}
+	MAGICRESISTANCE={60.0 75.0}
+	TACTICS={60.0 70.0}
+	WRESTLING={60.0 75.0}
+	FISHING=80.0
+
+ON=@NPCRestock
+	ITEM=loot_SEA_SERPENT
+
+[CHARDEF c_sea_monster]
+// This is a copy of 05f that uses a sea serpent as its main body. Older
+// clients will be shown the sea monster body
+ID=c_sea_serpent
+NAME=Sea Monster
+SOUND=snd_MONSTER_SEASERP1
+ICON=i_pet_snake
+CAN=MT_SWIM
+ANIM=078c7f
+DAM=5,15
+ARMOR=15
+RESOURCES=50 i_ribs_raw,8 i_scale_blue
+FOODTYPE=25 t_meat_raw,t_fish
+DESIRES=t_ship
+//SHELTER=r_water
+AVERSIONS=r_civilization
+RESLEVEL=4
+RESDISPDNID=05f
+RESDISPDNHUE=08000
+
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Sea Monster
+
+ON=@Create
+	COLOR=0123
+	NPC=brain_monster
+	FAME={2000 6000}
+	KARMA={-3000 -3999}
+	//ALIGNMENT=NEUTRAL
+	STR={165 225}
+	DEX={58 85}
+	INT={53 85}
+	PARRYING={65.0 75.0}
+	MAGICRESISTANCE={60.0 75.0}
+	TACTICS={60.0 70.0}
+	WRESTLING={60.0 75.0}
+	FISHING=80.0
+
+ON=@NPCRestock
+	ITEM=loot_SEA_SERPENT
+
+
+[CHARDEF 097]
+DEFNAME=c_dolphin
+NAME=Dolphin
+SOUND=snd_ANIMALS_DOLPHIN1
+ICON=i_pet_DOLPHIN
+ANIM=019f
+DAM=3,6
+ARMOR=8
+RESOURCES=4 i_ribs_raw
+CAN=MT_SWIM
+FOODTYPE=5 t_FISH
+//SHELTER=r_water
+DESIRES=t_SHIP,c_dolphin
+AVERSIONS=r_civilization
+DESCRIPTION=Dolphin
+SUBSECTION=Sea (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={21 49}
+	DEX={66 85}
+	INT={16 31}
+	PARRYING={65.0 75.0}
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={19.0 29.0}
+	WRESTLING={19.0 29.0}
+	TAMING=80.0
+	FISHING=100.0
+	FAME=200
+	KARMA=-1
+	//ALIGNMENT=NEUTRAL
+	//Animals
+
+[CHARDEF 0c9]
+DEFNAME=c_cat
+NAME=Cat
+ANIM=017ff
+SOUND=snd_ANIMALS_CAT1
+ICON=i_pet_CAT
+//double check this color def
+DAM=1
+ARMOR=4
+RESOURCES=2 i_ribs_raw
+CAN=MT_WALK|MT_RUN
+FOODTYPE=5 t_meat_raw, 5 t_FISH
+//SHELTER=r_HOUSE,e_Human_Greet
+DESIRES=e_Human_Greet,t_WINDOW
+DESCRIPTION=Cat
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	COLOR=colors_animal
+	STR=9
+	DEX=35
+	INT=5
+	PARRYING=3.0
+	MAGICRESISTANCE=5.0
+	TACTICS=4.0
+	WRESTLING=5.0
+	TAMING=20.0
+	FAME=10
+	KARMA={1 99}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0CA]
+DEFNAME=c_alligator
+NAME=Alligator
+SOUND=snd_ANIMALS_ALIGATR1
+ANIM=01fff
+ICON=i_pet_CROC
+DAM=2,18
+ARMOR=15
+RESOURCES=6 i_ribs_raw,12 i_hide
+CAN=MT_WALK|MT_RUN|MT_SWIM
+FOODTYPE=5 t_meat_raw,t_fish
+//SHELTER=r_swamp,r_water,r_caves
+DESIRES=c_alligator
+AVERSIONS=r_civilization,c_man,c_woman,e_carnivores3
+DESCRIPTION=Alligator
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={76 100}
+	DEX={6 25}
+	INT={11 20}
+	PARRYING={39.0 73.0}
+	MAGICRESISTANCE={25.0 40.0}
+	TACTICS={40.0 60.0}
+	WRESTLING={40.0 60.0}
+	TAMING=60.0
+	FISHING=40.0
+	FAME=150
+	KARMA={-300 -399}
+	//ALIGNMENT=EVIL
+
+[CHARDEF 0CB]
+//Pig_Small
+DEFNAME=c_pig
+NAME=Pig
+SOUND=snd_ANIMALS_PIG1
+ICON=i_pet_PIG
+CAN=MT_WALK|MT_RUN
+DAM=2,4
+ARMOR=6
+RESOURCES=6 i_ribs_raw
+FOODTYPE=55 t_fruit, 55 t_crops, 55 t_grain, 55 t_garbage
+//SHELTER=r_forests,r_stables
+DESIRES=c_pig,c_pig_big
+ANIM=01fff
+DESCRIPTION=Pig
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=10
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+	STR=20
+	DEX=20
+	INT=5
+	PARRYING=5.0
+	MAGICRESISTANCE=5.0
+	TACTICS=5.0
+	WRESTLING=5.0
+	TAMING=30.0
+
+[CHARDEF 0CD]
+DEFNAME=c_rabbit
+NAME=Rabbit
+SOUND=snd_ANIMALS_RABBIT3
+ICON=i_pet_RABBIT_2
+CAN=MT_WALK|MT_RUN
+ANIM=01fff
+DAM=1
+ARMOR=3
+RESOURCES=2 i_ribs_raw,1 i_fur_light
+FOODTYPE=55 t_crops,55 t_foliage, 64 t_grass
+DESIRES=c_rabbit
+//SHELTER=r_plains,r_forests,r_foliage
+AVERSIONS=e_carnivores2
+DESCRIPTION=Rabbit
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=10
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+	COLOR={ colors_animal 1 color_none 1 }
+	STR=5
+	DEX=14
+	INT=5
+	PARRYING=5.0
+	MAGICRESISTANCE=5.0
+	TACTICS=5.0
+	WRESTLING=5.0
+	TAMING=5.0
+
+[CHARDEF 0CF]
+//Sheep (wooly)
+DEFNAME=c_sheep_woolly
+NAME=Sheep
+SOUND=snd_ANIMALS_SHEEP1
+ICON=i_pet_SHEEP_WOOLY
+DAM=1,2
+ARMOR=3
+RESOURCES=15 i_ribs_raw, 5 I_WOOL
+//30 Cloth from Wool,Regrows 5 Units per Game Day
+CAN=MT_WALK|MT_RUN
+FOODTYPE=5 t_crops, 5 t_grain, 64 t_grass
+//SHELTER=r_plains,r_stables,e_Human_Greet
+DESIRES=c_SHEEP_WOOLLY,c_SHEEP_SHORN,c_man,c_woman
+AVERSIONS=e_carnivores3
+ANIM=01fff
+DESCRIPTION=Sheep
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=10
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+	COLOR={ colors_white 9 color_gray_lt 1 }
+	STR=19
+	DEX=25
+	INT=5
+	PARRYING=5.0
+	MAGICRESISTANCE=5.0
+	TACTICS=6.0
+	WRESTLING=5.0
+	TAMING=120.0
+
+[CHARDEF 0D0]
+DEFNAME=c_chicken
+NAME=Chicken
+SOUND=snd_ANIMALS_CHICKEN1
+ICON=i_pet_CHICKEN
+ANIM=01fff
+DAM=1
+ARMOR=1
+RESOURCES=25 i_feather,I_BIRD_RAW
+CAN=MT_WALK|MT_RUN
+FOODTYPE=5 t_grain
+//SHELTER=i_nest_with_eggs
+DESIRES=c_chicken
+AVERSIONS=e_carnivores2
+DESCRIPTION=Chicken
+SUBSECTION=Air (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR=23
+	DEX=15
+	INT=5
+	PARRYING=2.0
+	MAGICRESISTANCE=4.0
+	TACTICS=5.0
+	WRESTLING=5.0
+	TAMING=20.0
+	FAME=10
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+
+
+[CHARDEF 0d4]
+DEFNAME=c_bear_grizzly
+NAME=grizzly bear
+ICON=i_pet_grizzly
+SOUND=snd_animals_grizzly1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=12,26
+ARMOR=25
+DESIRES=r_caves
+AVERSIONS=r_civilization
+FOODTYPE=15 t_fish
+RESOURCES=14 i_hide,2 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=47.4
+TAG.Control.Slots=1
+TEVENTS=e_carnivores2
+CATEGORY=Animals
+SUBSECTION=Wild
+DESCRIPTION=Grizzly Bear
+ON=@Create
+   NPC=brain_animal
+   FAME=1000
+   KARMA=-1000
+   STR={126 155}
+   DEX={81 105}
+   INT={16 40}
+   MAGICRESISTANCE={25.0 40.0}
+   TACTICS={70.0 100.0}
+   TAMING={60.0 70.0}
+   WRESTLING={45.0 70.0}
+   MODAR={0 10}
+
+
+
+[CHARDEF 0d6]
+//Panther
+DEFNAME=c_panther
+NAME=Panther
+SOUND=snd_ANIMALS_PANTHER1
+ICON=i_pet_PANTHER
+ANIM=017ff
+DAM=2,14
+ARMOR=8
+RESOURCES=6 i_ribs_raw,3 i_fur_dark
+CAN=MT_WALK|MT_RUN
+FOODTYPE=15 t_meat_raw,t_fish
+//SHELTER=r_caves,r_jungle,r_plains
+DESIRES=c_PANTHER
+TEVENTS=e_carnivores2
+AVERSIONS=r_civilization,r_water
+DESCRIPTION=Panther
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=200
+	KARMA={-400 -699}
+	//ALIGNMENT=NEUTRAL
+	COLOR=colors_black
+	STR={61 85}
+	DEX={86 105}
+	INT={26 50}
+	PARRYING={55.0 65.0}
+	MAGICRESISTANCE={15.0 30.0}
+	TACTICS={50.0 65.0}
+	WRESTLING={50.0 65.0}
+	TAMING=65.0
+	FISHING=15.0
+
+[CHARDEF 0D7]
+//RAT (GIANT)
+DEFNAME=c_rat_giant
+NAME=Giant Rat
+SOUND=snd_MONSTER_GRAT1
+ICON=i_pet_RAT_2
+ANIM=01fff
+DAM=3,9
+ARMOR=9
+RESOURCES=3 i_ribs_raw,2 i_fur_dark
+CAN=MT_WALK|MT_RUN
+FOODTYPE=9 t_meat_raw
+//SHELTER=r_dungeon,r_DARKNESS,r_spooky
+DESIRES=c_rat,c_a_rat_sewer,c_rat_giant,r_spooky
+AVERSIONS=t_TRAP
+DESCRIPTION=Giant Rat
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_monster
+	STR={32 74}
+	DEX={46 65}
+	INT={16 30}
+	PARRYING={45.0 55.0}
+	MAGICRESISTANCE={25.0 30.0}
+	TACTICS={29.0 44.0}
+	WRESTLING={29.0 44.0}
+	TAMING=45.0
+	FAME=20
+	KARMA={-1 -99}
+	//ALIGNMENT=EVIL
+
+[CHARDEF 0d8]
+//Cow (Black and White)
+DEFNAME=c_cow_bw
+NAME=Cow
+SOUND=snd_ANIMALS_COW1
+ICON=i_pet_COW
+ANIM=017ff
+DAM=1,4
+ARMOR=5
+RESOURCES=20 i_ribs_raw,12 i_hide
+CAN=MT_WALK|MT_RUN|MT_FEMALE
+FOODTYPE=64 t_grass,25 t_grain, 25 I_HAY
+//SHELTER=r_plains,r_stables
+DESIRES=c_cow_bw,c_cow_brown,c_bull_brown_lt,c_bull_brown_dk
+AVERSIONS=e_carnivores3
+DESCRIPTION=Cow (Black and White)
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR=30
+	DEX=15
+	INT=5
+	PARRYING=6.0
+	MAGICRESISTANCE=6.0
+	TACTICS=6.0
+	WRESTLING=6.0
+	TAMING=30.0
+	FAME=10
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0D9]
+//Dog
+DEFNAME=c_dog
+NAME=Dog
+SOUND=snd_ANIMALS_DOG1
+ICON=i_pet_DOG
+CAN=MT_WALK|MT_RUN
+ANIM=017ff
+DAM=4,7
+ARMOR=3
+RESOURCES=3 i_ribs_raw
+FOODTYPE=5 t_meat_raw
+//SHELTER=r_HOUSE,e_Human_Greet
+DESIRES=c_man,c_woman,c_DOG
+DESCRIPTION=Dog
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=10
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+	STR={27 37}
+	DEX={28 43}
+	INT={29 37}
+	PARRYING={28.0 53.0}
+	MAGICRESISTANCE={22.0 47.0}
+	TACTICS={19.0 31.0}
+	WRESTLING={19.0 31.0}
+	TAMING=3.0
+
+[CHARDEF 0dd]
+DEFNAME=c_walrus
+NAME=Walrus
+SOUND=snd_ANIMALS_WALRUS1
+ICON=i_pet_walrus
+CAN=MT_WALK|MT_RUN
+ANIM=01fff
+DAM=3,6
+ARMOR=9
+RESOURCES=23 i_ribs_raw, 12 i_hide
+FOODTYPE=5 t_FISH
+//SHELTER=r_water,r_snow
+DESIRES=r_snow,c_WALRUS
+AVERSIONS=r_civilization
+DESCRIPTION=Walrus
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={21 29}
+	DEX={46 55}
+	INT={16 20}
+	PARRYING={45.0 55.0}
+	MAGICRESISTANCE={15.0 20.0}
+	TACTICS={19.0 29.0}
+	WRESTLING={19.0 29.0}
+	TAMING=50.0
+	FISHING=60.0
+	FAME=25
+	KARMA={-300 -399}
+	//ALIGNMENT=NEUTRAL
+
+
+[CHARDEF 0e1]
+//Timber Wolf
+DEFNAME=c_wolf
+NAME=Timber Wolf
+SOUND=snd_ANIMALS_WOLF1
+ICON=i_pet_wolf
+ANIM=017ff
+DAM=4,10
+ARMOR=9
+RESOURCES=3 i_ribs_raw,2 i_fur_dark
+CAN=MT_WALK|MT_RUN
+FOODTYPE=15 t_meat_raw
+//SHELTER=r_forests,r_caves
+DESIRES=c_wolf
+AVERSIONS=r_civilization
+DESCRIPTION=Timber Wolf
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={56 80}
+	DEX={56 75}
+	INT={11 25}
+	PARRYING={43.0 55.0}
+	MAGICRESISTANCE={28.0 45.0}
+	TACTICS={30.0 50.0}
+	TAMING=40.0
+	FAME=200
+	KARMA={-300 -399}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0e7]
+//Cow (Light Brown)
+DEFNAME=c_cow_brown
+NAME=Cow
+SOUND=snd_ANIMALS_COW1
+ICON=i_pet_COW
+ANIM=017ff
+DAM=1,4
+ARMOR=5
+RESOURCES=40 i_ribs_raw,12 i_hide
+CAN=MT_WALK|MT_RUN|MT_FEMALE
+FOODTYPE=64 t_grass, 25 t_grain, 25 I_HAY
+//SHELTER=t_grass,r_STABLES
+DESIRES=c_cow_bw,c_cow_brown,c_bull_brown_lt,c_bull_brown_dk
+AVERSIONS=e_carnivores3
+DESCRIPTION=Cow (Brown and White)
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR=30
+	DEX=15
+	INT=5
+	PARRYING=6.0
+	MAGICRESISTANCE=6.0
+	TACTICS=6.0
+	WRESTLING=6.0
+	TAMING=30.0
+	FAME=10
+	KARMA=0
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0e8]
+//Bull (Light Brown)
+DEFNAME=c_bull_brown_lt
+NAME=Bull
+SOUND=snd_ANIMALS_BULL1
+ICON=i_pet_BULL
+ANIM=017ff
+DAM=4,9
+ARMOR=14
+RESOURCES=50 i_ribs_raw,15 i_hide
+CAN=MT_WALK|MT_RUN
+FOODTYPE=25 t_grain, 25 I_HAY, 64 t_grass
+//SHELTER=r_plains,r_stables
+DESIRES=c_cow_bw,c_cow_brown,c_bull_brown_lt,c_bull_brown_dk
+AVERSIONS=e_carnivores3
+DESCRIPTION=Bull (Brown)
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=50
+	KARMA=0
+	//ALIGNMENT=NEUTRAL
+	COLOR={ colors_brown 1 color_none 1 }
+	STR={77 111}
+	DEX={55 75}
+	INT={47 75}
+	PARRYING={43.0 55.0}
+	MAGICRESISTANCE={18.0 25.0}
+	TACTICS={68.0 85.0}
+	WRESTLING={40.0 57.0}
+	TAMING=80.0
+
+[CHARDEF 0e9]
+//Bull2 (dark brown)
+DEFNAME=c_bull_brown_dk
+NAME=Bull
+SOUND=snd_ANIMALS_BULL1
+ICON=i_pet_BULL
+ANIM=017ff
+DAM=4,9
+ARMOR=14
+RESOURCES=50 i_ribs_raw,15 i_hide
+CAN=MT_WALK|MT_RUN
+FOODTYPE=25 t_grain, 25 I_HAY, 64 t_grass
+//SHELTER=r_plains,r_stables
+DESIRES=c_cow_bw,c_cow_brown,c_bull_brown_lt,c_bull_brown_dk
+AVERSIONS=e_carnivores3
+DESCRIPTION=Bull (Dk. Brown)
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	FAME=40
+	KARMA={-200 -399}
+	//ALIGNMENT=NEUTRAL
+	COLOR={ colors_brown 1 colors_black 1 colors_white 1 color_none 1 }
+	STR={77 111}
+	DEX={55 75}
+	INT={47 75}
+	PARRYING={43.0 55.0}
+	MAGICRESISTANCE={18.0 25.0}
+	TACTICS={68.0 85.0}
+	WRESTLING={40.0 57.0}
+	TAMING=80.0
+
+[CHARDEF 0EA]
+//Hart or Stag
+DEFNAME=c_stag
+NAME=Hart
+SOUND=snd_ANIMALS_DEER3
+ICON=i_pet_DEER
+ANIM=01fff
+DAM=4,10
+ARMOR=12
+RESOURCES=30 i_ribs_raw,15 i_hide
+CAN=MT_WALK|MT_RUN
+FOODTYPE=25 t_crops, 64 t_grass
+//SHELTER=r_forests
+DESIRES=c_stag,c_doe,r_foliage
+AVERSIONS=r_civilization,e_carnivores3
+DESCRIPTION=Hart
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={41 71}
+	DEX={47 77}
+	INT={27 57}
+	PARRYING={25.0 43.0}
+	MAGICRESISTANCE={27.0 45.0}
+	TACTICS={30.0 48.0}
+	WRESTLING={30.0 48.0}
+	TAMING=70.0
+	FAME=40
+	KARMA={-99 -199}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0ED]
+//Deer (Hind)
+DEFNAME=c_doe
+NAME=Hind
+SOUND=snd_ANIMALS_DEER3
+ICON=i_pet_DEER
+ANIM=01fff
+DAM=4
+ARMOR=4
+RESOURCES=25 i_ribs_raw,8 i_hide
+CAN=MT_WALK|MT_RUN
+FOODTYPE=25 t_crops, 64 t_grass
+//SHELTER=r_forests
+DESIRES=c_stag,c_doe,r_foliage
+AVERSIONS=r_civilization,e_carnivores3
+DESCRIPTION=Hind
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={21 51}
+	DEX={47 77}
+	INT={17 47}
+	PARRYING=23.0
+	MAGICRESISTANCE=15.0
+	TACTICS=19.0
+	WRESTLING=26.0
+	TAMING=40.0
+	FAME=35
+	KARMA={-40 -199}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0ee]
+//Rat (Town)
+DEFNAME=c_rat
+//DEFNAME2=TOWN_RAT
+NAME=Rat
+ANIM=01fff
+SOUND=snd_ANIMALS_RAT1
+ICON=i_pet_RAT
+DAM=1,2
+ARMOR=3
+RESOURCES=2 i_ribs_raw
+CAN=MT_WALK|MT_RUN
+FOODTYPE=5 t_food,t_garbage
+//SHELTER=r_DOCKS,r_civilization,t_garbage,r_spooky
+DESIRES=c_rat,c_a_rat_sewer,c_RAT_GIANT,r_DARKNESS
+AVERSIONS=r_light,c_man,c_woman,e_carnivores
+DESCRIPTION=Rat
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	COLOR=colors_brown
+	STR=9
+	DEX=35
+	INT=5
+	PARRYING=4.0
+	MAGICRESISTANCE=4.0
+	TACTICS=4.0
+	WRESTLING=4.0
+	TAMING=20.0
+	FAME=15
+	KARMA={-1 -99}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0122]
+DEFNAME=c_pig_big
+//DEFNAME2=BIGPIG
+NAME=Boar
+ANIM=01fff
+SOUND=snd_ANIMALS_PIG1
+ICON=i_pet_PIG
+DAM=3,6
+ARMOR=5
+RESOURCES=12 i_ribs_raw
+CAN=MT_WALK|MT_RUN
+FOODTYPE=55 t_fruit, 55 t_crops, 55 t_grain, 55 t_garbage
+//SHELTER=r_forests,r_stables
+DESIRES=c_pig,c_pig_big
+DESCRIPTION=Boar
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR=25
+	DEX=15
+	INT=5
+	PARRYING=10.0
+	MAGICRESISTANCE=9.0
+	TACTICS=9.0
+	WRESTLING=9.0
+	TAMING=45.0
+	FAME=20
+	KARMA={-100 -199}
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0123]
+DEFNAME=c_horse_pack
+DEFNAME2=PACKHORSES
+NAME=Pack Horse
+SOUND=snd_ANIMALS_HORSE1
+ANIM=01fff
+ICON=i_pet_horse_pack
+CAN=MT_WALK|MT_RUN
+DAM=4,12
+ARMOR=9
+RESOURCES=15 i_ribs_raw, 10 i_hide
+FOODTYPE=55 t_crops, 55 t_fruit, 55 t_grain, 64 t_grass
+DESIRES=e_horses,c_man,c_woman
+//SHELTER=r_stables,e_Human_Greet
+AVERSIONS=e_carnivores3
+TEVENTS=e_horses
+DESCRIPTION=Pack Horse
+SUBSECTION=Land (Domestic)
+CATEGORY=Animals
+
+ON=@Create
+	NPC=brain_animal
+	STR={200 250}
+	DEX={36 55}
+	INT={6 10}
+	PARRYING={35.0 45.0}
+	MAGICRESISTANCE={25.0 30.0}
+	TACTICS={29.0 44.0}
+	WRESTLING={29.0 44.0}
+	TAMING=45.0
+	FAME=0
+	KARMA=3000
+	//ALIGNMENT=NEUTRAL
+
+[CHARDEF 0124]
+DEFNAME=c_llama_pack
+NAME=pack llama
+ICON=i_pet_llama_pack
+SOUND=snd_animals_llama3
+CAN=MT_WALK|MT_RUN
+DAM=2,8
+ARMOR=5
+DESIRES=r_civilization
+AVERSIONS=e_carnivores,e_carnivores2,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=24.2
+TAG.Control.Slots=1
+CATEGORY=Animals
+SUBSECTION=Tame
+DESCRIPTION=Pack Llama
+ON=@Create
+   //FINDLAYER.21.TAG.OVERRIDE.MAXWEIGHT=1600
+   NPC=brain_animal
+   FAME=300
+   KARMA=3000
+   STR={250 300}
+   MAXHITS={45 55}
+   DEX={36 55}
+   MAXSTAM={86 105}
+   INT={16 30}
+   MAXMANA={16 30}
+   MAGICRESISTANCE={15.0 20.0}
+   TACTICS={19.0 29.0}
+   TAMING={45.0 50.0}
+   WRESTLING={19.0 29.0}
+   MODAR={0 5}
+   RESCOLD={10 15}
+   RESENERGY={5 10}
+   RESFIRE={5 10}
+   RESPOISON={5 10}
+
+[CHARDEF 0190]
+DEFNAME=c_man
+Name=#NAMES_HUMANMALE
+ICON=i_pet_MAN
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_USEHANDS
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+FOODTYPE=15 t_food, t_fruit
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+//SHELTER=r_house
+BLOODCOLOR=0
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Man
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+NPC=brain_human
+COLOR=colors_skin
+str 10
+dex 10
+int 10
+
+[CHARDEF 0191]
+DEFNAME=c_woman
+NAME=#NAMES_HUMANFEMALE 
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_FEMALE|MT_USEHANDS
+ICON=i_pet_woman
+RESOURCES=i_flesh_head_2, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+FOODTYPE=15 t_food,t_fruit
+//SHELTER=r_house
+AVERSIONS=t_TRAP,t_eerie_stuff
+DESIRES=i_gold,e_notoriety
+BLOODCOLOR=0
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Woman
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+NPC=brain_human
+COLOR=colors_skin
+str 10
+dex 10
+int 10
+
+[CHARDEF 0192]
+//Ghost robe is not automatic !
+//DEFNAME2=GHOSTMAN
+DEFNAME=c_ghost_man
+NAME=Ghost
+ICON=i_pet_MAN
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_GHOST
+RESOURCES=
+FOODTYPE=
+//SHELTER=r_house
+AVERSIONS=t_TRAP,t_eerie_stuff
+DESIRES=i_gold,e_notoriety
+DESCRIPTION=Ghost
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+	NPC=brain_human
+	FENCING={15.0 38.0}
+	PARRYING={15.0 38.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+[CHARDEF 0193]
+//Ghost robe is not automatic !
+//DEFNAME2=GHOSTWOMAN
+DEFNAME=c_ghost_woman
+NAME=Ghost
+ICON=i_pet_woman
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_GHOST|MT_FEMALE
+RESOURCES=8 i_ribs_raw
+FOODTYPE=
+//SHELTER=r_house
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+DESCRIPTION=Ghost Woman
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+	NPC=brain_human
+	FENCING={15.0 38.0}
+	PARRYING={15.0 38.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={15.0 38.0}
+	TACTICS={15.0 38.0}
+
+[CHARDEF 01a4]
+//Male Kid (Blond Hair) (not in t2a)
+//NOTE: NOT in T2a !
+DEFNAME=c_child_mb
+NAME=Child
+RESOURCES=4 t_food
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+ICON=i_pet_MAN
+FOODTYPE=15 t_food,t_fruit
+DESIRES=i_gold,e_notoriety
+//SHELTER=r_house
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Child (Blond)
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+	NPC=brain_human
+	FENCING={8.0 19.0}
+	PARRYING={8.0 19.0}
+	SWORDSMANSHIP={8.0 19.0}
+	WRESTLING={8.0 19.0}
+	MACEFIGHTING={8.0 19.0}
+	MAGICRESISTANCE={8.0 19.0}
+	TACTICS={8.0 19.0}
+
+[CHARDEF 01a5]
+//Male Kid (Dark Hair)
+//NOTE: NOT in T2a !
+DEFNAME=c_child_md
+NAME=Child
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+ICON=i_pet_MAN
+FOODTYPE=15 t_food,t_fruit
+//SHELTER=r_house
+DESIRES=i_gold,e_notoriety
+RESOURCES=4 i_ribs_raw
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Child (Brunette)
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+	NPC=brain_human
+	FENCING={8.0 19.0}
+	PARRYING={8.0 19.0}
+	SWORDSMANSHIP={8.0 19.0}
+	WRESTLING={8.0 19.0}
+	MACEFIGHTING={8.0 19.0}
+	MAGICRESISTANCE={8.0 19.0}
+	TACTICS={8.0 19.0}
+
+[CHARDEF 01a6]
+//Female Kid (Blond Hair) (toddler)
+//NOTE: NOT in T2a !
+DEFNAME=c_child_fb
+NAME=Child
+CAN=MT_WALK|MT_RUN|MT_FEMALE|MT_USEHANDS
+ICON=i_pet_woman
+FOODTYPE=15 t_food,t_fruit
+//SHELTER=r_house
+DESIRES=i_gold,e_notoriety
+RESOURCES=4 i_ribs_raw
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Child (Female Blonde)
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+BLOODCOLOR=0
+
+ON=@Create
+	NPC=brain_human
+	FENCING={8.0 19.0}
+	PARRYING={8.0 19.0}
+	SWORDSMANSHIP={8.0 19.0}
+	WRESTLING={8.0 19.0}
+	MACEFIGHTING={8.0 19.0}
+	MAGICRESISTANCE={8.0 19.0}
+	TACTICS={8.0 19.0}
+
+[CHARDEF 01a7]
+//Female Kid (Dark Hair)
+//NOTE: NOT in T2a !
+DEFNAME=c_child_fd
+NAME=Child
+CAN=MT_WALK|MT_RUN|MT_FEMALE|MT_USEHANDS
+ICON=i_pet_woman
+FOODTYPE=15 t_food,t_fruit
+//SHELTER=r_house
+DESIRES=i_gold,e_notoriety
+RESOURCES=4 i_ribs_raw
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Child (Female Brunette)
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+BLOODCOLOR=0
+
+ON=@Create
+	NPC=brain_human
+	FENCING={8.0 19.0}
+	PARRYING={8.0 19.0}
+	SWORDSMANSHIP={8.0 19.0}
+	WRESTLING={8.0 19.0}
+	MACEFIGHTING={8.0 19.0}
+	MAGICRESISTANCE={8.0 19.0}
+	TACTICS={8.0 19.0}
+
+[CHARDEF 01a8]
+//Use this as our invis man id.
+DEFNAME=c_man_invisible
+NAME=Man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+ICON=i_pet_MAN
+RESOURCES=4 i_ribs_raw
+FOODTYPE=15 t_food,t_fruit
+DESIRES=i_gold,e_notoriety
+//SHELTER=r_house
+AVERSIONS=t_TRAP,t_eerie_stuff
+//TSPEECH=spk_human_prime
+//TSPEECH=spk_human_default
+DESCRIPTION=Man (Invis)
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+	NPC=brain_human
+	FENCING={8.0 19.0}
+	PARRYING={8.0 19.0}
+	SWORDSMANSHIP={8.0 19.0}
+	WRESTLING={8.0 19.0}
+	MACEFIGHTING={8.0 19.0}
+	MAGICRESISTANCE={8.0 19.0}
+	TACTICS={8.0 19.0}
+
+[CHARDEF c_vortex_shadow]
+ID=023d
+DEFNAME=c_vortex_shadow
+NAME=Shadow Vortex
+CAN=MT_WALK|MT_FLY|MT_FIRE_IMMUNE|MT_RUN|MT_USEHANDS|MT_EQUIP
+ICON=i_FX_Blade_Spirit_1
+DAM=8,10
+ARMOR=10
+FOODTYPE=
+BLOODCOLOR=01
+
+on=@click
+if (strmatch("<*","<name>") || (strmatch("@*","<name>") || (strmatch("balance*","<name>") || (strmatch("bank*","<name>")
+remove
+return 1
+endif
+update
+var.title
+
+ON=@Create
+COLOR=0901
+FLAGS=statf_conjured
+NPC=brain_beserk
+STR={300 450}
+DEX=3111
+INT=1
+
+TACTICS=500.0
+WRESTLING=500.0
+POISONING=100.0
+FAME=2000
+KARMA=-3000
+
+ITEMNEWBIE=i_light_source
+ATTR=attr_magic|attr_newbie
+ITEMNEWBIE=i_shrmv
+ATTR=026
+
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Shadow Vortex
+
+On=@Hit
+if !(0<src.tag.ncr> == 0)
+	return 1
+endif
+
+if (rand(6) == 1)
+	src.spelleffect s_paralyze 1000
+	src.poison 1000
+endif
+
+On=@SpellEffect
+if ((<argn> == 41) || (<argn> == 54))
+	effect 2,i_fx_smoke,3,40,1
+	hits 0
+endif
+
+[CHARDEF 023e]
+DEFNAME=c_blade_spirit
+DEFNAME2=blade_spirits
+Name=Blade Spirits
+SOUND=snd_WEAPONS_SWORD1
+ICON=i_FX_Blade_Spirit_1
+DAM=4,5
+ARMOR=20
+CAN=MT_WALK|MT_RUN|
+
+CATEGORY=Monsters
+SUBSECTION=Miscellaneous
+DESCRIPTION=Blade Spirits
+
+on=@click
+if (strmatch("<*","<name>") || (strmatch("@*","<name>") || (strmatch("balance*","<name>") || (strmatch("bank*","<name>")
+remove
+return 1
+endif
+update
+var.title
+
+on=@REGIONENTER
+if <argo.guarded>
+hits 0
+return 1
+endif
+
+ON=@Create
+NPC=brain_beserk
+STR=150
+DEX=500
+INT=1
+TACTICS=250.0
+WRESTLING=250.0
+POISONING=300.0
+FAME=0
+KARMA=-100
+//ALIGNMENT=EVIL
+
+[CHARDEF 03ca]
+DEFNAME=c_grim_reaper
+NAME=Grim Reaper
+CAN=MT_WALK|MT_SWIM|MT_GHOST|MT_USEHANDS
+SOUND=snd_MONSTER_GHOST1
+BLOODCOLOR=colors_green
+TEVENTS=e_undead
+DESCRIPTION=Grim Reaper
+SUBSECTION=Undeads
+CATEGORY=Monsters
+
+ON=@Create
+	COLOR=colors_black
+	NPC=brain_monster
+	KARMA={-5000 -3000}
+	FAME={1000 2000}
+	STR={130 150}
+	INT={170 190}
+	DEX={100 150}
+
+[CHARDEF 03db]
+DEFNAME=c_man_gm
+NAME=GM
+ICON=i_pet_MAN
+FOODTYPE=15 t_food, t_fruit
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_USEHANDS|MT_SWIM|MT_GHOST
+DESCRIPTION=GM Body
+SUBSECTION=Other Bodies
+CATEGORY=Miscellaneous
+
+ON=@Create
+	STR={130 150}
+	INT={170 190}
+	DEX={100 150}
+
+
+[CHARDEF 025d]
+DEFNAME=c_elf_male
+NAME=elf
+ICON=i_pet_man
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+//DAM=
+//ARMOR=
+DESIRES=r_civilization,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2, i_servered_elf_ears
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Elf Male
+ON=@Create
+NAME=#NAMES_ELFKIND
+COLOR=colors_skin
+NPC=brain_human
+str 10
+dex 10
+int 10
+ITEMNEWBIE=random_male_elf_hair
+
+
+[CHARDEF 025e]
+DEFNAME=c_elf_female
+NAME=elf
+ICON=i_pet_woman
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_FEMALE|MT_USEHANDS|MT_EQUIP
+//DAM=
+//ARMOR=
+DESIRES=r_civilization,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2, i_servered_elf_ears
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Elf Female
+
+ON=@Create
+NAME=#NAMES_ELFKIND
+COLOR=colors_skin
+str 10
+dex 10
+int 10
+ITEMNEWBIE=random_female_elf_hair
+
+
+[CHARDEF 025f]
+DEFNAME=c_elf_ghost_man
+NAME=ghost
+ICON=i_pet_man
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_GHOST|MT_EQUIP
+//DAM=
+//ARMOR=
+DESIRES=r_civilization
+AVERSIONS=t_trap,e_carnivores3
+RESOURCES=
+FOODTYPE=
+BLOODCOLOR=-1
+MOVERATE=100
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Elf Male Ghost
+RESLEVEL=5
+RESDISPDNID=c_ghost_man
+RESDISPDNHUE=0
+ON=@Create
+   NPC=brain_human
+
+[CHARDEF 0260]
+DEFNAME=c_elf_ghost_woman
+NAME=ghost
+ICON=i_pet_woman
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_GHOST|MT_FEMALE|MT_EQUIP
+//DAM=
+//ARMOR=
+DESIRES=r_civilization
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=
+RESOURCES=
+BLOODCOLOR=-1
+MOVERATE=100
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Elf Female Ghost
+ON=@Create
+   NPC=brain_human
+
+[CHARDEF 029a]
+DEFNAME=c_gargoyle_male
+NAME=gargoyle
+ICON=i_pet_gargoyle_male
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+//DAM=
+//ARMOR=
+DESIRES=t_coin,t_gold,e_notoriety,t_potion
+AVERSIONS=t_trap,t_eerie_stuff
+FOODTYPE=35 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head,i_flesh_torso,i_flesh_right_arm,i_flesh_left_arm,i_flesh_left_leg,i_flesh_right_leg
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_human_hearunk
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Gargoyle Male
+RESLEVEL=7
+RESDISPDNID=c_man
+RESDISPDNHUE=0410
+ON=@Create
+   NAME=#NAMES_GARGOYLE//FIXME: MALE vs FEMALE
+   COLOR=colors_skin_gargoyle
+   NPC=brain_human
+   ALCHEMY={15.0 40.0}
+   ANATOMY={15.0 40.0}
+   ANIMALLORE={15.0 40.0}
+   ITEMID={15.0 40.0}
+   ARMSLORE={15.0 40.0}
+   PARRYING={15.0 40.0}
+   BEGGING={15.0 40.0}
+   BLACKSMITHING={15.0 40.0}
+   BOWCRAFT={15.0 40.0}
+   PEACEMAKING={15.0 40.0}
+   CAMPING={15.0 40.0}
+   CARPENTRY={15.0 40.0}
+   CARTOGRAPHY={15.0 40.0}
+   COOKING={15.0 40.0}
+   DETECTINGHIDDEN={15.0 40.0}
+   ENTICEMENT={15.0 40.0}
+   EVALUATINGINTEL={15.0 40.0}
+   HEALING={15.0 40.0}
+   FISHING={15.0 40.0}
+   FORENSICS={15.0 40.0}
+   HERDING={15.0 40.0}
+//   HIDING={15.0 40.0}
+   PROVOCATION={15.0 40.0}
+   INSCRIPTION={15.0 40.0}
+   LOCKPICKING={15.0 40.0}
+   MAGERY={15.0 40.0}
+   MAGICRESISTANCE={15.0 40.0}
+   TACTICS={15.0 40.0}
+   SNOOPING={15.0 40.0}
+   MUSICIANSHIP={15.0 40.0}
+   POISONING={15.0 40.0}
+   ARCHERY={15.0 40.0}
+   SPIRITSPEAK={15.0 40.0}
+   STEALING={15.0 40.0}
+   TAILORING={15.0 40.0}
+//   TAMING={15.0 40.0}
+   TASTEID={15.0 40.0}
+   TINKERING={15.0 40.0}
+   TRACKING={15.0 40.0}
+   VETERINARY={15.0 40.0}
+   SWORDSMANSHIP={15.0 40.0}
+   MACEFIGHTING={15.0 40.0}
+   FENCING={15.0 40.0}
+   WRESTLING={15.0 40.0}
+   LUMBERJACKING={15.0 40.0}
+   MINING={15.0 40.0}
+   MEDITATION={15.0 40.0}
+//   STEALTH={15.0 40.0}
+   REMOVETRAP={15.0 40.0}
+   NECROMANCY={15.0 40.0}
+   FOCUS={15.0 40.0}
+   CHIVALRY={15.0 40.0}
+   BUSHIDO={15.0 40.0}
+   NINJITSU={15.0 40.0}
+   SPELLWEAVING={15.0 40.0}
+   RESCOLD=0
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON=0
+   ITEMNEWBIE=random_male_hair
+   COLOR=colors_all
+
+[CHARDEF 029b]
+DEFNAME=c_gargoyle_female
+NAME=gargoyle
+ICON=i_pet_gargoyle_female
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP|MT_FEMALE
+//DAM=
+//ARMOR=
+DESIRES=t_coin,t_gold,e_notoriety,t_potion
+AVERSIONS=t_trap,t_eerie_stuff
+FOODTYPE=35 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head,i_flesh_torso,i_flesh_right_arm,i_flesh_left_arm,i_flesh_left_leg,i_flesh_right_leg
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_human_hearunk
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Gargoyle Female
+RESLEVEL=5
+RESDISPDNID=c_woman
+RESDISPDNHUE=0410
+ON=@Create
+   NAME=#NAMES_GARGOYLE//FIXME: MALE vs FEMALE
+   COLOR=colors_skin_gargoyle
+   NPC=brain_human
+   ALCHEMY={15.0 40.0}
+   ANATOMY={15.0 40.0}
+   ANIMALLORE={15.0 40.0}
+   ITEMID={15.0 40.0}
+   ARMSLORE={15.0 40.0}
+   PARRYING={15.0 40.0}
+   BEGGING={15.0 40.0}
+   BLACKSMITHING={15.0 40.0}
+   BOWCRAFT={15.0 40.0}
+   PEACEMAKING={15.0 40.0}
+   CAMPING={15.0 40.0}
+   CARPENTRY={15.0 40.0}
+   CARTOGRAPHY={15.0 40.0}
+   COOKING={15.0 40.0}
+   DETECTINGHIDDEN={15.0 40.0}
+   ENTICEMENT={15.0 40.0}
+   EVALUATINGINTEL={15.0 40.0}
+   HEALING={15.0 40.0}
+   FISHING={15.0 40.0}
+   FORENSICS={15.0 40.0}
+   HERDING={15.0 40.0}
+//   HIDING={15.0 40.0}
+   PROVOCATION={15.0 40.0}
+   INSCRIPTION={15.0 40.0}
+   LOCKPICKING={15.0 40.0}
+   MAGERY={15.0 40.0}
+   MAGICRESISTANCE={15.0 40.0}
+   TACTICS={15.0 40.0}
+   SNOOPING={15.0 40.0}
+   MUSICIANSHIP={15.0 40.0}
+   POISONING={15.0 40.0}
+   ARCHERY={15.0 40.0}
+   SPIRITSPEAK={15.0 40.0}
+   STEALING={15.0 40.0}
+   TAILORING={15.0 40.0}
+//   TAMING={15.0 40.0}
+   TASTEID={15.0 40.0}
+   TINKERING={15.0 40.0}
+   TRACKING={15.0 40.0}
+   VETERINARY={15.0 40.0}
+   SWORDSMANSHIP={15.0 40.0}
+   MACEFIGHTING={15.0 40.0}
+   FENCING={15.0 40.0}
+   WRESTLING={15.0 40.0}
+   LUMBERJACKING={15.0 40.0}
+   MINING={15.0 40.0}
+   MEDITATION={15.0 40.0}
+//   STEALTH={15.0 40.0}
+   REMOVETRAP={15.0 40.0}
+   NECROMANCY={15.0 40.0}
+   FOCUS={15.0 40.0}
+   CHIVALRY={15.0 40.0}
+   BUSHIDO={15.0 40.0}
+   NINJITSU={15.0 40.0}
+   SPELLWEAVING={15.0 40.0}
+   RESCOLD=0
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON=0
+   ITEMNEWBIE=random_male_hair
+   COLOR=colors_all
+
+[CHARDEF 02b6]
+DEFNAME=c_garg_ghost_man
+NAME=Gargoyle Male Ghost
+ICON=i_pet_gargoyle_male
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_EQUIP|MT_GHOST
+//DAM=
+//ARMOR=
+DESIRES=t_coin,t_gold,e_notoriety
+AVERSIONS=t_trap,t_eerie_stuff
+RESOURCES=i_flesh_head,i_flesh_torso,i_flesh_right_arm,i_flesh_left_arm,i_flesh_left_leg,i_flesh_right_leg,i_blood_2
+BLOODCOLOR=-1
+MOVERATE=100
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Gargoyle Male Ghost
+RESLEVEL=7
+RESDISPDNID=c_ghost_man
+RESDISPDNHUE=0410
+ON=@Create
+   NPC=brain_human
+
+[CHARDEF 02b7]
+DEFNAME=c_garg_ghost_woman
+NAME=Gargoyle Female Ghost
+ICON=i_pet_gargoyle_female
+//SOUND=
+CAN=MT_WALK|MT_RUN|MT_EQUIP|MT_GHOST|MT_FEMALE
+//DAM=
+//ARMOR=
+DESIRES=t_coin,t_gold,e_notoriety
+AVERSIONS=t_trap,t_eerie_stuff
+RESOURCES=i_flesh_head,i_flesh_torso,i_flesh_right_arm,i_flesh_left_arm,i_flesh_left_leg,i_flesh_right_leg,i_blood_2
+BLOODCOLOR=-1
+MOVERATE=100
+CATEGORY=Civilized
+SUBSECTION=Miscellaneous
+DESCRIPTION=Gargoyle Female Ghost
+RESLEVEL=7
+RESDISPDNID=c_ghost_woman
+RESDISPDNHUE=0410
+ON=@Create
+   NPC=brain_human
+
+
+[EOF]

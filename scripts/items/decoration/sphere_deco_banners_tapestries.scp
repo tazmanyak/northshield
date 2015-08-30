@@ -1,0 +1,25 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 04037]
+DEFNAME=i_banner_gargish
+NAME=Gargish Banner
+TYPE=t_normal
+FLIP=1
+SKILLMAKE=CARPENTRY 94.7, TAILORING 75.0, t_carpentry
+RESOURCES=50 i_log, 50 i_cloth
+WEIGHT=1
+DUPELIST=04038
+CATEGORY=Decoration - Banners & Tapestries
+SUBSECTION=Banners
+DESCRIPTION=Gargish Banner
+
+[ITEMDEF 04038]
+DUPEITEM=04037
+
+[eof]

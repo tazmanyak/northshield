@@ -1,0 +1,18 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF i_sand]
+ID=i_pillow_straw
+TYPE=t_normal
+NAME=Sand
+WEIGHT=1
+CATEGORY=Resources - Mining
+SUBSECTION=Sand
+DESCRIPTION=Sand
+
+[eof]

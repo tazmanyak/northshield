@@ -1,0 +1,870 @@
+﻿[function ipkontrol]
+targetf f_ipkontrol
+src.sysmessage @69,1,1 Eger tikladiginiz kisiden baska birindede MULTI TESt yazarsa multi var demektir.
+
+[function f_ipkontrol]
+forchars 50
+if (strmatch('<argo.account.lastip>','<account.lastip>'))
+message @69,1,1 MULTI TEST
+endif
+endfor
+
+[function pcban]
+targetf f_pcban
+
+[function f_pcban]
+serv.writefile2 C:\SERVER_LOGLARI\PC_BAN <argo.account.tag.seri_no>
+argo.sys_error PC hesabiniz bloke edilmistir. Bu bilgisayardan servera giris yapamazsiniz.
+argo.sendpacket 082 04
+
+[function ipban]
+targetf f_ipban
+
+[function f_ipban]
+serv.blockip <argo.account.lastip>
+serv.account <argo.account> block 1
+
+[function ipbankaldir]
+targetf f_ipbankaldir
+
+[function f_ipbankaldir]
+serv.unblockip <argo.account.lastip>
+
+
+[Function buz]
+src.invis
+SRC.NEWITEM=i_fx_FROST1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE 1
+SRC.NEWITEM=i_fx_FROST1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE 0 1
+SRC.NEWITEM=i_fx_FROST1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE -1
+SRC.NEWITEM=i_fx_FROST1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE 0 -1
+SRC.NEWITEM=i_fx_FROST_Floor1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.NEWITEM=i_fx_FROST_Floor1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE 1 1
+SRC.NEWITEM=i_fx_FROST_Floor1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE 1 -1
+SRC.NEWITEM=i_fx_FROST_Floor1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE -1 1
+SRC.NEWITEM=i_fx_FROST_Floor1
+SRC.ACT.ATTR=attr_decay
+SRC.ACT.TIMER=3
+SRC.ACT.P=<SRC.P>
+SRC.ACT.NUDGEUP 2
+SRC.ACT.MOVE -1 -1
+
+
+
+[ITEMDEF i_fx_FROST1]
+ID=08e0
+Name=Frost Buildup
+
+ON=@TIMER
+REMOVE
+on=@create
+Color=0480
+
+[ITEMDEF i_fx_FROST_floor1]
+ID=0343b
+Name=Frost Covering
+
+ON=@TIMER
+REMOVE
+on=@create
+Color=0480
+
+[ITEMDEF i_fx_recover1]
+ID=0376a
+Name=Healing Wind
+ON=@TIMER
+REMOVE
+on=@create
+Color=0480
+
+[ITEMDEF i_fx_frozen_stalagmites1]
+ID=i_fx_glow_spike
+Name=phrozen stalagmites
+RETURN 1
+ON=@TIMER
+REMOVE
+on=@create
+Color=0f8f
+
+[function cantadansil]
+forcont <findlayer.21.uid> 10
+if (<baseid>==<args>)
+type t_normal
+endif
+endfor
+
+
+
+[plevel 1]
+oyuncu
+unvansec
+
+[function oyuncu]
+if (<src.flags>&statf_dead) 
+src.sysmessage @39,,1 Hata: Ölu durumda yararlanamazsiniz.
+return 1
+endif
+src.dialogclose d_oyuncu
+src.dialog d_oyuncu
+
+[DIALOG d_oyuncu]
+5,5
+//nomove
+//resizepic 20 20 9200 700 550 ///5120
+//gumppictiled 30 30 680 530 2624
+
+resizepic 20 20 2620 700 550
+checkertrans 20 20 700 550
+//checkertrans 25 25 690 540
+
+
+
+//checkertrans 30 30 680 520
+
+resizepic 350 255 3000 320 185 // html
+resizepic 125 45 3000 190 30
+resizepic 125 75 3000 190 30
+resizepic 125 105 3000 190 30
+resizepic 125 135 3000 190 30
+resizepic 125 165 3000 190 30
+resizepic 125 195 3000 190 30
+resizepic 125 225 3000 190 30
+resizepic 125 255 3000 190 30
+resizepic 125 285 3000 190 30
+resizepic 125 315 3000 190 30
+resizepic 125 345 3000 190 30
+resizepic 125 375 3000 190 30
+resizepic 125 405 3000 190 30
+resizepic 125 435 3000 190 30   ////
+resizepic 125 465 3000 190 30 
+resizepic 125 495 3000 190 30 
+resizepic 125 525 3000 190 30 // sifre degisikligi
+
+resizepic 365 105 3000 130 30
+resizepic 365 135 3000 130 30
+resizepic 365 165 3000 130 30
+resizepic 365 195 3000 130 30
+resizepic 455 65 3000 145 30
+
+//resizepic 350 460 3000 320 60
+
+//dtext 350 10 1452 Rhodos Uo Shard
+dhtmlgump 350 460 320 60 1 0 <def.l1>CENTER<def.r1><def.l1>BASEFONT SIZE=5<def.r1><def.l1>BASEFONT COLOR=#0000C0<def.r1><def.l1>i<def.r1> <serv.name> UO<def.br><def.BFONT_RED>Menü açılış komutu .oyuncu<def.l1>/CENTER<def.r1>
+
+//text 250 20 0 0
+
+button 30 50 4006 4007 1 0 1
+button 30 80 4006 4007 1 0 2
+button 30 110 4006 4007 1 0 3
+button 30 140 4006 4007 1 0 4
+button 30 170 4006 4007 1 0 5
+button 30 200 4006 4007 1 0 6
+button 30 230 4006 4007 1 0 7
+button 30 260 4006 4007 1 0 8
+button 30 290 4006 4007 1 0 9
+button 30 320 4006 4007 1 0 10
+button 30 350 4006 4007 1 0 11
+button 30 380 4006 4007 1 0 12
+//button 25 410 4006 4007 1 0 13
+button 30 410 4006 4007 1 0 14
+button 30 440 4006 4007 1 0 15   
+button 30 470 4006 4007 1 0 16
+button 30 500 4006 4007 1 0 17 ///
+button 30 530 4006 4007 1 0 18 /// sifre degisikligi
+
+htmlgump 360 260 305 175 1 0 1
+text 460 70 60 2
+text 65 50 60 3
+text 65 80 60 4
+text 65 110 60 5
+text 65 140 60 6
+text 65 170 60 7
+text 65 200 60 8
+text 65 230 60 9
+text 65 260 60 10
+text 65 290 60 11
+text 65 320 60 12
+text 65 350 60 13
+text 65 380 60 14
+//text 60 410 60 15
+text 65 410 60 16
+text 65 440 60 17   
+text 65 470 60 45
+text 65 500 60 46  ///
+text 65 530 60 47 // sifre degisikligi
+
+htmlgump 128 50 200 20 18 0 0
+htmlgump 128 80 200 20 19 0 0
+htmlgump 128 110 200 20 20 0 0
+htmlgump 128 140 200 20 21 0 0
+htmlgump 128 170 200 20 22 0 0
+htmlgump 128 200 200 20 23 0 0
+htmlgump 128 230 200 20 24 0 0
+htmlgump 128 260 200 20 25 0 0
+htmlgump 128 290 200 20 26 0 0
+htmlgump 128 320 200 20 27 0 0
+htmlgump 128 350 200 20 28 0 0
+htmlgump 128 380 200 20 29 0 0
+//htmlgump 128 410 200 20 30 0 0
+htmlgump 128 410 200 20 31 0 0
+htmlgump 128 440 200 20 42 0 0
+htmlgump 128 470 200 20 43 0 0
+htmlgump 128 500 200 20 44 0 0  ///
+
+htmlgump 128 530 200 20 48 0 0  // sifre degisikligi
+
+htmlgump 370 112 200 20 32 0 0
+htmlgump 370 142 200 20 33 0 0
+htmlgump 370 172 200 20 34 0 0
+//htmlgump 370 202 200 20 35 0 0
+htmlgump 370 202 200 20 36 0 0
+
+text 520 110 60 37
+text 520 140 60 38
+text 520 170 60 39
+//text 520 200 60 40
+text 520 200 60 41
+
+
+[dialog d_oyuncu text]
+<serv.name> Shard Oyuncu Menusu
+<def.bfont_black> <serv.name> Oyuncu Menusune hosgeldiniz... Karsinizda bulunan menunun amaci siz saygi deger oyuncumuzun sunucu icindeki sistemlere kolayca ulasmasidir. Sol kisimda yer alan buttonlarla ilgili sistemleri aktif veya deaktif edebilir, sag ust kisimda bulunanan alanda da server hakkindaki gelismeleri görebilirsiniz. Ilgili menumuzde veya sunucu icinde gördugunuz herhangi bir problemi yetkililere en kisa zamanda bildirmeniz, sizlere daha guzel bir sunucu vermemizi saglar. <serv.name> Shard ailesi olarak bu metni okudugunuz icin tesekkur eder , iyi oyunlar dileriz..
+   Sunucu Bilgisi
+Disarm
+S. blow
+Ingots
+Ores
+Regs
+Help
+Aclik
+Stat
+Make
+K.dusur
+S.dusur
+Web
+Tp
+Age
+Pin
+<def.bfont_red>Disarm bonus (Aktif/Deaktif)
+<def.bfont_red>Stunblow bonus (Aktif/Deaktif)
+<def.bfont_red>Yanınızdaki ingot sayisi
+<def.bfont_red>Yanınızdaki ore sayisi
+<def.bfont_red>Yanınızdaki reagents sayisi
+<def.bfont_red>Yardim menusunu açar
+<def.bfont_red>Aclik durumunuzu gösterir
+<def.bfont_red>Stat menusunu açar
+<def.bfont_red>Son yapilan esyayi tekrarlar
+<def.bfont_red>Kill durumunuzu gösterir
+<def.bfont_red>Skilldusur menusunu açar
+<def.bfont_red>Resmi web adresimizi açar
+<def.bfont_red>Paralyze durumdan cikarsiniz
+<def.bfont_red>Karakter yasinizi gösterir
+<def.bfont_red>Online oyuncu sayisi:
+<def.bfont_red>Uptime:
+<def.bfont_red>Mevcut page:
+<def.bfont_red>Save icin kalan sure:
+<def.bfont_red>Online sureniz:
+<eval <serv.clients>+<dvar.botsayisi>>
+<eval <eval <eval <serv.timeup>/3600>/24>+8> gun <eval <eval <serv.timeup>/3600>-<eval <eval <eval <serv.timeup>/3600>/24>*24>> saat <eval <eval <serv.timeup>-<eval <eval <serv.timeup>/3600>*3600>>/60> dk. //<eval <eval <serv.timeup>>-<eval <eval <serv.timeup>/60>*60>> saniye
+<uid.<var.pg_box>.rescount>
+0  ///<eval <uid.<var.savetimer>.timer>/30> dk
+<eval (<account.totalconnecttime> / 60)> saat
+<def.bfont_red>Pin degistirme islemleri
+<def.bfont_red>Guvenli para yollama
+<def.bfont_red>Esya transferi 
+Havale
+Transfer
+Sifre  // ek
+<def.bfont_red>Sifre degisikligi
+
+[dialog d_oyuncu button]
+On=1
+src.disarm
+On=2
+src.stun
+On=3
+src.ingots
+On=4
+src.ores
+On=5
+src.regs
+On=6
+src.helppage
+On=7
+src.sysmessage @0957 Aclik seviyeniz <src.food> / 15
+On=8
+src.stat
+On=9
+src.makelast
+On=10
+src.killdusur
+//src.sysmessage @39,,1 Bu islem ucretlendirilmis..Provisioner vendorlarindan kill tasi almalisiniz..
+//src.md
+On=11
+src.skilldusur
+On=12
+weblink www.tns.gen.tr
+On=14
+src.age2
+On=15
+src.pin
+On=16
+src.sysmessage @39,,1 Kumbaranizdan havale yapabilirsiniz.Hesap no ogrenmek icin .hesapno
+On=17
+src.itemaktar
+On=18
+src.sifre
+
+
+// Age
+
+[function age2]
+dialog d_age
+
+[dialog d_age]
+25,25
+nomove
+resizepic 0 0 5054 220 275
+resizepic 10 10 5054 200 255
+//checkertrans 10 10 200 255
+
+text 40 10 1152 0
+text 15 70 995 1
+text 15 85 150 2
+text 15 110 995 3
+text 15 125 150 4
+text 15 30 150 5
+text 80 30 995 6
+text 15 50 150 7
+text 80 50 995 8
+text 15 150 995 9
+text 15 165 150 10
+text 15 185 995 11
+text 15 200 150 12
+text 15 235 150 13
+text 15 220 995 14
+
+[dialog d_age text]
+Account Detay Menusu
+Online Sure ;
+<eval <src.account.totalconnecttime>/60> Saat
+Kayit ;
+<account.firstconnectdate>
+Account :
+<account>
+Name   :
+<name>
+Son Online ;
+<src.account.lastconnectdate>
+Son Online Suresi ;
+<eval <src.account.lastconnecttime>/60> dakika
+<src.account.chars>
+Karakter sayisi ;
+
+
+
+
+
+
+
+[plevel 7]
+allplayerchars
+itemsil
+
+[function itemsil]
+var.si <args>
+if (<isempty <args>>)
+src.sysmessage esya idsini gir
+return 1
+endif
+
+if (<isnum <args>>)
+src.sysmessage sadece id gir
+return 1
+endif
+
+if !(<serv.itemdef.<args>>)
+src.sysmessage tanimsiz bir esya girdiniz...
+return 1
+endif
+
+
+src.allplayerchars esyabildirbanka <args>
+src.allplayerchars esyabildircanta <args>
+//src.allplayerchars esyabildirlayer <args>
+src.esyabildirboxlar <args>
+src.esyabildiryer <args>
+src.esyabildirceset <args>
+//src.esyabildirnpc <args>
+src.kayitlarioku
+
+[function esyabildirbanka]
+forcont <findlayer.29.uid> 10
+if (<baseid>==<args>)
+var.banksayi +=1
+remove
+endif
+endfor
+
+[function esyabildircanta]
+forcont <findlayer.21.uid> 10
+if (<baseid>==<args>)
+var.cantasayi +=1
+remove
+endif
+endfor
+
+[function esyabildirlayer]
+for layer 1 30
+forcharlayer <local.layer> // local falan okumuyor burda. uzun uzun yapabilirsiniz. ben ugrasmadim.
+  if (<baseid>==<args>)
+  var.layersayi +=1
+  remove
+  endif
+endfor
+endfor
+
+[function esyabildirboxlar]
+foritems 6144
+if (strmatch('<type>','t_container'))
+  forcont <uid> 10
+   if (<baseid>==<args>)
+     var.contsayi +=1
+     remove
+   endif
+  endfor
+endif
+endfor
+
+[function esyabildiryer]
+foritems 6144
+  if (<baseid>==<args>)
+  var.yersayi +=1
+  remove
+  endif
+endfor
+
+[function esyabildirceset]
+foritems 6144
+if (strmatch('<type>','t_corpse'))
+   forcont <uid> 10
+    if (<baseid>==<args>)
+    var.cesetsayi +=1
+    remove
+    endif
+   endfor
+  endif
+endfor
+
+[function esyabildirnpc]
+forchars 6144
+if !(<isplayer>)
+  forcont <findlayer.21.uid> 10
+   if (<baseid>==<args>)
+   var.npcsayi +=1
+   remove
+   endif
+  endfor
+endif
+endfor
+
+[function kayitlarioku]
+if (<eval <var.sayi>> < 1)
+src.sysmessage @1153 Hic ''<serv.itemdef.<var.si>.name>'' yok.
+else
+src.sysmessage @1153 <eval <var.banksayi>> tane ''<serv.itemdef.<var.si>.name>'' bankalardan silindi
+src.sysmessage @1153 <eval <var.cantasayi>> tane ''<serv.itemdef.<var.si>.name>'' cantalardan silindi
+//src.sysmessage @1153 <eval <var.layersayi>> tane ''<serv.itemdef.<var.si>.name>'' layerlardan silindi
+src.sysmessage @1153 <eval <var.contsayi>> tane ''<serv.itemdef.<var.si>.name>'' containerlardan silindi
+src.sysmessage @1153 <eval <var.yersayi>> tane ''<serv.itemdef.<var.si>.name>'' yerlerden silindi
+src.sysmessage @1153 <eval <var.cesetsayi>> tane ''<serv.itemdef.<var.si>.name>'' cesetlerden silindi
+src.sysmessage @1153 <eval <var.npcsayi>> tane ''<serv.itemdef.<var.si>.name>'' npclerden silindi
+src.sysmessage @1153 Toplamda: <eval <var.sayi>> tane ''<serv.itemdef.<var.si>.name>'' item silindi
+endif
+var.banksayi 0
+var.cantasayi 0
+var.layersayi 0
+var.contsayi 0
+var.yersayi 0
+var.cesetsayi 0
+var.npcsayi 0
+var.sayi 0
+
+[function allplayerchars]
+for 0 <eval <serv.accounts>-1>
+local.cnum=0
+local.acctnum=<local._for>
+for <serv.account.<eval <local.acctnum>>.chars>
+if (<serv.account.<eval <local.acctnum>>.chars>)
+try uid.<serv.account.<eval <local.acctnum>>.char.<eval <local.cnum>>.uid>.<args>
+endif
+local.cnum += 1
+endfor
+endfor
+
+
+
+[function silsilsil]
+foritems 65000
+if (<id> == i_sacredbook)
+type=t_normal
+endif
+endfor
+
+
+
+[function itemcisil]
+foritems 65000
+if (<baseid> == i_quest_suresi)
+remove
+local.sayi += 1
+endif
+endfor
+serv.allclients <dlocal.sayi> kadar spawn silindi
+
+
+[itemdef i_remove_npcsafe] ///basi Bos Hayvanlarin Silinmesi İcin.(Server gereksiz yere Kasmasin Diye)
+name=Basibos
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_static
+timer=600
+color=0480
+
+
+on=@click
+message @1153 Basibos hayvanlar safede 10 dakika icerinde silinmektedir.
+src.sysmessage @69,1,1 Basi bos hayvanlarin silinmesine <timer> Saniye Kalmis.
+return 1
+
+
+ON=@dclick
+if (<src.account.plevel> < 7)
+src.sysmessage @1153 Sen Karisma Bu Tasa
+return 1
+else
+timer 1
+return 1
+endif
+
+
+ON=@timer
+forchars 100
+if (<body> == c_horse_brown_dk)|| (<body> == c_horse_brown_lt) || (<body> == c_ostard_forest) || (<body> == c_ostard_desert) || (<body> == c_ostard_zostrich) || (<body> == c_llama)  
+//serv.allclients sysmessage @69,1,1 <name> safe alaninda silindi.
+remove
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 600
+return 1
+
+
+
+
+
+[itemdef i_remove_npc] ///basi Bos Hayvanlarin Silinmesi İcin.(Server gereksiz yere Kasmasin Diye)
+name=Haftada 1 Kere Basibos Hayvanlari Siler Ellemeyin
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=604800
+color=0480
+
+
+on=@click
+message @1153 Haftada 1 Kere Basibos Hayvanlari Siler Ellemeyin
+src.sysmessage @080a Silmesine <timer> Saniye Kalmis.
+return 1
+
+
+ON=@dclick
+if (<src.account.plevel> < 7)
+src.sysmessage @1153 Sen Karisma Bu Tasa
+return 1
+else
+timer 1
+return 1
+endif
+
+
+ON=@timer
+forchars 65000
+if ((<id> == c_horse_brown_dk) || (<id> == c_horse_gray) || (<id> == c_horse_brown_lt) || (<id> == c_horse_tan) || (<id> == c_sheep_woolly) || (<id> == c_pig) || (<id> == c_chicken) || (<id> == c_bull_brown_lt) || (<id> == c_bull_brown_dk) || (<id> == c_sheep_shorn) || (<id> == c_doe) || (<id> == c_cow_brown) || (<id> == c_cow_bw) || (<id> == c_goat) || (<id> == c_pig_big) || (<id> == c_bird) || (<id> == c_bird_crow) || (<id> == c_eagle) || (<id> == c_stag) || (<id> == c_wolf) || (<id> == c_bird_raven) || (<id> == c_bird_magpie) || (<id> == c_dog) || (<id> == c_bullfrog) || (<id> == c_rat_giant) || (<id> == c_a_jackrabbit) || (<id> == c_rat) || (<id> == c_panther) || (<id> == c_gorilla) || (<id> == c_llama_pack) || (<id> == c_horse_pack))
+//serv.allclients sysmessage @69,1,1 <name> silindi.
+remove
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 604800
+return 1
+
+
+
+
+[itemdef i_remove_npc_denetleyici_1]
+name=Remove Npc Messager 1
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=1
+color=07a0
+
+
+on=@Click
+message @1153 <name> /Ellemeyin
+return 1
+
+ON=@dclick
+timer 1
+return 1
+
+
+ON=@timer
+foritems 5
+if ((<baseid> == i_remove_npc) && (<timer> == 120))
+//serv.allclients sysmessage @1153,2 Basi Bos Hayvanlarin Ve Horselerin Silinmesine Son 2 Dakika.	
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 1
+return 1
+
+
+
+
+
+[itemdef i_remove_npc_denetleyici_2]
+name=Remove Npc Messager 2
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=1
+color=07a0
+
+
+on=@Click
+message @1153 <name> /Ellemeyin
+return 1
+
+
+ON=@dclick
+timer 1
+return 1
+
+
+ON=@timer
+foritems 5
+if ((<baseid> == i_remove_npc) && (<timer> == 0))
+serv.allclients sysmessage @1153,2 Basi Bos Hayvanlar Ve Horseler Silinmistir.Bu Silinme Haftada Bir Defa Yapilir.
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 1
+return 1
+
+
+
+
+
+[itemdef i_remove_npc_denetleyici_3]
+name=Remove Npc Messager 3
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=1
+color=07a0
+
+
+on=@Click
+message @1153 <name> /Ellemeyin
+return 1
+
+
+ON=@dclick
+timer 1
+return 1
+
+
+ON=@timer
+foritems 5
+if ((<baseid> == i_remove_npc) && (<timer> == 60))
+serv.allclients sysmessage @1153,2 Basi Bos Hayvanlarin Ve Horselerin Silinmesine Son 1 Dakika.	
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 1
+return 1
+
+
+
+
+
+[itemdef i_remove_npc_denetleyici_4]
+name=Remove Npc Messager 4
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=1
+color=07a0
+
+
+on=@Click
+message @1153 <name> /Ellemeyin/Michaell
+return 1
+
+ON=@dclick
+timer 1
+return 1
+
+
+ON=@timer
+foritems 5
+if ((<baseid> == i_remove_npc) && (<timer> == 30))
+serv.allclients sysmessage @1153,2 Basi Bos Hayvanlarin Ve Horselerin Silinmesine Son 30 Saniye.
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 1
+return 1
+
+
+
+
+[itemdef i_remove_npc_denetleyici_5]
+name=Remove Npc Messager 5
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=1
+color=07a0
+
+
+on=@Click
+message @1153 <name> /Ellemeyin
+return 1
+
+
+ON=@dclick
+timer 1
+return 1
+
+
+ON=@timer
+foritems 5
+if ((<baseid> == i_remove_npc) && (<timer> == 5))
+serv.allclients sysmessage @1153,2 Basi Bos Hayvanlarin Ve Horselerin Silinmesine Son 5 Saniye.
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 1
+return 1
+
+
+[itemdef i_remove_taming] ///basi Bos Hayvanlarin Silinmesi İcin.(Server gereksiz yere Kasmasin Diye)
+name=Basibos Hayvanlari Siler Ellemeyin
+weight 999
+id=i_crystal_green
+type=t_script
+
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=1200
+color=0480
+
+
+on=@click
+message @1153 Basibos Hayvanlari Siler Ellemeyin
+src.sysmessage @080a Silmesine <timer> Saniye Kalmis.
+return 1
+
+
+ON=@dclick
+if (<src.account.plevel> < 7)
+src.sysmessage @1153 Sen Karisma Bu Tasa
+return 1
+else
+timer 1
+return 1
+endif
+
+
+ON=@timer
+forchars 30
+if ((<id> == c_cat) || (<id> == c_sheep_woolly) || (<id> == c_pig) || (<id> == c_chicken) || (<id> == c_bull_brown_lt) || (<id> == c_bull_brown_dk) || (<id> == c_sheep_shorn) || (<id> == c_doe) || (<id> == c_cow_brown) || (<id> == c_cow_bw) || (<id> == c_goat) || (<id> == c_pig_big) || (<id> == c_bird) || (<id> == c_bird_crow) || (<id> == c_eagle) || (<id> == c_stag) || (<id> == c_wolf) || (<id> == c_bird_raven) || (<id> == c_bird_magpie) || (<id> == c_dog) || (<id> == c_bullfrog) || (<id> == c_rat_giant) || (<id> == c_a_jackrabbit) || (<id> == c_rat) || (<id> == c_gorilla) || (<id> == c_panther))
+remove
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 1200
+return 1
+
+
+[EOF]

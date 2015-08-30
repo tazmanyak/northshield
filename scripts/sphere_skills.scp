@@ -1,0 +1,305 @@
+﻿//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: 27-Jul-2006
+
+VERSION=0.56b
+
+// Generic advance rates for stats
+[ADVANCE]
+STR=10000,4000,600
+INT=10000,4000,600
+DEX=10000,4000,600
+
+
+[COMMENT SKILL x]
+ADV_RATE=10.0,200.0,800.0	// 10.0 successes at 0% to gain .1, 800.0 successes at 100% to gain .1 skill, 200.0 successes at 50% to gain .1, 
+VALUES=0,100			// The amount of value an item created with the skill gets at skill levels.
+EFFECT=0,100			// Healing: Effect of bandages; Crafting Skills: Percentage of resources lost on failure.
+STAT_STR=80			// You will tend toward these stat vals if you use this skill a lot.
+BONUS_STATS=10			// What percent of the skill success is based on stat levels. = 10%
+BONUS_STR=80			// % of each stat toward success at skill
+
+[SKILLCLASS 0]
+// undeclared class.
+// max skills for players of this skill class. 
+// might want this to be all 50.0 to make people declare a class?
+DEFNAME=Class_undeclared
+NAME=undeclared
+// EVENTS=e_ClassUndeclared
+STATSUM=225.0
+SKILLSUM=700.0
+STR=100
+INT=100
+DEX=100
+Alchemy=100.0
+Anatomy=100.0
+AnimalLore=100.0
+ItemId=100.0
+ArmsLore=100.0
+Parrying=100.0
+Begging=100.0
+Blacksmithing=100.0
+Bowcraft=100.0
+Peacemaking=100.0
+Camping=100.0
+Carpentry=100.0
+Cartography=100.0
+Cooking=100.0
+DetectingHidden=100.0
+//Discordance=100.0
+EvaluatingIntel=100.0
+Healing=100.0
+Fishing=100.0
+Forensics=100.0
+Herding=100.0
+Hiding=100.0
+Provocation=100.0
+Inscription=100.0
+LockPicking=100.0
+Magery=100.0
+MagicResistance=100.0
+Tactics=100.0
+Snooping=100.0
+Musicianship=100.0
+Poisoning=100.0
+Archery=100.0
+SpiritSpeak=100.0
+Stealing=100.0
+Tailoring=100.0
+Taming=100.0
+TasteId=100.0
+Tinkering=100.0
+Tracking=100.0
+Veterinary=100.0
+Swordsmanship=100.0
+Macefighting=100.0
+Fencing=100.0
+Wrestling=100.0
+Lumberjacking=100.0
+Mining=100.0
+Meditation=100.0
+Stealth=100.0
+RemoveTrap=100.0
+//Necromancy=100.0
+//Focus=100.0
+//Chivalry=100.0
+//Bushido=100.0
+//Ninjitsu=100.0
+//Spellweaving=100.0
+//Mysticism=100.0
+//Imbuing=100.0
+//Throwing=100.0
+
+
+
+
+
+on=@login
+
+// Mithastan gelenlere para
+// if <src.tag.aktarildi> && !<src.account.tag.mithas_para>
+	// src.account.tag.mithas_para 1
+	// serv.newitem i_check_brnx
+	// new.more1 200000
+	// new.more2 <src.uid>
+	// new.cont <src.findlayer(layer_bankbox)>
+// endif
+
+if <src.modmaxweight> !=40
+src.modmaxweight 40
+endif
+
+if <tag.mesaj_var>
+	TRIGGER @MsgPending
+	tag.mesaj_var
+endif
+
+/// itemaktar
+if !<account.tag.item_bushel> || !<uid.<account.tag.item_bushel>>
+	serv.newitem 09a9 // basket bushel
+	new.attr attr_move_never
+	new.events +t_itemaktar_bushel
+	new.color 07a1
+	new.cont <findlayer.layer_bankbox>
+	new.contp 116,105
+	account.tag.item_bushel <new.uid>
+else
+	try uid.<account.tag.item_bushel>.cont <findlayer.layer_bankbox>
+	try uid.<account.tag.item_bushel>.contp 116,105
+endif
+
+if <src.findid.i_logout_suresi>
+	src.findid.i_logout_suresi.remove
+endif
+
+if !(strmatch("*taz*","<account.name>") || strmatch("aeisec","<account.name>")))
+f_accountlang
+endif
+//SENDPACKET 0C8 40
+//if !<src.account.tag.sifresinigirdi1>
+//	src.dialog d_yenisifreaq
+//	src.account.tag.sifresinigirdi
+//	//src.sysmessage @,,1 Son bir kez daha sifre degisimi gerekmektedir.Kusra bakmayiniz.
+//endif
+
+if <src.tag.skillgain_north>
+	src.tag.skillgain_north
+endif
+
+if <findid.i_stuck_slayer>
+src.findid.i_stuck_slayer.remove
+src.message @,,1 Stuck islemi iptal oldu...
+endif
+
+IF (<SERV.CLIENTS> > <VAR0.clirecord>)
+VAR.clirecord=<SERV.CLIENTS>
+ENDIF
+
+//if <account.tag.accguvenlik> && !<account.tag.accguvenaktif>
+//	dialog d_hesapguvenlik
+//endif
+
+
+//TAG0.MAXCONNECTIONS 1
+
+
+//if !<src.tag.questleriyapmis2>
+//	for quest 0 500
+//		TAG.QUEST<dlocal.quest>.ID //Yapti // Yapaman bidaha...
+//		TAG.QUEST<dlocal.quest>.QUESTERUID 
+//	endfor
+//	src.tag.questleriyapmis2 1
+//endif
+
+src.curfollower 0
+if (<account.plevel> > 1)
+	//f_connector_baglanti  		//Baglanti Onay, Mac, Pc name , CPU ID, HDD
+	//f_connector_staff_check 	// Staff Pin
+	//if !<tag0.conkullaniyor>
+	//	return 1
+	//endif
+	f_staff_login
+else
+	//if !strmatch(*taz*,<account.name>)
+	//return 1// maintanence ---
+	//endif
+	invul 0
+	//flags |= statf_invisible
+	//src.dialog d_connect
+	//f_connector_baglanti 	//Baglanti Onay
+	//src.consume 200 i_connector
+	//serv.newitem i_connector
+	//new.equip
+	f_player_login
+	src.events -e_puansistem
+	if !<src.isevent.e_spr>
+		src.sys_error Stat ayarlarinizi .stat ile yapiniz. //src.stat
+	endif
+
+	//if <account.tag.accguvenaktif> && !(strmatch('<account.tag.last_computer_check>','<account.tag.last_computer>'))
+	//	return 1
+	//endif
+
+endif
+
+on=@logout
+if <findid.i_rune_summon_creature>
+	findid.i_rune_summon_creature.remove
+	update
+endif
+//account.tag.last_mac_last <account.tag.last_mac>
+//account.tag.last_computer_last <account.tag.last_computer>
+//account.tag.last_cpuid_last <account.tag.last_cpuid>
+//account.tag.last_platform_last <account.tag.last_platform>
+
+//account.tag.last_mac
+//account.tag.last_computer
+//account.tag.last_cpuid
+//account.tag.last_platform
+
+//local.member = <account.tag0.memberid>
+//DB.QUERY UPDATE smf_members SET connstatus='0' WHERE id_member='<eval <local.member>>'
+//DB.QUERY UPDATE smf_members SET nahgirersin='0' WHERE id_member='<eval <local.member>>'
+//DB.QUERY UPDATE smf_members SET PREVELANGE='0' WHERE id_member='<eval <local.member>>'
+ref1 = <src.tag.kumbaram>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt ____________________________________________LOGOUT_____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Bankadaki bakiye <eval <src.gold>>  | Kumbaradaki bakiye <eval <ref1.tag.gp>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt Mac: <src.account.tag.last_mac_last> | IP: <src.account.LASTIP> | PC ID: <account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt ______________________________________________________________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt   
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Login_Logout\<src.account.name>.txt    
+//DB.QUERY replace into en_zenginler (isim,para,aktifsure) values ('<addslashes <uid.<local.zengin<eval <local.basla>>_u>.name>>','<eval <local.zengin<eval <local.basla>>>>','<eval (<uid.<local.zengin<eval <local.basla>>_u>.account.totalconnecttime> / 60)>')                                           *
+
+if  (<account.plevel> > 1))
+	tag.staffbasarili
+	f_staff_logout
+else
+	local.check 0
+	forcont <findlayer.layer_bankbox.uid> 0
+		if (<baseid> == i_check_brnx)
+			local.check += <more1>
+		endif
+	endfor
+	forcont <findlayer.layer_pack.uid> 0
+		if (<baseid> == i_check_brnx)
+			local.check += <more1>
+		endif
+	endfor
+	//serv.f_option_mysql 0
+	//db.connect
+	//local.para = <local.check> + <src.gold> + <ref1.tag.gp>
+	//local.transfer_zengin <DB.AEXECUTE f_execute_callback, replace into en_zenginler (isim,para,aktifsure) values ('<addslashes <name>>','<dlocal.para>','<addslashes <ftime <account.totalconnecttime>>>') >
+	f_player_logout
+	//timerf 15, disconnect
+	//src.consume 200 i_connector
+endif
+
+
+ON=@UserExtCmd
+if !strmatch("127.0.0.1","<account.lastip>")
+//serv.log <args>
+if (<eval(<argn1>)>==255)
+ if ((strmatch("<argv[0]>","North Shield")) 
+
+//src.ctag.argv1 <argv[1]>
+
+src.account.tag_seri_no = <argv[1]> //[16:28:10] ercan: <STRSUB 0 5 <ARGv[1]>>
+//serv.allclients f_kontrol <argv[1]>,<src.uid>
+
+local.file C:\Sphere\accounts\account_ban_serial\account_ban.txt
+call f_account_ban_txt
+
+//if !(strmatch("wincil","<src.account.tag.seri_no>")) // Koduğumun WINN seri nosunu alamıyoruz.
+	serv.allclients f_kontrol_burak_log <argv[1]>,<src.uid>
+//endif
+  if ((strmatch(*sanal*,<argv[1]>))  
+	src.sysmessage @1153 Sanal bilgisayardan girisler kapatilmistir...
+	findid.i_accountlang.timer
+	return 0
+else
+  src.consume 99 i_accountlang
+  SERV.LOG @<account.name> Kod Dogrulandi: <argv[0]>
+  return 1
+ else  
+  findid.i_accountlang.timer
+  return 0
+ endif
+endif
+endif
+endif
+
+
+
+	
+
+[EOF]
+

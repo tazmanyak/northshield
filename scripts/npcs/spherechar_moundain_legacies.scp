@@ -1,0 +1,1668 @@
+//****************************************************************************
+// SPHERE by : Menasoft 1997-2000 www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: 14-09-2005
+// First Part Contributed by Makar
+// Second Part Contributed by Rattlehead
+// Icons and stat distribution by ClouD_BR
+
+//////UO ML Char Def's/////
+[CHARDEF c_corrosive_slimes]
+ID=c_slime
+NAME=corrosive slime
+DAM=1,5
+ARMOR=10
+CAN=MT_WALK
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=corrosive slime
+
+ON=@Create
+NPC=brain_monster
+TAMING=30.2
+STR={16 31}
+DEX={16 19}
+INT=20
+MAXHITS={18 19}
+WRESTLING={25.3 26.3}
+TACTICS={27.4 28.1}
+MAGICRESISTANCE=16.0
+POISONING=45.0
+
+ON=@NPCRestock
+ITEM=i_gold,{30 50}
+
+ON=@Death
+NEWLOOT=random_potion
+IF (<FLOATVAL 0.15> > <RANDOMDOUBLE>)
+	DORAND 3
+	NEWLOOT=i_paroxysmus_torso
+	NEWLOOT=i_paroxysmus_skull
+	NEWLOOT=i_paroxysmus_legs
+	ENDDO
+ENDIF
+
+[CHARDEF c_feral_treefellow]
+ID=c_treefellow
+NAME=Feral Treefellow
+DAM=20,25
+ARMOR=65
+CAN=MT_WALK
+MOVERATE=50
+
+ON=@Create
+NPC=BRAIN_MONSTER
+KARMA=0
+FAME=9000
+STR={928 1150}
+DEX={301 550}
+INT={651 900}
+WRESTLING=108.9
+TACTICS=110.0
+ANATOMY=110.0
+MAGICRESISTANCE=97.8
+
+ON=@Death
+NEWLOOT=i_gold,900
+RANDMAGICITEM
+
+[CHARDEF c_raging_grizzlie]
+ID=c_bear_grizzly
+NAME=Raging Grizzlie
+DAM=20,24
+ARMOR=65
+CAN=MT_WALK
+MOVERATE=50
+
+ON=@Create
+NPC=BRAIN_MONSTER
+KARMA=10000
+FAME=9000
+STR={1028 1150}
+DEX={301 550}
+INT={651 900}
+WRESTLING=108.9
+TACTICS=110.0
+ANATOMY=110.0
+MAGICRESISTANCE=97.8
+
+ON=@Death
+NEWLOOT=i_gold,900
+RANDMAGICITEM
+
+//Chief Paroxysmus
+[chardef 256] 
+defname=c_chief_paroxysmus
+name=Paroxysmus Minion
+SOUND=snd_monster_daemon1
+ICON=i_pet_chief_paroxysmus
+SOUND=1393
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=28,40
+ARMOR=40
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Paroxysmus Minion
+
+ON=@Create 
+NPC=brain_monster
+COLOR={04ac 04ef}
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR={280 300}
+MAXHITS=500
+INT={100 200} 
+DEX={50 100} 
+PARRYING={60.0 95.0}
+MAGICRESISTANCE={50.0 70.0}
+MAGERY={60.0 75.0}
+TACTICS={60.0 90.0}
+WRESTLING={60.0 90.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{280 330}
+
+ON=@Hit
+IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+	IF !(<SRC.FLAGS>&statf_poisoned)
+	SRC.SPELLEFFECT S_POISON,600
+	ENDIF
+ENDIF
+
+[chardef c_boss_chief_paroxysmus]
+id=c_chief_paroxysmus
+defname=c_boss_chief_paroxysmus
+name=Chief Paroxysmus
+RESLEVEL=5
+RESDISPDNHUE=66
+RESDISPDNID=c_man
+DAM=38,57
+ARMOR=60
+MOVERATE=50
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Chief Paroxysmus
+
+ON=@Create 
+NPC=brain_monster
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR={480 500}
+MAXHITS=9000
+INT={500 600} 
+DEX={70 80} 
+PARRYING={70.0 95.0}
+MAGICRESISTANCE={90.0 110.0}
+MAGERY={110.0 125.0}
+TACTICS={90.0 110.0}
+WRESTLING={90.0 110.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{9000 13000}
+
+ON=@Death
+RANDMAGICITEM
+
+ON=@Hit
+IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+	IF !(<SRC.FLAGS>&statf_poisoned)
+	SRC.SPELLEFFECT S_POISON,1000
+	ENDIF
+ENDIF
+
+//Dread Horn
+[chardef 257] 
+defname=c_dread_horn
+name=Dreadhorn minion
+ICON=i_pet_dreadhorn
+SOUND=1215
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=5,20
+ARMOR=30
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK
+MOVERATE=70
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Dread Horn
+
+ON=@Create 
+NPC=brain_monster
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR={80 105}
+MAXHITS=555
+INT={100 250} 
+DEX={100 200} 
+PARRYING={60.0 95.0}
+MAGICRESISTANCE={50.0 70.0}
+MAGERY={60.0 75.0}
+TACTICS={60.0 90.0}
+WRESTLING={60.0 90.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{80 130}
+ITEM=i_horn_dreadhorn
+
+//Lady M
+[chardef 258] 
+defname=c_lady_m
+name=Lady Melisande
+SOUND=1404
+ICON=i_pet_ladymelisande
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=5,20
+ARMOR=10
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Lady Melisande
+
+ON=@Create 
+NPC=brain_monster
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR={70 90}
+MAXHITS=150
+INT={100 200} 
+DEX={100 150} 
+PARRYING={60.0 95.0}
+MAGICRESISTANCE={50.0 70.0}
+MAGERY={60.0 100.0}
+TACTICS={60.0 90.0}
+WRESTLING={60.0 90.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{80 130}
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_harm
+ADDSPELL=s_flamestrike
+
+//Monstrous Interred Grizzle
+[chardef 259]
+defname=c_monstrous_interred_grizzle
+name=Interred Grizzle
+SOUND=snd_monster_daemon1
+ICON=i_pet_Monstrous_Interred_Grizzle
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=50,60
+ARMOR=50
+RESOURCES=15 i_ribs_raw, 8 i_reag_bone
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Monstrous Interred Grizzle
+
+ON=@Create 
+NPC=brain_monster
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR=320
+MAXHITS=1280
+INT=200
+DEX=200
+PARRYING=99.0
+MAGICRESISTANCE=95.0
+TACTICS={100.0 110.0}
+WRESTLING=100.0
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{280 330}
+
+//It needs the correct Number
+//Travesty
+//[chardef 260] 
+//defname=c_Travesty
+//name=Travesty
+//SOUND=snd_monster_daemon1
+//ICON=i_worldgem_bit
+//RESLEVEL=5
+//RESDISPDNHUE=33
+//RESDISPDNID=c_man
+//DAM=4,30
+//ARMOR=15
+//RESOURCES=15 i_ribs_raw 
+//DESIRES=i_gold,e_notoriety
+//AVERSIONS=t_TRAP,t_eerie_stuff
+//CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+//CATEGORY=Novos Monstros
+//SUBSECTION=ML
+//DESCRIPTION=Travesty
+
+//ON=@Create 
+//NPC=brain_monster
+//FAME={100 3000} 
+//KARMA={-5000 -6999} 
+//STR={70 90}
+//MAXHITS=150
+//INT={100 200} 
+//DEX={100 200} 
+//PARRYING={60.0 95.0}
+//MAGICRESISTANCE={50.0 70.0}
+//MAGERY={60.0 75.0}
+//TACTICS={60.0 90.0}
+//WRESTLING={60.0 90.0}
+
+//ON=@NpcRestock
+//ITEM=random_jewel,{1 4}
+//ITEM=i_gold,{80 130}
+
+//Shimmering Effusion
+[chardef 261] 
+defname=c_Shimmering_Effusion
+name=Shimmering Effusion
+SOUND=1428
+ICON=i_worldgem_bit
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=4,10
+ARMOR=15
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Shimmering Effusion
+
+ON=@Create 
+NPC=brain_monster
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR={70 90}
+MAXHITS=350
+INT={100 200} 
+DEX={100 200} 
+PARRYING={60.0 95.0}
+MAGICRESISTANCE={50.0 70.0}
+MAGERY={60.0 75.0}
+TACTICS={60.0 90.0}
+WRESTLING={60.0 90.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{80 130}
+
+//Tormented Minotaur
+[chardef 262] 
+defname=c_Tormented_Minotaur
+name=Tormented Minotaur
+//SOUND=snd_monster_daemon1
+ICON=i_pet_Tormented_Minotaur
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=16,30
+ARMOR=60
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Tormented Minotaur
+MOVERATE=80
+
+ON=@Create
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR={822 930}
+MAXHITS=4100
+INT={128 138} 
+DEX={401 415} 
+MAGICRESISTANCE={105.0 120.0}
+TACTICS={100.0 105.0}
+WRESTLING={110.0 111.1}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{1680 1730}
+
+ON=@Death
+IF (<R1,3> == 1)
+RANDMAGICITEMGREAT
+ELSE
+RANDMAGICITEM
+ENDIF
+
+ON=@Hit
+IF (<SRC.FLAGS>&statf_onhorse)
+SRC.DCLICK <SRC>
+ENDIF
+IF (<FLOATVAL 0.02> > <RANDOMDOUBLE>)
+LOCAL.STOMPER=<UID>
+	FORCHARS 5
+		IF ((<ISPLAYER>) || (<FLAGS>&STATF_PET))
+		DAMAGE <R55,80> <DEF.DAM_PHYSICAL> <LOCAL.STOMPER>
+		ENDIF
+	ENDFOR
+ENDIF
+
+//Minotaur
+[chardef 263] 
+defname=c_Minotaur
+name=Minotaur
+//SOUND=snd_monster_daemon1
+ICON=i_pet_Minotaur
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=11,20
+ARMOR=60
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Minotaur
+
+ON=@Create 
+NPC=brain_monster
+FAME=8000
+KARMA=-8000
+STR={301 325}
+MAXHITS=340
+INT=50
+DEX={90 110}
+MAGICRESISTANCE={55.0 65.0}
+TACTICS={92.0 97.0}
+WRESTLING={90.0 95.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{280 330}
+
+//Changeling
+[chardef 264] 
+defname=c_Changeling
+name=Changeling
+SOUND=1386
+ICON=i_pet_Changeling
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=9,15
+ARMOR=70
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Changeling
+
+ON=@Create
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+FAME={100 3000} 
+KARMA=100
+STR={36 105}
+MAXHITS={201 211}
+INT={317 399} 
+DEX={212 262} 
+MAGICRESISTANCE={121.0 132.0}
+MAGERY={60.0 75.0}
+TACTICS={12.0 19.4}
+WRESTLING={10.0 12.5}
+MAGERY={91.0 95.0}
+EVALUATINGINTEL={91.0 98.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{180 230}
+
+//Hydra
+[chardef 265] 
+defname=c_Hydra
+name=Hydra
+SOUND=1389
+ICON=i_pet_hydra
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=21,26
+ARMOR=70
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_SWIM
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Hydra
+
+ON=@Create 
+NPC=brain_dragon
+FAME=9000
+KARMA=-9000
+STR=813
+MAXHITS=1492
+INT=114
+DEX=108
+ANATOMY=76.0
+MAGICRESISTANCE=89.0
+TACTICS=109.0
+WRESTLING=110.0
+
+ON=@NpcRestock
+ITEM=random_jewel,{2 4}
+ITEM=i_gold,{1180 1430}
+ITEM=i_orb
+ITEM=i_orb,1,R6
+
+ON=@DeathCorpse
+RANDMAGICITEM
+SERV.NEWITEM i_hydra_scale,<EVAL {1 2}>,<ARGO.UID>
+
+[ITEMDEF i_hydra_scale]
+ID=9910
+NAME=Hydra Scale
+TYPE=T_NORMAL
+VALUE=5000
+
+ON=@Create
+COLOR=color_o_valorite
+
+//Dryad
+[chardef 266] 
+defname=c_Dryad
+name=Dryad
+SOUND=1404
+ICON=i_pet_Dryad
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=11,20
+ARMOR=50
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK
+MOVERATE=70
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Dryad
+
+ON=@Create
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+FAME={100 3000} 
+KARMA=8000
+STR={90 110}
+MAXHITS=300
+INT={100 150} 
+DEX={100 120} 
+PARRYING={60.0 95.0}
+MAGICRESISTANCE={50.0 70.0}
+MAGERY={60.0 75.0}
+TACTICS={60.0 90.0}
+WRESTLING={60.0 90.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{80 130}
+
+ON=@NpcLookAtChar
+IF (<SRC.ISPLAYER>)
+	IF (<SRC.KARMA> < 0) && (<FLOATVAL 0.2> > <RANDOMDOUBLE>)
+	ATTACK <SRC>
+	ENDIF
+ENDIF
+
+//Troglodyte
+[chardef 267] 
+defname=c_Troglodyte
+name=Troglodyte
+//SOUND=snd_monster_daemon1
+ICON=i_pet_Troglodyte
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=11,14
+ARMOR=45
+RESOURCES=15 i_ribs_raw
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Troglodyte
+
+ON=@Create 
+NPC=brain_monster
+FAME=6000
+KARMA=-6000 
+STR={280 320}
+MAXHITS=300
+INT={50 80} 
+DEX={80 110} 
+TACTICS={85.0 95.0}
+WRESTLING={85.0 95.0}
+ANATOMY={85.0 95.0}
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{280 330}
+
+ON=@DeathCorpse
+SERV.NEWITEM=i_primitive_fetish
+NEW.CONT=<ARGO.UID>
+
+[chardef c_troglodyte_shaman]
+id=c_Troglodyte
+defname=c_troglodyte_shaman
+name=Troglodyte Shaman
+ICON=i_pet_Troglodyte
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=8,15
+ARMOR=15
+RESOURCES=15 i_ribs_raw
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Troglodyte Shaman
+
+ON=@Create 
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+COLOR=0390
+FAME={100 3000} 
+KARMA={-5000 -6999} 
+STR={80 120}
+MAXHITS=300
+INT={200 280} 
+DEX={80 110} 
+PARRYING={60.0 95.0}
+MAGICRESISTANCE={50.0 70.0}
+MAGERY={90.0 95.0}
+TACTICS={60.0 90.0}
+WRESTLING={60.0 90.0}
+ITEMNEWBIE=i_spellbook
+ADDCIRCLE 8,1
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{80 130}
+
+//I think this one is incorrect to
+
+//Thorn bat
+//[chardef 269] 
+//defname=c_Thorn_bat
+//name=Thorn bat
+//SOUND=snd_monster_daemon1
+//ICON=i_worldgem_bit
+//RESLEVEL=5
+//RESDISPDNHUE=33
+//RESDISPDNID=c_man
+//DAM=4,10
+//ARMOR=15
+//RESOURCES=15 i_ribs_raw 
+//CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+//CATEGORY=Novos Monstros
+//SUBSECTION=ML
+//DESCRIPTION=Thorn bat
+
+//ON=@Create 
+//NPC=brain_monster
+//FAME={100 3000} 
+//KARMA={-5000 -6999} 
+//STR={70 90}
+//MAXHITS=150
+//INT={100 200} 
+//DEX={100 200} 
+//PARRYING={60.0 95.0}
+//MAGICRESISTANCE={50.0 70.0}
+//MAGERY={60.0 75.0}
+//TACTICS={60.0 90.0}
+//WRESTLING={60.0 90.0}
+
+//ON=@NpcRestock
+//ITEM=random_jewel,{1 4}
+//ITEM=i_gold,{80 130}
+
+//This one is also inccorect chardef
+//Bulbous Putrification
+//[chardef 270] 
+//defname=c_Bulbous_Putrification
+//name=Bulbous Putrification
+//SOUND=snd_monster_daemon1
+//ICON=i_worldgem_bit
+//RESLEVEL=5
+//RESDISPDNHUE=33
+//DAM=4,10
+//ARMOR=15
+//RESOURCES=15 i_ribs_raw 
+//CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+//CATEGORY=Novos Monstros
+//SUBSECTION=ML
+//DESCRIPTION=Bulbous Putrification
+
+//ON=@Create 
+//NPC=brain_monster
+//FAME={100 3000} 
+//KARMA={-5000 -6999} 
+//STR={70 90}
+//MAXHITS=150
+//INT={100 200} 
+//DEX={100 200} 
+//PARRYING={60.0 95.0}
+//MAGICRESISTANCE={50.0 70.0}
+//MAGERY={60.0 75.0}
+//TACTICS={60.0 90.0}
+//WRESTLING={60.0 90.0}
+
+//ON=@NpcRestock
+//ITEM=random_jewel,{1 4}
+//ITEM=i_gold,{80 130}
+
+//Satyr
+[chardef 271] 
+defname=c_Satyr
+name=Satyr
+//SOUND=snd_monster_daemon1
+ICON=i_pet_Satyr
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=13,24
+ARMOR=45
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Satyr
+
+ON=@Create 
+NPC=brain_monster
+FAME={6000 7000}
+KARMA=-2000
+STR={177 195}
+MAXHITS={353 399}
+INT={100 200} 
+DEX={251 269} 
+MAGICRESISTANCE={56.0 64.0}
+TACTICS={80.0 99.0}
+WRESTLING={83.0 98.0}
+MUSICIANSHIP=100.0
+PEACEMAKING=100.0
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{280 330}
+
+ON=@NpcLookAtChar
+IF (<FLOATVAL 0.08> > <RANDOMDOUBLE>)
+	IF (0<SRC.ISFIGHTINGME <UID>>)
+		IF !(<SRC.ISEVENT.E_PEACEMAKED>)
+		FLOAT.CHANCE=<FLOATVAL (50+(2*(((<PEACEMAKING>/2)+(<MUSICIANSHIP>/2))-<SRC.BARDDIFF <UID>>)))/100>
+			IF (<FLOAT.CHANCE> >= <RANDOMDOUBLE>)
+			SRC.TIMERF 1,F_CHECK_PEACEDDISTANCE
+			SRC.TAG.PEACED.PLAYER=<UID>
+			SRC.EVENTS +E_PEACEMAKED
+			SRC.FLAGS &= ~statf_war
+			SRC.REMOVEALLMEMS memory_war_targ
+				IF (!(<SRC.ISPLAYER>))
+				SRC.ACTION=06d
+				ELSE
+				SRC.ACTION=-1
+				ENDIF
+			SOUND 1419
+			REMOVEALLMEMS memory_war_targ
+			FLAGS &= ~statf_war
+			REF1=<UID>
+				FORCLIENTS 8
+				REF1.ATTACK <UID>
+				REF1.GOTO <P>
+				ENDFOR
+			ENDIF
+		ELSE
+		RETURN 1
+		ENDIF
+	ENDIF
+ENDIF
+
+//Fetid Essence
+[chardef 273] 
+defname=c_Fetid_Essence
+name=Fetid Essence
+//SOUND=snd_monster_daemon1
+ICON=i_pet_Fetid_Essence
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_man
+DAM=21,25
+ARMOR=65
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Fetid Essence
+
+ON=@Create 
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+FAME=5000
+KARMA=-7000 
+STR=118
+MAXHITS=564
+INT=539
+DEX=212
+PARRYING={60.0 75.0}
+MAGICRESISTANCE=103.0
+EVALUATINGINTEL=95.0
+MAGERY=98.0
+TACTICS=81.0
+WRESTLING=85.0
+
+ON=@Hit
+IF (<FLOATVAL 0.1> > <RANDOMDOUBLE>)
+SRC.SPELLEFFECT S_POISON,100.0,<UID>
+ENDIF
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{380 430}
+
+[chardef c_pestilent_bandages]
+ID=c_zombie
+name=Pestilent Bandages
+DAM=21,26
+ARMOR=58
+RESOURCES=15 i_ribs_raw 
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+CAN=MT_WALK
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Pestilent Bandages
+
+ON=@Create
+COLOR=03aa
+NPC=brain_monster
+FAME=6000
+KARMA=-8000 
+STR=346
+MAXHITS=1400
+INT=155
+DEX=100
+PARRYING={60.0 75.0}
+MAGICRESISTANCE=103.0
+EVALUATINGINTEL=95.0
+TACTICS=101.0
+WRESTLING=95.0
+
+ON=@Hit
+IF (<FLOATVAL 0.1> > <RANDOMDOUBLE>)
+SRC.SPELLEFFECT S_POISON,100.0,<UID>
+ENDIF
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{480 530}
+
+////////////////////////
+////RACES///////////////
+//Elfs
+[CHARDEF 605]
+DEFNAME=c_elf_male
+Name=Elf Male
+ICON=i_pet_MAN
+RESLEVEL=5
+RESDISPDNHUE=0410
+RESDISPDNID=c_man
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_USEHANDS
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+FOODTYPE=15 t_food, t_fruit
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+BLOODCOLOR=0
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Elf Man
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+NPC=brain_human
+COLOR=colors_skin
+
+FENCING={15.0 38.0}
+PARRYING={15.0 38.0}
+SWORDSMANSHIP={15.0 38.0}
+WRESTLING={15.0 38.0}
+MACEFIGHTING={15.0 38.0}
+MAGICRESISTANCE={15.0 38.0}
+TACTICS={15.0 38.0}
+
+
+[CHARDEF 606]
+DEFNAME=c_elf_female
+Name=Elf Female
+ICON=i_pet_woman
+RESLEVEL=5
+RESDISPDNHUE=0410
+RESDISPDNID=c_woman
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_FEMALE|MT_USEHANDS
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+FOODTYPE=15 t_food, t_fruit
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+BLOODCOLOR=0
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Elf Woman
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+NPC=brain_human
+COLOR=colors_skin
+
+FENCING={15.0 38.0}
+PARRYING={15.0 38.0}
+SWORDSMANSHIP={15.0 38.0}
+WRESTLING={15.0 38.0}
+MACEFIGHTING={15.0 38.0}
+MAGICRESISTANCE={15.0 38.0}
+TACTICS={15.0 38.0}
+
+[CHARDEF 607]
+DEFNAME=c_elf_ghost_man
+Name=Elf male Ghost
+ICON=i_pet_MAN
+RESLEVEL=5
+RESDISPDNHUE=0
+RESDISPDNID=c_ghost_man
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_GHOST
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+FOODTYPE=15 t_food, t_fruit
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+BLOODCOLOR=0
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Elf Ghost Man
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+NPC=brain_human
+COLOR=colors_skin
+
+FENCING={15.0 38.0}
+PARRYING={15.0 38.0}
+SWORDSMANSHIP={15.0 38.0}
+WRESTLING={15.0 38.0}
+MACEFIGHTING={15.0 38.0}
+MAGICRESISTANCE={15.0 38.0}
+TACTICS={15.0 38.0}
+
+[CHARDEF 608]
+DEFNAME=c_elf_ghost_woman
+Name=Elf Female Ghost
+ICON=i_pet_woman
+RESLEVEL=5
+RESDISPDNHUE=0
+RESDISPDNID=c_ghost_woman
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_GHOST|MT_FEMALE
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+FOODTYPE=15 t_food, t_fruit
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+BLOODCOLOR=0
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+DESCRIPTION=Elf Ghost Woman
+SUBSECTION=Miscellaneous
+CATEGORY=Civilized
+
+ON=@Create
+NPC=brain_human
+COLOR=colors_skin
+
+FENCING={15.0 38.0}
+PARRYING={15.0 38.0}
+SWORDSMANSHIP={15.0 38.0}
+WRESTLING={15.0 38.0}
+MACEFIGHTING={15.0 38.0}
+MAGICRESISTANCE={15.0 38.0}
+TACTICS={15.0 38.0}
+
+
+// Second Part //
+
+[chardef 277]  
+name=Cu Sidhe
+defname=c_cu_sidhe
+ICON=i_pet_wolf 
+DAM=21,28
+ARMOR=58
+SOUND=1399
+RESOURCES=15 i_ribs_raw,10 i_hide 
+CAN=MT_WALK
+MOVERATE=65
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_horse_gray
+FOODTYPE=15 t_food, t_fruit
+TEVENTS=e_horses
+TAG.STATDROPTAME=1
+TAG.FOLLOWERCONSUME=4
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Cu Sidhe
+
+on=@create
+npc=brain_animal
+karma=10000
+fame=9900
+str={1200 1225}
+maxhits={1010 1170}
+dex={150 170}
+int={250 285}
+MagicResistance={86.0 99.0}
+wrestling={93.0 99.9}
+tactics={94.0 97.6}
+anatomy={77.7 99.9}
+healing=90.0
+veterinary=90.0
+animallore=90.0
+taming=101.1
+spiritspeak=100.0
+color=colors_all
+IF (3 > <R100>)
+	DORAND 3
+	COLOR=0481
+	COLOR=0480
+	COLOR=0482
+	ENDDO
+ENDIF
+
+ON=@Hit
+IF !(<SRC.FINDID.i_bleeding_timer>)
+	IF (25 > <R100>)
+	LOCAL.OLDNEW=<NEW>
+	SERV.NEWITEM i_bleeding_timer
+		IF (<OWNER>)
+		NEW.LINK=<OWNER>
+		ELSE
+		NEW.LINK=<UID>
+		ENDIF
+	NEW.CONT=<SRC>
+	NEW.MORE1=5
+	NEW.TIMER=2
+	NEW=<LOCAL.OLDNEW>
+	ENDIF
+ENDIF
+
+ON=@NPCLookAtChar
+IF (33 > <R100>)
+	IF !(<FINDID.i_mem_heal>) && (<SRC.DISTANCE> <= 3)
+		IF (<SRC.FLAGS>&STATF_DEAD) && (!(<FLAGS>&STATF_INVUL))
+			IF (<ISBENEFICIAL <SRC>>)
+			SRC.SPELLEFFECT S_RESURRECTION,120.0,<UID>
+			ENDIF
+		ELIF (<SRC.HITS> < <SRC.MAXHITS>) && (<SRC.ISPLAYER>)
+		REF1=<OWNER>
+			IF (<SRC> == <REF1>)
+			serv.newitem i_mem_heal
+			new.link=<src>
+			equip <new>
+			events +e_healing_timer
+			ELIF (<REF1.ISINPARTY>) && (<SRC.ISINPARTY>)
+				IF (<SRC.PARTY.ISSAMEPARTYOF <REF1>>)
+				serv.newitem i_mem_heal
+				new.link=<src>
+				equip <new>
+				events +e_healing_timer
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+
+ON=@GetHit
+IF !(<FINDID.i_mem_heal>)
+	IF (<FLOATVAL 0.15> > <RANDOMDOUBLE>)
+		IF (<HITS> < <MAXHITS>)
+		local.oldnew=<new>
+		serv.newitem i_mem_heal
+		new.link=<uid>
+		equip <new>
+		events +e_healing_timer
+		new=<local.oldnew>
+		ENDIF
+	ENDIF
+ENDIF
+
+[chardef 278]  
+name=Squirrel
+defname=c_squirrel
+ICON=i_pet_squirrel
+DAM=2,5 
+ARMOR=10 
+RESOURCES=3 i_ribs_raw,1 i_hide 
+CAN=MT_WALK|MT_RUN 
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_rabbit
+FOODTYPE=55 i_fruit_gourd1  
+DESIRES=c_man,c_woman 
+AVERSIONS=e_carnivores3
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Squirrel
+
+on=@create
+str=20
+dex=10
+int=10
+npc=brain_animal
+taming=33.0
+
+[chardef 279]  
+name=Ferret 
+defname=c_ferret
+ICON=i_pet_ferret
+DAM=2,3 
+ARMOR=10 
+RESOURCES=3 i_ribs_raw,1 i_hide 
+CAN=MT_WALK|MT_RUN
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_rabbit
+FOODTYPE=55 i_fruit_gourd1  
+DESIRES=c_man,c_woman 
+AVERSIONS=e_carnivores3 
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Ferret
+
+on=@create
+str=12
+dex=68
+int=52
+npc=brain_animal
+taming=33.0
+
+[chardef 280]  
+name=Minotaur Captain
+defname=c_minotaur_captain
+ICON=i_pet_minotaur_captain
+DAM=11,20 
+ARMOR=60
+RESOURCES=15 i_ribs_raw,4 i_hide 
+CAN=MT_WALK
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_orc
+FOODTYPE=55 i_ribs_raw  
+AVERSIONS=e_carnivores3 
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Minotaur Captain
+
+on=@create
+str=420
+dex=105
+int=45
+maxhits=440
+wrestling=105.0
+tactics=105.0
+anatomy=15.0
+magicresistance=70.0
+fame=8000
+KARMA=-8000
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{480 530}
+
+[chardef 281]  
+name=Minotaur Scout
+defname=c_minotaur_scout
+ICON=i_pet_Minotaur_Scout
+DAM=11,20
+ARMOR=50
+RESOURCES=15 i_ribs_raw,1 i_hide 
+CAN=MT_WALK
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_orc
+FOODTYPE=55 i_ribs_raw 
+AVERSIONS=e_carnivores3 
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Minotaur Scout
+
+on=@create
+str={353 375}
+dex={111 130}
+int={34 50}
+wrestling={85.0 105.5}
+tactics={85.0 105.5}
+anatomy={85.0 105.5}
+magicresistance=65.0
+FAME=7000
+KARMA=-7000
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{310 340}
+
+[chardef 282]  
+name=Parrot 
+defname=c_parrot
+ICON=i_pet_parrot
+DAM=2,8 
+ARMOR=10 
+RESOURCES=1 i_bird_raw,5 i_feather 
+CAN=MT_WALK|MT_RUN|MT_FLY
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_bird
+FOODTYPE=55 i_bread_loaf  
+DESIRES=c_man,c_woman 
+AVERSIONS=e_carnivores3 
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Parrot
+
+on=@create
+str=20
+dex=70
+int=35
+npc=brain_animal
+taming=33.0
+
+[chardef 283]  
+name=Crow
+defname=c_black_crow
+ICON=i_pet_bird 
+DAM=5,9 
+ARMOR=10 
+RESOURCES=1 i_bird_raw,5 i_feather
+CAN=MT_WALK|MT_RUN
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_bird
+FOODTYPE=55 i_bread_loaf  
+DESIRES=c_man,c_woman 
+AVERSIONS=e_carnivores3 
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crow
+
+on=@create
+str=22
+dex=75
+int=40
+
+[chardef 284]
+defname=c_m_armor_steed
+ICON=i_pet_armor_steed
+DAM=8,10
+ARMOR=60
+RESOURCES=15 i_ribs_raw,1 i_hide 
+CAN=MT_WALK
+MOVERATE=40
+name=Charger Of The Fallen
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_horse_gray
+FOODTYPE=55 i_ribs_raw  
+DESIRES=c_man,c_woman 
+AVERSIONS=e_carnivores3
+TEVENTS=e_horses
+TAG.FOLLOWERCONSUME=1
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Charger Of The Fallen
+
+on=@create
+npc=brain_animal
+karma=7000
+FAME={6000 8000}
+str=100
+dex=120
+int=364
+maxhits=200
+wrestling=119.0
+tactics=118.0
+anatomy=75.6
+taming=25.0
+
+[chardef 285]  
+name=Reaper Redux
+defname=c_reaper_redux
+ICON=020fa 
+DAM=10,15 
+ARMOR=40 
+RESOURCES=3 i_log,10 i_kindling 
+CAN=MT_WALK
+RESLEVEL=5
+RESDISPDNHUE=33
+RESDISPDNID=c_reaper
+FOODTYPE=55 i_kindling  
+DESIRES=c_reaper 
+AVERSIONS=e_carnivores3 
+
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Reaper Redux
+
+on=@create
+str=336
+maxhits=1100
+dex=254
+int=342
+KARMA=-100
+FAME=3500
+wrestling=900
+tactics=1100
+anatomy=1000
+
+ON=@NpcRestock
+ITEM=random_jewel,{1 4}
+ITEM=i_gold,{80 130}
+
+[chardef 276]  
+name=Reptalon
+defname=c_m_reptalon
+ICON=i_pet_reptalion
+DAM=21,28
+ARMOR=60
+RESOURCES=15 i_ribs_raw,4 i_hide 
+CAN=MT_WALK
+MOVERATE=60
+RESLEVEL=5
+RESDISPDNHUE=33
+SOUND=snd_monster_dragon1
+RESDISPDNID=c_horse_gray
+FOODTYPE=55 i_ribs_raw  
+DESIRES=c_man,c_woman 
+AVERSIONS=e_carnivores3 
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Reptalon (Chimera)
+TAG.STATDROPTAME=1
+TEVENTS=e_horses
+TAG.FOLLOWERCONSUME=4
+
+on=@create
+NPC=brain_dragon
+karma=-9000
+FAME={6000 8000}
+str={900 1200}
+MAXHITS={800 1000}
+dex={200 300}
+int=434
+wrestling=130.2
+tactics=112.2
+anatomy=89.2
+MagicResistance=100.0
+taming=101.1
+
+ON=@Death
+NEWLOOT=i_gold,1200
+NEWLOOT=random_potion
+NEWLOOT=random_potion
+NEWLOOT=random_potion
+FOR <R2,3>
+RANDMAGICITEM
+ENDFOR
+
+[CHARDEF c_crystal_lattice_seeker]
+ID=c_forest_lord
+NAME=Crystal Lattice Seeker
+MOVERATE=80
+CAN=MT_WALK
+DAM=13,19
+ARMOR=70
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crystal Lattice Seeker
+
+ON=@Create
+NPC=brain_monster
+STR={609 843}
+DEX={191 243}
+INT={351 458}
+MAXHITS={358 527}
+KARMA=-10000
+FAME=9998
+WRESTLING={97.7 100.0}
+TACTICS={90.1 99.5}
+MAGICRESISTANCE={90.6 99.5}
+ANATOMY={51.0 74.2}
+COLOR=0bf
+
+ON=@NpcRestock
+ITEM=i_gold,{1100 1300}
+
+ON=@Death
+IF (<FLOATVAL 0.25> > <RANDOMDOUBLE>)
+NEWLOOT=i_broken_crystal
+ENDIF
+
+[CHARDEF c_crystal_wisp]
+ID=c_wisp
+NAME=Crystal Wisp
+MOVERATE=70
+CAN=MT_WALK
+DAM=26,30
+ARMOR=45
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crystal Wisp
+
+ON=@Create
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+STR={146 185}
+DEX={196 225}
+INT={196 225}
+MAXHITS={118 135}
+KARMA=1000
+FAME=5000
+WRESTLING=80.0
+TACTICS=80.0
+MAGICRESISTANCE=80.0
+MAGERY=80.0
+EVALUATINGINTEL=80.0
+COLOR=0bf
+
+ON=@NpcRestock
+ITEM=i_gold,{300 400}
+
+ON=@Death
+IF (<FLOATVAL 0.2> > <RANDOMDOUBLE>)
+NEWLOOT=i_shattered_crystal
+ENDIF
+
+[CHARDEF c_crystal_sea_serpent]
+ID=c_sea_serpent
+NAME=Crystal Sea Serpent
+CAN=MT_WALK|MT_SWIM
+DAM=10,18
+ARMOR=60
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crystal Sea Serpent
+
+ON=@Create
+NPC=brain_monster
+STR={259 411}
+DEX={103 141}
+INT={96 151}
+MAXHITS={231 323}
+KARMA=-5000
+FAME=5000
+WRESTLING={60.0 80.0}
+TACTICS={60.0 80.0}
+MAGICRESISTANCE={60.0 80.0}
+COLOR=0bf
+
+ON=@NpcRestock
+ITEM=i_gold,{300 400}
+
+ON=@Death
+IF (<FLOATVAL 0.3> > <RANDOMDOUBLE>)
+NEWLOOT=i_crushed_crystal
+ENDIF
+
+[CHARDEF c_unfrozen_mummy]
+ID=c_zombie
+NAME=Unfrozen Mummy
+CAN=MT_WALK|MT_USEHANDS
+DAM=16,20
+ARMOR=50
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Unfrozen Mummy
+MOVERATE=125
+
+ON=@Create
+//TAG.override.regenval_1=3 //20
+NPC=brain_monster
+STR={461 498}
+DEX={211 229}
+INT=900
+MAXHITS=1500
+KARMA=-10000
+FAME=10000
+WRESTLING=95.0
+TACTICS=100.0
+MAGICRESISTANCE=250.0
+MAGERY=55.0
+EVALUATINGINTEL=55.0
+COLOR=0480
+
+ON=@NpcRestock
+ITEM=i_gold,{900 1200}
+ITEM=i_bandage,{10 30}
+
+ON=@Death
+IF (<FLOATVAL 0.33> > <RANDOMDOUBLE>)
+NEWLOOT=i_shattered_crystal
+ENDIF
+
+[CHARDEF c_crystal_vortice]
+ID=c_elem_air
+NAME=Crystal Vortice
+CAN=MT_WALK
+MOVERATE=70
+DAM=26,30
+ARMOR=60
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crystal Vortice
+
+ON=@Create
+NPC=brain_monster
+STR={509 643}
+DEX={491 543}
+INT={351 458}
+MAXHITS={858 927}
+KARMA=-10000
+FAME=10000
+WRESTLING={107.7 110.0}
+TACTICS={100.1 109.5}
+MAGICRESISTANCE={100.6 109.5}
+ANATOMY={91.0 104.2}
+COLOR=0bf
+
+ON=@NpcRestock
+ITEM=i_gold,{800 1200}
+
+ON=@Death
+IF (<FLOATVAL 0.33> > <RANDOMDOUBLE>)
+NEWLOOT=i_pieces_crystal
+ENDIF
+
+[CHARDEF c_crystal_hydra]
+ID=c_hydra
+NAME=Crystal Hydra
+DAM=21,26
+ARMOR=75
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crystal Hydra
+
+ON=@Create
+NPC=brain_monster
+STR={804 827}
+DEX={103 119}
+INT={101 109}
+MAXHITS={1468 1497}
+KARMA=-10000
+FAME=9998
+WRESTLING={100.6 115.1}
+TACTICS={101.7 108.1}
+MAGICRESISTANCE={89.9 99.5}
+ANATOMY={75.0 79.1}
+COLOR=0481
+
+ON=@NpcRestock
+ITEM=i_hydra_scale
+ITEM=i_gold,{1000 2000}
+
+ON=@Death
+IF (<FLOATVAL 0.7> > <RANDOMDOUBLE>)
+NEWLOOT=i_scattered_crystal
+ENDIF
+
+[CHARDEF c_crystal_daemon]
+ID=c_arcane_daemon
+NAME=Crystal Daemon
+DAM=16,20
+ARMOR=55
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Crystal Daemon
+
+ON=@Create
+//TAG.override.regenval_1=3 //15
+NPC=brain_monster
+STR={151 197}
+DEX={130 148}
+INT={801 840}
+MAXHITS={203 215}
+KARMA=-8000
+FAME=8000
+WRESTLING={60.8 80.3}
+TACTICS={70.0 80.0}
+MAGICRESISTANCE={100.0 109.6}
+MAGERY={122.4 129.2}
+EVALUATINGINTEL={100.1 111.3}
+MEDITATION={100.1 106.9}
+COLOR=colors_gray
+ITEMNEWBIE=i_spellbook
+ADDCIRCLE 7,1
+
+ON=@NpcRestock
+ITEM=i_gold,{350 600}
+
+ON=@Death
+IF (<FLOATVAL 0.2> > <RANDOMDOUBLE>)
+NEWLOOT=i_jagged_crystal
+ENDIF
+
+[EOF]

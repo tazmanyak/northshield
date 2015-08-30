@@ -1,0 +1,24 @@
+North Paylasim Klasoru
+--------------------------------
+TNS sunucu script klasorunden paylasim klasorudur. TNS developerlarý tarafýndan
+kullanýlmak üzere Tortoise SVN olarak ayarlanmanmýþtýr. 
+
+Eklediðiniz scplerin çalýþýrlýlýðýndan lütfen eklemeden önce emin olunuz.
+Ekledikten sonra Sphere Server'a tanýtmak için eklediðiniz scpyi aþaðýdaki gibi oyundan
+tanýtýnýz.
+
+
+Oyundan tanýtmak için oyun içerisinde .r yazmanýz yeterli olaraktýr.
+Tortoise database ve Server Script klasoru otomatik anýnda güncellenecektir.
+Ana dizine attýðýnýz scriptleri .r ile tanýtmanýz yeterli olacaktýr.
+Subfolder ( alt dizine ) eklediðiniz scpleri  .r ile tanýmladýktan sonra
+oyun içerisinden örneðin ; .serv.load C:\Sphere\scripts\Systems\xxx.scp þeklinde
+tanýmlanmanýz gerekmektedir. SphereServer Resync ana dizin kontrol ettiði için
+diðer dizinlerde .load komutu komutu ile deðiþikliðin nerede yapýldýðýný servera
+tanýmlamanýz gerekmektedir.
+
+Server'a restart atmak için oyun içerisinde .restart komutu yazýktan sonra 
+ana ekran prompt olarak SHUTDOWN komutu yazýlmalýdýr.
+
+Yaptýgýnýz deðiþiklikleri commit ederken lütfen neleri deðiþtirdiðinizi de belirtiniz.
+Bu sayede yapýlan deðiþikliklerin hatýrlanmasý adýna kolaylýk oluþacaktýr.

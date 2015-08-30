@@ -1,0 +1,739 @@
+[typedef t_mr]
+
+on=@equiptest
+if <src.puremage>
+	return 0
+else
+	src.sys_error Sadece pure mage olanlar giyebilir.
+	return 1
+endif
+
+//////////////////////////////////////////////////////////////////////////
+[itemdef i_mr_defense]
+name=+3 magical mage robe
+type=t_clothing
+id=i_deathshroud
+
+category=newitems
+subsection=guarding
+description=mage robe
+armor=10
+
+on=@equip
+
+on=@create
+	morey=20.0
+	attr=attr_magic
+	hitpoints=100
+	color=color_magic_defense
+	events +t_mr
+
+on=@click
+message @07a1,1,1 ( Defense )
+message @,,1 <name>
+return 1
+
+////////////////////////////////////
+
+[itemdef i_mr_Guarding]
+name=+6 magical mage robe
+type=t_clothing
+id=i_deathshroud
+
+category=newitems
+subsection=guarding
+description=mage robe
+armor=10
+
+on=@equip
+
+on=@create
+	morey=40.0
+	attr=attr_magic
+	hitpoints=100
+	color=color_magic_Guarding
+	events +t_mr
+
+on=@click
+message @07a1,1,1 ( Guarding )
+message @,,1 <name>
+return 1
+
+////////////////////////////////////
+
+[itemdef i_mr_Herdening]
+name=+9 magical mage robe
+type=t_clothing
+id=i_deathshroud
+
+category=newitems
+subsection=guarding
+description=mage robe
+armor=10
+
+on=@equip
+
+on=@create
+	morey=60.0
+	attr=attr_magic
+	hitpoints=100
+	color=color_magic_Herdening
+	events +t_mr
+
+on=@click
+message @07a1,1,1 ( Herdening )
+message @,,1 <name>
+return 1
+
+////////////////////////////////////
+
+[itemdef i_mr_Fortification]
+name=+12 magical mage robe
+type=t_clothing
+id=i_deathshroud
+
+category=newitems
+subsection=guarding
+description=mage robe
+armor=10
+
+on=@equip
+
+on=@create
+	morey=80.0
+	attr=attr_magic
+	hitpoints=100
+	color=color_magic_Fortification
+	events +t_mr
+
+on=@click
+message @07a1,1,1 ( Fortification )
+message @,,1 <name>
+return 1
+
+////////////////////////////////////
+
+[itemdef i_mr_Invulnerability]
+name=+15 magical mage robe
+type=t_clothing
+id=i_deathshroud
+
+category=newitems
+subsection=guarding
+description=mage robe
+armor=10
+
+on=@equip
+
+on=@create
+	morey=100.0
+	attr=attr_magic
+	hitpoints=100
+	color=color_magic_Invulnerability
+	events +t_mr
+
+on=@click
+message @07a1,1,1 ( Invulnerability )
+message @,,1 <name>
+return 1
+
+
+
+
+
+
+[itemdef i_protective_magerobe]
+name Mage Robe
+id i_hooded_shroud
+type t_clothing
+armor 16
+SKILLMAKE=TAILORING 100.0,MAGERY 100.0,t_sewing_kit
+RESOURCES=100 i_cloth,20 i_reag_dragon_blood,1 i_crystal_puremagerobe
+
+on=@create
+color 07a1
+hitpoints 50
+
+on=@Equip
+if (<src.meditation> == 100.0) && (<src.MAGERY> == 100.0) && (<src.EVALUATINGINTEL> == 100.0)
+	return 0
+else
+	src.sysmessage @69,,1 Giymek icin puremage olmalisin.
+	unequip
+	return 1
+endif
+
+
+
+
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+[itemdef i_robe_warlock]
+name Warlock Robe
+id i_hooded_shroud
+type t_clothing
+armor 26
+SKILLMAKE=TAILORING 100.0,MAGERY 70.0,t_sewing_kit
+RESOURCES=100 i_cloth,20 i_reag_dragon_blood, 1 i_crystal_warlockrobe
+
+on=@create
+color 0455
+hitpoints 50
+
+on=@Equip
+if (<src.tactics> < 90.0) 
+	src.sysmessage @33,,1 Tactics yeteneginizin en az 90.0 olmali.
+	unequip
+	return 1
+endif
+
+IF ( <SRC.MAGERY> < 75.0 )
+	src.sysmessage @33,,1 Mage skilliniz en az 75.0 olmali.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ( <SRC.PARRYING> > 0 )	
+	src.sysmessage @33,,1 Parrying skilliniz 0 olmali.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+//IF ( <SRC.EVALUATINGINTEL> < 75.0 )	
+//	src.sysmessage @33,,1 Evaluatin Intel skilliniz en az 75.0 olmali.
+//	UNEQUIP
+//	RETURN 1
+//ENDIF
+
+timer 30
+
+on=@unequip
+timer -1
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@timer
+
+if <cont>
+timer 30
+attr 0
+cont.spelleffect s_night_sight,100,0
+return 1
+endif
+//////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_robe_warrior]
+name Warrior Robe
+id i_robe
+type t_clothing
+armor 10
+SKILLMAKE=TAILORING 100.0,MAGERY 40.0,t_sewing_kit
+RESOURCES=100 i_cloth,20 i_reag_dragon_blood
+
+on=@create
+color 0455
+hitpoints 50
+
+on=@Equip
+if (<src.tactics> < 90.0) 
+	src.sysmessage @33,,1 Tactics yeteneginizin en az 90.0 olmali.
+	unequip
+	return 1
+endif
+
+
+IF ( <SRC.PARRYING> < 90.0 )	
+	src.sysmessage @33,,1 Parrying skilliniz en az 90.0 olmali.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ( <SRC.magery> > 40.0 )	
+	src.sysmessage @33,,1 Magery yeteneginiz 40.0'dan az olmalidir.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+timer 30
+
+on=@unequip
+timer -1
+
+on=@click
+message @,,1 <name>
+return 1
+
+
+on=@timer
+
+if <cont>
+timer 30
+attr 0
+cont.spelleffect s_night_sight,100,0
+return 1
+endif
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////Ice & Fire Deri Set
+//////////////////////////////////////////////////////////FIRE deri set
+
+[events e_fire_studded_bonus]
+ON=@SPELLEFFECT
+if (<argn1><9) && !(<argn1>==4) && !(<argn1>==6) && !(<argn1>==7)
+	sayu * Etkilenmez *
+	return 1
+endif
+
+[function f_fire_studded_bonus]
+IF (<SRC.FINDLAYER(10).BASEID> == i_studded_gorget_fire) && (<SRC.FINDLAYER(13).BASEID> == i_studded_tunic_fire) && (<SRC.FINDLAYER(4).BASEID> == i_studded_leggings_fire) && (<SRC.FINDLAYER(19).BASEID> == i_studded_sleeves_fire) && (<SRC.FINDLAYER(7).BASEID> == i_studded_gloves_fire)
+	src.events +e_fire_studded_bonus
+        src.sysmessage @69,,1 Fire Studded Bonus : Aktif
+endif
+
+[ITEMDEF i_studded_sleeves_fire]
+id=i_studded_sleeves
+name fire studded sleeves
+TYPE=t_armor_leather
+RESOURCES=10 i_hide_fire
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=90
+armor 35
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Fire Studded Armor
+DESCRIPTION=Fire Studded Sleeves
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0932
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if !(<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esya sizin gibi masumlara gore degil.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_fire_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_fire_studded_bonus>
+	cont.sysmessage @33,,1 Fire Studded Bonus : Kapandi
+	cont.events -e_fire_studded_bonus
+endif
+
+
+[ITEMDEF i_studded_gloves_fire]
+id=i_studded_gloves
+name fire studded gloves
+TYPE=t_armor_leather
+RESOURCES=8 i_hide_fire
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=90
+armor 35
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Fire Studded Armor
+DESCRIPTION=Fire Studded Gloves
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0932
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if !(<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esya sizin gibi masumlara gore degil.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_fire_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_fire_studded_bonus>
+	cont.sysmessage @33,,1 Fire Studded Bonus : Kapandi
+	cont.events -e_fire_studded_bonus
+endif
+
+[ITEMDEF i_studded_gorget_fire]
+id=i_studded_gorget
+name fire studded gorget
+TYPE=t_armor_leather
+RESOURCES=6 i_hide_fire
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 35
+REQSTR=90
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Fire Studded Armor
+DESCRIPTION=Fire Studded Gorget
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0932
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if !(<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esya sizin gibi masumlara gore degil.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_fire_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_fire_studded_bonus>
+	cont.sysmessage @33,,1 Fire Studded Bonus : Kapandi
+	cont.events -e_fire_studded_bonus
+endif
+
+[ITEMDEF i_studded_leggings_fire]
+id=i_studded_leggings
+name fire studded leggings
+TYPE=t_armor_leather
+RESOURCES=12 i_hide_fire
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 35
+REQSTR=90
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Fire Studded Armor
+DESCRIPTION=Fire Studded Leggings
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0932
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if !(<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esya sizin gibi masumlara gore degil.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_fire_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_fire_studded_bonus>
+	cont.sysmessage @33,,1 Fire Studded Bonus : Kapandi
+	cont.events -e_fire_studded_bonus
+endif
+
+[ITEMDEF i_studded_tunic_fire]
+id=i_studded_tunic
+name fire studded tunic
+TYPE=t_armor_leather
+RESOURCES=14 i_hide_fire
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 35
+REQSTR=90
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Fire Studded Armor
+DESCRIPTION=Fire Studded Tunic
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0932
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if !(<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esya sizin gibi masumlara gore degil.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_fire_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_fire_studded_bonus>
+	cont.sysmessage @33,,1 Fire Studded Bonus : Kapandi
+	cont.events -e_fire_studded_bonus
+endif
+
+///////////////////////////////////////////////////////////
+
+[ITEMDEF i_hide_fire]
+ID=i_hide
+name fire hide
+TYPE=t_normal
+CATEGORY=Resources - Tailoring
+weight 1
+
+ON=@Create
+COLOR=0932
+
+
+[ITEMDEF i_hide_ice]
+ID=i_hide
+name ice hide
+TYPE=t_normal
+CATEGORY=Resources - Tailoring
+weight 1
+
+ON=@Create
+COLOR=0957
+
+
+
+
+//////////////////////////////////////////////////////////ice deri set
+
+[events e_ice_studded_bonus]
+ON=@SPELLEFFECT
+if (<argn1><9) && !(<argn1>==4) && !(<argn1>==6) && !(<argn1>==7)
+	sayu * Etkilenmez *
+	return 1
+endif
+
+[function f_ice_studded_bonus]
+IF (<SRC.FINDLAYER(10).BASEID> == i_studded_gorget_ice) && (<SRC.FINDLAYER(13).BASEID> == i_studded_tunic_ice) && (<SRC.FINDLAYER(4).BASEID> == i_studded_leggings_ice) && (<SRC.FINDLAYER(19).BASEID> == i_studded_sleeves_ice) && (<SRC.FINDLAYER(7).BASEID> == i_studded_gloves_ice)
+	src.events +e_ice_studded_bonus
+        src.sysmessage @69,,1 Ice Studded Bonus : Aktif
+endif
+
+[ITEMDEF i_studded_sleeves_ice]
+id=i_studded_sleeves
+name ice studded sleeves
+TYPE=t_armor_leather
+RESOURCES=10 i_hide_ice
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=90
+armor 35
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=ice Studded Armor
+DESCRIPTION=ice Studded Sleeves
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0957
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if (<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esyayi masum kisiler kullanabilir.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_ice_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_ice_studded_bonus>
+	cont.sysmessage @33,,1 ice Studded Bonus : Kapandi
+	cont.events -e_ice_studded_bonus
+endif
+
+
+[ITEMDEF i_studded_gloves_ice]
+id=i_studded_gloves
+name ice studded gloves
+TYPE=t_armor_leather
+RESOURCES=8 i_hide_ice
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+REQSTR=90
+armor 35
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=ice Studded Armor
+DESCRIPTION=ice Studded Gloves
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0957
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if (<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esyayi masum kisiler kullanabilir.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_ice_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_ice_studded_bonus>
+	cont.sysmessage @33,,1 ice Studded Bonus : Kapandi
+	cont.events -e_ice_studded_bonus
+endif
+
+[ITEMDEF i_studded_gorget_ice]
+id=i_studded_gorget
+name ice studded gorget
+TYPE=t_armor_leather
+RESOURCES=6 i_hide_ice
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 35
+REQSTR=90
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=ice Studded Armor
+DESCRIPTION=ice Studded Gorget
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0957
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if (<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esyayi masum kisiler kullanabilir.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_ice_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_ice_studded_bonus>
+	cont.sysmessage @33,,1 ice Studded Bonus : Kapandi
+	cont.events -e_ice_studded_bonus
+endif
+
+[ITEMDEF i_studded_leggings_ice]
+id=i_studded_leggings
+name ice studded leggings
+TYPE=t_armor_leather
+RESOURCES=12 i_hide_ice
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 35
+REQSTR=90
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=ice Studded Armor
+DESCRIPTION=ice Studded Leggings
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0957
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if (<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esyayi masum kisiler kullanabilir.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_ice_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_ice_studded_bonus>
+	cont.sysmessage @33,,1 ice Studded Bonus : Kapandi
+	cont.events -e_ice_studded_bonus
+endif
+
+[ITEMDEF i_studded_tunic_ice]
+id=i_studded_tunic
+name ice studded tunic
+TYPE=t_armor_leather
+RESOURCES=14 i_hide_ice
+SKILLMAKE=TAILORING 99.9, t_sewing_kit
+WEIGHT=1
+FLIP=1
+armor 35
+REQSTR=90
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=ice Studded Armor
+DESCRIPTION=ice Studded Tunic
+
+ON=@Create
+HITPOINTS=100
+tag0.boyanmaz 1
+color 0957
+
+ON=@Click
+message @33,1,1 [ Sağlamlık: % <hitpoints> ]
+
+ON=@EQUIP
+if (<src.NOTOGETFLAG <SRC>,0> == 6)
+src.sysmessage @,,1 Bu esyayi masum kisiler kullanabilir.
+unequip
+return 1
+elif !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+else
+CONT.f_ice_studded_bonus
+endif
+
+ON=@UNEQUIP
+if <cont.isevent.e_ice_studded_bonus>
+	cont.sysmessage @33,,1 ice Studded Bonus : Kapandi
+	cont.events -e_ice_studded_bonus
+endif
+
+[EOF]

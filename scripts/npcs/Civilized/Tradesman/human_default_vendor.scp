@@ -1,0 +1,236 @@
+[CHARDEF c_glassblower]
+ID=c_MAN
+NAME=glassblower
+DESIRES=i_gold
+AVERSIONS=t_trap
+TSPEECH=spk_human_prime
+TSPEECH=jobglassblower
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+TEVENTS=e_npc_vendor
+TEVENTS=e_trainer
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Glassblower (human male)
+ON=@Create
+   NAME=#NAMES_HUMANMALE
+   TITLE=glassblower
+   COLOR=colors_skin
+   NPC=brain_vendor
+   NEED=i_gold
+   STR={45 55}
+   DEX={45 55}
+   INT={45 55}
+
+   ALCHEMY={50.0 75.0}
+   FENCING={20.0 30.0}
+   MAGICRESISTANCE={20.0 30.0}
+   MINING={25.0 50.0}
+   TACTICS={20.0 30.0}
+   TINKERING={25.0 50.0}
+   WRESTLING={20.0 30.0}
+
+   ITEMNEWBIE=random_light
+   ITEMNEWBIE=random_male_hair
+   COLOR=colors_hair
+   ITEMNEWBIE=random_facial_hair,1,R5
+   COLOR=match_hair
+   ITEM=random_shirts_human
+   COLOR=colors_all
+   ITEM=random_pants_human
+   COLOR=colors_all
+   ITEM=random_footwear_human
+   COLOR=colors_neutral
+   ITEM=random_hats
+   COLOR=colors_blue
+ON=@NPCRestock
+   ITEM=random_coin_purse
+   ITEM=i_dagger
+
+   SELL=VENDOR_S_GLASSBLOWER
+   BUY=VENDOR_B_GLASSBLOWER
+
+[CHARDEF c_glassblower_f]
+ID=c_woman
+NAME=glassblower
+DESIRES=i_gold
+AVERSIONS=t_trap
+TSPEECH=spk_human_prime
+TSPEECH=jobglassblower
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+TEVENTS=e_npc_vendor
+TEVENTS=e_trainer
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Glassblower (human female)
+ON=@Create
+   NAME=#NAMES_HUMANFEMALE
+   TITLE=glassblower
+   COLOR=colors_skin
+   NPC=brain_vendor
+   NEED=i_gold
+   STR={45 55}
+   DEX={45 55}
+   INT={45 55}
+
+   ANATOMY={20.0 30.0}
+   ANIMALLORE={20.0 30.0}
+   ARCHERY={20.0 30.0}
+   BOWCRAFT={20.0 30.0}
+   CAMPING={20.0 30.0}
+   DETECTINGHIDDEN={20.0 30.0}
+   FENCING={20.0 30.0}
+   HERDING={20.0 30.0}
+   MAGICRESISTANCE={20.0 30.0}
+   TACTICS={20.0 30.0}
+   TRACKING={20.0 30.0}
+   WRESTLING={20.0 30.0}
+
+   ITEMNEWBIE=random_light
+   ITEMNEWBIE=random_female_hair
+   COLOR=colors_hair
+   ITEM=random_shirts_human
+   COLOR=colors_all
+   ITEM=random_skirts_human
+   COLOR=colors_all
+   ITEM=random_footwear_human
+   COLOR=colors_neutral
+   ITEM=random_hats
+   COLOR=colors_blue
+ON=@NPCRestock
+   ITEM=random_coin_purse
+   ITEM=i_dagger
+
+   SELL=VENDOR_S_GLASSBLOWER
+   BUY=VENDOR_B_GLASSBLOWER
+
+
+[CHARDEF c_h_vendor]
+DEFNAME=C_H_VENDOR
+NAME=#NAMES_HUMANMALE the Vendor
+ID=C_MAN
+HIREDAYWAGE=50
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Vendor
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+	FLAGS=028000005
+	NEED=i_gold
+
+	STR={66 80}
+	DEX=90
+	INT={66 80}
+
+	FENCING={15.0 38.0}
+	PARRYING={45.0 68.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={45.0 68.0}
+	TACTICS={45.0 68.0}
+
+	ITEMNEWBIE=i_lantern
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+	ITEMNEWBIE=i_shirt_plain
+	COLOR=colors_all
+	ITEMNEWBIE=random_pants
+	COLOR=colors_all
+	ITEMNEWBIE=random_shoes
+	COLOR=colors_neutral
+
+[CHARDEF c_h_vendor_f]
+NAME=#NAMES_HUMANFEMALE the Vendor
+ID=C_WOMAN
+CAN=mt_walk|mt_run
+HIREDAYWAGE=50
+FOODTYPE=
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Vendor (Female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+	FLAGS=028000001
+	NEED=i_gold
+
+	STR={66 80}
+	DEX=90
+	INT={66 80}
+
+	FENCING={15.0 38.0}
+	PARRYING={45.0 68.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	MACEFIGHTING={15.0 38.0}
+	MAGICRESISTANCE={45.0 68.0}
+	TACTICS={45.0 68.0}
+
+	ITEMNEWBIE=i_lantern
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+
+[EOF]

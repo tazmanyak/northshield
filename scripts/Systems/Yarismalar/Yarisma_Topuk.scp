@@ -1,0 +1,267 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////topuk - Rhodos////////////////////////////////////////////////////////////
+
+
+[defname topuk_options]
+topuk_player_base		"5130,2058,7"
+
+topuk_katilimci_baraji		"2" // Eklenen sayidan kucukse iptal edilir
+
+topuk_finish_and_go		"5321,1823"
+
+topuk_open_gate_p		"5321,1813"
+topuk_timer_gate		"300"
+
+/////////////////////////////////////////////////////////////////////////Function Start
+
+[function f_topuk_open]
+serv.allclients f_topuk_draw
+var.topuk_katilimcisi	0
+var.topuk_katilimcisi_x	0
+var.katilim_yarisma 1
+
+Serv.newitem i_gate_topuk
+new.p <def.topuk_open_gate_p>
+new.timer <def.topuk_timer_gate>
+var.yarisma_gate <new.uid>
+uid.<var.topuk_vortex>.remove
+
+[function f_topuk_start]
+
+
+if (<isevent.e_yarisma_topuk>)
+
+src.sys_normal Yarisma basladi !
+endif
+
+[function f_topuk_winner]
+var.son_topuk <name>
+if <isevent.e_yarisma_topuk>	 // winner
+go <def.topuk_finish_and_go>
+say @,,1 Kazandiniz !
+f_topuk_fame_karma_kill_load
+f_option_mysql 0
+db.connect
+db.execute "insert into son_etkinlikler (tarih, kazanan, yarisma) VALUES ('<addslashes <serv.rtime>>','<addslashes <name>>','GM Topuk');"
+db.close
+serv.newitem i_y_kupa
+new.cont <findlayer(layer_bankbox)>
+serv.newitem might_silah
+new.cont <findlayer(layer_bankbox)>
+new.color 07a1
+new.name Etkinlik Odulu
+account.tag0.connecttimeused -= 20
+sysmessage @,,1 Might Random Magical silah ve 20 saat online sure kazandiniz.
+gold += <eval (<var.topuk_katilimcisi_X>)*15000> // Katilimci sayisi X 20k gold --> Odul
+duyur Gm Topuk, kazanan <name> olmustur.
+var.etkinlikprogramisondurum Topuk yarismasi bitti , kazanan <name> olmustur.
+try uid.<var.topuk_vortex>.remove
+events -e_yarisma_topuk
+endif
+
+[function f_topuk_loser]
+
+
+if (<eval <var.topuk_katilimcisi>> == 1)
+serv.allclients f_topuk_winner
+go <def.topuk_finish_and_go>
+f_topuk_fame_karma_kill_load
+//serv.newitem i_gold
+//new.amount 5000
+//new.bounce
+
+else
+
+go <def.topuk_finish_and_go>
+f_topuk_fame_karma_kill_load
+//serv.newitem i_gold
+//new.amount 5000
+//new.bounce
+say @33,,1 Kaybettiniz.
+
+endif
+
+
+[function f_topuk_loser_logout]
+events -e_yarisma_topuk
+var.topuk_katilimcisi --
+f_topuk_loser
+
+[function f_topuk_draw]
+if <isevent.e_yarisma_topuk>
+go <def.topuk_finish_and_go>
+f_topuk_fame_karma_kill_load
+events -e_yarisma_topuk
+duyur Topuk yarismasi iptal edildi.
+try uid.<var.topuk_vortex>.remove
+endif
+
+//////////////////////////////////////////////////
+
+[function f_topuk_fame_karma_kill_save]
+tag0.ctf_kill	<kills>
+tag0.ctf_fame	<fame>
+tag0.ctf_karma	<karma>
+
+[function f_topuk_fame_karma_kill_load]
+kills	<eval <tag0.ctf_kill>>
+fame	<eval <tag0.ctf_fame>>
+karma	<eval <tag0.ctf_karma>>
+flags &= ~statf_criminal
+tag0.override.noto
+tag0.ctf_kill
+tag0.ctf_fame
+tag0.ctf_karma
+binekstabil
+cantalarbanka_gerial
+
+/////////////////////////////////////////////////////////////////////////function finish
+/////////////////////////////////////////////////////////////////////////Events Start
+
+[events e_yarisma_topuk]
+
+on=@death
+var.topuk_katilimcisi --
+events -e_yarisma_topuk
+f_topuk_loser
+hits 100
+return 1
+
+on=@login
+ref1 <var.yarisma_gate>
+if !(<ref1.timer> > 1) 
+	f_topuk_loser_logout //src.timerf 1,
+endif
+
+on=@logout
+ref1 <var.yarisma_gate>
+if !(<ref1.timer> > 1) 
+	f_topuk_loser_logout //src.timerf 1,
+endif
+on=@attack
+return 1
+
+on=@hit
+return 1
+
+on=@skillstart
+return 1
+
+on=@spellselect
+return 1
+
+
+/////////////////////////////////////////////////////////////////////////events finish
+/////////////////////////////////////////////////////////////////////////Item Start
+[itemdef i_gate_topuk]
+id i_moongate_blue
+name Gm Topuk Etkinligi
+
+on=@click
+message @0808,1,1 Gm Topuk Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+if (<src.findlayer.25>) 
+src.sysmessage @1953,1,1,1 Binek üzerinde katılamazsınız.
+return 1
+endif
+
+local.uid1 <src.uid>
+forchars 10
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<local.uid1>)
+try uid.<local.uid1>.sysmessage @1953,1,1,1 Etrafınızda bineğiniz olduğu taktirde yarışmaya katılamazsınız.
+return 1
+endif
+endif
+endfor
+local.uid1
+if <src.findtype.t_eq_trade_window>
+	src.sys_error Trade ekraninda yarışmaya katılamazsınız.
+	return 1
+endif
+if <src.account.plevel> > 1
+return 1
+endif
+src.spelleffect s_night_sight,100,0
+src.hits <src.str>
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+src.findid.i_rune_bless.remove
+src.findid.i_rune_agility.remvove
+src.findid.i_rune_strength.remove
+var.topuk_katilimcisi ++
+
+src.cantalarbanka
+//src.binekolmazsaolmaz
+
+serv.allclients Yarisma_katilan <src.name> yarışmaya katıldı. Toplam katılımcı : <eval <var.topuk_katilimcisi>>
+
+src.events +e_yarisma_topuk
+src.go <def.topuk_player_base>
+src.f_topuk_fame_karma_kill_save
+
+on=@step
+src.sysmessage @39,1,1 <src.name>, cift tiklayin.
+return 1
+
+on=@timer
+
+Serv.newnpc c_vortex
+new.p <def.topuk_player_base>
+new.color 0819
+var.topuk_vortex <new.uid>
+
+if (<eval <var.topuk_katilimcisi>> < <def.topuk_katilimci_baraji>)
+serv.allclients f_topuk_draw
+duyur Katilimci sayisi baraji gecemedigi icin Topuk yarismasi iptal edildi.
+var.etkinlikprogramisondurum  Katilimci sayisi baraji gecemedigi icin Topuk yarismasi iptal edildi.
+var.katilim 0
+remove
+return 1
+endif
+
+var.topuk_katilimcisi_X <var.topuk_katilimcisi>
+duyur Topuk yarismasi basliyor.Katilimci : <eval <var.topuk_katilimcisi>> //, odul : <eval (<var.topuk_katilimcisi_X>*5000)> Gold.
+serv.allclients f_topuk_start
+var.katilim 0
+remove
+return 1
+
+/////////////////////////////////////////////////////////////////////////Item Finish
+
+
+///////////////////////////////////////////////////////////////////////////////Bilgi Deed & Dialog
+[DIALOG d_topuk_bilgi_dialog]
+0,0
+page 0
+src.closealldialogs
+resizepic 250 10 9200 385 195	
+gumppictiled 260 20 365 175 2624
+
+htmlgump 270 30 345 154 0 1 1
+
+[DIALOG d_topuk_bilgi_dialog text]
+Yarisma hakkinda kisa bilgiler: Amac yarismadaki herkesi elemektir.Yarismada alacaginiz Fame, Karma ve Kill degerleriniz yarisma sonunda eski haline donecektir. Son kalan kisi yarismayi kazanir.Logout oldugunuzda ve ya oyundan dustugunuzde 10 saniye icerisinde tekrar girmezseniz elenirsiniz.Yarisma odulu katilimci sayisi ile orantilidir.// Kaybedenlere teselli odulu verilmektedir.
+
+[itemdef i_topuk_bilgi_deed]
+id i_deed
+name Topuk BILGI
+type t_normal
+
+on=@create
+attr 08000
+color 0810
+
+on=@click
+src.dialog d_topuk_bilgi_dialog
+
+[eof]

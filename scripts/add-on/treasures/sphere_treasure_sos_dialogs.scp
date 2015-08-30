@@ -1,0 +1,55 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Swindler, Kell, Melen, syn - Original credits from original version
+// ShiryuX - Updating and adapting to 56b Sphere Community Pack
+// 
+// SCRIPT DOCUMENTATION
+// --------------------
+// Dialogs used in the SOS. Such as the message in the scroll.
+
+[DIALOG d_sos_message]
+0, 0
+PAGE 0
+resizepic 63 62 2520 317 319
+resizepic 91 103 3500 256 189
+text 122 114 0 0
+text 104 130 0 1
+text 112 147 0 2
+text 113 165 0 3
+text 108 181 0 4
+text 106 197 0 5
+text 112 214 0 6
+text 110 231 0 7
+text 176 248 0 8
+button 91 317 4014 4015 1 0 0
+text 132 317 0 9
+text 91 293 0 10
+
+[DIALOG d_sos_message TEXT]
+Batan bir gemiden kendisini zor
+kurtaran yolculardan iletilen bir
+mesaja gore, geminin battigi yerde
+cok buyuk bir hazine denizin serin
+sularina gomulmus vaziyette bekle
+mektedir.Canini kurtaran yolculara
+gore geminin battigi mevkinin 
+kordinatlari belirli ve sextant
+ile bulunabilir.
+TAMAM
+<src.tag.sextantcoords>
+
+[DIALOG d_sos_message BUTTON]
+on=0
+src.arrowquest <src.tag.sextantcoords>
+src.tag.sextantcoords=
+
+
+[eof]

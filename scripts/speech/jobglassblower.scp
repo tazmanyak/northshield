@@ -1,0 +1,1178 @@
+
+///////////////////////////////////////////////////////////////////////
+// *Scripter Name : -
+// *Shard Name : The Rosario Game
+// *Shard Address : www.rosario.gen.tr
+// *Personal Address : www.raskolserna.com
+// *Messenger and E-Mail : raskolserna@msn.com
+// *Sphere Version : Specially 0.56b and maybe other releases
+//
+// *Bu kodlar TheRaskol tarafýndan yazýlmýþ veya editlenmiþtir.
+// *The codes are written or were edited by TheRaskol (Raskol Serna).
+///////////////////////////////////////////////////////////////////////
+[itemdef i_sand_glass]
+name sandy
+id 011ea // straw pillow
+weight 0.1
+type t_normal
+value 9
+
+On=@Create
+name sand
+
+On=@DClick
+return 1
+
+[itemdef i_blowpipe]
+name blow pipe
+id 0e8a // quarter staff
+weight 2
+type t_normal
+layer 0
+value 340
+
+On=@Create
+color 0961
+
+On=@DClick
+if <cont> != <src.findlayer(21)>
+src.sysmessage @0845,1,1 Bunu kullanabilmeniz için çantanýzda olmalýdýr!
+return 1
+else
+src.dialog d_skill_glassblowing
+return 1
+
+[events e_glassblower]
+d_skill_glassblowing
+
+[dialog d_skill_glassblowing]
+100,100
+page 0
+resizepic 50 45 2620 480 200
+checkertrans 50 45 480 200
+tilepic 130 75 3854 // empty bottle
+button 90 100 2117 2118 1 0 101
+text 110 100 1152 4 0 0
+
+tilepic 205 75 6190 // small flask
+button 190 100 2117 2118 1 0 102
+text 210 100 1152 5 0 0
+
+tilepic 315 80 6199 // curved flask
+button 290 100 2117 2118 1 0 103
+text 310 100 1152 6 0 0
+
+tilepic 420 72 6186 // medium flask
+button 390 100 2117 2118 1 0 104
+text 410 100 1152 7 0 0
+button 390 120 2117 2118 1 0 105
+text 410 120 1152 8 0 0
+
+tilepic 125 140 6204 // large flask
+button 90 175 2117 2118 1 0 106
+text 110 175 1152 9 0 0
+button 90 195 2117 2118 1 0 107
+text 110 195 1152 10 0 0
+
+tilepic 220 140 6200 // long flask
+button 190 175 2117 2118 1 0 108
+text 210 175 1152 11 0 0
+button 190 195 2117 2118 1 0 109
+text 210 195 1152 12 0 0
+
+tilepic 315 150 6172 // hourglass
+button 290 175 2117 2118 1 0 110
+text 310 175 1152 13 0 0
+
+tilepic 420 145 6238 // vials
+button 390 175 2117 2118 1 0 111
+text 410 175 1152 14 0 0
+button 390 195 2117 2118 1 0 112
+text 410 195 1152 15 0 0
+
+[dialog d_skill_glassblowing text]
+<serv.servname> Glassblowing Menu
+-
+Tekrar Yap
+Çýkýþ
+empty bottle
+small flask
+curved flask
+medium flask
+bubbling mf.
+large flask
+bubbling lf.
+long flask
+bubbling lf.
+hourglass
+full vials
+empty vials
+
+[dialog d_skill_glassblowing button]
+On=1
+src.sysmessage @0845,1,1 Blowpipe ile son yaptýðýnýz eþyayý hatýrlayamýyorsunuz!
+dialog d_skill_glassblowing
+
+On=101
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 52.5)
+src.sysmessage @666,1,1 empty bottle yapýmý için 52.5 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 1)
+src.sysmessage @666,1,1 empty bottle yapýmý için 1 adet 'sand' gereklidir!
+else
+tag.glassblowing 101
+makeitem i_bottle_empty
+endif
+dialog d_skill_glassblowing
+
+On=102
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 52.5)
+src.sysmessage @666,1,1 small flask yapýmý için 52.5 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 2)
+src.sysmessage @666,1,1 small flask yapýmý için 2 adet 'sand' gereklidir!
+else
+tag.glassblowing 102
+makeitem i_flask_smaller
+endif
+dialog d_skill_glassblowing
+
+On=103
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 55.0)
+src.sysmessage @666,1,1 curved flask yapýmý için 55.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 2)
+src.sysmessage @666,1,1 curved flask yapýmý için 2 adet 'sand' gereklidir!
+else
+tag.glassblowing 103
+makeitem i_flask_curved
+endif
+dialog d_skill_glassblowing
+
+On=104
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 52.5)
+src.sysmessage @666,1,1 medium flask yapýmý için 52.5 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 3)
+src.sysmessage @666,1,1 medium flask yapýmý için 3 adet 'sand' gereklidir!
+else
+tag.glassblowing 104
+makeitem i_flask_medium
+endif
+dialog d_skill_glassblowing
+
+On=105
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 60.0)
+src.sysmessage @666,1,1 bubbling medium flask yapýmý için 60.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 5)
+src.sysmessage @666,1,1 bubbling medium flask yapýmý için 5 adet 'sand' gereklidir!
+else
+
+tag.glassblowing 105
+makeitem i_flask_medium_anim
+endif
+dialog d_skill_glassblowing
+
+On=106
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 57.5)
+src.sysmessage @666,1,1 large flask yapýmý için 57.5 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 4)
+src.sysmessage @666,1,1 large flask yapýmý için 4 adet 'sand' gereklidir!
+else
+tag.glassblowing 106
+makeitem i_flask_large
+endif
+dialog d_skill_glassblowing
+
+On=107
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 60.0)
+src.sysmessage @666,1,1 bubbling large flask yapýmý için 60.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 5)
+src.sysmessage @666,1,1 bubbling large flask yapýmý için 5 adet 'sand' gereklidir!
+else
+tag.glassblowing 107
+makeitem i_flask_large_anim
+endif
+dialog d_skill_glassblowing
+
+On=108
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 60.0)
+src.sysmessage @666,1,1 long flask yapýmý için 60.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 5)
+src.sysmessage @666,1,1 long flask yapýmý için 5 adet 'sand' gereklidir!
+else
+tag.glassblowing 108
+makeitem i_flask_long
+endif
+dialog d_skill_glassblowing
+
+On=109
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 60.0)
+src.sysmessage @666,1,1 bubbling long flask yapýmý için 60.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 7)
+src.sysmessage @666,1,1 bubbling long flask yapýmý için 7 adet 'sand' gereklidir!
+else
+tag.glassblowing 109
+makeitem i_flask_long_anim
+endif
+dialog d_skill_glassblowing
+
+On=110
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 75.0)
+src.sysmessage @666,1,1 hourglass yapýmý için 75.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 10)
+src.sysmessage @666,1,1 hourglass yapýmý için 10 adet 'sand' gereklidir!
+else
+tag.glassblowing 110
+makeitem i_hourglass
+endif
+dialog d_skill_glassblowing
+
+On=111
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 65.0)
+src.sysmessage @666,1,1 full vials yapýmý için 65.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 9)
+src.sysmessage @666,1,1 full vials yapýmý için 9 adet 'sand' gereklidir!
+else
+tag.glassblowing 111
+makeitem i_testtube_rack_full
+endif
+dialog d_skill_glassblowing
+
+On=112
+if !(<restest i_blowpipe>)
+src.sysmessage @0845,1,1 Yanýnýzda Blowpipe yok!
+return 1
+endif
+
+if (<alchemy> < 65.0)
+src.sysmessage @666,1,1 empty vials yapýmý için 65.0 alchemy skill'i gereklidir!
+elseif (<rescount i_sand_glass> < 8)
+src.sysmessage @666,1,1 empty vials yapýmý için 8 adet 'sand' gereklidir!
+else
+tag.glassblowing 112
+makeitem i_testtube_rack
+endif
+dialog d_skill_glassblowing
+
+[itemdef i_book_glass]
+name crafting glass with glassblowing
+id i_book_open
+value 10625
+
+On=@DClick
+if <cont> != <src.findlayer(21)>
+src.sysmessage @0845,1,1 Bunu kullanabilmeniz için çantanýzda olmalýdýr!
+elseif (<src.isevent.e_glassblower>)
+src.sysmessage @666,1,1 Glassblowing konusunda zaten bilgi sahibisiniz.
+elseif (<src.alchemy> >= 98.0)
+src.events +e_glassblower
+src.sysmessage @666,1,1 Glassblowing konusunda bilgi sahibi oldunuz.
+remove
+else
+src.sysmessage @0845,1,1 Bunu okuyabilmek için 98.0 alchemy skill'i gereklidir!
+endif
+return 1
+
+
+[eof]
+
+
+
+
+
+
+
+
+
+
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+// Purpose: Britannia Glass Blower Script
+// Notes:  This is used for general information pertaining to all Britannian glass blowers
+// Current Keyword List:
+//	job, glass, vial, jar
+//
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+	//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+	IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+		IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+			DORAND 2
+				SAY I'm a glassblower.
+				SAY I make glass vessels.
+			ENDDO
+		ELSE
+			DORAND 2
+				SAY I'm a glassblower.
+				SAY I make glass things.
+			ENDDO
+		ENDIF
+	ELIF ( <SRC.KARMA.NEUTRAL> )
+		DORAND 2
+			SAY I'm a glassblower.
+			SAY I work with glass.
+		ENDDO
+	ELSE
+		IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+			DORAND 2
+				SAY I create useful containers and objets d'art from glass.
+				SAY I practice the ancient art of glassblowing.
+			ENDDO
+		ELSE
+			DORAND 2
+				SAY I create containers an' things from glass.
+				SAY I practice glassblowing.
+			ENDDO
+		ENDIF
+	ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+	IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+		DORAND 2
+			SAY I make vials and jars.
+			SAY I blow glass. An' keep thy comments to thyself.
+		ENDDO
+	ELIF ( <SRC.KARMA.NEUTRAL> )
+		IF ( <COMPLEXITY.HIGH> )
+			DORAND 2
+				SAY My glass work is known the world over!
+				SAY I have glassware for sale.
+			ENDDO
+		ELIF ( <COMPLEXITY.MEDIUM> )
+			DORAND 2
+				SAY I have vials and jars for sale.
+				SAY Most of my day to day business is vials and jars.
+			ENDDO
+		ELSE
+			DORAND 2
+				SAY I got vials and jars for sale.
+				SAY Most o' my day to day business is vials and jars 'n stuff.
+			ENDDO
+		ENDIF
+	ELSE
+		DORAND 2
+			SAY If all thou wants is a vial or a jar, I can provide that easily.
+			SAY Most of my business is in vials and jars, though they're not very challenging.
+		ENDDO
+	ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+	SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell, my friend.
+	BYE
+	return 1
+ON=Containers
+ON=Glass
+	SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+	SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+	SAY=I make the finest crystal statues in the realm.
+ON=vessels
+	SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+	SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+
+[SPEECH jobGLASSBLOWER]
+
+ON=*job*
+ON=*work*
+ON=*what*do*do*
+ON=*profession*
+ON=*occupation*
+//SAY=I am a maker of fine glass products.  I am a glassblower, no jokes please.
+
+IF ((<SRC.KARMA.WICKED>) || ( <SRC.KARMA.BELLIGERANT>))
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass vessels.
+ENDDO
+ELSE
+DORAND 2
+SAY I'm a glassblower.
+SAY I make glass things.
+ENDDO
+ENDIF
+ELIF ( <SRC.KARMA.NEUTRAL> )
+DORAND 2
+SAY I'm a glassblower.
+SAY I work with glass.
+ENDDO
+ELSE
+IF ( <COMPLEXITY.HIGH> || <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I create useful containers and objets d'art from glass.
+SAY I practice the ancient art of glassblowing.
+ENDDO
+ELSE
+DORAND 2
+SAY I create containers an' things from glass.
+SAY I practice glassblowing.
+ENDDO
+ENDIF
+ENDIF
+ON=*glass*
+ON=*vial*
+ON=*jar*
+ON=*containers*
+ON=*objets d'art*
+ON=*vessels*
+IF ((<SRC.KARMA.WICKED>) || (<SRC.KARMA.BELLIGERANT>))
+DORAND 2
+SAY I make vials and jars.
+SAY I blow glass. An' keep thy comments to thyself.
+ENDDO
+ELIF ( <SRC.KARMA.NEUTRAL> )
+IF ( <COMPLEXITY.HIGH> )
+DORAND 2
+SAY My glass work is known the world over!
+SAY I have glassware for sale.
+ENDDO
+ELIF ( <COMPLEXITY.MEDIUM> )
+DORAND 2
+SAY I have vials and jars for sale.
+SAY Most of my day to day business is vials and jars.
+ENDDO
+ELSE
+DORAND 2
+SAY I got vials and jars for sale.
+SAY Most o' my day to day business is vials and jars 'n stuff.
+ENDDO
+ENDIF
+ELSE
+DORAND 2
+SAY If all thou wants is a vial or a jar, I can provide that easily.
+SAY Most of my business is in vials and jars, though they're not very challenging.
+ENDDO
+ENDIF
+
+ON=Hail
+ON=Hi
+ON=Greet
+ON=Hello
+SAY=Ah, a fine citizen of the realm, good day to thee!
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+SAY=Farewell, my friend.
+BYE
+return 1
+ON=Containers
+ON=Glass
+SAY=There is clear glass and colored glass, but neither is easily shaped.
+ON=Jar
+SAY=My jars are specially crafted to protect your precious items and foodstuffs.
+ON=Object D'Art
+SAY=I make the finest crystal statues in the realm.
+ON=vessels
+SAY=I make the one of a kind cups and bowls, many bought by the nobility.
+ON=Vial
+SAY=Vials are good for holding potions of all sorts.
+
+//RANDOM=Wouldst thou care to be immortalized in glass?  My statues are beautiful!
+//DEFAULT=I do not understand thee.
+
+[EOF]
+

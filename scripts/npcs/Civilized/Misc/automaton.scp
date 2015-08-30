@@ -1,0 +1,178 @@
+[comment automaton]
+The automatons should have no resources.
+
+New event added on the corpse for resources.
+If a player has adequate tinkering, they can
+yield resources from the automaton. If the
+player also has some magery, he has a chance
+to salvage a rare soul gem.
+
+Loot is just gold at the moment. Might throw
+in some ingots and other items to make the
+kill worth it.
+
+Armor right now is 30 and has no range. This
+is incase armor is decided to be placed upon
+these warriors. As is they are as tough as
+platemail. Anything additional would make them
+tanks,
+
+[chardef c_h_automaton]
+defname=c_h_automaton
+id=c_man
+name=#names_humanmale the automaton
+can=mt_walk|mt_run|mt_usehands|mt_equip|mt_male
+moverate=100
+dam=2,8
+armor=30
+icon=i_pet_man
+sound=
+resources=
+foodtype=30 t_food, t_fruit
+aversions=t_trap
+desires=t_coin, t_gem, t_magic
+bloodcolor=-1
+
+category=Civilization
+subsection=Miscellaneous
+description=Automaton
+
+on=@Create
+ npc=brain_human
+ color=color_o_iron
+
+ fame=10000
+ karma=-10000
+
+ modar={ 0 0 }
+ resfire={ 30 50 }
+ rescold={ 30 50 }
+ respoison={ 50 80 }
+ resenergy={ 30 50 }
+
+ ostr={ 250 300 }
+ odex={ 100 150 }
+ oint={ 80 100 }
+ maxhits={ 300 400 }
+ maxstam=<odex>
+ maxmana=<oint>
+
+ wrestling={ 90.0 100.0 }
+ tactics={ 90.0 100.0 }
+ magicresistance={ 50.0 60.0 }
+ anatomy={ 0.0 25.0 }
+ parrying={ 50.0 60.0 }
+ macefighting={ 80.0 100.0 }
+ fencing={ 80.0 100.0 }
+ swordsmanship={ 80.0 100.0 }
+
+ itemnewbie=random_male_hair
+ color=color_o_iron
+
+ item=loot_automaton
+
+on=@NPCRestock
+ item=random_weapon
+
+on=@DeathCorpse
+ argo.events += e_automaton_resources
+
+
+[chardef c_h_automaton_f]
+defname=c_h_automaton_f
+id=c_woman
+name=#names_humanfemale the automaton
+can=mt_walk|mt_run|mt_usehands|mt_equip|mt_female
+moverate=100
+dam=2,8
+armor=30
+icon=i_pet_man
+sound=
+resources=
+foodtype=30 t_food, t_fruit
+aversions=t_trap
+desires=t_coin, t_gem, t_magic
+bloodcolor=-1
+
+category=Civilization
+subsection=Miscellaneous
+description=Automaton (female)
+
+on=@Create
+ npc=brain_human
+ color=color_o_iron
+
+ fame=10000
+ karma=-10000
+
+ modar={ 0 0 }
+ resfire={ 30 50 }
+ rescold={ 30 50 }
+ respoison={ 50 80 }
+ resenergy={ 30 50 }
+
+ ostr={ 250 300 }
+ odex={ 100 150 }
+ oint={ 80 100 }
+ maxhits={ 300 400 }
+ maxstam=<odex>
+ maxmana=<oint>
+
+ wrestling={ 90.0 100.0 }
+ tactics={ 90.0 100.0 }
+ magicresistance={ 50.0 60.0 }
+ anatomy={ 0.0 25.0 }
+ parrying={ 50.0 60.0 }
+ macefighting={ 80.0 100.0 }
+ fencing={ 80.0 100.0 }
+ swordsmanship={ 80.0 100.0 }
+
+ itemnewbie=random_female_hair
+ color=color_o_iron
+
+ item=loot_automaton
+
+on=@NPCRestock
+ item=random_weapon
+
+on=@DeathCorpse
+ argo.events += e_automaton_resources
+
+
+[template loot_automatom]
+defname=loot_automaton
+category=Loot Templates (NPC)
+subsection=Humanoids
+description=Automaton
+//container=i_backpack
+item=i_gold, { 120 150 }
+
+
+[events e_automaton_resources]
+on=@DClick
+ if !<tag0.resource.gathered>
+  if ((<src.tinkering> >= 80.0 ) && (<src.restest i_tinkering_tools>))
+   new.item i_ingot_iron, { 6 10 }
+   new.bounce <uid>
+   //new.item i_power_crystal
+   //new.bounce <uid>
+   new.item i_gear, { 2 4 }
+   new.bounce <uid>
+   new.item i_axle, { 1 2 }
+   new.bounce <uid>
+   src.msg Your adept skills with tinkering have yielded you some spare parts.
+  endif
+  if ((<src.magery> >= 90.0) && (<src.restest i_tinkering_tools>))
+//   if (<r1,10> == 1)
+   new.item i_soul_gem
+   new.bounce <uid>
+   src.msg You spot a rare soul gem.
+//   else
+//    src.msg You spot the remnants of a rare soul gem, it is destroyed.
+//   endif
+  endif
+  tag.resource.gathered=1
+ else
+  src.msg This corpse has already been scavenged.
+ endif
+[EOF]

@@ -1,0 +1,258 @@
+
+
+[CHARDEF 02a]
+DEFNAME=c_ratman
+NAME=ratman
+ICON=i_pet_ratman
+SOUND=snd_monster_ratman1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=7,9
+ARMOR=25
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=49.9
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Ratmen
+DESCRIPTION=Ratman
+ON=@Create
+   NAME=#NAMES_RATMAN
+   TITLE=the ratman
+   COLOR=08000|RAND(COLOR_DYE_HIGH)
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   HITPOINTS={58 72}
+   DEX={81 100}
+   MAXSTAM={81 100}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={50.0 75.0}
+   TACTICS={50.0 75.0}
+   WRESTLING={50.0 75.0}
+ON=@NPCRestock
+   ITEM=loot_ratman
+   //50 - 100 Gold.
+
+[CHARDEF 02c]
+DEFNAME=c_ratman_w_mace
+NAME=ratman
+ICON=i_pet_ratman
+SOUND=snd_monster_ratman1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=7,9
+ARMOR=25
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=49.9
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Ratmen
+DESCRIPTION=Ratman (mace)
+ON=@Create
+   NAME=#NAMES_RATMAN
+   TITLE=the ratman
+   COLOR=08000|RAND(COLOR_DYE_HIGH)
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={156 280}
+   DEX={101 150}
+   INT={36 60}
+   MACEFIGHTING={50.0 75.0}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={50.0 75.0}
+   TACTICS={100.0 165.0}
+   WRESTLING={60.0 105.0}
+ON=@NPCRestock
+   //ITEM=loot_ratman
+   //ITEM={ i_club 299 i_axe_ratman 1 }
+   //50 - 100 Gold.
+
+[CHARDEF 02d]
+DEFNAME=c_ratman_w_sword
+NAME=ratman
+ICON=i_pet_ratman
+SOUND=snd_monster_ratman1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP|MT_RUN
+DAM=7,9
+ARMOR=25
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=49.9
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Ratmen
+DESCRIPTION=Ratman (sword)
+ON=@Create
+   NAME=#NAMES_RATMAN
+   TITLE=the ratman
+   COLOR=08000|RAND(COLOR_DYE_HIGH)
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   HITPOINTS={58 72}
+   DEX={81 100}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={50.0 75.0}
+   SWORDSMANSHIP={50.0 70.0}
+   TACTICS={50.0 75.0}
+   WRESTLING={50.0 75.0}
+ON=@NPCRestock
+   //ITEM=loot_ratman
+   //ITEM={ random_weapon_sword_normal 299 i_sword_ratman 1 }
+   //50 - 100 Gold.
+
+[CHARDEF 08e]
+DEFNAME=c_ratman_archer
+NAME=ratman archer
+ICON=i_pet_ratman
+SOUND=snd_monster_ratman1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=36,42
+ARMOR=40
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=150
+TAG.Barding.Diff=73.5
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Ratmen
+DESCRIPTION=Ratman (archer)
+ON=@Create
+   NAME=#NAMES_RATMAN
+   TITLE=the ratman archer
+   COLOR=08000|RAND(COLOR_DYE_HIGH)
+   NPC=brain_monster
+   FAME=6500
+   KARMA=-6500
+   STR={146 180}
+   HITPOINTS={88 108}
+   DEX={101 130}
+   MAXSTAM={101 130}
+   INT={116 140}
+   MAXMANA={116 140}
+   ANATOMY={60.0 100.0}
+   ARCHERY={50.0 75.0}
+   FENCING={50.0 75.0}
+   MAGICRESISTANCE={65.0 90.0}
+   TACTICS={50.0 75.0}
+   WRESTLING={50.0 75.0}
+   MODAR={0 15}
+   RESCOLD={10 20}
+   RESENERGY={10 20}
+   RESFIRE={10 20}
+   RESPOISON={10 20}
+ON=@NPCRestock
+   ITEM=loot_ratman_archer
+   //300 - 350 Gold. Bow, 50-70 Arrows
+
+[CHARDEF 08f]
+DEFNAME=c_ratman_mage
+NAME=ratman mage
+ICON=i_pet_ratman
+SOUND=snd_monster_ratman1
+CAN=MT_WALK|MT_USEHANDS|MT_RUN
+DAM=19,28
+ARMOR=40
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=79.3
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Ratmen
+DESCRIPTION=Ratman (mage)
+ON=@Create
+   NAME=#NAMES_RATMAN
+   TITLE=the ratman mage
+   COLOR=08000|RAND(COLOR_DYE_HIGH)
+   NPC=brain_monster
+   FAME=7500
+   KARMA=-7500
+   STR={386 580}
+   DEX={101 130}
+   INT={186 210}
+   EVALUATINGINTEL={70.0 80.0}
+   MAGERY={100.0 200.0}
+   MAGICRESISTANCE={65.0 90.0}
+   TACTICS={90.0 105.0}
+   WRESTLING={90.0 105.0}
+
+ON=@NPCRestock
+   //ITEM=loot_ratman_mage
+   //275 - 325 Gold. 6 Reagents, 1 Low Level Scroll
+   //Special: Statue, Level 2 Treasure Map
+
+/////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_ratman_w_sword_king]
+id=c_ratman_w_sword
+NAME=ratman king
+ICON=i_pet_ratman
+SOUND=snd_monster_ratman1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP|MT_RUN
+DAM=25,30
+ARMOR=60
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw,4 i_hide_spined
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=49.9
+TAG.Slayer=SLAYER_REPOND
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Ratmen
+DESCRIPTION=Ratman (sword)
+ON=@Create
+   NAME=#NAMES_RATMAN
+   TITLE=the ratman
+   COLOR=0810
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={606 620}
+   DEX={200 300}
+   INT={36 60}
+   MAGICRESISTANCE={35.0 60.0}
+   PARRYING={50.0 75.0}
+   SWORDSMANSHIP=250.0
+   TACTICS=250.0
+   WRESTLING=150.0
+ON=@NPCRestock
+   //ITEM=loot_ratman
+   //ITEM={ random_weapon_sword_normal 299 i_sword_ratman 1 }
+   //50 - 100 Gold.
+
+[EOF]

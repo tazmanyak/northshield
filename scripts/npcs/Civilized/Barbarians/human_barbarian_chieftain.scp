@@ -1,0 +1,46 @@
+[CHARDEF c_h_barbarian_chieftan]
+DEFNAME=c_h_barbarian_chieftan
+NAME=#NAMES_HUMANMALE the Barbarian Chieftain
+ID=C_MAN
+//ALIGNMENT=EVIL
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_MALE
+DAM=25,28
+ARMOR=22
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+CATEGORY=Civilized
+SUBSECTION=Barbarians (Evil)
+DESCRIPTION=Barbarian Chieftain
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-4500 -6500}
+	FAME={4000 5500}
+
+	STR={200 250}
+	DEX={88 98}
+	INT={20 30}
+
+	MAGICRESISTANCE={20.0 35.0}
+	TACTICS={90.0 100.0}
+	WRESTLING={90.0 100.0}
+	SWORDSMANSHIP=100.0
+	PARRYING={85.0 100.0}
+
+	ITEMNEWBIE=i_hair_long
+	COLOR=colors_red
+	ITEMNEWBIE=i_beard_long_med
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_boots_calf
+	COLOR=01bb
+	ITEM=I_LEATHER_TUNIC
+	ITEM=i_kilt
+	COLOR=01bb
+	ITEM=backpack_rich
+	ITEM=i_axe_battle_large
+	ITEM=i_mask_bear
+[EOF]

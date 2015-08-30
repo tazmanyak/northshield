@@ -1,0 +1,692 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Wiccanian, ShiryuX, Anarch - Can't remember very well. This is more a compilation of authors
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Necromancy main spell sections.
+// * Animate Dead
+// * Blood Oath
+// * Corpse Skin
+// * Curse Weapon
+// * Pain Spike
+// * Wither
+/////////////////////////////////////////
+
+
+// * Horrific Beast
+// * Lich Form
+// * Wraith Form
+// Evil Omen
+// Mind Rot
+// Poison Strike
+// Strangle
+// Summon Familiar
+// Vampiric Embrace
+// Exorcism
+
+[SPELL 101]
+DEFNAME=s_animate_dead
+NAME=Animate Dead
+SOUND=snd_spell_resurrection
+RUNES=.Uus Corp
+CAST_TIME=1.5
+RESOURCES=i_reag_grave_dust, i_reag_daemon_blood
+RUNE_ITEM=i_rune_resurrection
+SCROLL_ITEM=i_scroll_animate_dead
+FLAGS=spellflag_scripted
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 40.0
+INTERRUPT=100.0,1.0
+
+on=@success
+src.sysmessage <def.scp.spell_animatedead_target>
+src.targetf f_AnimateDeadTarg
+
+[SPELL 102]
+DEFNAME=s_blood_oath
+NAME=Blood Oath
+SOUND=01e9
+RUNES=.In Jux Mani Xen
+CAST_TIME=1.5
+RESOURCES=i_reag_daemon_blood
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_blood_oath
+FLAGS=SPELLFLAG_TARG_PLAYER|SPELLFLAG_DIR_ANIM|SPELLFLAG_HARM|SPELLFLAG_FX_TARG|SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=13
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,1.0
+
+ON=@Select
+if <tag0.BloodOathCaster>
+uid.<tag0.BloodOathCaster>.tag.BloodOath
+uid.<tag0.BloodOathCaster>.events -e_BloodOath
+tag.BloodOathCaster
+endif
+
+ON=@Success
+local.delay = <eval ((<spiritspeak> - <act.magicresistance>) / 80) + 8>
+tag0.BloodOathCaster = <act.uid>
+act.tag0.BloodOath = <uid>
+act.events +e_BloodOath
+act.timerf <dlocal.delay>,f_BloodOathDispel
+f_AddBuff BloodOathCaster,<dlocal.delay>,<act.name>
+act.f_AddBuff BloodOathCurse,<dlocal.delay>,<name>
+
+[SPELL 103]
+DEFNAME=s_corpse_skin
+NAME=Corpse Skin
+SOUND=snd_spell_weaken
+RUNES=.In Agle Corp Ylem
+CAST_TIME=2.0
+RESOURCES=i_reag_grave_dust, i_reag_batwing
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_corpse_skin
+FLAGS=SPELLFLAG_TARG_CHAR|SPELLFLAG_DIR_ANIM|SPELLFLAG_HARM|SPELLFLAG_FX_TARG|SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=11
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,1.0
+
+ON=@Success
+if <act.restest i_rune_corpse_skin>
+act.consume i_rune_corpse_skin
+return 1
+endif
+serv.newitem i_fx_lich_form
+new.attr = attr_static|attr_decay
+new.timer = 2
+new.p = <act.p>
+serv.newitem i_rune_corpse_skin,1,<act.uid>,1
+new.timer = <eval ((<spiritspeak> - <act.magicresistance>) / 25) + 40>
+
+[SPELL 104]
+DEFNAME=s_curse_weapon
+NAME=Curse Weapon
+SOUND=snd_spell_curse
+RUNES=.An Sanct Gra Char
+CAST_TIME=1
+RESOURCES=i_reag_pig_iron
+RUNE_ITEM=i_rune_curse
+SCROLL_ITEM=i_scroll_curse_weapon
+FLAGS=spellflag_scripted
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=7
+SKILLREQ=Necromancy 0.0
+INTERRUPT=100.0,1.0
+
+ON=@Select
+if !<weapon>
+sysmessage <def.scp.spell_curseweapon_noweap>
+return 1
+endif
+if <restest i_rune_curse_weapon>
+consume i_rune_curse_weapon
+return 1
+endif
+
+ON=@Success
+weapon.events +e_CurseWeapon
+weapon.timerf <eval <spiritspeak> / 75>,f_CurseWeaponDispel
+
+[SPELL 105]
+DEFNAME=s_evil_omen
+NAME=Evil Omen
+SOUND=0245
+RUNES=.Pas Tym An Sanct
+CAST_TIME=1
+RESOURCES=i_reag_batwing, i_reag_nox_crystal
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_evil_omen
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=11
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,1.0
+
+ON=@Success
+if <act.isevent.e_evil_omen>
+act.events -e_evil_omen
+return 1
+endif
+act.events +e_evil_omen
+
+[SPELL 106]
+DEFNAME=s_horrific_beast
+NAME=Horrific Beast
+SOUND=snd_spell_summon_daemon
+RUNES=.Rel Xen Vas Bal
+CAST_TIME=4
+RESOURCES=i_reag_daemon_blood, i_reag_batwing
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_horrific_beast
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=11
+SKILLREQ=Necromancy 40.0
+INTERRUPT=100.0,1.0
+
+ON=@Select
+if <restest 1 i_rune_polymorph>
+	if <body> == c_moloch
+	consume i_rune_polymorph
+	body = <obody>
+	update
+	endif
+return 1
+endif
+
+ON=@Effect
+serv.newitem = i_fx_horrific_beast
+new.attr = attr_static|attr_decay
+new.timer = 1
+new.p = <p>
+serv.newitem i_rune_polymorph
+new.layer = 40
+new.timer = -1
+new.link = <uid>
+new.cont = <uid>
+body = c_moloch
+update
+
+[SPELL 107]
+DEFNAME=s_lich_form
+NAME=Lich Form
+SOUND=00fb
+RUNES=.Rel Xen Corp Ort
+CAST_TIME=4
+RESOURCES=i_reag_grave_dust,i_reag_nox_crystal,i_reag_daemon_blood
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_lich_form
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=i_fx_lich_form
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=NECROMANCY 70.0
+INTERRUPT=100.0,1.0
+
+ON=@Select
+if <restest 1 i_rune_polymorph>
+	if <body> == c_lich
+	consume i_rune_polymorph
+	body = <obody>
+	update
+	endif
+return 1
+endif
+
+ON=@Effect
+serv.newitem = i_fx_lich_form
+new.attr = attr_static|attr_decay
+new.timer = 1
+new.p = <p>
+serv.newitem i_rune_polymorph
+new.layer = 40
+new.timer = -1
+new.link = <uid>
+new.cont = <uid>
+body = c_lich
+update
+
+[spell 108]
+DEFNAME=s_mind_rot
+NAME=Mind Rot
+SOUND=0213
+RUNES=.Wis An Ben
+CAST_TIME=1.5
+RESOURCES=i_reag_batwing, i_reag_daemon_blood, i_reag_pig_iron
+RUNE_ITEM=i_rune_poison
+SCROLL_ITEM=i_scroll_mind_rot
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=17
+SKILLREQ=Necromancy 30.0
+INTERRUPT=100.0,1.0
+
+ON=@Success
+if <act.restest i_mind_rot>
+act.consume i_mind_rot
+return 1
+endif
+serv.newitem=i_fx_curse
+new.attr=attr_static|attr_decay
+new.timer=1
+new.p=<act.p>
+serv.newitem i_mind_rot
+new.timer=(<eval <src.spiritspeak>-<act.magicresistance>>/50)+20
+act.equip <new>
+
+[SPELL 109]
+DEFNAME=s_pain_spike
+NAME=Pain Spike
+SOUND=snd_spell_dispel_field
+RUNES=.In Sar
+CAST_TIME=1
+RESOURCES=i_reag_grave_dust, i_reag_pig_iron
+RUNE_ITEM=i_rune_poison
+SCROLL_ITEM=i_scroll_pain_spike
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG| SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=5
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,1.0
+
+on=@success
+local.damage = <eval ((<src.necromancy> - <act.magicresistance>) / 100) + 30>
+if <act.tag0.spell.painspike>
+local.damage /= 2
+endif
+if <local.damage> < 1
+local.damage = 1
+endif
+local.dmgret = <eval <local.damage>/10>
+local.delay = <r7,10>
+tag.spell.painspike = 1
+timerf <local.delay>,f_PainSpikeDispel <local.dmgret>
+act.damage <local.damage> dam_god <uid>
+act.effect 3,i_fx_glow_spike,1,18,0,39,3
+act.f_AddBuff PainSpike,<dlocal.delay>,<dlocal.dmgret>
+
+[SPELL 110]
+DEFNAME=s_poison_strike
+NAME=Poison Strike
+SOUND=snd_spell_poison_field
+RUNES=.In Vas Nox
+CAST_TIME=2
+RESOURCES=i_reag_nox_crystal
+RUNE_ITEM=i_rune_poison
+SCROLL_ITEM=i_scroll_poison_strike
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+EFFECT_ID=0
+EFFECT=0
+DURATION=1.0,15.0
+MANAUSE=17
+SKILLREQ=Necromancy 50.0
+INTERRUPT=100.0,1.0
+
+ON=@Success
+act.damage 30 dam_poison <act.uid>
+act.spelleffect 20 1000
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=30
+new.timer={5 10}
+new.p=<act.p>
+serv.newitem i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=30
+new.timer={5 10}
+new.p=<act.p>
+new.move n
+serv.newitem i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=30
+new.timer={5 10}
+new.p=<act.p>
+new.move s
+serv.newitem i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=30
+new.timer={5 10}
+new.p=<act.p>
+new.move e
+serv.newitem i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=30
+new.timer={5 10}
+new.p=<act.p>
+new.move w
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=15
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))> <eval(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=15
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))> <eval(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=15
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))> <eval(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=15
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))> <eval(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=15
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))> <eval(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=10
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))> <eval(rand(6))+-(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=10
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))> <eval(rand(6))+-(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=10
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))> <eval(rand(6))+-(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=10
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))> <eval(rand(6))+-(rand(6))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=10
+new.timer={5 10}
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))> <eval(rand(6))+-(rand(6))>
+
+[SPELL 111]
+DEFNAME=s_strangle
+NAME=Strangle
+SOUND=
+RUNES=.In Bal Nox
+CAST_TIME=2.5
+RESOURCES=i_reag_daemon_blood, i_reag_nox_crystal
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_strangle
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=29
+SKILLREQ=Necromancy 65.0
+INTERRUPT=100.0,1.0
+
+ON=@Success
+act.effect 3,i_fx_heal_effect,16,20,0,01,1
+serv.newitem i_strangle
+new.more1=(<eval <src.spiritspeak>>/100)
+new.more2=(<eval <src.spiritspeak>>/100)
+new.timer=<new.more1>
+act.equip <new>
+
+[SPELL 112]
+DEFNAME=s_summon_familiar
+NAME=Summon Familiar
+SOUND=0214
+RUNES=.Kal Xen Bal
+CAST_TIME=4
+RESOURCES=i_reag_batwing, i_reag_grave_dust, i_reag_daemon_blood
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_summon_familiar
+FLAGS=SPELLFLAG_SUMMON|SPELLFLAG_PLAYERONLY
+EFFECT_ID=
+EFFECT=0
+DURATION=0
+MANAUSE=17
+SKILLREQ=Necromancy 30.0
+INTERRUPT=100.0,1.0
+
+ON=@Select
+skillmenu sm_summon_familiar
+return 1
+
+[SPELL 113]
+DEFNAME=s_vampiric_embrace
+NAME=Vampiric Embrace
+SOUND=01eb
+RUNES=.Rel Xen An Sanct
+CAST_TIME=4
+RESOURCES=i_reag_batwing, i_reag_pig_iron, i_reag_nox_crystal
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_vampiric_embrace
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=i_fx_smoke
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 99.0
+INTERRUPT=100.0,1.0
+
+ON=@Success
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay
+  new.timer=2
+  new.p=<src.p>
+  new.move n
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay
+  new.timer=2
+  new.p=<src.p>
+  new.move s
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay
+  new.timer=2
+  new.p=<src.p>
+  new.move e
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay
+  new.timer=2
+  new.p=<src.p>
+  new.move w
+if !(<src.body>==c_vampire_bat)
+  src.consume i_beast_form
+  src.consume i_wraith_form
+  src.consume i_lich_form
+  serv.newitem i_vampire_form
+  new.timer=10
+  act.equip <new>
+  src.updatex
+else
+  src.consume i_vampire_form
+  src.updatex
+endif
+
+[SPELL 114]
+DEFNAME=s_vengeful_spirit
+NAME=Vengeful Spirit
+SOUND=019c
+RUNES=.Kal Xen Bal Beh
+CAST_TIME=8
+RESOURCES=i_reag_batwing, i_reag_grave_dust, i_reag_pig_iron
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_vengeful_spirit
+FLAGS=SPELLFLAG_HARM|SPELLFLAG_TARG_CHAR
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=41
+SKILLREQ=Necromancy 80.0
+INTERRUPT=100.0,1.0
+
+on=@select
+if <src.restest i_Revenant_tracker>
+  src.sysmessage You still have a revenant tracking a victim
+  return 1
+endif
+
+ON=@Success
+serv.newitem i_revenant_tracker
+new.equip <src>
+serv.newnpc c_revenant
+new.flags |= statf_conjured
+new.tag.owner=<src.uid>
+new.tag.victim=<act.uid>
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))>
+local.npc=<new.uid>
+  serv.newitem i_vengeful_spirit
+   new.more1=(<eval <src.spiritspeak>*80>/12)+10
+   new.cont <local.npc>
+   new.cont.findid.i_vengeful_spirit.trigger=@equip
+  try uid.<local.npc>.update
+
+[SPELL 115]
+DEFNAME=s_wither
+NAME=Wither
+SOUND=0108
+RUNES=.Kal Vas An Flam
+CAST_TIME=1.5
+RESOURCES=i_reag_grave_dust, i_reag_nox_crystal, i_reag_pig_iron
+RUNE_ITEM=i_rune_weaken
+SCROLL_ITEM=i_scroll_wither
+FLAGS=SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 60.0
+INTERRUPT=100.0,1.0
+
+on=@success
+forchars 5
+	if <src.uid> != <uid>
+	local.damage = <r30,35>
+	local.damage *= <eval 30 + (<karma> / 100) + (<src.necromancy> * 10)>
+	local.damage /= 10000
+		if <local.damage> > 40
+		local.damage = 40
+		endif
+	local.damage /= <src.distance <uid>>
+	damage <local.damage> dam_cold <src.uid>
+	effect 3,i_fx_vortex_full,5,20,0,0,3
+	endif
+endfor
+
+[SPELL 116]
+DEFNAME=s_wraith_form
+NAME=Wraith Form
+SOUND=01d2
+RUNES=.Rel Xen Um
+CAST_TIME=4
+RESOURCES=i_reag_nox_crystal, i_reag_pig_iron
+RUNE_ITEM=i_rune_weaken
+SCROLL_ITEM=i_scroll_wraith_form
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=17
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,1.0
+
+ON=@Select
+if <restest 1 i_rune_polymorph>
+	if <body> == c_harrower
+	consume i_rune_polymorph
+	body = <obody>
+	update
+	endif
+return 1
+endif
+
+ON=@Effect
+serv.newitem = i_fx_wraith_form
+new.attr = attr_static|attr_decay
+new.timer = 1
+new.p = <p>
+serv.newitem i_rune_polymorph
+new.layer = 40
+new.timer = -1
+new.link = <uid>
+new.cont = <uid>
+body = c_harrower
+update
+
+[SPELL 117]
+DEFNAME=s_exorcism
+NAME=Exorcism
+SOUND=
+RUNES=.Ort Corp Grav
+CAST_TIME=2.0
+RESOURCES=i_reag_nox_crystal, i_reag_grave_dust
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_exorcism
+FLAGS=
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=40
+SKILLREQ=Necromancy 80.0
+INTERRUPT=100.0,1.0
+
+on=@select
+if <spiritspeak> < 100.0
+actdiff = -1
+endif
+
+ON=@Success
+ref11 = <uid>
+forchars 26
+	if <region.tag0.champion> == 1
+		if <isplayer>
+			if <flags>&statf_dead
+				if <isnearcorpse 10>
+					doswitch <mapplane>
+					go r_chaos_shrine_fel
+					go r_chaos_shrine_fel // this should be trammel?
+					go r_chaos_shrine_ilsh
+					go r_chaos_shrine_malas
+					go r_chaos_shrine_tok
+					go r_chaos_shrine_termur
+					enddo
+				endif
+			endif
+		endif
+	endif
+endfor
+
+[function isnearcorpse]
+ref12 = <uid>
+foritems <args>
+	if <type> == t_corpse
+		if <link.uid> == <ref12.uid>
+		return 1
+		endif
+	endif
+endfor
+return 0
+[EOF]

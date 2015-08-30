@@ -1,0 +1,140 @@
+﻿[Plevel 4]
+bilgiyarismasi
+
+[function bilgiyarismasi]
+src.dialogclose d_bilgix
+src.dialog d_bilgix
+return 1
+
+
+[DIALOG d_bilgix]
+0,0
+//nomove
+resizepic 0 0 2620 420 180
+checkertrans 0 0 420 180
+
+dtext 60 20 0790 <serv.name> Bilgi Yarismasi
+
+resizepic 75 50 3000 320 25
+dtextentry 80 53 300 25 044 1 ?
+dtext 20 50 025 Soru :
+
+resizepic 75 90 3000 320 25
+dtextentry 80 93 300 25 044 2 ?
+dtext 20 90 025 Cevap :
+
+dhtmlgump 50 140 90 25 95 0 <def.bfont_blue>Tamam
+
+button 20 140 4006 4007  1 0 1
+
+//button 20 80  4006 4007 1 0 2
+
+[dialog d_bilgix BUTTON]
+on=1
+if (strmatch('<argtxt[1]>',''))
+src.hata Bos soru soramazsiniz.
+src.sdialog d_bilgix
+elseif (strmatch('<argtxt[1]>','?'))
+src.hata Bos soru soramazsiniz.
+src.sdialog d_bilgix
+else
+var.sorux <argtxt[1]>
+var.cevapx <argtxt[2]>
+sdialog d_bilgix_x
+endif
+
+
+[DIALOG d_bilgix_x]
+0,0
+nomove
+resizepic 0 0 2620 420 180
+checkertrans 0 0 420 180
+
+dtext 60 20 0790 <serv.name> Bilgi Yarismasi
+
+dhtmlgump 75 50 320 25 95 0 <def.bfont_red><var0.sorux>
+dtext 20 50 026 Soru :
+dhtmlgump 75 90 320 25 95 0 <def.bfont_red><var.cevapx> = <var.cevapx>
+dtext 20 90 026 Cevap :
+
+dhtmlgump 50 140 110 25 95 0 <def.bfont_blue>Yarismayi baslat
+
+button 20 140 4006 4007  1 0 1
+
+[dialog d_bilgix_x BUTTON]
+on=1
+if (<src.account.plevel> > 3)
+serv.allclients f_bilgici
+serv.b @044,,1 Bilgi yarismasi baslamistir. Soruya en hizli cevap veren kazanir. Basarilar.
+return 1
+endif
+[function f_bilgici]
+trysrc <uid> dialog d_bilgix_player
+
+
+[DIALOG d_bilgix_player]
+0,0
+nomove
+resizepic 0 0 2620 420 180
+checkertrans 0 0 420 180
+
+dtext 60 20 0790 <serv.name> Bilgi Yarismasi
+
+dhtmlgump 75 50 320 25 95 0 <def.bfont_red><var0.sorux>
+dtext 20 50 044 Soru :
+
+resizepic 75 90 3000 320 25
+dtextentry 80 93 320 25 044 1 ?
+dtext 20 90 044 Cevap :
+
+dtext 50 140 025 Soruyu yanitla !
+
+button 20 140 4006 4007  1 0 1
+
+[dialog d_bilgix_player BUTTON]
+on=1
+if (strmatch('<argtxt[1]>','?'))
+src.hata Cevap kismini bos birakamazsiniz.
+src.sdialog d_bilgix_player
+return 1
+elseif (<var0.kazananx>)
+src.hata Yarismayi <uid.<var0.kazananx>.name> kazanmis.
+dialogclose d_bilgix_player
+return 1
+elseif (strmatch('<argtxt[1]>','<var.cevapx>'))
+var.kazananx <src.uid>
+src.smy Dogru cevap verdiniz.
+serv.b @044,,1 <uid.<var.kazananx>.name> bilgi yarismasinda ilk cevabi verdi.
+src.newitem i_gold,25000
+new.bounce
+var.sorux=
+var.cevapx=
+serv.allclients f_bilgici_winner
+timerf 5,var.kazananx=
+return 1
+elseif !(strmatch('<argtxt[1]>','<var.cevapx>'))
+src.hata Yanlis cevap hakkinizi kaybettiniz.
+dialogclose d_bilgix_player
+return 1
+
+else
+var.kazananx <src.uid>
+src.smy Dogru cevap verdiniz.
+serv.b @044,,1 <uid.<var.kazananx>.name> bilgi yarismasinda ilk cevabi verdi.
+src.newitem i_gold,25000
+new.bounce
+var.sorux=
+var.cevapx=
+serv.allclients f_bilgici_winner
+timerf 5,var.kazananx=
+return 1
+endif
+
+on=0
+//src.hata Yarismaya katilmaktan vazgeçtiniz.
+
+
+[function f_bilgici_winner]
+trysrc <uid> dialogclose d_bilgix_player
+
+[eof]

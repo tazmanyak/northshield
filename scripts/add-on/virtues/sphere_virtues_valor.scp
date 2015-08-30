@@ -1,0 +1,41 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+// Fired when valor virtue is invoked.
+[function f_valor_target]
+if <uid> == <argo>
+	if <tag0.virtue_4> < 20000
+	sysmessage @,,2 1054036 // You must be a Knight of Valor to summon the champion's spawn in this manner!
+	return 1
+	endif
+	forchars 16
+		if !(<isplayer>)
+		flee
+		flee
+		emote flee from battle
+		endif
+	endfor
+losevirtue 4,6000
+endif
+if <tag0.virtue_4> < 4000
+sysmessage You must be at least Seeker of Valor to do this.
+return 1
+endif
+if <obj.isplayer>
+src.sysmessage Players don't flee.
+return 1
+endif
+if (<obj.npc>)
+obj.flee
+obj.flee
+obj.emote flee from battle
+src.losevirtue 4,3000
+return 1
+endif
+
+[eof]

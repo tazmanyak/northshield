@@ -1,0 +1,150 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_info]
+10,40
+
+resizepic 0 0 0242C 520 335
+dhtmlgump 20 15 480 26 0 0 <DEF.CENTER><DEF.I>Guild Iliskileri
+gumppictiled 20 40 480 2 02711
+dhtmlgump 20 50 120 26 1 0 <DEF.I>Guild Ismi
+dhtmlgump 150 53 360 26 0 0 <NAME>
+
+//Extra
+dhtmlgump 20 80 120 26 1 0 <DEF.I>Durum
+dhtmlgump 150 83 360 26 0 0 <DEF0.Guild.AlignName.<ALIGN>>
+dhtmlgump 280 80 120 26 1 0 <DEF.I>Uyeler
+dhtmlgump 410 83 360 26 0 0 <MEMBER.COUNT>
+
+dhtmlgump 20 110 120 26 1 0 <DEF.I>Kisaltma
+dhtmlgump 150 113 120 26 0 0 <ABBREV>
+
+ARGS=<SRC.GUILD.TAG0.War.<UID>>
+IF ((<SRC.GUILD.GuildFromUID.<UID>.WeWar>) || (<SRC.GUILD.GuildFromUID.<UID>.TheyWar>)) && !(<SRC.GUILD.IsWarRing <UID>>)
+  LOCAL.Font = <DEF.BFONT_RED>
+  ARGS=<ReturnClockFormat <eval (<ARGV0>*60)>>
+ELSE
+  LOCAL.Font = <DEF.BFONT_BLACK>
+  ARGS=<ReturnClockFormat <eval (<ARGV0>-<SERV.TIME>)/1000>>
+ENDIF
+dhtmlgump 280 110 120 26 1 0 <DEF.I>Kill Durumunuz
+dhtmlgump 410 113 120 26 0 0 <LOCAL.Font><dSRC.GUILD.TAG0.War.<UID>.Kills>/<QVAL (<isempty <ARGV1>>)? 0:<ARGV1>>
+dhtmlgump 280 140 120 26 1 0 <DEF.I>Digerlerinin Killi
+dhtmlgump 410 143 120 26 0 0 <LOCAL.Font><dTAG0.War.<SRC.GUILD>.Kills>/<QVAL (<isempty <ARGV1>>)? 0:<ARGV1>>
+dhtmlgump 20 140 120 26 1 0 <DEF.I>Kalan Sure
+dhtmlgump 150 143 120 26 0 0 <LOCAL.Font><ARGS>
+
+gumppictiled 20 172 480 2 02711
+IF (<SRC.GUILD.IsWarRing <UID>>)
+  ARGS=Bu guild ile savas halindesiniz !
+  AddButtonAndBackground 20, 290, 5, Teslim Olma
+ELIF (<SRC.GUILD.GuildFromUID.<UID>.WeWar>)
+  ARGS=Bu guild ile muharebeye girdiniz !
+  AddButtonAndBackground 20, 290, 1, Savasi Redded
+ELIF (<SRC.GUILD.GuildFromUID.<UID>.TheyWar>)
+  ARGS=This guild has challenged you to war!
+  AddButtonAndBackground 20, 260, 2, Savasi Kabul Et
+  AddButtonAndBackground 275, 260, 3, Sartlari Degistir
+  AddButtonAndBackground 20, 290, 1, Savasi Reddet
+//ELIF (<SRC.GUILD.GuildFromUID.<UID>.WeAlly>)
+//  ARGS=Bu guild ile ittifak olmaniz icin davetiye aldiniz.
+//  AddButtonAndBackground 148, 245, 0, Show Alliance Roster
+//  AddButtonAndBackground 20, 290, 0, Withdraw Request
+//  dhtmlgump 150 83 360 26 0 0 AllianceName
+//ELIF (<SRC.GUILD.GuildFromUID.<UID>.TheyAlly>)
+//  ARGS=This guild has requested an alliance.
+//  AddButtonAndBackground 148, 215, 0, Show Alliance Roster
+//  AddButtonAndBackground 20, 260, 0, Deny Request
+//  AddButtonAndBackground 20, 290, 0, Accept Request
+//  dhtmlgump 150 83 360 26 0 0 AllianceName
+//ELIF (<SRC.GUILD.GuildFromUID.<UID>.IsAlly>)
+//  ARGS=You are allied with this guild.
+//  AddButtonAndBackground 148, 215, 0, Show Alliance Roster
+//  AddButtonAndBackground 20, 290, 0, Leave Alliance
+//  IF (SRC = AllianceLeader)
+//   AddButtonAndBackground 20, 260, 0, Remove Guild from Alliance
+//   AddButtonAndBackground 275, 260, 0, Promote to Alliance Leader
+//  ENDIF
+ELSE
+  ARGS=Bu guild ile baris halindesiniz.
+  //AddButtonAndBackground 20, 260, 0, Request Alliance
+  AddButtonAndBackground 20, 290, 4, Declare War!
+ENDIF
+dhtmlgump 20 180 480 30 1 0 <DEF.CENTER><ARGS>
+gumppictiled 20 245 480 2 02711
+
+AddButtonAndBackground 275, 290, 0, Cancel
+
+
+[DIALOG d_guild_info BUTTON]
+ON=1		//Dismiss Challenge
+IF (<SRC.GUILD.IsWarRing <UID>>)
+ return 1
+ELIF (<SRC.GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanControlWarStatus>)
+ SRC.SYSMESSAGE @,,1 Savas durumunu belirlemeniz icin izniniz yok.
+ELSE
+ UID.<SRC.GUILD>.DeclarePeace <UID>	//Internal function
+ DeclarePeace <SRC.GUILD>		//Internal function
+ TRY UID.<SRC.GUILD>.TAG.War.<UID>=
+ TRY TAG.War.<SRC.GUILD>=
+ SRC.SYSMESSAGE @,,1 Oneri yenilendi.
+ENDIF
+
+ON=2		//Accept Challenge
+IF !(<SRC.GUILD.GuildFromUID.<UID>.TheyWar>)
+ return 1
+ELIF (<SRC.GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanControlWarStatus>)
+ SRC.SYSMESSAGE @,,1 Savas durumunu belirlemeniz icin izniniz yok
+ELSE
+ UID.<SRC.GUILD>.DeclareWar <UID>
+ ARGS=<SRC.GUILD.TAG.War.<UID>>
+ ARGS=<QVAL (<ARGV0> != 0)? <eval <SERV.TIME>+(<ARGV0>*60*1000)>:-1>,<ARGV1>
+ TRY UID.<SRC.GUILD>.TAG.War.<UID>=<ARGS>
+ TRY TAG.War.<SRC.GUILD>=<ARGS>
+ UID.<SRC.GUILD>.Guild_SendMessage Guildiniz suan <NAME> ile savas halindedir.
+ Guild_SendMessage Guildiniz <SRC.GUILD.NAME> ile savas halindedir.
+ENDIF
+
+ON=3		//Modify Terms
+IF !(<SRC.GUILD.GuildFromUID.<UID>.TheyWar>)
+ return 1
+ELIF (<SRC.GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanControlWarStatus>)
+ SRC.SYSMESSAGE @,,1 Savas durumunu belirlemeniz icin izniniz yok
+ELSE
+ SDIALOG d_guild_war_declaration
+ENDIF
+
+ON=4		//Declare War
+IF (<SRC.GUILD.IsWarRing <UID>>)
+ return 1
+ELIF (<SRC.GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanControlWarStatus>)
+ SRC.SYSMESSAGE @,,1 Savas durumunu belirlemeniz icin izniniz yok
+ELSE
+ SDIALOG d_guild_war_declaration
+ENDIF
+
+ON=5		//Surrender
+IF (<SRC.GUILD.MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanControlWarStatus>)
+ SRC.SYSMESSAGE @,,1 Savas durumunu belirlemeniz icin izniniz yok
+ELIF !(<SRC.GUILD.IsWarRing <UID>>)
+ return 1
+ELSE
+ UID.<SRC.GUILD>.Guild_SendMessage <NAME>'e karsi olan savasi kaybettiniz.
+ Guild_SendMessage <SRC.GUILD.NAME>'e karsi olan savasi kazandiniz !
+ UID.<SRC.GUILD>.DeclarePeace <UID>
+ DeclarePeace <SRC.GUILD>
+ TRY UID.<SRC.GUILD>.TAG.War.<UID>=
+ TRY UID.<SRC.GUILD>.TAG.War.<UID>.Kills=
+ TRY TAG.War.<SRC.GUILD>=
+ TRY TAG.War.<SRC.GUILD>.Kills=
+ENDIF
+
+/////////////////////////////////////////
+
+[FUNCTION AddButtonAndBackground]
+resizepic <ARGV0> <ARGV1> 02486 225 26
+button <eval <ARGV0>+5> <eval <ARGV1>+5> 0845 0846 1 0 <ARGV2>
+dhtmlgump <eval <ARGV0>+30> <eval <ARGV1>+3> 185 26 0 0 <ARGV3>
+
+[EOF]

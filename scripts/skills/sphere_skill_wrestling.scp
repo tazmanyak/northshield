@@ -1,0 +1,34 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 43]
+DEFNAME=Skill_Wrestling
+KEY=Wrestling
+TITLE=Wrestler
+PROMPT_MSG=
+STAT_STR=100
+STAT_INT=30
+STAT_DEX=75
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=10
+//ADV_RATE=0,0,0
+//ADV_RATE=8.5,120.0,680.0
+//ADV_RATE=1.0,1.0,1.0
+
+on=@start
+if (<wrestling> >= 98.1) && (<anatomy> >= 98.1)
+	events +e_wrestler
+endif
+if <wrestling> < 98.0)
+	if rand(5)==1
+		skill fail
+	return 1
+endif
+[eof]	

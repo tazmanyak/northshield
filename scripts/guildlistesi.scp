@@ -1,0 +1,172 @@
+//////////////////////siralamali deneme/////////////////
+
+
+
+
+
+[function guildlist]
+dialog d_guildlist
+
+[defname guildpuanlistesi]
+guildpuanlistesi 20
+
+[function guildverpuan]
+tag0.gpuan +=1
+for 1 <ddef.guildpuanlistesi>
+        var.removeguild <ddef.guildpuanlistesi>
+        for y 1 <ddef.guildpuanlistesi>
+                ref1=<var.guildpuanlistesi_<dlocal.y>>
+                if (<ref1> = <uid>)
+                        var.removeguild <dlocal.y>
+                endif
+        endfor
+        ref2=<var.guildpuanlistesi_<dlocal._for>>
+        if (<dtag.gpuan> >= <ref2.dtag.gpuan>)
+                var.guildpuanlistesi_<dvar.removeguild>
+                for x <dvar.removeguild> <dlocal._for>
+                        var.guildpuanlistesi_<dlocal.x> <var.guildpuanlistesi_<eval <dlocal.x> -1>>
+                endfor
+                var.guildpuanlistesi_<dlocal._for> <uid>
+                var.removeguild
+                return 1
+        endif
+endfor
+
+[plevel 1]
+guildlist
+
+[dialog d_guildlist]
+120,260
+resizepic 39 0 60000 525 205//ARka Fon
+resizepic 50 12 83 501 180
+page 0 
+   dtext 80 30 38 1.Isim:                     
+   dtext 75 60 38 2.Isim:                        
+   dtext 75 90 38 3.Isim:
+   dtext 75 120 38 4.Isim:                          
+   dtext 75 150 38 5.Isim: 
+   dtext 450 30 38 Puan:                       
+   dtext 450 60 38 Puan:                         
+   dtext 450 90 38 Puan: 
+   dtext 450 120 38 Puan:  
+   dtext 450 150 38 Puan:       
+for c 1 5
+obj = <var.guildpuanlistesi_<dlocal.c>>
+   dtext 126 <hval <local.c>*30> 50 <obj.name>
+   dtext 493 <hval <local.c>*30> 50 <dobj.tag.gpuan>
+endfor
+
+
+
+[function f_guild_tablo_list]
+for c 1 5
+obj = <var.guildpuanlistesi_<dlocal.c>>
+	if !<isempty <var.guildpuanlistesi_<dlocal.c>>>
+   		var.guild_list_name_<dlocal.c> <obj.name>
+  		var.guild_list_puan_<dlocal.c> <dobj.tag.gpuan>
+	endif
+endfor
+
+[function f_get_gld]
+serv.f_guild_tablo_list
+if <argn1> == 1
+	return <var.guild_list_name_1>
+elif <argn1> == 11
+	return <eval <var.guild_list_puan_1>>
+elif <argn1> == 2
+	return <var.guild_list_name_2>
+elif <argn1> == 22
+	return <eval <var.guild_list_puan_2>>
+elif <argn1> == 3
+	return <var.guild_list_name_3>
+elif <argn1> == 33
+	return <eval <var.guild_list_puan_3>>
+elif <argn1> == 4
+	return <var.guild_list_name_4>
+elif <argn1> == 44
+	return <eval <var.guild_list_puan_4>>
+elif <argn1> == 5
+	return <var.guild_list_name_5>
+elif <argn1> == 55
+	return <eval <var.guild_list_puan_5>>
+endif
+
+
+[defname guildlisteleri]
+guild1=//04000dc21 //
+guild2=///40009a7f //
+guild3=//0400121e6
+guild4=//04000c7a1
+guild5=//04000b268
+guild6=//040004dfd
+guild7=//040000c05
+guild8=//04000e0af
+guild9=//040013184
+
+
+
+//<var.ebe>font face=Argos color=#0499CC<var.ebesi>Spawn suanda cikmistir...<var.ebe>/font<var.ebesi>
+[function yazguildpuan]
+for k 1 3
+IF (<FILE.OPEN C:\AppServ\www\Web\guildlist.php>)
+	file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+	//if (<uid.<def.guildlisteleri<dlocal.k>>.more2> == 0)
+	file.writeline <var.ebe>font face=Argos color=#FF0000<var.ebesi><uid.<def.guildlisteleri<dlocal.k>>.name><var.ebe>/font<var.ebesi> --- <var.ebe>font face=Argos color=#FF0000<var.ebesi><uid.<def.guildlisteleri<dlocal.k>>.tag.taraftar><var.ebe>/font<var.ebesi> --- <var.ebe>font face=Argos color=#FF0000<var.ebesi><uid.<def.guildlisteleri<dlocal.x>>.tag0.gpuan><var.ebe>/font<var.ebesi>
+	//file.writeline <var.ebe>font face=Argos color=#FFFFFF<var.ebesi><eval <eval <eval <uid.<def.guildlisteleri<dlocal.k>>.timer>/3600>/24>> gun <eval <eval <uid.<def.guildlisteleri<dlocal.k>>.timer>/3600>-<eval <eval <eval <uid.<def.guildlisteleri<dlocal.k>>.timer>/3600>/24>*24>> saat <eval <eval <uid.<def.guildlisteleri<dlocal.k>>.timer>-<eval <eval <uid.<def.guildlisteleri<dlocal.k>>.timer>/3600>*3600>>/60>dk<var.ebe>/font<var.ebesi>
+	file.writeline <var.ebe>/font<var.ebesi>
+	file.writeline <var.ebe>p<var.ebesi>
+	file.close
+endif
+endfor
+
+[Plevel 1]
+guildpuanlari
+
+[function guildpuanlari]
+src.dialog d_guildlistesi
+return 1
+
+
+[dialog d_guildlistesi]
+10,10
+page 0
+resizepic 0 0 3500 550 450
+//resizepic 10 10 3000 470 390
+dhtmlgump 200 20 300 20 0 0 <def.bfont_red>North Uo Guild Listesi
+for k 1 9
+dhtmlgump 25 (<eval <dlocal.k>*20> +60) 350 20 0 0 <def.bfont_red><uid.<def.guild<dlocal.k>>.name>:
+//if (<uid.<def.guildlisteleri<dlocal.k>>.more2> == 0)
+dhtmlgump 160 (<eval <dlocal.k>*20> +60) 350 20 0 0 <def.bfont_dgreen>Puan : <eval <uid.<def.guild<dlocal.k>>.tag0.gpuan> > <def.bfont_dgreen>Taraf : <uid.<def.guild<dlocal.k>>.tag.taraftar>
+//else
+dhtmlgump 360 (<eval <dlocal.k>*20> +60) 350 20 0 0 <def.bfont_blue> <uid.<def.guild<dlocal.k>>.master>
+
+//endif
+endfor
+
+
+[itemdef i_skor_guild]
+id i_bulletin_board
+name Skorlar
+type t_eq_script
+
+on=@create
+attr=attr_static|attr_move_never
+
+on=@dclick
+src.guildpuanlari
+return 1
+
+[itemdef i_skor_guild2]
+id i_bulletin_board
+name Skorlar
+type t_eq_script
+
+on=@create
+attr=attr_static|attr_move_never
+
+on=@dclick
+src.dialog d_guildlist
+return 1
+
+[eof]
+

@@ -1,0 +1,111 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 0277c]
+DEFNAME=i_studded_do
+NAME=Studded Do
+TYPE=t_armor
+RESOURCES=14 t_leather
+SKILLMAKE=TAILORING 95.0
+WEIGHT=8.0
+FLIP=1
+REQSTR=55
+DUPELIST=027c7
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Studded Samurai Armor
+DESCRIPTION=Studded Do
+ARMOR=50
+
+ON=@CREATE
+HITPOINTS=100 //={36 48}
+
+[ITEMDEF 027c7]
+DUPEITEM=0277c
+
+[ITEMDEF 0277f]
+DEFNAME=i_studded_hiro_sode
+NAME=Studded Hiro Sode
+TYPE=t_armor
+RESOURCES=8 t_leather
+SKILLMAKE=TAILORING 85.0
+WEIGHT=1.0
+REQSTR=30
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Studded Samurai Armor
+DESCRIPTION=Studded Hiro Sode
+ARMOR=50
+
+
+ON=@CREATE
+HITPOINTS=100 //={36 48}
+
+[ITEMDEF 02787]
+DEFNAME=i_studded_suneate
+NAME=Studded Suneate
+TYPE=t_armor
+RESOURCES=14 t_leather
+SKILLMAKE=TAILORING 92.0
+WEIGHT=5.0
+FLIP=1
+REQSTR=30
+DUPELIST=027ca
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Studded Samurai Armor
+DESCRIPTION=Studded Suneate
+ARMOR=50
+
+
+ON=@CREATE
+HITPOINTS=100 //={36 48}
+
+[ITEMDEF 027ca]
+DUPEITEM=02787
+
+[ITEMDEF 0278b]
+DEFNAME=i_studded_haidate
+NAME=Studded Haidate
+TYPE=t_armor
+RESOURCES=14 i_hides_cut
+SKILLMAKE=TAILORING 92.0
+WEIGHT=5.0
+FLIP=1
+REQSTR=30
+DUPELIST=027d6
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Studded Samurai Armor
+DESCRIPTION=Studded Haidate
+ARMOR=50
+
+ON=@CREATE
+HITPOINTS=100 //={36 48}
+
+[ITEMDEF 027d6]
+DUPEITEM=0278b
+
+[ITEMDEF 0279d]
+DEFNAME=i_studded_mempo
+NAME=Studded Mempo
+TYPE=t_armor
+RESOURCES=8 t_leather
+SKILLMAKE=TAILORING 80.0
+WEIGHT=2.0
+FLIP=1
+REQSTR=30
+DUPELIST=027e8
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Studded Samurai Armor
+DESCRIPTION=Studded Mempo
+ARMOR=50
+
+ON=@CREATE
+HITPOINTS=100 //={36 48}
+
+[ITEMDEF 027e8]
+DUPEITEM=0279d
+
+[eof]

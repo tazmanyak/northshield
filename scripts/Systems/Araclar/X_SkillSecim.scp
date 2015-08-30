@@ -1,0 +1,406 @@
+[ITEMDEF i_skill_stone8]
+ID=i_deed
+type t_script
+NAME=Skill Secim
+TYPE=0
+
+ON=@CREATE
+COLOR=0465
+
+on=@click
+message @,,1 Skill Secim
+message @,,1 [ 7 Skill ] 
+return 1
+
+
+ON=@DClick
+If <eval <src.tag.8skillbitti>>==1
+src.sys_error Skill seçimini sadece bir kere yapabilirsiniz.
+return 1
+else
+SRC.ALLSKILLS=0
+SRC.DIALOG d_4_gm_skills
+src.tag.8skillbitti 1
+remove
+RETURN 1
+endif
+
+[DIALOG d_4_gm_skills]
+0,0
+nomove
+noclose
+resizepic 10 10 3500 500 450
+text 120 40 69 0 //Title
+//column 1
+checkbox 40 80 56 55 0 0
+text 65 80 349 1 //Anatomy
+checkbox 40 100 56 55 0 1
+text 65 100 349 2 //Alchemy
+checkbox 40 120 56 55 0 2
+text 65 120 349 3 //Archery
+checkbox 40 140 56 55 0 3
+text 65 140 349 4 //ArmsLore
+checkbox 40 160 56 55 0 4
+text 65 160 349 5 //Armslore
+checkbox 40 180 56 55 0 5
+text 65 180 349 6 //Blacksmithing
+checkbox 40 200 56 55 0 6
+text 65 200 349 7 //Bowcraft
+checkbox 40 220 56 55 0 7
+text 65 220 349 8 //Camping
+checkbox 40 240 56 55 0 8
+text 65 240 349 9 //Carpentry
+checkbox 40 260 56 55 0 9
+text 65 260 349 10 //Cartography
+checkbox 40 280 56 55 0 10
+text 65 280 349 11 //Cooking
+checkbox 40 300 56 55 0 11
+text 65 300 349 12 //DetectingHidden
+checkbox 40 320 56 55 0 12
+text 65 320 349 13 //Enticement
+checkbox 40 340 56 55 0 13
+text 65 340 349 14 //EvaluatingIntel
+checkbox 40 360 56 55 0 14
+text 65 360 349 15 //Fencing
+checkbox 40 380 56 55 0 15
+text 65 380 349 16 //Fishing
+//column 2
+checkbox 190 80 56 55 0 16
+text 215 80 349 17 //Forensics
+checkbox 190 100 56 55 0 17
+text 215 100 349 18 //Healing
+checkbox 190 120 56 55 0 18
+text 215 120 349 19 //Herding
+checkbox 190 140 56 55 0 19
+text 215 140 349 20 //Hiding
+checkbox 190 160 56 55 0 20
+text 215 160 349 21 //Inscription
+checkbox 190 180 56 55 0 21
+text 215 180 349 22 //ItemID
+checkbox 190 200 56 55 0 22
+text 215 200 349 23 //LockPicking
+checkbox 190 220 56 55 0 23
+text 215 220 349 24 //Lumberjacking
+checkbox 190 240 56 55 0 24
+text 215 240 349 25 //Macefighting
+checkbox 190 260 56 55 0 25
+text 215 260 349 26 //Magery
+checkbox 190 280 56 55 0 26
+text 215 280 349 27 //MagicResistance
+checkbox 190 300 56 55 0 27
+text 215 300 349 28 //Meditation
+checkbox 190 320 56 55 0 28
+text 215 320 349 29 //Mining
+checkbox 190 340 56 55 0 29
+text 215 340 349 30 //Musicianship
+checkbox 190 360 56 55 0 30
+text 215 360 349 31 //Peacemaking
+checkbox 190 380 56 55 0 31
+text 215 380 349 32 //Parrying
+//column 3
+checkbox 340 80 56 55 0 32
+text 365 80 349 33 //Poisoning
+checkbox 340 100 56 55 0 33
+text 365 100 349 34 //RemoveTrap
+checkbox 340 120 56 55 0 34
+text 365 120 349 35 //Snooping
+checkbox 340 140 56 55 0 35
+text 365 140 349 36 //SpiritSpeak
+checkbox 340 160 56 55 0 36
+text 365 160 349 37 //Stealing
+checkbox 340 180 56 55 0 37
+text 365 180 349 38 //Stealth
+checkbox 340 200 56 55 0 38
+text 365 200 349 39 //Swordsmanship
+checkbox 340 220 56 55 0 39
+text 365 220 349 40 //Tactics
+checkbox 340 240 56 55 0 40
+text 365 240 349 41 //Tailoring
+//checkbox 340 260 56 55 0 41
+//text 365 260 349 42 //Taming
+checkbox 340 280 56 55 0 42
+text 365 280 349 43 //TasteID
+checkbox 340 300 56 55 0 43
+text 365 300 349 44 //Tinkering
+checkbox 340 320 56 55 0 44
+text 365 320 349 45 //Tracking
+checkbox 340 340 56 55 0 45
+text 365 340 349 46 //Veterinary
+checkbox 340 360 56 55 0 46
+text 365 360 349 47 //Wrestling
+//finish button
+text 340 390 69 48
+button 400 395 1209 1210 1 0 0
+
+[DIALOG d_4_gm_skills TEXT]
+Ayni anda 7 skill seçmek zorundasınız.
+Anatomy 
+Alchemy 
+Archery 
+Animal Lore
+Armslore 
+Blacksmithing 
+Bowcraft 
+Camping 
+Carpentry 
+Cartography 
+Cooking 
+DetectingHidden 
+Enticement 
+EvaluatingIntel 
+Fencing 
+Fishing 
+Forensics 
+Healing 
+Herding 
+Hiding 
+Inscription 
+ItemID 
+LockPicking 
+Lumberjacking 
+Macefighting 
+Magery 
+MagicResistance 
+Meditation 
+Mining 
+Musicianship 
+Peacemaking 
+Parrying 
+Poisoning 
+RemoveTrap 
+Snooping 
+SpiritSpeak 
+Stealing 
+Stealth 
+Swordsmanship 
+Tactics 
+Tailoring 
+Taming 
+TasteID 
+Tinkering 
+Tracking 
+Veterinary 
+Wrestling
+Tamam:
+[DIALOG d_4_gm_skills BUTTON]
+ON=0
+IF (<argchk>==7)
+IF (<argchk[0]>==1)
+SRC.Anatomy 100.0 
+
+ENDIF
+IF (<argchk[1]>==1)
+SRC.Alchemy 100.0
+
+ENDIF
+IF (<argchk[2]>==1)
+SRC.Archery 100.0
+
+ENDIF
+IF (<argchk[3]>==1)
+SRC.ANIMALLORE 100.0
+
+ENDIF
+IF (<argchk[4]>==1)
+SRC.Armslore 100.0
+
+ENDIF
+IF (<argchk[5]>==1)
+SRC.Blacksmithing 100.0
+
+ENDIF
+IF (<argchk[6]>==1)
+SRC.Bowcraft 100.0
+
+ENDIF
+IF (<argchk[7]>==1)
+SRC.Camping 100.0
+
+ENDIF
+IF (<argchk[8]>==1)
+SRC.Carpentry 100.0
+
+ENDIF
+IF (<argchk[9]>==1)
+SRC.Cartography 100.0
+
+ENDIF
+IF (<argchk[10]>==1)
+SRC.Cooking 100.0
+
+ENDIF
+IF (<argchk[11]>==1)
+SRC.DetectingHidden 100.0
+
+ENDIF
+IF (<argchk[12]>==1)
+SRC.Enticement 100.0
+
+ENDIF
+IF (<argchk[13]>==1)
+SRC.EvaluatingIntel 100.0
+
+ENDIF
+IF (<argchk[14]>==1)
+SRC.Fencing 100.0
+
+ENDIF
+IF (<argchk[15]>==1)
+SRC.Fishing 100.0
+
+ENDIF
+IF (<argchk[16]>==1)
+SRC.Forensics 100.0
+
+ENDIF
+IF (<argchk[17]>==1)
+SRC.Healing 100.0
+
+ENDIF
+IF (<argchk[18]>==1)
+SRC.Herding 100.0
+
+ENDIF
+IF (<argchk[19]>==1)
+SRC.Hiding 100.0
+
+ENDIF
+IF (<argchk[20]>==1)
+SRC.Inscription 100.0
+
+ENDIF
+IF (<argchk[21]>==1)
+SRC.ItemID 100.0
+
+ENDIF
+IF (<argchk[22]>==1)
+SRC.LockPicking 100.0
+
+ENDIF
+IF (<argchk[23]>==1)
+SRC.Lumberjacking 100.0
+
+ENDIF
+IF (<argchk[24]>==1)
+SRC.Macefighting 100.0
+
+ENDIF
+IF (<argchk[25]>==1)
+SRC.Magery 100.0
+
+ENDIF
+IF (<argchk[26]>==1)
+SRC.MagicResistance 100.0
+
+ENDIF
+IF (<argchk[27]>==1)
+SRC.Meditation 100.0
+
+ENDIF
+IF (<argchk[28]>==1)
+SRC.Mining 100.0
+
+ENDIF
+IF (<argchk[29]>==1)
+SRC.Musicianship 100.0
+
+ENDIF
+IF (<argchk[30]>==1)
+SRC.Peacemaking 100.0
+
+ENDIF
+IF (<argchk[31]>==1)
+SRC.Parrying 100.0
+
+ENDIF
+IF (<argchk[32]>==1)
+SRC.Poisoning 100.0
+
+ENDIF
+IF (<argchk[33]>==1)
+SRC.RemoveTrap 100.0
+
+ENDIF
+IF (<argchk[34]>==1)
+SRC.Snooping 100.0
+
+ENDIF
+IF (<argchk[35]>==1)
+SRC.SpiritSpeak 100.0
+
+ENDIF
+IF (<argchk[36]>==1)
+SRC.Stealing 100.0
+
+ENDIF
+IF (<argchk[37]>==1)
+SRC.Stealth 100.0
+
+ENDIF
+IF (<argchk[38]>==1)
+SRC.Swordsmanship 100.0
+
+ENDIF
+IF (<argchk[39]>==1)
+SRC.Tactics 100.0
+
+ENDIF
+IF (<argchk[40]>==1)
+SRC.Tailoring 100.0
+
+ENDIF
+IF (<argchk[41]>==1)
+SRC.Taming 100.0
+
+ENDIF
+IF (<argchk[42]>==1)
+SRC.TasteID 100.0
+
+ENDIF
+IF (<argchk[43]>==1)
+SRC.Tinkering 100.0
+
+ENDIF
+IF (<argchk[44]>==1)
+SRC.Tracking 100.0
+
+ENDIF
+IF (<argchk[45]>==1)
+SRC.Veterinary 100.0
+
+ENDIF
+IF (<argchk[46]>==1)
+SRC.Wrestling 100.0
+
+ENDIF
+
+SRC.SYSMESSAGE  @0481 Skilleriniz Tamamlandi.
+findlayer(1).bounce
+findlayer(2).bounce
+findlayer(3).bounce
+findlayer(4).bounce
+findlayer(5).bounce
+findlayer(6).bounce
+findlayer(7).bounce
+findlayer(8).bounce
+findlayer(10).bounce
+findlayer(12).bounce
+findlayer(13).bounce
+findlayer(14).bounce
+findlayer(17).bounce
+findlayer(18).bounce
+findlayer(19).bounce
+findlayer(20).bounce
+findlayer(22).bounce
+findlayer(23).bounce
+findlayer(24).bounce
+//FLAGS &= ~statf_freeze
+//FLAGS &= ~statf_invul
+//FLAGS &= ~statf_insubstantial
+//FLAGS &= ~statf_invisible
+ELSE
+SRC.SYSMESSAGE @,,1 Aynı anda 7 skill seçmek zorundasınız.
+SRC.DIALOG d_4_gm_skills
+ENDIF 
+
+[eof]

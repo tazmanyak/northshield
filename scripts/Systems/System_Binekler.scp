@@ -1,0 +1,529 @@
+
+////////////////////////// Kii-Rin Properties /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+[Plevel 1]
+kirgate
+kirrune
+kirrunesil
+unires
+
+[Function kirgate]
+if <src.isevent.e_ctf_white> || <src.isevent.e_ctf_red> || <src.isevent.e_yarisma_expo> || <src.isevent.e_yarisma_topuk> || <src.isevent.e_yarisma_lms> || <src.isevent.e_cpvp_duello> || <src.isevent.e_cpvp>
+src.sysmessage @,,1 Yarismalarda ve duellolarda kullanamazsiniz.
+return 1
+endif
+
+if <src.isevent.e_start_event>
+	src.sys_error oyuna baslangic asamasinda page atamazsiniz.
+	return 1
+endif
+
+if <src.isevent.e_jailed>
+	src.sys_error Cezali iken help menusunu kullanamazsiniz.
+	return 1
+endif
+
+if (<src.flags>&statf_dead)
+		src.sys_error Ölü iken kullanamazsiniz.
+		return 1
+else
+	serv.newitem i_u_gatere
+	new.equip
+endif
+
+[ITEMDEF i_u_gatere]
+Id i_handr_1
+type t_eq_script
+name gatere
+
+On=@Create
+timer 5
+
+ON=@equip
+if (!<src.tag.gatere>)
+target @,,1 Sahip olduğunuz Kii Rin'i seçiniz.
+return 1
+else
+src.sysmessage @,,1 20 dakikada bir bu sistemi kullanabilirsiniz.
+return 1
+endif
+
+ON=@TARGON_CHAR
+if !(<src.targ.memoryfindtype.(memory_ipet|memory_guard).link> == <src.uid>)
+	src.sysmessage @50 <src.targ.name> size ait değil.
+	return 1
+elseif !(<src.targ.id> == c_m_kirin)
+	src.sysmessage @,,1 Bu bir Kii Rin değil.
+	return 1
+elseif !(<src.tag.kirinrune>)
+	src.sysmessage @,,1 Kii Rin'e eklenmiş bir rune yok.
+	return 1
+else
+serv.newitem i_kirgate
+new.p <src.targ.p>
+new.morep <src.tag.kirrune>
+src.targ.anim 5
+src.sound 509
+//src.dialog d_gate
+src.tag.gatere=1
+serv.newitem i_gater_kirin
+new.equip
+return 1 
+endif
+
+On=@timer
+remove
+return 1
+
+///////Dialog/////
+//
+[DIALOG d_gate] 
+0, 0 
+PAGE 0 
+resizepic 0 0 2600 322 127 
+text 89 16 1152 0 
+text 53 46 1152 1 
+text 53 67 1152 2 
+button 176 88 2311 2312 1 0 1
+radio 34 45 210 211 0 1 
+radio 34 68 210 211 0 2 
+
+[DIALOG d_gate TEXT] 
+Kii Rin Gate Sistem
+Moonglow
+Calimport
+
+[DIALOG d_gate BUTTON]
+on=1
+serv.newitem i_kiiringatemoon
+new.p <src.targ.p>
+On=0
+serv.newitem i_kiiringatecalim
+new.p <src.targ.p>
+
+
+[CHARDEF c_m_NMandre] 
+DEFNAME=c_m_NMandre
+NAME=N-Mandre
+ID=c_horse_brown_lt
+SOUND=snd_ANIMALS_HORSE1
+CAN=MT_WALK|MT_RUN
+FOODTYPE=35 t_crops, 35 t_fruit, 35 t_grain, 35 t_grass
+ICON=i_pet_horse_brown_dk
+DESCRIPTION=N-Mandre
+SUBSECTION=Horses 
+CATEGORY=Animals 
+
+on=@click
+sayua 0481,6,6,0 <name>
+return 1
+
+ON=@Create 
+COLOR=0819
+STR={250 320} 
+DEX={100 120} 
+INT={112 113} 
+
+PARRYING={45.0 55.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+TAMING=99.9
+ANIMALLORE=99.9
+
+on=@gethit 
+if (<hits> < 60) 
+sayua 0481,6,6,eng,* kendini iyilestirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+hits=(<hits> + 75) 
+endif 
+if (<act.baseid>=c_vortex)
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif
+if (<act.baseid>=c_blade_spirit) 
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<act.baseid>=c_daemon) 
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<act.baseid>=c_bear_polar) 
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<flags> &statf_poisoned) 
+sayua 0481,6,6,6,* zehir etkisini kaldirir *
+sound snd_spell_cure 
+findid.i_rune_poison.remove
+endif
+
+NPC=brain_animal
+
+KARMA=1000
+FAME=1000
+
+
+////Itemlar///
+
+[itemdef i_gater_kirin]
+name=kiirincikcik
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer 1200
+
+On=@UnEquip
+src.tag.gatere=0
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+[itemdef i_kiringatemoon]
+id=i_moongate_red
+name=Kii Rin Gate
+
+ON=@CREATE
+COLOR=0819
+
+ON=@STEP
+if (<src.findid.i_gater_kirin>)
+	src.go calimport
+	SRC.sysmessage @50 Kii Rin Sayesinde Calimport'a ulastiniz
+	Remove
+elseif  (<src.npc>)
+	src.go calimport
+else
+	src.sysmessage @50 Bunu siz kullanamazsiniz.
+	return 1
+endif
+
+[itemdef i_kiringatecalim]
+id=i_moongate_red
+name=Kii Rin Gate
+
+ON=@CREATE
+COLOR=0819
+
+On=@Targon_char
+if !(<src.targ.uid> == <src.uid>)
+	src.sysmessage @50 Yalnizca kendiniz icin kullanabilirsiniz.
+	return 1
+else
+endif
+
+ON=@STEP
+if (<src.findid.i_gater_kirin>)
+	src.go moonglow
+	SRC.sysmessage @50 Kii Rin Sayesinde Moonglow'a ulastiniz
+	Remove
+elseif (<src.findid.c_m_kirin>)
+	src.go moonglow
+else
+	src.sysmessage @50 Bunu siz kullanamazsiniz.
+	return 1
+endif
+
+[Itemdef i_kirgate]
+id i_moongate_blue
+defname i_kirgate
+Name Kii Rin Gate
+type t_telepad
+
+On=@Create
+color=08f
+timer=15
+
+On=@Step
+if (<src.findid.i_gater_kirin>)
+	//SRC.sysmessage @50 Kii Rin Sayesinde <src.region.name> ulastiniz
+	remove
+else
+	src.sysmessage @,,1 Sadece sahibi kullanabilir.
+	return 1
+endif
+
+on=@timer
+remove
+return 1
+
+[function kirrune]
+if (<src.flags>&statf_dead)
+		src.sys_error Ölü iken kullanamazsiniz.
+		return 1
+elseif (<src.tag.kirinrune> == 01)
+	src.sysmessage @,,1 Şuan Kii Rin bir rune sahibi.
+	src.sysmessage @,,1 Rune değiştirmek için .kirrunesil komutunu kullanınız.
+	return 1
+else
+serv.newitem i_kirrune
+new.equip
+endif
+
+[ITEMDEF i_kirrune]
+Id i_handr_1
+type t_eq_script
+name KirRune
+
+On=@Create
+timer 30
+
+ON=@equip
+target @,,1 Rune eklenecek olan Kii Rin'i seçin
+return 1
+
+ON=@TARGON_CHAR
+if !(<src.targ.memoryfindtype.(memory_ipet|memory_guard).link> == <src.uid>)
+	src.sysmessage @,,1 <src.targ.name> size ait değil.
+	return 1
+elseif !(<src.targ.id> == c_m_kirin)
+	src.sysmessage @,,1 Bu bir Kii Rin değil.
+	return 1
+else
+newitem i_kirrune2
+new.equip
+return 1
+endif
+//elseif (<src.targ.findid> == i_rune_marker)
+//	src.sysmessage @50 Rune yok.
+//	return 1
+//elseif !(<src.targ.findid.i_rune_marker.morep> == 0)
+//	src.sysmessage @50 Kii Rin'deki rune bos.
+//		return 1
+//else
+//serv.newitem i_gatekirin
+//new.p <src.targ.findid.i_rune_marker.morep>
+//src.targ.anim 5
+//src.sound 509
+//src.dialog d_gate
+//src.tag.gatere=1
+//serv.newitem i_gater_kirin
+//new.equip
+//return 1 
+//endif
+
+On=@TargOn_ITem
+return 1
+
+On=@timer
+remove
+return 1
+
+[itemdef i_kirrune2]
+Id i_handr_1
+type t_eq_script
+name KirRune2
+
+On=@Create
+timer 30
+
+ON=@equip
+target @,,1 Kii Rin'e eklenecek rune u seçin
+return 1
+
+On=@TargOn_Item
+if (<src.targ.morex> == 0)
+	src.sysmessage @,,1 Bu rune boş.
+	return 1
+elseif !(<src.targ.baseid> == i_rune_marker)
+	src.sysmessage @50 Bu bir rune değil.
+	return 1
+else
+src.tag.kirrune=<src.targ.morep>
+src.tag.kirinrune=01
+src.targ.remove
+src.sysmessage @,,1 <src.targ.name> Kirin Gate'e eklendi.
+return 1
+endif
+
+On=@timer
+remove
+return 1
+
+[plevel 01]
+kirrune
+kirrunesil
+
+[function kirrunesil]
+if (<src.tag.kirinrune> == 00)
+	src.sysmessage @,,1 Kii Rin de rune yok.
+	return 1
+elseif (<src.tag.kirinrune> == 01)
+	newitem i_rune_marker
+	new.morep=<src.tag.kirrune>
+	new.name=Isimsiz
+	new.bounce
+	src.tag.kirinrune=00
+	src.tag.kirrune=00
+	return 1
+else
+src.sysmessage @,,1 Bir sorun oluştu lütfen page atınız.
+return 1
+endif
+
+
+/////////////////////// Kii-Rin & Unicorn Properties /////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////      Unicorn Properties      /////////////////////////
+[function unires]
+if !(<src.hits> == 0)
+	src.smg Bunu yalnizca olu iken kullanabilirsiniz.
+	return 1
+elseif (<src.findid.i_c_res>)
+	src.smg Tekrar reslenmek icin 20 Dakika beklemelisiniz.
+	return 1
+else
+serv.newitem i_c_res
+new.equip
+endif
+
+[ITEMDEF i_c_res]
+Id i_handr_1
+type t_eq_script
+name res
+
+On=@create
+timer 1200
+
+ON=@equip
+if (<src.tag.resurrect>==0)
+target Sizi resleyecek UniCorn'u secin.
+return 1
+else
+src.smg Tekrar reslenmek icin 20 Dakika beklemelisiniz.
+return 1
+endif
+
+ON=@TARGON_CHAR
+if !(<src.targ.memoryfindtype.(memory_ipet|memory_guard).link> == <src.uid>)
+	src.sysmessage <src.targ.name> size ait degil.
+	return 1
+elseif !(<src.targ.id> == c_m_unicorn)
+	src.sysmessage @080a Bu bir Unicorn degil.
+else
+	src.targ.sayua 0034,6,6,eng Kal In Vas Mani
+	src.targ.anim 5
+	src.EFFECT=3,0375A,6,50,
+	src.sound 509
+	src.resurrect
+	serv.newitem i_res_silvercorn
+	new.equip
+	src.sayua 0481,6,6,eng *Unicorn Sayesinde Dirilir*
+	return 1
+endif
+
+On=@timer
+remove
+return 1
+
+[itemdef i_res_silvercorn]
+name=Corn Res
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer 60
+
+On=@UnEquip
+src.tag.resurrect=0
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+[CHARDEF c_m_silvercorn] 
+DEFNAME=c_m_silvercorn 
+NAME=SilverCorn
+SOUND=snd_ANIMALS_HORSE1
+ID=c_horse_brown_dk
+CAN=MT_WALK|MT_RUN
+FOODTYPE=55 t_crops, 55 t_fruit, 55 t_grain, 64 t_grass
+ICON=i_pet_horse_brown_dk
+
+on=@click
+sayua 0481,6,6,0 <name>
+return 1
+
+ON=@Create 
+COLOR=8097
+STR={440 460} 
+DEX={120 140} 
+INT={120 121} 
+
+PARRYING={45.0 55.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+TAMING=99.9
+ANIMALLORE=99.9
+
+on=@gethit 
+if (<hits> < 60) 
+sayua 0481,6,6,eng,* kendini iyilestirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+hits=(<hits> + 75) 
+endif 
+if (<act.baseid>=c_vortex)
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif
+if (<act.baseid>=c_blade_spirit) 
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<act.baseid>=c_daemon) 
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<act.baseid>=c_bear_polar) 
+sayua 0481,6,6,eng,* buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif 
+if (<flags> &statf_poisoned) 
+sayua 0481,6,6,6,* zehir etkisini kaldirir *
+sound snd_spell_cure 
+findid.i_rune_poison.remove
+endif
+
+NPC=brain_animal
+
+KARMA=1000
+FAME=1000
+
+[plevel 1]
+unires
+
+
+
+[EOF]
+

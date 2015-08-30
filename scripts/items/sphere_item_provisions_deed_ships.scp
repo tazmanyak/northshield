@@ -1,0 +1,93 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF i_deed_ship_small_N]
+//i_deed_ship_small_N
+NAME=Deed to a small ship
+ID=i_deed_ship
+RESOURCES=2500 i_log,1000 i_ingot_dull_copper
+CATEGORY=Provisions - Deeds
+SUBSECTION=Ship Plans
+DESCRIPTION=Small Ship
+value=100000
+
+ON=@Create
+	attr = attr_newbie
+	MORE=i_multi_ship_small_N
+
+on=@dclick
+if (<src.findid i_rune_poison>)
+	src.sysmessage @0481,,1 Uzerinizde zehir Varken bunu yapamazsiniz.
+	return 1
+elseif (<src.hits> < <src.str>)
+	src.sysmessage @0481,,1 Yaraliyken bunu kullanamazsiniz.
+	return 1
+endif
+src.sysmessage @69,,1 Geminizi geri kaldirmak icin tiller man'e bir kere tiklayiniz.
+
+[ITEMDEF i_deed_ship_dragon_small_N]
+ID=i_deed_ship
+NAME=Deed to a small dragon ship
+RESOURCES=i_deed,i_multi_ship_dragon_small_N
+CATEGORY=Provisions - Deeds
+SUBSECTION=Ship Plans
+DESCRIPTION=Small Dragon Ship
+value=250000
+
+ON=@Create
+	MORE=i_multi_ship_dragon_small_N
+
+[ITEMDEF i_deed_ship_medium_N]
+ID=i_deed_ship
+NAME=Deed to a medium ship
+RESOURCES=i_deed,i_multi_ship_medium_N
+CATEGORY=Provisions - Deeds
+SUBSECTION=Ship Plans
+DESCRIPTION=Medium Ship
+value=350000
+
+ON=@Create
+	MORE=i_multi_ship_medium_N
+
+[ITEMDEF i_deed_ship_dragon_medium_N]
+NAME=Deed to a medium dragon ship
+ID=i_deed_ship
+RESOURCES=i_deed,i_multi_ship_dragon_medium_N
+CATEGORY=Provisions - Deeds
+SUBSECTION=Ship Plans
+DESCRIPTION=Medium Dragon Ship
+value=450000
+
+ON=@Create
+	MORE=i_multi_ship_dragon_medium_N
+
+[ITEMDEF i_deed_ship_long_N]
+ID=i_deed_ship
+NAME=Deed to a long ship
+RESOURCES=i_deed,i_multi_ship_long_N
+CATEGORY=Provisions - Deeds
+SUBSECTION=Ship Plans
+DESCRIPTION=Long Ship
+value=600000
+
+ON=@Create
+	MORE=i_multi_ship_long_N
+
+[ITEMDEF i_deed_ship_dragon_long_N]
+ID=i_deed_ship
+NAME=Deed to a long dragon ship
+RESOURCES=i_deed,i_multi_ship_dragon_long_N
+CATEGORY=Provisions - Deeds
+SUBSECTION=Ship Plans
+DESCRIPTION=Long Dragon Ship
+value=750000
+
+ON=@Create
+	MORE=i_multi_ship_dragon_long_N
+
+[eof]

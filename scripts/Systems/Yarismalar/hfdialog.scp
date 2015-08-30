@@ -1,0 +1,120 @@
+
+/////////////////////////HALFLIFE///////////////
+
+[dialog d_halflifeinfo]
+0,0
+nomove
+noclose
+page 0
+gumppic 10 10 39
+dhtmlgump 40 15 200 20 0 0 Half Life Turnuvasi
+dhtmlgump 30 40 200 20 0 0 Baslangic: <var.saat>
+dhtmlgump 30 90 200 20 0 0 MaxPlayer: <eval <var.maxplayer>>
+dhtmlgump 30 190 200 20 0 0 Suan Katilan: <var.katilanlar> kisi var.
+dhtmlgump 30 215 200 20 0 0 Reddeden: <var.reddedenler> kisi var.
+dhtmlgump 180 275 30 20 0 0 KATIL
+dhtmlgump 50 275 50 20 0 0 KAPAT
+button 216 277 1209 1210 1 0 1
+button 30 277 1209 1210 1 0 2
+
+[dialog d_halflifeinfo text]
+
+[dialog d_halflifeinfo button]
+
+onbutton=1
+if (<eval <var.katilanlar>> == <eval <var.maxplayer>>)
+src.sysmessage @0481 Limit dolmus. Uzgunuz..
+else
+src.tag.yarismahf 1
+src.tag.halflife 0
+src.events -e_mekan
+src.events -e_olmesakin
+src.events -e_safe
+src.events -e_safe2
+src.events -e_sp
+src.events -e_brt
+src.events -e_chs
+src.go Half Life
+src.SPELLEFFECT s_night_sight,100.0
+src.Cantalarbanka
+src.binekolmazsaolmaz
+src.stone
+src.newitem loot_halflife
+src.act.attr 04
+src.act.bounce
+src.newitem i_spear
+src.act.attr 04
+src.act.bounce
+src.newitem i_katana
+src.act.attr 04
+src.act.bounce
+src.newitem i_bow_new
+src.act.attr 04
+src.act.equip
+src.events -e_spr
+src.hits 100
+src.dex 100
+src.str 100
+src.int 25
+src.allskills 1000
+src.events +e_halflifepuansistem
+src.events +e_hf
+src.sysmessage @95,,1 Half Life yarismasina katildiniz.
+src.sysmessage @95,,1 Iyi Eglenceler
+var.katilanlar (<eval <var.katilanlar>> + 1)
+return 1
+endif
+
+onbutton=2
+var.reddedenler (<eval <var.reddedenler>> + 1)
+src.sysmessage @0481 Half Life'ye katilmadiniz..
+
+/////////////////Half Life Çikis///////////////
+
+[DIALOG d_turnuvahf]
+50, 50
+PAGE 0
+noclose
+nomove
+resizepic 0 0 3500 300 230
+resizepic 10 10 3000 280 210
+nomove
+text 32 36 0 0
+text 32 61 0 1
+text 32 84 0 2
+
+button 40 115 2151 2152 1 0 1
+
+text 79 116 0 3
+
+button 40 152 2151 2152 1 0 2
+
+text 79 156 0 4
+
+[DIALOG d_turnuvahf TEXT]
+Half Life Turnuvasi
+Turnuvadan Cikmak 
+istiyormusunuz?
+Evet!
+Hayir!
+
+[DIALOG d_turnuvahf BUTTON]
+on=1
+src.findid.i_backpack.remove
+src.findid.i_spear.remove
+src.findid.i_katana.remove
+src.findid.i_bow_elven.remove
+src.findid.i_bag.remove
+src.tag.yarismahf 0
+src.events -e_hf
+src.events -e_halflifepuansistem
+src.tag.halflife 0
+src.go Hazirlanma Odasi
+src.stone 0
+var.katilanlar (<eval <var.katilanlar>> - 1)
+
+on=2
+src.sysmessage @0799,1,1 Guzel!.Bende oyle tahmin etmistim <src.name>!
+src.dialogclose d_turnuvahf
+
+[EOF]

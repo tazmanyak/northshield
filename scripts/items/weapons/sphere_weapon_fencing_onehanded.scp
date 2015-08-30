@@ -1,0 +1,396 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+///////////////////////////////////////////////////////////////
+//////// ASSASSIN SPIKES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d21]
+DEFNAME=i_assassin_Spike
+Name=Assassin Spike
+TYPE=T_WEAPON_FENCE
+DAM=10,12
+SKILL=Fencing
+REQSTR=15
+SPEED=2.0
+WEIGHT=4
+TWOHANDS=N
+SKILLMAKE=BLACKSMITHING 70.0
+RESOURCES=9 i_ingot_iron
+DUPELIST=02d2d
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=Assassin Spike
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 02d2d]
+DUPEITEM=02d21
+
+[ITEMDEF i_charged_assassin_spike]
+ID=i_assassin_spike
+NAME=Charged Assassin Spike
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=9 i_ingot_iron, 1 i_gem_ecru_citrine
+TEVENTS=t_iprop
+TAG.HitLightning=10
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=Charged Assassin Spike
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_flesh_ripper]
+ID=i_assassin_spike
+NAME=Flesh Ripper
+TEVENTS=t_iprop
+TAG.Skill.Bonus.1=Anatomy,10.0
+TAG.Slayer.Super=SSLAYER_MAGE
+TAG.StrengthBonus=5
+TAG.HitChanceIncrease=15
+TAG.SwingSpeedIncrease=40
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=Flesh Ripper
+
+ON=@Create
+HITPOINTS=255
+COLOR=color_o_copper
+
+[ITEMDEF i_magekiller_assassin_spike]
+ID=i_assassin_spike
+NAME=Magekiller Assassin Spike
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=9 i_ingot_iron, 1 i_gem_brilliant_amber
+TEVENTS=t_iprop
+TAG.HitManaLeech=15
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=Magekiller Assassin Spike
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_rune_carving_knife]
+ID=i_assassin_spike
+NAME=Rune Carving Knife
+SKILLMAKE=Blacksmithing 70.0
+RESOURCES=9 i_ingot_iron, 10 i_ingredient_muculent, 10 i_ingredient_putrefaction, 1 i_ingredient_dread_horn_mane
+TAG.HitManaLeech=40
+TAG.StaminaRegeneration=2
+TAG.DamageIncrease=30
+TAG.LowerManaCost=10
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=Rune Carving Knife
+
+ON=@Create
+HITPOINTS={255 255}
+COLOR=048d
+
+[ITEMDEF i_true_assassin_spike]
+ID=i_assassin_spike
+NAME=True Assassin Spike
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=9 i_ingot_iron, 1 i_gem_dark_sapphire
+TEVENTS=t_iprop
+TAG.HitChanceIncrease=4
+TAG.DamageIncrease=4
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=True Assassin Spike
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_wounding_assassin_spike]
+ID=i_assassin_spike
+NAME=Wounding Assassin Spike
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=9 i_ingot_iron, 1 i_gem_perfect_emerald
+TEVENTS=t_iprop
+TAG.HitHarm=15
+CATEGORY=Provisions - Weapons
+SUBSECTION=Assassin Spikes
+DESCRIPTION=Wounding Assassin Spike
+
+ON=@Create
+HITPOINTS={36 48}
+
+
+
+
+[ITEMDEF 0f52]
+DUPEITEM=0f51
+
+[ITEMDEF i_misericord]
+ID=i_dagger
+NAME=Misericord
+TEVENTS=t_iprop
+TAG.Slayer.Super=SSLAYER_WOLF
+CATEGORY=Provisions - Weapons
+SUBSECTION=Daggers
+DESCRIPTION=Misericord
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_night_kiss]
+ID=i_dagger
+NAME=Night's Kiss
+TEVENTS=t_iprop
+TAG.Slayer.Super=SSLAYER_REPOND
+TAG.HitLifeLeech=40
+TAG.SwingSpeedIncrease=30
+TAG.DamageIncrease=35
+CATEGORY=Provisions - Weapons
+SUBSECTION=Daggers
+DESCRIPTION=Night's Kiss
+
+ON=@Create
+HITPOINTS=255
+COLOR=color_o_shadow
+
+
+///////////////////////////////////////////////////////////////
+//////// KRYSSES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01400]
+DEFNAME=i_kryss
+WEIGHT=2
+TYPE=T_WEAPON_FENCE
+FLIP=1
+DAM=10,12
+SPEED=2.0
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+DUPELIST=01401
+RESOURCES=8 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 36.7
+CATEGORY=Provisions - Weapons
+SUBSECTION=Krysses
+DESCRIPTION=Kryss
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 01401]
+DUPEITEM=01400
+
+[ITEMDEF i_blackthorn_kryss]
+ID=i_kryss
+NAME=Blackthorn's Kryss - Museum of Vesper Replica
+TEVENTS=t_iprop
+TAG.HitLifeLeech=22
+TAG.SwingSpeedIncrease=25
+TAG.DamageIncrease=50
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Weapons
+SUBSECTION=Krysses
+DESCRIPTION=Blackthorn's Kryss - Museum of Vesper Replica
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF i_serpents_fang]
+ID=i_kryss
+NAME=Serpent's Fang
+TEVENTS=t_iprop
+TAG.Artifact=11
+TAG.HitPoisonArea=100
+TAG.HitChanceIncrease=15
+TAG.DamageIncrease=50
+TAG.ResPoison=16
+TAG.DamPhysical=25
+TAG.DamPoison=75
+CATEGORY=Provisions - Weapons
+SUBSECTION=Krysses
+DESCRIPTION=Serpent's Fang
+
+ON=@Create
+COLOR=<ColorElementalType>
+HITPOINTS=255
+
+[ITEMDEF i_silver_serpent_blade]
+ID=i_kryss
+NAME=Silver Serpent Blade
+TEVENTS=t_iprop
+TAG.HitChanceIncrease=5
+TAG.SwingSpeedIncrease=10
+TAG.DamageIncrease=25
+CATEGORY=Provisions - Weapons
+SUBSECTION=Krysses
+DESCRIPTION=Silver Serpent Blade
+
+ON=@Create
+HITPOINTS={36 53}
+
+
+
+
+[ITEMDEF 026c4]
+DUPEITEM=026ba
+
+[ITEMDEF i_luna_lance]
+ID=i_lance
+NAME=Luna Lance
+TEVENTS=t_iprop
+TAG.Skill.Bonus.1=Chivalry,10.0
+TAG.StrengthBonus=5
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=35
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Weapons
+SUBSECTION=Lances
+DESCRIPTION=Luna Lance
+
+ON=@Create
+HITPOINTS=255
+COLOR=0481
+
+[ITEMDEF i_dragon_slayer]
+ID=i_lance
+NAME=The Dragon Slayer
+TEVENTS=t_iprop
+TAG.Artifact=11
+TAG.Slayer.Less=SSLAYER_DRAGON
+TAG.Luck=110
+TAG.DamageIncrease=50
+TAG.ResFire=20
+TAG.BestWeaponSkill=1
+TAG.DamEnergy=100
+CATEGORY=Provisions - Weapons
+SUBSECTION=Lances
+DESCRIPTION=The Dragon Slayer
+
+ON=@CREATE
+HITPOINTS=255
+COLOR=<ColorElementalType>
+
+
+///////////////////////////////////////////////////////////////
+//////// LEAFBLADES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d22]
+DEFNAME=i_leafblade
+Name=Leafblade
+TYPE=T_WEAPON_FENCE
+DAM=13,15
+SKILL=Fencing
+REQSTR=20
+TWOHANDS=N
+SKILLMAKE=BLACKSMITHING 70.0
+RESOURCES=12 i_ingot_iron
+SPEED=2.2
+WEIGHT=8
+DUPELIST=02d2e
+CATEGORY=Provisions - Weapons
+SUBSECTION=Leafblades
+DESCRIPTION=Leafblade
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF 02d2e]
+DUPEITEM=02d22
+
+[ITEMDEF i_leafblade_ease]
+ID=i_leafblade
+NAME=Leafblade of Ease
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=12 i_ingot_iron, 1 i_gem_perfect_emerald
+TEVENTS=t_iprop
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Weapons
+SUBSECTION=Leafblades
+DESCRIPTION=Leafblade of Ease
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_luckblade]
+ID=i_leafblade
+NAME=Luckblade
+SKILLMAKE=Blacksmithing 70.0
+RESOURCES=12 i_ingot_iron, 1 i_gem_white_pearl
+TEVENTS=t_iprop
+TAG.Luck=20
+CATEGORY=Provisions - Weapons
+SUBSECTION=Leafblades
+DESCRIPTION=Luckblade
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_magekiller_leafblade]
+ID=i_leafblade
+NAME=Magekiller Leafblade
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=12 i_ingot_iron, 1 i_gem_fire_ruby
+TEVENTS=t_iprop
+TAG.HitManaLeech=16
+CATEGORY=Provisions - Weapons
+SUBSECTION=Leafblades
+DESCRIPTION=Magekiller Leafblade
+
+ON=@Create
+HITPOINTS={36 48}
+
+[ITEMDEF i_true_leafblade]
+ID=i_leafblade
+NAME=True Leafblade
+SKILLMAKE=Blacksmithing 75.0
+RESOURCES=12 i_ingot_iron, 1 i_gem_blue_diamond
+TAG.ResPoison=5
+CATEGORY=Provisions - Weapons
+SUBSECTION=Leafblades
+DESCRIPTION=True Leftblade
+
+ON=@Create
+HITPOINTS={36 48}
+
+
+
+[ITEMDEF 01405]
+DUPEITEM=01404
+
+[ITEMDEF i_recaro_riposte]
+ID=i_war_fork
+NAME=Recaro's Riposte
+TEVENTS=t_iprop
+TAG.SwingSpeedIncrease=10
+TAG.DamageIncrease=25
+CATEGORY=Provisions - Weapons
+SUBSECTION=War Forks
+DESCRIPTION=Recaro's Riposte
+
+ON=@Create
+HITPOINTS=110
+
+[ITEMDEF i_taskmaster]
+ID=i_war_fork
+NAME=The Taskmaster
+TEVENTS=t_iprop
+TAG.Artifact=10
+TAG.HitPoisonArea=100
+TAG.DexterityBonus=5
+TAG.HitChanceIncrease=15
+TAG.DamageIncrease=50
+TAG.DamPoison=100
+CATEGORY=Provisions - Weapons
+SUBSECTION=War Forks
+DESCRIPTION=The Taskmaster
+
+ON=@Create
+HITPOINTS=255
+COLOR=<ColorElementalType>
+
+[eof]

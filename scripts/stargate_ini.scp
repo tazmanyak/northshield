@@ -1,0 +1,14 @@
+[defname stargate_settings]
+stargate_location_discovery	0			//if set to 1 stargates must be discovered before their sequence shows up in the menu	
+stargate_one_way		0			//set to 1 if stargates will be one way trips, no return portal on the other side
+stargate_control_timout		120			//how many seconds till the control device times out on the user
+stargate_duration		30			//how long does the stargate stay open for (seconds)
+stargate_color			0482			//color of the stargate arch itself
+stargate_rune_color		0480			//color of the stargate sequence runes on the stargate foundation
+stargate_symbol_1		i_rune_glowing_1	//stargate symbol 1
+stargate_symbol_2		i_rune_glowing_2	//stargate symbol 2
+stargate_symbol_3		i_rune_glowing_3	//stargate symbol 3
+stargate_symbol_4		i_rune_glowing_4	//stargate symbol 4
+stargate_symbol_5		i_rune_glowing_5	//stargate symbol 5
+
+[eof]

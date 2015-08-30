@@ -1,0 +1,116 @@
+[CHARDEF C_H_PIRATE]
+DEFNAME=C_H_PIRATE
+NAME=#NAMES_HUMANMALE the Pirate
+ID=C_MAN
+HIREDAYWAGE=70
+DESIRES=i_gold,e_notoriety,jobpirate,T_GEM
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobpirate
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Pirate (male)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={ 86 100 }
+	DEX={ 86 100 }
+	INT={ 71 85 }
+
+	FENCING={ 25.0 48.0 }
+	PARRYING={65.0 88.0}
+	SWORDSMANSHIP={55.0 78.0}
+	WRESTLING={45.0 68.0}
+	MACEFIGHTING={25.0 48.0}
+	TACTICS={65.0 88.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=i_CUTLASS
+	ITEM={ i_bandana 1 i_skull_cap 1 }
+	COLOR=colors_red
+	ITEM=i_boots_thigh
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+
+
+[CHARDEF C_H_PIRATE_F]
+DEFNAME=C_H_PIRATE_F
+NAME=#NAMES_HUMANFEMALE the Pirate
+ID=C_WOMAN
+HIREDAYWAGE=70
+DESIRES=i_gold,e_notoriety,jobpirate,T_GEM
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobpirate
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Outlaws & Rogues
+DESCRIPTION=Pirate (female)
+
+ON=@Create
+	NPC=brain_human
+	COLOR=colors_skin
+
+	STR={86 100}
+	DEX={86 100}
+	INT={71 85}
+
+	FENCING={25.0 48.0}
+	PARRYING={65.0 88.0}
+	SWORDSMANSHIP={55.0 78.0}
+	WRESTLING={45.0 68.0}
+	MACEFIGHTING={25.0 48.0}
+	TACTICS={65.0 88.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=i_CUTLASS
+	ITEM={ i_bandana 1 i_skull_cap 1 }
+	COLOR=colors_red
+	ITEM=i_boots_thigh
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+
+[EOF]

@@ -1,0 +1,1077 @@
+[AREADEF a_Bedlam_Peerless]
+NAME=Monstrous Interred Grizzle Realm
+P=102,1624,50,3
+Rect=97,1628,114,1608,3
+EVENTS=r_peerless_area,r_dungeon_bedlam
+FLAGS=region_flag_nobuilding|region_antimagic_recall_in|region_antimagic_gate|region_flag_underground|region_flag_no_pvp
+GROUP=Malas
+
+[AREADEF a_BlightedGrove_Peerless]
+EVENTS=r_peerless_area,r_dungeon_blightedgrove
+NAME=Lady Melisande Realm
+FLAGS=region_flag_nobuilding|region_antimagic_recall_in|region_antimagic_gate|region_flag_no_pvp
+GROUP=Peerless Areas
+P=6493,882,0,1
+RECT=6446,814,6596,974,1
+
+[AREADEF a_PrismofLight_Peerless]
+EVENTS=r_peerless_area
+NAME=Shimmering Effusion Realm
+FLAGS=region_flag_nobuilding|region_antimagic_recall_in|region_antimagic_gate|region_flag_no_pvp
+GROUP=Peerless Areas
+P=6541,116,-15,0
+RECT=6544,111,6498,136,0
+
+[AREADEF a_PalaceParoxymous_Peerless]
+EVENTS=r_peerless_area,r_palace_paroxysmus
+NAME=Chief Paroxysmus Realm
+FLAGS=region_flag_nobuilding|region_antimagic_recall_in|region_antimagic_gate|region_flag_no_pvp
+GROUP=Peerless Areas
+P=6519,381,1,0
+RECT=6487,405,6558,331,0
+
+[AREADEF a_DreadHorn_Peerless]
+EVENTS=r_peerless_area,r_dungeon_twistedweald
+NAME=Dread Horn Realm
+FLAGS=region_flag_nobuilding|region_antimagic_recall_in|region_antimagic_gate|region_flag_no_pvp
+GROUP=Peerless Areas
+P=2139,1250,-60,2
+RECT=2126,1238,2146,1269,2
+RECT=2145,1270,2152,1237,2
+RECT=2150,1243,2159,1265,2
+RECT=2157,1260,2160,1252,2
+RECT=2150,1266,2154,1263,2
+
+[AREADEF a_Travesty_Peerless]
+EVENTS=r_peerless_area,r_dungeon_travesty
+NAME=Travesty Realm
+FLAGS=region_flag_nobuilding|region_antimagic_recall_in|region_antimagic_gate|region_flag_no_pvp
+GROUP=Peerless Areas
+P=6259,880,0,1
+RECT=6232,922,6328,859,1
+
+///////////////////ITEMDEFS////////////////////////
+
+[ITEMDEF i_peerless_logout_timer]
+ID=i_memory
+NAME=Peerless Logout Timer
+TYPE=T_EQ_SCRIPT
+
+ON=@Timer
+CONT.GO Help Room
+REMOVE
+RETURN 1
+
+[ITEMDEF 03189]
+DEFNAME=i_paroxymous_lard
+NAME=Paroxymous Lard
+
+[ITEMDEF 03183]
+DEFNAME=i_blight
+NAME=Blight
+
+[ITEMDEF 03187]
+DEFNAME=i_taint
+NAME=Taint
+
+[ITEMDEF 03184]
+DEFNAME=i_corruption
+NAME=Corruption
+
+[ITEMDEF 03186]
+DEFNAME=i_putrefaction
+NAME=Putrefaction
+
+ON=@Create
+COLOR=02b0
+
+[ITEMDEF 03185]
+DEFNAME=i_scourge
+NAME=Scourge
+
+ON=@Create
+COLOR=0229
+
+[ITEMDEF 03188]
+DEFNAME=i_Muculent
+NAME=Muculent
+
+//////////////////////////////
+
+[ITEMDEF 0318C]
+DEFNAME=i_grizzled_bones
+
+[FUNCTION F_GIVE_BONUS_GRIZZLE]
+IF (<ARGN1> == 1)
+SRC.MAXHITS += 6
+SRC.MODSTR += 12
+SRC.TAG0.LOWERMANACOST += 30
+SRC.TAG0.HITCHANCEDECREASE += 10
+ELSE
+SRC.MAXHITS -= 6
+SRC.MODSTR -= 12
+SRC.TAG0.LOWERMANACOST -= 30
+	IF (!(<SRC.TAG0.LOWERMANACOST>))
+	SRC.TAG.LOWERMANACOST
+	ENDIF
+SRC.TAG0.HITCHANCEDECREASE -= 10
+	IF (!(<SRC.TAG0.HITCHANCEDECREASE>))
+	SRC.TAG.HITCHANCEDECREASE
+	ENDIF
+ENDIF
+
+[ITEMDEF i_grizzle_chest]
+ID=i_bone_chest
+NAME=Tunic of the Grizzle
+DYE=0
+REQSTR=70
+SKILLMAKE=SKILL_BLACKSMITH 100.0
+TAG.SETITEMLIST=i_grizzle_chest;i_grizzle_arms;i_grizzle_gloves;i_grizzle_legs;i_grizzle_helmet
+TAG.SET_TOTAL_AMOUNT=5
+TAG.SET_FULL_COLOR=01b0
+TAG.SET_NAME=GRIZZLE
+ARMOR=85
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_status_bonus
+TAG.HITSINCREASE=5
+TEVENTS=T_SET_PIECE
+
+ON=@Create
+HITPOINTS=255
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1072378
+SRC.ADDCLILOC 1072514,12
+SRC.ADDCLILOC 1072502,Hit Point Increase,25
+SRC.ADDCLILOC 1073488,30
+SRC.ADDCLILOC 1073493,10
+
+[ITEMDEF i_grizzle_arms]
+ID=i_bone_arms
+NAME=Vambraces of the Grizzle
+DYE=0
+REQSTR=70
+SKILLMAKE=SKILL_BLACKSMITH 100.0
+TAG.SETITEMLIST=i_grizzle_chest;i_grizzle_arms;i_grizzle_gloves;i_grizzle_legs;i_grizzle_helmet
+TAG.SET_TOTAL_AMOUNT=5
+TAG.SET_FULL_COLOR=01b0
+TAG.SET_NAME=GRIZZLE
+ARMOR=85
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_status_bonus
+TAG.HITSINCREASE=5
+TEVENTS=T_SET_PIECE
+
+ON=@Create
+HITPOINTS=255
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1072378
+SRC.ADDCLILOC 1072514,12
+SRC.ADDCLILOC 1072502,Hit Point Increase,25
+SRC.ADDCLILOC 1073488,30
+SRC.ADDCLILOC 1073493,10
+
+[ITEMDEF i_grizzle_gloves]
+ID=i_bone_gloves
+NAME=Gauntlets of the Grizzle
+DYE=0
+REQSTR=70
+SKILLMAKE=SKILL_BLACKSMITH 100.0
+TAG.SETITEMLIST=i_grizzle_chest;i_grizzle_arms;i_grizzle_gloves;i_grizzle_legs;i_grizzle_helmet
+TAG.SET_TOTAL_AMOUNT=5
+TAG.SET_FULL_COLOR=01b0
+TAG.SET_NAME=GRIZZLE
+ARMOR=85
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_status_bonus
+TAG.HITSINCREASE=5
+TEVENTS=T_SET_PIECE
+
+ON=@Create
+HITPOINTS=255
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1072378
+SRC.ADDCLILOC 1072514,12
+SRC.ADDCLILOC 1072502,Hit Point Increase,25
+SRC.ADDCLILOC 1073488,30
+SRC.ADDCLILOC 1073493,10
+
+[ITEMDEF i_grizzle_legs]
+ID=i_bone_leggings
+NAME=Greaves of the Grizzle
+DYE=0
+REQSTR=70
+SKILLMAKE=SKILL_BLACKSMITH 100.0
+TAG.SETITEMLIST=i_grizzle_chest;i_grizzle_arms;i_grizzle_gloves;i_grizzle_legs;i_grizzle_helmet
+TAG.SET_TOTAL_AMOUNT=5
+TAG.SET_FULL_COLOR=01b0
+TAG.SET_NAME=GRIZZLE
+ARMOR=85
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_status_bonus
+TAG.HITSINCREASE=5
+TEVENTS=T_SET_PIECE
+
+ON=@Create
+HITPOINTS=255
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1072378
+SRC.ADDCLILOC 1072514,12
+SRC.ADDCLILOC 1072502,Hit Point Increase,25
+SRC.ADDCLILOC 1073488,30
+SRC.ADDCLILOC 1073493,10
+
+[ITEMDEF i_grizzle_helmet]
+ID=i_bone_helmet
+NAME=Skull Helm of the Grizzle
+DYE=0
+REQSTR=70
+SKILLMAKE=SKILL_BLACKSMITH 100.0
+TAG.SETITEMLIST=i_grizzle_chest;i_grizzle_arms;i_grizzle_gloves;i_grizzle_legs;i_grizzle_helmet
+TAG.SET_TOTAL_AMOUNT=5
+TAG.SET_FULL_COLOR=01b0
+TAG.SET_NAME=GRIZZLE
+ARMOR=85
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_status_bonus
+TAG.HITSINCREASE=5
+TEVENTS=T_SET_PIECE
+
+ON=@Create
+HITPOINTS=255
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1072378
+SRC.ADDCLILOC 1072514,12
+SRC.ADDCLILOC 1072502,Hit Point Increase,25
+SRC.ADDCLILOC 1073488,30
+SRC.ADDCLILOC 1073493,10
+
+[chardef c_peerless_monstrous_interred_grizzle]
+id=c_monstrous_interred_grizzle
+name=Monstrous Interred Grizzle
+DAM=27,32
+ARMOR=65
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Monstrous Interred Grizzle
+
+ON=@Create
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=1229
+MAXHITS=25000
+TAG.DEATHSAMOUNT=2
+INT={595 707}
+DEX=144
+MAGICRESISTANCE={100.0 120.0}
+TACTICS={110.0 118.0}
+WRESTLING={103.0 115.2}
+ANATOMY={107.0 111.0}
+EVALUATINGINTEL=105.0
+MAGERY=105.0
+
+ON=@NPCActFight
+IF (<FLOATVAL 0.0125> > <RANDOMDOUBLE>)
+SAY @55 Ah Kah Mon
+SRC.GRIZZLEDAREAEFFECT <UID>
+ENDIF
+
+ON=@GaveDamage
+REF1=<ARGN3>
+IF (<FLOATVAL 0.07> > <RANDOMDOUBLE>)
+LOCAL.NEW=<NEW>
+SERV.NEWITEM i_blood_pool_large
+NEW.COLOR=0ad
+NEW.TIMER=10
+NEW.ATTR=ATTR_DECAY|ATTR_MOVE_NEVER
+NEW.NAME=Acid Pool
+NEW.TYPE=T_ACID_POOL
+NEW.LINK=<UID>
+NEW.P=<REF1.P>
+NEW=<LOCAL.NEW>
+ENDIF
+
+ON=@Death
+IF (<FLOATVAL 0.75> > <RANDOMDOUBLE>)
+NEWLOOT=i_grizzled_bones
+ENDIF
+IF (<FLOATVAL 0.43> > <RANDOMDOUBLE>)
+	DORAND 10
+		BEGIN
+		SERV.NEWITEM i_pet_mound_maggots
+		NEW.NAME=Monsterous Interred Grizzle Maggots
+		BOUNCE <NEW>
+		END
+	NEWLOOT=i_bone_throne
+	NEWLOOT=i_haunted_mirror
+	NEWLOOT=i_gravestone_3
+	NEWLOOT=i_gravestone_2
+	NEWLOOT=i_grizzle_chest
+	NEWLOOT=i_grizzle_arms
+	NEWLOOT=i_grizzle_legs
+	NEWLOOT=i_grizzle_gloves
+	NEWLOOT=i_grizzle_helmet
+	ENDDO
+ENDIF
+
+[FUNCTION GRIZZLEDAREAEFFECT]
+REF1=<UID>
+FORCHARS 5
+	IF (!(STRCMPI(<REGION.NAME>,<REF1.REGION.NAME>))) && (!(<ISBENEFICIAL <REF1>>))
+	SPELLEFFECT S_LIGHTNING,160.0,<ARGN1>
+	ENDIF
+ENDFOR
+
+[TYPEDEF T_ACID_POOL]
+ON=@Step
+SRC.DAMAGE 30 <HVAL <DEF.DAM_PHYSICAL>|<DEF.DAM_ACID>> <LINK>
+IF (!(<ARGN1>)) && (25 > <R100>)
+SRC.SPELLEFFECT S_POISON,1000,<LINK>
+ENDIF
+
+/////////////////////////////
+[ITEMDEF 0318A]
+DEFNAME=i_dreadhorn_mane
+NAME=Dread Horn mane
+
+[ITEMDEF i_dreads_revenge]
+ID=i_kryss
+NAME=Dread's Revenge
+TEVENTS=T_PROPRIEDADES
+TAG.DAMINCREASE=50
+TAG.HITCHANCEINCREASE=15
+TAG.SWINGINCREASE=65
+TEVENTS=t_status_bonus
+TAG.SKILLINCREASE=Fencing
+TAG.SKILLINCREASEVALUE=200
+TAG.HITPOISONAREA=80
+
+ON=@Create
+HITPOINTS=255
+COLOR=0b95
+
+[ITEMDEF i_twisted_weald_entrance]
+ID=i_floor_marble
+NAME=Twisted Weald Entrance, don't remove
+
+ON=@Create
+ATTR=ATTR_MOVE_NEVER|ATTR_INVIS
+COLOR=55
+
+ON=@Step
+IF (!(<ARGN1>))
+	IF (<SRC.ISPLAYER>)
+		IF (!(<SRC.HASQUEST 65>)) && (!(<SRC.ISGM>))
+		SRC.SYSMESSAGELOC -1,1074274
+		ELSE
+		SRC.GO 2186,1250,4,2
+		ENDIF
+	ENDIF
+ENDIF
+
+[chardef c_peerless_dreadhorn]
+id=c_dread_horn
+name=Dread Horn
+DAM=25,32
+ARMOR=60
+CAN=MT_WALK
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Monstrous Interred Grizzle
+
+ON=@Create
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=1129
+MAXHITS=25000
+TAG.DEATHSAMOUNT=2
+INT=1300
+DEX=582
+MAGICRESISTANCE=110.0
+TACTICS=94.0
+WRESTLING=93.0
+ANATOMY=55.0
+EVALUATINGINTEL=110.0
+MAGERY=110.0
+
+ON=@Hit
+REF1=<SRC>
+IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+REF1.SPELLEFFECT S_POISON,100.0,<UID>
+ENDIF
+IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+SAY @55 Ah Kah Nox
+LOCAL.UID=<UID>
+	FORCHARS 6
+		IF (<UID> != <LOCAL.UID>)
+		SPELLEFFECT S_POISON,120.0,<LOCAL.UID>
+		ENDIF
+	ENDFOR
+ELIF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+SAY @55 Ah Kah Nox
+REF1.GRIZZLEDAREAEFFECT <UID>
+ENDIF
+
+ON=@Death
+NEWLOOT=i_dreadhorn_mane
+IF (<FLOATVAL 0.25> > <RANDOMDOUBLE>)
+NEWLOOT=i_dreads_revenge
+ENDIF
+
+/////////////////////////////////////
+[ITEMDEF 0318B]
+DEFNAME=i_diseased_bark
+NAME=diseased bark
+
+[ITEMDEF i_melisande_hair_dye]
+ID=I_bottle_hair_dye
+NAME=Special Hair Dye
+WEIGHT=2
+TYPE=T_DYE_VAT
+DYE=0
+
+ON=@Create
+DORAND 19
+COLOR=0496
+COLOR=0487
+COLOR=0122
+COLOR=0490
+COLOR=0122
+COLOR=0492
+COLOR=08a5
+COLOR=0497
+COLOR=0848
+COLOR=0480
+COLOR=04ac
+COLOR=0488
+COLOR=0486
+COLOR=0485
+COLOR=0491
+COLOR=1154
+COLOR=080f
+COLOR=0499
+COLOR=0b93
+ENDDO
+MORE1=6
+MORE2=6
+
+ON=@DCLICK
+target
+return 1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1060584,<dMORE1>
+
+ON=@Targon_item
+SRC.SYSMESSAGELOC -1,1042417
+RETURN 1
+
+ON=@TARGON_CHAR
+MORE1 --
+SRC.SYSMESSAGELOC -1,501199
+IF !(<MORE1>)
+SRC.SYSMESSAGELOC -1,502412
+CONSUME 1
+ELSE
+RESENDTOOLTIP 1
+ENDIF
+
+ON=@Targon_Cancel
+SRC.SYSMESSAGELOC -1,501200
+RETURN 1
+
+[chardef c_peerless_ladymelisande]
+id=c_lady_m
+name=Lady Melisande
+DAM=11,18
+ARMOR=50
+CAN=MT_WALK
+MOVERATE=60
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Lady Melisande
+
+ON=@Create
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=472
+MAXHITS=25000
+TAG.DEATHSAMOUNT=4
+INT=1700
+DEX=343
+MAGICRESISTANCE=117.0
+TACTICS=99.0
+WRESTLING=99.0
+ANATOMY=22.0
+EVALUATINGINTEL=117.6
+MAGERY=117.6
+
+ON=@GaveDamage
+IF (50 > <R100>)
+	DORAND 14
+	SAY @,,2 1075102
+	SAY @,,2 1075103
+	SAY @,,2 1075104
+	SAY @,,2 1075105
+	SAY @,,2 1075106
+	SAY @,,2 1075107
+	SAY @,,2 1075108
+	SAY @,,2 1075109
+	SAY @,,2 1075110
+	SAY @,,2 1075111
+	SAY @,,2 1075112
+	SAY @,,2 1075113
+	SAY @,,2 1075114
+	SAY @,,2 1075115
+	ENDDO
+ENDIF
+
+ON=@GetHit
+IF (<FLOATVAL 0.01> > <RANDOMDOUBLE>)
+SAY @,,2 1075119
+LOCAL.OLDNEW=<NEW>
+	FOR 2
+	SERV.NEWNPC=c_satyr
+	NEW.REMOVETIMER=<EVAL 60*60>
+	NEW.FAME=<R6800,10000>
+	NEW.TAG.PEERLESSSPAWN=1
+	ENDFOR
+NEW=<LOCAL.OLDNEW>
+ENDIF
+
+ON=@Death
+IF (<FLOATVAL 0.75> > <RANDOMDOUBLE>)
+NEWLOOT=i_diseased_bark
+ENDIF
+IF (<FLOATVAL 0.43> > <RANDOMDOUBLE>)
+	DORAND 4
+	NEWLOOT=i_melisande_hair_dye
+		BEGIN
+		SERV.NEWITEM=i_pet_reaper
+		NEW.TYPE=T_NORMAL
+		NEW.NAME=Eternally Corrupted Tree
+		NEW.COLOR=03b1
+		BOUNCE <NEW>
+		END
+		BEGIN
+		SERV.NEWITEM=i_hatchet
+		NEW.NAME=Melisande Corroded Hatchet
+		NEW.COLOR=04aa
+		NEW.TAG.SWINGINCREASE=35
+		NEW.TAG.DAMINCREASE=-50
+		NEW.EVENTS=t_status_bonus
+		NEW.TAG.SKILLINCREASE=Lumberjacking
+		NEW.TAG.SKILLINCREASEVALUE=200
+		BOUNCE <NEW>
+		END
+	NEWLOOT=i_melisande_hair_dye
+	ENDDO
+ENDIF
+
+///////////////////////////////////
+[ITEMDEF 0318E]
+DEFNAME=i_captured_essence
+NAME=Captured Essence
+
+[ITEMDEF i_crystalline_ring]
+ID=i_ring_gold
+NAME=Crystalline Ring
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_STATUS_BONUS
+TAG.HITSREGENERATION=5
+TAG.MANAREGENERATION=3
+TAG.MAGICDAMINCREASE=20
+TAG.SKILLINCREASE=Magery
+TAG.SKILLINCREASEVALUE=200
+TAG.SKILLINCREASE2=Focus
+TAG.SKILLINCREASEVALUE2=200
+
+ON=@Create
+COLOR=0480
+
+[CHARDEF c_mantra_effervescence]
+ID=c_fetid_essence
+NAME=Mantra Effervescence
+DAM=21,25
+ARMOR=50
+CAN=MT_WALK
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Mantra Effervescence
+
+ON=@Create
+STR=135
+MAXHITS=205
+DEX=124
+INT=179
+WRESTLING=85.0
+TACTICS=85.0
+MAGICRESISTANCE=115.0
+MAGERY=93.0
+EVALUATINGINTEL=93.0
+ANATOMY=15.0
+KARMA=-6000
+FAME=6000
+
+[CHARDEF c_corporeal_brume]
+ID=c_fetid_essence
+NAME=Corporeal Brume
+DAM=21,25
+ARMOR=50
+CAN=MT_WALK
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Corporeal Brume
+
+ON=@Create
+STR=400
+MAXHITS=900
+DEX=124
+INT=57
+WRESTLING=113.0
+TACTICS=110.0
+MAGICRESISTANCE=85.0
+ANATOMY=108.0
+KARMA=-10000
+FAME=10000
+
+[chardef c_peerless_shimmering_effusion]
+id=c_shimmering_effusion
+name=Shimmering Effusion
+DAM=24,29
+ARMOR=68
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Shimmering Effusion (Peerless)
+
+ON=@Create
+TAG.OVERRIDE.REGEN_1=5
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=372
+MAXHITS=25000
+TAG.DEATHSAMOUNT=4
+INT=2500
+DEX=243
+MAGICRESISTANCE=150.0
+EVALUATINGINTEL=150.0
+MAGERY=150.0
+
+ON=@GetHit
+IF (<FLOATVAL 0.01> > <RANDOMDOUBLE>)
+LOCAL.OLDNEW=<NEW>
+	FOR 2
+		DORAND 5
+		SERV.NEWNPC=c_fetid_essence
+		SERV.NEWNPC=c_fetid_essence
+		SERV.NEWNPC=c_mantra_effervescence
+		SERV.NEWNPC=c_mantra_effervescence
+		SERV.NEWNPC=c_corporeal_brume
+		ENDDO
+	NEW.TAG.PEERLESSSPAWN=1
+	NEW.FAME=<R8000,10000>
+	ENDFOR
+NEW=<LOCAL.OLDNEW>
+ENDIF
+
+ON=@Death
+IF (<FLOATVAL 0.85> > <RANDOMDOUBLE>) //(<FLOATVAL 0.43> > <RANDOMDOUBLE>)
+LOCAL.OLDNEW=<NEW>
+	DORAND 3
+	NEWLOOT=i_crystalline_ring
+		BEGIN
+		SERV.NEWITEM=i_pet_fetid_essence
+		NEW.TYPE=T_NORMAL
+		BOUNCE <NEW>
+		END
+		BEGIN
+		SERV.NEWITEM=i_pet_fetid_essence
+		NEW.COLOR=01e8
+		NEW.NAME=Mantra Effervescence Statuette
+		NEW.TYPE=T_NORMAL
+		BOUNCE <NEW>
+		END
+	ENDDO
+NEW=<LOCAL.OLDNEW>
+ENDIF
+IF (<FLOATVAL 0.75> > <RANDOMDOUBLE>)
+NEWLOOT=i_captured_essence
+ENDIF
+IF (<FLOATVAL 0.15> > <RANDOMDOUBLE>)
+NEWLOOT=i_crimson_cinture
+ENDIF
+
+///////////////////////////////////////////////////////////
+[ITEMDEF i_paroxysmus_torso]
+ID=i_flesh_torso
+NAME=Paroxysmus Torso
+
+ON=@Create
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS +t_peerless_key
+COLOR=<DEF.colors_gray>
+
+[ITEMDEF i_paroxysmus_skull]
+ID=01ae0
+NAME=Paroxysmus Skull
+
+ON=@Create
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS +t_peerless_key
+COLOR=<DEF.colors_green>
+
+[ITEMDEF i_paroxysmus_legs]
+ID=i_flesh_leg
+NAME=Paroxysmus Leg
+
+ON=@Create
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS +t_peerless_key
+COLOR=<DEF.colors_gray>
+
+[ITEMDEF i_Spleen_of_the_Putrefier]
+ID=i_gem_ruby
+NAME=Spleen of the Putrefier
+TYPE=T_NORMAL
+
+ON=@Create
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS +t_peerless_key
+COLOR=<DEF.colors_gray>
+
+[ITEMDEF i_scepter_chief]
+ID=i_scepter
+NAME=Scepter of the Chief
+REQSTR=40
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_DAMAGERETURN
+TEVENTS=t_status_bonus
+TAG.DAMINCREASE=45
+TAG.HITDISPEL=100
+TAG.MANALEECH=100
+TAG.HITSREGENERATION=2
+TAG.DAMAGERETURN=15
+TAG.HITPOISONAREA=50
+
+ON=@Create
+HITPOINTS=255
+COLOR=0305
+
+[chardef c_peerless_chief_paroxysmus]
+ID=c_chief_paroxysmus
+name=Chief Paroxysmus
+DAM=15,18
+ARMOR=55
+CAN=MT_WALK|MT_USEHANDS
+MOVERATE=120
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Chief Paroxysmus (Peerless)
+
+ON=@Create
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=1298
+MAXHITS=25000
+TAG.DEATHSAMOUNT=4
+INT=78
+DEX=81
+MAGICRESISTANCE=120.0
+TACTICS=120.0
+WRESTLING=120.0
+ANATOMY=120.0
+
+ON=@Hit
+IF (<SRC.FLAGS>&STATF_PET)
+SRC.HITS=0
+HITS=<EVAL <MAXHITS>-1000>
+TAG.DEATHSAMOUNT=4
+SAY @,3,1 *eats <src.name>*
+ENDIF
+LOCAL.PAROXYSMUS=<UID>
+IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+	FORCHARS 6
+		IF (<UID> != <LOCAL.PAROXYSMUS>)
+		SPELLEFFECT S_POISON,120.0,<LOCAL.PAROXYSMUS>
+		ENDIF
+	ENDFOR
+ENDIF
+
+ON=@NPCLookAtChar
+IF (<FLOATVAL 0.05> > <RANDOMDOUBLE>)
+SRC.GO <P>
+ENDIF
+
+ON=@Death
+IF (<FLOATVAL 0.43> > <RANDOMDOUBLE>)
+NEWLOOT=i_scepter_chief
+ENDIF
+
+///////////////////////////////////////////
+[ITEMDEF i_tragic_remais_travesty]
+ID=i_lantern
+NAME=Tragic remains of the Travesty
+TYPE=T_NORMAL
+
+On=@Create
+DORAND 4
+DISPID=i_blood_pool_large
+DISPID=0122b
+DISPID=i_blood_smear
+DISPID=0122d
+ENDDO
+TAG.DISPID=<DISPID>
+COLOR=88
+
+ON=@DropOn_Ground
+DISPID=<TAG0.DISPID>
+UPDATE
+
+ON=@DClick
+REF1=<REGION.UID>
+IF (<CONT>)
+RETURN 1
+ENDIF
+IF (<REF1.MORE1> == <SRC>)
+	IF (!(<TAG0.ON>))
+	TAG.ON=1
+	TIMER=5
+	ELSE
+	TAG.ON=
+	TIMER=-1
+	ENDIF
+RESENDTOOLTIP 1
+RETURN 1
+ENDIF
+
+ON=@ClientToolTip
+IF (<TAG0.ON>)
+SRC.ADDCLILOC 502695
+ELSE
+SRC.ADDCLILOC 502696
+ENDIF
+
+ON=@Timer
+REF1=<REGION.UID>
+IF (<REF1.ISAMULTI>)
+SOUND=<R382,386>
+TIMER=10
+RETURN 1
+ENDIF
+
+[ITEMDEF i_travesty_collection_of_shells]
+ID=i_lantern
+NAME=Travesty's Collection Of Shells
+TYPE=T_NORMAL
+
+ON=@Create
+DISPID=4051
+
+ON=@DropOn_Ground
+DISPID=4051
+
+[ITEMDEF i_travesty_tray]
+ID=2450
+NAME=Travesty's Fine Teakwood Tray
+TYPE=T_NORMAL
+
+[ITEMDEF i_travesty_sushi]
+ID=7702
+NAME=Travesty's Sushi Preparation
+TYPE=T_NORMAL
+
+[ITEMDEF i_mark_of_the_travesty]
+ID=0154b
+NAME=Mark of the Travesty
+ARMOR=80
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_STATUS_BONUS
+TAG.SELFREPAIR=3
+TAG.MANAINCREASE=8
+TAG.SKILLINCREASEVALUE=10.0
+TAG.SKILLINCREASEVALUE2=10.0
+
+ON=@Create
+HITPOINTS=255
+COLOR=0187
+IF (<FLOATVAL 0.1> > <RANDOMDOUBLE>)
+TIMERF 1,ATTR=attr_newbie
+ENDIF
+DORAND 14
+	BEGIN
+	TAG.SKILLINCREASE=Healing
+	TAG.SKILLINCREASE2=Anatomy
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Taming
+	TAG.SKILLINCREASE2=AnimalLore
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Archery
+	TAG.SKILLINCREASE2=Tactics
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Bushido
+	TAG.SKILLINCREASE2=Parrying
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Chivalry
+	TAG.SKILLINCREASE2=MagicResistance
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Enticement
+	TAG.SKILLINCREASE2=Musicianship
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Magery
+	TAG.SKILLINCREASE2=EvaluatingIntel
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Fencing
+	TAG.SKILLINCREASE2=Tactics
+	END
+	BEGIN
+	TAG.SKILLINCREASE=MaceFighting
+	TAG.SKILLINCREASE2=Tactics
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Necromancy
+	TAG.SKILLINCREASE2=SpiritSpeak
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Peacemaking
+	TAG.SKILLINCREASE2=Musicianship
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Provocation
+	TAG.SKILLINCREASE2=Musicianship
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Swordsmanship
+	TAG.SKILLINCREASE2=Tactics
+	END
+	BEGIN
+	TAG.SKILLINCREASE=Stealth
+	TAG.SKILLINCREASE2=Stealing
+	END
+ENDDO
+
+[ITEMDEF 12685]
+DEFNAME=i_eye_travesty
+NAME=Eye of the Travesty
+TYPE=T_NORMAL
+
+[chardef c_peerless_travesty]
+ID=c_Changeling
+name=Travesty
+DAM=28,33
+ARMOR=55
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Novos Monstros
+SUBSECTION=ML
+DESCRIPTION=Travesty (Peerless)
+
+ON=@Create
+NPC=brain_monster
+FAME=10000
+KARMA=-10000
+STR=940
+MAXHITS=25000
+TAG.DEATHSAMOUNT=4
+INT=907
+DEX=940
+TACTICS=118.5
+WRESTLING=105.2
+ANATOMY=116.5
+
+ON=@GetHit
+IF (<TAG0.DEATHSAMOUNT> == 1) && (!(<TAG0.SPAWNEDMINIONS>))
+TAG.NEXTTELEPORT=<EVAL <SERV.TIME>+300>
+TAG.SPAWNEDMINIONS=1
+LOCAL.OLDNEW=<NEW>
+SAY @,,2 1075121
+	FOR 22
+		DORAND 2
+		SERV.NEWNPC=c_ninja_assassin
+		SERV.NEWNPC=c_ninja_mage
+		ENDDO
+	NEW.TAG.PEERLESSSPAWN=1
+	NEW.REMOVEFROMVIEW
+	NEW.FLAGS |= <DEF.statf_invisible>
+	NEW.P=6289,879,0,1
+	NEW.MOVE=<EVAL {-15 15}>,<EVAL {-20 20}>
+	NEW.FIX
+		WHILE (<NEW.ISSTUCK>)
+		NEW.P=6289,879,0,1
+		NEW.MOVE=<EVAL {-25 25}>,<EVAL {-20 20}>
+		NEW.FIX
+		ENDWHILE
+	NEW.FLAGS &= ~<DEF.statf_invisible>
+	NEW.REMOVETIMER=<EVAL 60*60*2>
+	NEW.UPDATEX
+	ENDFOR
+NEW=<LOCAL.OLDNEW>
+ELIF (<TAG0.DEATHSAMOUNT> == 1) && (<FLOATVAL 0.03> > <RANDOMDOUBLE>) && (<TAG0.NEXTTELEPORT> <= <SERV.TIME>)
+REGION.ALLCLIENTS SYSMESSAGELOC -1,1075122
+TAG.NEXTTELEPORT=<EVAL <SERV.TIME>+400>
+EFFECT 2,i_fx_smoke,16,30
+REMOVEFROMVIEW
+FLAGS |= <DEF.statf_invisible>
+P=6289,879,0,1
+MOVE=<EVAL {-15 15}>,<EVAL {-20 20}>
+FIX
+	WHILE (<ISSTUCK>)
+	P=6289,879,0,1
+	MOVE=<EVAL {-25 25}>,<EVAL {-20 20}>
+	FIX
+	ENDWHILE
+FLAGS &= ~<DEF.statf_invisible>
+UPDATEX
+	FOR <R2,3>
+		DORAND 2
+		SERV.NEWNPC=c_ninja_assassin
+		SERV.NEWNPC=c_ninja_mage
+		ENDDO
+	NEW.TAG.PEERLESSSPAWN=1
+	NEW.REMOVEFROMVIEW
+	NEW.FLAGS |= <DEF.statf_invisible>
+	NEW.P=6289,879,0,1
+	NEW.MOVE=<EVAL {-15 15}>,<EVAL {-20 20}>
+	NEW.FIX
+		WHILE (<NEW.ISSTUCK>)
+		NEW.P=6289,879,0,1
+		NEW.MOVE=<EVAL {-25 25}>,<EVAL {-20 20}>
+		NEW.FIX
+		ENDWHILE
+	NEW.FLAGS &= ~<DEF.statf_invisible>
+	NEW.REMOVETIMER=<EVAL 60*60*2>
+	NEW.UPDATEX
+	ENDFOR
+ENDIF
+
+ON=@Death
+IF (<FLOATVAL 0.75> > <RANDOMDOUBLE>)
+NEWLOOT=i_eye_travesty
+ENDIF
+IF (<FLOATVAL 0.43> > <RANDOMDOUBLE>)
+	DORAND 5
+	NEWLOOT=i_mark_of_the_travesty
+	NEWLOOT=i_travesty_sushi
+	NEWLOOT=i_travesty_tray
+	NEWLOOT=i_travesty_collection_of_shells
+	NEWLOOT=i_tragic_remais_travesty
+	ENDDO
+ENDIF
+
+[EOF]

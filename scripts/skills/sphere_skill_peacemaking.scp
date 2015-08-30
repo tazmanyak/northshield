@@ -1,0 +1,300 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - Complete Barding System
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// New Peacemaking System. OSI-Like but still a little custom.
+// Because some formulas are missing.
+//
+
+
+
+[ITEMDEF i_peacemaking_suresi]
+ID=i_memory
+TYPE=t_eq_script
+NAME=peacemaking timer
+
+ON=@Create
+attr=attr_move_never|attr_can_decay|attr_invis
+
+ON=@Timer
+REMOVE
+return 1
+
+[SKILL 9]
+DEFNAME=SKILL_PEACEMAKING
+KEY=Peacemaking
+TITLE=Bard
+PROMPT_MSG=
+DELAY=0.0
+STAT_STR=0
+STAT_INT=70
+STAT_DEX=70
+BONUS_STR=0
+BONUS_DEX=50
+BONUS_INT=50
+BONUS_STATS=5
+//ADV_RATE=0,0,0
+//ADV_RATE=2.5,50.0,200.0
+
+on=@wait
+if <def.scp.BardingSystem> == 1
+	if <def.scp.NewBarding_Peacemaking> == 1
+	targetf f_start_peacemaking
+	return 1
+	endif
+endif
+
+on=@select
+if <src.region.guarded>
+	src.sys_error Guard zone içerisinde bu yeteneği kullanamazsiniz.
+	return 1
+endif
+//f_skill_delay <getargv 0 <def.skill.9.waittime>>
+if !<findid.i_peacemaking_suresi>
+	newitem i_peacemaking_suresi
+	new.timer 3
+	new.equip
+	f_start_Peacemaking
+	return 1
+else
+	sys_error Biraz beklemelisiniz.
+	return 1
+endif
+
+on=@success
+f_skill_delay <getargv 1 <def.skill.9.waittime>>
+
+on=@fail
+//f_skill_delay <getargv 1 <def.skill.9.waittime>>
+
+////////////////////////////////////////////////
+
+[function f_start_Peacemaking]
+
+if <Musicianship> < 100.0
+	sysmessage @33,,1 Musicianship yeteneginizin 100.0 olmasi gerekmektedir.
+	return 1
+elif !<findtype.t_musical>
+	sysmessage @33,,1 Cantanizda muzik aleti olmasi gerekmektedir.
+	return 1
+endif
+
+sysmessage @69,,1 Hangi npcyi sakinlestirmek istersiniz ?
+targetf f_start_Peacemaking2 <argo>
+
+
+[function f_start_Peacemaking2]
+ref1=<argo.uid>
+if (<ref1.flags>&statf_freeze)
+	src.sysmessage @33,,1 Baska biri tarafindan etki altina alinmis.
+	return 1
+endif
+if (<ref1.flags>&statf_invul)
+	src.sysmessage @33,,1 Imkansiz.
+	return 1
+endif
+
+
+
+if strmatch(*c_h_*,<ref1.id>)
+	src.sysmessage @33,,1 Vendorlar zaten sakin.
+	return 1
+endif
+if (<ref1.npc> == brain_vendor)
+	src.sysmessage @33,,1 Vendorlar zaten sakin.
+	return 1
+endif
+
+if (<argo.hits> == 0)
+	src.sys_error Adam olmus daha nasil sakinlestirmeyi dusunuyorsunuz :)
+	return 1
+endif
+
+if <argo.memoryfindtype.memory_ipet.uid>
+	sysmessage @33,,1 Bu npc evcillestirilmis.
+	return 1
+elif <argo.isitem>
+	sys_error Cansiz varliklarin neyini sakinlestireceksiniz ?
+	return 1
+elif (<argo.isplayer>)  
+	sysmessage @33,,1 Malesef insanlari sakinlestiremezsiniz.
+	return 1
+endif
+
+
+
+if (<Peacemaking> == 100.0)
+	if rand(5) > 1
+		f_skill_delay <getargv 0 <def.skill.9.waittime>> 
+		//f_start_Peacemaking_target <argo.uid>
+		src.sys_normal Basarili oldunuz.
+       	 	f_peacemaking_environment <argo.uid>
+		return 1
+	else
+		f_skill_delay <getargv 0 <def.skill.9.waittime>> 
+		src.sys_error Basarisiz oldunuz.
+		return 1
+	endif
+else
+	f_skill_delay <getargv 0 <def.skill.9.waittime>> 
+	f_start_Peacemaking_target <argo.uid>
+	return 1
+endif
+
+
+[function f_peacemaking_environment]
+ref1= <args>
+
+forchars 10
+	if !<isplayer> && !(<flags>&statf_invul)
+		ref1.f_start_Peacemaking_target2 <uid>
+	endif
+endfor
+	
+[function f_start_Peacemaking_target2]
+//ref1=<argv[0]>
+
+
+ref1=<args>
+
+uid.<args>.olumlu1 * Sakinlesir *
+uid.<args>.peacemaking_sakinles
+uid.<args>.f_fizzle
+
+serv.newitem i_stunner,1,<ref1>,1
+
+//if !(<ref1.flags>&statf_freeze)
+//	uid.<args>.flags <flags>|04
+//	uid.<args>.timerf 6,flags <flags>&~04
+//endif
+
+//ref1.olumlu1 * Sakinlesir *
+//ref1.peacemaking_sakinles
+//timerf 2,ref1.peacemaking_sakinles
+//timerf 4,ref1.peacemaking_sakinles
+
+
+[function f_start_Peacemaking_target]
+//uid.<args>.olumlu1 * Sakinlesir *
+uid.<args>.peacemaking_sakinles
+
+ref1=<args>
+
+if <Peacemaking> < 30.0
+local.chances 11
+elif <Peacemaking> < 50.0
+local.chances 10
+elif <Peacemaking> < 60.0
+local.chances 9
+elif <Peacemaking> < 80.0
+local.chances 8
+elif <Peacemaking> <= 100.0
+local.chances 7
+endif
+
+if (RAND(<eval <local.chances>>) < 4)
+	ref1 = <args>
+	skillgain_Peacemaking
+	sysmessage @69,,1 Basarili oldunuz.
+	uid.<args>.olumlu1 * Sakinlesir *
+	uid.<args>.peacemaking_sakinles
+	uid.<args>.f_fizzle
+//if !(<ref1.flags>&statf_freeze)
+//	uid.<args>.flags <flags>|04
+//	uid.<args>.timerf 6,flags <flags>&~04
+//endif
+	return 1
+	//ref1.timerf 2, ref1.peacemaking_sakinles
+	//ref1.timerf 3, ref1.peacemaking_sakinles
+	//ref1.timerf 4, ref1.peacemaking_sakinles
+	//ref1.timerf 5, ref1.peacemaking_sakinles
+	//uid.<args>.flags <flags>|04
+	//uid.<args>.timerf 4,flags <flags>&~04
+	return 1
+else
+	//skillgain_Peacemaking
+	sysmessage @33,,1 Basarisiz oldunuz.
+	return 1
+endif
+
+//if (RAND(<local.chances>) == 1)
+//	uid.<args>.skillgain_Peacemaking
+//	uid.<args>.sysmessage @69,,1 Basarili oldunuz.
+//	olumlu1 * Sakinlesir *
+//	flags <flags>|04
+//	timerf 4,flags <flags>&~04
+//	return 1
+//else
+//	uid.<args>.skillgain_Peacemaking
+//	uid.<args>.sysmessage @33,,1 Basarisiz oldunuz.
+//endif
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+[function peacemaking_sakinles]
+FORCHARMEMORYTYPE memory_war_targ
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_fight
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_sawcrime
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_iaggressor
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_harmedby
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_irritatedby
+	remove
+ENDFOR
+FORCHARMEMORYTYPE memory_aggreived
+	remove
+ENDFOR
+
+
+
+[eof]
+if (<Peacemaking> < 50.0)
+	if <argo.hits> > 100
+	sysmessage @33,,1 Hedefi sakinlestirecek kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<Peacemaking> < 60.0)
+	if <argo.hits> > 150
+	sysmessage @33,,1 Hedefi sakinlestirecek kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<Peacemaking> < 70.0)
+	if <argo.hits> > 200
+	sysmessage @33,,1 Hedefi sakinlestirecek kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<Peacemaking> < 80.0)
+	if <argo.hits> > 250
+	sysmessage @33,,1 Hedefi sakinlestirecek kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<Peacemaking> < 90.0)
+	if <argo.hits> > 300
+	sysmessage @33,,1 Hedefi sakinlestirecek kadar yetenekli degilsiniz.
+	return 1
+	endif
+elif (<Peacemaking> < 100.0)
+	if <argo.hits> > 350
+	sysmessage @33,,1 Hedefi sakinlestirecek kadar yetenekli degilsiniz.
+	return 1
+	endif

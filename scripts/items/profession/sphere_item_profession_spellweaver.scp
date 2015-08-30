@@ -1,0 +1,41 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0307b]
+DEFNAME=i_arcane_circle_center
+TYPE=t_normal
+DUPELIST=0307c,0307d,0307e,0307f,03080,03081,03082,03083
+CATEGORY=Items by Professions
+SUBSECTION=Spellweaver
+DESCRIPTION=@
+
+[ITEMDEF 0307c]
+DUPEITEM=0307b
+
+[ITEMDEF 0307d]
+DUPEITEM=0307b
+
+[ITEMDEF 0307e]
+DUPEITEM=0307b
+
+[ITEMDEF 0307f]
+DUPEITEM=0307b
+
+[ITEMDEF 03080]
+DUPEITEM=0307b
+
+[ITEMDEF 03081]
+DUPEITEM=0307b
+
+[ITEMDEF 03082]
+DUPEITEM=0307b
+
+[ITEMDEF 03083]
+DUPEITEM=0307b
+
+[eof]

@@ -1,0 +1,903 @@
+﻿[DEFNAME pvp_stone_msgs]
+thereis_aplayer_looting "@036 There's 1 player looting in the arena."
+pvpfinished "@07a3 PvP Finished."
+doyouaccept "Do you accept the Duel?" //<-- gump text
+thereareplayersinthearena "@07a3 There are players in the arena."
+toofar_pvp "@07a3 You're too far from the stone."
+noonetofight "@07a3 There are no opponents to fight with you."
+pvpyoucantusethis "@036 You cant use this in arena!"
+youwin "@07ad You win the arena!"
+youloose "@07ad You lose the PvP!"
+pvpendedlogout "@07a1 The PvP has ended for LogOut Timer."
+
+[DEFNAME pvp_switches]
+pvptime 3 ///<-- time in minutes players can stay in the arena and fight.
+lootingtimer 120 //Time in seconds the player can stay in the arena to loot his opponent when the looting is enabled
+
+[FUNCTION ADDMONEY]
+SERV.NEWITEM I_MONEY_DEED
+NEW.MORE1=<ARGN1>
+NEW.TAG.AM=<ARGN1>
+NEW.BOUNCE
+
+
+[ITEMDEF i_pvp_stone]
+NAME=PVP Stone
+ID=i_gravestone_18
+TYPE=t_script
+
+ON=@Create
+color=0427
+attr=010
+
+ON=@Click
+message @50 Total duels <eval <tag.pvpmans>>
+IF (<More1>==2)
+say <eval <timer>> seconds to end The Duel
+return 1
+ENDIF
+
+
+ON=@DCLICK
+src.closealldialogs
+
+IF <MORE1>==0
+TAG.BID=
+ENDIF
+
+
+
+IF <SRC.RESTEST 1 I_RUNE_MARKER>
+SRC.SYSMESSAGE You cant enter with recall rune.
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.I_MORPHER>) || (<SRC.FINDID.I_MORPHER2>)
+SRC.SYSMESSAGE You can`t enter in polymorph
+RETURN 1
+ENDIF
+IF (<more2>==2)
+src.sysmessage <def.thereis_aplayer_looting>
+return 1
+ENDIF
+IF (<more1>==2)
+src.sysmessage @07a1 <uid.<tag0.participante1>.name> (<uid.<tag0.participante1>.hits>hp) vs <uid.<tag0.participante2>.name> (<uid.<tag0.participante2>.hits>hp)
+if (<tag0.bid> > 4999
+src.sysmessage @07a3 Bid is <eval <tag0.bid>> gp
+endif
+return 1
+ENDIF
+IF (<more1>==1) && (<src.findid.i_pvp_time>)
+src.clear_pvp_tags
+src.findid.i_pvp_time.remove
+more1=0
+more2=0
+tag.participante1=
+color=0427
+src.go <src.tag0.pvp.lastp>
+say @07ad <src.name> exits the PvP Arena!
+return 1
+ENDIF
+IF (<more1>==1)
+sdialog d_pvp 2
+return 1
+ENDIF
+IF (<more1>==0)
+sdialog d_pvp 1
+return 1
+ENDIF
+
+ON=@TIMER
+LOCAL.TMP=<OBJ>
+FOR 2
+IF (<TAG0.PARTICIPANTE<EVAL <LOCAL._FOR>>>)
+OBJ=<TAG0.PARTICIPANTE<EVAL <LOCAL._FOR>>>
+IF (<MORE2>==3)
+OBJ.RETURNCTF
+ENDIF
+IF (<TAG0.BID> > 4999)
+IF (<MORE1>==1)
+TRYSRC <OBJ> ADDMONEY <EVAL <TAG.BID>>
+ENDIF
+ENDIF
+obj.turfix
+obj.spelleffect s_cure,1000
+obj.memoryfindtype.memory_harmedby.remove
+obj.memoryfindtype.memory_iaggressor.remove
+obj.memoryfindtype.memory_fight.remove
+obj.memoryfindtype.memory_sawcrime.remove
+obj.memoryfindtype.memory_aggreived.remove
+obj.memoryfindtype.memory_war_targ.remove
+obj.hits=<obj.str>
+obj.mana=<obj.int>
+obj.stam=<obj.dex>
+obj.flags &= ~statf_criminal
+obj.go <obj.tag0.pvp.lastp>
+obj.update
+obj.findid.i_pvp_logout.remove
+obj.sysmessage <def.pvpfinished>
+obj.findid.i_pvp_time.remove
+obj.clear_pvp_tags
+ENDIF
+ENDFOR
+IF (<TAG0.BID> > 4999)
+IF (<MORE1>==2)
+IF (<TAG0.WI>)
+TRYSRC <TAG.WI> ADDMONEY <EVAL ((<TAG.BID>*2)/20)*19>
+ELSE
+TRYSRC <TAG0.PARTICIPANTE1> ADDMONEY <EVAL <TAG.BID>>
+TRYSRC <TAG0.PARTICIPANTE2> ADDMONEY <EVAL <TAG.BID>>
+ENDIF
+ENDIF
+ENDIF
+more2=0
+color=0427
+more1=0
+tag.wi=
+tag.bid=
+tag.participante1=
+tag.participante2=
+OBJ=<LOCAL.TMP>
+timer=-1
+return 1
+
+[DIALOG d_pvp]
+200,100
+PAGE 1
+
+resizepic 20 20 2620 300 180
+checkertrans 20 20 300 180
+tilepic 170 70 9684
+dtext 115 40 07a1 Duel Sistemi
+button 40 70 2117 2118 1 0 1
+dtext 60 67 1152 Lootlu 1000gp
+button 40 100 2117 2118 1 0 2
+dtext 60 97 1152 Lootsuz 4000gp
+button 40 130 2117 2118 1 0 4
+dtext 60 127 1152 Turnuva 5000gp
+textentry 127 157 145 32 50 1 10
+dtext 50 157 07a1 Teklif:
+dtext 210 157 07a1 gp.
+button 240 162 2117 2118 1 0 5
+dtext 255 160 1152 Ok
+
+
+PAGE 2
+esizepic 20 20 2620 290 190
+checkertrans 20 20 290 190
+tilepic 130 140 9607
+dtext 40 40 88 <uid.<tag0.participante1>.name> :: <uid.<tag0.participante1>.title>
+if (<more2>==3)
+dtext 80 65 07a1  PvP Tournament Style
+else
+dtext 80 65 07a1  PvP <QVAL <more2> ? with looting 1000gp : without looting 4000g >
+endif
+dtext 80 95 39 <def.doyouaccept>
+button 50 130 2311 2312 1 0 3
+button 200 130 243 241 1 0 0
+dtext 140 160 07a1 <EVAL <TAG.BID>>
+dtext 80 160 07a1 Bid is:
+dtext 220 160 07a1 gp
+
+
+[DIALOG d_pvp BUTTON]
+ON=1
+if (<src.totalgold> < <eval <tag0.bid>+1000>)
+src.sysmessage @50 Duel bid is <eval <tag0.bid>> gold pieces, but you have only <eval <src.totalgold>> gold pieces!
+return 1
+endif
+if (<src.tag0.nonpvp>==1)
+src.sysmessage @07a3 You can`t enter in nonpvp mode.
+return 1
+endif
+if (<src.isevent.e_rb_breakspell>)
+return 1
+endif
+IF (<more1> > 0)
+src.sysmessage <def.thereareplayersinthearena>
+return 1
+ENDIF
+IF (<distance> > 5)
+src.sysmessage <def.toofar_pvp>
+return 1
+ENDIF
+IF (<SRC.FINDLAYER.25.UID>)
+SRC.SYSMESSAGE @50 You can`t enter on horse!
+RETURN 1
+ENDIF
+IF (<SRC.TOTALGOLD> > 1000)
+SRC.CONSUMEGOLD 1000
+ELSE
+SRC.SYSMESSAGE @050 You need 1000gp to enter arena
+RETURN 1
+ENDIF
+IF (<SRC.FINDTYPE.t_eq_trade_window> )
+   SRC.FINDTYPE.t_eq_trade_window.REMOVE
+ENDIF
+IF (<SRC.FINDLAYER.31.UID>!=0)
+   SRC.FINDLAYER.31.REMOVE
+ENDIF
+tag.bid=<src.tag.bid>
+IF (<TAG0.BID> > 4999)
+src.consumegold <eval <tag.bid>>
+endif
+src.tag.bid=
+src.events +e_pvp
+more1 += 1
+tag.participante1=<src.uid>
+serv.newitem=i_pvp_time
+src.equip <new>
+new.link=<uid>
+timer -1
+color=0488
+say @07ad <src.name> enters the arena!
+src.tag.pvp.lastp=<src.p>
+src.findid.i_stuck_timer.remove
+SRC.DIALOGCLOSE D_RUNEBOOK
+src.removefromview
+src.moveto <morep>
+src.update
+src.go 6041,608,0
+src.effect 3,i_fx_smoke,16,16
+more2=1
+
+ON=2
+if (<src.totalgold> < <eval <tag0.bid>+4000>)
+src.sysmessage @50 Duel bid is <eval <tag0.bid>> gold pieces, but you have only <eval <src.totalgold>> gold pieces!
+return 1
+endif
+if (<src.tag0.nonpvp>==1)
+src.sysmessage @07a3 You can`t enter in nonpvp mode.
+return 1
+endif
+if (<src.isevent.e_rb_breakspell>)
+return 1
+endif
+IF (<more1> > 0)
+src.sysmessage <def.thereareplayersinthearena>
+return 1
+ENDIF
+IF (<distance> > 5)
+src.sysmessage <def.toofar_pvp>
+return 1
+ENDIF
+IF (<SRC.FINDLAYER.25.UID>)
+SRC.SYSMESSAGE @50 You can`t enter on horse!
+RETURN 1
+ENDIF
+IF (<SRC.TOTALGOLD> > 4000)
+SRC.CONSUMEGOLD 4000
+ELSE
+SRC.SYSMESSAGE @050 You need 4000gp to enter arena
+RETURN 1
+ENDIF
+IF (<SRC.FINDTYPE.t_eq_trade_window> )
+   SRC.FINDTYPE.t_eq_trade_window.REMOVE
+ENDIF
+IF (<SRC.FINDLAYER.31.UID>!=0)
+   SRC.FINDLAYER.31.REMOVE
+ENDIF
+tag.bid=<src.tag.bid>
+IF (<TAG0.BID> > 4999)
+src.consumegold <eval <tag.bid>>
+endif
+src.tag.bid=
+src.events +e_pvp
+more1 += 1
+tag.participante1=<src.uid>
+serv.newitem=i_pvp_time
+src.equip <new>
+new.link=<uid>
+timer -1
+color=0488
+say @07ad <src.name> enters the arena!
+src.tag.pvp.lastp=<src.p>
+src.findid.i_stuck_timer.remove
+SRC.DIALOGCLOSE D_RUNEBOOK
+src.removefromview
+src.moveto <morep>
+src.update
+src.go 6041,608,0
+src.effect 3,i_fx_smoke,16,16
+more2=0
+
+ON=4
+if (<src.totalgold> < <eval <tag0.bid>+5000>)
+src.sysmessage @50 Duel bid is <eval <tag0.bid>> gold pieces, but you have only <eval <src.totalgold>> gold pieces!
+return 1
+endif
+if (<src.tag0.nonpvp>==1)
+src.sysmessage @07a3 You can`t enter in nonpvp mode.
+return 1
+endif
+if (<src.isevent.e_rb_breakspell>)
+return 1
+endif
+IF (<more1> > 0)
+src.sysmessage <def.thereareplayersinthearena>
+return 1
+ENDIF
+IF (<distance> > 5)
+src.sysmessage <def.toofar_pvp>
+return 1
+ENDIF
+IF (<SRC.FINDLAYER.25.UID>)
+SRC.SYSMESSAGE @50 You can`t enter on horse!
+RETURN 1
+ENDIF
+IF (<SRC.TOTALGOLD> > 5000)
+SRC.CONSUMEGOLD 5000
+ELSE
+SRC.SYSMESSAGE @050 You need 5000gp to enter arena
+RETURN 1
+ENDIF
+IF (<SRC.FINDTYPE.t_eq_trade_window> )
+   SRC.FINDTYPE.t_eq_trade_window.REMOVE
+ENDIF
+IF (<SRC.FINDLAYER.31.UID>!=0)
+   SRC.FINDLAYER.31.REMOVE
+ENDIF
+tag.bid=<src.tag.bid>
+IF (<TAG0.BID> > 4999)
+src.consumegold <eval <tag.bid>>
+endif
+src.tag.bid=
+src.events +e_pvp
+more1 += 1
+tag.participante1=<src.uid>
+serv.newitem=i_pvp_time
+src.equip <new>
+new.link=<uid>
+timer -1
+color=0488
+say @07ad <src.name> enters the arena!
+src.tag.pvp.lastp=<src.p>
+src.findid.i_stuck_timer.remove
+SRC.DIALOGCLOSE D_RUNEBOOK
+src.removefromview
+src.moveto <morep>
+src.update
+src.go 6041,608,0
+src.effect 3,i_fx_smoke,16,16
+more2=3
+src.joinblue1
+
+ON=3
+if (<src.totalgold> < <tag0.bid>)
+src.sysmessage @50 Duel bid is <eval <tag0.bid>> gold pieces, but you have only <eval <src.totalgold>> gold pieces!
+return 1
+endif
+if (<src.tag0.nonpvp>==1)
+src.sysmessage @07a3 You can`t enter in nonpvp mode.
+return 1
+endif
+if (<src.isevent.e_rb_breakspell>)
+return 1
+endif
+IF (<more1>==0)
+src.sysmessage <def.noonetofight>
+return 1
+ENDIF
+IF (<more1>==2)
+src.sysmessage <def.thereare_already_2_players>
+return 1
+ENDIF
+IF (<SRC.FINDLAYER.25.UID>)
+SRC.SYSMESSAGE @50 You can`t enter on horse!
+RETURN 1
+ENDIF
+IF (<distance> > 5)
+src.sysmessage <def.toofar_pvp>
+return 1
+ENDIF
+IF (<SRC.FINDTYPE.t_eq_trade_window> )
+   SRC.FINDTYPE.t_eq_trade_window.REMOVE
+ENDIF
+IF (<SRC.FINDLAYER.31.UID>!=0)
+   SRC.FINDLAYER.31.REMOVE
+ENDIF
+IF (<TAG0.BID> > 4999)
+src.consumegold <eval <tag.bid>>
+endif
+SRC.DIALOGCLOSE D_RUNEBOOK
+src.events +e_pvp
+more1 += 1
+tag.participante2=<src.uid>
+serv.newitem=i_pvp_time
+src.equip <new>
+new.link=<uid>
+timer <eval 60*<def.pvptime>>
+color=0486
+say @07ad <src.name> enters the arena!
+src.tag.pvp.lastp=<src.p>
+src.removefromview
+src.findid.i_stuck_timer.remove
+src.moveto <morep>
+src.update
+src.go 6041,608,0
+src.effect 3,i_fx_smoke,16,16
+say @07ad You have <eval <def.pvptime>> minutes to fight! start!
+tag.pvpmans +=1
+if (<more2>==3)
+src.joinred1
+endif
+
+ON=5
+IF (<ARGTXT[1]> > 9999999)
+SRC.SYSMESSAGE @50 You bid is too higher!
+RETURN 1
+ENDIF
+IF (<SRC.TOTALGOLD> < <EVAL <ARGTXT[1]>>)
+SRC.SYSMESSAGE @50 You need much money!
+RETURN 1
+ENDIF
+IF (<ARGTXT[1]> > 4999)
+TAG.BID=<EVAL <ARGTXT[1]>>
+SRC.TAG.BID=<TAG.BID>
+DIALOG d_pvp
+ELSE
+SRC.SYSMESSAGE @50 You can`t set bid less than 5000gp.
+DIALOG d_pvp
+ENDIF
+
+
+///////////////////////////////
+
+[EVENTS e_pvp]
+ON=@Click
+IF !(<isonline>)
+message @07a3 [Offline]
+ENDIF
+
+ON=@ITEMDROPON_GROUND
+act.bounce
+RETURN 1
+
+ON=@SpellCast
+IF (<argn1>==24)||(<argn1>==28)||(<argn1>==47)||(<argn1>==45)||(<argn1>==32) ||(<argn1>==33) ||(<argn1>==57) ||(<argn1>==58) ||(<argn1>==39)||(<argn1>==40) ||(<argn1>==49) ||(<argn1>==56) ||(<argn1>==60) ||(<argn1>==61) ||(<argn1>==62) ||(<argn1>==63) ||(<argn1>==64) ||(<argn1>==65) ||(<argn1>==66) ||(<argn1>==35) ||(<argn1>==22)
+src.sysmessage <def.pvpyoucantusethis>
+return 1
+endif
+
+ON=@ITEMPICKUP_GROUND
+RETURN 1
+
+ON=@ITEMDROPON_CHAR
+ACT.BOUNCE
+RETURN 1
+
+ON=@ITEMDROPON_ITEM
+RETURN 1
+
+ON=@Death
+OBJ=<FINDID.I_PVP_TIME.LINK>
+IF (<OBJ.MORE1>==2)
+IF (<OBJ.TAG0.PARTICIPANTE1>==<UID>)
+OBJ.TAG.WI=<OBJ.TAG0.PARTICIPANTE2>
+OBJ.SAY @07ad <UID.<OBJ.TAG0.PARTICIPANTE2>.NAME> wins!
+IF (<OBJ.TAG0.BID> > 4999
+OBJ.SAY @036  Prize is <EVAL(((<OBJ.TAG0.BID>*2)/20)*19)> gold coins!
+ENDIF
+ELSE
+OBJ.TAG.WI=<OBJ.TAG0.PARTICIPANTE1>
+OBJ.SAY @07ad <UID.<OBJ.TAG0.PARTICIPANTE1>.NAME> wins!
+IF (<OBJ.TAG0.BID> > 4999
+OBJ.SAY @036  Prize is <EVAL(((<OBJ.TAG0.BID>*2)/20)*19)> gold coins!
+ENDIF
+ENDIF
+ENDIF
+memoryfindtype.memory_harmedby.remove
+memoryfindtype.memory_iaggressor.remove
+memoryfindtype.memory_fight.remove
+memoryfindtype.memory_sawcrime.remove
+memoryfindtype.memory_aggreived.remove
+memoryfindtype.memory_war_targ.remove
+flags &= ~statf_criminal
+act.memoryfindtype.memory_harmedby.remove
+act.memoryfindtype.memory_iaggressor.remove
+act.memoryfindtype.memory_fight.remove
+act.memoryfindtype.memory_sawcrime.remove
+act.memoryfindtype.memory_aggreived.remove
+act.memoryfindtype.memory_war_targ.remove
+act.flags &= ~statf_criminal
+sysmessage <def.youloose>
+act.sysmessage <def.youwin>
+IF (<OBJ.MORE2>==3)
+RETURNCTF
+OBJ.TIMER 0
+action -1
+obj=<local.tmp>
+return 1
+ENDIF
+IF (<OBJ.MORE2>==0)
+OBJ.TIMER 0
+action -1
+return 1
+ENDIF
+
+
+
+
+ON=@DeathCorpse
+LOCAL.TMP=<OBJ>
+OBJ=<FINDID.I_PVP_TIME.LINK>
+IF (<OBJ.MORE2>==1)
+FOR 2
+IF (<OBJ.TAG0.PARTICIPANTE<EVAL <LOCAL._FOR>>>==<UID>)
+try obj.tag.participante<eval <local._for>>=
+ENDIF
+obj.timer 30
+turfix
+spelleffect s_cure,1000
+flags &= ~statf_criminal
+FLAGS &= ~statf_war
+findid.i_pvp_time.remove
+hits=<str>
+mana=<int>
+stam=<dex>
+go <tag0.pvp.lastp>
+resurrect
+obj.more2=2
+try uid.<argo.uid>.timer=<def.lootingtimer>
+try uid.<argo.uid>.say @07a1 You have <eval <def.lootingtimer>> seconds to loot the corpse
+clear_pvp_tags
+update
+ENDIF
+OBJ=<LOCAL.TMP>
+
+
+///////////////////////////
+
+[ITEMDEF i_pvp_time]
+NAME=PVP Time
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Create
+attr=attr_invis|attr_move_never
+
+////////////////////////////
+
+[FUNCTION clear_pvp_tags]
+tag.pvp.lastp=
+events -e_pvp
+
+///////////////////////////
+
+[itemdef i_pvp_logout]
+NAME=LogOut Timer
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Create
+attr=attr_invis|attr_decay
+
+ON=@Timer
+link.say <def.pvpendedlogout>
+link.timer 0
+remove
+return 1
+
+
+
+
+
+
+[FUNCTION JOINBLUE1]
+
+DIALOGCLOSE D_RUNEBOOK
+F_UNEQUIP_ALL
+
+SERV.NEWITEM i_full_spellbook
+NEW.BOUNCE
+NEW.NEWITEM TM_WEAPON_BLUE
+NEW.BOUNCE
+SERV.NEWITEM i_bronze_platemail_leggings
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_gloves
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_chest
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_arms
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_helm
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_gorget
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_tin_heater_shield
+NEW.COLOR=0448
+NEW.NAME=Tournament Armor
+NEW.BOUNCE
+SERV.NEWITEM TM_REGS
+NEW.BOUNCE
+SERV.NEWITEM i_arrow
+NEW.AMOUNT 100
+NEW.BOUNCE
+SERV.NEWITEM i_xbolt
+NEW.AMOUNT 100
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM I_POTION_POISONLESS
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_potion_RefreshTotal
+NEW.TAG.GAIN=50
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_Potion_mana
+NEW.TAG.GAIN=50
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM I_POTION_CURE
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_Potion_heal
+NEW.TAG.GAIN=50
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_bandage
+NEW.AMOUNT 5
+NEW.BOUNCE
+
+
+[TEMPLATE tm_weapon_blue]
+container=i_backpack
+color=0448
+ITEM=I_titanium_axe_war
+COLOR=0448
+ITEM=I_titanium_kryss
+COLOR=0448
+ITEM=I_titanium_bardiche
+COLOR=0448
+ITEM=I_titanium_Spear
+COLOR=0448
+ITEM=I_titanium_hammer_war
+COLOR=0448
+ITEM=I_titanium_sword_viking
+COLOR=0448
+ITEM=i_ecalyptus_bow
+COLOR=0448
+ITEM=i_crossbow_heavy_ecalyptus
+COLOR=0448
+
+[TEMPLATE tm_weapon_red]
+container=i_backpack
+color=0447
+ITEM=I_titanium_axe_war
+COLOR=0447
+ITEM=I_titanium_kryss
+COLOR=0447
+ITEM=I_titanium_bardiche
+COLOR=0447
+ITEM=I_titanium_Spear
+COLOR=0447
+ITEM=I_titanium_hammer_war
+COLOR=0447
+ITEM=I_titanium_sword_viking
+COLOR=0447
+ITEM=i_ecalyptus_bow
+COLOR=0447
+ITEM=i_crossbow_heavy_ecalyptus
+COLOR=0447
+
+
+[FUNCTION JOINRED1]
+
+DIALOGCLOSE D_RUNEBOOK
+F_UNEQUIP_ALL
+
+SERV.NEWITEM i_full_spellbook
+NEW.BOUNCE
+NEW.NEWITEM TM_WEAPON_RED
+NEW.BOUNCE
+SERV.NEWITEM i_bronze_platemail_leggings
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_gloves
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_chest
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_arms
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_helm
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_bronze_platemail_gorget
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.EQUIP
+SERV.NEWITEM i_tin_heater_shield
+NEW.COLOR=0447
+NEW.NAME=Tournament Armor
+NEW.BOUNCE
+SERV.NEWITEM TM_REGS
+NEW.BOUNCE
+SERV.NEWITEM i_arrow
+NEW.AMOUNT 100
+NEW.BOUNCE
+SERV.NEWITEM i_xbolt
+NEW.AMOUNT 100
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM i_trapped_pouch
+NEW.BOUNCE
+SERV.NEWITEM I_POTION_POISONLESS
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_potion_RefreshTotal
+NEW.TAG.GAIN=50
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_Potion_mana
+NEW.TAG.GAIN=50
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM I_POTION_CURE
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_Potion_heal
+NEW.TAG.GAIN=50
+NEW.AMOUNT 2
+NEW.BOUNCE
+SERV.NEWITEM i_bandage
+NEW.AMOUNT 5
+NEW.BOUNCE
+
+
+
+
+
+
+
+
+[events e_duelloalaninda]
+
+
+on=@attack
+return 1
+on=@hit
+return 1
+on=@gethit
+return 1
+
+on=@spellcast
+if (<act.isplayer>) || (<act.events.e_crash_fix>)
+if !((<ARGN>==4) || (<ARGN>==6) || (<ARGN>==7) || (<ARGN>==15) || (<ARGN>==17) || (<ARGN>==29))
+f_fizzle
+src.sysmessage @07a1,1,1 Bu alanda oyunculara saldirilmaz.
+return 1
+endif
+endif
+IF (<ARGN>==24) || (<ARGN>=49) || (<ARGN>==33) || (<ARGN>==57) || (<ARGN>==40) || (<ARGN>==43) || (<ARGN>==58) || (<ARGN>==28) || (<ARGN>==59) || (<ARGN>==39) || (<ARGN>==47) || (<ARGN>==50) || (<ARGN>==60) || (<ARGN>==61) || (<ARGN>==62) || (<ARGN>==63) || (<ARGN>==64) || (<ARGN>==45) || (<ARGN>==57) || (<ARGN>==55)
+sysmessage 
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage
+sysmessage  
+src.sysmessage @07a1,1,1 Bu alanda bu buyuyu kullanamazsiniz.
+f_fizzle
+return 1
+endif
+
+on=@skillgain
+return 1
+
+on=@ItemDclick
+if (<act.dispid> == i_deed_ship)
+sysmessage @38,,1 Burda Kullanamassiniz.
+return 1
+endif
+
+if (<act.dispid> == 03ed4)
+sysmessage @38,,1 Burda Olmaz.
+return 1
+endif
+
+if (<act.baseid> == i_shrink_deed) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse_brown_dk)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_c_golem2)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_c_golem1)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_runebook) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_binek_zeka)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.type> == t_figurine)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_egg_ostard_olgun)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+ON=@Dismount
+RETURN 1
+
+on=@mount
+return 1
+
+
+on=@skillstart
+if ((<src.action> == id(skill_snooping)) || (<src.action> == skill_snooping) || (<src.action> == id(skill_stealing)) || (<src.action> == skill_stealing))
+return 1
+endif
+
+
+[EOF]

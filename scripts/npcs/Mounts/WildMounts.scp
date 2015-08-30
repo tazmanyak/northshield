@@ -1,0 +1,1251 @@
+[CHARDEF c_m_kirin] 
+DEFNAME=c_m_kirin
+NAME=Kii Rin
+ID=c_horse_brown_lt
+SOUND=snd_ANIMALS_HORSE1
+CAN=MT_WALK|MT_RUN
+DAM=14,20
+FOODTYPE=50 t_crops, 50 t_fruit, 50 t_grain, 50 t_grass
+DESIRES=i_rune_marker,c_man_gm
+ICON=i_pet_horse_brown_dk
+TEVENTS=e_Horses
+DESCRIPTION=Kirin
+SUBSECTION=Horses 
+CATEGORY=Animals
+
+ON=@Create 
+NPC=brain_animal
+COLOR=02b
+STR={205 255} 
+DEX={100 120} 
+INT={112 113} 
+PARRYING={45.0 55.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+KARMA=1000
+FAME=0
+TAMING=90.1
+ANIMALLORE=90.1
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+[CHARDEF c_shire] 
+NAME=Shire
+SOUND=snd_ANIMALS_HORSE1
+ID=c_horse_brown_lt
+DAM=5,10
+CAN=MT_WALK|MT_RUN
+FOODTYPE=50 t_crops, 50 t_fruit, 50 t_grain, 50 t_grass
+ICON=i_pet_horse_brown_lt
+DESIRES=e_horses,c_man,c_woman,c_man_gm
+TEVENTS=e_Horses
+DESCRIPTION=Shire
+SUBSECTION=Horses 
+CATEGORY=Animals 
+
+ON=@Create
+NPC=brain_animal
+DORAND 12
+	COLOR=07d4 // ye$il
+	COLOR=0846 // kirmizi
+	COLOR=084a // mavi
+	COLOR=06af // sari
+	COLOR=04dc // mor
+	COLOR=0840 // kahve
+	COLOR=0455 // siyah
+	COLOR=0901 // gri
+	COLOR=04c3 // pembe
+	COLOR=05e3 // cikolata
+	COLOR=051b // sky
+	COLOR=08ad // skygray
+ENDDO
+STR={150 260} 
+DEX={110 120} 
+INT={50 60} 
+PARRYING={45.0 55.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+TAMING=85.0
+ANIMALLORE={70.0 75.0}
+KARMA=1000
+FAME=0
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+[CHARDEF c_m_silver] 
+DEFNAME=c_m_silver
+NAME=Silver Steed
+SOUND=snd_ANIMALS_HORSE1
+ID=c_horse_brown_lt
+CAN=MT_WALK|MT_RUN
+FOODTYPE=50 t_crops, 50 t_fruit, 50 t_grain, 50 t_grass
+DAM=13,19
+ICON=i_pet_horse_brown_dk
+DESIRES=e_horses,c_man,c_woman,c_man_gm
+TEVENTS=e_Horses
+DESCRIPTION=Silver Steed
+SUBSECTION=Horses 
+CATEGORY=Animals 
+
+ON=@Create 
+NPC=brain_animal
+COLOR=0482
+STR={205 235} 
+DEX={100 120} 
+INT={112 113} 
+PARRYING={45.0 55.0}
+MAGICRESISTANCE={25.0 30.0}
+TACTICS={29.0 44.0}
+WRESTLING={29.0 44.0}
+KARMA=1000
+FAME=0
+TAMING=90.9
+ANIMALLORE=90.9
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_m_dragon_bin]
+DEFNAME=c_m_dragon_crystal
+ID=c_DRAGON_RED
+NAME=Evcil Dragon
+SOUND=snd_MONSTER_DRAGON1
+ICON=i_pet_dragon
+DAM=5,13
+ARMOR=75
+RESOURCES=99 i_ribs_raw,8 i_reag_dragon_blood,20 i_hide
+CAN=MT_WALK|MT_FLY|MT_FIRE_IMMUNE
+FOODTYPE=80 t_meat_raw
+DESIRES=i_gold
+AVERSIONS=r_water,r_civilization
+TEVENTS=e_horses 
+
+ON=@Create
+NPC=brain_animal
+COLOR=0518
+STR={590 700}
+DEX={185 205}
+INT={70 120}
+
+PARRYING={55.0 70.0}
+MAGICRESISTANCE={99.0 100.0}
+TACTICS={58.0 70.0}
+WRESTLING={65.0 80.0}
+
+FAME={3000 7000}
+KARMA={0 -1209}
+
+on=@gethit 
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+return 1
+endif
+if (<act.baseid>=c_blade_spirit) 
+sayua 0481,2,0,eng,* Buyu etkisini kaldirir *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove
+return 1 
+endif 
+if (<flags> &statf_poisoned) 
+sayua 0481,2,0,eng,* Zehiri iyilestirir *
+sound snd_spell_cure 
+findid.i_rune_poison.remove
+return 1
+endif
+
+
+
+[CHARDEF c_ostard_mid] 
+NAME=Mid Ostard 
+SOUND=snd_ANIMAL_OSTARD_DESERT1 
+ICON=i_pet_OSTARD_MID
+ID=00d2
+DAM=6,12
+ARMOR=10 
+RESOURCES=15 i_ribs_raw
+FOODTYPE=50 t_crops, 50 t_fruit, 50 t_grain, 50 t_grass
+CAN=MT_WALK|MT_RUN
+ANIM=01ff 
+TEVENTS=e_ostards
+
+ON=@Click
+STR={150 190}
+DEX={150 300}
+
+ON=@CREATE 
+DORAND 3
+	COLOR=0961 
+	COLOR=0901
+	COLOR=0450
+ENDDO
+STR={100 150}
+DEX={100 110} 
+INT={6 10}
+
+PARRYING={25.0 35.0} 
+MAGICRESISTANCE={27.0 32.0} 
+TACTICS={29.0 44.0} 
+WRESTLING={29.0 44.0} 
+TAMING=80.0
+
+FAME=0 
+KARMA=-1 
+NPC=brain_animal 
+
+CATEGORY=Animals
+SUBSECTION=Ostard 
+DESCRIPTION=Midnight Ostard 
+ANIM=01fff  
+
+
+[CHARDEF 072]
+//FIXME: No Stratics data
+DEFNAME=c_steed_dark
+NAME=dark steed
+ICON=i_pet_horse_nightmare
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=25,35
+ARMOR=25
+DESIRES=r_swamp,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=5 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=85.2
+TAG.Control.Slots=3
+TAG.DamEnergy=20
+TAG.DamFire=20
+TEVENTS=e_carnivores2
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Steed (dark)
+ON=@Create
+   NPC=brain_dragon
+   FAME=14000
+   KARMA=-14000
+   STR={496 525}
+   MAXHITS={298 315}
+   DEX={86 105}
+   MAXSTAM={86 105}
+   INT={86 125}
+   MAXMANA={86 125}
+   EVALUATINGINTEL={10.0 50.0}
+   MAGICRESISTANCE={84.0 100.0}
+   TACTICS={97.0 100.0}
+   TAMING={95.0 100.0}
+   WRESTLING={80.0 93.0}
+   MODAR={0 5}
+   RESCOLD={30 40}
+   RESENERGY={20 30}
+   RESFIRE={30 40}
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_steed_dark
+   //200 - 250 Gold. Low Level Scrolls, Arrows, Potions, Reagents
+
+[CHARDEF 074]
+DEFNAME=c_nightmare
+NAME=nightmare
+ICON=i_pet_horse_nightmare
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=52,70
+ARMOR=55
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=5 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=85.2
+TAG.Control.Slots=2
+TAG.DamEnergy=20
+TAG.DamFire=40
+TEVENTS=e_carnivores2
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Nightmare
+ON=@Create
+   NPC=brain_dragon
+   COLOR={0 99 2075 1}
+   FAME=14000
+   KARMA=-14000
+   STR={496 525}
+   MAXHITS={298 315}
+   DEX={86 105}
+   MAXSTAM={86 105}
+   INT={86 125}
+   MAXMANA={86 125}
+   EVALUATINGINTEL={10.0 50.0}
+   MAGICRESISTANCE={84.0 100.0}
+   MAGERY={10.0 50.0}
+   TACTICS={97.0 100.0}
+   TAMING={95.0 100.0}
+   WRESTLING={80.0 93.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={20 30}
+   RESFIRE={30 40}
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_nightmare
+   //400 - 500 Gold. 3 Sulfurous Ash, 1 Low Level Scroll, 1 Potion, Magic Items
+
+[CHARDEF 075]
+//FIXME: No Stratics data
+//FIXME: Attacks evil creatures on sight
+DEFNAME=c_steed_silver
+NAME=Silver Steed
+ICON=i_pet_steed_silver
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=25,35
+ARMOR=25
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=5 i_ribs_raw,10 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=85.2
+TAG.Control.Slots=3
+TAG.DamCold=20
+TAG.DamEnergy=20
+TEVENTS=e_carnivores2
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Steed (silver)
+ON=@Create
+   NPC=brain_animal
+   FAME=14000
+   KARMA=14000
+   STR={496 525}
+   MAXHITS={298 315}
+   DEX={86 105}
+   MAXSTAM={86 105}
+   INT={86 125}
+   MAXMANA={86 125}
+   MAGICRESISTANCE={84.0 100.0}
+   TACTICS={97.0 100.0}
+   TAMING={95.0 100.0}
+   WRESTLING={80.0 93.0}
+   MODAR={0 5}
+   RESCOLD={30 40}
+   RESENERGY={20 30}
+   RESFIRE={30 40}
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_steed_silver
+   //400 - 500 Gold. 3 Sulfurous Ash, 1 Low Level Scroll, 1 Potion, Magic Items
+
+[CHARDEF 07a]
+//"Only females can tame and ride Unicorns.  Like the Kirin, the Unicorn
+// has a special ability to help its master when in trouble. If the rider
+// becomes poisoned and their health drops below a certain point(40HP), the
+// Unicorn will attempt to cast cure on them using its magery skill. Once
+// it succesfully cures the rider it cannot attempt to cure them for
+// another hour."
+//FIXME: Cures its rider when poisoned and badly hurt.
+//FIXME: Should attack tamers
+DEFNAME=c_unicorn
+NAME=unicorn
+ICON=i_pet_unicorn
+SOUND=snd_animal_unicorn1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=35,45
+ARMOR=55
+DESIRES=r_plains,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=86.2
+TAG.Control.Slots=2
+TAG.DamEnergy=25
+TAG.Slayer=SLAYER_FEY
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Unicorn
+RESLEVEL=2
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=08254
+ON=@Create
+   NPC=brain_animal
+   FAME=9000
+   KARMA=9000
+   STR={296 325}
+   MAXHITS={191 210}
+   DEX={96 115}
+   MAXSTAM={96 115}
+   INT={186 225}
+   MAXMANA={186 225}
+   EVALUATINGINTEL={80.0 90.0}
+   MAGERY={60.0 80.0}
+   MAGICRESISTANCE={75.0 90.0}
+   MEDITATION={50.0 60.0}
+   TACTICS={20.0 25.0}
+   TAMING={95.0 100.0}
+   WRESTLING={80.0 95.0}
+   MODAR={0 10}
+   RESCOLD={25 40}
+   RESENERGY={25 40}
+   RESFIRE={25 40}
+   RESPOISON={55 65}
+ON=@NPCRestock
+   ITEM=loot_unicorn
+   // 300 - 350 Gold. 1 Low Level Scroll, 1 Potion
+   //Carved: 10 Horned Hides, 3 Raw Ribs
+ON=@DClick
+   IF ( (<SRC.isfemale>) && (<SRC.IsMyPet>) ) || (<SRC.ISGM>)
+      RETURN 0
+   ELSE
+      SRC.SYSMESSAGELOC color_text,1042318//"The Unicorn refuses to let you ride it."
+      RETURN 1
+   ENDIF
+
+[CHARDEF 084]
+//"Ki-Rin has a special ability to help its master when in trouble. If the
+// rider is hurt, the Ki-Rin calls down the forces of nature.
+// on the opponent, thereby causing a massive chainlightning spell to
+// do a substantial amount of damage to whatever is attacking the rider."
+//FIXME: Chain Lightning attack
+//FIXME: Should attack tamers
+DEFNAME=c_kirin
+NAME=Ki-Rin
+ICON=i_pet_kirin
+SOUND=snd_animal_kirin
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=35,45
+ARMOR=55
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,e_carnivores3
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=84.7
+TAG.Control.Slots=2
+TAG.DamCold=10
+TAG.DamEnergy=10
+TAG.DamFire=10
+TAG.Slayer=SLAYER_FEY
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Ki-Rin
+ON=@Create
+   NPC=brain_animal
+   FAME=9000
+   KARMA=9000
+   STR={296 325}
+   MAXHITS={191 210}
+   DEX={86 105}
+   MAXSTAM={86 105}
+   INT={186 225}
+   MAXMANA={186 225}
+   EVALUATINGINTEL={80.0 90.0}
+   MAGERY={60.0 100.0}
+   MAGICRESISTANCE={85.0 100.0}
+   MEDITATION={90.0 100.0}
+   TACTICS={20.0 23.0}
+   TAMING={95.0 100.0}
+   WRESTLING={80.0 93.0}
+   MODAR={0 10}
+   RESCOLD={25 35}
+   RESENERGY={25 35}
+   RESFIRE={35 45}
+   RESPOISON={25 35}
+ON=NPCRestock
+   ITEM=loot_ki-rin
+   //300 - 350 Gold. 1 Low Level Scroll, 1 Potion, Magic Items
+ON=@DClick
+   IF !(<isfemale>) && (<SRC.IsMyPet>)
+      RETURN 0
+   ELSE
+      SRC.SYSMESSAGELOC color_text,1042319//"The Ki-Rin refuses your attempts to mount it."
+      RETURN 1
+   ENDIF
+
+[CHARDEF 090]
+//FIXME: No Stratics data yet
+DEFNAME=c_horse_sea
+NAME=seahorse
+ICON=i_pet_seahorse
+SOUND=snd_animal_seahorse
+CAN=MT_SWIM|MT_NONHUM
+DAM=3,4
+ARMOR=15
+DESIRES=r_water,t_coin,t_gold,t_gem
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_fish
+RESOURCES=1 i_ribs_raw, 3 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=49.1
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Seahorse
+ON=@Create
+   NPC=brain_animal
+   FAME=350
+   KARMA=0
+   STR={90 120}
+   MAXHITS={90 120}
+   DEX={36 55}
+   MAXSTAM={36 55}
+   INT={6 10}
+   MAXMANA={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING={45.0 55.0}
+   WRESTLING={29.0 44.0}
+   MODAR={0 5}
+   RESCOLD={1 10}
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON=0
+
+[CHARDEF 0a9]
+//FIXME: Can be used to smelt ore on.
+//FIXME: Increases speed when hit with ranged attack.
+//FIXME: Half stats when tamed.
+//FIXME: Must be beaten into submission before taming.
+DEFNAME=c_beetle_fire
+NAME=giant fire beetle
+ICON=i_pet_beetle_fire
+SOUND=snd_monster_rune_beetle
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=19,52
+ARMOR=35
+DESIRES=r_mountains_volcanic,t_gem,t_ore,t_ingot
+AVERSIONS=r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=16 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=84.0
+TAG.Control.Slots=3
+TAG.DamFire=100
+TAG.Slayer=SLAYER_BEETLE
+TEVENTS=e_carnivores2
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Giant Beetle (fire)
+ON=@Create
+   NPC=brain_animal
+   COLOR=0496
+   FAME=4000
+   KARMA=-4000
+   STR={295 305}
+   MAXHITS={195 205}
+   DEX={95 105}
+   MAXSTAM={95 105}
+   INT={95 105}
+   MAXMANA={95 105}
+   MAGICRESISTANCE={85.0 95.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={95.0 105.0}
+   MODAR={0 10}
+   RESCOLD={5 15}
+   RESENERGY={25 35}
+   RESFIRE={70 75}
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=i_reag_sulfur_ash,{15 25}
+   ITEM=random_ore,{1 3}
+ON=@ContextMenuRequest
+   IF (<IsMyPet>)
+      SRC.AddContextEntry 101,6143
+      RETURN 0
+   ENDIF
+ON=@ContextMenuSelect
+   IF (<IsMyPet>)
+      IF (<ARGN>==101)
+         //FIXME: Ore smelthing on fire beetle
+         SRC.SYSMESSAGE @color_text ore smelting not yet implemented.
+      ENDIF
+   ENDIF
+
+[CHARDEF 0b1]
+//FIXME: Incomplete Stratics data
+//FIXME: Area attack spell that only works when not tamed
+//FIXME: Special command 'Trick' that creates a black cloud
+DEFNAME=c_warhorse_dread
+NAME=dread warhorse
+ICON=i_pet_horse_nightmare
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=20,26
+ARMOR=65
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=5 i_ribs_raw,10 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=120.0
+TAG.Control.Slots=3
+TAG.DamEnergy=40
+TAG.DamPoison=20
+TEVENTS=e_horses
+TEVENTS=e_carnivores2
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Dread Warhorse
+ON=@Create
+   NPC=brain_animal
+   FAME=15000
+   KARMA=-15000
+   STR={500 555}
+   MAXHITS={555 650}
+   DEX={85 125}
+   MAXSTAM={85 125}
+   INT={100 160}
+   MAXMANA={100 160}
+   EVALUATINGINTEL={15.0 20.0}
+   MAGICRESISTANCE={90.0 95.0}
+   MAGERY={35.0 50.0}
+   TACTICS={105.0 110.}
+   TAMING={105.0 110.0}
+   WRESTLING={95.0 100.0}
+   MODAR={0 10}
+   RESCOLD={20 40}
+   RESENERGY={40 50}
+   RESFIRE={20 40}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   ITEM=loot_warhorse_dread
+
+[CHARDEF 0bb]
+DEFNAME=c_ridgeback
+NAME=ridgeback
+ICON=i_pet_ridgeback
+SOUND=snd_animal_ostard_desert1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,7
+ARMOR=15
+DESIRES=r_jungle,t_coin,t_gold
+AVERSIONS=e_carnivores2,e_carnivores3
+RESOURCES=1 i_ribs_raw
+FOODTYPE=35 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=29.1
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Ridgeback
+RESLEVEL=2
+RESDISPDNID=c_llama
+RESDISPDNHUE=033
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={58 100}
+   MAXHITS={58 100}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={16 30}
+   MAXMANA={16 30}
+   MAGICRESISTANCE={25.0 40.0}
+   TACTICS={29.0 44.0}
+   TAMING={80.0 85.0}
+   WRESTLING={35.0 45.0}
+   MODAR={0 5}
+   RESCOLD={5 10}
+   RESENERGY={5 10}
+   RESFIRE={5 10}
+   RESPOISON={5 10}
+
+[CHARDEF 0bc]
+DEFNAME=c_savage_ridgeback
+NAME=savage ridgeback
+ICON=i_pet_ridgeback
+SOUND=snd_animal_ostard_desert1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=4,7
+ARMOR=15
+DESIRES=r_jungle,t_coin,t_gold
+AVERSIONS=e_carnivores2,e_carnivores3
+RESOURCES=1 i_ribs_raw,12 i_hide
+FOODTYPE=35 t_fruit,t_grain,t_grass
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=29.1
+TAG.Control.Slots=1
+TEVENTS=e_horses
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Ridgeback (savage)
+RESLEVEL=2
+RESDISPDNID=c_llama
+RESDISPDNHUE=033
+ON=@Create
+   NPC=brain_animal
+   FAME=300
+   KARMA=0
+   STR={58 100}
+   MAXHITS={58 100}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={16 30}
+   MAXMANA={16 30}
+   MAGICRESISTANCE={25.0 40.0}
+   TACTICS={29.0 44.0}
+   TAMING={80.0 85.0}
+   WRESTLING={35.0 45.0}
+   MODAR={0 5}
+   RESCOLD={15 20}
+   RESENERGY={10 15}
+   RESFIRE={10 15}
+   RESPOISON={10 15}
+
+[CHARDEF 0be]
+DEFNAME=c_steed_fire
+NAME=fire steed
+ICON=i_pet_steed_fire
+SOUND=snd_animals_horse1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=34,86
+ARMOR=30
+DESIRES=r_desert,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=19 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=83.6
+TAG.Control.Slots=2
+TAG.DamFire=80
+TEVENTS=e_horses
+TEVENTS=e_carnivores2
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Fire Steed
+ON=@Create
+   NPC=brain_dragon
+   FAME=20000
+   KARMA=-20000
+   STR={376 400}
+   MAXHITS={226 240}
+   DEX={91 120}
+   MAXSTAM={91 120}
+   INT={91 120}
+   MAXMANA={291 300}
+   MAGICRESISTANCE={100.0 120.0}
+   TACTICS={95.0 105.0}
+   TAMING={105.0 110.0}
+   WRESTLING={95.0 105.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={30 40}
+   RESFIRE={70 80}
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_steed_fire
+   //150-300 Sulfurous Ash, 15-30 Rubies
+
+[CHARDEF 0d2]
+DEFNAME=c_ostard_desert
+NAME=Desert Ostard
+ICON=i_pet_ostard_desert
+SOUND=snd_animal_ostard_desert1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=8,18
+ARMOR=15
+DESIRES=r_desert
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=25 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_ostards
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Ostard (desert)
+ON=@Create
+   NPC=brain_animal
+   FAME=150
+   KARMA=0
+   STR={104 210}
+   DEX={56 105}
+   INT={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={25.0 40.0}
+   TAMING=70.0
+   WRESTLING={29.0 44.0}
+
+[CHARDEF 0d5]
+DEFNAME=c_bear_polar
+NAME=Polar Bear
+ICON=i_pet_bear_polar
+SOUND=snd_animals_bear1
+CAN=MT_WALK|MT_RUN|MT_SWIM|MT_NONHUM
+DAM=13,23
+ARMOR=25
+DESIRES=r_snow
+AVERSIONS=r_civilization
+FOODTYPE=40 t_fish
+RESOURCES=16 i_hide,2 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=38.9
+TAG.Control.Slots=1
+TEVENTS=e_carnivores2
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Bear (polar)
+ON=@Create
+   NPC=brain_animal
+   FAME=1500
+   KARMA=-1500
+   STR={116 140}
+   MAXHITS={70 84}
+   DEX={81 105}
+   MAXSTAM={81 105}
+   INT={26 50}
+   MAXMANA={26 50}
+   MAGICRESISTANCE={45.0 60.0}
+   TACTICS={60.0 90.0}
+   TAMING={35.0 40.0}
+   WRESTLING={45.0 70.0}
+   MODAR={0 10}
+   RESCOLD={60 80}
+   RESENERGY={10 15}
+   RESFIRE=0
+   RESPOISON={15 25}
+
+[CHARDEF 0da]
+DEFNAME=c_ostard_frenzied
+NAME=Frenzied Ostard
+SOUND=snd_ANIMAL_OSTARD_FRENZIED1
+ICON=i_pet_OSTARD_ZOSTRICH
+CAN=MT_WALK|MT_RUN
+DAM=8,23
+ARMOR=15
+RESOURCES=15 i_ribs_raw
+FOODTYPE=55 t_crops, 55 t_fruit, 64 t_grass
+//SHELTER=r_stables
+DESIRES=e_OSTARDS
+ANIM=01fff
+DESCRIPTION=Zostrich
+SUBSECTION=T2A Animals
+CATEGORY=Animals
+TEVENTS=e_ostards
+
+on=@click
+if (strmatch("<*","<name>") || (strmatch("@*","<name>") || (strmatch("balance*","<name>") || (strmatch("bank*","<name>")
+remove
+return 1
+endif
+update
+var.title
+
+ON=@Create
+NPC=brain_animal
+
+STR={200 300}
+DEX={150 200}
+INT={6 10}
+
+PARRYING={65.0 75.0}
+MAGICRESISTANCE={65.0 70.0}
+TACTICS={69.0 74.0}
+WRESTLING={69.0 74.0}
+TAMING=80.0
+ANIMALLORE=70.0
+FAME=0
+KARMA=0
+
+[CHARDEF 0db]
+DEFNAME=c_ostard_forest
+NAME=Forest Ostard
+ICON=i_pet_ostard_forest
+SOUND=snd_animal_ostard_desert1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=13,23
+ARMOR=15
+DESIRES=r_forests
+AVERSIONS=e_carnivores2,e_carnivores3
+FOODTYPE=25 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=31.6
+TAG.Control.Slots=1
+TEVENTS=e_ostards
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Ostard (forest)
+ON=@Create
+   NPC=brain_animal
+   FAME=450
+   KARMA=0
+   STR={94 170}
+   DEX={56 75}
+   INT={6 10}
+   MAGICRESISTANCE={25.0 30.0}
+   TACTICS={29.0 44.0}
+   TAMING=65.0
+   WRESTLING={29.0 44.0}
+
+[CHARDEF 0f3]
+//FIXME: Attack will lower physical resistance
+//FIXME: stats are halved when tamed
+//FIXME: a master of the art of Bushido will be able to ride it
+DEFNAME=c_hiryu
+NAME=hiryu
+ICON=i_pet_hiryu
+SOUND=snd_animal_hiryu
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=65,90//untamed this is double
+ARMOR=55
+DESIRES=r_forests,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=16 i_ribs_raw,6 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=118.2
+TAG.Control.Slots=4
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_horses
+TEVENTS=e_carnivores3
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Hiryu
+RESLEVEL=4
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=08386
+ON=@Create
+   NPC=brain_animal
+   FAME=18000
+   KARMA=-18000
+   STR={1200 1410}
+   MAXHITS={900 1100}
+   DEX={170 210}
+   MAXSTAM={170 210}
+   INT={300 325}
+   MAXMANA={300 325}
+   MAXMANA={100 125}
+   ANATOMY={75.0 80.0}
+   MAGICRESISTANCE={85.0 100.0}
+   TACTICS={100.0 110.0}
+   WRESTLING={100.0 120.0}
+//   TAMING={105.0 115.0}
+   MODAR={0 15}
+   RESCOLD={15 25}
+   RESENERGY={40 50}
+   RESFIRE={70 90}
+   RESPOISON={40 50}
+ON=@NpcRestock
+   ITEM=loot_hiryu
+   //1500 - 1900 Gold. Magic Items, 4 Gems
+   //Special: Bonsai Seed, Fragrant Seed, Peculiar Seed.
+ON=@Hit
+   //Dismount Attack
+   IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+      MANA -= 20
+      SRC.DISMOUNT
+      SRC.EMOTE knocked off mount!
+      SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+   ENDIF
+
+[CHARDEF 0114]
+//FIXME: "half stats when tamed."
+DEFNAME=c_reptalon
+NAME=reptalon
+ICON=i_pet_reptalon
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=30,55
+ARMOR=50
+DESIRES=t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw,10 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=119.9
+TAG.Control.Slots=4
+TAG.DamEnergy=75
+TAG.DamPoison=25
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_carnivores2
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Reptalon
+RESLEVEL=5
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_dragon
+   FAME=20000
+   KARMA=-20000
+   STR={1000 1025}
+   MAXHITS={800 1000}
+   DEX={150 160}
+   MAXSTAM={150 160}
+   INT={250 290}
+   MAXMANA={50 65}
+   ANATOMY={50.0 60.0}
+   MAGICRESISTANCE={65.0 80.0}
+   TACTICS={100.0 105.0}
+   TAMING={100.0 105.0}
+   WRESTLING={100.0 105.0}
+   MODAR={0 15}
+   RESCOLD={35 45}
+   RESENERGY={70 85}
+   RESFIRE={35 45}
+   RESPOISON={50 65}
+ON=@NPCRestock
+   ITEM=loot_reptalon
+   //1500 - 1650 Gold. magic items,
+   //Special: spellweave scrolls
+ON=@Hit
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SRC.NEWITEM i_bleed_timer
+      NEW.LINK=<UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+//FIXME: Paralyzing Blow Attack
+//FIXME: half stats when tamed
+
+[CHARDEF 0115]
+//FIXME: "half stats when tamed."
+//FIXME: "only elves can tame"
+//FIXME: "humans can only ride when wearing pads of the cu-sidhe."
+//FIXME: "has healing and if owner is at 80% max health and not mouted it will heal."
+DEFNAME=c_cu_sidhe
+NAME=cu sidhe
+ICON=i_pet_cu_sidhe
+SOUND=snd_animal_cusidhe
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=30,55
+ARMOR=50
+DESIRES=t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_fruit,t_grain,t_grass
+RESOURCES=3 i_ribs_raw,10 i_hide
+BLOODCOLOR=colors_blood
+MOVERATE=120
+TAG.Barding.Diff=126.9
+TAG.Control.Slots=4
+TAG.DamCold=50
+TAG.DamEnergy=50
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_FEY
+TEVENTS=e_carnivores3
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Cu Sidhe
+RESLEVEL=5
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=083e7
+ON=@Create
+   //COLOR={047d 0499}
+   NPC=brain_animal
+   FAME=20000
+   KARMA=-20000
+   STR={1200 1225}
+   MAXHITS={1000 1200}
+   DEX={150 175}
+   MAXSTAM={150 175}
+   INT={250 300}
+   MAXMANA={250 300}
+   ANATOMY={77.0 100.0}
+   MAGICRESISTANCE={76.0 90.0}
+   TACTICS={94.0 98.0}
+   TAMING={100.0 105.0}
+   WRESTLING={50.0 65.0}
+   MODAR={0 15}
+   RESCOLD={70 85}
+   RESENERGY={70 85}
+   RESFIRE={30 45}
+   RESPOISON={30 50}
+ON=@NPCRestock
+   ITEM=loot_cu_sidhe
+   //1500 - 1900 Gold. Armor, Weapons, Bandages
+   //Special: Parrot, Level 5 Maps
+ON=@Hit
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SRC.NEWITEM i_bleed_timer
+      NEW.LINK=<UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+
+[CHARDEF 0317]
+//FIXME: Increases speed when hit with ranged attack.
+//FIXME: Half stats when tamed.
+DEFNAME=c_giant_beetle
+NAME=giant beetle
+ICON=i_pet_beetle_giant
+SOUND=snd_monster_rune_beetle
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=18,51
+ARMOR=30
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_ore,t_ingot
+AVERSIONS=r_civilization,e_carnivores3
+FOODTYPE=40 t_meat_raw
+RESOURCES=4 i_reag_obsidian
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=88.1
+TAG.Control.Slots=3
+TAG.Slayer=SLAYER_BEETLE
+TEVENTS=e_horses
+TEVENTS=e_carnivores2
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Giant Beetle
+RESLEVEL=2
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=080c9
+ON=@Create
+   //FINDLAYER.21.TAG.OVERRIDE.MAXWEIGHT=1600
+   NPC=brain_animal
+   FAME=4000
+   KARMA=-4000
+   STR={295 305}
+   MAXHITS={195 205}
+   DEX={95 105}
+   MAXSTAM={95 105}
+   INT={95 105}
+   MAXMANA={95 105}
+   MAGICRESISTANCE={75.0 85.0}
+   TACTICS={95.0 105.0}
+   TAMING={25.0 30.0}
+   WRESTLING={95.0 105.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={20 30}
+   RESFIRE={20 30}
+   RESPOISON={20 30}
+ON=@NPCRestock
+   ITEM=i_ore_iron,{3 6}
+ON=@ContextMenuRequest
+   IF (<IsMyPet>)
+      SRC.AddContextEntry 101,6122//or 6145
+      RETURN 0
+   ENDIF
+ON=@ContextMenuSelect
+   IF (<IsMyPet>)
+      IF (<ARGN>==101)
+         FINDLAYER(21).OPEN
+      ENDIF
+   ENDIF
+
+[CHARDEF 0319]
+DEFNAME=c_skeletal_mount
+NAME=skeletal steed
+ICON=i_pet_skeletalmount
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=8,13
+ARMOR=50
+DESIRES=r_graveyards,t_coin,t_gold
+AVERSIONS=r_civilization,e_carnivores3
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw, 2 i_hide
+MOVERATE=100
+TAG.Barding.Diff=49.1
+TAG.Control.Slots=1
+TAG.DamCold=50
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_horses
+TEVENTS=e_carnivores
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Skeletal Mount
+ON=@Create
+   NPC=brain_animal
+   FAME=0
+   KARMA=0
+   STR={91 100}
+   MAXHITS={41 50}
+   DEX={46 60}
+   MAXSTAM={46 60}
+   INT={46 55}
+   MAXMANA={46 55}
+   MAGICRESISTANCE={95.0 100.0}
+   TACTICS={45.0 55.0}
+   WRESTLING={70.0 80.0}
+   MODAR={0 10}
+   RESCOLD={90 95}
+   RESENERGY={10 15}
+   RESFIRE=0
+   RESPOISON=100
+
+[CHARDEF 031a]
+DEFNAME=c_swamp_dragon
+NAME=swamp dragon
+ICON=i_pet_dragon_swamp
+SOUND=snd_monster_dragon1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=7,9
+ARMOR=35
+DESIRES=r_swamp,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization,e_carnivores3
+FOODTYPE=55 t_meat_raw
+RESOURCES=19 i_ribs_raw,20 i_hide,5 i_scale_green
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=59.0
+TAG.Control.Slots=1
+TAG.DamPoison=25
+TAG.Slayer=SLAYER_DRAGON
+TEVENTS=e_horses
+TEVENTS=e_carnivores
+CATEGORY=Mounts
+SUBSECTION=Wild
+DESCRIPTION=Swamp Dragon
+RESLEVEL=2
+RESDISPDNID=c_horse_gray
+RESDISPDNHUE=2129
+ON=@Create
+   COLOR={0 20 colors_green 1}
+   NPC=brain_dragon
+   FAME=2000
+   KARMA=-2000
+   STR={201 300}
+   MAXHITS={121 180}
+   DEX={66 85}
+   MAXSTAM={66 85}
+   INT={61 100}
+   MAXMANA={61 100}
+   ANATOMY={45.0 55.0}
+   MAGICRESISTANCE={45.0 55.0}
+   //POISONING={45.0 55.0}
+   TACTICS={45.0 55.0}
+   TAMING={90.0 95.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={20 40}
+   RESENERGY={30 40}
+   RESFIRE={20 30}
+   RESPOISON={20 30}
+
+[EOF]

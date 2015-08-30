@@ -1,0 +1,89 @@
+////////////////////////////////////DEATH MATCH/////////////////////////////////
+
+[itemdef i_deatgate]
+id=i_moongate_blue
+type=t_moongate
+defname=i_deatgate
+
+on=@create
+color=07e5      
+
+on=@step
+src.sysmessage @07a1 2 Kere Tiklamaniz Yeterli'dir...
+src.move 1
+RETURN 1 
+endif
+
+
+on=@click
+message @69,1,1 DeathMatch Alani
+return 1
+
+on=@dclick
+if (<src.findid i_rune_poison>)
+src.sysmessage @07a1,,1 Zehirli Iken Gecemezsnz..
+elseif (<src.hits> < <src.str>)
+src.sysmessage @07a1,,1 Yaraliykan Gecemezsiniz..
+elseif (<distance> > 3)
+src.sysmessage @07a1,,1 yaklasiniz ltfn...
+else
+src.events +e_olmesakin
+src.events -e_safe
+src.go 5777,2346
+RETURN 1 
+endif
+
+[itemdef i_deatcikis2]
+id=i_moongate_blue
+type=t_moongate
+defname=i_deatcikis2
+
+on=@create
+color=07e5      
+
+on=@step
+src.sysmessage @07a1 2 Kere Tiklamaniz Yeterli'dir...
+src.move 1
+RETURN 1 
+endif
+
+on=@click
+message @69,1,1 Deathmatch Cikis
+return 1
+
+on=@dclick
+if (<src.findid i_rune_poison>)
+src.sysmessage @07a1,,1 Zehirli Iken Gecemezsnz..
+elseif (<src.hits> < <src.str>)
+src.sysmessage @07a1,,1 Yaraliykan Gecemezsiniz..
+elseif (<distance> > 3)
+src.sysmessage @07a1,,1 yaklasiniz ltfn...
+else
+src.events -e_olmesakin
+src.events +e_safe
+src.go Safe Alani
+RETURN 1 
+
+
+
+[events e_olmesakin]
+
+On=@death
+if (<src.body>==c_man) || (<src.body>==c_Woman)
+serv.allclients sysmessage @1153,,1 DeatMatch Olum Duyuru ;
+serv.allclients sysmessage @0ad,6,1,1 <src.name> >>>>> <src.act.name> Tarafindan <src.region.name> Civarlarinda Katledilmistir.
+src.hits 100
+src.go Safe Alani
+src.message @0790,0,3 Olduruldunuz. sayin <src.name>...
+src.events -e_olmesakin
+src.events +e_safe
+return 1
+endif
+
+on=@itemdclick
+if (<act.baseid> == i_runebook)
+sysmessage @080a Hatali Istek.
+src.events +e_olmesakin
+return 1
+
+[EOF]

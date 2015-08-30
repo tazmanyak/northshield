@@ -1,0 +1,115 @@
+/////////////////////////////////////////////////////////////team battle/Rhodos////////////////////////////////////////////////////////////////
+
+[defname tb_options]
+tb_player_base_red		""
+tb_player_base_white		""
+
+tb_finish_and_go		"3573,1229"
+
+tb_open_gate_p			"3561,1204"
+tb_timer_gate			"300"
+
+tb_kill_point			""
+tb_finish_point			""
+
+///////////////////////////////////////////////////////////////////////////////////////Function Start
+
+
+/////////////////////////////////////////////
+
+
+[function f_tb_skor_guncelleme]
+if (<isevent.e_tb_red>)
+f_dialog_open_tb_Scor
+endif
+
+if (<isevent.e_tb_white>)
+f_dialog_open_tb_Scor
+endif
+
+[function f_dialog_open_tb_Scor]
+//trysrc <uid> dialogclose d_tb_score_table
+trysrc <uid> dialog d_tb_score_table
+
+/////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////function finish
+
+
+
+
+/////////////////////////////////////////////////////////////////////////Dialog Open
+
+[dialog d_tb_score_table]
+0,0
+nomove
+//noclose
+src.closealldialogs
+obj <def.cs>
+resizepic 810 5 5120 190 165
+resizepic 820 15 3000 170 145
+resizepic 830 40 3000 150 2
+resizepic 830 85 3000 150 2
+resizepic 830 135 3000 150 2
+dhtmlgump 828 20 200 20 0 0 <def.bfont_lred>TeamBattle Durum Tablosu
+dhtmlgump 828 45 200 20 0 0 <def.bfont_black>Kirmizi Takim : <eval <var.tb_player_red>> Kisi
+dhtmlgump 828 65 200 20 0 0 <def.bfont_black>Beyaz Takim : <eval <var.tb_player_white>> Kisi
+dhtmlgump 828 92 200 20 0 0 <def.bfont_dgreen>Kirmizi Takim Skor: <eval <var.tb_point_red>>
+dhtmlgump 828 112 200 20 0 0 <def.bfont_dgreen>Beyaz Takim Skor: <eval <var.tb_point_white>>
+dhtmlgump 828 140 200 20 0 0 <def.bfont_dred>Bitis Skoru : <eval <def.tb_finish_point>>
+
+
+[DIALOG d_tb_class_select]
+0, 0
+
+//resizepic 250 10 5120 230 115
+//resizepic 260 20 3000 210 95
+
+//resizepic 160 0 9200 450 450	
+//gumppictiled 170 10 430 430 2624
+
+resizepic 250 10 9200 230 200	
+gumppictiled 260 20 210 180 2624
+
+
+dhtmlgump 320 23 200 20 0 0 <def.bfont_white>Class Seciniz...
+
+dhtmlgump 290 47 200 20 0 0 <def.bfont_lgreen>Warlock <def.bfont_lred>Olacagim
+dhtmlgump 290 67 200 20 0 0 <def.bfont_lgreen>Warrior <def.bfont_lred>Olacagim.
+dhtmlgump 290 87 200 20 0 0 <def.bfont_lgreen>P.Mage <def.bfont_lred>Olacagim.
+
+dhtmlgump 270 147 200 20 0 0 <def.bfont_white>Beyaz Takim : <def.bfont_lgray> <eval <var.tb_player_white>> Kisi
+dhtmlgump 270 167 200 20 0 0 <def.bfont_lred>Kirmizi Takim : <def.bfont_lgray> <eval <var.tb_player_red>> Kisi
+
+button 270 48 55 56  1 1153 1
+button 270 68 55 56 1 38 2
+button 270 88 55 56 1 1156 3
+
+////////////////////////////////////////////////////////////////////
+
+[DIALOG d_tb_class_select button]
+on=1
+if (<eval <var.tb_player_red>> == 20) && (<eval <var.tb_player_white>> == 20)
+src.sysmessage @,,1 Malesef takimlar dolmus.
+return 1
+endif
+src.f_select_class Warlock
+on=2
+if (<eval <var.tb_player_red>> == 20) && (<eval <var.tb_player_white>> == 20)
+src.sysmessage @,,1 Malesef takimlar dolmus.
+return 1
+endif
+src.f_select_class Warrior
+on=3
+if (<eval <var.tb_player_red>> == 20) && (<eval <var.tb_player_white>> == 20)
+src.sysmessage @,,1 Malesef takimlar dolmus.
+return 1
+endif
+src.f_select_class Mage
+
+
+
+
+
+
+[EOF]

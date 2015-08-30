@@ -1,0 +1,115 @@
+
+[Plevel 7]
+bilgi
+
+[function bilgi]
+targetf bilgix
+src.sysmessage @,,1 Bilgi edincegin kisiyi sec...
+
+[function bilgix]
+argo.dialog d_bilgilerimx
+return 1
+
+[function bilgilerim]
+src.dialog d_bilgilerim
+return 1
+
+[dialog d_bilgilerim]
+0,0
+//resizepic 0 0 5120 400 360
+//resizepic 10 10 3000 380 340
+
+//gumppictiled 170 10 430 430 2624
+//resizepic 160 0 9200 450 450
+
+resizepic 0 0 2620 380 400
+gumppictiled 10 10 360 380 2624
+
+dtext 135 15 025 * Profil Bilgileriniz *
+dtext 15 40 0455 Account Isminiz: <ACCOUNT>
+dtext 15 60 0455 Karakter Isminiz: <name>
+dtext 15 80 0455 Online Sureniz: <eval <ACCOUNT.TOTALCONNECTTIME>/60> Saat
+dtext 15 100 0455 Kayit Tarihiniz: <ACCOUNT.FIRSTCONNECTDATE>
+dtext 15 120 0455 Son Online: <ACCOUNT.LASTCONNECTDATE>
+dtext 15 140 0455 Son Online Sureniz: <ACCOUNT.LASTCONNECTTIME> Dakika
+dtext 15 160 0455 Karakter Sayiniz: <account.chars>
+dtext 15 180 0455 Skill Toplaminiz: <SKILLTOTAL>
+dtext 15 200 0455 Statlariniz: str=<str> - dex=<dex> - int=<int>
+dtext 15 220 069 Ip Adresiniz: <account.LASTIP>
+dtext 15 240 069 Mac Adresiniz:  <account.tag.last_mac>
+dtext 15 260 069 PC Name : <account.tag.last_computer>
+dtext 15 280 0455 Bulundugunuz Yer: <region.name>
+dtext 15 300 0455 Fame/Karma/Kill : <fame> - <karma> - <kills>
+dtext 15 320 0455 Olme Sayiniz : <deaths>
+dtext 15 340 0455 Yemek : <food>
+dtext 15 360 0455 Title : <title>
+
+
+[dialog d_bilgilerim button]
+onbutton=0
+src.sysmessage @0790,,1 Menuyu Kapattiniz.
+return 1
+
+
+
+[dialog d_bilgilerimx]
+0,0
+//resizepic 0 0 5120 400 360
+//resizepic 10 10 3000 380 340
+
+//gumppictiled 170 10 430 430 2624
+//resizepic 160 0 9200 450 450
+
+resizepic 0 0 9200 380 400
+gumppictiled 10 10 360 380 2624
+
+dtext 135 15 025 * Profil Bilgileriniz *
+dtext 15 40 0455 Account Isminiz: <argo.ACCOUNT>
+dtext 15 60 0455 Karakter Isminiz: <argo.name>
+dtext 15 80 0455 Online Sureniz: <eval <argo.ACCOUNT.TOTALCONNECTTIME>/60> Saat
+dtext 15 100 0455 Kayit Tarihiniz: <argo.ACCOUNT.FIRSTCONNECTDATE>
+dtext 15 120 0455 Son Online: <argo.ACCOUNT.LASTCONNECTDATE>
+dtext 15 140 0455 Son Online Sureniz: <argo.ACCOUNT.LASTCONNECTTIME> Dakika
+dtext 15 160 0455 Karakter Sayiniz: <argo.account.chars>
+dtext 15 180 0455 Skill Toplaminiz: <argo.SKILLTOTAL>
+dtext 15 200 0455 Statlariniz: str=<argo.str> - dex=<argo.dex> - int=<argo.int>
+dtext 15 220 069 Ip Adresiniz: <argo.account.LASTIP>
+dtext 15 240 069 Mac Adresiniz:  <argo.account.tag.last_mac>
+dtext 15 260 069 PC Name : <argo.account.tag.last_computer>
+dtext 15 280 0455 Bulundugunuz Yer: <argo.region.name>
+dtext 15 300 0455 Fame/Karma/Kill : <argo.fame> - <argo.karma> - <argo.kills>
+dtext 15 320 0455 Olme Sayiniz : <argo.deaths>
+dtext 15 340 0455 Yemek : <argo.food>
+dtext 15 360 0455 Title : <argo.title>
+
+
+[dialog d_bilgilerimx button]
+onbutton=0
+src.sysmessage @0790,,1 Menuyu Kapattiniz.
+return 1
+
+[Plevel 1]
+map
+
+[function map]
+src.sys_error Harita aciliyor bekleyiniz...
+//src.dialog mapdlg 
+//?zoom=5&lon=1673&lat=2415&coords=1427,1672
+//src.weblink forum.tns.gen.tr/NorthMap/index.php?zoom=3&coords=<src.p.x>,<src.p.y>
+//src.sys_error Connector uzerinde bulunan haritayi kullanabilirsiniz. Connector simgesini sag alt koseden sag tiklayip haritayi acabilirsiniz.
+
+
+
+[dialog mapdlg] 
+90,90 
+resizepic 0 0 5054 403 434 
+gumppic 10 10 5528 
+gumppic <eval (10+((<p.x>*100)/1337))> <eval (10+((<p.y>*100)/1067))> 2362 
+text 20 400 455 0 
+
+[dialog mapdlg text] 
+<region.name> civarlarindasiniz. 
+
+[dialog mapdlg button]
+
+[EOF]

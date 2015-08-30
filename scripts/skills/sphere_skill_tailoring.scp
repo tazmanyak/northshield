@@ -1,0 +1,33 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 34]
+DEFNAME=Skill_Tailoring
+KEY=Tailoring
+TITLE=Tailor
+PROMPT_MSG=
+DELAY=3.0
+STAT_STR=30
+STAT_INT=30
+STAT_DEX=60
+BONUS_STR=5
+BONUS_DEX=75
+BONUS_INT=20
+BONUS_STATS=25
+//ADV_RATE=0,0,0
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+VALUES=1,20,80
+
+ON=@Fail
+src.sysmessage Basaramadiniz.
+
+ON=@Abort
+src.sysmessage Iptal oldu.
+
+[eof]

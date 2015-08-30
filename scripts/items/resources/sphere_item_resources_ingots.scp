@@ -1,0 +1,253 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// SphereServer - All the file
+// ShiryuX - Updated according to OSI
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Holds the ingots used in crafting
+// Also the ones used by sphere, for backwards compatibility.
+
+///////////////////////////////////////////////////////////////
+//////// OSI INGOTS
+///////////////////////////////////////////////////////////////
+// This are the ingots used in OSI. More info, read stratics.
+[ITEMDEF 01bef]
+//DEFNAME2=INGOTS
+//DEFNAME2=IRON_INGOT
+DEFNAME=i_ingot_iron
+TYPE=T_INGOT
+RESOURCES=i_ore_iron
+SKILLMAKE=20.0 MINING
+TDATA1=20.0
+TDATA2=50.0
+WEIGHT=1
+DUPELIST=01bf0,01bf1,01bf2,01bf3,01bf4
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Iron Ingot
+
+[ITEMDEF i_ingot_dull_copper]
+ID=i_ingot_iron
+NAME=Dull Copper Ingot
+RESOURCES=i_ore_dull_copper
+SKILLMAKE=MINING 65.0
+TDATA1=65.0
+TDATA2=90.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Dull Copper Ingot
+
+ON=@Create
+COLOR=color_o_dull_copper
+
+[ITEMDEF i_ingot_shadow]
+NAME=Shadow Ingot
+ID=i_ingot_iron
+SKILLMAKE=MINING 70.0
+TDATA1=70.0
+TDATA2=95.0
+RESOURCES=i_ore_shadow
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Shadow Ingot
+
+ON=@Create
+COLOR=color_o_shadow
+
+[ITEMDEF 01be3]
+DEFNAME=i_ingot_copper
+NAME Copper Ingot
+TYPE=T_INGOT
+RESOURCES=i_ore_copper
+SKILLMAKE=MINING 75.0
+TDATA1=75.0
+TDATA2=100.0
+WEIGHT=1
+DUPELIST=01be4,01be5,01be6,01be7,01be8
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Copper Ingot
+
+[ITEMDEF i_ingot_bronze]
+NAME=Bronze Ingot
+ID=i_ingot_iron
+RESOURCES=i_ore_bronze
+SKILLMAKE=MINING 80.0
+TDATA1=80.0
+TDATA2=105.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Bronze Ingot
+
+ON=@Create
+COLOR=color_o_bronze
+
+[ITEMDEF 01be9]
+DEFNAME=i_ingot_gold
+NAME Gold Ingot
+TYPE=T_INGOT
+SKILLMAKE=MINING 85.0
+TDATA1=85.0
+TDATA2=110.0
+RESOURCES=i_ore_gold
+WEIGHT=1
+DUPELIST=01bea,01beb,01bec,01bed,01bee
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Gold Ingot
+
+[ITEMDEF i_ingot_agapite]
+ID=i_ingot_iron
+NAME=Agapite Ingot
+SKILLMAKE=MINING 90.0
+TDATA1=90.0
+TDATA2=115.0
+RESOURCES=i_ore_agapite
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Agapite Ingot
+
+ON=@Create
+COLOR=color_o_agapite
+
+[ITEMDEF i_ingot_verite]
+NAME=Verite Ingot
+ID=i_ingot_iron
+RESOURCES=i_ore_verite
+SKILLMAKE=MINING 95.0
+TDATA1=95.0
+TDATA2=120.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Verite Ingot
+
+ON=@Create
+COLOR=color_o_verite
+
+[ITEMDEF i_ingot_valorite]
+NAME=Valorite Ingot
+ID=i_ingot_iron
+RESOURCES=i_ore_valorite
+SKILLMAKE=MINING 99.0
+TDATA1=99.0
+TDATA2=120.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Valorite Ingot
+
+ON=@Create
+COLOR=color_o_valorite
+
+
+///////////////////////////////////////////////////////////////
+//////// SPHERE INGOTS
+///////////////////////////////////////////////////////////////
+// Ingots that was used by Sphere. Stay here for backwards comp
+[ITEMDEF 01bf5]
+DEFNAME=i_ingot_silver
+NAME Silver Ingot
+TYPE=T_INGOT
+SKILLMAKE=MINING 95.0
+TDATA1=90.0
+TDATA2=100.0
+RESOURCES=i_ore_silver
+WEIGHT=1
+DUPELIST=01bf6,01bf7,01bf8,01bf9,01bfa
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Silver Ingot
+
+[ITEMDEF i_ingot_rose]
+ID=i_ingot_iron
+NAME=Rose Ingot
+RESOURCES=i_ore_rose
+SKILLMAKE=MINING 87.0
+TDATA1=80.0
+TDATA2=100.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Rose Ingot
+
+ON=@Create
+COLOR=color_o_rose
+
+[ITEMDEF i_ingot_mytheril]
+ID=i_ingot_iron
+NAME=Mytheril Ingot
+RESOURCES=i_ore_mytheril
+SKILLMAKE=MINING 99.5
+TDATA1=90.0
+TDATA2=120.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Mytheril Ingot
+
+ON=@Create
+COLOR=color_o_mytheril
+
+[ITEMDEF i_ingot_blackrock]
+ID=i_ingot_iron
+NAME=Black Rock Ingot
+RESOURCES=i_ore_blackrock
+SKILLMAKE=MINING 100.0
+TDATA1=90.0
+TDATA2=120.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Black Rock Ingot
+
+ON=@Create
+COLOR=color_o_blackrock
+
+[ITEMDEF i_ingot_bloodrock]
+ID=i_ingot_iron
+NAME=Blood Rock Ingot
+RESOURCES=i_ore_bloodrock
+SKILLMAKE=MINING 93.0
+TDATA1=90.0
+TDATA2=120.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Blood Rock Ingot
+
+ON=@Create
+COLOR=color_o_bloodrock
+
+[ITEMDEF i_ingot_rusty]
+NAME=Rusty Ingot
+ID=i_ingot_iron
+RESOURCES=i_ore_rusty
+SKILLMAKE=MINING 50.0
+TDATA1=40.0
+TDATA2=80.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Rusty Ingot
+
+ON=@Create
+COLOR=color_o_rusty
+
+[ITEMDEF i_ingot_old_copper]
+NAME=Old Copper Ingot
+ID=i_ingot_iron
+RESOURCES=i_ore_old_copper
+SKILLMAKE=MINING 60.0
+TDATA1=50.0
+TDATA2=80.0
+CATEGORY=Resources - Mining
+SUBSECTION=Ingots
+DESCRIPTION=Old Copper Ingot
+
+ON=@Create
+COLOR=color_o_oldcopper
+
+[eof]

@@ -1,0 +1,32 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 28]
+DEFNAME=Skill_Snooping
+KEY=Snooping
+TITLE=Pickpocket
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=30
+STAT_INT=50
+STAT_DEX=60
+BONUS_STR=0
+BONUS_DEX=100
+BONUS_INT=0
+BONUS_STATS=25
+//ADV_RATE=0,0,0
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+
+ON=@Fail
+	SRC.SYSMESSAGE You fail to peek into the container.
+
+ON=@Abort
+	SRC.SYSMESSAGE You give up trying to peek into the container.
+
+[eof]

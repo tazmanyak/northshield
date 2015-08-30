@@ -1,0 +1,166 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+////////////////////////////////////////////////////////////////
+[ITEMDEF i_deed_elven_oven_east]
+ID=i_deed
+TYPE=t_deed_house_addon
+NAME=Balik Ocak//Deed for a elven oven (east)
+RESOURCES=160 i_log,160 i_ingot_iron,60 i_ingot_agapite,10 i_kil
+SKILLMAKE=CARPENTRY 100.0,TINKERING 100.0,BLACKSMITHING 100.0
+CATEGORY=Provisions - Deeds
+SUBSECTION=House Addons
+DESCRIPTION=Balik Ocagi(east)
+TAG.CRAFT_PUAN 75
+
+ON=@Create
+MORE=02ddb
+
+on=@click
+message @,,1 <name>
+return 1
+
+////////////////////////////////////////////////////////////////
+
+[ITEMDEF 02ddb]
+DEFNAME=i_oven_elven
+NAME=Balik Ocagi
+TYPE=t_normal
+SKILLMAKE=CARPENTRY 120.0, t_carpentry
+RESOURCES=80 i_log
+DUPELIST=02ddc
+CATEGORY=Decoration - Fireplaces, Chimneys & Ovens
+SUBSECTION=Ovens
+DESCRIPTION=Elven Oven
+TAG.CRAFT_PUAN 75
+
+on=@create
+tag.kullanilabilir 1
+
+on=@dclick
+if <src.Cooking> < 98.1
+	src.sysmessage @33,,1 En az 98.1 Cooking yetenegine ihtiyaciniz var.
+	return 1
+endif
+target
+src.sysmessage @69,,1 Ocaga atacaginiz baliklari seciniz.
+return 1
+
+on=@click
+if (<eval <tag.kullanilabilir>> == 0)
+	if (<timer> > 60)
+		message @69,,1 <eval (<timer> / 3600)> saat <eval (<timer> / 60) - (<timer> / 3600) * 60))> dakika.
+	else
+		message @69,,1 <timer> Saniye
+	endif
+endif
+message @,,1 <name>
+return 1
+
+on=@TARGON_ITEM
+if !(<argo.baseid> == i_fish_cut_raw)
+	src.sysmessage @33,,1 Bunu pisiremezsiniz.
+	return 1
+elif (<argo.topobj.uid> != <src.uid>)
+	src.sysmessage @33,,1 Cantanizda veya bankanizda olmasi lazim.
+	return 1
+elif (<eval <tag.kullanilabilir>> == 0)
+	src.sysmessage @33,,1 Ocag suan kullanilmaktadir.
+	return 1
+elif !(<src.restest 1 i_kindling>)
+	src.sysmessage @33,,1 Balik ocagini yakmak icin 1 adet kindling gereklidir.
+	return 1
+endif
+
+
+if !(<src.restest 250 i_log>)
+	src.sysmessage @33,,1 Ocagi yakmak icin, 250 log gereklidir.
+	return 1
+endif
+
+
+
+src.consume 1 i_kindling
+src.consume 250 i_log
+
+
+tag.balikadeti <eval <argo.amount>>
+tag.pismesuresi <eval <argo.amount>/25>
+timer <eval <argo.amount>/25>
+src.sysmessage @69,,1 Baliklari ocaga koydunuz.
+tag.kullanilabilir 0
+argo.remove
+
+serv.newitem i_fx_smoke_small
+new.p <p>
+new.nudgeup 13
+new.attr 08000
+new.timerf <eval <tag.pismesuresi>>,remove
+
+return 1
+
+on=@timer
+tag.kullanilabilir 1
+serv.newitem i_fish_cut_cooked
+new.amount <eval <tag.balikadeti>>
+new.p <p>
+new.nudgeup
+new.update
+return 1
+
+[ITEMDEF 02ddc]
+DUPEITEM=02ddb
+
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_kil_tasi]
+id=01364
+NAME=Kil Tasi
+TYPE=t_normal
+weight 1
+
+on=@create
+color 033
+
+on=@dclick
+target
+src.sysmessage @69,,1 Hangi Forge secmek istiyorsunuz ?
+return 1
+
+on=@TARGON_ITEM
+if !(<argo.type> == t_forge)
+	src.sysmessage @33,,1 Bu bir Forge degil.
+	return 1
+endif
+
+if <src.mining> < 98.1
+	src.sysmessage @33,,1 En az 98.1 Mining yeteneginiz olmalidir.
+	return 1
+endif
+
+remove
+serv.newitem i_kil
+new.bounce <src>
+
+return 1
+
+
+[ITEMDEF i_kil]
+id=i_ingot_iron
+NAME=Kil
+TYPE=t_normal
+weight 0
+
+on=@create
+color 033
+name Kil
+
+
+[eof]

@@ -1,0 +1,324 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[FUNCTION GenerateTables]
+// Spells
+f_Web_Spells		magery
+f_Web_Spells		necromancy
+f_Web_Spells		chivalry
+f_Web_Spells		spellweaving
+// Resources
+f_Web_Resources		mining
+f_Web_Resources		sandmining
+f_Web_Resources		fishing
+// Crafting
+f_Web_Crafting		alchemy
+f_Web_Crafting		blacksmithing
+f_Web_Crafting		bowcraft
+f_Web_Crafting		carpentry
+f_Web_Crafting		cooking
+f_Web_Crafting		tailoring
+f_Web_Crafting		tinkering
+f_Web_Crafting		inscription
+// Other
+f_Web_Weapons
+f_Web_Taming
+
+[function f_Web_Magic]
+f_Web_Spells		magery
+f_Web_Spells		necromancy
+f_Web_Spells		chivalry
+f_Web_Spells		spellweaving
+
+[function f_Web_Weapons]
+LIST.skill_tables_archery.CLEAR
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_archery.scp
+f_Web_Weapons_Fill archery
+LIST.skill_tables_fencing.CLEAR
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_fencing_onehanded.scp
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_fencing_twohanded.scp
+f_Web_Weapons_Fill fencing
+LIST.skill_tables_macefighting.CLEAR
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_macefighting_onehanded.scp
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_macefighting_twohanded.scp
+f_Web_Weapons_Fill macefighting
+LIST.skill_tables_swordsmanship.CLEAR
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_swordsmanship_onehanded.scp
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_swordsmanship_twohanded.scp
+f_Web_Weapons_Fill swordsmanship
+LIST.skill_tables_throwing.CLEAR
+f_Web_Weapons_DB scripts/items/weapons/sphere_weapon_throwing_onehanded.scp
+f_Web_Weapons_Fill throwing
+
+[function f_Web_Taming]
+LIST.skill_tables_taming.CLEAR
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_ants.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_daemons.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_dragons.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_elemental.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_gargoyles.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_ogres_ettins_trolls.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_ophidians.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_orcs.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_terathans.scp
+f_Web_Taming_DB	scripts/npcs/monsters/spherechar_undead.scp
+f_Web_Taming_DB	scripts/npcs/spherechar_mounts.scp
+f_Web_Taming_DB	scripts/npcs/spherechar_new_mounts.scp
+f_Web_Taming_Fill	animaltaming
+
+
+// The following are support functions used by the scripts below.
+// They do specific things with or without arguments.
+// f_Web_OpenTable
+// - Opens the table
+[function f_Web_OpenTable]
+file.writeline <def.p_table_head>
+file.writeline <def.p_table>
+
+// f_Web_WriteHeader
+// - Writes the Header
+// - Read skills from "local.skill" (must use CALL)
+[function f_Web_WriteHeader]
+args = <def.<local.skill>.table>
+local.header = "<def.th> <def.the>"
+for 0 <eval <argv>-1>
+	if !<isempty <def.<argv[<local._for>]>.Name>>
+	local.header .= "<def.th><def.<argv[<local._for>]>.Name><def.the>"
+	else
+	local.header .= "<def.th><argv[<local._for>]><def.the>"
+	endif
+end
+file.writeline <local.header>
+
+// f_Web_WriteContent
+// - Fills the table
+// - Read info from "local.$prop" (must use CALL)
+[function f_Web_WriteContent]
+args = <def.<local.skill>.table>
+local.id = <qval <local.idtoshow> ? <local.idtoshow> : <serv.itemdef.<local.item>.id>>
+if <local.color>
+//local.content = "<def.td><def.l1>img alt='<serv.itemdef.<local.id>.name>' src='art.php?id=<local.id>&hue=<local.color>' /<def.r1><def.tde>"
+local.content = "<def.td><def.l1>img alt='<serv.itemdef.<local.id>.name>' src='images/<local.skill>/img-<local.id>-<local.color>.png' /<def.r1><def.tde>"
+else
+//local.content = "<def.td><def.l1>img alt='<serv.itemdef.<local.id>.name>' src='art.php?id=<local.id>' /<def.r1><def.p_tde>"
+local.content = "<def.td><def.l1>img alt='<serv.itemdef.<local.id>.name>' src='images/<local.skill>/img-<local.id>.png' /<def.r1><def.p_tde>"
+endif
+for 0 <eval <argv>-1>
+	if <isnum <local.<argv[<local._for>]>>>
+		if <def0.<argv[<local._for>]>.FixedPoint> == 1
+		local.content .= "<def.td><fval <local.<argv[<local._for>]>>><def.tde>"
+		else
+		local.content .= "<def.td><eval <local.<argv[<local._for>]>>><def.tde>"
+		endif
+	else
+	local.content .= "<def.td><local.<argv[<local._for>]>><def.tde>"
+	endif
+endfor
+file.writeline <def.tr>
+file.writeline <local.content>
+file.writeline <def.tre>
+
+// f_Web_CloseTable
+// - Closes the table
+[function f_Web_CloseTable]
+file.writeline <def.p_table_end>
+file.writeline <def.p_table_head_end>
+file.writeline <def.br>
+
+//****************************************************************************
+
+// f_Web_Spells $skill
+// - Writes the spell table of the defined $skill
+[function f_Web_Spells]
+local.skill = <args>
+if !<file.open web/<def.<args>_file>>
+serv.log @(S)Table Generator: Can't open/create file (<def.<args>_file>).
+return 1
+endif
+f_Web_OpenTable
+call f_Web_WriteHeader
+for <def.<local.skill>_morez> <eval <def.<local.skill>_morez>+<def.<local.skill>_spells>>
+	if <serv.spell.<dlocal._for>>
+	local.spell = <serv.spell.<dlocal._for>.name>
+		if <local.skill> == chivalry
+		local.tithing = "<def.center><eval <serv.spell.<dlocal._for>.effect>> Points<def.centere>"
+		else
+		args = <serv.spell.<dlocal._for>.resources>
+		local.resources = "<serv.spell.<dlocal._for>.resources.1.val> <serv.itemdef.<serv.spell.<dlocal._for>.resources.1.key>.name>"
+			if <argv> > 1
+				for j 2 <argv>
+				local.resources .= "<def.br><serv.spell.<dlocal._for>.resources.<dlocal.j>.val> <serv.itemdef.<serv.spell.<dlocal._for>.resources.<dlocal.j>.key>.name>"
+				end
+			endif
+		endif
+		if <serv.spell.<dlocal._for>.rune_item>
+		local.idtoshow = <serv.spell.<dlocal._for>.rune_item>
+		endif
+	local.mana = <def.center><serv.spell.<dlocal._for>.manause><def.centere>
+	local.skillreq = <def.center><fval <strarg <serv.spell.<dlocal._for>.skillreq>>> <serv.skill.<streat <serv.spell.<dlocal._for>.skillreq>>.name><def.centere>
+	call f_Web_WriteContent
+	endif
+endfor
+f_Web_CloseTable
+serv.log @Web: <local.skill> filling data done.
+file.close
+
+//****************************************************************************
+
+// f_WriteTables $skill
+// - Generates the table of $skill
+// - Only works for crafting skills (note: custom crafting system)
+[function f_Web_Crafting]
+local.skill = <args>
+if !<file.open web/<def.<local.skill>_file>>
+serv.log Can't open/create file (<def.<args>_file>).
+return 1
+endif
+if !<isempty <def.skill.<args>.description>>
+file.writeline <def.skill.<args>.description><def.br>
+endif
+for x 1 20
+	if !<isempty <def.<local.skill>_category_<dlocal.x>_name>>
+	f_Web_OpenTable
+	call f_Web_WriteHeader
+		for z 1 150
+			if !<isempty <def.<local.skill>_category_<dlocal.x>_<dlocal.z>>>
+			local.item = <def.<local.skill>_category_<dlocal.x>_<dlocal.z>>
+			local.name = <serv.itemdef.<local.item>.name>
+			local.color = <f_GetColor item,<local.item>>
+				if (strmatch(<local.skill>,alchemy))
+				call f_ReturnInfo item,<local.item>,more2,PotionStrength
+				endif
+			args = <serv.itemdef.<local.item>.resources>
+			local.resources = "<serv.itemdef.<local.item>.resources.1.val> <serv.itemdef.<serv.itemdef.<local.item>.resources.1.key>.name>"
+				if <argv> > 1
+					for j 2 <argv>
+					local.resources .= "<def.br><serv.itemdef.<local.item>.resources.<dlocal.j>.val> <serv.itemdef.<serv.itemdef.<local.item>.resources.<dlocal.j>.key>.name>"
+					end
+				endif
+			args = <serv.itemdef.<local.item>.skillmake>
+			local.skillmake = "<argv[0]>"
+				if <argv> > 1
+					for y 2 <argv>
+					local.skillmake .= "<def.br><argv[<local.y>]>"
+					end
+				endif
+			call f_Web_WriteContent
+			endif
+		end
+	f_Web_CloseTable
+	endif
+end
+serv.log @Web: <local.skill> filling data done.
+file.close
+return 1
+
+//****************************************************************************
+
+// f_Web_Taming_DB
+// - Fills the database with the tamable animals.
+// - NOTE: MySQL Required.
+[function f_Web_Taming_DB]
+if <file.inuse>
+return 1
+endif
+if <file.open <args>>
+	for 0 <file.filelines <args>>
+		if (strmatch("*chardef*","<file.readline <dlocal._for>>"))
+		local.line = <streat <file.readline <dlocal._for>>>
+		local.rline = <strsub 0 <eval (strlen(<local.line>))-1> <local.line>>
+		serv.newnpc <local.rline>
+			if <new.taming>
+			list.skill_tables_taming.add <new.typedef.name>,<local.rline>,<new.icon>,<new.taming>
+			endif
+		new.remove
+		endif
+	endfor
+file.close
+endif
+
+// f_Web_Taming_Fill
+// - Writes the taming skill table.
+// - NOTE: MySQL Required.
+[function f_Web_Taming_Fill]
+local.skill = AnimalTaming
+if !<file.open web/<def.<local.skill>_file>>
+serv.log Can't open/create file (<def.<local.skill>_file>).
+return 1
+endif
+f_Web_OpenTable
+call f_Web_WriteHeader
+if <list.skill_tables_taming.count>
+	for 0 <eval <list.skill_tables_taming.count> - 1>
+	args = <list.skill_tables_taming.<dlocal._for>>
+	local.npc = <argv[1]>
+	local.Color = <f_GetColor npc,<local.npc>>
+	local.Name = <argv[0]>
+	local.IDToShow = <argv[2]>
+	local.SkillReq = <argv[3]>
+	call f_Web_WriteContent
+	endfor
+endif
+f_Web_CloseTable
+file.writeline <def.br>
+serv.log @Web: <local.skill> filling data done.
+file.close
+
+//****************************************************************************
+
+// f_Web_Weapons_DB
+// - Fills the database with the weapons.
+// - NOTE: MySQL Required.
+[function f_Web_Weapons_DB]
+if <file.inuse>
+return 1
+endif
+if <file.open <args>>
+	for 0 <file.filelines <args>>
+		if strmatch("*itemdef*","<file.readline <dlocal._for>>")
+		local.line = <streat <file.readline <dlocal._for>>>
+		local.rline = <strsub 0 <eval (strlen(<local.line>))-1> <local.line>>
+			if <serv.itemdef.<local.rline>.dupelist> != <local.rline>
+			serv.newitem <local.rline>
+			list.skill_tables_<serv.skill.<serv.itemdef.<local.rline>.skill>.key>.add <local.rline>,<new.color>
+			new.remove
+			endif
+		endif
+	endfor
+file.close
+endif
+
+[function f_Web_Weapons_Fill]
+local.skill = <args>
+if !<file.open web/<def.<local.skill>_file>>
+serv.log Can't open/create file (<def.<local.skill>_file>).
+return 1
+endif
+f_Web_OpenTable
+call f_Web_WriteHeader
+if <list.skill_tables_<local.skill>.count>
+	for 0 <eval <list.skill_tables_<local.skill>.count> - 1>
+	args = <list.skill_tables_<local.skill>.<dlocal._for>>
+	local.item = <argv[0]>
+	local.color = <argv[1]>
+	serv.newitem <local.item>
+	local.weapon = <new.name>
+	local.strreq = <new.reqstr>
+	local.damage = "<new.dam.lo> to <new.dam.hi>"
+	local.speed = <new.speed>
+	new.remove
+	call f_Web_WriteContent
+	endfor
+endif
+f_Web_CloseTable
+file.writeline <def.br>
+serv.log @Web: <local.skill> filling data done.
+file.close
+
+
+[eof]

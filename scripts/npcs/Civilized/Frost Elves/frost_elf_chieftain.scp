@@ -1,0 +1,50 @@
+[CHARDEF c_frost_elf_chieftain]
+ID=c_elf_male
+NAME=#NAMES_ELF_MALE the Frost Elf Chieftain
+DAM=20,25
+ARMOR=20
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_MALE
+//ALIGNMENT=EVIL
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=045e
+
+CATEGORY=Civilized
+SUBSECTION=Frost-Elf (Evil)
+DESCRIPTION=Frost Elf Chieftain
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-4000 -6000}
+	FAME={3500 5000}
+	COLOR=05d
+
+	STR={150 200}
+	DEX={81 95}
+	INT={50 60}
+
+	MAGICRESISTANCE={60.0 75.0}
+	TACTICS={70.0 90.0}
+	WRESTLING={40.0 55.0}
+	SWORDSMANSHIP=100.0
+	PARRYING={75.0 100.0}
+
+	ITEMNEWBIE=i_hair_krisna
+
+ON=@NPCRestock
+	ITEM=i_gold,{80 100}
+	ITEM=i_studded_tunic
+	ITEM=i_tunic
+	ITEM=i_pants_long
+	ITEM=random_shoes
+	COLOR=01bb
+	ITEM=i_sword_viking
+	ITEM=i_shield_kite_metal
+	ITEM=random_jewel
+	ITEM=random_average_magic_loot
+	ITEM=backpack_loaded
+
+[EOF]

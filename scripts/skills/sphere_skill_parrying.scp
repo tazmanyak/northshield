@@ -1,0 +1,26 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 5]
+DEFNAME=SKILL_Parrying
+KEY=Parrying
+TITLE=Shieldfighter
+//ADV_RATE=0,0,0
+//ADV_RATE=800.0,800.0,800.0
+//ADV_RATE=1.0,1.0,1.0
+EFFECT=0.0,90.0
+
+STAT_STR=75
+STAT_INT=15
+STAT_DEX=25
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=10
+
+[eof]

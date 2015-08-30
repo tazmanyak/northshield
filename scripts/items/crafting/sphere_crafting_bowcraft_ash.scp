@@ -1,0 +1,345 @@
+[ITEMDEF i_bow_ash]
+ID=i_bow
+NAME=Ash bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_ash
+SKILLMAKE=30.0 Bowcraft
+WEIGHT=6.0
+REQSTR=6
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash bow
+DESCRIPTION=Ash bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_composite_bow_ash]
+ID=i_composite_bow
+NAME=Ash Composite Bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_ash
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=5.0
+REQSTR=9
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Composite Bow
+DESCRIPTION=Ash Composite Bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_crossbow_ash]
+ID=i_crossbow
+NAME=Ash crossbow
+TYPE=t_weapon_xbow
+RESOURCES=7 i_log_ash
+SKILLMAKE=60.0 Bowcraft
+WEIGHT=7.0
+REQSTR=7
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash crossbow
+DESCRIPTION=Ash crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_elven_composite_longbow_ash]
+ID=i_elven_composite_longbow
+NAME=Ash Elven Composite Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_ash
+SKILLMAKE=95.0 Bowcraft
+WEIGHT=8.0
+REQSTR=9
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Elven Composite Longbow
+DESCRIPTION=Ash Elven Composite Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_crossbow_heavy_ash]
+ID=i_crossbow_heavy
+NAME=Ash heavy crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_ash
+SKILLMAKE=80.0 Bowcraft
+WEIGHT=9.0
+REQSTR=16
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash heavy crossbow
+DESCRIPTION=Ash heavy crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_magical_shortbow_ash]
+ID=i_magical_shortbow
+NAME=Ash Magical Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_ash
+SKILLMAKE=85.0 Bowcraft
+WEIGHT=6.0
+REQSTR=9
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Magical Shortbow
+DESCRIPTION=Ash Magical Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_repeating_crossbow_ash]
+ID=i_repeating_crossbow
+NAME=Ash Repeating Crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_ash
+SKILLMAKE=90.0 Bowcraft
+WEIGHT=6.0
+REQSTR=6
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Repeating Crossbow
+DESCRIPTION=Ash Repeating Crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_yumi_ash]
+ID=i_yumi
+NAME=Ash Yumi
+TYPE=t_weapon_bow
+RESOURCES=10 i_log_ash
+SKILLMAKE=90.0 Bowcraft
+WEIGHT=8.0
+REQSTR=7
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Yumi
+DESCRIPTION=Ash Yumi
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_barbed_longbow_ash]
+ID=i_elven_composite_longbow
+NAME=Ash Barbed Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_ash, 1 i_gem_fire_ruby
+SKILLMAKE=95.0 Bowcraft
+WEIGHT=8.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Elven Composite Longbow
+DESCRIPTION=Ash Barbed Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_slayer_longbow_ash]
+ID=i_elven_composite_longbow
+NAME=Ash Slayer Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_ash, 1 i_gem_brilliant_amber
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Elven Composite Longbow
+DESCRIPTION=Ash Slayer Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_frozen_longbow_ash]
+ID=i_elven_composite_longbow
+NAME=Ash Frozen Longbow
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_ash, 1 i_gem_turquoise
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Elven Composite Longbow
+DESCRIPTION=Ash Frozen Longbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_longbow_might_ash]
+ID=i_elven_composite_longbow
+NAME=Ash Longbow of Might
+TYPE=t_weapon_bow
+RESOURCES=20 i_log_ash, 1 i_gem_blue_diamond
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=8.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Elven Composite Longbow
+DESCRIPTION=Ash Longbow of Might
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_ranger_shortbow_ash]
+ID=i_magical_shortbow
+NAME=Ash Ranger's Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_ash, 1 i_gem_perfect_emerald
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Magical Shortbow
+DESCRIPTION=Ash Ranger's Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_lightweight_shortbow_ash]
+ID=i_magical_shortbow
+NAME=Ash Lightweight Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_ash, 1 i_gem_white_pearl
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Magical Shortbow
+DESCRIPTION=Ash Lightweight Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_mystical_shortbow_ash]
+ID=i_magical_shortbow
+NAME=Ash Mystical Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_ash, 1 i_gem_ecru_citrine
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Magical Shortbow
+DESCRIPTION=Ash Mystical Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_assassin_shortbow_ash]
+ID=i_magical_shortbow
+NAME=Ash Assassin's Shortbow
+TYPE=t_weapon_bow
+RESOURCES=15 i_log_ash, 1 i_gem_dark_sapphire
+SKILLMAKE=70.0 Bowcraft
+WEIGHT=6.0
+REQSTR=9
+TEVENTS=t_iprop
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Magical Shortbow
+DESCRIPTION=Ash Assassin's Shortbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[EOF]
+[ITEMDEF i_bow_ash]
+ID=013b1
+NAME=Ash bow
+TYPE=t_weapon_bow
+RESOURCES=7 i_log_ash
+SKILLMAKE=30.0 Bowcraft
+WEIGHT=6.0
+REQSTR=6
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash bow
+DESCRIPTION=Ash bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_crossbow_ash]
+ID=0f4f
+NAME=Ash crossbow
+TYPE=t_weapon_xbow
+RESOURCES=7 i_log_ash
+SKILLMAKE=60.0 Bowcraft
+WEIGHT=7.0
+REQSTR=7
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash crossbow
+DESCRIPTION=Ash crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_crossbow_heavy_ash]
+ID=013fc
+NAME=Ash heavy crossbow
+TYPE=t_weapon_xbow
+RESOURCES=10 i_log_ash
+SKILLMAKE=80.0 Bowcraft
+WEIGHT=9.0
+REQSTR=16
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash heavy crossbow
+DESCRIPTION=Ash heavy crossbow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_fast_bow_ash]
+ID=02d1f
+NAME=Ash Speed Bow
+TYPE=t_weapon_bow
+RESOURCES=50 i_log_ash, 20 i_bow_item, 20 i_reag_dragon_blood
+SKILLMAKE=98.1 Bowcraft, 90.0 Magery
+WEIGHT=4.0
+REQSTR=4
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Magical Shortbow
+DESCRIPTION=Ash Speed Bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 
+[ITEMDEF i_bow_npc_ash]
+ID=026c2
+NAME=Ash Slayer Bow
+TYPE=t_weapon_bow
+RESOURCES=50 i_log_ash, 20 i_bow_item, 20 i_reag_dragon_blood
+SKILLMAKE=98.1 Bowcraft, 90.0 Magery
+WEIGHT=4.0
+REQSTR=4
+CATEGORY=Provisions - Weapons - Colored
+SUBSECTION=Ash Composite Bow
+DESCRIPTION=Ash Slayer Bow
+ 
+ON=@Create
+HITPOINTS={36 48}
+COLOR=04a7
+ 

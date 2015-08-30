@@ -1,0 +1,963 @@
+[ITEMDEF i_prismoflight_gate]
+ID=i_moongate_blue
+NAME=Prism of Light
+TYPE=T_FLOOR
+
+ON=@Create
+ATTR=ATTR_MOVE_NEVER|ATTR_INVIS
+
+ON=@Step
+IF (<SRC.FINDID.i_prismoflight_admission_ticket>)
+SRC.GO 6472,189
+ELSE
+LINK.SAY @,,2 1073993
+SRC.MOVEBACK
+ENDIF
+
+[ITEMDEF i_corrupted_water_check]
+ID=i_bottle_2
+NAME=Corrupted Water for testing
+TYPE=T_NORMAL
+VALUE=25
+WEIGHT=2
+
+[ITEMDEF i_prismoflight_admission_ticket]
+ID=i_book_sm
+NAME=Prism of Light admission ticket
+TYPE=T_NORMAL
+
+ON=@Create
+ATTR=attr_newbie|attr_move_never|attr_decay|attr_can_decay
+TIMER=60*60*24
+COLOR=55
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1072517,<EVAL (<TOPOBJ.FINDID.i_mem_prismoflight_admission_ticket.TIMER>)>
+
+ON=@Timer
+REMOVE
+RETURN 1
+
+ON=@Dclick
+IF (!(STRCMPI(<SRC.REGION.NAME>,Prism of Light)))
+SRC.GO 3790,1102,20
+RETURN 1
+ENDIF
+
+[ITEMDEF i_broken_crystal]
+ID=i_crystal_green_big
+NAME=broken crystal
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=33
+EVENTS t_peerless_key
+
+[ITEMDEF i_crushed_crystal]
+ID=i_crystal_green_big
+NAME=crushed crystal pieces
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=55
+EVENTS t_peerless_key
+
+[ITEMDEF i_pieces_crystal]
+ID=i_crystal_green_big
+NAME=pieces of crystal
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=88
+EVENTS t_peerless_key
+
+[ITEMDEF i_scattered_crystal]
+ID=i_crystal_green_big
+NAME=scattered crystals
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=100
+EVENTS t_peerless_key
+
+[ITEMDEF i_jagged_crystal]
+ID=i_crystal_green_big
+NAME=jagged crystal shards
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=04ac
+EVENTS t_peerless_key
+
+[ITEMDEF i_shattered_crystal]
+ID=i_crystal_green_big
+NAME=shattered crystal
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=04ad
+EVENTS t_peerless_key
+
+[ITEMDEF i_mem_prismoflight_admission_ticket]
+ID=i_memory
+TYPE=T_EQ_SCRIPT
+NAME=prism of light mem item
+
+ON=@Create
+ATTR=attr_invis|attr_decay
+
+ON=@Equip
+TIMER=60*60*24
+
+ON=@Timer
+LINK.REMOVE
+TOPOBJ.MESSAGE @946,3,1 Your Prism of Light admission ticket has expired.
+REMOVE
+RETURN 1
+
+[FUNCTION startprismticketcountdown]
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM=i_prismoflight_admission_ticket
+BOUNCE <NEW>
+LOCAL.TICKET=<NEW>
+SERV.NEWITEM i_mem_prismoflight_admission_ticket
+NEW.LINK=<LOCAL.TICKET>
+EQUIP <NEW>
+NEW=<LOCAL.OLDNEW>
+
+[ITEMDEF i_mirror_purification]
+ID=i_wash_basin
+NAME=Mirror of Purification
+
+[ITEMDEF i_mirror_purification_blessed]
+ID=i_wash_basin
+NAME=Mirror of Purification
+
+ON=@Create
+ATTR=attr_blessed
+COLOR=88
+
+ON=@Dclick
+IF (<UID.<REGION.UID>.ISAMULTI>)
+IF (<UID.<REGION.UID>.MORE1> == <SRC>)
+SRC.SPELLEFFECT S_GREATER_HEAL,1000,<SRC>
+RETURN 1
+ENDIF
+ENDIF
+MESSAGE @946,3,1 The mirror must be inside one of your properties to have effect.
+RETURN 1
+
+[ITEMDEF i_map_fragment]
+ID=i_map_rolled
+NAME=Map Fragment
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+[ITEMDEF i_emilio_letter_quest90]
+ID=i_book_sm
+NAME=Emilio's Letter
+TAG.NOVENDOR=1
+
+ON=@Create
+COLOR=88
+
+[ITEMDEF i_portrait_of_the_bride_quest89]
+ID=i_portrait_5
+NAME=Portrait of the Bride
+TAG.NOVENDOR=1
+
+[ITEMDEF i_transparent_heart]
+ID=i_earrings_gold
+NAME=Transparent Heart
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=30
+WEIGHT=2
+
+ON=@Create
+COLOR=colors_all
+
+[ITEMDEF i_packet_quest87]
+ID=i_book_sm
+NAME=Regina's Letter
+TAG.NOVENDOR=1
+
+ON=@Create
+COLOR=55
+
+[ITEMDEF i_ring_quest86]
+ID=i_ring_gold
+NAME=Regina's Ring
+TAG.NOVENDOR=1
+
+[ITEMDEF 9078]
+DEFNAME=i_quest48_prize
+TYPE=T_NORMAL
+VALUE=1000
+WEIGHT=10
+
+ON=@Create
+ATTR=ATTR_NEWBIE
+
+[ITEMDEF i_power_crystal]
+ID=i_crystal_green_big
+NAME=Power Crystal
+VALUE=1000
+
+ON=@Create
+COLOR=colors_gray
+
+[ITEMDEF 02305]
+DEFNAME=i_flower_garland
+NAME=flower garland
+TYPE=T_CLOTHING
+VALUE=10
+SKILLMAKE=SKILL_TAILORING 10.0,t_sewing_kit
+RESOURCES=5 i_cloth
+REQSTR=10
+ARMOR=40
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=30
+
+ON=@Create
+HITPOINTS={50 100}
+
+[ITEMDEF i_librarian_key]
+ID=i_key_copper
+NAME=Librarian's Key
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_NEWBIE|ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=88
+EVENTS t_peerless_key
+
+[ITEMDEF i_dreadhorn_key]
+ID=i_dryads_blessing
+NAME=Essence of Wind
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+ATTR=ATTR_NEWBIE|ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+COLOR=88
+EVENTS t_peerless_key
+
+[ITEMDEF i_highexecutioner_key]
+ID=4111
+NAME=Travesty Key
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+COLOR=0501
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS t_peerless_key
+
+[ITEMDEF i_masterthief_key]
+ID=4111
+NAME=Travesty Key
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+COLOR=88
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS t_peerless_key
+
+[ITEMDEF i_grandmage_key]
+ID=4111
+NAME=Travesty Key
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+COLOR=33
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS t_peerless_key
+
+[ITEMDEF i_thesis_notes]
+ID=i_book_sm
+NAME=Disintegrating Thesis Notes
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+ON=@Create
+TIMERF 21600,REMOVE
+COLOR=55
+
+[ITEMDEF 02D93]
+DEFNAME=i_dryads_blessing
+TYPE=T_NORMAL
+NAME=Dryad's Blessing
+VALUE=5000
+TAG.NOVENDOR=1
+
+ON=@Create
+ATTR=ATTR_NEWBIE|ATTR_BLESSED
+TIMERF <EVAL 60*60*24>,REMOVE
+EVENTS t_peerless_key
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1070722,Decaying Item
+
+[ITEMDEF i_spirit_bottle]
+ID=i_bottle_6
+NAME=Spirit Bottle
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=88
+
+[ITEMDEF i_silk_of_dread_spider]
+ID=i_wool
+NAME=ball of dread spider silk
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=0481
+
+[ITEMDEF i_leon_special_bandage]
+ID=i_bandage
+NAME=Alchemist's bandage
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=0312
+
+[ITEMDEF i_father_gratitude]
+ID=i_hammer_smith
+NAME=Father's Gratitude
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.LUCK=130
+
+ON=@Create
+COLOR={01a 03a}
+HITPOINTS=255
+
+[ITEMDEF i_old_ring]
+ID=i_ring_gold
+NAME=old ring
+
+ON=@Create
+COLOR=color_o_copper
+
+[ITEMDEF i_old_necklace]
+ID=i_necklace_gold
+NAME=old necklace
+
+ON=@Create
+COLOR=color_o_copper
+
+[ITEMDEF i_book_bound_red_leather]
+ID=i_spellbook
+NAME=a book
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=0846
+
+[CHARDEF c_werewolf_bride]
+ID=c_tsuki_wolf
+NAME=Aminia The Master Weaponsmiths Wife
+CAN=MT_WALK|MT_EQUIP
+ARMOR=70
+RESOURCES=8 i_reag_bone
+bloodcolor=04ac
+CATEGORY=Addon
+SUBSECTION=Misc
+DESCRIPTION=Aminia the Werewolf
+
+ON=@Create
+NPC=brain_undead
+STR=345
+MAXHITS=420
+DEX=100
+INT=150
+PARRYING={45.0 55.0}
+MAGICRESISTANCE=80.0
+TACTICS=100.0
+WRESTLING=100.0
+FAME=7000
+KARMA=-8000
+COLOR=057a
+
+ON=@NPCRestock
+ITEM=tm_questbagtrinkets
+ITEM=i_gold,{300 400}
+
+[ITEMDEF i_wolf_slayer_dagger]
+ID=i_dagger
+NAME=dagger
+TEVENTS=T_PROPRIEDADES
+
+ON=@Create
+HITPOINTS={50 80}
+
+[FUNCTION quest125setwolfslayerdagger]
+LOCAL.OLDOBJ=<OBJ>
+OBJ=<FINDID.i_wolf_slayer_dagger>
+OBJ.COLOR=04ac
+OBJ.TAG.DAMINCREASE=10
+OBJ.TAG.HITCHANCEINCREASE=10
+OBJ.SETSLAYER
+OBJ.TAG.SLAYERGROUP=WOLF
+OBJ.NAME=Wolf Slayer Dagger
+TRYSRC <UID> SRC.OBJ.RESENDTOOLTIP 1
+OBJ.MESSAGE @946,3,1 Your dagger now has some magical properties.
+OBJ=<LOCAL.OLDOBJ>
+
+[FUNCTION DOOMSUMMONBONEDAEMON]
+OBJ.ANIM 16
+OBJ.SAY @33,,2 1050031
+OBJ.TIMERF 2,DOOMSAYTIMING
+sysmessageloc 55,1050036
+SERV.NEWNPC C_BONE_DAEMON
+NEW.NAME=the devourer
+NEW.GO=442,204,-3,3
+NEW.HOME=442,204,-3,3
+NEW.HOMEDIST=30
+NEW.EVENTS +e_questsylvana_daemon
+LOCAL.DEVOURER=<NEW>
+SERV.NEWITEM i_doom_bone_daemon_remover,1,<LOCAL.DEVOURER>
+NEW.TIMER=60*25
+
+[FUNCTION DOOMSAYTIMING]
+SAY @33,3,1 Go forth and vanquish the devourer that has been summoned!
+
+[ITEMDEF i_salivas_cap]
+ID=i_hat_feather
+NAME=Saliva's Cap
+ARMOR=70
+TEVENTS=T_PROPRIEDADES
+REQSTR=20
+
+ON=@Create
+COLOR=01ea
+HITPOINTS=60
+
+[ITEMDEF i_proof_strength]
+ID=i_bag
+NAME=Strength proof
+WEIGHT=0
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_proof_humanity]
+ID=i_bag
+NAME=Humanity proof
+WEIGHT=0
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_proof_toughness]
+ID=i_bag
+NAME=Toughness proof
+WEIGHT=0
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_crate_small_sledge]
+ID=i_crate_small
+NAME=Crate for Sledge
+WEIGHT=0
+
+[FUNCTION f_fightdeldrimor]
+GO 6519,957,-40
+SYSMESSAGE @55,3,1 Treebeard: You must now defeat Deldrimor, you might find other brave warriors there on the Spiritual World and ask for their help. He should be very near.
+
+[FUNCTION F_HERITAGE_HUMAN]
+IF ((<OBODY> == c_elf_female) || (<OBODY> == c_elf_male))
+UNEQUIPALL
+COLOR=colors_skin
+IF (<OBODY> == c_elf_female)
+BODY=c_woman
+OBODY=c_woman
+ELSE
+BODY=c_man
+OBODY=c_man
+ENDIF
+MODMAXWEIGHT += 80
+MAXMANA -= 20
+MAXHITS += 10
+OBJ.SAY @,,2 1074532
+UPDATE 1
+ELSE
+OBJ.SAY @946,3,1 You're not an elf to embrace human heritage!
+ENDIF
+
+[FUNCTION F_HERITAGE_HUMAN_STRENGTH]
+IF (!(<FINDID.i_proof_STRENGTH>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_proof_STRENGTH
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already proved your strength.
+ENDIF
+
+[FUNCTION F_HERITAGE_HUMAN_TOUGHNESS]
+IF (!(<FINDID.i_proof_TOUGHNESS>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_proof_TOUGHNESS
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already proved your toughness.
+ENDIF
+
+[FUNCTION F_HERITAGE_HUMAN_HUMANITY]
+IF (!(<FINDID.i_proof_HUMANITY>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_proof_HUMANITY
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already proved your humanity.
+ENDIF
+
+[FUNCTION F_VER_GOLD_10000]
+src.newitem i_gold
+src.act.amount 10000
+src.act.bounce
+
+[FUNCTION F_QUESTSYS_RANDOMGOLD]
+NEWGOLD=<R250,15440>
+
+[FUNCTION F_HERITAGE_ELF]
+IF ((<OBODY> == c_man) || (<OBODY> == c_woman))
+UNEQUIPALL
+COLOR=<DEF.Colors_Elf>
+	IF (<OBODY> == c_woman)
+	BODY=c_elf_female
+	OBODY=c_elf_female
+	ELSE
+	BODY=c_elf_male
+	OBODY=c_elf_male
+	ENDIF
+FINDLAYER.LAYER_BEARD.REMOVE
+MODMAXWEIGHT -= 80
+MAXMANA += 20
+MAXHITS -= 10
+OBJ.SAY @,,2 1074532
+UPDATE 1
+ELSE
+OBJ.SAY @946,3,1 You're not human to embrace elven heritage!
+ENDIF
+
+[ITEMDEF i_boon_Arielle]
+ID=i_crop_flax1
+NAME=The boon of Arielle
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_boon_bravehorn]
+ID=i_crop_flax1
+NAME=The boon of Bravehorn
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_boon_strongroot]
+ID=i_crop_flax1
+NAME=The boon of Strongroot
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_boon_maul]
+ID=i_crop_flax1
+NAME=The boon of Maul
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_boon_enigma]
+ID=i_crop_flax1
+NAME=The boon of Enigma
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[ITEMDEF i_boon_huntsman]
+ID=i_crop_flax1
+NAME=The boon of the Huntsman
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=04ac
+ATTR=ATTR_NEWBIE|ATTR_INVIS|ATTR_MOVE_NEVER
+
+[FUNCTION F_HERITAGE_ELF_BRAVEHORN]
+IF (!(<FINDID.i_boon_BRAVEHORN>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_boon_BRAVEHORN
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already got the boon of Bravehorn.
+ENDIF
+
+[FUNCTION F_HERITAGE_ELF_STRONGROOT]
+IF (!(<FINDID.i_boon_STRONGROOT>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_boon_STRONGROOT
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already got the boon of Strongroot.
+ENDIF
+
+[FUNCTION F_HERITAGE_ELF_ENIGMA]
+IF (!(<FINDID.i_boon_ENIGMA>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_boon_ENIGMA
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already got the boon of Enigma.
+ENDIF
+
+[FUNCTION F_HERITAGE_ELF_ARIELLE]
+IF (!(<FINDID.i_boon_arielle>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_boon_arielle
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already got the boon of Arielle.
+ENDIF
+
+[FUNCTION F_HERITAGE_ELF_MAUL]
+IF (!(<FINDID.i_boon_MAUL>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_boon_MAUL
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already got the boon of Maul.
+ENDIF
+
+[FUNCTION F_HERITAGE_ELF_HUNTSMAN]
+IF (!(<FINDID.i_boon_HUNTSMAN>))
+LOCAL.OLDNEW=<NEW>
+SERV.NEWITEM i_boon_HUNTSMAN
+BOUNCE <NEW>
+NEW=<LOCAL.OLDNEW>
+ELSE
+SYSMESSAGE @946,3,1 You have already got the boon of the Huntsman.
+ENDIF
+
+[ITEMDEF i_amulet_righteousness]
+ID=i_necklace_gold
+NAME=Amulet of Righteousness
+
+ON=@Create
+MORE1=100
+COLOR=0481
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1060491,<dMORE1>
+
+ON=@Dclick
+IF (!(<MORE1>))
+MESSAGE @,,2 501259
+RETURN 1
+ELIF (<TOPOBJ.UID> == <SRC>)
+TARGET
+RETURN 1
+ENDIF
+
+ON=@Targon_Char
+IF (<MORE1>)
+ARGO.EFFECT 1,i_gold,20,20
+MORE1 --
+RESENDTOOLTIP 1
+ENDIF
+RETURN 1
+
+[ITEMDEF i_tuition_reimbursement]
+ID=i_book_sm_open
+NAME=Tuition Reimbursement
+TYPE=T_NORMAL
+
+[ITEMDEF i_signed_tuition_reimbursement]
+ID=i_book_sm_open
+NAME=Signed Tuition Reimbursement
+TYPE=T_NORMAL
+
+[TYPEDEF t_bedlam_entry_pad]
+ON=@Dclick
+IF ((<SRC.HASQUEST 160>) || (<SRC.TAG0.ALLOWEDINBEDLAM>))
+SRC.GO 119,1681,0,3
+ELSE
+LINK.SAY @,,2 1074161
+ENDIF
+RETURN 1
+
+[TYPEDEF t_labyrinth_entry_pad]
+ON=@Step
+IF (!(<ARGN1>))
+	IF ((<SRC.HASQUEST 95>) || (<SRC.TAG0.ALLOWEDINLABYRINTH>))
+	SRC.GO LABYRINTH
+	ELSE
+	SRC.SYSMESSAGE @946,3,1 You sense a magic barrier on your way.
+	ENDIF
+ENDIF
+
+[ITEMDEF i_quest_sash_might]
+ID=i_sash
+NAME=Sash of Might
+ARMOR=3
+REQSTR=10
+
+ON=@Create
+COLOR=0480
+ATTR=ATTR_NEWBIE
+HITPOINTS=255
+
+[ITEMDEF i_quest_bag_jewels]
+ID=i_bag
+NAME=Bag of Jewels
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=55
+
+[ITEMDEF i_goblet_celebration]
+ID=i_goblet
+NAME=Goblet of Celebration
+
+ON=@Create
+COLOR=0205
+
+[ITEMDEF i_de_boor_shield]
+ID=i_shield_order
+NAME=De Boor Shield
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=colors_gray
+
+[FUNCTION f_quest177_givefierysword]
+
+serv.newitem random_weapon_
+new.color 07bb
+new.events +t_weapon_slayer_new
+new.maxhits 250
+new.hitpoints 250
+new.name Fiery Dragon Weapon(<new.name>)
+new.bounce
+
+[FUNCTION f_give_fiery]
+
+serv.newitem <args>
+new.color 07bb
+new.events +t_weapon_slayer_new
+new.maxhits 250
+new.hitpoints 250
+NEW.NAME Fiery Dragon Weapon(<new.name>)
+BOUNCE <NEW>
+
+[plevel 7]
+banayalansoylediler
+
+[FUNCTION banayalansoylediler]
+
+serv.newitem random_weapon
+new.color 07bb
+new.events +t_weapon_slayer_new
+new.maxhits 250
+new.hitpoints 250
+NEW.NAME=Fiery Dragon Weapon(<new.name>)
+BOUNCE <NEW>
+
+
+[TYPEDEF T_GATE_QUEST177]
+ON=@Step
+IF (!(<SRC.HASQUEST 177>))
+	IF (!(<ARGN1>))
+	SAY @946,3,1 You must do the other steps of the quest first.
+	ENDIF
+RETURN 1
+ENDIF
+
+[ITEMDEF i_special_pigment]
+ID=I_bottle_hair_dye
+NAME=Special Pigment
+WEIGHT=2
+TYPE=T_NORMAL
+DYE=0
+
+ON=@Create
+DORAND 16
+COLOR=0845
+COLOR=026
+COLOR=04e8
+COLOR=084d
+COLOR=047e
+COLOR=0497
+COLOR=04d4
+COLOR=04f2
+COLOR=03cd
+COLOR=4
+COLOR=07c
+COLOR=029a
+COLOR=097
+COLOR=0219
+COLOR=0151
+COLOR=02ae
+ENDDO
+MORE1=8
+MORE2=8
+
+ON=@DCLICK
+src.sysmessageloc -1,1070929
+target
+return 1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1060584,<dMORE1>
+
+ON=@Targon_Char
+SRC.SYSMESSAGELOC -1,1070931
+RETURN 1
+
+ON=@TARGON_ITEM
+IF (<ARGO.CONT.UID> == <SRC.FINDLAYER.layer_pack.UID>) && ((<ARGO.ISARMOR>) || (<ARGO.ISWEAPON>))
+MORE1 --
+ARGO.COLOR=<COLOR>
+SRC.SYSMESSAGELOC -1,1062623
+	IF !(<MORE1>)
+	SRC.SYSMESSAGELOC -1,502412
+	CONSUME 1
+	ELSE
+	RESENDTOOLTIP 1
+	ENDIF
+ELIF (<ARGO.CONT.UID> == <SRC.UID>)
+SRC.SYSMESSAGELOC -1,1070930
+ENDIF
+RETURN 1
+
+ON=@Targon_Cancel
+SRC.SYSMESSAGELOC -1,501200
+RETURN 1
+
+[ITEMDEF i_bleach]
+ID=I_bottle_hair_dye
+NAME=Bleach
+WEIGHT=1
+TYPE=T_DYE_VAT
+DYE=0
+
+ON=@Create
+MORE1=10
+MORE2=10
+
+ON=@DCLICK
+src.sysmessageloc -1,1070929
+target
+return 1
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1060584,<dMORE1>
+
+ON=@Targon_Char
+SRC.SYSMESSAGELOC -1,1070931
+RETURN 1
+
+ON=@TARGON_ITEM
+IF (<ARGO.CONT.UID> == <SRC.FINDLAYER.layer_pack.UID>) && (!(<ARGO.TAG0.NOBLEACH>)) && ((<ARGO.ISARMOR>) || (<ARGO.ISWEAPON>))
+MORE1 --
+ARGO.COLOR=0
+SRC.SYSMESSAGELOC -1,1062623
+	IF !(<MORE1>)
+	SRC.SYSMESSAGELOC -1,502412
+	CONSUME 1
+	ELSE
+	RESENDTOOLTIP 1
+	ENDIF
+ELIF (<ARGO.CONT.UID> == <SRC.UID>)
+SRC.SYSMESSAGELOC -1,1070930
+ENDIF
+RETURN 1
+
+ON=@Targon_Cancel
+SRC.SYSMESSAGELOC -1,501200
+RETURN 1
+
+[EOF]

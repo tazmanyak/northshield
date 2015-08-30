@@ -1,0 +1,237 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+// version 1 = id, dupe = anim
+// gargish platemail arms = 0x0308, 0x4050 = 592
+// gargish platemail chst = 0x0309, 0x4051 = 593
+// gargish platemail kilt = 0x030b, 0x4053 = 595
+// gargish platemail legs = 0x030d, 0x4055 = 597
+
+[ITEMDEF 0308]
+DEFNAME=i_platemail_gargish_arms
+NAME=Gargish Platemail Arms
+TYPE=t_armor
+RESOURCES=18 i_ingot_iron
+SKILLMAKE=Blacksmithing 66.3
+WEIGHT=5
+FLIP=1
+REQSTR=80
+DUPELIST=04050
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor
+DESCRIPTION=Gargish Platemail Arms
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04050]
+DUPEITEM=0308
+
+[ITEMDEF 0309]
+DEFNAME=i_platemail_gargish_chest
+NAME=Gargish Platemail Chest
+TYPE=t_armor
+RESOURCES=25 i_ingot_iron
+SKILLMAKE=Blacksmithing 75.0
+WEIGHT=10
+FLIP=1
+REQSTR=95
+DUPELIST=04051
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor
+DESCRIPTION=Gargish Platemail Chest
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04051]
+DUPEITEM=0309
+
+[ITEMDEF 030b]
+DEFNAME=i_platemail_gargish_kilt
+NAME=Gargish Platemail Kilt
+TYPE=t_armor
+RESOURCES=12 i_ingot_iron
+SKILLMAKE=Blacksmithing 58.9
+WEIGHT=5
+FLIP=1
+REQSTR=80
+DUPELIST=04053
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor
+DESCRIPTION=Gargish Platemail Kilt
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04053]
+DUPEITEM=030b
+
+[ITEMDEF 030d]
+DEFNAME=i_platemail_gargish_leggings
+NAME=Gargish Platemail Leggings
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=Blacksmithing 68.8
+WEIGHT=7
+FLIP=1
+REQSTR=90
+DUPELIST=04055
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor
+DESCRIPTION=Gargish Platemail Leggings
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04055]
+DUPEITEM=030d
+
+// version 2 = id, dupe = anim
+// gargish platemail arms = 0x0307, 0x404f = 591
+// gargish platemail chst = 0x030a, 0x4052 = 594
+// gargish platemail kilt = 0x030c, 0x4054 = 596
+// gargish platemail legs = 0x030e, 0x4056 = 598
+
+[ITEMDEF 0307]
+DEFNAME=i_platemail_gargish_arms_2
+NAME=Gargish Platemail Arms
+TYPE=t_armor
+RESOURCES=18 i_ingot_iron
+SKILLMAKE=Blacksmithing 66.3
+WEIGHT=5
+FLIP=1
+REQSTR=80
+DUPELIST=0404f
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor (Art 2)
+DESCRIPTION=Gargish Platemail Arms
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 0404f]
+DUPEITEM=0307
+
+[ITEMDEF 030a]
+DEFNAME=i_platemail_gargish_chest_2
+NAME=Gargish Platemail Chest
+TYPE=t_armor
+RESOURCES=25 i_ingot_iron
+SKILLMAKE=Blacksmithing 75.0
+WEIGHT=10
+FLIP=1
+REQSTR=95
+DUPELIST=04052
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor (Art 2)
+DESCRIPTION=Gargish Platemail Chest
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04052]
+DUPEITEM=030a
+
+[ITEMDEF 030c]
+DEFNAME=i_platemail_gargish_kilt_2
+NAME=Gargish Platemail Kilt
+TYPE=t_armor
+RESOURCES=12 i_ingot_iron
+SKILLMAKE=Blacksmithing 58.9
+WEIGHT=5
+FLIP=1
+REQSTR=80
+DUPELIST=04054
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor (Art 2)
+DESCRIPTION=Gargish Platemail Kilt
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04054]
+DUPEITEM=030c
+
+[ITEMDEF 030e]
+DEFNAME=i_platemail_gargish_leggings_2
+NAME=Gargish Platemail Leggings
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=Blacksmithing 68.8
+WEIGHT=7
+FLIP=1
+REQSTR=90
+DUPELIST=04056
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Gargish Armor (Art 2)
+DESCRIPTION=Gargish Platemail Leggings
+TAG.Item.Gargoyle=1
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=8
+TAG.ResFire=6
+TAG.ResCold=5
+TAG.ResPoison=6
+TAG.ResEnergy=5
+
+ON=@Create
+HITPOINTS={50 60}
+
+[ITEMDEF 04056]
+DUPEITEM=030e
+
+[eof]

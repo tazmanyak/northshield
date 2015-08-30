@@ -1,0 +1,68 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[TYPEDEF t_forge]
+on=@targon_item
+if <eval <argo.tag.vendordanaldim>> == 1
+	src.sysmessage @33,,1 Vendordan alınan eşyalar eritilemez.
+	return 1
+endif
+
+if (<argo.type> == t_anvil) || (<argo.type> == t_forge)
+	src.sys_error Bunu eritemezsiniz.
+	return 1
+endif
+
+// if <src.skillusequick mining <r2>>
+// accdiff -10
+// endif
+if <argo.topobj> != <src.uid>
+		src.sys_error Eşya çantanızda değil.
+		return 1
+endif
+
+local.resources <SERV.ITEMDEF.<ARGO.BASEID>.RESOURCES>
+local.resources_received <strsub 0 2 <local.resources>>
+local.resource_id <strsub 2 25 <local.resources>> 
+
+if <SERV.ITEMDEF.<local.resource_id>.type> == t_ingot
+  if <r50>==1
+	src.sys_error Başarısız oldunuz, malzemeniz heba oldu.
+	argo.remove
+	return 1
+  else
+	serv.newitem <local.resource_id>,<eval <dlocal.resources_received>/2>,<src.uid>,1
+	src.sys_error Başarılı bir şekilde <argo.name> erittiniz.
+	argo.remove
+  endif
+else
+	src.sys_error Bunu eritemezsiniz.
+	return 1
+endif
+
+return 1
+// endif	
+
+
+[eof]
+on=@targon_item
+if <eval <argo.tag.vendordanaldim>> == 1
+	src.sysmessage @33,,1 Vendordan alınan eşyalar eritilemez.
+	return 1
+endif
+if (<argo.type> == t_anvil) || (<argo.type> == t_forge)
+	src.sys_error Bunu eritemezsiniz.
+	return 1
+endif
+if <argo.type> == t_ore
+src.dclick <argo.uid>
+return 1
+else
+	f_craft_blacksmith_smelt
+endif
+

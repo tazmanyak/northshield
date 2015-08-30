@@ -1,0 +1,273 @@
+[plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+	src.smg Olu Iken Bu komutu kullanamazsiniz...
+	return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+	src.smg Safe alaninda bu komutu kullanamassiniz.
+	return 1
+elseif (<src.restest 1 i_mem_frozen>)
+	src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+	return 1
+elseif (<src.restest 1 i_parablow>)
+	src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+	return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[ITEMDEF i_trappedpouch]
+ID=i_pouch
+NAME=Trapped Pouch
+WEIGHT=2
+SKILLMAKE=TINKERING 65.0,t_tinker_tools
+RESOURCES=10 i_log, 1 i_ingot_agapite
+TYPE=t_script
+value 0
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@create
+color color_o_agapite
+more2 5
+
+on=@dclick
+src.sysmessage @,,1 Otomatik calisir.
+return 1
+
+[eof][plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof]
+[plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof][plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof]
+[plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof][plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof]
+[plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof][plevel 1]
+tp
+
+[function tp]
+src.sysmessage @,,1 Komut kaldirildi oto calismaktadir.
+return 1
+
+if (<src.flags>&statf_dead)
+src.smg Olu Iken Bu komutu kullanamazsiniz...
+return 1
+elseif (strmatch("<src.region.name>","Pazar Alani"))
+src.smg Safe alaninda bu komutu kullanamassiniz.
+return 1
+elseif (<src.restest 1 i_mem_frozen>)
+src.smg Sersemlemis halde oldugunuz icin bunu kullanamadiniz...
+return 1
+elseif (<src.restest 1 i_parablow>)
+src.smg Su an paradarbe aldiginiz icin bunu kullanamadiniz...
+return 1
+endif
+
+if (<src.findid.i_trappedpouch>)
+src.flags <src.FLAGS>&~statf_freeze
+src.findid.i_trappedpouch.dclick
+src.effect 3,i_fx_explode,3,25,1
+src.sound snd_spell_explosion
+src.anim 20
+else
+src.sms Cantanizda tp yok...
+endif
+
+[eof]

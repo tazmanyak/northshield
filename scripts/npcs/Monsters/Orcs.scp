@@ -1,0 +1,718 @@
+// ----------------------------
+// ORC.SCP - ORC MODELLERI
+// ----------------------------
+VERSION=0.55
+
+[CHARDEF c_m_orc_frightened]
+DEFNAME=c_m_orc_frightened
+NAME=a frightened orc
+//NAME=#NAMES_ORC, A Frightened Orc
+CAN=MT_RUN|MT_WALK
+ID=c_ORC
+DAM=2,16
+ARMOR=15
+RESOURCES=8 i_ribs_raw
+//SHELTER=r_caves,r_dungeon,r_orc_camp
+DESIRES=i_gold,spk_orc,t_corpse
+TSPEECH=spk_orc
+//TEVENTS=e_orc,e_orc_ai
+
+ON=@GETHIT
+DORAND 10
+	SAYU Rooghrn!
+	SAYU Uch den dfogrobhen!
+	SAYU Dorgeun?
+	SAYU Dash Sufvk!
+	SAYU Ufrugug
+	SAYU ROORGL!
+	SAYU RRAGH!
+	SAYU OGHRG!
+	SAYU Rogdurg ugdrud
+	SAYU Rudgrug?
+ENDDO
+
+ON=@Create
+NPC=BRAIN_ANIMAL
+COLOR=colors_green
+STR={150 170}
+DEX={56 75}
+INT={96 140}
+
+FAME=100
+KARMA=-999
+
+ITEM=i_gold,{1 150}
+ITEM=i_fruit_apple,{2 4}
+ITEM=i_bottle_green
+
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Frightened Orc 
+
+[CHARDEF c_m_orc_scout]
+DEFNAME=c_m_orc_scout
+NAME=an orc scout
+ID=c_ORC
+CAN=MT_WALK|MT_EQUIP
+RESOURCES=8 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+DAM=2,8
+ARMOR=8
+//SHELTER=r_caves,r_dungeon,r_orc_camp
+DESIRES=i_gold,spk_orc,t_corpse
+TSPEECH=spk_orc
+//TEVENTS=e_orc,e_orc_ai
+
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Scout
+
+ON=@Create
+NPC=brain_monster
+COLOR=COLORS_GREEN	
+STR={175 200}
+DEX={190 275}
+INT={116 140}
+
+ARCHERY=100.0
+PARRYING={45.0 55.0}
+MAGICRESISTANCE={45.0 60.0}
+TACTICS={45.0 60.0}
+WRESTLING={45.0 55.0}
+
+FAME={2000 3000}
+KARMA={-1999 -4999}
+
+ITEM=i_bandage {8 20}
+//ITEM=i_Bow_Orcish
+ITEM=rich_undead_backpack
+ITEM=i_arrow,{10 30}
+ITEM={ random_gold_pile 1 0 2 }
+
+
+[CHARDEF c_m_orc_brute]
+DEFNAME=c_m_orc_chopper
+NAME=orcish brute
+ID=c_ORC_LORD
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP|
+RESOURCES=8 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+DESIRES=i_gold,spk_orc,t_corpse
+TSPEECH=spk_orc
+//TEVENTS=e_orc,e_orc_ai
+DAM=15,20
+ARMOR=8
+//SHELTER=r_caves,r_dungeon,r_orc_camp
+
+
+[CHARDEF c_m_orc_bomber]
+DEFNAME=c_m_orc_bomber
+NAME=orc bomber
+ID=c_ORC
+CAN=MT_WALK|MT_EQUIP|MT_FIRE_IMMUNE|MT_RUN
+RESOURCES=8 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+DAM=12,18
+ARMOR=8
+//SHELTER=r_caves,r_dungeon,r_orc_camp
+DESIRES=i_gold,spk_orc,t_corpse
+TSPEECH=spk_orc
+//TEVENTS=e_orc,e_orc_ai
+
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Bomber
+
+ON=@Create
+NPC=brain_monster
+COLOR=COLORS_Red
+STR={70 110}
+DEX={400 500}
+INT={16 40}
+
+ARCHERY=100.0
+MAGICRESISTANCE=100.0
+TACTICS=100.0
+
+FAME={300 1000}
+KARMA={-1999 -3999}
+
+ITEM=i_bottle_purple
+ITEM=i_gold,{15 60}
+ITEM=i_fruit_apple,{2 4}
+ITEMNEWBIE=i_bow_exp
+
+//On=@HitTry
+//if (<src.distance> < 1)
+//	flee
+//endif
+
+ON=@GETHIT
+DORAND 10
+	sayu Rooghrn!
+	sayu Uch den dfogrobhen!
+	sayu Dorgeun?
+	sayu Dash Sufvk!
+	sayu Ufrugug
+	sayu ROORGL!
+	sayu RRAGH!
+	sayu OGHRG!
+	sayu Rogdurg ugdrud
+	sayu Rudgrug?
+ENDDO
+dorand 2
+	anim 4
+	anim 5
+enddo
+leave 3
+
+ON=@Hit
+dorand 2
+	anim 4
+	anim 5
+enddo
+SRC.Effect=3,I_FX_Explode,1,22,1
+if ((RAND(5)==1))
+DORAND 3
+	sayu Hoho!
+	sayu Ogrghfd!
+	sayu Hohoho!
+ENDDO
+endif
+
+//QUEST ITEMLERI
+
+[ITEMDEF i_eorc_helm]
+DEFNAME=i_eorc_helm
+NAME=an evil orc helm
+ID=i_helm_orc
+REQSTR=70
+WEIGHT=3
+
+CATEGORY=Provisions - Armor
+SUBSECTION=Mask
+DESCRIPTION=Evil Orc Helm
+
+ON=@Create
+	HITPOINTS={100 200}
+	COLOR=COLORS_yellow
+
+ON=@EQUIP
+	SRC.STR = (<SRC.STR>+(10))
+	SRC.KARMA = (<SRC.KARMA>-(100))
+	SRC.SYSMESSAGE You have lost a bit of karma.
+
+	if (<SRC.DEX> < <SRC.INT>)
+	SRC.INT=(<SRC.INT>-(10))
+	ELSE
+	SRC.DEX=(<SRC.DEX>-(10))
+	endif
+
+ON=@UNEQUIP
+	SRC.STR = (<SRC.STR>-(10))
+	if (<SRC.DEX> < <SRC.INT>)
+	SRC.DEX=(<SRC.DEX>+(10))	
+	ELSE
+	SRC.INT=(<SRC.INT>+(10))	
+	endif
+
+[ITEMDEF i_Bow_Orcish]
+DEFNAME=i_Bow_Orcish
+NAME=orcish bow
+ID=i_bow
+DAM=15,25
+REQSTR=70
+TWOHANDS=Y
+WEIGHT=3
+SPEED=35
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Bows - Exceptional
+DESCRIPTION=Orcish Bow
+
+ON=@Create
+	HITPOINTS={10 30}
+	COLOR=COLORS_GREEN
+
+ON=@EQUIP
+	SRC.KARMA = (<SRC.KARMA>-(1000))
+	SRC.SYSMESSAGE You have lost a bit of karma.
+
+//ORC BOMBER ICIN
+[ITEMDEF i_bow_exp]
+NAME=skin
+ID=i_bow
+DAM=13,17
+REQSTR=50
+VALUE=1
+TDATA1=0
+TDATA3=0
+TDATA4=01c1c
+TWOHANDS=N
+speed 9
+
+CATEGORY=Provisions - Weapons
+SUBSECTION=Bows - Exceptional
+DESCRIPTION=EXBOW
+
+ON=@Create
+	HITPOINTS={100 200}
+	COLOR=237
+
+[CHARDEF 07]
+DEFNAME=c_orc_captain
+NAME=orc captain
+ICON=i_pet_orc_captain
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=11,31
+ARMOR=30
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=120
+TAG.Barding.Diff=71.7
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Captain
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc captain
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={111 145}
+   MAXHITS={67 87}
+   DEX={101 135}
+   MAXSTAM={101 135}
+   INT={86 110}
+   MAXMANA={86 110}
+   ARCHERY={60.0 85.0}
+   FENCING={60.0 85.0}
+   MACEFIGHTING={60.0 85.0}
+   MAGICRESISTANCE={70.0 85.0}
+   PARRYING={85.0 100.0}
+   SWORDSMANSHIP={60.0 85.0}
+   TACTICS={85.0 100.0}
+   WRESTLING={60.0 85.0}
+   MODAR={0 5}
+   RESCOLD={15 25}
+   RESENERGY={5 10}
+   RESFIRE={10 20}
+   RESPOISON={5 10}
+ON=@NPCRestock
+   ITEM=loot_orc_captain
+   //100 - 150 Gold. Two-Handed Axe, Ringmail Tunic, Orc Helm, Thigh Boots
+
+[CHARDEF 011]
+DEFNAME=c_orc 
+NAME=orc
+ICON=i_pet_orc
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=9,13
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=49.1
+TAG.Luck.Loot=loot_orc_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   MAXHITS={55 75}
+   DEX={81 105}
+   MAXSTAM={81 105}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={50.0 75.0}
+   PARRYING={55.0 80.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={50.0 70.0}
+   MODAR={0 5}
+   RESCOLD={10 20}
+   RESENERGY={20 30}
+   RESFIRE={20 30}
+   RESPOISON={10 20}
+ON=@NPCRestock
+   ITEM=loot_orc
+   //50 - 100 Gold. Weapon
+   //Special: Bola Ball, Level 1 Treasure Map
+
+[CHARDEF 029]
+DEFNAME=c_orc_w_club
+NAME=orc
+ICON=i_pet_orc
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=9,13
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=49.1
+TAG.Luck.Loot=loot_orc_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc (club)
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   MAXHITS={55 75}
+   DEX={81 105}
+   MAXSTAM={81 105}
+   INT={36 60}
+   MAXMANA={36 60}
+   MACEFIGHTING={50.0 70.0}
+   MAGICRESISTANCE={50.0 75.0}
+   PARRYING={55.0 80.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={50.0 70.0}
+   MODAR={0 5}
+   RESCOLD={10 20}
+   RESENERGY={20 30}
+   RESFIRE={20 30}
+   RESPOISON={10 20}
+ON=@NPCRestock
+   ITEM=loot_orc
+   ITEM=i_club
+ 
+
+[CHARDEF 08a]
+DEFNAME=c_orc_lord
+NAME=orcish lord
+ICON=i_pet_orc_lord
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=8,28
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=72.6
+TAG.Luck.Loot=loot_orc_lord_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orcish Lord
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orcish lord
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={145 215}
+   MAXHITS={95 125}
+   DEX={90 115}
+   MAXSTAM={90 115}
+   INT={60 85}
+   MAXMANA={60 85}
+   ARCHERY={40.0 50.0}
+   FENCING={40.0 50.0}
+   MACEFIGHTING={40.0 50.0}
+   MAGICRESISTANCE={70.0 85.0}
+   PARRYING={40.0 55.0}
+   SWORDSMANSHIP={60.0 85.0}
+   TACTICS={75.0 90.0}
+   WRESTLING={60.0 85.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={30 40}
+   RESFIRE={30 40}
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_orcish_lord
+   //175 - 225 Gold. Ringmail Tunic
+   //Special: Bola Ball, Evil Orc Helm, Level 1 Treasure Map
+
+[CHARDEF 08b]
+//FIXME: Verify animation with 3d client.
+//FIXME: Can hit multiple targets with one attack.
+DEFNAME=c_orc_chopper
+NAME=orc chopper
+ICON=i_pet_orc_lord
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=32,37
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=67.3
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Chopper
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orcish lord
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={145 245}
+   MAXHITS={95 130}
+   DEX={90 115}
+   MAXSTAM={90 115}
+   INT={60 85}
+   MAXMANA={60 85}
+   MAGICRESISTANCE={60.0 85.0}
+   SWORDSMANSHIP={60.0 85.0}
+   TACTICS={75.0 90.0}
+   WRESTLING={60.0 85.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={25 30}
+   RESFIRE={30 40}
+   RESPOISON={15 20}
+ON=@NPCRestock
+   ITEM=loot_orc_chopper
+   //275 - 325 Gold. 1-10 Logs, 20-30 Boards, Ringmail Tunic, Executioners Axe, 1-3 Legs of Lamb
+
+[CHARDEF 08c]
+DEFNAME=c_orc_mage
+NAME=orcish mage
+ICON=i_pet_orc_shaman
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=8,25
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=73.2
+TAG.Luck.Loot=loot_orc_mage_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orcish Mage
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc mage
+   NPC=brain_monster
+   FAME=3000
+   KARMA=-3000
+   STR={116 150}
+   MAXHITS={70 90}
+   DEX={91 115}
+   MAXSTAM={91 115}
+   INT={161 185}
+   MAXMANA={161 185}
+   EVALUATINGINTEL={60.0 73.0}
+   MAGERY={60.0 73.0}
+   MAGICRESISTANCE={60.0 75.0}
+   PARRYING={50.0 65.0}
+   TACTICS={50.0 65.0}
+   WRESTLING={40.0 50.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={30 40}
+   RESFIRE={30 40}
+   RESPOISON={30 40}
+ON=@NPCRestock
+   ITEM=loot_orcish_mage
+   //125 - 175 Gold. 1 Low Level Scroll, 6 Reagents
+   //Special: Mask of Orcish Kin, Level 1 Treasure Map
+
+[CHARDEF 0b5]
+//FIXME: Teleports away and hides when damaged
+//FIXME: Stealth walks when hidden
+//FIXME: Heals using bandages
+DEFNAME=c_orc_scout
+NAME=orc scout
+ICON=i_pet_orc
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=28,31
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=57.9
+TAG.Luck.Loot=loot_orc_scout_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Scout
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc scout
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={96 120}
+   MAXHITS={58 72}
+   DEX={101 130}
+   MAXSTAM={101 130}
+   INT={36 60}
+   MAXMANA={36 60}
+   ARCHERY={55.0 80.0}
+   FENCING={55.0 80.0}
+   HIDING={40.0 50.0}
+   MAGICRESISTANCE={50.0 75.0}
+   PARRYING={40.0 55.0}
+   STEALTH={40.0 50.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={55.0 80.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={25 30}
+   RESFIRE={30 40}
+   RESPOISON={15 20}
+ON=@NPCRestock
+   ITEM=loot_orc_scout
+   // 125 - 175 Gold. Bow, 60-70 Arrows, 3-5 Apples, 1-15 Bandages
+   //Special: An Orcish Bow
+
+[CHARDEF 0b6]
+//FIXME: Throw flaming oil and explosive potions
+DEFNAME=c_orc_bomber
+NAME=orc bomber
+ICON=i_pet_orc
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=12,17
+ARMOR=25
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=70.9
+TAG.DamFire=25
+TAG.Luck.Loot=loot_orc_bomber_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Bomber
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc bomber
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={147 215}
+   MAXHITS={95 123}
+   DEX={91 115}
+   MAXSTAM={91 115}
+   INT={61 85}
+   MAXMANA={61 85}
+   MAGICRESISTANCE={70.0 85.0}
+   PARRYING={60.0 85.0}
+   TACTICS={75.0 90.0}
+   WRESTLING={60.0 85.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={25 30}
+   RESFIRE={30 40}
+   RESPOISON={15 20}
+ON=@NPCRestock
+   ITEM=loot_orc_bomber
+   //175 - 225 Gold. 1 Lesser Explosion Potion, 6-10 Sulfurous Ash, 6-10 Black Pearl, 6-10 Mandrake Root, Mortar and Pestle
+   //Special: Bola Ball
+
+[CHARDEF 0bd]
+//FIXME: Throws Orcs at ranged attackers
+//FIXME: uses a war mace that destroys armor/shield and causes stamina loss
+DEFNAME=c_orc_brute
+NAME=orc brute
+ICON=i_pet_orc
+SOUND=snd_monster_orc1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=82,111
+ARMOR=45
+DESIRES=r_orc_camp,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=55 t_meat_raw
+RESOURCES=3 i_ribs_raw
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=94.3
+TAG.Luck.Loot=loot_orc_brute_luck
+TAG.Slayer=SLAYER_ORC
+TSPEECH=spk_orc
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Orcs
+DESCRIPTION=Orc Brute
+ON=@Create
+   NAME=#NAMES_ORC
+   TITLE=the orc brute
+   NPC=brain_monster
+   FAME=15000
+   KARMA=-15000
+   STR={767 945}
+   MAXHITS={476 552}
+   DEX={66 75}
+   MAXSTAM={66 75}
+   INT={46 70}
+   MAXMANA={46 70}
+   ARCHERY={90.0 100.0}
+   FENCING={90.0 100.0}
+   MACEFIGHTING={90.0 100.0}
+   MAGICRESISTANCE={125.0 140.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={90.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 10}
+   RESCOLD={25 35}
+   RESENERGY={25 35}
+   RESFIRE={40 50}
+   RESPOISON={25 35}
+ON=@NpcRestock
+   ITEM=loot_orc_brute
+   //750 - 950 Gold. 25 Shadow Iron Ore, 10 Ingots, Magic Items
+   //Special: Evil Orc Helm, Mask of Orcish Kin, Bola Ball
+
+[EOF]

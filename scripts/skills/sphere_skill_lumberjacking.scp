@@ -1,0 +1,42 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 44]
+DEFNAME=SKILL_LUMBERJACK
+KEY=Lumberjacking
+TITLE=Lumberjack
+PROMPT_MSG=
+DELAY=1.0
+STAT_STR=85
+STAT_INT=30
+STAT_DEX=45
+BONUS_STR=90
+BONUS_DEX=10
+BONUS_INT=0
+BONUS_STATS=20
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=0,0,0
+VALUES=1,10,50
+
+ON=@Fail
+	SRC.SYSMESSAGE @,,1 Odun cikaramadiniz.
+
+ON=@Abort
+	SRC.SYSMESSAGE You decide not to chop wood for now.
+	
+[FUNCTION f_tree_mob_spawn]
+IF (<eval RAND(250)> == 1)
+	SERV.NEWNPC c_reaper
+	NEW.REMOVETIMER 300
+	NEW.UPDATEX
+	//NEW.ANIM 12
+	//NEW.ATTACK <SRC>
+ENDIF
+
+[eof]

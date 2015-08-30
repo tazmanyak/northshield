@@ -1,0 +1,191 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 02b04]
+DEFNAME=i_cloak_humilty
+NAME=Cloak of Humilty
+TYPE=t_clothing
+WEIGHT=6
+FLIP=1
+REQSTR=10
+DUPELIST=02b05
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Cloak of Humilty
+TEVENTS=t_set_virtue
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b05]
+DUPEITEM=02b04
+
+[ITEMDEF 02b06]
+DEFNAME=i_legs_honor
+NAME=Legs of Honor
+TYPE=t_armor
+WEIGHT=9
+FLIP=1
+REQSTR=70
+DUPELIST=02b07
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Legs of Honor
+TEVENTS=t_set_virtue
+TAG.ResPhysical=8
+TAG.ResFire=7
+TAG.ResCold=10
+TAG.ResPoison=7
+TAG.ResEnergy=8
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b07]
+DUPEITEM=02b06
+
+[ITEMDEF 02b08]
+DEFNAME=i_breastplate_justice
+NAME=Breastplate of Justice
+TYPE=t_armor
+WEIGHT=7
+FLIP=1
+REQSTR=65
+DUPELIST=02b09
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Breastplate of Justice
+TEVENTS=t_set_virtue
+TAG.ResPhysical=10
+TAG.ResFire=7
+TAG.ResCold=8
+TAG.ResPoison=7
+TAG.ResEnergy=8
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b09]
+DUPEITEM=02b08
+
+[ITEMDEF 02b0a]
+DEFNAME=i_arms_compassion
+NAME=Arms of Compassion
+TYPE=t_armor
+WEIGHT=3
+FLIP=1
+REQSTR=60
+DUPELIST=02b0b
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Arms of Compassion
+TEVENTS=t_set_virtue
+TAG.ResPhysical=8
+TAG.ResFire=11
+TAG.ResCold=6
+TAG.ResPoison=8
+TAG.ResEnergy=7
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b0b]
+DUPEITEM=02b0a
+
+[ITEMDEF 02b0c]
+DEFNAME=i_gauntlets_valor
+NAME=Gauntlets of Valor
+TYPE=t_armor
+WEIGHT=3
+FLIP=1
+REQSTR=60
+DUPELIST=02b0d
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Gauntlets of Valor
+TEVENTS=t_set_virtue
+TAG.ResPhysical=8
+TAG.ResFire=11
+TAG.ResCold=6
+TAG.ResPoison=8
+TAG.ResEnergy=7
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b0d]
+DUPEITEM=02b0c
+
+[ITEMDEF 02b0e]
+DEFNAME=i_gorget_honesty
+NAME=Gorget of Honesty
+TYPE=t_armor
+WEIGHT=2
+FLIP=1
+REQSTR=45
+DUPELIST=02b0f
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Gorget of Honesty
+TEVENTS=t_set_virtue
+TAG.ResPhysical=7
+TAG.ResFire=7
+TAG.ResCold=9
+TAG.ResPoison=5
+TAG.ResEnergy=7
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b0f]
+DUPEITEM=02b0e
+
+[ITEMDEF 02b10]
+DEFNAME=i_helm_spirituality
+NAME=Helm of Spirituality
+TYPE=t_armor
+WEIGHT=6
+FLIP=1
+REQSTR=25
+DUPELIST=02b11
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Helm of Spirituality
+TEVENTS=t_set_virtue
+TAG.ResPhysical=8
+TAG.ResFire=8
+TAG.ResCold=7
+TAG.ResPoison=9
+TAG.ResEnergy=8
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b11]
+DUPEITEM=02b10
+
+[ITEMDEF 02b12]
+DEFNAME=i_sollerets_sacrifice
+NAME=Sollerets of Sacrifice
+TYPE=t_armor
+WEIGHT=1
+FLIP=1
+REQSTR=10
+DUPELIST=02b13
+CATEGORY=Provisions - Armor - Sets
+SUBSECTION=Virtue Armor Set
+DESCRIPTION=Sollerets of Sacrifice
+TEVENTS=t_set_virtue
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF 02b13]
+DUPEITEM=02b12
+
+[eof]

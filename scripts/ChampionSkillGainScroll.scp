@@ -1,0 +1,139 @@
+[itemdef i_skillgain_scroll2]
+ID=i_deed
+NAME=Random Skill Gain Deed
+TYPE=t_normal
+
+ON=@create
+color=07a3
+attr=04
+
+on=@dclick
+serv.newitem i_skillgain_scroll
+dorand 48
+new.tag0.skillnumber 0
+new.tag0.skillnumber 1
+new.tag0.skillnumber 2
+new.tag0.skillnumber 3
+new.tag0.skillnumber 4
+new.tag0.skillnumber 5
+new.tag0.skillnumber 6
+new.tag0.skillnumber 7
+new.tag0.skillnumber 8
+new.tag0.skillnumber 9
+new.tag0.skillnumber 10
+new.tag0.skillnumber 11
+new.tag0.skillnumber 12
+new.tag0.skillnumber 13
+new.tag0.skillnumber 14
+new.tag0.skillnumber 15
+new.tag0.skillnumber 16
+new.tag0.skillnumber 17
+new.tag0.skillnumber 18
+new.tag0.skillnumber 19
+new.tag0.skillnumber 20
+new.tag0.skillnumber 21
+new.tag0.skillnumber 22
+new.tag0.skillnumber 23
+new.tag0.skillnumber 24
+new.tag0.skillnumber 25
+new.tag0.skillnumber 26
+new.tag0.skillnumber 27
+new.tag0.skillnumber 28
+new.tag0.skillnumber 29
+new.tag0.skillnumber 30
+new.tag0.skillnumber 31
+new.tag0.skillnumber 32
+new.tag0.skillnumber 33
+new.tag0.skillnumber 34
+new.tag0.skillnumber 35
+new.tag0.skillnumber 36
+new.tag0.skillnumber 37
+new.tag0.skillnumber 38
+new.tag0.skillnumber 39
+new.tag0.skillnumber 40
+new.tag0.skillnumber 41
+new.tag0.skillnumber 42
+new.tag0.skillnumber 43
+new.tag0.skillnumber 44
+new.tag0.skillnumber 45
+new.tag0.skillnumber 46
+new.tag0.skillnumber 47
+enddo
+dorand 3
+new.tag0.skillnumber2 50
+new.tag0.skillnumber2 100
+new.tag0.skillnumber2 150
+enddo
+src.new.equip
+remove
+return 1
+
+[itemdef i_skillgain_scroll]
+ID=i_deed
+NAME=Skill Gain Deed
+TYPE=t_normal
+
+ON=@create
+color=07a2
+
+on=@click
+message @33,,1 ( <eval <tag0.skillnumber2>/10>.0 )
+message @69,,1 ( <SERV.SKILL.<tag0.skillnumber>.KEY> )
+message @,,1 Skill Gain Deed
+return 1
+
+on=@dclick
+src.tag0.Skillgainscrolluid <uid>
+src.tag0.skillnumber <SERV.SKILL.<tag0.skillnumber>.key>
+tag0.skilladi <SERV.SKILL.<tag0.skillnumber>.KEY>
+src.tag0.skilladi <tag0.skilladi>
+src.tag0.skillnumber2 <tag0.skillnumber2>
+
+if (<eval <tag0.skillnumber2>> == 150)
+src.tag0.skilldeeduidi <uid>
+src.skillgain150
+endif
+
+if (<eval <tag0.skillnumber2>> == 100)
+src.tag0.skilldeeduidi <uid>
+src.skillgain100
+endif
+
+if (<eval <tag0.skillnumber2>> == 50)
+src.tag0.skilldeeduidi <uid>
+src.skillgain50
+endif
+
+RETURN 1
+
+[function skillgain50]
+if (<src.<SERV.SKILL.<src.tag0.skillnumber>.KEY>> >= 951) || (<src.skilltotal> >=7951)
+src.sysmessage @,,1 Skill sayiniz 100.0'i gecmektedir ya da skillcap sayiniz 800.0'i gecmektedir.
+return 1
+else
+src.<src.tag0.skilladi> += <eval <src.tag0.skillnumber2>>
+try uid.<tag0.skilldeeduidi>.remove
+src.effect 3,i_fx_heal_effect,20,25,0
+endif
+
+[function skillgain100]
+if (<src.<SERV.SKILL.<src.tag0.skillnumber>.KEY>> >= 901) || (<src.skilltotal> >=7901)
+src.sysmessage @,,1 Skill sayiniz 100.0'i gecmektedir ya da skillcap sayiniz 800.0'i gecmektedir.
+return 1
+else
+src.<src.tag0.skilladi> += <eval <src.tag0.skillnumber2>>
+try uid.<tag0.skilldeeduidi>.remove
+src.effect 3,i_fx_heal_effect,20,25,0
+endif
+
+[function skillgain150]
+if (<src.<SERV.SKILL.<src.tag0.skillnumber>.KEY>> >= 851) || (<src.skilltotal> >=7851)
+src.sysmessage @,,1 Skill sayiniz 100.0'i gecmektedir ya da skillcap sayiniz 800.0'i gecmektedir.
+return 1
+else
+src.<src.tag0.skilladi> += <eval <src.tag0.skillnumber2>>
+try uid.<tag0.skilldeeduidi>.remove
+src.effect 3,i_fx_heal_effect,20,25,0
+endif
+
+[eof]

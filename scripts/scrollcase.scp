@@ -1,0 +1,1860 @@
+﻿
+/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////SCROLL CASE//////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+[ITEMDEF i_dl_scroll_case]
+ARGO.ID=i_spellbook
+RESOURCES=10 i_scroll_blank, 1 I_HARGO.IDES_CUT, 1 I_CLOTH, 64 i_gem_diamond
+SKILLMAKE=inscription 50.0
+TYPE=t_script
+WEIGHT=1
+LAYER=1
+NAME=Scroll Case
+value 25000
+
+ON=@DCLICK
+	remove
+	return 1
+	src.closealldialogs
+	if !<src.region.guarded>
+		src.sysmessage @,,1 Guard Zone dışı kullanımı mümkün değildir.
+		return 1
+	endif
+	SRC.SOUND=85
+	sdialog d_scroll_case_1
+	RETURN 1
+
+CATEGORY=#_dungeon
+SUBSECTION=Moria
+DESCRIPTION=[items] Scroll Case
+
+ON=@CREATE
+	COLOR=096f
+	ATTR=04
+
+//First Circle
+TAG.C1_1=0
+TAG.C1_2=0
+TAG.C1_3=0
+TAG.C1_4=0
+TAG.C1_5=0
+TAG.C1_6=0
+TAG.C1_7=0
+TAG.C1_8=0
+//Second Circle
+TAG.C2_1=0
+TAG.C2_2=0
+TAG.C2_3=0
+TAG.C2_4=0
+TAG.C2_5=0
+TAG.C2_6=0
+TAG.C2_7=0
+TAG.C2_8=0
+//Third Circle
+TAG.C3_1=0
+TAG.C3_2=0
+TAG.C3_3=0
+TAG.C3_4=0
+TAG.C3_5=0
+TAG.C3_6=0
+TAG.C3_7=0
+TAG.C3_8=0
+//Fourth Circle
+TAG.C4_1=0
+TAG.C4_2=0
+TAG.C4_3=0
+TAG.C4_4=0
+TAG.C4_5=0
+TAG.C4_6=0
+TAG.C4_7=0
+TAG.C4_8=0
+//Fith Circle
+TAG.C5_1=0
+TAG.C5_2=0
+TAG.C5_3=0
+TAG.C5_4=0
+TAG.C5_5=0
+TAG.C5_6=0
+TAG.C5_7=0
+TAG.C5_8=0
+//Sixth Circle
+TAG.C6_1=0
+TAG.C6_2=0
+TAG.C6_3=0
+TAG.C6_4=0
+TAG.C6_5=0
+TAG.C6_6=0
+TAG.C6_7=0
+TAG.C6_8=0
+//Seventh Circle
+TAG.C7_1=0
+TAG.C7_2=0
+TAG.C7_3=0
+TAG.C7_4=0
+TAG.C7_5=0
+TAG.C7_6=0
+TAG.C7_7=0
+TAG.C7_8=0
+//Eighth Circle
+TAG.C8_1=0
+TAG.C8_2=0
+TAG.C8_3=0
+TAG.C8_4=0
+TAG.C8_5=0
+TAG.C8_6=0
+TAG.C8_7=0
+TAG.C8_8=0
+
+ON=@TARGON_ITEM
+
+IF <src.targ.topobj.uid> != <src.uid>
+	src.SYSMESSAGE You must have that in your pack.
+	Return 1
+ENDIF
+//First Circle 
+IF (<ARGO.ID> == 01f2d)
+	if ((<EVAL <TAG.C1_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_1>)
+		TAG.C1_1 = 999
+	else
+		TAG.C1_1 = <EVAL <TAG.C1_1> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f2e)
+	if ((<EVAL <TAG.C1_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_2>)
+		TAG.C1_2 = 999
+	else
+		TAG.C1_2 = <EVAL <TAG.C1_2> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f2f)
+	if ((<EVAL <TAG.C1_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_3>)
+		TAG.C1_3 = 999
+	else
+		TAG.C1_3 = <EVAL <TAG.C1_3> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f30)
+	if ((<EVAL <TAG.C1_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_4>)
+		TAG.C1_4 = 999
+	else
+		TAG.C1_4 = <EVAL <TAG.C1_4> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f31)
+	if ((<EVAL <TAG.C1_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_5>)
+		TAG.C1_5 = 999
+	else
+		TAG.C1_5 = <EVAL <TAG.C1_5> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f32)
+	if ((<EVAL <TAG.C1_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_6>)
+		TAG.C1_6 = 999
+	else
+		TAG.C1_6 = <EVAL <TAG.C1_6> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f33)
+	if ((<EVAL <TAG.C1_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_7>)
+		TAG.C1_7 = 999
+	else
+		TAG.C1_7 = <EVAL <TAG.C1_7> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f34)
+	if ((<EVAL <TAG.C1_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C1_8>)
+		TAG.C1_8 = 999
+	else
+		TAG.C1_8 = <EVAL <TAG.C1_8> + <ARGO.AMOUNT>>
+		remove
+	endif
+//Second Circle
+ELSEIF (<ARGO.ID> == 01f35)
+	if ((<EVAL <TAG.C2_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_1>)
+		TAG.C2_1 = 999
+	else
+		TAG.C2_1 = <EVAL <TAG.C2_1> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f36)
+	if ((<EVAL <TAG.C2_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_2>)
+		TAG.C2_2 = 999
+	else
+		TAG.C2_2 = <EVAL <TAG.C2_2> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f37)
+	if ((<EVAL <TAG.C2_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_3>)
+		TAG.C2_3 = 999
+	else
+	TAG.C2_3 = <EVAL <TAG.C2_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f38)
+	if ((<EVAL <TAG.C2_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_4>)
+		TAG.C2_4 = 999
+	else
+	TAG.C2_4 = <EVAL <TAG.C2_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f39)
+	if ((<EVAL <TAG.C2_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_5>)
+		TAG.C2_5 = 999
+	else
+	TAG.C2_5 = <EVAL <TAG.C2_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f3a)
+	if ((<EVAL <TAG.C2_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_6>)
+		TAG.C2_6 = 999
+	else
+	TAG.C2_6 = <EVAL <TAG.C2_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f3b)
+	if ((<EVAL <TAG.C2_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_7>)
+		TAG.C2_7 = 999
+	else
+	TAG.C2_7 = <EVAL <TAG.C2_7> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f3c)
+	if ((<EVAL <TAG.C2_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C2_8>)
+		TAG.C2_8 = 999
+	else
+	TAG.C2_8 = <EVAL <TAG.C2_8> + <ARGO.AMOUNT>>
+	remove
+endif
+//Third Circle
+ELSEIF (<ARGO.ID> == 01f3d)
+	if ((<EVAL <TAG.C3_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_1>)
+		TAG.C3_1 = 999
+	else
+	TAG.C3_1 = <EVAL <TAG.C3_1> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f3e)
+	if ((<EVAL <TAG.C3_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_2>)
+		TAG.C3_2 = 999
+	else
+	TAG.C3_2 = <EVAL <TAG.C3_2> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f3f)
+	if ((<EVAL <TAG.C3_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_3>)
+		TAG.C3_3 = 999
+	else
+	TAG.C3_3 = <EVAL <TAG.C3_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f40)
+	if ((<EVAL <TAG.C3_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_4>)
+		TAG.C3_4 = 999
+	else
+	TAG.C3_4 = <EVAL <TAG.C3_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f41)
+	if ((<EVAL <TAG.C3_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_5>)
+		TAG.C3_5 = 999
+	else
+	TAG.C3_5 = <EVAL <TAG.C3_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f42)
+	if ((<EVAL <TAG.C3_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_6>)
+		TAG.C3_6 = 999
+	else
+	TAG.C3_6 = <EVAL <TAG.C3_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f43)
+	if ((<EVAL <TAG.C3_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_7>)
+		TAG.C3_7 = 999
+	else
+	TAG.C3_7 = <EVAL <TAG.C3_7> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f44)
+	if ((<EVAL <TAG.C3_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C3_8>)
+		TAG.C3_8 = 999
+	else
+	TAG.C3_8 = <EVAL <TAG.C3_8> + <ARGO.AMOUNT>>
+	remove
+endif
+//Fourth Circle
+ELSEIF (<ARGO.ID> == 01f45)
+	if ((<EVAL <TAG.C4_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_1>)
+		TAG.C4_1 = 999
+	else
+	TAG.C4_1 = <EVAL <TAG.C4_1> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f46)
+	if ((<EVAL <TAG.C4_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_2>)
+		TAG.C4_2 = 999
+	else
+	TAG.C4_2 = <EVAL <TAG.C4_2> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f47)
+	if ((<EVAL <TAG.C4_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_3>)
+		TAG.C4_3 = 999
+	else
+	TAG.C4_3 = <EVAL <TAG.C4_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f48)
+	if ((<EVAL <TAG.C4_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_4>)
+		TAG.C4_4 = 999
+	else
+	TAG.C4_4 = <EVAL <TAG.C4_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f49)
+	if ((<EVAL <TAG.C4_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_5>)
+		TAG.C4_5 = 999
+	else
+	TAG.C4_5 = <EVAL <TAG.C4_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f4a)
+	if ((<EVAL <TAG.C4_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_6>)
+		TAG.C4_6 = 999
+	else
+	TAG.C4_6 = <EVAL <TAG.C4_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f4b)
+	if ((<EVAL <TAG.C4_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_7>)
+		TAG.C4_7 = 999
+	else
+	TAG.C4_7 = <EVAL <TAG.C4_7> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f4c)
+	if ((<EVAL <TAG.C4_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C4_8>)
+		TAG.C4_8 = 999
+	else
+	TAG.C4_8 = <EVAL <TAG.C4_8> + <ARGO.AMOUNT>>
+	remove
+endif
+//Fifth Circle
+ELSEIF (<ARGO.ID> == 01f4d)
+	if ((<EVAL <TAG.C5_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_1>)
+		TAG.C5_1 = 999
+	else
+	TAG.C5_1 = <EVAL <TAG.C5_1> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f4e)
+	if ((<EVAL <TAG.C5_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_2>)
+		TAG.C5_2 = 999
+	else
+	TAG.C5_2 = <EVAL <TAG.C5_2> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f4f)
+	if ((<EVAL <TAG.C5_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_3>)
+		TAG.C5_3 = 999
+	else
+	TAG.C5_3 = <EVAL <TAG.C5_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f50)
+	if ((<EVAL <TAG.C5_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_4>)
+		TAG.C5_4 = 999
+	else
+	TAG.C5_4 = <EVAL <TAG.C5_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f51)
+	if ((<EVAL <TAG.C5_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_5>)
+		TAG.C5_5 = 999
+	else
+	TAG.C5_5 = <EVAL <TAG.C5_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f52)
+	if ((<EVAL <TAG.C5_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_6>)
+		TAG.C5_6 = 999
+	else
+	TAG.C5_6 = <EVAL <TAG.C5_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f53)
+	if ((<EVAL <TAG.C5_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_7>)
+		TAG.C5_7 = 999
+	else
+	TAG.C5_7 = <EVAL <TAG.C5_7> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f54)
+	if ((<EVAL <TAG.C5_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C5_8>)
+		TAG.C5_8 = 999
+	else
+	TAG.C5_8 = <EVAL <TAG.C5_8> + <ARGO.AMOUNT>>
+	remove
+endif
+//Sixth Circle
+ELSEIF (<ARGO.ID> == 01f55)
+	if ((<EVAL <TAG.C6_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_1>)
+		TAG.C6_1 = 999
+	else
+	TAG.C6_1 = <EVAL <TAG.C6_1> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f56)
+	if ((<EVAL <TAG.C6_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_2>)
+		TAG.C6_2 = 999
+	else
+	TAG.C6_2 = <EVAL <TAG.C6_2> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f57)
+	if ((<EVAL <TAG.C6_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_3>)
+		TAG.C6_3 = 999
+	else
+	TAG.C6_3 = <EVAL <TAG.C6_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f58)
+	if ((<EVAL <TAG.C6_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_4>)
+		TAG.C6_4 = 999
+	else
+	TAG.C6_4 = <EVAL <TAG.C6_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f59)
+	if ((<EVAL <TAG.C6_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_5>)
+		TAG.C6_5 = 999
+	else
+	TAG.C6_5 = <EVAL <TAG.C6_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f5a)
+	if ((<EVAL <TAG.C6_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_6>)
+		TAG.C6_6 = 999
+	else
+	TAG.C6_6 = <EVAL <TAG.C6_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f5b)
+	if ((<EVAL <TAG.C6_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_7>)
+		TAG.C6_7 = 999
+	else
+	TAG.C6_7 = <EVAL <TAG.C6_7> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f5c)
+	if ((<EVAL <TAG.C6_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C6_8>)
+		TAG.C6_8 = 999
+	else
+	TAG.C6_8 = <EVAL <TAG.C6_8> + <ARGO.AMOUNT>>
+	remove
+endif
+//Seventh Circle
+ELSEIF (<ARGO.ID> == 01f5d)
+	if ((<EVAL <TAG.C7_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_1>)
+		TAG.C7_1 = 999
+	else
+	TAG.C7_1 = <EVAL <TAG.C7_1> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f5e)
+	if ((<EVAL <TAG.C7_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_2>)
+		TAG.C7_2 = 999
+	else
+	TAG.C7_2 = <EVAL <TAG.C7_2> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f5f)
+	if ((<EVAL <TAG.C7_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_3>)
+		TAG.C7_3 = 999
+	else
+	TAG.C7_3 = <EVAL <TAG.C7_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f60)
+	if ((<EVAL <TAG.C7_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_4>)
+		TAG.C7_4 = 999
+	else
+	TAG.C7_4 = <EVAL <TAG.C7_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f61)
+	if ((<EVAL <TAG.C7_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_5>)
+		TAG.C7_5 = 999
+	else
+	TAG.C7_5 = <EVAL <TAG.C7_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f62)
+	if ((<EVAL <TAG.C7_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_6>)
+		TAG.C7_6 = 999
+	else
+	TAG.C7_6 = <EVAL <TAG.C7_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f63)
+	if ((<EVAL <TAG.C7_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_7>)
+		TAG.C7_7 = 999
+	else
+	TAG.C7_7 = <EVAL <TAG.C7_7> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f64)
+	if ((<EVAL <TAG.C7_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C7_8>)
+		TAG.C7_8 = 999
+	else
+	TAG.C7_8 = <EVAL <TAG.C7_8> + <ARGO.AMOUNT>>
+	remove
+endif
+//Eighth Circle
+ELSEIF (<ARGO.ID> == 01f65)
+	if ((<EVAL <TAG.C8_1> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_1>)
+		TAG.C8_1 = 999
+	else
+	TAG.C8_1 = <EVAL <TAG.C8_1> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f66)
+	if ((<EVAL <TAG.C8_2> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_2>)
+		TAG.C8_2 = 999
+	else
+	TAG.C8_2 = <EVAL <TAG.C8_2> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f67)
+	if ((<EVAL <TAG.C8_3> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_3>)
+		TAG.C8_3 = 999
+	else
+	TAG.C8_3 = <EVAL <TAG.C8_3> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f68)
+	if ((<EVAL <TAG.C8_4> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_4>)
+		TAG.C8_4 = 999
+	else
+	TAG.C8_4 = <EVAL <TAG.C8_4> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f69)
+	if ((<EVAL <TAG.C8_5> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_5>)
+		TAG.C8_5 = 999
+	else
+	TAG.C8_5 = <EVAL <TAG.C8_5> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f6a)
+	if ((<EVAL <TAG.C8_6> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_6>)
+		TAG.C8_6 = 999
+	else
+	TAG.C8_6 = <EVAL <TAG.C8_6> + <ARGO.AMOUNT>>
+	remove
+endif
+ELSEIF (<ARGO.ID> == 01f6b)
+	if ((<EVAL <TAG.C8_7> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_7>)
+		TAG.C8_7 = 999
+	else
+		TAG.C8_7 = <EVAL <TAG.C8_7> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSEIF (<ARGO.ID> == 01f6c)
+	if ((<EVAL <TAG.C8_8> + <ARGO.AMOUNT>>) > 999)
+		ARGO.AMOUNT=<ARGO.AMOUNT>+-(999 + -<TAG.C8_8>)
+		TAG.C8_8 = 999
+	else
+		TAG.C8_8 = <EVAL <TAG.C8_8> + <ARGO.AMOUNT>>
+		remove
+	endif
+ELSE
+	src.SYSMESSAGE That is not a scroll. 
+	DIALOG d_scroll_case_1
+	return 1
+ENDIF
+
+target Target another scroll to add
+return 1
+
+
+
+//////////////Start the GUMP//////////////////
+
+[DIALOG d_scroll_case_1]
+0, 0
+//page 0
+gumppic 100 10 2200
+gumppic 125 50 57
+gumppic 145 50 58
+gumppic 160 50 58
+gumppic 175 50 58
+gumppic 190 50 58
+gumppic 205 50 58
+gumppic 220 50 58
+gumppic 230 50 59
+
+gumppic 290 50 57
+gumppic 310 50 58
+gumppic 325 50 58
+gumppic 340 50 58
+gumppic 355 50 58
+gumppic 370 50 58
+gumppic 385 50 58
+gumppic 395 50 59
+
+page 0
+//First Circle
+button 125 65 2103 2104 1 0 1//Button 1
+button 125 80 2103 2104 1 0 2//Button 2
+button 125 95 2103 2104 1 0 3//Button 3
+button 125 110 2103 2104 1 0 4//Button 4
+button 125 125 2103 2104 1 0 5//Button 5
+button 125 140 2103 2104 1 0 6//Button 6
+button 125 155 2103 2104 1 0 7//Button 7
+button 125 170 2103 2104 1 0 8//Button 8
+
+//oposit page
+//Second Circle
+button 285 65 2103 2104 1 0 9 //Button 9
+button 285 80 2103 2104 1 0 10 //Button 10
+button 285 95 2103 2104 1 0 11 //Button 11
+button 285 110 2103 2104 1 0 12//Button 12
+button 285 125 2103 2104 1 0 13//Button 13
+button 285 140 2103 2104 1 0 14//Button 14
+button 285 155 2103 2104 1 0 15//Button 15
+button 285 170 2103 2104 1 0 16//Button 16
+
+//button 310 38 4033 4033 1 0 17//Button 17 - Next page
+button 150 38 4033 4033 1 0 18//Button 18 - insert scroll
+
+//Text
+// croppedtext	// 6 = x,y,sx,sy,page,startindex
+croppedtext 140 60 110 17 0 0// 1
+croppedtext 140 75 110 17 0 1// 2
+croppedtext 140 90 110 17 0 2// 3
+croppedtext 140 105 110 17 0 3// 4
+croppedtext 140 120 110 17 0 4// 5
+croppedtext 140 135 110 17 0 5// 6
+croppedtext 140 150 110 17 0 6// 7
+croppedtext 140 165 110 17 0 7// 8
+// spell names
+croppedtext 170 60 110 17 0 16// 17
+croppedtext 170 75 110 17 0 17// 18
+croppedtext 170 90 110 17 0 18// 19
+croppedtext 170 105 110 17 0 19// 20
+croppedtext 170 120 110 17 0 20// 21
+croppedtext 170 135 110 17 0 21// 22
+croppedtext 170 150 110 17 0 22// 23
+croppedtext 170 165 110 17 0 23// 24
+
+//oposit page
+croppedtext 300 60 110 17 0 8// 9
+croppedtext 300 75 110 17 0 9// 10
+croppedtext 300 90 110 17 0 10// 11
+croppedtext 300 105 110 17 0 11// 12
+croppedtext 300 120 110 17 0 12// 13
+croppedtext 300 135 110 17 0 13// 14
+croppedtext 300 150 110 17 0 14// 15
+croppedtext 300 165 110 17 0 15// 16
+// spell names
+croppedtext 330 60 110 17 0 24
+croppedtext 330 75 110 17 0 25
+croppedtext 330 90 110 17 0 26
+croppedtext 330 105 110 17 0 27
+croppedtext 330 120 110 17 0 28
+croppedtext 330 135 110 17 0 29
+croppedtext 330 150 110 17 0 30
+croppedtext 330 165 110 17 0 31
+//Some extra text
+text 310 15 1300 32 // 33 - 2nd page
+text 150 15 1300 33 // 34 - 1st page
+text 168 36 1300 34 // 35 - Scroll Ekle
+//text 328 36 1300 34 // 36 - Next Page
+
+button 140 185 2225 2225 1 0 30//1st - 8th circle buttons
+button 170 185 2226 2226 1 0 30
+button 200 185 2227 2227 1 0 31
+button 230 185 2228 2228 1 0 31
+button 300 185 2229 2229 1 0 32
+button 330 185 2230 2230 1 0 32
+button 360 185 2231 2231 1 0 33
+button 390 185 2232 2232 1 0 33
+
+[DIALOG d_scroll_case_1 TEXT]
+<EVAL <TAG.C1_1> + 0>
+<EVAL <TAG.C1_2> + 0>
+<EVAL <TAG.C1_3> + 0>
+<EVAL <TAG.C1_4> + 0>
+<EVAL <TAG.C1_5> + 0>
+<EVAL <TAG.C1_6> + 0>
+<EVAL <TAG.C1_7> + 0>
+<EVAL <TAG.C1_8> + 0>
+//page 2
+<EVAL <TAG.C2_1> + 0>
+<EVAL <TAG.C2_2> + 0>
+<EVAL <TAG.C2_3> + 0>
+<EVAL <TAG.C2_4> + 0>
+<EVAL <TAG.C2_5> + 0>
+<EVAL <TAG.C2_6> + 0>
+<EVAL <TAG.C2_7> + 0>
+<EVAL <TAG.C2_8> + 0>
+//Scroll Names page 1 - lines 17 to 24
+React. Armor
+Clumsy
+Create Food
+Feeblemind
+Heal
+Magic Arrow
+Night Sight
+Weaken
+//Scroll Names page 2 - lines 25 to 32
+Agility
+Cunning
+Cure
+Harm
+Magic Trap
+Remove Trap
+Protection
+Strength
+Second Circle
+First Circle
+Scroll Ekle
+İleri
+
+[DIALOG d_scroll_case_1 BUTTON]
+ONBUTTON=0
+SRC.SOUND=85
+RETURN 1
+
+ONBUTTON=1
+IF !(0<TAG.C1_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f2d //Rective Armor Scroll
+src.tag.sc_circle=C1_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=2
+IF !(0<TAG.C1_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f2e //Clumsy Scroll
+src.tag.sc_circle=C1_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=3
+IF !(0<TAG.C1_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f2f //Create Food Scroll
+src.tag.sc_circle=C1_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=4
+IF !(0<TAG.C1_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f30 //Feeblemind Scroll
+src.tag.sc_circle=C1_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=5
+IF !(0<TAG.C1_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f31 //Heal Scroll
+src.tag.sc_circle=C1_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=6
+IF !(0<TAG.C1_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f32 //Magic Arrow scroll
+src.tag.sc_circle=C1_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=7
+IF !(0<TAG.C1_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f33 //Night Sight Scroll
+src.tag.sc_circle=C1_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=8
+IF !(0<TAG.C1_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f34 //Weaken Scroll
+src.tag.sc_circle=C1_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=9
+IF !(0<TAG.C2_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f35 //Agility Scroll
+src.tag.sc_circle=C2_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=10
+IF !(0<TAG.C2_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f36 //Cunning Scroll
+src.tag.sc_circle=C2_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=11
+IF !(0<TAG.C2_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f37 //Cure Scroll
+src.tag.sc_circle=C2_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=12
+IF !(0<TAG.C2_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f38 //Harm Scroll
+src.tag.sc_circle=C2_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=13
+IF !(0<TAG.C2_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f39 //Trap Scroll
+src.tag.sc_circle=C2_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=14
+IF !(0<TAG.C2_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f3a //Remove Trap Scroll
+src.tag.sc_circle=C2_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=15
+IF !(0<TAG.C2_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f3b //Protection Scroll
+src.tag.sc_circle=C2_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=16
+IF !(0<TAG.C2_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f3c //Strenght Scroll
+src.tag.sc_circle=C2_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=17 //next pages
+DIALOG d_scroll_case_2
+ONBUTTON=18
+target
+
+on=30 //spell circle buttons
+	dialog d_scroll_case_1
+on=31
+	dialog d_scroll_case_2
+on=32
+	dialog d_scroll_case_3
+on=33
+	dialog d_scroll_case_4
+
+//********************************** END pages 1 and 2 **************
+[DIALOG d_scroll_case_2]
+0, 0
+//page 0
+gumppic 100 10 2200
+gumppic 125 50 57
+gumppic 145 50 58
+gumppic 160 50 58
+gumppic 175 50 58
+gumppic 190 50 58
+gumppic 205 50 58
+gumppic 220 50 58
+gumppic 230 50 59
+
+gumppic 290 50 57
+gumppic 310 50 58
+gumppic 325 50 58
+gumppic 340 50 58
+gumppic 355 50 58
+gumppic 370 50 58
+gumppic 385 50 58
+gumppic 395 50 59
+
+page 0
+//First Circle
+button 125 65 2103 2104 1 0 1//Button 1
+button 125 80 2103 2104 1 0 2//Button 2
+button 125 95 2103 2104 1 0 3//Button 3
+button 125 110 2103 2104 1 0 4//Button 4
+button 125 125 2103 2104 1 0 5//Button 5
+button 125 140 2103 2104 1 0 6//Button 6
+button 125 155 2103 2104 1 0 7//Button 7
+button 125 170 2103 2104 1 0 8//Button 8
+
+//oposit page
+//Second Circle
+button 285 65 2103 2104 1 0 9 //Button 9
+button 285 80 2103 2104 1 0 10 //Button 10
+button 285 95 2103 2104 1 0 11 //Button 11
+button 285 110 2103 2104 1 0 12//Button 12
+button 285 125 2103 2104 1 0 13//Button 13
+button 285 140 2103 2104 1 0 14//Button 14
+button 285 155 2103 2104 1 0 15//Button 15
+button 285 170 2103 2104 1 0 16//Button 16
+
+
+//button 310 38 4033 4033 1 0 17//Button 17 - Next page
+button 150 38 4033 4033 1 0 18//Button 18 - insert scroll
+//Text
+// croppedtext	// 6 = x,y,sx,sy,page,startindex
+croppedtext 140 60 110 17 0 0// 1
+croppedtext 140 75 110 17 0 1// 2
+croppedtext 140 90 110 17 0 2// 3
+croppedtext 140 105 110 17 0 3// 4
+croppedtext 140 120 110 17 0 4// 5
+croppedtext 140 135 110 17 0 5// 6
+croppedtext 140 150 110 17 0 6// 7
+croppedtext 140 165 110 17 0 7// 8
+// spell names
+croppedtext 170 60 110 17 0 16// 17
+croppedtext 170 75 110 17 0 17// 18
+croppedtext 170 90 110 17 0 18// 19
+croppedtext 170 105 110 17 0 19// 20
+croppedtext 170 120 110 17 0 20// 21
+croppedtext 170 135 110 17 0 21// 22
+croppedtext 170 150 110 17 0 22// 23
+croppedtext 170 165 110 17 0 23// 24
+
+//oposit page
+croppedtext 300 60 110 17 0 8// 9
+croppedtext 300 75 110 17 0 9// 10
+croppedtext 300 90 110 17 0 10// 11
+croppedtext 300 105 110 17 0 11// 12
+croppedtext 300 120 110 17 0 12// 13
+croppedtext 300 135 110 17 0 13// 14
+croppedtext 300 150 110 17 0 14// 15
+croppedtext 300 165 110 17 0 15// 16
+// spell names
+croppedtext 330 60 110 17 0 24
+croppedtext 330 75 110 17 0 25
+croppedtext 330 90 110 17 0 26
+croppedtext 330 105 110 17 0 27
+croppedtext 330 120 110 17 0 28
+croppedtext 330 135 110 17 0 29
+croppedtext 330 150 110 17 0 30
+croppedtext 330 165 110 17 0 31
+//Some extra text
+text 310 15 1300 32 // 33 - 2nd page
+text 150 15 1300 33 // 34 - 1st page
+//text 328 36 1300 34 // 36 - Next Page
+text 168 36 1300 34 // 35 - Scroll Ekle
+
+button 140 185 2225 2225 1 0 30//1st - 8th circle buttons
+button 170 185 2226 2226 1 0 30
+button 200 185 2227 2227 1 0 31
+button 230 185 2228 2228 1 0 31
+button 300 185 2229 2229 1 0 32
+button 330 185 2230 2230 1 0 32
+button 360 185 2231 2231 1 0 33
+button 390 185 2232 2232 1 0 33
+
+[DIALOG d_scroll_case_2 TEXT]
+<EVAL <TAG.C3_1> + 0>
+<EVAL <TAG.C3_2> + 0>
+<EVAL <TAG.C3_3> + 0>
+<EVAL <TAG.C3_4> + 0>
+<EVAL <TAG.C3_5> + 0>
+<EVAL <TAG.C3_6> + 0>
+<EVAL <TAG.C3_7> + 0>
+<EVAL <TAG.C3_8> + 0>
+//page 2
+<EVAL <TAG.C4_1> + 0>
+<EVAL <TAG.C4_2> + 0>
+<EVAL <TAG.C4_3> + 0>
+<EVAL <TAG.C4_4> + 0>
+<EVAL <TAG.C4_5> + 0>
+<EVAL <TAG.C4_6> + 0>
+<EVAL <TAG.C4_7> + 0>
+<EVAL <TAG.C4_8> + 0>
+//Scroll Names page 3 - lines 17 to 24
+Bless
+Fireball
+Magic Lock
+Poison
+Telekinesis
+Teleport
+Unlock
+Wall of Stone
+//Scroll Names page 4 - lines 25 to 32
+Arch Cure
+Arch Protection
+Curse
+Fire Field
+Greater Heal
+Lightning
+Mana Drain
+Recall
+Fourth Circle// 33
+Third Circle
+Scroll Ekle
+
+[DIALOG d_scroll_case_2 BUTTON]
+ONBUTTON=0
+SRC.SOUND=85
+RETURN 1
+
+ONBUTTON=1
+IF !(0<TAG.C3_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f3d //Bless Scroll
+src.tag.sc_circle=C3_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=2
+IF !(0<TAG.C3_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f3e //Fireball Scroll
+src.tag.sc_circle=C3_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=3
+IF !(0<TAG.C3_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f3f //Magic Lock Scroll
+src.tag.sc_circle=C3_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=4
+IF !(0<TAG.C3_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f40 //Poison Scroll
+src.tag.sc_circle=C3_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=5
+IF !(0<TAG.C3_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f41 //Telekinezis Scroll
+src.tag.sc_circle=C3_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=6
+IF !(0<TAG.C3_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f42 //Teleport scroll
+src.tag.sc_circle=C3_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=7
+IF !(0<TAG.C3_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f43 //Unlock Scroll
+src.tag.sc_circle=C3_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=8
+IF !(0<TAG.C3_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f44 //Stone Wall Scroll
+src.tag.sc_circle=C3_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=9
+IF !(0<TAG.C4_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f45 //Arch Cure Scroll
+src.tag.sc_circle=C4_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=10
+IF !(0<TAG.C4_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f46 //Arch Protection Scroll
+src.tag.sc_circle=C4_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=11
+IF !(0<TAG.C4_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f47 //Curse Scroll
+src.tag.sc_circle=C4_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=12
+IF !(0<TAG.C4_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f48 //Fire Field Scroll
+src.tag.sc_circle=C4_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=13
+IF !(0<TAG.C4_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f49 //Greater Heal Scroll
+src.tag.sc_circle=C4_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=14
+IF !(0<TAG.C4_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f4a //Lightning Scroll
+src.tag.sc_circle=C4_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=15
+IF !(0<TAG.C4_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f4b //Mana Drain Scroll
+src.tag.sc_circle=C4_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=16
+IF !(0<TAG.C4_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f4c //Recall Scroll
+src.tag.sc_circle=C4_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=17 //next pages
+dialog d_scroll_case_3
+on=18
+	target
+
+on=30 //spell circle buttons
+	dialog d_scroll_case_1
+on=31
+	dialog d_scroll_case_2
+on=32
+	dialog d_scroll_case_3
+on=33
+	dialog d_scroll_case_4
+
+//********************************** END PAGES 3 and 4 ******************
+
+[DIALOG d_scroll_case_3]
+0, 0
+//page 0
+gumppic 100 10 2200
+gumppic 125 50 57
+gumppic 145 50 58
+gumppic 160 50 58
+gumppic 175 50 58
+gumppic 190 50 58
+gumppic 205 50 58
+gumppic 220 50 58
+gumppic 230 50 59
+
+gumppic 290 50 57
+gumppic 310 50 58
+gumppic 325 50 58
+gumppic 340 50 58
+gumppic 355 50 58
+gumppic 370 50 58
+gumppic 385 50 58
+gumppic 395 50 59
+
+page 0
+//First Circle
+button 125 65 2103 2104 1 0 1//Button 1
+button 125 80 2103 2104 1 0 2//Button 2
+button 125 95 2103 2104 1 0 3//Button 3
+button 125 110 2103 2104 1 0 4//Button 4
+button 125 125 2103 2104 1 0 5//Button 5
+button 125 140 2103 2104 1 0 6//Button 6
+button 125 155 2103 2104 1 0 7//Button 7
+button 125 170 2103 2104 1 0 8//Button 8
+
+//oposit page
+//Second Circle
+button 285 65 2103 2104 1 0 9 //Button 9
+button 285 80 2103 2104 1 0 10 //Button 10
+button 285 95 2103 2104 1 0 11 //Button 11
+button 285 110 2103 2104 1 0 12//Button 12
+button 285 125 2103 2104 1 0 13//Button 13
+button 285 140 2103 2104 1 0 14//Button 14
+button 285 155 2103 2104 1 0 15//Button 15
+button 285 170 2103 2104 1 0 16//Button 16
+
+
+//button 310 38 4033 4033 1 0 17//Button 17 - Next page
+button 150 38 4033 4033 1 0 18//Button 18 - insert scroll
+//Text
+// croppedtext	// 6 = x,y,sx,sy,page,startindex
+croppedtext 140 60 110 17 0 0// 1
+croppedtext 140 75 110 17 0 1// 2
+croppedtext 140 90 110 17 0 2// 3
+croppedtext 140 105 110 17 0 3// 4
+croppedtext 140 120 110 17 0 4// 5
+croppedtext 140 135 110 17 0 5// 6
+croppedtext 140 150 110 17 0 6// 7
+croppedtext 140 165 110 17 0 7// 8
+// spell names
+croppedtext 170 60 110 17 0 16// 17
+croppedtext 170 75 110 17 0 17// 18
+croppedtext 170 90 110 17 0 18// 19
+croppedtext 170 105 110 17 0 19// 20
+croppedtext 170 120 110 17 0 20// 21
+croppedtext 170 135 110 17 0 21// 22
+croppedtext 170 150 110 17 0 22// 23
+croppedtext 170 165 110 17 0 23// 24
+
+//oposit page
+croppedtext 300 60 110 17 0 8// 9
+croppedtext 300 75 110 17 0 9// 10
+croppedtext 300 90 110 17 0 10// 11
+croppedtext 300 105 110 17 0 11// 12
+croppedtext 300 120 110 17 0 12// 13
+croppedtext 300 135 110 17 0 13// 14
+croppedtext 300 150 110 17 0 14// 15
+croppedtext 300 165 110 17 0 15// 16
+// spell names
+croppedtext 330 60 110 17 0 24
+croppedtext 330 75 110 17 0 25
+croppedtext 330 90 110 17 0 26
+croppedtext 330 105 110 17 0 27
+croppedtext 330 120 110 17 0 28
+croppedtext 330 135 110 17 0 29
+croppedtext 330 150 110 17 0 30
+croppedtext 330 165 110 17 0 31
+//Some extra text
+text 310 15 1300 32 // 33 - 2nd page
+text 150 15 1300 33 // 34 - 1st page
+//text 328 36 1300 34 // 35 - Next Page
+text 168 36 1300 34 // 35 - Scroll Ekle
+
+button 140 185 2225 2225 1 0 30//1st - 8th circle buttons
+button 170 185 2226 2226 1 0 30
+button 200 185 2227 2227 1 0 31
+button 230 185 2228 2228 1 0 31
+button 300 185 2229 2229 1 0 32
+button 330 185 2230 2230 1 0 32
+button 360 185 2231 2231 1 0 33
+button 390 185 2232 2232 1 0 33
+
+[DIALOG d_scroll_case_3 TEXT]
+<EVAL <TAG.C5_1> + 0>
+<EVAL <TAG.C5_2> + 0>
+<EVAL <TAG.C5_3> + 0>
+<EVAL <TAG.C5_4> + 0>
+<EVAL <TAG.C5_5> + 0>
+<EVAL <TAG.C5_6> + 0>
+<EVAL <TAG.C5_7> + 0>
+<EVAL <TAG.C5_8> + 0>
+//page 2
+<EVAL <TAG.C6_1> + 0>
+<EVAL <TAG.C6_2> + 0>
+<EVAL <TAG.C6_3> + 0>
+<EVAL <TAG.C6_4> + 0>
+<EVAL <TAG.C6_5> + 0>
+<EVAL <TAG.C6_6> + 0>
+<EVAL <TAG.C6_7> + 0>
+<EVAL <TAG.C6_8> + 0>
+//Scroll Names page 5 - lines 17 to 24
+Blade Spirits
+Dispel Field
+Incognito
+Magic Reflection
+Mind Blast
+Paralyze
+Poison Field
+Summon Creature
+//Scroll Names page 6 - lines 25 to 32
+Dispell
+Energy Bolt
+Explosion
+Invisibility
+Mark
+Mass Curse
+Parlayze Field
+Reveal
+Sixth Circle// 33
+Fifth Circle
+Scroll Ekle
+
+[DIALOG d_scroll_case_3 BUTTON]
+ONBUTTON=0
+SRC.SOUND=85
+RETURN 1
+
+ONBUTTON=1
+IF !(0<TAG.C5_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f4d //Blade Spirits Scroll
+src.tag.sc_circle=C5_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=2
+IF !(0<TAG.C5_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f4e //Dispel Field Scroll
+src.tag.sc_circle=C5_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=3
+IF !(0<TAG.C5_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f4f //Incognito Scroll
+src.tag.sc_circle=C5_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=4
+IF !(0<TAG.C5_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f50 //Magic Reflection Scroll
+src.tag.sc_circle=C5_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=5
+IF !(0<TAG.C5_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f51 //Mind Blast Scroll
+src.tag.sc_circle=C5_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=6
+IF !(0<TAG.C5_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f52 //Paralyze scroll
+src.tag.sc_circle=C5_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=7
+IF !(0<TAG.C5_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f53 //Poison Field Scroll
+src.tag.sc_circle=C5_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=8
+IF !(0<TAG.C5_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f54 //Summon Creature Scroll
+src.tag.sc_circle=C5_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=9
+IF !(0<TAG.C6_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f55 //Dispel Scroll
+src.tag.sc_circle=C6_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=10
+IF !(0<TAG.C6_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f56 //Energy Bolt Scroll
+src.tag.sc_circle=C6_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=11
+IF !(0<TAG.C6_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f57 //Explosion Scroll
+src.tag.sc_circle=C6_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=12
+IF !(0<TAG.C6_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f58 //Invisibility Scroll
+src.tag.sc_circle=C6_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=13
+IF !(0<TAG.C6_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f59 //Mark Scroll
+src.tag.sc_circle=C6_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=14
+IF !(0<TAG.C6_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f5a //Mass Curse Scroll
+src.tag.sc_circle=C6_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=15
+IF !(0<TAG.C6_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f5b //Paralyze Field Scroll
+src.tag.sc_circle=C6_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=16
+IF !(0<TAG.C6_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f5c //Reveal Scroll
+src.tag.sc_circle=C6_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=17 //next pages
+dialog d_scroll_case_4
+on=18
+	target
+
+on=30 //spell circle buttons
+	dialog d_scroll_case_1
+on=31
+	dialog d_scroll_case_2
+on=32
+	dialog d_scroll_case_3
+on=33
+	dialog d_scroll_case_4
+	
+//********************************** END PAGES 5 and 6 ******************
+
+[DIALOG d_scroll_case_4]
+0, 0
+//page 0
+gumppic 100 10 2200
+gumppic 125 50 57
+gumppic 145 50 58
+gumppic 160 50 58
+gumppic 175 50 58
+gumppic 190 50 58
+gumppic 205 50 58
+gumppic 220 50 58
+gumppic 230 50 59
+
+gumppic 290 50 57
+gumppic 310 50 58
+gumppic 325 50 58
+gumppic 340 50 58
+gumppic 355 50 58
+gumppic 370 50 58
+gumppic 385 50 58
+gumppic 395 50 59
+
+page 0
+//Seventh Circle
+button 125 65 2103 2104 1 0 1//Button 1
+button 125 80 2103 2104 1 0 2//Button 2
+button 125 95 2103 2104 1 0 3//Button 3
+button 125 110 2103 2104 1 0 4//Button 4
+button 125 125 2103 2104 1 0 5//Button 5
+button 125 140 2103 2104 1 0 6//Button 6
+button 125 155 2103 2104 1 0 7//Button 7
+button 125 170 2103 2104 1 0 8//Button 8
+
+//oposit page
+//Eightth Circle
+button 285 65 2103 2104 1 0 9 //Button 9
+button 285 80 2103 2104 1 0 10 //Button 10
+button 285 95 2103 2104 1 0 11 //Button 11
+button 285 110 2103 2104 1 0 12//Button 12
+button 285 125 2103 2104 1 0 13//Button 13
+button 285 140 2103 2104 1 0 14//Button 14
+button 285 155 2103 2104 1 0 15//Button 15
+button 285 170 2103 2104 1 0 16//Button 16
+
+
+//button 310 38 4033 4033 1 0 17//Button 17 - Next page
+button 150 38 4033 4033 1 0 18//Button 18 - insert scroll
+//Text
+// croppedtext	// 6 = x,y,sx,sy,page,startindex
+croppedtext 140 60 110 17 0 0// 1
+croppedtext 140 75 110 17 0 1// 2
+croppedtext 140 90 110 17 0 2// 3
+croppedtext 140 105 110 17 0 3// 4
+croppedtext 140 120 110 17 0 4// 5
+croppedtext 140 135 110 17 0 5// 6
+croppedtext 140 150 110 17 0 6// 7
+croppedtext 140 165 110 17 0 7// 8
+// spell names
+croppedtext 170 60 110 17 0 16// 17
+croppedtext 170 75 110 17 0 17// 18
+croppedtext 170 90 110 17 0 18// 19
+croppedtext 170 105 110 17 0 19// 20
+croppedtext 170 120 110 17 0 20// 21
+croppedtext 170 135 110 17 0 21// 22
+croppedtext 170 150 110 17 0 22// 23
+croppedtext 170 165 110 17 0 23// 24
+
+//oposit page
+croppedtext 300 60 110 17 0 8// 9
+croppedtext 300 75 110 17 0 9// 10
+croppedtext 300 90 110 17 0 10// 11
+croppedtext 300 105 110 17 0 11// 12
+croppedtext 300 120 110 17 0 12// 13
+croppedtext 300 135 110 17 0 13// 14
+croppedtext 300 150 110 17 0 14// 15
+croppedtext 300 165 110 17 0 15// 16
+// spell names
+croppedtext 330 60 110 17 0 24
+croppedtext 330 75 110 17 0 25
+croppedtext 330 90 110 17 0 26
+croppedtext 330 105 110 17 0 27
+croppedtext 330 120 110 17 0 28
+croppedtext 330 135 110 17 0 29
+croppedtext 330 150 110 17 0 30
+croppedtext 330 165 110 17 0 31
+//Some extra text
+text 310 15 1300 32 // 33 - 2nd page
+text 150 15 1300 33 // 34 - 1st page
+//text 328 36 1300 34 // 35 - Next Page
+text 168 36 1300 34 // 35 - Scroll Ekle
+
+button 140 185 2225 2225 1 0 30//1st - 8th circle buttons
+button 170 185 2226 2226 1 0 30
+button 200 185 2227 2227 1 0 31
+button 230 185 2228 2228 1 0 31
+button 300 185 2229 2229 1 0 32
+button 330 185 2230 2230 1 0 32
+button 360 185 2231 2231 1 0 33
+button 390 185 2232 2232 1 0 33
+
+[DIALOG d_scroll_case_4 TEXT]
+<EVAL <TAG.C7_1> + 0>
+<EVAL <TAG.C7_2> + 0>
+<EVAL <TAG.C7_3> + 0>
+<EVAL <TAG.C7_4> + 0>
+<EVAL <TAG.C7_5> + 0>
+<EVAL <TAG.C7_6> + 0>
+<EVAL <TAG.C7_7> + 0>
+<EVAL <TAG.C7_8> + 0>
+//page 2
+<EVAL <TAG.C8_1> + 0>
+<EVAL <TAG.C8_2> + 0>
+<EVAL <TAG.C8_3> + 0>
+<EVAL <TAG.C8_4> + 0>
+<EVAL <TAG.C8_5> + 0>
+<EVAL <TAG.C8_6> + 0>
+<EVAL <TAG.C8_7> + 0>
+<EVAL <TAG.C8_8> + 0>
+//Scroll Names page 7 - lines 17 to 24
+Chain Lightning
+Energy Field
+Flame Strike
+Gate Travel
+Mana Vampire
+Mass Dispel
+Meteor Storm
+Polymorph
+//Scroll Names page 8 - lines 25 to 32
+Earthquake
+Energy Vortex
+Resurrection
+Air Elemental
+Summ. Deamon
+Earth Elemntal
+Fire Elemental
+Water Elemental
+Eighth Circle// 33
+Seventh Circle
+Scroll Ekle
+
+[DIALOG d_scroll_case_4 BUTTON]
+ONBUTTON=0
+SRC.SOUND=85
+RETURN 1
+
+ONBUTTON=1
+IF !(0<TAG.C7_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f5d //Chain Lightning Scroll
+src.tag.sc_circle=C7_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=2
+IF !(0<TAG.C7_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f5e //Energy Field Scroll
+src.tag.sc_circle=C7_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=3
+IF !(0<TAG.C7_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f5f //Flame Strike Scroll
+src.tag.sc_circle=C7_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=4
+IF !(0<TAG.C7_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f60 //Gate Travel Scroll
+src.tag.sc_circle=C7_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=5
+IF !(0<TAG.C7_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f61 //Mana Vampire Scroll
+src.tag.sc_circle=C7_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=6
+IF !(0<TAG.C7_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f62 //Mass Dispel scroll
+src.tag.sc_circle=C7_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=7
+IF !(0<TAG.C7_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f63 //Meteor Storm Scroll
+src.tag.sc_circle=C7_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=8
+IF !(0<TAG.C7_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f64 //Polymorph Scroll
+src.tag.sc_circle=C7_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=9
+IF !(0<TAG.C8_1>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f65 //Earthquake Scroll
+src.tag.sc_circle=C8_1
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=10
+IF !(0<TAG.C8_2>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f66 //Energy Vortex Scroll
+src.tag.sc_circle=C8_2
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=11
+IF !(0<TAG.C8_3>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f67 //Resurrection Scroll
+src.tag.sc_circle=C8_3
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=12
+IF !(0<TAG.C8_4>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f68 //Air Elemental Scroll
+src.tag.sc_circle=C8_4
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=13
+IF !(0<TAG.C8_5>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f69 //Summon Deamon Scroll
+src.tag.sc_circle=C8_5
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=14
+IF !(0<TAG.C8_6>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f6a //Earth Elemntal Scroll
+src.tag.sc_circle=C8_6
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=15
+IF !(0<TAG.C8_7>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f6b //Fire Elemental Scroll
+src.tag.sc_circle=C8_7
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=16
+IF !(0<TAG.C8_8>)
+SRC.sysmessage @,,1 No scroll of that type is in the case!
+ELSE
+src.tag.sc_scrollARGO.ID=01f6c //Water Elemental Scroll
+src.tag.sc_circle=C8_8
+sdialog d_scroll_case_remove
+ENDIF
+ONBUTTON=17 //first 2 pages
+dialog d_scroll_case_1
+on=18
+	target
+on=30 //spell circle buttons
+	dialog d_scroll_case_1
+on=31
+	dialog d_scroll_case_2
+on=32
+	dialog d_scroll_case_3
+on=33
+	dialog d_scroll_case_4
+
+
+//****************************************
+//Added functions and dialog by Vlade
+
+[dialog d_scroll_case_remove]
+200,200
+resizepic 0 0 2600 340 180
+page 0
+text 70 20 1152 0
+text 60 50 995 1
+button 40 53 2103 2104 1 0 1
+text 160 50 995 2
+button 140 53 2103 2104 1 0 2
+text 260 50 995 3
+button 240 53 2103 2104 1 0 3
+text 20 80 995 4
+gumppic 30 110 1143
+textentry	40 115 250 20 32 0 5
+button 145 150 249 248 1 0 4 //okay
+
+[dialog d_scroll_case_remove text]
+Kaç adet scroll çıkartacaksınız?
+1
+5
+10
+Opsiyonel:
+<var.nothing> //5
+
+[dialog d_scroll_case_remove button]
+on=1 //remove 1
+	f_scroll_case_remove 1
+on=2 //remove 5
+	f_scroll_case_remove 5
+on=3 //remove 10
+	f_scroll_case_remove 10
+on=4 //other
+	f_scroll_case_remove <eval <argtxt[0]>+0>
+
+
+//* f_scroll_case_remove
+[function f_scroll_case_remove]
+	if <args> == 0 || !<isnum <args>>
+		src.SYSMESSAGE Unknown Input, please use numbers only.
+		return 1
+	ELSEIF <tag.<src.tag.sc_circle>> >= <argn>
+		serv.newitem=<src.tag.sc_scrollARGO.ID>
+		new.AMOUNT=<argn>
+		new.bounce
+		tag.<src.tag.sc_circle> -= <argn>
+		src.SYSMESSAGE You take out <argn> scrolls.
+		//src.tag.sc_circle=
+		//src.tag.sc_scrollARGO.ID=
+	else
+		src.SYSMESSAGE You don't have <args> scrolls in there!
+	endif
+
+
+
+[EOF]

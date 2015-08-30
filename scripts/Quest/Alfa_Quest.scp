@@ -1,0 +1,3446 @@
+// All stuff related to Alfa Static Quests
+// 28.04.2009, SomeBody: file created
+// 29.04.2009, Friday : added f_check_sq_finish, f_finish_sq 
+// 30.04.2009, Friday : changed f_check_sq_finish -> f_check_sq_passed, f_finish_sq -> f_pass_sq
+// 30.04.2009, Friday : added Type for quest items
+// 04.05.2009, Friday : added f_gain_credits , f_gain_karma , f_gain_fame
+//  9.10.2009, SomeBody: daily quests and ancient coins added
+//  3.11.2009, SomeBody: sq_conve_orcs added
+// 18.11.2009, Friday : sq_cyclop_quest, sq_cyclop_quest2 added
+
+// LAST UPDATED: 31.12.2010
+
+// Static quest masks 
+// 000000001 - Moonglow - Old alchemist quest (Aim: Kill 5 bandits. Prize: 100 credits , 1 elixir)
+// 000000002 - Moonglow - Farmer Archibald (1) (Aim: Kill 5 cows, 1 bull, damage the bear rug. Prize: 150 credits, deer mask)
+// 000000004 - Moonglow - Farmer Bob (2) (Aim: kill farmer Bruce and his dog. Prize : 150 credits, Bearsking rug, karma +500/-500)
+// 000000008 - Moonglow - Find first part of telescope and go to astrologer
+// 000000010 - Moonglow - Find second part of telescope ( prize : tome of knowledge )
+// 000000020 - Moonglow - Kill the Ghost of Chieftain
+// 000000040 - Moonglow - Find 3 reagents 
+// 000000080 - Nujel'm - Get treasure from pirates (DAILY)
+// 000000100 - Nujel'm - Kill 30 orcs in Cove Orc Camp (DAILY)
+// 000000200 - Csclops Valley - Find the magic cactus
+// 000000400 - Csclops Valley - Kill the send elemental
+// 080000000 - last 
+
+[DEFNAME def_static_quest]  
+sq_old_alchemist                   000000001
+sq_farmer_1                        000000002
+sq_farmer_2                        000000004
+sq_astrologer                      000000008
+
+sq_astrologer2                     000000010
+sq_evil_spirit                     000000020
+sq_evil_spirit2                    000000040
+sq_merchant                        000000080
+
+sq_cove_orcs                       000000100
+sq_cyclop_quest	        	   000000200
+sq_cyclop_quest2  	           000000400
+//sq_none		           000000800
+
+//sq_none                          000001000
+//sq_none	        	   000002000
+//sq_none  	                   000004000
+//sq_none		           000008000
+
+//================================ Functions ===================================
+
+[function f_gain_credits]
+tag0.credits += <argn>
+sysmessage @0480 You got <eval <argn>> PvP credits!
+
+// Gain/lose <argn> karma and notify player
+[function f_gain_karma]
+karma += <argn>
+if <argn> > 0
+  sysmessage You gained <eval <argn>> karma
+else
+  sysmessage You lost <eval <argn>> karma
+endif
+
+
+// Gain <argn> fame and notify player
+[FUNCTION f_gain_fame]
+fame += <argn>
+sysmessage You have gained <eval <argn>> fame
+
+
+// Check whether the quest is daily (this func should be updated for each new daiy quest)
+[FUNCTION f_is_sq_daily] // args - quest mask, example if <f_is_sq_daily sq_xxx>
+if <hval <args>> == <hval sq_merchant>
+  return 1
+elseif <hval <args>> == <hval sq_cove_orcs>
+  return 1
+endif
+return 0
+
+
+// Check whether the player did this quest already
+[FUNCTION f_check_sq_passed] // args - quest mask, example: if <f_check_sq_done sq_xxx>
+if !<findid.i_quest_log>
+  return 0
+elseif (<findid.i_quest_log.tag0.done> & <args>)
+  // For daily quests check if we can do this quest now
+  if <f_is_sq_daily <args>>
+    local.curr_date = <eval (<serv.rtime.format %Y> * 10000) + (<serv.rtime.format %m> * 100) + <serv.rtime.format %d>>
+    if (<local.curr_date> > <findid.i_quest_log.tag0.daily_<hval <args>>>)
+      findid.i_quest_log.tag0.daily_<hval <args>> = 
+      findid.i_quest_log.tag0.done = <findid.i_quest_log.tag0.done> &~ <hval <args>>
+      return 0
+    endif
+  endif
+  return 1
+endif
+return 0
+
+
+// Check whether the player has active quest
+[FUNCTION f_check_sq_active] // args - quest mask, example: if <f_check_sq_active sq_xxx>
+if !<findid.i_quest_log>
+  return 0
+elseif (<findid.i_quest_log.more> & <args>)
+  return 1
+endif
+return 0
+
+// Check whether the player has completed the quest
+[FUNCTION f_check_sq_completed] // args - quest mask, example: if <f_check_sq_complete sq_xxx>
+if !<findid.i_quest_log>
+  return 0
+elseif (<findid.i_quest_log.more2> & <args>)
+  return 1
+endif
+return 0
+
+// Mark the quest as active
+[FUNCTION f_start_sq] // args - quest mask, example: f_start_sq sq_xxx
+if !<findid.i_quest_log>
+  serv.newitem i_quest_log
+  new.more = <hval <args>>
+  new.cont = <uid>
+else
+  findid.i_quest_log.more |= <hval <args>>
+endif
+return 1
+
+// Mark the quest as completed
+[FUNCTION f_complete_sq] // args - quest mask, example: f_complete_sq sq_xxx
+if !<findid.i_quest_log>
+  serv.newitem i_quest_log
+  new.more2 = <hval <args>>
+  new.cont = <uid>
+else
+  findid.i_quest_log.more2 |= <hval <args>>
+  if <findid.i_quest_log.more> & <args>
+    findid.i_quest_log.more = <findid.i_quest_log.more> &~ <args>
+  endif
+endif
+return 1
+
+// Mark the quest as done (passed to NPC)
+[FUNCTION f_pass_sq] // args - quest mask, example: f_pass_sq sq_xxx
+if !<findid.i_quest_log>
+  serv.newitem i_quest_log
+  new.tag.done = <hval <args>>
+  new.cont = <uid>
+else
+  findid.i_quest_log.tag0.done |= <hval <args>>
+  if <findid.i_quest_log.more2> & <args>
+    findid.i_quest_log.more2 = <findid.i_quest_log.more2> &~ <args>
+  endif
+endif
+// Save date in format "YYYYMMDD" for daily quests
+if <f_is_sq_daily <args>>
+  src.findid.i_quest_log.tag.daily_<hval <args>> = <eval (<serv.rtime.format %Y> * 10000) + (<serv.rtime.format %m> * 100) + <serv.rtime.format %d>>
+endif
+return 1
+
+//================================== Events ====================================
+[EVENTS e_quest_npc]
+ON=@GetHit
+  return 1
+
+//================================== Types =====================================
+[TYPEDEF t_quest_item]
+ON=@Click
+  if <amount> > 1
+    message @iq_quest <amount> <name>s
+  else
+    message @iq_quest <name>
+  endif
+  return 1
+
+ON=@Create
+  Attr=04
+
+ON=@DropOn_Ground
+  cont = <src.findlayer(21).uid>
+  return 1
+
+ON=@DropOn_Char
+  cont = <src.findlayer(21).uid>
+  return 1
+
+ON=@DropOn_Item
+  if (<argo.type> == t_eq_trade_window)
+    cont = <src.findlayer(21).uid>
+  endif
+  if (<argo.type> == t_eq_bank_box) || (<argo.cont> == <src.uid>)
+    return 0
+  endif
+  cont = <src.findlayer(21).uid>
+  return 1
+
+
+//================================== Items =====================================
+[ITEMDEF i_quest_log] // tag.done - mask for quests done (passed to NPC)
+ID = i_memory         // more1 - mask for active quests
+TYPE = t_eq_script    // more2 - mask for completed quests (need to pass to NPC)
+NAME = Quest Log item // tag.daily_xxx - date of the daily quest xxx completion
+
+
+[ITEMDEF i_ancient_coin] // daily quest reward for lvl 3+ chars
+ID = 0e1e 
+TYPE = t_quest_item
+NAME = Ancient Coin
+
+ON=@Create
+  attr = 04
+  color = 0492
+  tag.iq = <eval iq_quest>
+
+[ITEMDEF i_gold_coin] // daily quest reward for lvl 2 chars
+ID = 0e1e 
+TYPE = t_quest_item
+NAME = Gold Coin
+
+ON=@Create
+  attr = 04
+  color = 0445
+  tag.iq = <eval iq_quest>
+
+[ITEMDEF i_silver_coin] // daily quest reward for lvl 1 chars and human
+ID = 0e1e 
+TYPE = t_quest_item
+NAME = Silver Coin
+
+ON=@Create
+  attr = 04
+  color = 042c
+  tag.iq = <eval iq_quest>
+
+[ITEMDEF i_bronze_coin] // daily quest reward for newbies
+ID = 0e1e 
+TYPE = t_quest_item
+NAME = Bronze Coin
+
+ON=@Create
+  attr = 04
+  color = 08a5
+  tag.iq = <eval iq_quest>
+
+//==================================== NPC =====================================
+
+//============== Quest 1: A big trouble (sq_old_alchemist) =====================
+[CHARDEF c_sq_old_alchemist]
+NAME=Mortimer
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_old_alchemist
+TEVENTS=e_quest_npc
+
+CATEGORY=Quest
+SUBSECTION=Moonglow
+DESCRIPTION=Old Alchemist
+	
+ON=@Create
+        Title=the Old Alchemist
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_robe
+	COLOR=colors_blue
+	ITEM=random_shoes
+	COLOR=colors_blue
+
+ON=@NPCAcceptItem
+  return 1
+
+ON=@Click
+if (<src.f_check_sq_passed sq_old_alchemist>) 
+  return 0
+elif (<src.f_check_sq_active sq_old_alchemist>)
+  message @0350 ?
+elif (<src.f_check_sq_completed sq_old_alchemist>)
+  message @0445 ?
+elif !(<src.f_check_sq_passed sq_old_alchemist>) && !(<src.f_check_sq_active sq_old_alchemist>)
+  message @0445 !
+endif
+
+
+[events e_quest_old_alchemist]
+ON=@Kill
+  if (<argo.id> == c_h_bandit_m) || (<argo.id> == c_h_bandit_f)
+    local.x = 5
+    src.tag0.bandits_killed +=1
+    if (<src.tag0.bandits_killed> > 4)
+      if !<src.tag0.rus>
+        src.sysmessage @quest You have killed 5 bandits, go to the Old alchemist and complete the quest
+      else
+        src.sysmessage @quest,,1 ?? ????? ??????? ????????, ????????????? ? ??????? ???????? ? ????????? ???????  
+      endif         
+      src.f_complete_sq sq_old_alchemist
+      src.events -e_quest_old_alchemist
+      src.tag0.bandits_killed=
+    else
+      if !<src.tag0.rus>
+        src.sysmessage @quest You need to kill <eval <local.x> - <src.tag0.bandits_killed>> more bandits
+      else
+        src.sysmessage @quest,,1 ??? ????? ????? ??? <eval <local.x> - <src.tag0.bandits_killed>> ????????
+      endif
+    endif
+  endif
+  return 0
+
+[SPEECH spk_old_alchemist]
+ON=quest
+ON=???????
+ON=?????
+ON=?????
+
+if (<src.f_check_sq_passed sq_old_alchemist>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ??? ????????? ???? ?????
+  else
+    say @npc_speech_good  You have already done this quest
+  endif
+elif (<src.f_check_sq_active sq_old_alchemist>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????????? ?? ??? ????? ?????? ???? ????????
+  else
+    say @npc_speech_good  Come to me when you kill five bandits
+  endif
+elif (<src.f_check_sq_completed sq_old_alchemist>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??????? ??? ?? ?????????? ???? ????????! ??????? ???? ???????!
+  else
+    say @npc_speech_good  Thank you for solving my problem! Take your reward!
+  endif
+  src.f_pass_sq sq_old_alchemist
+  serv.newitem=i_new_elixir
+  new.cont=<src.uid>
+  new.link=<src.uid>
+  src.events -e_quest_old_alchemist
+elif !(<src.f_check_sq_completed sq_old_alchemist>) && !(<src.f_check_sq_active sq_old_alchemist>)
+  if <src.tag0.rus>
+    sdialog d_quest_old_alchemist_rus <uid>
+  else
+    sdialog d_quest_old_alchemist_eng <uid>
+  endif
+endif
+
+on=hi
+on=hello
+on=???????????
+on=??????
+on=??????????
+on=????????????
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ???????????!
+  else
+    say @npc_speech_good  Greetings!
+  endif 
+
+
+[ITEMDEF i_new_elixir]
+ID = 6188
+NAME = Strange Elixir
+
+ON=@Click
+  message @ic_rare <link.name>'s <name>
+  return 1
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+
+ON=@Dclick  
+  if <cont> != <src.findlayer(21).uid>
+    if <src.tag0.rus>
+      src.sysmessage @55,,1 ??? ?????? ?????????? ? ????? ??????? 
+    else
+      src.sysmessage @55 This must be in your pack to use
+    endif
+    return 1
+  endif
+  if (<link.uid> != <src.uid>)
+    if <src.tag0.rus>
+      src.message @error,,1 ???? ??????? ?? ??????????? ???. ?? ?? ?????? ??? ????!
+    else
+      src.message @error You can't drink this elixir. It's not yours!
+    endif
+    return 1
+  endif
+  src.f_upd_modstr 15
+  src.moddex +=15
+  src.modint +=30
+  src.emote drink strange elixir
+  if <src.tag0.rus>
+    src.sysmessage @info,,1 ?? ?????????? ???????? ?????? ????????! (????? ????????: 30 ?????)
+  else
+    src.sysmessage @info You feel refreshing effect of the elixir (duration: 30 minutes) 
+  endif
+  serv.newitem=i_elixir_memory
+  new.cont=<src.uid>
+  new.timer=30*60
+  remove
+  return 1
+
+[ITEMDEF i_elixir_memory]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Elixir Memory
+
+ON=@Timer
+  cont.f_upd_modstr -15
+  cont.moddex -=15
+  cont.modint -=30
+  remove
+  return 1
+
+
+[DIALOG d_quest_old_alchemist_rus]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+//resizepic 122 66 5054 413 329
+//resizepic 122 100 3000 413 150
+
+dtext 128 70 15 ???????? ??????? :
+dtext 280 70 15 ??????? ????????.
+dtext 128 100 0 ??? ??????? ?????? ???? ???????, ?????? ???? ???
+dtext 128 120 0 ?????????? ? ???????? ??????? : ???????, ?????,
+dtext 128 140 0 ??????? ??? ??????. ????? ???? ?? ??? ?? ???????? 
+dtext 128 160 0 ????, ?? ??? ?????? ??? ???????? ??? ???? ?????
+dtext 128 180 0 ?????????! ???? ??? ??? ???? ?????? ????!
+dtext 128 200 0 ? ????? ???? ?????? ????????, ???? ??? ???? 
+dtext 128 220 0 ??????? ???????? ? ? ???? ????????????.
+//dtext 128 240 0 New Label
+//dtext 128 260 0 New Label
+dtext 128 300 15 ? ??????? ?? ????????:
+dtext 325 300 5 ??? ????? ???????
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_old_alchemist_rus button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : A big trouble
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ??????? ????????  
+endif
+src.f_start_sq sq_old_alchemist
+src.events +e_quest_old_alchemist
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ? ?????? ??????? ?????
+  else
+    say @npc_speech_good  I am too busy right now
+  endif 
+
+
+[DIALOG d_quest_old_alchemist_eng]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 Quest name :
+dtext 270 70 15 A big trouble.
+dtext 128 100 0 These bandits are driving me crazy, every night they
+dtext 128 120 0 drink much and start to brawl : fighting, yelling,
+dtext 128 140 0 smashing everything. It would not be a problem if they  
+dtext 128 160 0 didn't touched me, but they bother me and iterrupt my 
+dtext 128 180 0 work on my new elixir! Once they even beat me!
+dtext 128 200 0 I am asking for your help stranger, kill five bandits for 
+dtext 128 220 0 me and I will acknowledge you.
+//dtext 128 240 0 New Label
+//dtext 128 260 0 New Label
+dtext 128 300 15 As reward you will get:
+dtext 325 300 5 My new elixir
+//dtext 325 320 5 
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_old_alchemist_eng button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : A big trouble
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ??????? ????????  
+endif
+src.f_start_sq sq_old_alchemist
+src.events +e_quest_old_alchemist
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ? ?????? ??????? ?????
+  else
+    say @npc_speech_good  I am too busy right now
+  endif 
+
+
+
+//==================== Quest 2: Richy Bob (sq_farmer_1) ========================
+[CHARDEF c_sq_farmer_1]
+NAME=Archibald
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_farmer_1
+TEVENTS=e_quest_npc
+
+CATEGORY=Quest
+SUBSECTION=Moonglow
+DESCRIPTION=Farmer 1 Archibald
+	
+ON=@Create
+        Title=the Farmer
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_crook_thin
+	ITEM=i_hat_straw_tall
+	Item=i_sandals
+	ITEM=i_shirt_plain
+	ITEM = i_pants_short
+        COLOR = colors_gray
+
+ON=@NPCAcceptItem
+  return 1
+
+ON=@Click
+if (<src.f_check_sq_passed sq_farmer_1>) || (<src.tag0.points> < 500)
+  return 0
+elif (<src.f_check_sq_active sq_farmer_1>)
+  message @0350 ?
+elif (<src.f_check_sq_completed sq_farmer_1>)
+  message @0445 ?
+elif !(<src.f_check_sq_passed sq_farmer_1>) && !(<src.f_check_sq_active sq_farmer_1>)
+  message @0445 !
+endif
+
+
+[events e_quest_farmer_1]
+ON=@Kill
+  local.x=5
+  if (<argo.id> == c_cow_1) 
+    src.tag0.cow_1_killed += 1
+    if !<src.tag0.rus>
+      src.sysmessage @quest You have killed Bob's Cow.
+    else
+      src.sysmessage @quest,,1 ?? ????? ?????? ????.    
+    endif
+    if (<src.tag0.cow_1_killed> < 5)
+      if !<src.tag0.rus>
+        src.sysmessage @quest You need to kill <eval <local.x> - <src.tag0.cow_1_killed>> more cows
+      else
+        src.sysmessage @quest,,1 ??? ???? ????? ??? <eval <local.x> - <src.tag0.cow_1_killed>> ??????    
+      endif
+    endif
+  elseif (<argo.id> == c_bull_1) && !(<src.tag0.bull_1_killed>)
+    src.tag0.bull_1_killed = 1
+      if !<src.tag0.rus>
+        src.sysmessage @quest You have killed Bob's Bull
+      else
+        src.sysmessage @quest,,1 ?? ????? ???? ????   
+      endif
+  endif
+  if (<src.tag0.cow_1_killed> > 4) && (<src.tag0.damaged_bear_rug>) && (<src.tag0.bull_1_killed>)
+    if !<src.tag0.rus> 
+      src.sysmessage @quest You have completed the Archibald quest, go to him and pass the quest 
+    else
+        src.sysmessage @quest,,1 ?? ????????? ??????? ??????????, ????????????? ? ???? ? ?????? ???????   
+    endif
+    src.f_complete_sq sq_farmer_1
+    src.events -e_quest_farmer_1
+    src.tag0.cow_1_killed=
+    src.tag0.bull_1_killed=
+    src.tag0.damaged_bear_rug=
+  endif
+
+[CHARDEF c_cow_1]
+ID = c_cow_bw
+NAME = Cow
+MOVERATE = 100
+
+on=@create
+  npc = brain_animal
+  str = 300
+  dex = 150
+  maxhits = 300
+
+[CHARDEF c_bull_1]
+ID = c_bull_brown_dk
+NAME = Bull
+MOVERATE = 100
+
+ON=@Create
+  npc = brain_animal
+  str = 300
+  dex = 150
+  maxhits = 300
+
+[itemdef i_bottle_peroxide]
+id=3838
+name=Bottle of Peroxide
+tevents=t_quest_item
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+
+on=@dclick
+if (<link.uid> != <src.uid>)
+  src.message @error You can't use this. It's not yours!
+  return 1
+endif
+target Target the bear rug.
+return 1
+
+on=@targon_ground
+target Target the bear rug.
+return 1
+
+on=@targon_char
+target Target the bear rug.
+return 1
+
+on=@targon_item
+if (<argo.baseid> == i_rug_bearskin_1)
+  src.emote squirt peroxide on the Bob's bear rug
+  src.tag0.damaged_bear_rug=1
+
+    if (<src.tag0.cow_1_killed> > 4) && (<src.tag0.damaged_bear_rug>) && (<src.tag0.bull_1_killed>) 
+      if !<src.tag0.rus> 
+        src.sysmessage @quest You have completed the Archibald quest, go to him and pass the quest 
+      else
+        src.sysmessage @quest,,1 ?? ????????? ??????? ??????????, ????????????? ? ???? ? ?????? ???????   
+      endif
+      src.f_complete_sq sq_farmer_1
+      src.events -e_quest_farmer_1
+      src.tag0.cow_1_killed=
+      src.tag0.bull_1_killed=
+      src.tag0.damaged_bear_rug=
+    endif
+remove
+endif
+else  
+target Target the bear rug.
+endif
+return 1
+
+[SPEECH spk_farmer_1]
+ON=quest	
+ON=???????	
+ON=?????
+ON=?????
+if (<src.tag0.points> < 500)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ??? ??????? ????? ??? ????? ???????.
+    src.sysmessage @55,,1 ??? ?????????? ????? 500 ??? ????? ????? ???????? ??? ???????
+  else
+    say @npc_speech_good  You are too young for this quest.
+    src.sysmessage @55 You need at least 500 PvP points to take this quest.
+  endif
+return 1
+endif
+if (<src.f_check_sq_active sq_farmer_1>) && (!<src.findid.i_bottle_peroxide>) && (!<src.findlayer(29).findid.i_bottle_peroxide>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ???????? ??????? ????????? ??????? ??? ????.
+  else
+    say @npc_speech_good  You have lost a bottle of peroxide? Take another one.
+  endif
+  serv.newitem=i_bottle_peroxide
+  new.cont=<src.uid>
+  new.link=<src.uid>
+elif (<src.f_check_sq_passed sq_farmer_1>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ??? ????????? ???? ?????
+  else
+    say @npc_speech_good  You have already done this quest
+  endif
+elif (<src.f_check_sq_active sq_farmer_1>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????????? ?? ??? ????? ?????? ???? ?????, ?????? ???? ? ????????? ?????.
+  else
+    say @npc_speech_good  Come to me when you kill five cows, one bull and damage the rug.
+  endif
+elif (<src.f_check_sq_completed sq_farmer_1>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??????? ??? ?? ?????????? ???? ????????! ??????? ???? ???????!
+  else
+    say @npc_speech_good  Thank you for solving my problem! Take your reward!
+  endif
+  src.f_pass_sq sq_farmer_1
+  src.f_gain_credits 100
+  src.events -e_quest_farmer_1
+elif !(<src.f_check_sq_completed sq_farmer_1>) && !(<src.f_check_sq_active sq_farmer_1>)
+  if <src.tag0.rus>
+    sdialog d_quest_farmer_1_rus <uid>
+  else
+    sdialog d_quest_farmer_1_eng <uid>
+  endif
+endif
+
+on=hi
+on=hello
+on=???????????
+on=??????
+on=??????????
+on=????????????
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??????, ???? ?????
+  else
+    say @npc_speech_good  Hi, what do you want?
+  endif 
+
+/////////////////////////////////////////////////////////////////|
+[DIALOG d_quest_farmer_1_rus]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 ???????? ??????? :
+dtext 280 70 15 ??????????? ???.
+dtext 128 100 0 ?? ???-???? ????? ??? ??????? ???, ?? ??? ???.
+dtext 128 120 0 ???? ?????? ???? ?????? ???, ?? ?????? ???????? 
+dtext 128 140 0 ?????? ???? ????? ????????? : ?? ? ???? ????? 
+dtext 128 160 0 ??????, ?? ?? ????? ???? ???????? ?????. ? ? ????? 
+dtext 128 180 0 ???????, ??? ? ?? ????? ???????? ?????? ???????
+dtext 128 200 0 5 ??? ????? ? 1 ????, ?? ??, ??? ??? ???.. ??????  
+dtext 128 220 0 ??? ???????? ? ????? ?? ?? ???????? ????? ????.
+dtext 128 240 0 ?????? ??????? ?? ?????????, ? ???? ???????????.
+dtext 128 300 15 ? ??????? ?? ????????:
+dtext 325 300 5 100 ????????
+//dtext 325 320 5 ????? ?????
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_farmer_1_rus button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Richy Bob
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ??????????? ???
+endif
+src.f_start_sq sq_farmer_1
+src.events +e_quest_farmer_1
+serv.newitem=i_bottle_peroxide
+new.cont=<src.uid>
+new.link=<src.uid>
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????? ? ???? ??????
+  else
+    say @npc_speech_good  Get out of my way
+  endif 
+
+
+[DIALOG d_quest_farmer_1_eng]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 Quest name :
+dtext 270 70 15 Richy Bob.
+dtext 128 100 0 Huh.. so you decided to help me? Hehe, so. This
+dtext 128 120 0 farmer Bob drives me crazy, he always praise 
+dtext 128 140 0 himself with his valuables : he has more cows,
+dtext 128 160 0 he bought a bear rug. Am I guilty that iam not 
+dtext 128 180 0 so rich? So kill 5 his cows and 1 bull, oh and
+dtext 128 200 0 take this potion and spread it on his bear rug  
+dtext 128 220 0 Dont bother about the reward, i will acknowledge
+dtext 128 240 0 you.
+//dtext 128 260 0 New Label
+dtext 128 300 15 As reward you will get:
+dtext 325 300 5 100 credits
+//dtext 325 320 5 
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_farmer_1_eng button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Richy Bob
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ??????????? ???
+endif
+src.f_start_sq sq_farmer_1
+src.events +e_quest_farmer_1
+serv.newitem=i_bottle_peroxide
+new.cont=<src.uid>
+new.link=<src.uid>
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????? ? ???? ??????
+  else
+    say @npc_speech_good  Get out of my way
+  endif 
+
+
+//==================== Quest 3: Cunning Bruce (sq_farmer_2) ========================
+[chardef c_sq_farmer_2]
+NAME=Bob
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_farmer_2
+TEVENTS=e_quest_npc
+
+CATEGORY=Quest
+SUBSECTION=Moonglow
+DESCRIPTION=Farmer 2 Bob
+	
+ON=@Create
+        Title=the Rich Farmer
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_crook_thin
+	ITEM=i_hat_straw_tall
+	Item=i_sandals
+	ITEM=i_shirt_plain
+	ITEM = i_pants_short
+        COLOR = colors_gray
+
+ON=@NPCAcceptItem
+  return 1
+
+on=@NPCSEENEWPLAYER
+if !<src.f_check_sq_passed sq_farmer_1>
+  return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ???, ??? ?? ?? ?? ???????? ??? ????? ?????, <src.name>?
+  else
+    say @npc_speech_good  Was it you who damaged my rug  <src.name>?
+  endif 
+
+ON=@Click
+if (<src.f_check_sq_passed sq_farmer_2>)
+  return 0
+elif (<src.f_check_sq_active sq_farmer_2>)
+  message @0350 ?
+elif (<src.f_check_sq_completed sq_farmer_2>)
+  message @0445 ?
+elif !(<src.f_check_sq_passed sq_farmer_2>) && !(<src.f_check_sq_active sq_farmer_2>)
+  message @0445 !
+endif
+
+
+[SPEECH spk_farmer_2]
+ON=quest	
+ON=???????	
+ON=?????
+ON=?????
+if (<src.f_check_sq_passed sq_farmer_2>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?????????? ?? ????? ????, ?? ??? ???????? ??? ???????
+  else
+    say @npc_speech_good  Get out of my house, you have already done my quest
+  endif
+elif (<src.f_check_sq_active sq_farmer_2>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????????????? ?? ??? ????? ?????? ????? ? ??? ??????, ? ????????? ??? ??????.
+  else
+    say @npc_speech_good  Come to me when you kill the Bruce and his dog, and bring his amulet.
+  endif
+elif (<src.f_check_sq_completed sq_farmer_2>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??????? ??? ?? ?????????? ???? ????????! ??????? ???? ???????!
+  else
+    say @npc_speech_good  Thank you for solving my problem! Take your reward!
+  endif
+  src.f_pass_sq sq_farmer_2
+  src.events -e_quest_farmer_2
+  src.findid.i_sq_necklace_bruce.remove
+    if <src.tag0.good_end>
+      src.f_gain_karma=500
+    else
+      src.f_gain_karma=-500
+    endif
+  src.tag0.good_end=
+  serv.newitem=i_deed_rug_bear
+  new.link=<src.uid>
+  new.cont=<src.uid>
+elif !(<src.f_check_sq_completed sq_farmer_2>) && !(<src.f_check_sq_active sq_farmer_2>)
+  if <src.tag0.rus>
+    sdialog d_quest_farmer_2_rus <uid>
+  else
+    sdialog d_quest_farmer_2_eng <uid>
+  endif
+endif
+
+on=??????
+on=hello
+on=???????????
+on=??????????
+on=????????????
+on=hi
+  if <src.tag0.rus>
+    dorand 2
+      sayua npc_speech_good ,,,, ??????????, ? ???? ??? ???????
+      sayua npc_speech_good ,,,, ?? ??? ????
+  else
+    dorand 2
+      say @npc_speech_good  Get out, i have no time
+      say @npc_speech_good  Where have you been??
+  endif 
+
+on=?????
+on=running
+on=?????
+  if <src.tag0.rus>
+      sayua npc_speech_good ,,,, ? ?????? ???????? ????? ? ?????? ?? ???????
+  else
+      say @npc_speech_good  Hi, why are you staring at me?
+  endif 
+
+
+
+[DIALOG d_quest_farmer_2_rus]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 ???????? ??????? :
+dtext 280 70 15 ?????? ????.
+dtext 128 100 0 ????? ? ???? ???????? ? ??????? ?????. ??? ??? ?? 
+dtext 128 120 0 ?????, ?? ??????? ???????. ??? ????? ?? ????? ?
+dtext 128 140 0 ???? ??????. ???? ??? ? ??????? ??? ??? ??????.
+dtext 128 160 0 ?? ??, ???? ?? ?????, ???? ??? ??? ??????. 
+dtext 128 180 0 ???? ?????????, ??? ??? ?????????? ? ?? ??????
+dtext 128 200 0 ????? ? ????? ???????.
+dtext 128 220 0  
+dtext 128 240 33 ??????????: ?????????? ????? ??????? ???????? ??
+dtext 128 260 33  ???? ?????
+dtext 128 300 15 ? ??????? ?? ????????:
+dtext 325 300 5 ???????? ?????
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_farmer_2_rus button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Cunning Bruce
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ?????? ????
+endif
+src.f_start_sq sq_farmer_2
+src.events +e_quest_farmer_2
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????? ? ???? ??????
+  else
+    say @npc_speech_good  Get out of my way
+  endif 
+
+
+[DIALOG d_quest_farmer_2_eng]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 Quest name :
+dtext 280 70 15 Cunning Bruce.
+dtext 128 100 0 Let me tell about the farmer Bruce. Everything 
+dtext 128 120 0 that his has, he got by fraud. Nobody loves him in
+dtext 128 140 0 this town. Kill him and bring me his amulet. Ah
+dtext 128 160 0 yes, i nearly forgot, kill his dog too. Be 
+dtext 128 180 0 careful, his house is under protection and he 
+dtext 128 200 0 always sit in his room.
+dtext 128 220 0  
+dtext 128 240 23 Notice: completing this quest will affect
+dtext 128 260 23 your karma
+dtext 128 300 15 As reward you will get:
+dtext 325 300 5 Bear rug
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_farmer_2_eng button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Cunning Bruce
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ?????? ????
+endif
+src.f_start_sq sq_farmer_2
+src.events +e_quest_farmer_2
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????? ? ???? ??????
+  else
+    say @npc_speech_good  Get out of my way
+  endif 
+
+[DIALOG d_karma_question]
+0,0
+gumppic 100 100 2500            // Background
+ 
+dtext 135 130 0 This action will 
+dtext 135 145 0 lower your karma
+ 
+button 210 210 1153 1154 1 0 1
+button 250 210 1150 1151 1 0 2
+
+[DIALOG d_karma_question button]
+ON=1
+  src.ctag0.attack=1
+
+ON=2
+  src.action = -1
+  src.flags = <src.flags> &~ statf_war
+
+
+[events e_quest_farmer_2]
+ON=@Kill
+  if (<argo.id> == c_dog_2) && !(<src.tag0.dog_2_killed>)
+    src.tag0.dog_2_killed=1
+	if !<src.tag0.rus>
+	  src.sysmessage @quest You have killed Bruce's Dog
+	else
+	  src.sysmessage @quest,,1 ?? ????? ?????? ?????
+	endif
+  endif
+  if (<src.tag0.dog_2_killed>) && (<src.findid.i_sq_necklace_bruce>) 
+      if !(<src.tag0.good_end>) 
+        if !<src.tag0.rus>
+          src.sysmessage @quest You have completed the Bob's quest, go to him and pass the quest 
+	else
+          src.sysmessage @quest,,1 ?? ????????? ??????? ????, ????????????? ? ???? ? ?????? ???????	
+	endif
+      else
+        if !<src.tag0.rus>
+          src.sysmessage @quest You have completed the Bob's quest with a good end! Go to him and pass the quest 
+	else
+          src.sysmessage @quest,,1 ?? ???????????? ????????? ??????? ????, ????????????? ? ???? ? ?????? ???????	
+	endif        
+      endif
+    src.f_complete_sq sq_farmer_2
+    //src.events -e_quest_farmer_2
+    src.tag0.dog_2_killed=
+  endif
+
+on=@ITEMPICKUP_SELF
+if (<argo.baseid> == i_sq_necklace_bruce) && (<src.findid.i_sq_necklace_bruce>)
+  return 1
+endif
+if (<argo.baseid> == i_sq_necklace_bruce) 
+  argo.link=<src.uid>
+  argo.bounce=<src.uid>
+  if (<src.tag0.dog_2_killed>) 
+    if !(<src.tag0.good_end>) 
+      if !<src.tag0.rus>
+        src.sysmessage @quest You have completed the Bob's quest, go to him and pass the quest 
+      else
+        src.sysmessage @quest,,1 ?? ????????? ??????? ????, ????????????? ? ???? ? ?????? ???????	
+      endif
+    else
+      if !<src.tag0.rus>
+        src.sysmessage @quest You have completed the Bob's quest with a good end! Go to him and pass the quest 
+      else
+        src.sysmessage @quest,,1 ?? ???????????? ????????? ??????? ????, ????????????? ? ???? ? ?????? ???????	
+      endif        
+    endif
+    src.f_complete_sq sq_farmer_2
+    //src.events -e_quest_farmer_2
+    src.tag0.dog_2_killed=
+  endif
+endif
+
+
+[CHARDEF c_dog_2]
+ID = c_dog
+NAME = Dog
+MOVERATE = 100
+
+on=@create
+  npc = brain_animal
+  str = 300
+  dex = 150
+  maxhits = 300
+
+
+[chardef c_sq_farmer_3]
+NAME=Bruce
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_farmer_3
+//TEVENTS=e_quest_npc
+
+CATEGORY=Quest
+SUBSECTION=Moonglow
+DESCRIPTION=Farmer 3 Bruce
+	
+ON=@Create
+        Title=the Rich Farmer
+        //FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={150 200}
+	DEX={71 85}
+	INT={86 100}
+        tag.name.hue = 55
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEMnewbie=i_crook_thin
+	ITEMnewbie=i_hat_straw_tall
+	Itemnewbie=i_sandals
+	ITEMnewbie=i_shirt_plain
+	color = 035
+	ITEMnewbie = i_pants_short
+        COLOR = 0455
+
+ON=@NPCAcceptItem
+  return 1
+
+on=@deathcorpse
+  serv.newItem=i_sq_necklace_bruce
+  new.cont=<argo.uid>
+
+on=@gethit
+if <src.f_check_sq_active sq_farmer_2> && !<src.ctag0.attack>
+    sdialog d_karma_question
+endif
+
+if (<R1,15> > 7)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??????!
+  else
+    say @npc_speech_good  Guards! // eng
+  endif 
+forchars 12
+  if (<id> == c_sq_security)
+    goto <src.p.x> <src.p.y>
+    attack <src.uid>
+  endif
+endfor
+endif
+
+
+on=@NPCSEENEWPLAYER
+if (<src.f_check_sq_completed sq_farmer_2>) || (<src.tag0.good_end>) || (<src.f_check_sq_passed sq_farmer_2>) || !(<src.f_check_sq_active sq_farmer_2>)
+  return 1
+else
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??? ?? ???? ????????? ?? [??????] ????!
+  else
+    say @npc_speech_good  How did u come here?? Don't [kill] me! // eng
+  endif 
+endif
+
+[SPEECH spk_farmer_3]
+
+on=??????
+on=kill
+if (<src.f_check_sq_completed sq_farmer_2>) || (<src.tag0.good_end>) || (<src.f_check_sq_passed sq_farmer_2>) || !(<src.f_check_sq_active sq_farmer_2>) 
+  return 1
+else
+  if <src.tag0.rus>
+      sayua npc_speech_good ,,,, ? ???? ????? [??????] ?????? ?? ?????? ????!
+  else
+      say @npc_speech_good  I will give the [amulet], but don't kill me!  // eng
+  endif
+endif
+
+on=??????
+on=amulet
+if <src.f_check_sq_active sq_farmer_2> 
+    sdialog d_karma_question2
+endif
+
+
+[DIALOG d_karma_question2]
+0,0
+gumppic 100 100 2500            // Background
+ 
+dtext 135 130 0 This action will 
+dtext 135 145 0 raise your karma
+ 
+button 210 210 1153 1154 1 0 1
+button 250 210 1150 1151 1 0 2
+
+[DIALOG d_karma_question2 button]
+ON=1
+if (<src.f_check_sq_completed sq_farmer_2>) || (<src.tag0.good_end>) || (<src.f_check_sq_passed sq_farmer_2>) || !(<src.f_check_sq_active sq_farmer_2>)
+  return 1
+else
+if !(<src.f_check_sq_completed sq_farmer_2>) && !(<src.f_check_sq_passed sq_farmer_2>)
+  src.tag0.good_end=1
+  serv.newItem=i_sq_necklace_bruce
+  new.cont = <src.findlayer(21).uid>
+  if !<src.tag0.rus>
+    src.sysmessage @quest You have completed the Bob's quest with a good end! Go to him and pass the quest 
+  else
+    src.sysmessage @quest,,1 ?? ???????????? ????????? ??????? ????, ????????????? ? ???? ? ?????? ???????	
+  endif 
+  src.f_complete_sq sq_farmer_2
+  //src.events -e_quest_farmer_2
+  src.tag0.dog_2_killed=
+  if <src.tag0.rus>
+      sayua npc_speech_good ,,,, ????? ???, ??????? ?? ???? ????????????
+  else
+      say @npc_speech_good  Take it, thank you for your ???????????? // eng
+  endif
+endif
+
+
+on=hello
+on=???????????
+on=??????
+on=??????????
+on=????????????
+on=hi
+if (<src.f_check_sq_completed sq_farmer_2>) || (<src.tag0.good_end>) || (<src.f_check_sq_passed sq_farmer_2>) || !(<src.f_check_sq_active sq_farmer_2>) 
+  return 1
+else
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??? ?? ???? ????????? ?? [??????] ????!
+  else
+    say @npc_speech_good  How did u come here?? Don't [kill] me! // eng
+  endif 
+endif
+
+[itemdef i_sq_necklace_bruce]
+id=i_necklace_gold_beads
+type = t_script
+name=Bruce's Necklace
+tevents=t_quest_item
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+ 
+on=@PICKUP_PACK
+if  !(<src.f_check_sq_active sq_farmer_2>)
+  return 1
+endif
+
+[CHARDEF c_sq_security]
+NAME=Bruce's Bodyguard
+ID=C_MAN
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_RUN
+Dam=30,40
+ARMOR=120
+//ALIGNMENT=EVIL
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Refuse
+TEVENTS=e_npc_evil 
+
+ON=@Create
+	Karma=-10000
+	STR={200 300}
+	DEX=200
+        Maxhits={350 400}
+	INT=100
+	magicresistance={80.0 90.0}
+        evaluatingintel={80.0 90.0}
+        //swordsmanship={80.0 95.0}
+       // magery={85.0 95.0}
+	NPC=brain_monster
+        tag0.lvl=<R1,2>
+        f_gain_stats_melee
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+	ITEMNEWBIE=i_shirt_plain
+	COLOR=colors_all
+	ITEMNEWBIE=random_pants
+	COLOR=colors_all
+	ITEMNEWBIE=random_shoes
+	COLOR=colors_neutral
+	ITEMNEWBIE=i_skull_cap
+	COLOR=colors_all
+	ITEMNEWBIE=random_sword
+
+ON=@NPCRestock
+	CATEGORY=Monsters
+	SUBSECTION=Moonglow
+	DESCRIPTION=Security
+
+
+[ITEMDEF i_deed_rug_bear]
+ID = i_deed
+TYPE = t_script
+NAME = Bear rug deed
+
+ON=@click
+  message @ic_rare <link.name>'s <name>
+  return 1
+
+ON=@Create
+  attr=04
+  tag.no_relink = 1
+
+ON=@Dclick
+  if <cont> != <src.findlayer(21).uid>
+    if <src.tag0.rus>
+      src.sysmessage @55,,1 ??? ?????? ?????????? ? ????? ??????? 
+    else
+      src.sysmessage @55 This must be in your pack to use
+    endif
+    return 1
+  endif
+  if <link> != <src.uid>
+    if <src.tag0.rus>
+      src.message @55,,1 ???? ??????? ?? ??????????? ???!
+    else
+      src.message @55 This item is not yours!
+    endif
+    return 1
+  endif
+  if !(<uid.<src.region.uid>.more1> == <src.uid>)
+    src.sysmessage @55 You can place this in your own house only!
+    return 1
+  endif
+  if (<src.dir> == 0) || (<src.dir> == 4)
+    src.f_place_rug_bear_s
+  else
+    src.f_place_rug_bear_e
+  endif
+  remove
+  return 1
+
+
+[function f_place_rug_bear_s]
+local.x=9
+local.id=7734
+while <local.x> 
+  serv.newitem=<local.id>
+  ref<local.x>=<new.uid>
+    if (<local.id> == 7735) 
+      new.events +t_rug_bear
+    endif
+  new.attr=010
+  new.more1=1
+  new.p=<p>
+  doswitch <local.x>-1
+    new.move nw
+    new.move n
+    new.move ne
+    new.move e
+    new.move
+    new.move w
+    new.move sw
+    new.move s
+    new.move se
+  enddo
+  local.id +=1
+  local.x -=1
+endwhile
+ref1.link=<ref2.uid>
+ref2.link=<ref3.uid>
+ref3.link=<ref4.uid>
+ref4.link=<ref5.uid>
+ref5.link=<ref6.uid>
+ref6.link=<ref7.uid>
+ref7.link=<ref8.uid>
+ref8.link=<ref9.uid>
+ref9.link=<ref1.uid>
+
+
+[function f_place_rug_bear_e]
+local.x=9
+local.id=7744
+while <local.x> 
+  serv.newitem=<local.id>
+  ref<local.x>=<new.uid>
+    if (<local.id> == 7745) 
+      new.events +t_rug_bear
+    endif
+  new.attr=010
+  new.more1=1
+  new.p=<p>
+  doswitch <local.x>-1
+    new.move nw
+    new.move w
+    new.move sw
+    new.move s
+    new.move 
+    new.move n
+    new.move ne
+    new.move e
+    new.move se
+  enddo
+  local.id +=1
+  local.x -=1
+endwhile
+ref1.link=<ref2.uid>
+ref2.link=<ref3.uid>
+ref3.link=<ref4.uid>
+ref4.link=<ref5.uid>
+ref5.link=<ref6.uid>
+ref6.link=<ref7.uid>
+ref7.link=<ref8.uid>
+ref8.link=<ref9.uid>
+ref9.link=<ref1.uid>
+
+[typedef t_rug_bear]
+ON=@Dclick
+  if (<uid.<region.uid>.more1> == <src.uid>)
+    if <distance> > 2
+      src.sysmessage @55 You are too far away
+      return 1
+    endif
+    remove
+    link.remove
+    link.link.remove
+    link.link.link.remove
+    link.link.link.link.remove
+    link.link.link.link.link.remove
+    link.link.link.link.link.link.remove
+    link.link.link.link.link.link.link.remove
+    link.link.link.link.link.link.link.link.remove
+    serv.newitem=i_deed_rug_bear
+    new.cont=<src.uid>
+    new.link=<src.uid>
+  endif
+  return 1
+
+
+
+
+//============== Quest 4: Lost parts of telescope (sq_astrologer) =====================
+[CHARDEF c_sq_astrologer]
+NAME=Sanches
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_astrologer
+TEVENTS=e_quest_npc
+
+CATEGORY=Quest
+SUBSECTION=Moonglow
+DESCRIPTION=Astrologer
+	
+ON=@Create
+        Title=the Astrologer
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_robe
+	COLOR=colors_blue
+	ITEM=random_shoes
+	COLOR=colors_blue
+
+ON=@NPCAcceptItem
+  return 1
+
+ON=@Click
+if (<src.f_check_sq_active sq_astrologer2>)
+  message @0350 ?
+elif (<src.f_check_sq_completed sq_astrologer>) || (<src.f_check_sq_completed sq_astrologer2>)
+  message @0445 ?
+elif (!<src.f_check_sq_active sq_astrologer2>) && (<src.f_check_sq_completed sq_astrologer>)
+  message @0445 !
+elif (<src.f_check_sq_passed sq_astrologer>) || (<src.f_check_sq_passed sq_astrologer2>)
+  return 0
+endif
+
+
+[SPEECH spk_astrologer]
+ON=quest
+ON=???????	
+ON=?????
+ON=?????
+if (!<src.f_check_sq_passed sq_astrologer>) && (<src.f_check_sq_completed sq_astrologer>)
+  if <src.tag0.rus>
+    sdialog d_quest_astrologer_rus <uid>
+    sayua npc_speech_good ,,,, ?? ????? ??!
+  else
+    say @npc_speech_good  You have found it!
+    sdialog d_quest_astrologer_eng <uid>
+  endif
+  return 1
+elif (<src.f_check_sq_active sq_astrologer2>) && (!<src.f_check_sq_completed sq_astrologer2>)
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ????????????? ????? ??????? ???????? ?? ????? ?????????
+  else
+    say @npc_speech_good Come back when you find tha part of my telescope
+  endif
+  return 1
+elif (<src.f_check_sq_completed sq_astrologer2>) && (<src.findid.i_sq_telescope_gears>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ????? ?????? ????????! ??????? ???? ???????!
+  else
+    say @npc_speech_good  You have found the second part! Take your reward!
+  endif
+  src.findid.i_sq_telescope_gears.remove
+  serv.newitem=i_book_of_knowledge
+  new.more1=16
+  new.tag0.value=3
+  new.link = <src.uid>
+  new.cont = <src.findlayer(21).uid>
+  src.f_pass_sq sq_astrologer2
+  return 1
+endif
+
+on=hi
+on=hello
+on=???????????
+on=??????
+on=??????????
+on=????????????
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ???????????!
+  else
+    say @npc_speech_good  Hello!
+  endif
+
+[events e_sq_astrologer]
+on=@itempickup_self
+  if (<argo.baseid> == i_sq_telescope_gears) && !(<src.findid.i_sq_telescope_gears>)
+    if !<src.tag0.rus>
+      src.sysmessage @quest You have completed the Sanches quest, go to him and pass the quest 
+    else
+      src.sysmessage @quest,,1 ?? ????????? ??????? ???????, ????????????? ? ???? ? ?????? ???????	
+    endif
+    src.f_complete_sq sq_astrologer2
+    src.events -e_sq_astrologer
+  endif
+
+
+[itemdef i_sq_barrel]
+id=3703
+name=barrel
+	CATEGORY=Quest
+	SUBSECTION=Moonglow
+	DESCRIPTION=AStrologer Barrel
+
+on=@create
+attr=010
+
+on=@click
+message <name>
+return 1
+
+on=@dclick
+src.emote crash the barrel
+serv.newitem=i_sq_telescope_hoops
+new.p=<p>
+remove
+
+
+[ITEMDEF i_sq_telescope_hoops]
+ID = 7607
+NAME = Telescope Hoops
+TYPE = t_quest_item
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+
+ON=@PICKUP_GROUND
+if (<src.f_check_sq_passed sq_astrologer2>) || (<src.f_check_sq_active sq_astrologer2>) || (<src.f_check_sq_passed sq_astrologer>) || (<src.f_check_sq_active sq_astrologer>)
+  return 1
+endif
+if (<src.f_check_sq_passed sq_astrologer>) || (<src.f_check_sq_active sq_astrologer>) || (<src.f_check_sq_completed sq_astrologer>) 
+  return 1
+endif
+if (<link> == 04fffffff)
+  cont=<src.uid>
+  link=<src.uid>
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ????? ???????? ?? ??????-?? ?????????, ???????? ????-?? ? ??????????? ???????????? ???? ???????
+  else
+    src.sysmessage @quest You have found a part of some mechanism , may be you'll find someone intrested in it around 
+  endif   
+  src.f_start_sq sq_astrologer 
+  src.f_complete_sq sq_astrologer
+endif
+
+ON=@Dclick
+    if <src.tag0.rus>
+      message @quest,,1 ???????? ?? ??????-?? ?????????, ???????? ????-?? ? ??????????? ??? ????????????
+    else
+      message @quest A part of some mechanism, may be you'll find someone intrested in it around
+    endif   
+  return 1
+
+[itemdef i_sq_astrologer_chest]
+id=2475
+name=metal chest
+
+on=@create
+attr=010
+
+on=@dclick
+if !(<src.f_check_sq_active sq_astrologer2>)
+  return 1
+endif
+  empty
+  serv.newitem=i_sq_telescope_gears
+  new.cont=<uid>
+
+[itemdef i_sq_telescope_gears]
+id=4179
+name=Telescope Gears
+type=t_quest_item
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+
+[DIALOG d_quest_astrologer_rus]
+0,0
+page 0
+resizepic 122 66 3000 433 329
+dtext 128 70 15 ???????? ??????? :
+dtext 280 70 15 ?????????? ???????? ????????? II.
+dtext 128 100 0 ??? ????-?? ????? ????????! ?????? ???????? ??
+dtext 128 120 0 ????? ?????????, ?????? ? ?? ???? ???????? ?? 
+dtext 128 140 0 ??????? ??????. ??????? ??? ??????? ??, ?? ?????
+dtext 128 160 0 ????? ????? ???????? ? ???? ?????? ?????? 
+dtext 128 180 0 ????????, ?? ?? ??? ?? ?? ?????? ? ???? ??????
+dtext 128 200 0 ???????????. ?????? ? ????? ????? ????? ????? 
+dtext 128 220 0 ?????. ?? ????? ????? 3 ????! 
+//dtext 128 240 0 New Label
+//dtext 128 260 0 New Label
+dtext 128 300 15 ? ??????? ?? ????????:
+dtext 325 300 5 ????? ??????
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_astrologer_rus button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Lost parts of telescope II
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ?????????? ???????? ????????? II  
+endif
+src.findid.i_sq_telescope_hoops.remove
+src.f_start_sq sq_astrologer2
+src.f_pass_sq sq_astrologer
+src.events +e_sq_astrologer
+
+ON=0
+if <distance> <= 5
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ? ?????? ??????? ?????
+  else
+    say @npc_speech_good  I am too busy right now
+  endif 
+endif
+
+[DIALOG d_quest_astrologer_eng]
+0,0
+page 0
+resizepic 122 66 3000 433 329
+dtext 128 70 15 Quest name :
+dtext 280 70 15 The lost parts of telescope II.
+dtext 128 100 0 ??? ????-?? ????? ????????! Somebody stole my
+dtext 128 120 0 part from the telescope and now i cant watch
+dtext 128 140 0 my lovely stars. Thank you that you have found,
+dtext 128 160 0 the first one, but straight before your come  
+dtext 128 180 0 somebody has stolen another part, could you find?
+dtext 128 200 0 it? I will acknowledge you. By the way i know 
+dtext 128 220 0 when will be the doomsday. It wil be in 3  
+dtext 128 240 0 years!
+//dtext 128 260 0 New Label
+dtext 128 300 15 As reward you will get:
+dtext 325 300 5 Book of knowledge
+//dtext 325 320 5 ??? ????? ???????
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_astrologer_eng button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Lost parts of telescope II
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ?????????? ???????? ????????? II  
+endif
+src.findid.i_sq_telescope_hoops.remove
+src.f_start_sq sq_astrologer2
+src.f_pass_sq sq_astrologer
+src.events +e_sq_astrologer
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ? ?????? ??????? ?????
+  else
+    say @npc_speech_good  I am too busy right now
+  endif 
+
+
+//============== Quest 5: Evil spirit (sq_evil_spirit) =====================
+
+[CHARDEF c_dire_wolf_ghost]
+ID=c_wolf
+NAME = Ghost of Chieftain
+DAM=55,75
+ARMOR=120
+RESOURCES=6 i_ribs_raw, 4 i_fur_dark
+//ALIGNMENT=EVIL
+CAN=MT_WALK
+FOODTYPE=15 t_meat_raw
+//SHELTER==r_forests,r_caves
+DESIRES=C_A_DIREWOLF
+AVERSIONS=r_civilization
+
+DESCRIPTION=Dire Wolf
+SUBSECTION=Land (Wild)
+CATEGORY=Animals
+
+TEVENTS = e_npc_evil
+MOVERATE = 40
+
+ON=@Create
+  NPC = brain_monster
+  KARMA = -8500
+  STR = {200 300}
+  DEX = 200
+  INT = 100
+  MAXHITS = {550 620}
+  MAGICRESISTANCE = {80.0 90.0}
+  evaluatingintel={80.0 90.0}
+  TACTICS = {90.0 100.0}
+  WRESTLING = {90.0 100.0}
+  color = color_spectral
+  tag.lvl = 3
+  f_elite
+  f_gain_stats_melee
+
+on=@death
+if (<act.f_check_sq_completed sq_evil_spirit>) || (<act.f_check_sq_passed sq_evil_spirit>)
+else
+  act.f_start_sq sq_evil_spirit
+  act.f_complete_sq sq_evil_spirit
+    if !<act.tag0.rus>
+      act.sysmessage @quest You feel unpleasant tremor in your body
+    else
+      act.sysmessage @quest,,1 ?? ?????????? ?????????? ????? ?? ????  
+    endif
+endif
+
+
+
+[CHARDEF c_sq_elder]
+NAME=Kahn
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_elder
+TEVENTS=e_quest_npc
+
+CATEGORY=Quest
+SUBSECTION=Moonglow
+DESCRIPTION=Elder
+	
+ON=@Create
+        Title=the Elder
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=i_beard_long
+	ITEMNEWBIE=i_hair_long
+
+ON=@NPCRestock
+	ITEM=i_staff_black
+	ITEM=i_robe
+	COLOR=colors_red
+	ITEM=random_shoes
+	COLOR=colors_red
+
+ON=@NPCAcceptItem
+  return 1
+
+on=@NPCSEENEWPLAYER
+if <src.f_check_sq_completed sq_evil_spirit>
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ??????? ?? ??? <src.name>! ?? ??????? ???? ?????!
+  else
+    say @npc_speech_good  Don't come close to me <src.name>! You are afflicted with an evil spirit!
+  endif
+endif
+
+ON=@Click
+if (<src.f_check_sq_active sq_evil_spirit2>)
+  message @0350 ?
+elif (<src.f_check_sq_completed sq_evil_spirit>) || (<src.f_check_sq_completed sq_evil_spirit2>)
+  message @0445 ?
+elif (!<src.f_check_sq_active sq_evil_spirit2>) && (<src.f_check_sq_completed sq_evil_spirit>)
+  message @0445 !
+elif (<src.f_check_sq_passed sq_evil_spirit>) || (<src.f_check_sq_passed sq_evil_spirit2>)
+  return 0
+endif
+
+
+
+
+[SPEECH spk_elder]
+ON=quest
+ON=???????	
+ON=?????
+ON=?????
+if (!<src.f_check_sq_passed sq_evil_spirit>) && (<src.f_check_sq_completed sq_evil_spirit>)
+  if <src.tag0.rus>
+    sdialog d_quest_evil_spirit_rus <uid>
+    sayua npc_speech_good ,,,, ? ?????????? ???? ??????!
+  else
+    say @npc_speech_good  I will try to help you!
+    sdialog d_quest_evil_spirit_eng <uid>
+  endif
+  return 1
+elif (<src.f_check_sq_active sq_evil_spirit2>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????????? ?? ??? ????? ??????? ???????? ????????, ?????? ??????? ? ?????? ?????.
+  else
+    say @npc_speech_good  Come to me when you find bloomy ginseng, empty bottle and wolf heart.
+  endif
+elif (<src.findid.i_sq_reagent>) && (<src.findid.i_sq_reagent2>) && (<src.findid.i_sq_reagent2>)
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ?? ????? ??? ????????! 
+    sayua npc_speech_good ,,,, ??????? ???? ??????, ? ??? ??????? ??? ???? ???
+  else
+    say @npc_speech_good  You have found all the reagents!
+    say @npc_speech_good  Take this bottle, it contains your evil spirit
+  endif
+  src.f_complete_sq sq_evil_spirit2
+  src.findid.i_sq_reagent.remove
+  src.findid.i_sq_reagent2.remove
+  src.findid.i_sq_reagent3.remove
+  serv.newitem=i_sq_bottle_with_evil_spirit
+  new.cont=<src.findlayer(21).uid>
+  new.link=<src.uid>
+  src.f_pass_sq sq_evil_spirit2
+  src.events -e_sq_evil_spirit
+  return 1
+endif
+
+on=hi
+on=hello
+on=???????????
+on=??????
+on=??????????
+on=????????????
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ??????????-?????????? ?????
+  else
+    say @npc_speech_good  Hello-hello hero
+  endif
+
+
+[DIALOG d_quest_evil_spirit_rus]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 ???????? ??????? :
+dtext 280 70 15 ???? ???.
+dtext 128 100 0 ?? ??????? ?????? ?? ???! ? ??? ?????? ????
+dtext 128 120 0 ??? ?? ??????? ???? ?????. ???? ?????!
+dtext 128 140 0 *? ???? ?????? ?? ????????? ???????*
+dtext 128 160 0 ?? ?? ????? ??, ? ???????. ??? ?? ??? ?? ?
+dtext 128 180 0 ???????. ?????? ??? ?????? ??????, ????????
+dtext 128 200 0 ???????? ???????? ? ?????? ??????. ? ????
+dtext 128 220 0 ????? ?????? ? ?????? ????? ???? ? ???????.
+dtext 128 240 0 ???? ?????? ? ????? ????.
+//dtext 128 260 0 New Label
+dtext 128 300 15 ? ??????? ?? ????????:
+dtext 325 300 5 ?????? ?? ???? ?????
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_evil_spirit_rus button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Evil spirit
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ???? ???  
+endif
+src.f_start_sq sq_evil_spirit2
+src.f_pass_sq sq_evil_spirit
+src.events +e_sq_evil_spirit
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????
+  else
+    say @npc_speech_good  Bye
+  endif 
+
+
+[DIALOG d_quest_evil_spirit_eng]
+0,0
+page 0
+resizepic 122 66 3000 413 329
+dtext 128 70 15 Quest name :
+dtext 280 70 15 Evil spirit.
+dtext 128 100 0 Dont come closer to me! It is visible from 
+dtext 128 120 0 my spot that you are affected with evil  
+dtext 128 140 0 spirit. You will die!
+dtext 128 160 0 *At this moment you start crying*
+dtext 128 180 0 Dont cry, i joked. Its not so scary. Bring
+dtext 128 200 0 me wolf heart, bloomy ginseng and an empty.
+dtext 128 220 0 bottle. I will cure you and immure your 
+dtext 128 240 0 evil spirit in the bottle. This bottle i
+dtext 128 260 0 will give to you
+dtext 128 300 15 As reward you will get:
+dtext 325 300 5 A bottle with evil spirit
+//dtext 325 320 5 
+button 459 360 247 248 1 0 1
+button 131 360 241 242 1 0 0
+
+
+[DIALOG d_quest_evil_spirit_eng button]
+ON=1
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+if !<src.tag0.rus>
+  src.sysmessage @quest You have accepted the quest : Evil spirit
+else
+  src.sysmessage @quest,,1 ?? ???????? ??????? : ???? ???  
+endif
+src.f_start_sq sq_evil_spirit2
+src.f_pass_sq sq_evil_spirit
+src.events +e_sq_evil_spirit
+
+ON=0
+if <distance> > 5
+  src.sysmessage @error You are too far away from <name>
+ return 1
+endif
+  if <src.tag0.rus>
+    sayua npc_speech_good ,,,, ????
+  else
+    say @npc_speech_good  Bye
+  endif 
+
+
+[ITEMDEF i_sq_bottle_with_evil_spirit]
+ID = 6186
+NAME = Bottle with evil spirit
+TYPE = t_script
+
+ON=@Create
+  color=042c
+  attr = 04
+  tag.no_relink = 1
+
+ON=@Click
+  if <tag0.delay> > <serv.time>
+     message @ic_rare Bottle with <link.name>'s evil spirit (<f_convert_time_to_string <eval (<tag0.delay> +- <serv.time>) / 10>>) 
+  else
+    message @ic_rare Bottle with <link.name>'s evil spirit
+  endif
+  return 1
+
+ON=@Dclick
+  if <cont> != <src.findlayer(21).uid>
+    if <src.tag0.rus>
+      src.sysmessage @55,,1 ??? ?????? ?????????? ? ????? ??????? 
+    else
+      src.sysmessage @55 This must be in your pack to use
+    endif
+    return 1
+  endif
+  if (<link> != <src.uid>)
+    if <src.tag0.rus>
+      src.sysmessage @55,,1 ???? ??????? ?? ??????????? ???
+    else
+      src.sysmessage @55 This item doesn't belong to you
+    endif
+    return 1
+  endif
+  if (<tag0.delay> > <serv.time>)
+    src.message @55 You can't use it for more <f_convert_time_to_string <eval (<tag0.delay> +- <serv.time>) / 10>>
+    return 1
+  endif
+  src.sound 0e6
+  src.emote looks very angry
+  src.events +e_sq_bottle_evil_spirit
+  serv.newitem=i_evil_spirit_memory
+  new.cont=<src.uid>
+  new.timer=5*60
+    if <src.tag0.rus>
+      src.sysmessage @info,,1 ???? ?????? ????????? ??????? ?????????? ?????????? ? ??????? ??????????? ?????
+    else
+      src.sysmessage @info Your anger gives you ability to cast faster and to swing your weapon faster
+    endif
+  tag0.delay = <eval <serv.time> + 864000> // 24h delay
+  return 1
+
+[itemdef i_evil_spirit_memory]
+id=i_memory
+type=t_eq_script
+name=Evil Spirit Memory
+
+on=@timer
+cont.events -e_sq_bottle_evil_spirit
+cont.emote lost your evil spirit power
+if <cont.tag0.rus>
+  cont.sysmessage @warning,,1 ???? ?????? ??????
+else
+  cont.sysmessage @warning Your anger gone
+endif
+remove
+return 1
+
+
+[EVENTS e_sq_bottle_evil_spirit]
+ON=@Hittry
+ARGN1 -= (<ARGN1>*15)/100
+
+on=@SPELLCAST
+ARGN3 -= (<ARGN3>*15)/100
+
+[events e_sq_evil_spirit]
+on=@ITEMPICKUP_SELF
+src.timerf 1 f_check_reagents
+
+on=@ITEMPICKUP_GROUND
+src.timerf 1 f_check_reagents
+
+
+[itemdef i_sq_reagent]
+id=7405
+name=Wolf heart
+type=t_quest_item
+
+ON=@Create
+  attr=04
+  tag.no_relink = 1
+
+ON=@PICKUP_PACK
+  if !(<src.f_check_sq_active sq_evil_spirit2>)
+    return 1
+  endif
+  if (<src.findid.i_sq_reagent>) || (<src.findlayer(29).findid.i_sq_reagent>)
+    if (<topobj> == <src.uid>)
+      return 0
+    else
+      return 1
+    endif
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ????? ?????? ?????
+  else
+    src.sysmessage @quest You have found a wolf heart 
+  endif 
+
+
+[itemdef i_sq_reagent2]
+id=6189
+name=Empty Bottle
+type=t_quest_item
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+
+on=@PICKUP_GROUND
+if  !(<src.f_check_sq_active sq_evil_spirit2>)
+  return 1
+endif
+if <src.findid.i_sq_reagent2>
+  return 1
+endif
+if <src.tag0.rus>
+  src.sysmessage @quest,,1 ?? ????? ?????? ??????
+else
+  src.sysmessage @quest You have found an empty bottle
+endif 
+
+
+[itemdef i_sq_reagent3]
+id=6377
+name=Bloomy ginseng
+type=t_quest_item
+
+ON=@create
+  attr=04
+  tag.no_relink = 1
+
+on=@PICKUP_GROUND
+if  !(<src.f_check_sq_active sq_evil_spirit2>)
+  return 1
+endif
+if <src.findid.i_sq_reagent3>
+  return 1
+endif
+if <src.tag0.rus>
+  src.sysmessage @quest,,1 ?? ????? ???????? ???????? ????????
+else
+  src.sysmessage @quest You have found a bloomy ginseng 
+endif  
+
+
+[function f_check_reagents]
+if (<findid.i_sq_reagent>) && (<findid.i_sq_reagent2>) && (<findid.i_sq_reagent3>)
+  if !<tag0.rus>
+    sysmessage @quest You have completed the Kahn's quest, go to him and pass the quest 
+  else
+    sysmessage @quest,,1 ?? ????????? ??????? ????, ????????????? ? ???? ? ?????? ???????	
+  endif
+events -e_sq_evil_spirit
+f_complete_sq sq_evil_spirit2
+endif
+
+
+//================ Quest 6: Lost Treasure (sq_merchant, Daily) =====================
+[CHARDEF c_sq_merchant]
+NAME=Marco
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_sq_merchant
+TEVENTS=e_quest_npc
+
+CATEGORY = Quest
+SUBSECTION = Moonglow
+DESCRIPTION = Marco (Merchant)
+	
+ON=@Create
+        Title=the Merchant
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=i_beard_mustache
+        color = 0420
+	ITEMNEWBIE=i_hair_afro
+        color = 0420
+
+ON=@NPCRestock
+	ITEM=i_pants_long
+	COLOR = 0846
+	ITEM=i_boots_calf
+	COLOR=0455
+	item = i_tunic
+        color = 042c
+        item = i_hat_feather
+        color = 0455
+        item = i_cape
+        color = 0455
+        item = i_necklace_gold
+        item = i_bracelet_gold
+
+ON=@NPCAcceptItem
+  return 1
+
+ON=@Click
+  if (<src.f_check_sq_active sq_merchant>)
+    message @0350 ?
+  elif (<src.f_check_sq_completed sq_merchant>)
+    message @07e4 ?
+  elif !(<src.f_check_sq_passed sq_merchant>)
+    message @07e4 !
+  endif
+  return 0
+
+
+[SPEECH spk_sq_merchant]
+ON=quest	
+ON=???????	
+ON=?????
+ON=?????
+if (<src.f_check_sq_passed sq_merchant>)
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????? ??????, <src.name>. ???????? ??? ????? ??????????? ???? ??????
+  else
+    say @npc_speech_good Come back tomorrow <src.name>. Perhaps I'll need your help once again
+  endif
+elif (<src.f_check_sq_active sq_merchant>)
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????????, ?????? ? ??????? ? ???-?????????? ????????? Moonglow ??? ????? ? ????? ?????????
+  else
+    say @npc_speech_good Please get my maps off the south-east Moonglow coast pirates and find the treasure
+  endif
+elif (<src.f_check_sq_completed sq_merchant>) && ((<src.findid.i_sq_treasure>) || (<src.findlayer(29).findid.i_sq_treasure>))
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????? ?? ????? ??! ??? ?????????!.. ? ???? ???????? ? ????? ???????, ??????? <src.name>!
+  else
+    say @npc_speech_good You found it! My treasure!.. I'll tell everybody about your feat, thank you <src.name>!
+  endif
+  src.f_pass_sq sq_merchant
+  src.tag0.sq_merchant = 
+  src.findid.i_sq_treasure.remove
+  // give reward 
+  if <src.f_is_level_3>
+    serv.newitem i_ancient_coin
+  elseif <src.f_is_level_2>
+    serv.newitem i_gold_coin
+  elseif (<src.f_is_level_1>) || (<src.f_is_human> && !<src.f_is_newbie>)
+    serv.newitem i_silver_coin
+  else
+    serv.newitem i_bronze_coin
+  endif
+  new.bounce
+
+else
+  sdialog d_sq_merchant
+endif
+
+on=??????
+on=hello
+on=???????????
+on=??????????
+on=????????????
+on=hi
+  if <src.tag0.rus>
+    dorand 2
+      say @npc_speech_good,,1 ???????????!
+      say @npc_speech_good,,1 ??????, <src.name>!
+  else
+    dorand 2
+      say @npc_speech_good  Greetings!
+      say @npc_speech_good  Hi, <src.name>!
+  endif 
+
+
+[DIALOG d_sq_merchant]
+80,50
+page 0
+resizepic 100 290 5120 220 40
+resizepic 0 0 5120 420 300
+resizepic 30 320 5120 360 80
+if <src.tag0.rus>
+  dtext 130 5 15 ????????? ?????????
+  dtext 15 230 15 ???????:
+else
+  dtext 150 5 15 Lost Treasure
+  dtext 15 230 15 Reward:
+endif
+if <src.f_is_level_3>
+  dtext 30 245 5 - Ancient coin
+elseif <src.f_is_level_2>
+  dtext 30 245 5 - Gold coin
+elseif (<src.f_is_level_1>) || (<src.f_is_human> && !<src.f_is_newbie>)
+  dtext 30 245 5 - Silver coin
+else
+  dtext 30 245 5 - Bronze coin
+endif
+
+page 1
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ??????????, <src.name>!<def0.BR>???? ????? <name>. ? ???? ? ????? ??????! ?? ???? ???????????? ??????? ???????! ??? ??? ????? ???? ?? ??, ??? ?? ??????? ????? ? ??? ???????, ??????? ???? ?? ?????????? ????? ??? ???? ??????? ??????, ????? ??????????? ?? ?????? ???????????. ????? ? ???????? ??????????? ?????????? ????, ? ?????????? ? ???????????? ? ???: ????? ????!... ??? ?? ??? ??? ??????? ?????????? ???!... ?? ??? ?????????? ????? ??? ?????????? ??????? - ???????  ????? ???? ??????! ?? ?? ???????, ??? ? ?? ????????, ?? ??????????? ? ????? ?????? ?????? - ??? ?? ?????!
+  dtext 70 335 042c ????????? // button text
+else
+  dhtmlgump 15 35 390 180 1 1 Hello, <src.name>!<def0.BR>My name is <name>. I beg your help! A terrible thing happened to me! I've spent all my life buying up maps from those idiots who were not courageous enought or too lazy to went for their treasure. When I bought enough maps I started my journey but then my expedition was attacked by the Dread Pirate Roberts! You don't think I'm coward but Bart Roberts is the one I would never ever like to meet...
+  dtext 70 335 042c Continue // button text
+endif
+button 50 340 1209 1210 0 2 0
+
+page 2
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ? ??? ?? ??? ?????? ???, ??? ? ???? ????, ?????? ?? ????????? ?????! ? ????? ??????? - ??? ???????? ? ?????????????? ?????, ? ?? ???????? ?????? ???????????? ? ???????????? ?????????. ?? ??????? ??? ??? ??? ?????????, ??????? ??? ?????, ?? ?????? ?????! ????! ????? - ???, ??? ?????? ??????????? ??????! ?????? ??????? ???????? ?????????? ?? ??????????? ?? ?????? ???? ????????! ?, ?????????? ????, ? ????, ??? ???? ?? ?????????? ??????? ????????? ? ???? ?????? ? ??????????????, ???? ????? ????? ? ?????????. ???? ?? ??? ???????? ?????????? ???? ????????? ??????? ? ????? ?????????, ?? ? ?????????? ? ???, ????? ? ????? ???????? ???? ??????! ????? ?? ?? ? ??????
+  dtext 70 335 042c ?????? ?????! // button text
+  dtext 70 355 042c ??? ????????... // button text
+else
+  dhtmlgump 15 35 390 180 1 1 I would be glad to give away everything I had ever had only to save the maps in my hands. I thought that Robert was an ugly and uneducated pirot, but he turned to be a quite well-educated and generous person. He had left me all my belongings, he granted life to me, but he had taken the maps. God! The maps, they are everything what had been gained by labour beyond strength. And now Robert lots of expeditions to find all MY treasure. Oh brave sir, I know you are not interested in gold or jewels, but you pay high tribute to glory and recognition. If you help me to stop these damned pirates and find the treasure I'll make everyone know about your feats. Are your ready for glory?
+  dtext 70 335 042c I'm ready! // button text
+  dtext 70 355 042c Let me think... // button text
+endif
+button 50 340 1209 1210 1 0 1
+button 50 360 1209 1210 1 0 2
+
+
+[DIALOG d_sq_merchant button]
+ON=1 // start quest
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ???????? ??????? : ????????? ?????????
+  else
+    src.sysmessage @quest You have accepted the quest : Lost treasure
+  endif
+  src.f_start_sq sq_merchant
+  src.tag.sq_merchant = <R3,8> // how many should I kill to get the quest map?
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ???????! ? ??????, ??? ?????? ?????????? ?? ????????? ????????? Moonglow
+  else
+    say @npc_speech_good Great! I heard the pirates landed at the east Moonglow coast
+  endif
+
+ON=2
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????, <src.name>. ???????, ???? ?????? ?????
+  else
+    say @npc_speech_good Ok <src.name>. Come back when you are ready
+  endif
+
+
+[ITEMDEF i_sq_treasure_map]
+ID = i_map
+NAME = Treasure Map
+TEVENTS = t_quest_item
+
+ON=@Create
+  attr=04
+  tag.no_relink = 1
+  f_set_treasure_coords_moonglow // set treasure coordinates
+  more2 = 1  // map level
+//  color = 059
+
+ON=@Dclick
+  if !(0<cont> == <src.findlayer(21).uid>) && !(<src.isgm>)
+    src.sysmessage @55 This must be in your pack to use!
+    return 1
+  endif
+  if <more>  // already configured
+    return 0
+  endif
+  // Place treasure
+  serv.newitem <def0.treasure_map_tiles>
+  new.type = t_sq_treasure_chest
+  new.timer = -1
+  new.color = 0abb
+  new.p = <morep>
+  new.z = <serv.map(<morex>,<morey>).terrain.z>
+  new.attr = attr_static | attr_move_never
+  new.link = <uid>
+  link = <new.uid> 
+  // Draw map
+  more1l = <morey> +- 200 // top left Y
+  more1h = <morex> +- 200 // top left X
+  more2l = <morey> + 200  // bottom right Y
+  more2h = <morex> + 200 // bottom right X
+  pin = 100,100
+  return 0
+
+ON=@Pickup_Pack
+  if (<topobj> == <src.uid>) || (<src.isgm>)
+    return 0
+  endif
+  if !(<src.f_check_sq_active sq_merchant>)
+    if <src.tag0.rus>
+      src.sysmessage @55,,1 ? ??? ??? ???????????????? ??????
+    else
+      src.sysmessage @55 You don't have necessary quest for this
+    endif
+    return 1
+  endif
+  if (<src.findid.i_sq_treasure_map>) || (<src.findlayer(29).findid.i_sq_treasure_map>)
+    if <src.tag0.rus>
+      src.sysmessage @50,,1 ? ??? ??? ???? ????? ????????, ??????????? ??? ??????
+    else
+      src.sysmessage @55 You have a quest treasure map already
+    endif
+    return 1
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ????? ????? ????????
+  else
+    src.sysmessage @quest You have found a treasure map
+  endif 
+  src.tag0.sq_merchant = 10 // just in case we loose the map
+
+
+[TYPEDEF t_sq_treasure_chest]
+ON=@DClick
+  if <distance> > 2
+    return 1
+  endif
+  if (<link> == 04fffffff) 
+    return 1
+  endif
+  if !(0<link.cont> == <src.findlayer(21).uid>)
+    return 1
+  endif
+  if (<src.findlayer(1).baseid> == i_pickaxe_new)
+    f_add_quest_treasure_chest
+    link.remove
+  endif
+  return 1
+
+[FUNCTION f_add_quest_treasure_chest]
+src.anim 11
+sfx 0126
+src.message @55 Treasure!!!
+if <src.tag0.rus>
+  src.sysmessage @quest,,1 ?? ????? ????????? ?????
+else
+  src.sysmessage @quest You have found a merchant's treasure
+endif 
+serv.newitem i_sq_treasure
+//new.p=<src.p>
+new.bounce
+src.f_complete_sq sq_merchant
+doswitch <src.dir>
+  src.move=0,1
+  src.move=-1,1
+  src.move=-1,0
+  src.move=-1,-1
+  src.move=0,-1
+  src.move=1,-1
+  src.move=1,0
+  src.move=1,1
+enddo
+remove
+return 1
+
+[ITEMDEF i_sq_treasure]
+ID = 01b5b
+TYPE = t_quest_item
+WEIGHT = 1
+
+ON=@Create
+  attr = 04
+  tag.no_relink = 1
+
+
+//================ Quest 7: Wipe them out! (sq_cove_orcs, Daily) =====================
+[CHARDEF c_sq_british_captain]
+NAME=Randuel
+ID=C_MAN
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_sq_british_captain
+TEVENTS=e_quest_npc
+
+CATEGORY = Quest
+SUBSECTION = Moonglow
+DESCRIPTION = Randuel (Captain)
+	
+ON=@Create
+        Title=the Captain
+        FLAGS = statf_invul
+	NPC=brain_vendor
+	COLOR=colors_skin
+	STR={61 75}
+	DEX={71 85}
+	INT={86 100}
+	INSCRIPTION={50.0 65.0}
+        tag.name.hue = 55
+	ITEMNEWBIE=i_beard_short_med
+        color = 0420
+	ITEMNEWBIE=i_hair_long
+        color = 0420
+
+ON=@NPCRestock
+        item = i_cape
+        color = 055c
+        item = i_platemail_leggings
+        color = 0a29
+        item = i_platemail_chest
+        color = 0a29
+        item = i_platemail_arms
+        color = 0a29
+        item = i_platemail_gorget
+        color = 0a29
+        item = i_sash
+        color = 055c
+
+ON=@NPCAcceptItem
+  return 1
+
+ON=@Click
+  if (<src.f_check_sq_active sq_cove_orcs>)
+    message @0350 ?
+  elif (<src.f_check_sq_completed sq_cove_orcs>)
+    message @07e4 ?
+  elif !(<src.f_check_sq_passed sq_cove_orcs>)
+    message @07e4 !
+  endif
+  return 0
+
+
+[SPEECH spk_sq_british_captain]
+ON=quest	
+ON=???????	
+ON=?????
+ON=?????
+if (<src.f_check_sq_passed sq_cove_orcs>)
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????? ??????, <src.name>. ???????? ??? ????? ??????????? ???? ??????
+  else
+    say @npc_speech_good Come back tomorrow <src.name>. Perhaps I'll need your help once again
+  endif
+elif (<src.f_check_sq_active sq_cove_orcs>)
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????????? ? ??????, ???? 30 ????? ? ??????????? ???????
+  else
+    say @npc_speech_good Go into the portal, slay 30 orcs and return back
+  endif
+elif (<src.f_check_sq_completed sq_cove_orcs>) 
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ???????? ??????, <src.name>! ?? ???????? ???? ???????
+  else
+    say @npc_speech_good Excellent job <src.name>! You deserve well
+  endif
+  src.f_pass_sq sq_cove_orcs
+  src.tag.sq_cove_orcs = 
+  // give reward 
+  if <src.f_is_level_3>
+    serv.newitem i_ancient_coin
+  elseif <src.f_is_level_2>
+    serv.newitem i_gold_coin
+  elseif (<src.f_is_level_1>) || (<src.f_is_human> && !<src.f_is_newbie>)
+    serv.newitem i_silver_coin
+  else
+    serv.newitem i_bronze_coin
+  endif
+  new.bounce
+else
+  sdialog d_sq_cove_orcs
+endif
+
+on=??????
+on=hello
+on=???????????
+on=??????????
+on=????????????
+on=hi
+  if <src.tag0.rus>
+    dorand 2
+      say @npc_speech_good,,1 ??????????!
+      say @npc_speech_good,,1 ??????, ??????????!
+  else
+    dorand 2
+      say @npc_speech_good  Greetings!
+      say @npc_speech_good  Hi, stranger!
+  endif 
+
+
+[DIALOG d_sq_cove_orcs]
+80,50
+page 0
+resizepic 100 290 5120 220 40
+resizepic 0 0 5120 420 300
+resizepic 30 320 5120 360 80
+if <src.tag0.rus>
+  dtext 160 5 15 ???????? ??!
+  dtext 15 230 15 ???????:
+else
+  dtext 150 5 15 Wipe them out!
+  dtext 15 230 15 Reward:
+endif
+if <src.f_is_level_3>
+  dtext 30 245 5 - Ancient coin
+elseif <src.f_is_level_2>
+  dtext 30 245 5 - Gold coin
+elseif (<src.f_is_level_1>) || (<src.f_is_human> && !<src.f_is_newbie>)
+  dtext 30 245 5 - Silver coin
+else
+  dtext 30 245 5 - Bronze coin
+endif
+
+page 1
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ??????????? ???? ??????????.<def0.BR><def0.BR>??????? ??? ?????????????, ??? ??? <name>. ?, ??????? ?????? ????? ???????, ?????? ? ??? ????? ?? ??????? ????????.<def0.BR><def0.BR>???????? ???????, ??? ???? ???????? ?????? ??????? ?????? ?????????? ?? ?????? Cove ? ????????? ????? ?? ?????? ?????????. ???? ????????, ??? ??? ?? ?????? ????????? ?????????, ? ????? ????????????? ???? ??????? ?????? ? ????????? ? Nujel'm ????? ???????, ???????? ?? Cove.<def0.BR><def0.BR>?? ???? ???? ?????? ???? ???-?? ?????, ???? ???? ?? ?? ?????????? ?? ????? ??????? ????????. ? ?????? ???? ?? ??????????? ??? ??????, ? ??????, ????????, ????? ??? ??????? ??????...<def0.BR><def0.BR>???????? ????, ???????? ????????? ? ????? ??????! ????? ??????????. 
+  dtext 70 335 042c ??????, ? ?????? // button 1 text
+  dtext 70 355 042c ???.. ?? ??? ???????? // button 2 text
+else
+  dhtmlgump 15 35 390 180 1 1 Hello stranger.<def0.BR><def0.BR>Let me introduce myself, my name is <name>. I'm a captain of the Lord British guards. I came to your town with an urgent task.<def0.BR><def0.BR>The reconnaissance reported that orcs of the notheren lands have set up a camp near Cove town and plan an attack on the civil settlement. We afraid that this is not a simple robbery raid, but a carefully developed plan of town capture and intrusion into Nujel'm, using portals from Cove.<def0.BR><def0.BR>Someone should be behind this.. I don't believe orcs would dare to do this themselves. Their froces are growing from day to day, and tomorrow may be too late...<def0.BR><def0.BR>Brave warrior, Britain needs your help! We must hurry. 
+  dtext 70 335 042c Ok, I will help // button 1 text
+  dtext 70 355 042c Pff.. not my problem // button 2 text
+endif
+button 50 340 1209 1210 0 2 0
+button 50 360 1209 1210 1 0 0
+
+page 2
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ???????! ?????? ??? ??????????? ?????????? ? ??????????? ? ??????, ???????? ?????????? ?? ????. ???? 30 ????? ? ??????????? ?? ???.<def0.BR><def0.BR>??, ???.. ???? ?? ?????. ?????????? ??????? ?????????? ????????? ?????, ??????? ?????? ?????? ???? ? ???. ? ?? ????? ??????????? ? ???????, ?? ???? ??????, ??? ???, ??? ?????? ?????, ??????? ???????????.<def0.BR><def0.BR>????? ????!
+
+  dtext 70 335 042c ???????, ? ????? ??! // button 1 text
+  dtext 70 355 042c ??? ????? ????????... // button 2  text
+else
+  dhtmlgump 15 35 390 180 1 1 Great! Take all neccessary equipment and go into the portal nearby. Slay 30 orcs and come back to me.<def0.BR><def0.BR>And, one more thing.. The court alchemist has made a magic potion, which should help you during the fight. I hadn't enough time to go into details, the alchemist just said that the one who drink this potion will have some fun.<def0.BR><def0.BR>Good luck!
+  dtext 70 335 042c Thanks, I'll destroy them! // button text
+  dtext 70 355 042c Let me think... // button text
+endif
+button 50 340 1209 1210 1 0 1
+button 50 360 1209 1210 1 0 2
+
+[DIALOG d_sq_cove_orcs button]
+ON=1 // start quest
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ???????? ??????? : ???????? ??!
+  else
+    src.sysmessage @quest You have accepted the quest : Wipe them out!
+  endif
+  src.f_start_sq sq_cove_orcs
+  serv.newitem i_sq_cove_orcs_potion
+  new.bounce
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ? ???! ??????? ???? ????, <src.name>!
+  else
+    say @npc_speech_good To fight! The reward awaits you <src.name>!
+  endif
+
+ON=2
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????, <src.name>. ???????, ???? ?????? ?????
+  else
+    say @npc_speech_good Ok <src.name>. Come back when you are ready
+  endif
+
+[ITEMDEF i_sq_cove_orcs_gate]
+ID = i_moongate_blue
+TYPE = t_script
+NAME = to Orc Camp
+
+ON=@Create
+  color = 0455 //044b
+  morep = 2171,1320
+  more2 = 1
+
+ON=@Step
+  if !<src.isPlayer>
+    return 1
+  endif
+  if (0<src.account.plevel> > 1)
+    src.go <morep>
+    return 1
+  endif
+  if <more2>
+    src.message closed
+    return 1
+  endif
+  if !<src.f_check_sq_active sq_cove_orcs>
+    src.message @55 You don't have a proper quest!
+    return 1
+  endif
+  src.go <morep>
+  return 1
+
+ON=@Dclick
+  if <src.account.plevel> > 2
+    sdialog d_sq_cove_orcs_gate
+  endif
+  return 1
+
+[DIALOG d_sq_cove_orcs_gate]
+0,0
+gumppic 100 100 2500            // Background
+
+dtext 135 130 0 Would you like to
+dtext 135 145 0 <qval <more2>?activate:deactivate> this gate?
+button 210 210 1153 1154 1 0 1
+button 250 210 1150 1151 1 0 2
+
+
+[DIALOG d_sq_cove_orcs_gate button]
+ON = 1
+  if (!<more2>)
+    more2 = 1
+    color = 0455
+    name = to Orc Camp (closed)
+  else
+    more2 = 0
+    color = 044b
+    name = to Orc Camp
+  endif
+  return 1
+
+
+[ITEMDEF i_sq_cove_orcs_potion]
+ID = 6186
+NAME = Strange potion
+TYPE = t_quest_item
+
+ON=@Create
+  color=044b
+  attr = 04
+  tag.no_relink = 1
+
+
+ON=@Dclick
+  if !<src.f_check_sq_active sq_cove_orcs>
+    src.message @55 You don't have a proper quest!
+    return 1
+  endif
+  if <src.findid.i_sq_cove_orcs_potion_effect>
+    src.message @55 You have already used this potion!
+    return 1
+  endif
+  if <src.body> == c_sq_cove_orcs_ogre
+    src.message @55 You have already used this potion!
+    return 1
+  endif
+  if (<src.body> != c_man) && (<src.body> != c_woman)
+    src.message @55 You can't use the potion in your current state!
+    return 1
+  endif
+  if !<src.region.tag0.sq_cove_orcs>
+    src.message @55 You can't use this here!
+    return 1
+  endif
+  serv.newitem i_sq_cove_orcs_potion_effect
+  new.equip <src.uid>
+  return 1
+
+
+[ITEMDEF i_sq_cove_orcs_potion_effect]  // tag.maxhits_diff - temp var to store maxhits increase
+ID = i_memory
+TYPE = t_eq_script
+NAME = Ogre Potion effect
+
+ON=@Equip
+  more = <src.body>
+  src.f_unequip_all
+  src.body = c_sq_cove_orcs_ogre
+  tag0.maxhits_diff = <eval 10000 - <src.maxhits>>
+  src.f_upd_maxhits <tag0.maxhits_diff>
+  src.moddex += 50
+  src.hits = <src.maxhits>
+  src.sound snd_monster_ogre1
+  src.update
+  src.sysmessage @success You feel stronger!
+  src.events +e_sq_cove_orcs_potion_effect
+
+ON=@Unequip
+  src.body = <more>
+  if <tag0.maxhits_diff>
+   // src.f_upd_maxhits -<tag0.maxhits_diff>
+    src.spelleffect s_dispel 1000
+    src.maxhits = 0
+  else
+    src.maxhits = 
+  endif
+  src.moddex -= 50
+  src.hits = <src.maxhits>
+  src.update
+  src.sysmessage @warning You feel normal again!
+  src.events -e_sq_cove_orcs_potion_effect
+
+[EVENTS e_sq_cove_orcs_potion_effect]
+ON=@ItemEquipTest
+  if <act.isWeapon>
+    src.sysmessage @55 You don't need this
+    return 1
+  endif
+  return 0
+
+ON=@Death
+  consume 50 i_sq_cove_orcs_potion_effect
+  return 0
+
+[EVENTS e_sq_cove_orcs]
+ON=@Death
+  if (<act.f_check_sq_active sq_cove_orcs>)
+    local.need = 30
+    act.tag0.sq_cove_orcs += 1
+    if (<act.tag0.sq_cove_orcs> >= <local.need>)
+      if !<act.tag0.rus>
+        act.sysmessage @quest You have killed <dlocal.need> orcs, return to Captain Randuel and complete the quest
+      else
+        act.sysmessage @quest,,1 ?? ????? <dlocal.need> ?????, ????????????? ? ???????? ???????? ? ????????? ???????  
+      endif         
+      act.f_complete_sq sq_cove_orcs
+      act.consume 50 i_sq_cove_orcs_potion
+      act.findlayer(29).findid.i_sq_cove_orcs_potion.remove
+    elseif <eval <local.need> +- <act.tag0.sq_cove_orcs>> == 1
+      if !<act.tag0.rus>
+        act.sysmessage @quest You need to kill 1 more orc
+      else
+        act.sysmessage @quest,,1 ??? ????? ????? ??? 1 ????
+      endif
+    else
+      if !<act.tag0.rus>
+        act.sysmessage @quest You need to kill <eval <local.need> +- <act.tag0.sq_cove_orcs>> more orcs
+      else
+        act.sysmessage @quest,,1 ??? ????? ????? ??? <eval <local.need> +- <act.tag0.sq_cove_orcs>> ?????
+      endif
+    endif
+  endif
+  return 0
+
+ON=@DeathCorpse
+  argo.timer = 5
+
+[CHARDEF c_sq_cove_orcs_ogre]
+ID = c_ogre
+NAME=#NAMES_OGRE the Ogre
+SOUND=snd_MONSTER_OGRE1
+ICON=i_pet_OGRE
+ANIM=078c7f
+CAN=MT_WALK|MT_USEHANDS
+DAM=50,60
+ARMOR=16
+RESOURCES=6 i_ribs_raw
+FOODTYPE=15 t_meat_raw
+DESIRES=c_ogre, t_arock
+AVERSIONS=t_TRAP,r_civilization
+
+
+//============== Quest 9: Cyclop Quest 1,2 (sq_cyclop_quest,...2) =====================
+[ITEMDEF i_sq_cyclop_quest]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Cyclop Quest
+
+
+[ITEMDEF i_sq_cyclop_alphabet]
+ID = 4030
+TYPE = t_quest_item
+NAME = Cyclop Alphabet
+
+ON=@Create
+  color=0af7
+  attr=04
+  tag.no_relink = 1
+
+ON=@Dclick
+  if (<link.uid> != <src.uid>)
+    src.message @error You can't use this. It's not yours!
+    return 1
+  endif
+  src.sysmessage @warning You have learned the cyclop language.
+  src.findid.i_sq_cyclop_quest.more1=1
+  remove
+  return 1
+
+
+[CHARDEF c_sq_cyclop_mage]
+NAME=Don Huan
+ID=c_titan
+AVERSIONS=t_TRAP,t_eerie_stuff
+TSPEECH=spk_sq_cyclop_quest
+TEVENTS=e_quest_npc
+
+CATEGORY = Quest
+SUBSECTION = Cyclop Valley
+DESCRIPTION = Cyclop Mage (quest giver)
+	
+ON=@Create
+  title = the mage
+  FLAGS = statf_invul
+  NPC=brain_vendor
+  COLOR = 05a5
+  STR={61 75}
+  DEX={71 85}
+  INT={86 100}
+  INSCRIPTION={50.0 65.0}
+  tag.name.hue = 55
+
+ON=@NPCAcceptItem
+  return 1
+
+ON=@NPCSeeNewPlayer
+  if (<src.findid.i_sq_cyclop_quest.more1>) || (<src.f_check_sq_passed sq_cyclop_quest>)
+    if !<src.tag0.rus>
+      say @npc_speech_good Halo amigo!
+    else
+      say @npc_speech_good,,1 ???? ?????!
+    endif
+  else
+    dorand 7
+      say @npc_speech_good Kgeihgnl
+      say @npc_speech_good Ngoeptet
+      say @npc_speech_good Atapnjb
+      say @npc_speech_good Heppkyjn
+      say @npc_speech_good Agrukna
+      say @npc_speech_good Gaahna
+    enddo   
+  endif
+
+ON=@Click
+  if !(<src.findid.i_sq_cyclop_quest.more1>)
+    message @55 <name>
+    return 1
+  endif
+  if (<src.findid.i_sq_cyclop_quest.more2>)
+    if (<src.f_check_sq_passed sq_cyclop_quest2>) 
+      return 0
+    elif (<src.f_check_sq_active sq_cyclop_quest2>)
+      message @0350 ?
+    elif (<src.f_check_sq_completed sq_cyclop_quest2>)
+      message @0445 ?
+    elif !(<src.f_check_sq_passed sq_cyclop_quest2>) 
+      message @0445 !
+    endif
+  else
+    if (<src.f_check_sq_passed sq_cyclop_quest>) 
+      return 0
+    elif (<src.f_check_sq_active sq_cyclop_quest>)
+      message @0350 ?
+    elif (<src.f_check_sq_completed sq_cyclop_quest>)
+      message @0445 ?
+    elif !(<src.f_check_sq_passed sq_cyclop_quest>) 
+      message @0445 !
+    endif
+  endif
+
+
+[SPEECH spk_sq_cyclop_quest]
+ON=quest
+ON=???????	
+ON=?????
+ON=?????
+  if !(<src.findid.i_sq_cyclop_quest.more1>)
+    return 1
+  endif
+
+  if !(<src.findid.i_sq_cyclop_quest.more2>) 
+    if !(<src.f_check_sq_active sq_cyclop_quest>) && !(<src.f_check_sq_completed sq_cyclop_quest>)
+      sdialog d_sq_cyclop_quest
+      return 1
+    endif
+
+    if (<src.f_check_sq_active sq_cyclop_quest>) && !(<src.findid.i_sq_cactus>)
+      if <src.tag0.rus>
+        say @npc_speech_good,,1 ??????? ?? ??? ????? ??????? ??????.
+      else
+        say @npc_speech_good Come to me when you find the cactus.
+      endif
+      return 1
+    endif
+
+    if (<src.f_check_sq_completed sq_cyclop_quest>) && (<src.findid.i_sq_cactus_dagger>) && (<src.findid.i_sq_cactus>)
+      src.findid.i_sq_cyclop_quest.more2=1
+      src.f_pass_sq sq_cyclop_quest
+      src.findid.i_sq_cactus_dagger.remove
+      src.findid.i_sq_cactus.remove
+      serv.newitem=i_book_of_knowledge
+      new.more1=26
+      new.tag0.value=2
+      new.link = <src.uid>
+      new.cont = <src.findlayer(21).uid>
+      if <src.tag0.rus>
+        say @npc_speech_good,,1 ???????, ??? ?????? ??? ??????. ?????? ???? ???????.
+      else
+        say @npc_speech_good Thank you for bringing me the cactus. Take your reward
+      endif
+      return 1		
+    endif
+
+  elif (<src.findid.i_sq_cyclop_quest.more2>)
+    if !(<src.f_check_sq_active sq_cyclop_quest2>) && !(<src.f_check_sq_completed sq_cyclop_quest2>)
+      sdialog d_sq_cyclop_quest2
+      return 1
+    endif
+
+    if (<src.f_check_sq_active sq_cyclop_quest2>) && !(<src.findid.i_sq_bowl_full>)
+      if <src.tag0.rus>
+        say @npc_speech_good,,1 ??????? ?? ??? ????? ??????? ????? ???????.
+      else
+        say @npc_speech_good  Come to me when you find the sands of time.
+      endif
+      return 1
+    endif
+
+    if (<src.f_check_sq_completed sq_cyclop_quest2>) && (<src.findid.i_sq_bowl_full>)
+      src.findid.i_sq_bowl_full.remove
+      src.findid.i_sq_cyclop_quest.more2=1
+      src.f_pass_sq sq_cyclop_quest2
+      src.findid.i_sq_cyclop_quest.remove
+      if <src.f_is_level_3>
+        serv.newitem i_ancient_coin
+      elseif <src.f_is_level_2>
+        serv.newitem i_gold_coin
+      elseif (<src.f_is_level_1>) || (<src.f_is_human> && !<src.f_is_newbie>)
+        serv.newitem i_silver_coin
+      else
+        serv.newitem i_bronze_coin
+      endif
+      new.amount = 2
+      new.bounce
+      if <src.tag0.rus>
+        say @npc_speech_good,,1 ???????, ??? ?????? ??? ????? ???????. ?????? ???? ???????.
+      else
+        say @npc_speech_good  Thank you for bringing me the sands of time. Take your reward
+      endif
+      return 1		
+    endif
+  endif
+
+on=hi
+on=hello
+on=???????????
+on=??????
+on=??????         
+on=??????????
+on=????????????
+  if !(<src.findid.i_sq_cyclop_quest.more1>) 
+    return 1
+  endif
+  if !(<src.f_check_sq_passed sq_cyclop_quest>) && !(<src.findid.i_sq_cyclop_quest.more1>)
+    return 1
+  endif
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????????, ??????????
+  else
+    say @npc_speech_good Hello stranger
+  endif 
+
+
+[DIALOG d_sq_cyclop_quest]
+80,50
+page 0
+resizepic 100 290 5120 220 40
+resizepic 0 0 5120 420 300
+resizepic 30 320 5120 360 80
+if <src.tag0.rus>
+  dtext 160 5 15 ? ??????? ??????????? ???????...
+  dtext 15 230 15 ???????:
+else
+  dtext 150 5 15 In search of the magic cactus...
+  dtext 15 230 15 Reward:
+endif
+  dtext 30 245 5 - Book of Knowledge: Magic Resistance +2.0
+
+page 1
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ??????, ??????????!<def0.BR><def0.BR>?? ????? ????, ??? ??? ??? ????. ???????-????, ???? ???? ???????????? ????????????? ???? ????????????? ???? ????????? ?? ???? ???????? ??????! ? ??? ??? ????? ?? ??????? ? ????? ??????, ??? ?????, ??? ?? ????????? ?? ????? ????.<def0.BR><def0.BR>?? ??? ?, ??? ???? ??????. ? ????? ????? ??????? ??????? ??????? ???? ?????? ? ???????? ?????????? ???????: ??? ????? ???????? ???????????? ?????, ??????? ??????????? ??????? ??????, ?? ???????? ??????? ?????, ??? ?? ?? ????????... ??-??-??! ??? ???, ??????????? ??? ???? ????????????? ????????? ???????.<def0.BR><def0.BR>???????? ??? ????????? ???? ?????????? ???????
+  dtext 70 335 042c ????? ????????? // button 1 text
+  dtext 70 355 042c ??????, ???? // button 2 text
+else
+  dhtmlgump 15 35 390 180 1 1 Hello stranger!<def0.BR><def0.BR>Don't be afraid, my name is Don Huan. At least one of the human beings could finally reach this miraculous valley. It was a long while since I last time spoke to your kind, I almost forgot how you look.<def0.BR><def0.BR>So, I'm glad to see you! Listen, may be a can even reveal you one secret as a small gift: this land has a mysterious power, which is absorbing by the local flora, but beware of the local fauna, it is not as friendly as you could think: Ha-ha-ha! So.. there is one interesting sort of cactus growing somewhere around.<def0.BR><def0.BR>Could you please find this magic cactus for me?
+  dtext 70 335 042c Let's try // button 1 text
+  dtext 70 355 042c Back off shrek // button 2 text
+endif
+button 50 340 1209 1210 0 2 0
+button 50 360 1209 1210 1 0 0
+
+page 2
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ???????! ?????? ??? ???? ??????????? ??????, ?????? ?????? ??? ?????? ? ?????? ??? ? ???? ? ?????. ?????? ???????? ????, ? ?? ????????? ????????? ???????, ?? ?? ?????, ????? ???? ??? ?? ???.
+  dtext 70 335 042c ?????? // button 1 text
+  dtext 70 355 042c ????? ??? ??????? ???.. // button 2  text
+else
+  dhtmlgump 15 35 390 180 1 1 Great! Take this magic dagger. Cut off the plant on its root. After that put it in your backpack, the cactus will change its color and you may feel strange sense, but don't be afraid, bring it to me at once.
+  dtext 70 335 042c Allright // button text
+  dtext 70 355 042c What dagger? No.. // button text
+endif
+button 50 340 1209 1210 1 0 1
+button 50 360 1209 1210 1 0 2
+
+[DIALOG d_sq_cyclop_quest button]
+ON=1 // start quest
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ???????? ??????? : ? ??????? ??????????? ???????...
+  else
+    src.sysmessage @quest You have accepted the quest : In search of the magic cactus...
+  endif
+  src.f_start_sq sq_cyclop_quest
+  serv.newitem=i_sq_cactus_dagger
+  new.cont=<src.uid>
+  new.link=<src.uid>
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 <src.name> ??????, ?? ????? ?????????? ??????!
+  else
+    say @npc_speech_good <src.name> look, don't drop the magic dagger!
+  endif
+
+ON=2
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????, <src.name>. ???????, ???? ?????? ?????
+  else
+    say @npc_speech_good Ok <src.name>. Come back when you are ready
+  endif
+
+
+[ITEMDEF i_sq_cactus_dagger]
+ID = i_dagger
+TYPE = t_quest_item
+NAME = Magic Dagger
+
+ON=@Create
+  more1 = 1
+  color = 0acb
+  attr = 04
+  tag.no_relink = 1
+
+ON=@Dclick
+  if !(<more1>)
+    return 1
+  endif
+  if (<link.uid> != <src.uid>)
+    src.message @error You can't use this. It's not yours!
+    return 1
+  endif
+  target Target the magic cactus
+  return 1
+
+ON=@TargOn_Char
+  src.sysmessage @55 Icorrect target
+  return 1
+
+ON=@TargOn_Item
+  if <argo.baseid> == i_sq_magic_cactuses	
+    if !<src.tag0.rus>
+      src.sysmessage @quest The cactus suddenly changed its color after you cut it.
+      src.sysmessage @quest You feel strange.
+    else
+      src.sysmessage @quest,,1 ?????? ????? ??????? ???? ????? ???? ??? ?? ??? ???????.
+      src.sysmessage @quest,,1 ?? ??????? ???? ??????????.
+    endif
+    more1=0
+    sfx 504
+    src.effect 3,i_fx_sparkle_2,1,16,0,90
+    src.spelleffect s_bless,5000
+    serv.newitem=i_sq_cactus
+    new.link=<src.uid>
+    new.cont=<src.uid>
+    src.f_complete_sq sq_cyclop_quest
+    return 1
+  endif
+  return 1
+
+
+[ITEMDEF i_sq_cactus]
+ID=3366
+TYPE = t_quest_item
+NAME = Magic Cactus
+
+ON=@create
+  color=0acb
+  attr=04
+  tag.no_relink = 1
+
+
+[ITEMDEF i_sq_magic_cactuses]
+ID=3365
+NAME = Magic Cactuses
+
+ON=@Create
+  attr=010
+
+[ITEMDEF i_sq_door_cactus]
+ID=1748
+NAME=Magic Door
+
+ON=@Timer
+  timer=-1
+  return 1
+
+ON=@Dclick
+  if !(<src.findid.i_sq_magic_mushroom_timer>)
+    src.go=<p>
+  else
+    if !<src.tag0.rus>
+      src.sysmessage @quest You can't go through it.
+    else
+      src.sysmessage @quest,,1 ?? ?? ?????? ?????? ????? ??? ?????.
+    endif
+  endif
+  return 1
+
+[ITEMDEF i_sq_magic_sign]
+ID=3023
+NAME=Magic Sign
+
+ON=@create
+  attr=010
+
+ON=@Dclick
+  sdialog d_sq_magic_door
+  return 1
+
+[DIALOG d_sq_magic_door]
+0,0
+page 0
+gumppic 155 129 103
+if <src.tag0.rus>
+  dhtmlgump 162 140 128 78 1 1 ?? ?????? ????? ???? ??????... ? ?????????? ??????????<def0.BR><def0.BR>?.?. ????? ?????? ?? ??????
+else
+  dhtmlgump 162 140 128 78 1 1 You can enter here only... in magic mood<def0.BR><def0.BR>P.S. Mushrooms grow in north
+endif
+
+
+[ITEMDEF i_sq_magic_mushrooms]
+ID=3342
+NAME=Magic Mushrooms
+
+ON=@Create
+  attr=010
+  color=044a
+
+ON=@Dclick
+  if <src.findid.i_sq_magic_mushroom_timer>
+    return 1
+  endif
+  if !<src.tag0.rus>
+    src.sysmessage @quest You ate some mushrooms.
+  else
+    src.sysmessage @quest,,1 ?? ????? ??????? ??????.
+  endif
+  serv.newitem=i_sq_magic_mushroom_timer
+  new.cont=<src.uid>
+  new.timer=60
+  src.sfx=60
+  src.spelleffect s_hallucination,1000
+  src.timerf 5 spelleffect s_bless,1000
+
+
+[ITEMDEF i_sq_magic_mushroom_timer]
+ID = i_memory
+TYPE = t_eq_script
+NAME = Magic Mushroom Timer
+
+ON=@timer
+  if !<cont.tag0.rus>
+    cont.sysmessage @quest You feel normal.
+  else
+    cont.sysmessage @quest,,1 ?? ?????????? ???? ??????.
+  endif
+  remove
+  return 1
+
+
+[DIALOG d_sq_cyclop_quest2]
+80,50
+page 0
+resizepic 100 290 5120 220 40
+resizepic 0 0 5120 420 300
+resizepic 30 320 5120 360 80
+if <src.tag0.rus>
+  dtext 160 5 15 ???????? ???.
+  dtext 15 230 15 ???????:
+else
+  dtext 150 5 15 Sand spirit.
+  dtext 15 230 15 Reward:
+endif
+if <src.f_is_level_3>
+  dtext 30 245 5 - Ancient coin x2
+elseif <src.f_is_level_2>
+  dtext 30 245 5 - Gold coin x2
+elseif (<src.f_is_level_1>) || (<src.f_is_human> && !<src.f_is_newbie>)
+  dtext 30 245 5 - Silver coin x2
+else
+  dtext 30 245 5 - Bronze coin x2
+endif
+
+page 1
+if <src.tag0.rus>
+  dhtmlgump 15 35 390 180 1 1 ??????????? ??? ??????????????? ? ???? ???? ??? ???? ??? ???? ?????????. ??? ??????? ???????, ??? ???? ??????????, ?? ????? ???-?????? ????? ??????????? ? ????? ???????<def0.BR><def0.BR>???-?? ? ??????? ????? ?????? ??????? ???????? ??????????, ?? ???????? ????? ?? ???? ????, ??? ????????? ????????? ?????????? ?????????? ????? ?????. ? ???????? ? ???? ??????? ??? ? ?????, ??? ???? ??????? ?????????? ???. ???? ???? ????? ?? ??????, ?? ?????? ? ????? ????????? ???? ?????, ??????? ?? ????????? ?? ??????? ??????????. ???? ?????????, ????? ???????? ?????? ?????????? ?????.
+  dtext 70 335 042c ?????? ??? ???? // button 1 text
+  dtext 70 355 042c ???! ????! // button 2 text
+else
+  dhtmlgump 15 35 390 180 1 1 Did you like my reward? I have another task for you. It's more dangerous than your last one, but is there a reason to doubt your courage?<def0.BR><def0.BR>There is a sand elemental somewhere in the desert. He is quite strong because he constantly swallows up the magic sand. But I feel you have a strong mind and you are able to defeat the elemental. Could you gather the sand from the dead elemental in some container and bring it to me? Be careful the sand has very powerful magic.
+  dtext 70 335 042c Ok Don Huan // button 1 text
+  dtext 70 355 042c No! Psycho! // button 2 text
+endif
+button 50 340 1209 1210 1 0 1
+button 50 360 1209 1210 1 0 2
+
+[DIALOG d_sq_cyclop_quest2 button]
+ON=1 // start quest
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ???????? ??????? : ???????? ???.
+  else
+    src.sysmessage @quest You have accepted the quest : Sand Spirit!
+  endif
+  src.f_start_sq sq_cyclop_quest2
+
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 <src.name>, ???? ??????????!
+  else
+    say @npc_speech_good <src.name> be careful!
+  endif
+
+ON=2
+  if <distance> > 5
+    src.sysmessage @error You are too far away from <name>
+    return 1
+  endif
+  if <src.tag0.rus>
+    say @npc_speech_good,,1 ??????, <src.name>. ???????, ???? ?????? ?????
+  else
+    say @npc_speech_good Ok <src.name>. Come back when you are ready
+  endif
+
+
+[ITEMDEF i_sq_bowl]
+ID = 5629
+NAME = Empty Bowl
+TYPE = t_quest_item
+
+ON=@Create
+  attr=04
+  tag.no_relink = 1
+
+ON=@Pickup_Ground
+  if !(<src.f_check_sq_active sq_cyclop_quest2>)
+    return 1
+  endif
+  if <src.findid.i_sq_bowl>
+    return 1
+  endif
+  if <src.tag0.rus>
+    src.sysmessage @quest,,1 ?? ????? ?????? ?????.
+  else
+    src.sysmessage @quest You have found an empty bowl.
+  endif 
+
+[ITEMDEF i_sq_bowl_full]
+ID=5630
+NAME=Bowl filled with sands of time
+TYPE = t_quest_item
+
+ON=@Create
+  attr = 04
+  tag.no_relink = 1
+
+
+
+
+
+[EOF]

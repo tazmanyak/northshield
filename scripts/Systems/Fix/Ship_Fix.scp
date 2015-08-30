@@ -1,0 +1,157 @@
+[SPEECH spk_ship_cmds]
+
+ON=Set name *
+	// Changes Ship's name, where *=name.
+	 NAME=<strmid(<args>,8,64)>
+
+ON=Furl sail	// Stop
+ON=Stop			// Stops current ship movement.
+	if (<src.flags>&statf_dead)
+		src.sys_error Ölü durumda kullanamazsınız
+		return 1
+	endif
+	SHIPSTOP
+
+ON=Turn Left
+ON=Port	
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPTURNLEFT
+//OBJ=<UID>
+//FORITEMS 8
+//IF (<TYPE>==t_ship) || ((<UID.<REGION.UID>.ISAMULTI>) && (<UID>!=<OBJ>))
+//IF (<UID>!=<OBJ>)
+//SRC.sys_normal Size cok yakin olan baska bir gemi var.
+//return 1
+//ENDIF
+		// Turn Left
+	
+
+ON=Turn Right
+ON=Starboard	// Turn Right
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+//OBJ=<UID>
+//FORITEMS 8
+//IF (<TYPE>==t_ship) || ((<UID.<REGION.UID>.ISAMULTI>) && (<UID>!=<OBJ>))
+//IF (<UID>!=<OBJ>)
+//SRC.sys_normal Size cok yakin olan baska bir gemi var.
+//return 1
+//ENDIF
+	SHIPTURNRIGHT
+
+ON=Left			// Move ship in desired direction.
+ON=Drift Left
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPDRIFTLEFT
+
+ON=Right		// Move ship in desired direction.
+ON=Drift Right
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPDRIFTRIGHT
+
+ON=Back			// Move ship backwards
+ON=Backward		// Move ship backwards
+ON=Backwards
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif	// Move ship backwards
+	SHIPBACK
+
+ON=Forward
+ON=Foreward		// Moves ship forward.
+ON=Unfurl sail	// Moves ship forward.
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPFORE
+
+ON=Forward left
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPFORELEFT
+
+ON=forward right
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPFORERIGHT
+
+ON=backward left
+ON=back left
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPBACKLEFT
+
+ON=backward right
+
+ON=back right
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPBACKRIGHT
+
+ON=Raise Anchor
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPANCHORRAISE
+
+ON=Drop Anchor
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPANCHORDROP
+
+ON=Turn around	// Turns ship around and proceeds.
+ON=Come about	// Turns ship around and proceeds.
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPTURN
+
+ON=Up
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPUP
+
+ON=Down
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPDOWN
+
+ON=Land
+if (<src.flags>&statf_dead)
+	src.sys_error Ölü durumda kullanamazsınız
+	return 1
+endif
+	SHIPLAND
+
+[EOF]
+
+

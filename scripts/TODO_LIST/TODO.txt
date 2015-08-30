@@ -1,0 +1,83 @@
+[DÝKKAT EDÝLMESÝ GEREKENLER]
+---------------------------------
+- Oyun içerisinde yapýlan hertürlü sistem ve iþleyiþi olabildiðince TAG kullanmadan
+  gerçekleþtirmek. SERV.LIST ya da SQL tercih edilmedi. Nasýl yapcaðýnýz hakkýnda
+  fikriniz yok ise danýþýnýz /Xeon. Örnek ile anlatabilirim. Hýzlý bir þekilde adapte olmakta
+  fayda var.
+
+- Packet Hooking ==> Yeni bir paket ekleyip iþlem yapýlacak ise server çalýþýr durumda
+  her hangi bir iþlem yapýlmamasý gerekiyor.
+
+- Map Dosyalarý Map0,Map1.scp vb Region ayarlarýný server açýk durumda kesinlikle
+  yapmayýnýz ! Var olan Custom House ve diðer evlerin kendilerince atanan Region
+  olayýný bozmakta. Düzeltilmesi mümkün olmayan bir durum. Eðer Map üzerinde bir 
+  deðiþiklik yapýlacak ise serverýn kapatýlýp ayarlanýp yeniden baþlatýlmasý gerekiyor.
+
+- Büyü delaylarý , silah damage, hýz, drop oranlarý ve oyun içersindeki satýlan item
+  deðerlerinin katiyen danýþýlmadan deðiþtirilmemesi gerekiyor. Bu tarz deðiþiklik 
+  oyuncular tarafýndan anlýk hissedilen þeyler ve birden deðiþtirilmemesi gerekiyor.
+
+- Sphere Server üzerinden Resync yapýlamamakta. Oyun içerisinde .serv.resync lütfen
+  kullanmayýnýz.// Hard coded olarak engellenecektir.
+
+- Server'a restart atýldýktan sonra sphere_region_resources.scp'nin tekrar güncellenmesi gerekiyor.
+  Aksi taktirde region_resource olarak rare seed düþme problemi doðuyor.
+- Server'a restart atýldýktan sonra STAR alanýnda bulunan PH Stone'dan phlarýn tekrar seçilmesi gerekiyor.
+  Herhangi bir skill'e tek týklamak yeterli. ADV_RATE'ler tanýmsýz olduðu için her yeni restartta resetleniyor.
+
+
+[GÖRÜLEN HATALAR/BUGS]
+---------------------------------
+- Table türü craft itemlarý üzerine item drop yapýlamýyor. Item Up/Item Down
+ile uðraþýyor oyuncular. Bunun düzeltilmesi gerekiyor.
+
+
+
+
+[TODO/YAPILACAKLAR]
+---------------------------------
+- Gemilerin otomatik silinmesi. Revisyonda oluþan bir hatadan dolayý var olan sistem
+  silindi. Üþengeçliðimden tekrar yapmaya vakit bulamadým :) Bir ara el atýlmasý
+  gerekiyor.
+
+- Oto Etkinliklerin çeþitlendirilmesi : 
+	- Last Man Standing tarzý fakat Takým savaþý olarak ( .serv.list 
+	  kullanýlarak eklememiz gerekiyor. ( Tag vb uðraþmamamýz gerekiyor).
+        - Inflection ==> Zombi akýný. Etkinlik alalýný zombiler basmakta ve
+          random olarak oyunculara saldýrmakta. Ölen oyuncular Zombi olacak ve
+          zombi modda her öldürdüðünüz oyuncudan 10k para kazanacaksýnýz.
+          En son ayakta kalan oyuncu birinci ilan edilecek. 
+
+-BEDLAB Umbra questinin tamamlanmasý. Quest hakkýnda metin hazýr iþleyiþ eksik.
+   
+- Varolan oto etkinlikleri TAG kullanýmýndan List'e çevirme.
+	- Örneðin serv.list.gm_topuk.katilimci.add <uid> bla bla.
+	- Listeye eklenen kiþileri silme liste de ki sayýya göre ödül vermedirme.
+	- Var olan sistem problemsiz fakat oyun verimliliði ve akýcýlýðý olabildiðince
+          TAG kullanýmdan uzaklaþmak gerekli.
+        - List kullanýmý yerine SQL de tercih edilebilir. Örneðin ; 
+          - oyuncu listesini tabloya insert edip listeletme vb. (Gayet hýzlý ve
+            dinamik.
+
+- Yeni Craft itemlarýn eklenmesi.
+
+- Oyun içi questlerin artýrýlmasý ve belli bir mantýk içerisinde birbirine baðlanmasý
+  (Chain Quests)
+
+- Nightside Potion etkisini diðer potlardan ayýrma. Buff silme durumunu kaldýrma.
+  - Herhangi bir potion diðer potionun eðer buff sa etkisini kaybettiriyor.
+  - Scriptsel olarak çözüme ulaþmadýðý taktirde direk Source'dan düzenlenecek.
+
+- Oyun içeriði ile ilgili istatistiklerin detaylandýrýlýp rapor edilmesi.
+  - günlük,haftalýk, aylýk serverýn para durumu. 
+  - Genel vendordan günlük,aylýk,haftalýk satýlan ürün miktarý ve toplam gold miktarý.
+ 
+
+[OYUNCULARDAN GELEN ISTEKLER]
+- Silver Set isteði mevcut , deðerlendirililebilir.
+- Magical Platemail set isteði mevcut.
+
+
+
+
+

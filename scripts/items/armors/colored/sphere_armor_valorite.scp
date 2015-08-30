@@ -1,0 +1,358 @@
+[ITEMDEF i_PLATEMAIL_chest_VALORITE]
+NAME=Valorite Platemail
+ID=i_platemail_chest
+ARMOR= 72
+REQSTR=60
+WEIGHT=10
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Platemail
+RESOURCES=25 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 79.0
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_PLATEMAIL_ARMS_VALORITE]
+NAME=Valorite Platemail Arms
+ID=i_platemail_arms
+ARMOR= 72
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Platemail Arms
+RESOURCES=18 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 67.5
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_PLATEMAIL_leggings_VALORITE]
+NAME=Valorite Platemail Legs
+ID=i_platemail_leggings
+ARMOR=72
+REQSTR=60
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Platemail Legs
+RESOURCES=20 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 70.8
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_PLATE_HELM_VALORITE]
+NAME=Valorite Plate Helm
+ID=i_platemail_helm
+ARMOR= 72
+REQSTR=40
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Plate Helm
+RESOURCES=15 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 62.6
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_PLATEMAIL_GORGET_VALORITE]
+NAME=Valorite Platemail Gorget
+ID=i_platemail_gorget
+ARMOR= 72
+REQSTR=30
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Platemail Gorget
+RESOURCES=10 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 54.4
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_PLATEMAIL_GLOVES_VALORITE]
+NAME=Valorite Platemail Gauntlets
+ID=i_platemail_gloves
+ARMOR= 72
+REQSTR=45
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Platemail Gauntlets
+RESOURCES=12 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 57.7
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_PLATEMAIL_FEMALE_VALORITE]
+NAME=Valorite Platemail
+ID=i_armor_female_plate
+ARMOR= 22
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Female Platemail
+RESOURCES=22 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 74.0
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_CHAINMAIL_COIF_VALORITE]
+NAME=Valorite Chainmail Coif
+ID=i_chainmail_coif
+ARMOR= 27
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Chainmail Coif
+RESOURCES=10 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 31.6
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={36 44}
+
+[ITEMDEF i_CHAINMAIL_LEGGINGS_VALORITE]
+NAME=Valorite Chainmail Leggings
+ID=i_chainmail_leggings
+ARMOR= 27
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Chainmail Leggings
+RESOURCES=18 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 35.1
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_CHAINMAIL_TUNIC_VALORITE]
+NAME=Valorite Chainmail Tunic
+ID=i_chainmail_tunic
+ARMOR= 27
+REQSTR=20
+WEIGHT=7
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Chainmail Tunic
+RESOURCES=25 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 47.8
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={46 58}
+
+[ITEMDEF i_ringmail_leggings_valorite]
+NAME=Valorite Ringmail Leggings
+ID=i_ringmail_leggings
+ARMOR= 22
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Ringmail Leggings
+RESOURCES=16 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 31.6
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_SLEEVES_VALORITE]
+NAME=Valorite Ringmail Sleeves
+ID=i_ringmail_sleeves
+ARMOR=22
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Ringmail Sleeves
+RESOURCES=14 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 28.3
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_GLOVES_VALORITE]
+NAME=Valorite Ringmail Gloves
+ID=i_ringmail_gloves
+ARMOR= 22
+REQSTR=20
+WEIGHT=2
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Ringmail Gloves
+RESOURCES=10 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 21.8
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_RINGMAIL_TUNIC_VALORITE]
+NAME=Valorite Ringmail Tunic
+ID=i_ringmail_tunic
+ARMOR=22
+REQSTR=20
+WEIGHT=15
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Ringmail Tunic
+RESOURCES=18 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 35.1
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_BUCKLER_VALORITE]
+NAME=Valorite Buckler
+ID=i_shield_buckler
+ARMOR= 9
+REQSTR=15
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Buckler
+RESOURCES=10 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 9.0
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={41 51}
+
+[ITEMDEF i_SHIELD_HEATER_VALORITE]
+NAME=Valorite Heater Shield
+ID=I_SHIELD_HEATER
+ARMOR= 24
+REQSTR=30
+WEIGHT=8
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Heater Shield
+RESOURCES=18 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 44.6
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={31 37}
+
+[ITEMDEF i_shield_metal_valorite]
+NAME=Valorite Metal Shield
+ID=i_shield_round_metal
+ARMOR= 13
+REQSTR=15
+WEIGHT=6
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Metal Shield
+RESOURCES=14 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 19.0
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_HELM_CLOSED_VALORITE]
+NAME=Valorite Closed Helm
+ID=i_helm_closed
+ARMOR= 37
+REQSTR=20
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Closed Helm
+RESOURCES=15 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 62.6
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELM_OPEN_VALORITE]
+NAME=Valorite Helmet
+ID=i_helm_open
+ARMOR= 36
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Helmet
+RESOURCES=15 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 62.6
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={51 65}
+
+[ITEMDEF i_BASCINET_VALORITE]
+NAME=Valorite Bascinet
+ID=i_bascinet
+ARMOR= 36
+REQSTR=10
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Bascinet
+RESOURCES=15 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 23.2
+TAG.Penalty.Stealth = 10
+TAG.ResPhysical=7
+TAG.ResFire=3
+TAG.ResCold=6
+TAG.ResPoison=6
+TAG.ResEnergy=6
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={101 115}
+
+[ITEMDEF i_HELM_NOSE_VALORITE]
+NAME=Valorite Nose Helm
+ID=i_helm_nose
+ARMOR= 36
+REQSTR=0
+WEIGHT=5
+CATEGORY=Provisions - Armor - Colored
+SUBSECTION=Valorite
+DESCRIPTION=Nose Helm
+RESOURCES=15 i_ingot_valorite
+SKILLMAKE=BLACKSMITHING 62.6
+
+
+ON=@Create
+	COLOR=color_o_valorite
+	HITPOINTS=100 //={101 115}
+	
+[eof]

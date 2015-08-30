@@ -1,0 +1,46 @@
+[defname def_black_copper_items]
+// total page
+blacksmith_copper_pagesum	4
+// platemail
+blacksmith_copper_0_1		i_platemail_leggings_copper
+blacksmith_copper_1_1		i_platemail_chest_copper
+blacksmith_copper_2_1		i_platemail_arms_copper
+blacksmith_copper_3_1		i_plate_helm_copper
+blacksmith_copper_4_1		i_platemail_gorget_copper
+blacksmith_copper_5_1		i_platemail_gloves_copper
+blacksmith_copper_6_1		i_shield_heater_copper
+blacksmith_copper_7_1		i_ringmail_gloves_copper
+blacksmith_copper_8_1		i_ringmail_leggings_copper
+blacksmith_copper_9_1		i_ringmail_sleeves_copper
+blacksmith_copper_10_1		i_ringmail_tunic_copper
+
+blacksmith_copper_11_1		i_chainmail_coif_copper
+blacksmith_copper_12_1		i_chainmail_leggings_copper
+blacksmith_copper_13_1		i_chainmail_tunic_copper
+// swords
+blacksmith_copper_0_2		i_katana_copper
+blacksmith_copper_1_2		i_scimitar_copper
+blacksmith_copper_2_2		i_cutlass_copper
+blacksmith_copper_3_2		i_bardiche_copper
+blacksmith_copper_4_2		i_halberd_copper
+blacksmith_copper_5_2		i_sword_long_copper
+blacksmith_copper_6_2		i_sword_viking_copper
+blacksmith_copper_7_2		i_sword_broad_copper
+
+// fence
+blacksmith_copper_0_3		i_dagger_copper
+blacksmith_copper_1_3		i_kryss_copper
+blacksmith_copper_2_3		i_pitchfork_copper
+blacksmith_copper_3_3		i_spear_copper
+blacksmith_copper_4_3		i_spear_short_copper
+blacksmith_copper_5_3		i_war_fork_copper
+// mace
+blacksmith_copper_0_4		i_axe_war_copper
+blacksmith_copper_1_4		i_hammer_pick_copper
+//blacksmith_copper_2_4		i_hammer_war_copper
+blacksmith_copper_2_4		i_maul_copper
+blacksmith_copper_3_4		i_mace_copper
+blacksmith_copper_4_4		i_mace_war_copper
+blacksmith_copper_5_4		i_helm_closed_copper
+
+[EOF]

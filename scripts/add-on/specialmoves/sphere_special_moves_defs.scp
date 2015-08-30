@@ -1,0 +1,145 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 05-07-2010
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// WildGenie
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Definitions for EA Special Moves. There's nothing to change here since these values are mostly controlled by the client itself.
+
+[defname special_moves_weapons]
+scp.special_move_weap_0			5,11	//wrestling
+scp.special_move_weap_08fd		7,8	//i_dual_short_axes
+scp.special_move_weap_08fe		2,11	//i_bloodblade
+scp.special_move_weap_08ff		31,3	//i_boomerang
+scp.special_move_weap_0901		10,30	//i_cyclone
+scp.special_move_weap_0902		8,12	//i_gargish_dagger
+scp.special_move_weap_0903		1,5	//i_disc_mace
+scp.special_move_weap_0904		7,5	//i_dual_pointed_spear
+scp.special_move_weap_0905		7,9	//i_glass_staff
+scp.special_move_weap_0906		4,6	//i_serpentstone_staff
+scp.special_move_weap_0907		1,9	//i_shortblade
+scp.special_move_weap_0908		13,6	//i_gargish_talwar
+scp.special_move_weap_090a		1,9	//i_soul_glaive
+scp.special_move_weap_090b		4,3	//i_dread_sword
+scp.special_move_weap_090c		2,9	//i_glass_sword
+scp.special_move_weap_0df0		13,11	//i_staff_black
+scp.special_move_weap_0df5		6,5	//i_wand_4
+scp.special_move_weap_0e81		4,5	//i_crook_thin
+scp.special_move_weap_0e85		7,5	//i_pickaxe
+scp.special_move_weap_0e87		2,6	//i_pitchfork
+scp.special_move_weap_0e89		7,3	//i_staff_quarter
+scp.special_move_weap_0ec2		2,8	//i_cleaver_meat
+scp.special_move_weap_0ec4		12,5	//i_knife_skinning
+scp.special_move_weap_0f43		1,5	//i_hatchet
+scp.special_move_weap_0f45		2,9	//i_axe_exec
+scp.special_move_weap_0f47		2,3	//i_axe_battle
+scp.special_move_weap_0f49		4,6	//i_axe
+scp.special_move_weap_0f4b		7,13	//i_axe_double
+scp.special_move_weap_0f4d		11,6	//i_bardiche
+scp.special_move_weap_0f4f		3,9	//i_crossbow
+scp.special_move_weap_0f51		8,12	//i_dagger
+scp.special_move_weap_0f5c		3,5	//i_mace
+scp.special_move_weap_0f5e		4,1	//i_sword_broad
+scp.special_move_weap_0f62		1,11	//i_spear
+scp.special_move_weap_0fb4		4,12	//i_hammer_sledge
+scp.special_move_weap_013af		1,2	//i_axe_war
+scp.special_move_weap_013b1		11,9	//i_bow
+scp.special_move_weap_013b3		12,6	//i_club
+scp.special_move_weap_013b5		7,11	//i_scimitar
+scp.special_move_weap_013b7		1,3	//i_sword_long_b
+scp.special_move_weap_013b9		4,11	//i_sword_viking
+scp.special_move_weap_013e3		4,12	//i_hammer_smith
+scp.special_move_weap_013f4		4,5	//i_shepherds_crook
+scp.special_move_weap_013f6		8,5	//i_knife_butcher
+scp.special_move_weap_013f8		3,11	//i_staff_gnarled
+scp.special_move_weap_013fa		13,2	//i_axe_battle_large
+scp.special_move_weap_013fc		10,6	//i_crossbow_heavy
+scp.special_move_weap_013fe		7,1	//i_katana
+scp.special_move_weap_01400		1,8	//i_kryss
+scp.special_move_weap_01402		12,9	//i_spear_short
+scp.special_move_weap_01404		2,5	//i_war_fork
+scp.special_move_weap_01406		4,2	//i_mace_war
+scp.special_move_weap_01438		13,4	//i_hammer_war
+scp.special_move_weap_0143a		4,3	//i_maul
+scp.special_move_weap_0143c		1,9	//i_hammer_pick
+scp.special_move_weap_0143e		13,3	//i_halberd
+scp.special_move_weap_01440		2,12	//i_cutlass
+scp.special_move_weap_01442		7,12	//i_axe_two_hand
+scp.special_move_weap_026ba		2,11	//i_scythe
+scp.special_move_weap_026bb		11,9	//i_bone_harvester
+scp.special_move_weap_026bc		4,9	//i_scepter
+scp.special_move_weap_026bd		1,6	//i_bladed_staff
+scp.special_move_weap_026be		11,8	//i_pike
+scp.special_move_weap_026bf		7,8	//i_double_bladed_staff
+scp.special_move_weap_026c0		6,3	//i_lance
+scp.special_move_weap_026c1		7,9	//i_crescent_blade
+scp.special_move_weap_026c2		1,10	//i_composite_bow
+scp.special_move_weap_026c3		7,10	//i_repeating_crossbow
+scp.special_move_weap_026ce		13,5	//i_paladin_sword
+scp.special_move_weap_027a2		4,14	//i_no_dachi
+scp.special_move_weap_027a3		20,16	//i_tessen
+scp.special_move_weap_027a4		15,7	//i_wakizashi
+scp.special_move_weap_027a5		23,22	//i_yumi
+scp.special_move_weap_027a7		17,15	//i_lajatang
+scp.special_move_weap_027a8		20,18	//i_bokuto
+scp.special_move_weap_027a9		20,7	//i_daisho
+scp.special_move_weap_027ab		21,19	//i_tekagi
+scp.special_move_weap_027ad		13,17	//i_kama
+scp.special_move_weap_027ae		16,20	//i_nunchaku
+scp.special_move_weap_027af		16,23	//i_sai
+scp.special_move_weap_02d1e		25,28	//i_elven_composite_longbow
+scp.special_move_weap_02d1f		26,27	//i_magical_shortbow
+scp.special_move_weap_02d20		27,2	//i_elven_spellblade
+scp.special_move_weap_02d21		8,12	//i_assassin_spike
+scp.special_move_weap_02d22		20,1	//i_leafblade
+scp.special_move_weap_02d23		5,24	//i_war_cleaver
+scp.special_move_weap_02d24		3,4	//i_diamond_mace
+scp.special_move_weap_02d25		16,29	//i_wild_staff
+scp.special_move_weap_02d26		5,24	//i_rune_blade
+scp.special_move_weap_02d27		13,24	//i_radiant_scimitar
+scp.special_move_weap_02d28		5,4	//i_ornate_axe
+scp.special_move_weap_02d29		17,24	//i_elven_machete
+scp.special_move_weap_0900		1,11	//i_stone_war_sword
+
+[DEFNAME special_moves]			// Name, No Tactics requirement (2: not required if wrestling)
+scp.special_move_1			Armor Ignore
+scp.special_move_2			Bleed Attack
+scp.special_move_3			Concussion Blow
+scp.special_move_4			Crushing Blow
+scp.special_move_5			Disarm,2
+scp.special_move_6			Dismount
+scp.special_move_7			Double Strike
+scp.special_move_8			Infecting,1
+scp.special_move_9			Mortal Strike
+scp.special_move_10			Moving Shot
+scp.special_move_11			Paralyzing Blow,2
+scp.special_move_12			Shadow Strike
+scp.special_move_13			Whirlwind Attack
+scp.special_move_14			Riding Swipe
+scp.special_move_15			Frenzied Whirlwind
+scp.special_move_16			Block
+scp.special_move_17			Defense Mastery
+scp.special_move_18			Nerve Strike
+scp.special_move_19			Talon Strike
+scp.special_move_20			Feint
+scp.special_move_21			Dual Wield
+scp.special_move_22			Double Shot
+scp.special_move_23			Armor Pierce
+scp.special_move_24			Bladeweave
+scp.special_move_25			Force Arrow
+scp.special_move_26			Lightning Arrow
+scp.special_move_27			Psychic Attack
+scp.special_move_28			Serpent Arrow
+scp.special_move_29			Force of Nature
+scp.special_move_30			Infused Throw
+scp.special_move_31			Mystic Arc
+
+[eof]

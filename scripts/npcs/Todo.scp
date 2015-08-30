@@ -1,0 +1,50 @@
+
+
+
+[COMMENT creature_definitions]
+Todo list:
+
+1. Review all creatures and make sure the following are correct:
+
+RESDISPDNID=
+RESLEVEL=
+RESDISPDNHUE=
+
+2. Implement TAG.HitPoison on general monster event... like this:
+
+//ON=@Hit
+//   IF ( (<MANA> >= 10) && (RAND(5)==0) && !(<SRC.FLAGS>&statf_poisoned) )
+//      IF (<TAG.HitPoison>)
+//         MANA -= 10
+//         DOSWITCH <EVAL <TAG.HitPoison>>
+//            SRC.SPELLEFFECT s_poison,<R10,250>,1,<UID>//Lesser
+//            SRC.SPELLEFFECT s_poison,<R250,500>,1,<UID>//Normal
+//            SRC.SPELLEFFECT s_poison,<R500,750>,1,<UID>//Greater
+//            SRC.SPELLEFFECT s_poison,<R750,1000>,1,<UID>//Deadly
+//            SRC.SPELLEFFECT s_poison,<R1000,1250>,1,<UID>//Lethal
+//         ENDDO
+//         SRC.SYSMESSAGELOC color_text,1043322,<NAME>//"~ has just poisoned you!"
+//      ENDIF
+//   ENDIF
+
+3. Implement TAG.CorrosiveBlood on players and NPCs general combat system:
+
+//ON=@Hit //Since GetHit trigger does not have ARGO
+//   IF (<SRC.TAG0.CorrosiveBlood>)
+//      IF (<ARGO>) && (RAND(100) < <SRC.TAG0.CorrosiveBlood>)
+//         ARGO.DAMAGE <TAG.CorrosiveBlood> <DEF.dam_acidic> <SRC>
+//         SYSMESSAGELOC color_text,500263//"Splashing acid blood scars your weapon!"
+//      ENDIF
+//      IF (RAND(100) < <SRC.TAG0.CorrosiveBlood>)
+//         SYSMESSAGELOC color_text,1070820//"Splashing acid blood scars your weapon!"
+//         SERV.NEWITEM i_pool_acid
+//         NEW.ATTR=attr_move_never|attr_decay
+//         NEW.LINK=<SRC>
+//         NEW.P=<SRC.P>
+//         NEW.TIMER=<R5,10>
+//      ENDIF
+//   ENDIF
+
+
+
+[EOF]

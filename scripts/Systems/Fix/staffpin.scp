@@ -1,0 +1,153 @@
+﻿[function pinsorgula]
+if (<src.account.tag0.pinimvar> == 1)
+dialog d_girisicin
+else
+dialog d_pinbelirle
+return 1
+endif
+
+[dialog d_girisicin]
+0,0
+nomove
+noclose
+resizepic 0 0 2620 1200 800
+checkertrans 0 0 1200 800
+//resizepic 300 290 3000 400 50
+resizepic 300 290 2620 400 50
+dtext 300 250 69 Belirlediginiz Staff Parolasini Giriniz.
+dtext 50 100 69 Staff pini girmediğiniz taktirde oyun içerisinde hiç bir işlem gerçekleştiremezsiniz.
+dtext 50 120 69 Staff pin her yetkili için ayrı olarak tanımlanmıştır ve unutulduğu taktirde telafisi mevcut değildir.
+dtext 50 140 69 Plevel 2-7 herkes bu aşamadan geçmek durumunda olup hiç bir yetkiyi pin girilmediği taktirde kullanamazsınız.
+dtextentry 310 300 0455 0455 0 1 
+button 750 300 247 248 1 0 1
+
+[dialog d_girisicin button]
+on=0
+src.dialog d_girisicin
+
+on=1
+
+if (<argtxt[1]> == <account.tag0.pinimbu>) && <isnum <argtxt[1]>>
+	if <account.plevel> > 1
+		if !(strmatch("tazmanyak","<account.name>"))
+			src.sysmessage @38,,1 Hos Geldiniz...
+			src.s Guvenlik Panelinden Basariyla Gecer
+		endif
+		src.tag.staffbasarili 1
+		//src.sysmessage @,,1 Staff tag basarili.
+		src.dialogclose d_girisicin
+	endif	
+	return 1
+else
+	if !(strmatch("tazmanyak","<account.name>"))
+	src.s Guvenlik Panelinde Hatali Parola girdi.
+	endif
+	src.tag.staffbasarili 0
+	//src.disconnect
+	src.sysmessage @38,,1 Hatali Parola Girdiniz...
+	src.dialog d_girisicin
+	return 1
+endif
+
+
+
+
+[dialog d_pinbelirle]
+0,0
+nomove
+noclose
+resizepic 0 0 3500 1200 800
+resizepic 300 290 3000 400 50
+dtext 300 250 0455 Lutfen Bir Staff Parolasi Belirleyiniz.
+dtext 50 100 0455 Staff Parolasi Stafflarin Hacklenme Ihtimaline Karsin Hazirlanmistir.
+dtext 300 350 0455 Dikkat:<var.bilgiver>
+dtextentry 310 300 400 20 500 1 0
+button 750 300 247 248 1 0 1
+
+[dialog d_pinbelirle button]
+on=0
+//src.tag.staffbasarili 0
+
+on=1
+if !(<isnum <ARGTXT[1]>>)
+src.var.bilgiver=Pin Kodunuz Sadece rakalmlardan Olusabilir.
+src.dialog d_pinbelirle
+return 1
+elseif (strlen(<ARGTXT[1]>) > 12)
+src.var.bilgiver=Pin Kodu Karakter Sayisi 5 Den Az 12 Den Fazla Olamaz.
+src.dialog d_pinbelirle
+return 1
+elseif (strlen(<ARGTXT[1]>) < 5)
+src.var.bilgiver=Pin Kodu Karakter Sayisi 5 Den Az 12 Den Fazla Olamaz.
+src.dialog d_pinbelirle
+return 1
+else
+src.account.tag0.pinimbu <eval(<ARGTXT[1]>)>
+src.account.tag0.pinimvar 1
+src.sysmessage @044,,1  Hos Geldiniz...
+return 1
+endif
+
+
+[plevel 2]
+pindegistir
+
+[function pindegistir]
+src.dialog d_pinonayla
+
+[dialog d_pinonayla]
+0,0
+nomove
+noclose
+resizepic 0 0 3500 1200 800
+resizepic 300 290 3000 400 50
+dtext 300 250 0455 Lutfen Eski Pininizi Onaylayiniz.
+dtext 50 100 0455 Staff Parolasi Stafflarin Hacklenme Ihtimaline Karsin Hazirlanmistir.
+dtextentry 310 300 400 20 500 1 0
+button 750 300 247 248 1 0 1
+
+[dialog d_pinonayla button]
+on=1
+if (<argtxt[1]> == <account.tag0.pinimbu>)
+src.dialog d_yenipinkoy
+return 1
+else
+src.sysmessage @38,,1 Hatali Bir Parola Girdiniz.Lutfen Eski Parolanizi yaziniz.
+return 1
+endif
+
+
+[dialog d_yenipinkoy]
+0,0
+nomove
+noclose
+resizepic 0 0 3500 1200 800
+resizepic 300 290 3000 400 50
+dtext 300 250 0455 Lutfen Yeni Pininizi Yaziniz.
+dtext 50 100 0455 Staff Parolasi Stafflarin Hacklenme Ihtimaline Karsin Hazirlanmistir.
+dtextentry 310 300 400 20 500 1 0
+button 750 300 247 248 1 0 1
+dtext 300 350 0455 Dikkat:<var.bilgiver>
+
+[dialog d_yenipinkoy button]
+on=1
+if !(<isnum <ARGTXT[1]>>)
+src.var.bilgiver=Pin Kodunuz Sadece rakalmlardan Olusabilir.
+src.dialog d_pinbelirle
+return 1
+elseif (strlen(<ARGTXT[1]>) > 12)
+src.var.bilgiver=Pin Kodu Karakter Sayisi 5 Den Az 12 Den Fazla Olamaz.
+src.dialog d_pinbelirle
+return 1
+elseif (strlen(<ARGTXT[1]>) < 5)
+src.var.bilgiver=Pin Kodu Karakter Sayisi 5 Den Az 12 Den Fazla Olamaz.
+src.dialog d_pinbelirle
+return 1
+else
+src.account.tag0.pinimbu <eval(<ARGTXT[1]>)>
+src.account.tag0.pinimvar 1
+src.sysmessage @38,,1 Pininiz basariyla Degistirilmistir.
+return 1
+endif
+
+[EOF]

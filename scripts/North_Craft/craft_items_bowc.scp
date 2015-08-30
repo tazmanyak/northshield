@@ -1,0 +1,16 @@
+[defname def_bowc_items]
+// total page
+bowcraft_pagesum	3
+// materials
+bowcraft_0_1		i_arrow_shaft
+bowcraft_1_1		i_arrow
+bowcraft_2_1		i_xbolt
+// bows
+bowcraft_0_2		i_bow
+bowcraft_1_2		i_bow_sup
+bowcraft_2_2		i_crossbow_heavy
+bowcraft_3_2		i_crossbow
+
+bowcraft_0_3		i_bow_npc
+bowcraft_1_3		i_fast_bow
+bowcraft_2_3		i_bow_elven

@@ -1,0 +1,163 @@
+﻿// Proje tamamlanmadı.
+
+//ultimate wand
+// 42 s_energy_bolt
+// 30 s_lightning
+// 51 s_flamestrike
+// 18 s_fireball
+
+
+[ITEMDEF i_ultimate_wand]
+id=i_wand_1
+name=Ultimate Wand
+weight 9.5
+skillmake CARPENTRY 50.0, t_carpentry
+type=t_wand
+RESOURCES=14 i_reag_dragon_blood, 6 i_reag_wyrm_heart, 14 i_log_bloodwood
+
+On=@Create
+TAG.51 = 1
+TAG.30 = 1
+TAG.42 = 1
+TAG.18 = 1
+HITPOINTS=100
+color=1
+
+on=@equip
+src.events +e_ultimate_wand
+
+on=@unequip
+src.events -e_ultimate_wand
+
+on=@click
+message @33,,1 [ Saglamlik : <hitpoints>/<maxhits> ]
+message @,,1 <name>
+src.sysmessage @,,1 [ Sarj Durumu ]
+src.sysmessage @100,,1 Energy Bolt : <eval <tag.42>>
+src.sysmessage @100,,1 Lightning : <eval <tag.30>>
+src.sysmessage @34,,1 Flamestrike : <eval <tag.51>>
+src.sysmessage @34,,1 Fireball : <eval <tag.18>>
+src.sysmessage @69,,1 Toplam Sarj = <eval (<tag.42>+<tag.30>+<tag.51>+<tag.18>)> / 100
+return 1
+
+on=@dclick
+IF ( <TOPOBJ.UID> == <SRC.UID> )
+	equip
+	src.sysmessage @69,,1 Sarj etmek icin scroll secin.
+	target
+endif
+return 1
+
+on=@TargOn_Item
+//i_scroll_fireball	18
+//i_scroll_energy_bolt	42
+//i_scroll_flamestrike	51
+//i_scroll_LIGHTNING	30
+local.toplam	<eval (<tag.42>+<tag.30>+<tag.51>+<tag.18>)>
+local.fark = <eval (100-<local.toplam>)>
+
+if (<local.toplam> > 99)
+	src.sysmessage @33,,1 Sarj icin yer kalmamis.
+	return 1
+endif
+
+
+if strmatch('<argo.baseid>','i_scroll_fireball')
+	if (<local.fark> > <argo.amount>)
+		local.fark = <argo.amount>
+	endif
+		argo.f_scrollsilermisinki <local.fark>
+		tag.18 += <local.fark>
+		src.sysmessage @69,,1 Sarj basariyla eklendi.
+endif 
+
+if strmatch('<argo.baseid>','i_scroll_energy_bolt')
+	if (<local.fark> > <argo.amount>)
+		local.fark = <argo.amount>
+	endif
+		argo.f_scrollsilermisinki <local.fark>
+		tag.42 += <local.fark>
+		src.sysmessage @69,,1 Sarj basariyla eklendi.
+endif
+if strmatch('<argo.baseid>','i_scroll_flamestrike')
+	if (<local.fark> > <argo.amount>)
+		local.fark = <argo.amount>
+	endif
+		argo.f_scrollsilermisinki <local.fark>
+		tag.51 += <local.fark>
+		src.sysmessage @69,,1 Sarj basariyla eklendi.
+endif
+if strmatch('<argo.baseid>','i_scroll_LIGHTNING')
+	if (<local.fark> > <argo.amount>)
+		local.fark = <argo.amount>
+	endif
+		argo.f_scrollsilermisinki <local.fark>
+		tag.30 += <local.fark>
+		src.sysmessage @69,,1 Sarj basariyla eklendi.
+endif
+
+return 1
+
+
+
+[EVENTS e_ultimate_wand]
+on=@SpellSuccess
+
+if (<findlayer(1).type> == t_wand)
+	ref1 = <findlayer(1).uid>
+endif
+
+is !(<ACT.ISPLAYER>)
+	if (<ref1.tag.51> > 0)
+		If (<argn>==51)
+			argn2 += 3800
+			act.effect 3,i_fx_sparkle,6,30,3,33
+			act.effect 0,i_wand_1,1,20,0,32,3
+			ref1.tag.51 --
+			ref1.damage 198
+		endif
+	endif
+	if (<ref1.tag.42> > 0)
+		If (<argn>==42)
+			argn2 += 7800
+			act.effect 3,i_fx_sparkle,6,30,3,99
+			act.effect 0,i_wand_1,1,20,0,99,3
+			ref1.tag.42 --
+			ref1.damage 198
+		endif
+	endif
+	if (<ref1.tag.30> > 0)
+		If (<argn>==30)
+			argn2 += 1800
+			act.effect 3,i_fx_sparkle,6,30,3,99
+			act.effect 0,i_wand_1,1,20,0,99,3
+			ref1.tag.30 --
+			ref1.damage 83
+		endif
+	endif
+	if (<ref1.tag.18> > 0)
+		If (<argn>==18)
+			argn2 += 1800
+			act.effect 3,i_fx_sparkle,6,30,3,33
+			act.effect 0,i_wand_1,1,20,0,32,3
+			ref1.tag.18 --
+			ref1.damage 65
+		endif
+	endif
+endif
+
+[function f_scrollsilermisinki]
+if <isitem>
+	if (<amount> == <argn>)
+		remove
+		return 1
+	elseif (<amount> < <argn>)
+		remove
+		return 1
+	else
+		amount -= <argn>
+		return 1
+	endif
+endif
+
+[EOF]

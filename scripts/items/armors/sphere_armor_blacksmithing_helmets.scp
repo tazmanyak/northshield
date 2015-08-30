@@ -1,0 +1,401 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 01408]
+DEFNAME=i_helm_closed
+TYPE=T_ARMOR
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 37.9
+WEIGHT=5
+FLIP=1
+REQSTR=55
+DUPELIST=01409
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Closed Helm
+TAG.Penalty.Meditation=1
+TAG.Penalty.Stealth=10
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS={36 48}
+
+[ITEMDEF 01409]
+DUPEITEM=01408
+
+[ITEMDEF 0140a]
+DEFNAME=i_helm_open
+TYPE=T_ARMOR
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 37.9
+WEIGHT=5
+FLIP=1
+REQSTR=45
+DUPELIST=0140b
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Helmet
+TAG.Penalty.Meditation=1
+TAG.Penalty.Stealth=10
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS={36 48}
+
+[ITEMDEF 0140b]
+DUPEITEM=0140a
+
+[ITEMDEF 0140c]
+DEFNAME=i_bascinet
+TYPE=T_ARMOR
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 8.3
+WEIGHT=5
+FLIP=1
+REQSTR=40
+DUPELIST=0140d
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Bascinet
+TAG.Penalty.Meditation=1
+TAG.Penalty.Stealth=10
+TAG.ResPhysical=7
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=2
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS={36 48}
+
+[ITEMDEF 0140d]
+DUPEITEM=0140c
+
+[ITEMDEF 0140e]
+DEFNAME=i_helm_nose
+TYPE=t_armor
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 37.9
+WEIGHT=5
+FLIP=1
+REQSTR=55
+DUPELIST=0140f
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Norse Helm
+TAG.Penalty.Meditation=1
+TAG.Penalty.Stealth=10
+TAG.ResPhysical=4
+TAG.ResFire=1
+TAG.ResCold=4
+TAG.ResPoison=4
+TAG.ResEnergy=2
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS={36 48}
+
+[ITEMDEF 0140f]
+DUPEITEM=0140e
+
+[ITEMDEF 02774]
+DEFNAME=i_chainmail_hatsuburi
+NAME=Chainmail Hatsuburi
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 30.0
+WEIGHT=7
+FLIP=1
+REQSTR=50
+DUPELIST=027bf
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Chainmail Hatsuburi
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=5
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=4
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027bf]
+DUPEITEM=02774
+
+[ITEMDEF 02775]
+DEFNAME=i_platemail_hatsuburi
+NAME=Platemail Hatsuburi
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 45.0
+WEIGHT=5
+FLIP=1
+REQSTR=65
+DUPELIST=027c0
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Platemail Hatsuburi
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=5
+TAG.ResFire=3
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027c0]
+DUPEITEM=02775
+
+[ITEMDEF 02777]
+DEFNAME=i_plate_jingasa_heavy
+NAME=Heavy Platemail Jingasa
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 45.0
+WEIGHT=5
+REQSTR=55
+DUPELIST=027c2
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Heavy Platemail Jingasa
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=7
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027c2]
+DUPEITEM=02777
+
+[ITEMDEF 02778]
+DEFNAME=i_platemail_kabuto_decorative
+NAME=Decorative Platemail Kabuto
+TYPE=t_armor
+RESOURCES=25 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 90.0
+WEIGHT=6
+FLIP=1
+REQSTR=70
+DUPELIST=027c3
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Platemail Decorative Kabuto
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=6
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027c3]
+DUPEITEM=02778
+
+[ITEMDEF 02781]
+DEFNAME=i_plate_jingasa_light
+NAME=Light Platemail Jingasa
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 45.0
+WEIGHT=5
+FLIP=1
+REQSTR=55
+DUPELIST=027cc
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Light Platemail Jingasa
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=7
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027cc]
+DUPEITEM=02781
+
+[ITEMDEF 02784]
+DEFNAME=i_plate_jingasa_small
+NAME=Small Platemail Jingasa
+TYPE=t_armor
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 45.0
+WEIGHT=5
+FLIP=1
+REQSTR=55
+DUPELIST=027cf
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Small Platemail Jingasa
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=7
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027cf]
+DUPEITEM=02784
+
+[ITEMDEF 02785]
+DEFNAME=i_platemail_kabuto_battle
+NAME=Platemail Battle Kabuto
+TYPE=t_armor
+RESOURCES=25 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 90.0
+WEIGHT=6
+FLIP=1
+REQSTR=70
+DUPELIST=027d0
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Platemail Battle Kabuto
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=6
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027d0]
+DUPEITEM=02785
+
+[ITEMDEF 02789]
+DEFNAME=i_platemail_kabuto
+NAME=Standard Platemail Kabuto
+TYPE=t_armor
+RESOURCES=25 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 90.0
+WEIGHT=6
+REQSTR=70
+DUPELIST=027d4
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Standard Platemail Kabuto
+TAG.Penalty.Meditation=1
+TAG.ResPhysical=6
+TAG.ResFire=2
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 027d4]
+DUPEITEM=02789
+
+[ITEMDEF 02b6e]
+DEFNAME=i_circlet
+TYPE=t_armor
+NAME=Circlet
+RESOURCES=6 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 62.1
+WEIGHT=2
+FLIP=1
+REQSTR=10
+DUPELIST=03165
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Circlet
+TAG.Item.Eleven=1
+TAG.ResPhysical=1
+TAG.ResFire=5
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 03165]
+DUPEITEM=02b6e
+
+[ITEMDEF 02b6f]
+DEFNAME=i_circlet_royal
+NAME=Royal Circlet
+TYPE=t_armor
+RESOURCES=6 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 70.0
+WEIGHT=2
+FLIP=1
+REQSTR=10
+DUPELIST=03166
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Royal Circlet
+TAG.Item.Eleven=1
+TAG.ResPhysical=1
+TAG.ResFire=5
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 03166]
+DUPEITEM=02b6f
+
+[ITEMDEF 02b70]
+DEFNAME=i_circlet_gemmed
+NAME=Gemmed Circlet
+TYPE=t_armor
+RESOURCES=6 i_ingot_iron, 1 i_gem_amethyst, 1 i_gem_tourmaline, 1 i_gem_blue_diamond
+SKILLMAKE=BLACKSMITHING 75.0
+WEIGHT=2
+FLIP=1
+REQSTR=10
+DUPELIST=03167
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Helmets
+DESCRIPTION=Gemmed Circlet
+TAG.Item.Eleven=1
+TAG.ResPhysical=1
+TAG.ResFire=5
+TAG.ResCold=2
+TAG.ResPoison=2
+TAG.ResEnergy=5
+
+ON=@CREATE
+HITPOINTS={36 48}
+
+[ITEMDEF 03167]
+DUPEITEM=02b70
+
+[eof]

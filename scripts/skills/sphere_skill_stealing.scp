@@ -1,0 +1,229 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 33]
+DEFNAME=Skill_Stealing
+KEY=Stealing
+TITLE=Thief
+PROMPT_MSG=Which item will you attempt to steal?
+DELAY=2.5
+STAT_STR=40
+STAT_INT=50
+STAT_DEX=100
+BONUS_STR=0
+BONUS_DEX=100
+BONUS_INT=0
+BONUS_STATS=70
+//ADV_RATE=0,0,0//10.0,200.0,800.0
+//ADV_RATE=10.0,200.0,800.0
+//ADV_RATE=1.0,1.0,1.0
+
+on=@start
+if <src.region.tag.craftkoy>
+	src.sys_error Bu alanda olmaz.
+	return 1
+endif
+
+IF (<ACT.TAG0.DOOMARTIFACT>) && !(<STEALING> >= 900)
+SRC.SYSMESSAGE You need 90.0 or more on stealing to take this artifact.
+RETURN 1
+ELIF (<ACT.TAG0.DOOMARTIFACT>) && !(<ACT.TAG0.DOOMJAFOIPEGO>)
+IF !(<R5>)
+ACT.TAG.DOOMJAFOIPEGO=1
+ACT.ATTR &= ~attr_move_never
+LOCAL.P=<ACT.P>
+SERV.NEWITEM=i_doomartifact_spawn
+IF ((<ACT.P.X>==471) && (<ACT.P.Y>==99)) || ((<ACT.P.X>==472) && (<ACT.P.Y>==96)) || (STRCMPI(<REGION.NAME>,Doom))
+NEW.P=<ACT.P>
+ELSE
+NEW.DOOMLOCATION
+ENDIF
+ACT.BOUNCE
+ACT.ATTR 0
+NEW.MORE1=<ACT.BASEID>
+NEW.TIMER=<EVAL 60*60*<ACT.TAG0.DOOMARTIFACT>>
+RETURN 1
+ELSE
+SYSMESSAGE @55 You fail!
+RETURN 1
+ENDIF
+ENDIF
+
+if strmatch(*Dummy*,<region.name>)
+	sys_error Bu alanda bu yetenegi kullanamazsiniz.
+	skill fail
+	return 1
+endif
+
+if (<act.topobj.id> == c_pv) || (<act.topobj.id> == c_vendor_player_burak)
+	skill fail
+	return 1
+elseif !(<act.topobj.isplayer>)
+	sysmessage @0803 Sadece oyunculardan calabilirsiniz.
+	skill fail
+	return 1
+elseif !(<act.topobj.ischar>)
+	sysmessage @0803 Sadece oyunculardan calabilirsiniz.
+	skill fail
+	return 1
+elseif !(<act.isitem>)
+	sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+	skill fail
+	return 1
+elseif (<act.attr>&attr_newbie)
+	src.sys_error Bunu çalamazsınız.
+	skill fail
+	return 1
+elseif (<act.cont.isevent.t_locked_down>)
+	sysmessage @0803 Bu konumdan calamazsiniz.
+	skill fail
+	return 1
+
+elseif !(<act.cont>)
+	sysmessage @0803 Sadece cantalarin iclerinden calabilirsiniz.
+	skill fail	
+	return 1
+elif !(<act.cont.type> == t_container)
+	sysmessage @0803 Sadece cantalarin iclerinden calabilirsiniz.
+	skill fail	
+	return 1
+elseif (<act.weight> > 1700)
+		sysmessage bu cok agir calamazsiniz
+		skill fail
+		return 1
+elseif (0<uid.<act.uid>.cont>)
+	if  (<uid.<uid.<act.uid>.cont.uid>.ischar>)
+		sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+		skill fail
+		return 1
+	endif
+	if  (<uid.<uid.<act.uid>.cont.uid>.isplayer>)
+		sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+		skill fail
+		return 1
+	endif			
+	if !(<uid.<uid.<act.uid>.cont.uid>.type> == t_container)
+		sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+		skill fail
+		return 1
+	endif
+elseif (<act.isitem>)
+	if (<act.cont>)
+		if (<act.cont.type> == t_eq_trade_window)
+			src.sysmessage @0803 Bunu calamazsiniz. 
+			return 1
+		endif
+	endif
+elseif (<act.isitem>)
+	if (<act.cont>)
+		if (<act.cont.type> == t_eq_trade_window)
+			src.sysmessage @0803 Bunu calamazsiniz. 
+			return 1
+		endif
+	endif
+elseif (<act.isitem>)
+	if <act.layer>
+		src.sysmessage @,,1 Sadece cantalardan calabilirsiniz.
+		skill fail
+		return 1
+	endif
+endif
+	
+on=@select
+if <src.region.tag.craftkoy>
+	src.sys_error Bu alanda olmaz.
+	return 1
+endif
+if <argo.distance> > 1 
+		sys_error 2 kareden daha uzakta calamazsiniz.
+		skill fail
+		return 1
+endif
+
+on=@success
+if (<act.topobj.id> == c_pv) || (<act.topobj.id> == c_vendor_player_burak)
+	skill fail
+	return 1
+elseif !(<act.topobj.isplayer>)
+	sysmessage @0803 Sadece oyunculardan calabilirsiniz.
+	skill fail
+	return 1
+elseif !(<act.topobj.ischar>)
+	sysmessage @0803 Sadece oyunculardan calabilirsiniz.
+	skill fail
+	return 1
+elseif !(<act.isitem>)
+	sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+	skill fail
+	return 1
+elseif (<act.attr>&attr_newbie)
+	src.sys_error Bunu çalamazsınız.
+	skill fail
+	return 1
+elseif (<act.cont.isevent.t_locked_down>)
+	sysmessage @0803 Bu konumdan calamazsiniz.
+	skill fail
+	return 1
+
+elseif !(<act.cont>)
+	sysmessage @0803 Sadece cantalarin iclerinden calabilirsiniz.
+	skill fail	
+	return 1
+elif !(<act.cont.type> == t_container)
+	sysmessage @0803 Sadece cantalarin iclerinden calabilirsiniz.
+	skill fail	
+	return 1
+elseif (<act.weight> > 1700)
+		sysmessage bu cok agir calamazsiniz
+		skill fail
+		return 1
+elseif (0<uid.<act.uid>.cont>)
+	if  (<uid.<uid.<act.uid>.cont.uid>.ischar>)
+		sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+		skill fail
+		return 1
+	endif
+	if  (<uid.<uid.<act.uid>.cont.uid>.isplayer>)
+		sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+		skill fail
+		return 1
+	endif			
+	if !(<uid.<uid.<act.uid>.cont.uid>.type> == t_container)
+		sysmessage @0803 Sadece cantalarin icinden calabilirsiniz.
+		skill fail
+		return 1
+	endif
+elseif (<act.isitem>)
+	if (<act.cont>)
+		if (<act.cont.type> == t_eq_trade_window)
+			src.sysmessage @0803 Bunu calamazsiniz. 
+			return 1
+		endif
+	endif
+elseif (<act.isitem>)
+	if (<act.cont>)
+		if (<act.cont.type> == t_eq_trade_window)
+			src.sysmessage @0803 Bunu calamazsiniz. 
+			return 1
+		endif
+	endif
+elseif (<act.isitem>)
+	if <act.layer>
+		src.sysmessage @,,1 Sadece cantalardan calabilirsiniz.
+		skill fail
+		return 1
+	endif
+endif
+
+ON=@Fail
+	src.sysmessage @38 Esyayi calamadiniz.
+
+ON=@Abort
+	SRC.SYSMESSAGE @38 Vazgectiniz.
+
+[eof]

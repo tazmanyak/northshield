@@ -1,0 +1,44 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// jeem - All the new taming skill script
+// ShiryuX - Adapted to the script pack.
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// OSI-Like Animal Taming
+//
+
+[SKILL 35]
+DEFNAME=Skill_Taming
+KEY=Taming
+TITLE=Animal Tamer
+PROMPT_MSG=Tame which animal?
+DELAY=2.0
+STAT_STR=30
+STAT_INT=40
+STAT_DEX=60
+BONUS_STR=30
+BONUS_DEX=10
+BONUS_INT=60
+BONUS_STATS=20
+//ADV_RATE=0,0,0
+//ADV_RATE=10.0,200.0,800.0
+//ADV_RATE=1.0,1.0,1.0
+
+on=@start
+src.sysmessage @,,1 Taming sopasi ile deneyin.
+return 1
+
+on=@success
+src.sysmessage @,,1 Taming sopasi ile deneyin.
+return 1
+
+[eof]

@@ -1,0 +1,97 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - getvirtue, losevirtue and gainvirtue
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// GetVirtue $virtue - returns the color according $virtue points.
+// LoseVirtue $virtue,$points - lose $points in $virtue.
+// GainVirtue $virtue,$points - gain $points in $virtue.
+
+[function getvirtue]  // get virtue color.
+if (<tag0.virtue_<dargs>> < 4000)
+return 2402
+else
+local.value=<dtag0.virtue_<dargs>>
+	if (<local.value> >= 30000)
+	local.value=20000
+	endif
+return <eval <def.virtcolor_<eval (3*<dargs>)+(<dlocal.value>/10000)>>>
+endif
+
+[function getvirtuestatus]
+if <tag0.virtue_<args>> < 1
+return 1052044 // You have not started on the path of this Virtue.
+elif <tag0.virtue_<args>> < <eval (<tag0.virtuemax_<dargs>> / 6)>
+return 1052045 // You have barely begun your journey through the path of this Virtue.
+elif <tag0.virtue_<args>> < <eval (<tag0.virtuemax_<dargs>> / 3)>
+return 1052046 // You have progressed in this Virtue, but still have much to do.
+elif <tag0.virtue_<args>> < <eval (<tag0.virtuemax_<dargs>> / 2)>
+return 1052047 // Your journey through the path of this Virtue is going well.
+elif <tag0.virtue_<args>> < <eval ((2 * <tag0.virtuemax_<dargs>>) / 3)>
+return 1052048 // You feel very close to achieving your next path in this Virtue.
+elif (<tag0.virtue_<args>> < <eval ((5 * <tag0.virtuemax_<dargs>>) / 6)>)
+return 1052049 // You have achieved a path in this Virtue.
+else
+return 1052050 // You have achieved the highest path in this Virtue.
+endif
+
+[function maxbluegems]
+if <tag0.virtue_<args>> < 4000
+return <eval (<tag0.virtue_<args>> / 400)>
+elif <tag0.virtue_<dargs>> < 10000
+return <eval ((<tag0.virtue_<args>> - 4000) / 600)>
+elif <tag0.virtue_<dargs>> < <tag0.virtuemax_<args>>
+return <eval ((<tag0.virtue_<args>> - 10000) / ((<tag0.virtuemax_<args>> - 10000)/10))>
+else
+return 10
+endif
+
+[function losevirtue]  // .lostvirtue <virtuenumber>,<point>
+local.virtue = <def.virtue_<dargv[0]>_name>
+if <argv[1]>
+sysmessage You lost in <local.virtue> !
+tag0.virtue_<dargv[0]> -= <argv[1]>
+	if <tag0.virtue_<dargv[0]>> < 4000
+		if <tag0.virtuemax_<dargv[0]>> == 10000
+		sysmessage You lost path in <local.virtue> !
+		tag0.virtuemax_<dargv[0]>=4000
+		endif
+	elif <tag0.virtue_<dargv[0]>> < 10000
+		if <tag0.virtuemax_<dargv[0]>> == 20000
+		sysmessage You lost path in <local.virtue> !
+		tag0.virtuemax_<dargv[0]>=10000
+		endif
+	elif <eval (<tag0.virtue_<dargv[0]>> + <argv[1]>)> >= 20000 && <tag0.virtue_<dargv[0]>> < 20000
+	sysmessage You lost path in <local.virtue> !
+	tag0.virtuemax_<dargv[0]>=20000
+	endif
+endif
+
+[function gainvirtue]  // .gainvirtue <virtuenumber>,<point>
+local.virtue = <def.virtue_<dargv[0]>_name>
+if <argv[1]>
+tag0.virtue_<dargv[0]> += <argv[1]>
+	if <tag0.virtue_<dargv[0]>> >= <tag0.virtuemax_<dargv[0]>>
+		if <tag0.virtuemax_<dargv[0]>> == 4000
+		tag0.virtuemax_<dargv[0]> = 10000
+		elif <tag0.virtuemax_<dargv[0]>> == 10000
+		tag0.virtuemax_<dargv[0]> = 20000
+		endif
+		if <tag0.virtue_<dargv[0]>> >= 20000
+		tag.virtue_<dargv[0]> = 20000
+		endif
+	return 1
+	endif
+endif
+return 0
+
+[eof]

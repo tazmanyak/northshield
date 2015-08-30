@@ -1,0 +1,165 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 02b74]
+DEFNAME=i_hide_tunic
+NAME=Hide Tunic
+TYPE=t_armor_leather
+WEIGHT=6
+RESOURCES=15 i_hides_cut
+SKILLMAKE=TAILORING 85.0
+REQSTR=25
+armor 22
+DUPELIST=0316b
+CATEGORY=Provisions - Armor - Leather
+SUBSECTION=Hide Armor
+DESCRIPTION=Hide Tunic
+TAG.Item.Elven=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0316b]
+DUPEITEM=02b74
+
+[ITEMDEF 02b75]
+DEFNAME=i_hide_gloves
+NAME=Hide Gloves
+TYPE=t_armor_leather
+WEIGHT=2
+armor 22
+RESOURCES=10 i_hides_cut
+SKILLMAKE=TAILORING 75.0
+REQSTR=15
+DUPELIST=0316c
+CATEGORY=Provisions - Armor - Leather
+SUBSECTION=Hide Armor
+DESCRIPTION=Hide Gloves
+TAG.Item.Elven=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0316c]
+DUPEITEM=02b75
+
+[ITEMDEF 02b76]
+DEFNAME=i_hide_gorget
+NAME=Hide Gorget
+TYPE=t_armor_leather
+WEIGHT=3
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 90.0
+REQSTR=15
+armor 22
+DUPELIST=0316d
+CATEGORY=Provisions - Armor - Leather
+SUBSECTION=Hide Armor
+DESCRIPTION=Hide Gorget
+TAG.Item.Elven=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0316d]
+DUPEITEM=02b76
+
+[ITEMDEF 02b77]
+DEFNAME=i_hide_pauldrons
+NAME=Hide Pauldrons
+TYPE=t_armor_leather
+WEIGHT=4
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 75.0
+REQSTR=20
+armor 22
+DUPELIST=0316e
+CATEGORY=Provisions - Armor - Leather
+SUBSECTION=Hide Armor
+DESCRIPTION=Hide Pauldrons
+TAG.Item.Elven=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0316e]
+DUPEITEM=02b77
+
+[ITEMDEF 02b78]
+DEFNAME=i_hide_pants
+NAME=Hide Pants
+TYPE=t_armor_leather
+WEIGHT=5
+RESOURCES=15 i_hides_cut
+SKILLMAKE=TAILORING 92.0
+REQSTR=25
+armor 22
+DUPELIST=0316f
+CATEGORY=Provisions - Armor - Leather
+SUBSECTION=Hide Armor
+DESCRIPTION=Hide Pants
+TAG.Item.Elven=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 0316f]
+DUPEITEM=02b78
+
+[ITEMDEF 02b79]
+DEFNAME=i_hide_tunic_female
+NAME=Female Hide Tunic
+TYPE=t_armor_leather
+WEIGHT=6
+RESOURCES=15 i_hides_cut
+SKILLMAKE=TAILORING 85.0
+REQSTR=25
+armor 22
+DUPELIST=0316b
+CATEGORY=Provisions - Armor - Leather
+SUBSECTION=Hide Armor
+DESCRIPTION=Hide Tunic (Female)
+TAG.Item.Elven=1
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=4
+TAG.ResPoison=3
+TAG.ResEnergy=2
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 03170]
+DUPEITEM=02b79
+
+[EOF]

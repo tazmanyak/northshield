@@ -1,0 +1,58 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Sábado, 08 de Mayo de 2010
+VERSION=0.56b
+
+[ITEMDEF i_treasure_map_lvl_1]
+ID=i_map
+NAME=Treasure Map Level 1
+TYPE=t_map
+TDATA1=300
+TDATA2=300
+TEVENTS=t_treasure_map
+TAG.Map.Level=1
+
+[ITEMDEF i_treasure_map_lvl_2]
+ID=i_map
+NAME=Treasure Map Level 2
+TYPE=t_map
+TDATA1=300
+TDATA2=300
+TEVENTS=t_treasure_map
+TAG.Map.Level=2
+
+[ITEMDEF i_treasure_map_lvl_3]
+ID=i_map
+NAME=Treasure Map Level 3
+TYPE=t_map
+TDATA1=300
+TDATA2=300
+TEVENTS=t_treasure_map
+TAG.Map.Level=3
+
+[ITEMDEF i_treasure_map_lvl_4]
+ID=i_map
+NAME=Treasure Map Level 4
+TYPE=t_map
+TDATA1=300
+TDATA2=300
+TEVENTS=t_treasure_map
+TAG.Map.Level=4
+
+[ITEMDEF i_treasure_map_lvl_5]
+ID=i_map
+NAME=Treasure Map Level 5
+TYPE=t_map
+TDATA1=300
+TDATA2=300
+TEVENTS=t_treasure_map
+TAG.Map.Level=5
+
+[EOF]

@@ -1,0 +1,165 @@
+[PLEVEL 7]
+DUPECHAR
+
+[FUNCTION DUPECHAR]
+src.hata Hangi karakteri cogaltacaksýnýz ?
+if <argn>
+targetf f_dupechar <argn>
+else
+targetf f_dupechar 1
+endif
+return
+
+[FUNCTION f_dupechar]
+obj=<argo.uid>
+FOR index 1 <argn>
+obj.newnpc <obj.ID>
+obj.act.ClearTags
+obj.act.f_empty 29
+obj.act.f_empty_memory_items
+obj.f_fill 29
+obj.f_fill_memory_items
+if <obj.tagcount>
+obj.f_dupetags <eval (<obj.tagcount>-1)>
+endif
+obj.f_dupeskills
+obj.f_dupeother
+if !<obj.brain>
+obj.act.brain=2
+else
+obj.act.brain=<obj.brain>
+endif
+ENDFOR
+return
+
+[FUNCTION f_empty]
+FOR index 0 <argn>
+IF <FINDLAYER.<local.index>>
+TRY FINDLAYER.<local.index>.REMOVE
+ENDIF
+ENDFOR
+return
+
+[FUNCTION f_empty_memory_items]
+FORCHARLAYER 30
+remove
+ENDFOR
+return
+
+[FUNCTION f_fill]
+FOR index 0 <argn>
+IF <FINDLAYER.<local.index>>
+serv.NEWDUPE <FINDLAYER.<local.index>.uid>
+new.timer=<FINDLAYER.<local.index>.timer>
+//new.cont=<src.act.uid>
+//new.layer=<local.index>
+act.equip <new.uid>
+ENDIF
+ENDFOR
+return
+
+[FUNCTION f_fill_memory_items]
+FORCHARLAYER 30
+serv.NEWDUPE <uid>
+new.timer=<timer>
+act.equip <new.uid>
+src.sysmessage Copying a <name>
+ENDFOR
+return
+
+[FUNCTION f_dupetags]
+FOR index 0 <argn>
+try act.tag.<tagat.<local.index>>
+ENDFOR
+return
+
+[FUNCTION f_dupeother]
+src.act.str <str>
+act.int <int>
+act.dex <dex>
+act.hits <hits>
+act.mana <mana>
+act.stam <stam>
+act.act <act.uid>
+act.actarg1 <actarg1>
+act.actarg2 <actarg2>
+act.actarg3 <actarg3>
+act.body <body>
+act.events <events>
+act.fame <fame>
+act.flags <flags>
+act.font <font>
+act.home <home>
+act.karma <karma>
+act.obody <obody>
+act.oskin <oskin>
+act.title <title>
+act.color <color>
+act.name <name>
+if <act.ar>!=<ar>
+act.modar <eval(<ar>-<act.ar>)>
+endif
+if <act.maxweight>!=<maxweight>
+act.modmaxweight <eval(<eval(<maxweight>-<act.maxweight>)>/10> //seems strange but the modmaxweight function seems to multiply it by 10 before aplying it for some reason.
+endif
+return
+
+[FUNCTION f_dupeskills]
+act.0 <0>
+act.1 <1>
+act.2 <2>
+act.3 <3>
+act.4 <4>
+act.5 <5>
+act.6 <6>
+act.7 <7>
+act.8 <8>
+act.9 <9>
+act.10 <10>
+act.11 <11>
+act.12 <12>
+act.13 <13>
+act.14 <14>
+act.15 <15>
+act.16 <16>
+act.17 <17>
+act.18 <18>
+act.19 <19>
+act.20 <20>
+act.21 <21>
+act.22 <22>
+act.23 <23>
+act.24 <24>
+act.25 <25>
+act.26 <26>
+act.27 <27>
+act.28 <28>
+act.29 <29>
+act.30 <30>
+act.31 <31>
+act.32 <32>
+act.33 <33>
+act.34 <34>
+act.35 <35>
+act.36 <36>
+act.37 <37>
+act.38 <38>
+act.39 <39>
+act.40 <40>
+act.41 <41>
+act.42 <42>
+act.43 <43>
+act.44 <44>
+act.45 <45>
+act.46 <46>
+act.47 <47>
+act.48 <48>
+act.49 <49>
+act.50 <50>
+act.51 <51>
+act.52 <52>
+act.53 <53>
+act.54 <54>
+return 1
+
+[EOF]

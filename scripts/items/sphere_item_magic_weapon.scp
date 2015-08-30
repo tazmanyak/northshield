@@ -1,0 +1,6355 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Tuesday, July 17, 2007
+//
+VERSION=0.56b
+
+
+[ITEMDEF i_enchant_weapon]
+// WEAPON ENHANCER - good for 20 % enchantment
+// Player must be holding a weapon in their right hand.
+// Weapon decays when timer runs out.
+ID=i_virtstone_1
+VALUE=40	// set price per level of magic enhancement.
+
+ON=@DCLICK
+	if ( <src.magery> < 65.0 ) //Not enough Magery
+		src.message Your magery is not high enough to enchant a weapon.
+		return 1
+	endif
+	if (<src.findlayer(layer_hand1).UID>==0) //Do they have a weapon in the hand?
+		src.message You must have a one-handed weapon equipped to use this.
+		return 1
+	endif
+	if (<src.findlayer(layer_hand1).ATTR>&(attr_magic|attr_newbie))
+		src.message This weapon is already magical or newbied!
+		return 1
+	endif
+	//Success!!
+	SRC.MESSAGE You enchant the weapon.
+	SRC.SOUND snd_SPELL_PROTECTION
+	SRC.FINDLAYER(layer_hand1).ATTR=attr_magic
+	SRC.FINDLAYER(layer_hand1).MOREY=03
+	LINK=<src.findlayer(layer_hand1).uid>
+	IF ( <src.magery> < 80.0 )
+		TIMER=120
+	elif ((<SRC.MAGERY>>80.0)&&(<SRC.MAGERY><95.0))
+		TIMER=180
+	elif ((<SRC.MAGERY>>95.0)&&(<SRC.MAGERY><99.9))
+		TIMER=240
+	elif (<SRC.MAGERY>==100.0)
+		TIMER=300
+	endif
+	ATTR=attr_invis
+	SRC.UPDATE
+	RETURN 1
+
+
+[ITEMDEF i_SCIMITAR_RUIN]
+DEFNAME=i_SCIMITAR_RUIN
+ID=i_scimitar
+NAME=Scimitar of Ruin
+RESOURCES=i_scimitar,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scimitars
+DESCRIPTION=Scimitar of Ruin
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={100 101}
+	MOREY=20.0
+	ATTR=attr_magic
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_SCIMITAR_MIGHT]
+DEFNAME=i_SCIMITAR_MIGHT
+ID=i_scimitar
+NAME=Scimitar of Might
+RESOURCES=i_scimitar,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scimitars
+DESCRIPTION=Scimitar of Might
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={105 106}
+	ATTR=attr_magic
+	MOREY=40.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_SCIMITAR_FORCE]
+DEFNAME=i_SCIMITAR_FORCE
+ID=i_scimitar
+NAME=Scimitar of Force
+RESOURCES=i_scimitar,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scimitars
+DESCRIPTION=Scimitar of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={115 116}
+	ATTR=attr_magic
+	MOREY=60.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_SCIMITAR_POWER]
+DEFNAME=i_SCIMITAR_POWER
+ID=i_scimitar
+NAME=Scimitar of Power
+RESOURCES=i_scimitar,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scimitars
+DESCRIPTION=Scimitar of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={115 116}
+	ATTR=attr_magic
+	MOREY=80.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_SCIMITAR_VANQ]
+DEFNAME=i_SCIMITAR_VANQ
+ID=i_scimitar
+NAME=Scimitar of Vanquishing
+RESOURCES=i_scimitar,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scimitars
+DESCRIPTION=Scimitar of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={115 116}
+	ATTR=attr_magic
+	MOREY=100.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_SCIMITAR_mystic]
+DEFNAME=i_SCIMITAR_mystic
+ID=i_scimitar
+NAME=Mystic Scimitar
+RESOURCES=i_scimitar,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scimitars
+DESCRIPTION=Mystic Scimitar
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={115 116}
+	ATTR=attr_magic
+	MOREY=120.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+
+[ITEMDEF i_CROSSBOW_RUIN]
+DEFNAME=i_CROSSBOW_RUIN
+ID=i_crossbow
+NAME=Crossbow of Ruin
+RESOURCES=i_crossbow,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crossbows
+DESCRIPTION=Crossbow of Ruin
+
+ON=@Create
+	remove //={85 86}
+	ATTR=attr_magic
+	MOREY=20.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_CROSSBOW_MIGHT]
+DEFNAME=i_CROSSBOW_MIGHT
+ID=i_crossbow
+NAME=Crossbow of Might
+RESOURCES=i_crossbow,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crossbows
+DESCRIPTION=Crossbow of Might
+
+ON=@Create
+	COLOR=045e
+	remove //={90 91}
+	ATTR=attr_magic
+	MOREY=40.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_CROSSBOW_FORCE]
+DEFNAME=i_CROSSBOW_FORCE
+ID=i_crossbow
+NAME=Crossbow of Force
+RESOURCES=i_crossbow,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crossbows
+DESCRIPTION=Crossbow of Force
+
+ON=@Create
+	COLOR=045e
+	remove //={90 91}
+	ATTR=attr_magic
+	MOREY=60.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_CROSSBOW_POWER]
+DEFNAME=i_CROSSBOW_POWER
+ID=i_crossbow
+NAME=Crossbow of Power
+RESOURCES=i_crossbow,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crossbows
+DESCRIPTION=Crossbow of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={100 101}
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_CROSSBOW_vanq]
+DEFNAME=i_CROSSBOW_vanq
+ID=i_crossbow
+NAME=Crossbow of Vanquishing
+RESOURCES=i_crossbow,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crossbows
+DESCRIPTION=Crossbow of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=100.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_CROSSBOW_mystic]
+DEFNAME=i_CROSSBOW_mystic
+ID=i_crossbow
+NAME=Mystic Crossbow
+RESOURCES=i_crossbow,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crossbows
+DESCRIPTION=Mystic Crossbow
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=120.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+
+[ITEMDEF i_HALBERD_RUIN]
+DEFNAME=i_HALBERD_RUIN
+ID=i_halberd
+NAME=Halberd of Ruin
+RESOURCES=i_halberd,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Halberds
+DESCRIPTION=Halberd of Ruin
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=20.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_HALBERD_MIGHT]
+DEFNAME=i_HALBERD_MIGHT
+ID=i_halberd
+NAME=Halberd of Might
+RESOURCES=i_halberd,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Halberds
+DESCRIPTION=Halberd of Might
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=40.0
+
+on=@click
+remove
+src.sysmessage @,,1 Bu item kaldirilmistir.
+return 1
+
+[ITEMDEF i_HALBERD_FORCE]
+DEFNAME=i_HALBERD_FORCE
+ID=i_halberd
+NAME=Halberd of Force
+RESOURCES=i_halberd,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Halberds
+DESCRIPTION=Halberd of Force
+
+ON=@Create
+        remove
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_HALBERD_POWER]
+DEFNAME=i_HALBERD_POWER
+ID=i_halberd
+NAME=Halberd of Power
+RESOURCES=i_halberd,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Halberds
+DESCRIPTION=Halberd of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_HALBERD_vanq]
+DEFNAME=i_HALBERD_vanq
+ID=i_halberd
+NAME=Halberd of Vanquishing
+RESOURCES=i_halberd,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Halberds
+DESCRIPTION=Halberd of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=100.0
+
+[ITEMDEF i_HALBERD_MYSTIC]
+DEFNAME=i_HALBERD_MYSTIC
+ID=i_halberd
+NAME=Mystic Halberd
+RESOURCES=i_halberd,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Halberds
+DESCRIPTION=Mystic Halberd
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=120.0
+
+
+[ITEMDEF i_BARDICHE_RUIN]
+DEFNAME=i_BARDICHE_RUIN
+ID=i_bardiche
+NAME=Bardiche of Ruin
+RESOURCES=i_bardiche,i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bardiches
+DESCRIPTION=Bardiche of Ruin
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 100}
+	ATTR=attr_magic
+	MOREY=20.0
+
+[ITEMDEF i_BARDICHE_MIGHT]
+DEFNAME=i_BARDICHE_MIGHT
+ID=i_bardiche
+NAME=Bardiche of Might
+RESOURCES=i_bardiche,2 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bardiches
+DESCRIPTION=Bardiche of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BARDICHE_FORCE]
+DEFNAME=i_BARDICHE_FORCE
+ID=i_bardiche
+NAME=Bardiche of Force
+RESOURCES=i_bardiche,3 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bardiches
+DESCRIPTION=Bardiche of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BARDICHE_POWER]
+DEFNAME=i_BARDICHE_POWER
+ID=i_bardiche
+NAME=Bardiche of Power
+RESOURCES=i_bardiche,4 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bardiches
+DESCRIPTION=Bardiche of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BARDICHE_vanq]
+DEFNAME=i_BARDICHE_vanq
+ID=i_bardiche
+NAME=Bardiche of Vanquishing
+RESOURCES=i_bardiche,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bardiches
+DESCRIPTION=Bardiche of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BARDICHE_mystic]
+DEFNAME=i_BARDICHE_mystic
+ID=i_bardiche
+NAME=Mystic Bardiche
+RESOURCES=i_bardiche,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bardiches
+DESCRIPTION=Mystic Bardiche
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_CUTLASS_RUIN]
+DEFNAME=i_CUTLASS_RUIN
+ID=i_cutlass
+NAME=Cutlass of Ruin
+RESOURCES=i_cutlass,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cutlasses
+DESCRIPTION=Cutlass of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={70 71}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CUTLASS_MIGHT]
+DEFNAME=i_CUTLASS_MIGHT
+ID=i_cutlass
+NAME=Cutlass of Might
+RESOURCES=i_cutlass,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cutlasses
+DESCRIPTION=Cutlass of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={75 76}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CUTLASS_FORCE]
+DEFNAME=i_CUTLASS_FORCE
+ID=i_cutlass
+NAME=Cutlass of Force
+RESOURCES=i_cutlass,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cutlasses
+DESCRIPTION=Cutlass of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CUTLASS_POWER]
+DEFNAME=i_CUTLASS_POWER
+ID=i_cutlass
+NAME=Cutlass of Power
+RESOURCES=i_cutlass,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cutlasses
+DESCRIPTION=Cutlass of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CUTLASS_vanq]
+DEFNAME=i_CUTLASS_vanq
+ID=i_cutlass
+NAME=Cutlass of Vanquishing
+RESOURCES=i_cutlass,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cutlasses
+DESCRIPTION=Cutlass of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CUTLASS_mystic]
+DEFNAME=i_CUTLASS_mystic
+ID=i_cutlass
+NAME=Mystic Cutlass
+RESOURCES=i_cutlass,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cutlasses
+DESCRIPTION=Mystic Cutlass
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_sword_viking_RUIN]
+DEFNAME=i_sword_viking_RUIN
+ID=i_sword_viking
+NAME=Viking Sword of Ruin
+RESOURCES=i_sword_viking,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Viking Swords
+DESCRIPTION=Viking Sword of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_viking_MIGHT]
+DEFNAME=i_sword_viking_MIGHT
+ID=i_sword_viking
+NAME=Viking Sword of Might
+RESOURCES=i_sword_viking,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Viking Swords
+DESCRIPTION=Viking Sword of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_viking_FORCE]
+DEFNAME=i_sword_viking_FORCE
+ID=i_sword_viking
+NAME=Viking Sword of Force
+RESOURCES=i_sword_viking,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Viking Swords
+DESCRIPTION=Viking Sword of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_viking_POWER]
+DEFNAME=i_sword_viking_POWER
+ID=i_sword_viking
+NAME=Viking Sword of Power
+RESOURCES=i_sword_viking,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Viking Swords
+DESCRIPTION=Viking Sword of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_viking_vanq]
+DEFNAME=i_sword_viking_vanq
+ID=i_sword_viking
+NAME=Viking Sword of Vanquishing
+RESOURCES=i_sword_viking,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Viking Swords
+DESCRIPTION=Viking Sword of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_viking_mystic]
+DEFNAME=i_sword_viking_mystic
+ID=i_sword_viking
+NAME=Mystic Viking Sword
+RESOURCES=i_sword_viking,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Viking Swords
+DESCRIPTION=Mystic Viking Sword
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_crossbow_heavy_RUIN]
+DEFNAME=i_crossbow_heavy_RUIN
+ID=i_crossbow_heavy
+NAME=Heavy Crossbow of Ruin
+RESOURCES=i_crossbow_heavy,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Heavy Crossbows
+DESCRIPTION=Heavy Crossbow of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_crossbow_heavy_MIGHT]
+DEFNAME=i_crossbow_heavy_MIGHT
+ID=i_crossbow_heavy
+NAME=Heavy Crossbow of Might
+RESOURCES=i_crossbow_heavy,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Heavy Crossbows
+DESCRIPTION=Heavy Crossbow of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_crossbow_heavy_FORCE]
+DEFNAME=i_crossbow_heavy_FORCE
+ID=i_crossbow_heavy
+NAME=Heavy Crossbow of Force
+RESOURCES=i_crossbow_heavy,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Heavy Crossbows
+DESCRIPTION=Heavy Crossbow of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_crossbow_heavy_POWER]
+DEFNAME=i_crossbow_heavy_POWER
+ID=i_crossbow_heavy
+NAME=Heavy Crossbow of Power
+RESOURCES=i_crossbow_heavy,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Heavy Crossbows
+DESCRIPTION=Heavy Crossbow of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_crossbow_heavy_vanq]
+DEFNAME=i_crossbow_heavy_vanq
+ID=i_crossbow_heavy
+NAME=Heavy Crossbow of Vanquishing
+RESOURCES=i_crossbow_heavy,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Heavy Crossbows
+DESCRIPTION=Heavy Crossbow of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_crossbow_heavy_mystic]
+DEFNAME=i_crossbow_heavy_mystic
+ID=i_crossbow_heavy
+NAME=Mystic Heavy Crossbow
+RESOURCES=i_crossbow_heavy,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Heavy Crossbows
+DESCRIPTION=Mystic Heavy Crossbow
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={31 100}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_KATANA_RUIN]
+DEFNAME=i_KATANA_RUIN
+ID=i_katana
+NAME=Katana of Ruin
+RESOURCES=i_katana,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Katanas
+DESCRIPTION=Katana of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KATANA_MIGHT]
+DEFNAME=i_KATANA_MIGHT
+ID=i_katana
+NAME=Katana of Might
+RESOURCES=i_katana,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Katanas
+DESCRIPTION=Katana of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={95 96}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KATANA_FORCE]
+DEFNAME=i_KATANA_FORCE
+ID=i_katana
+NAME=Katana of Force
+RESOURCES=i_katana,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Katanas
+DESCRIPTION=Katana of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KATANA_POWER]
+DEFNAME=i_KATANA_POWER
+ID=i_katana
+NAME=Katana of Power
+RESOURCES=i_katana,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Katanas
+DESCRIPTION=Katana of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={105 106}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KATANA_vanq]
+DEFNAME=i_KATANA_vanq
+ID=i_katana
+NAME=Katana of Vanquishing
+RESOURCES=i_katana,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Katanas
+DESCRIPTION=Katana of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KATANA_mystic]
+DEFNAME=i_KATANA_mystic
+ID=i_katana
+NAME=Mystic Katana
+RESOURCES=i_katana,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Katanas
+DESCRIPTION=Mystic Katana
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_BOW_RUIN]
+DEFNAME=i_BOW_RUIN
+ID=i_bow
+NAME=Bow of Ruin
+RESOURCES=i_bow,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bows
+DESCRIPTION=Bow of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BOW_MIGHT]
+DEFNAME=i_BOW_MIGHT
+ID=i_bow
+NAME=Bow of Might
+RESOURCES=i_bow,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bows
+DESCRIPTION=Bow of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BOW_FORCE]
+DEFNAME=i_BOW_FORCE
+ID=i_bow
+NAME=Bow of Force
+RESOURCES=i_bow,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bows
+DESCRIPTION=Bow of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BOW_POWER]
+DEFNAME=i_BOW_POWER
+ID=i_bow
+NAME=Bow of Power
+RESOURCES=i_bow,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bows
+DESCRIPTION=Bow of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BOW_vanq]
+DEFNAME=i_BOW_vanq
+ID=i_bow
+NAME=Bow of Vanquishing
+RESOURCES=i_bow,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bows
+DESCRIPTION=Bow of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 60}
+	ATTR=attr_magic
+	MOREY=100.0
+
+[ITEMDEF i_BOW_mystic]
+DEFNAME=i_BOW_mystic
+ID=i_bow
+NAME=Mystic Bow
+RESOURCES=i_bow,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bows
+DESCRIPTION=Mystic Bow
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 60}
+	ATTR=attr_magic
+	MOREY=120.0
+
+
+[ITEMDEF i_PITCHFORK_RUIN]
+DEFNAME=i_PITCHFORK_RUIN
+ID=i_PITCHFORK
+NAME=Pitchfork of Ruin
+RESOURCES=i_PITCHFORK,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pitchforks
+DESCRIPTION=Pitchfork of Ruin
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 60}
+	ATTR=attr_magic
+	MOREY=20.0
+
+[ITEMDEF i_PITCHFORK_MIGHT]
+DEFNAME=i_PITCHFORK_MIGHT
+ID=i_PITCHFORK
+NAME=Pitchfork of Might
+RESOURCES=i_PITCHFORK,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pitchforks
+DESCRIPTION=Pitchfork of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_PITCHFORK_FORCE]
+DEFNAME=i_PITCHFORK_FORCE
+ID=i_PITCHFORK
+NAME=Pitchfork of Force
+RESOURCES=i_PITCHFORK,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pitchforks
+DESCRIPTION=Pitchfork of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_PITCHFORK_POWER]
+DEFNAME=i_PITCHFORK_POWER
+ID=i_PITCHFORK
+NAME=Pitchfork of Power
+RESOURCES=i_PITCHFORK,4 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pitchforks
+DESCRIPTION=Pitchfork of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_PITCHFORK_vanq]
+DEFNAME=i_PITCHFORK_vanq
+ID=i_PITCHFORK
+NAME=Pitchfork of Vanquishing
+RESOURCES=i_PITCHFORK,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pitchforks
+DESCRIPTION=Pitchfork of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_PITCHFORK_mystic]
+DEFNAME=i_PITCHFORK_mystic
+ID=i_PITCHFORK
+NAME=Mystic Pitchfork
+RESOURCES=i_PITCHFORK,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pitchforks
+DESCRIPTION=Mystic Pitchfork
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={31 60}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_BROADSWORD_RUIN]
+DEFNAME=i_BROADSWORD_RUIN
+ID=i_sword_broad
+NAME=Broadsword of Ruin
+RESOURCES=i_sword_broad,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Broadswords
+DESCRIPTION=Broadsword of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BROADSWORD_MIGHT]
+DEFNAME=i_BROADSWORD_MIGHT
+ID=i_sword_broad
+NAME=Broadsword of Might
+RESOURCES=i_sword_broad,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Broadswords
+DESCRIPTION=Broadsword of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={105 106}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BROADSWORD_FORCE]
+DEFNAME=i_BROADSWORD_FORCE
+ID=i_sword_broad
+NAME=Broadsword of Force
+RESOURCES=i_sword_broad,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Broadswords
+DESCRIPTION=Broadsword of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BROADSWORD_POWER]
+DEFNAME=i_BROADSWORD_POWER
+ID=i_sword_broad
+NAME=Broadsword of Power
+RESOURCES=i_sword_broad,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Broadswords
+DESCRIPTION=Broadsword of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BROADSWORD_vanq]
+DEFNAME=i_BROADSWORD_vanq
+ID=i_sword_broad
+NAME=Broadsword of Vanquishing
+RESOURCES=i_sword_broad,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Broadswords
+DESCRIPTION=Broadsword of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_BROADSWORD_mystic]
+DEFNAME=i_BROADSWORD_mystic
+ID=i_sword_broad
+NAME=Mystic Broadsword
+RESOURCES=i_sword_broad,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Broadswords
+DESCRIPTION=Mystic Broadsword
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_KRYSS_RUIN]
+DEFNAME=i_KRYSS_RUIN
+ID=i_kryss
+NAME=Kryss of Ruin
+RESOURCES=i_kryss,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Krysses
+DESCRIPTION=Kryss of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KRYSS_MIGHT]
+DEFNAME=i_KRYSS_MIGHT
+ID=i_kryss
+NAME=Kryss of Might
+RESOURCES=i_kryss,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Krysses
+DESCRIPTION=Kryss of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KRYSS_FORCE]
+DEFNAME=i_KRYSS_FORCE
+ID=i_kryss
+NAME=Kryss of Force
+RESOURCES=i_kryss,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Krysses
+DESCRIPTION=Kryss of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KRYSS_POWER]
+DEFNAME=i_KRYSS_POWER
+ID=i_kryss
+NAME=Kryss of Power
+RESOURCES=i_kryss,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Krysses
+DESCRIPTION=Kryss of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KRYSS_vanq]
+DEFNAME=i_KRYSS_vanq
+ID=i_kryss
+NAME=Kryss of Vanquishing
+RESOURCES=i_kryss,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Krysses
+DESCRIPTION=Kryss of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_KRYSS_mystic]
+DEFNAME=i_KRYSS_mystic
+ID=i_kryss
+NAME=Mystic Kryss
+RESOURCES=i_kryss,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Krysses
+DESCRIPTION=Mystic Kryss
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_SPEAR_RUIN]
+DEFNAME=i_SPEAR_RUIN
+ID=i_spear
+NAME=Spear of Ruin
+RESOURCES=i_spear,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Spears
+DESCRIPTION=Spear of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={31 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_SPEAR_MIGHT]
+DEFNAME=i_SPEAR_MIGHT
+ID=i_spear
+NAME=Spear of Might
+RESOURCES=i_spear,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Spears
+DESCRIPTION=Spear of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={31 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_SPEAR_FORCE]
+DEFNAME=i_SPEAR_FORCE
+ID=i_spear
+NAME=Spear of Force
+RESOURCES=i_spear,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Spears
+DESCRIPTION=Spear of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 80}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_SPEAR_POWER]
+DEFNAME=i_SPEAR_POWER
+ID=i_spear
+NAME=Spear of Power
+RESOURCES=i_spear,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Spears
+DESCRIPTION=Spear of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={31 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_SPEAR_vanq]
+DEFNAME=i_SPEAR_vanq
+ID=i_spear
+NAME=Spear of Vanquishing
+RESOURCES=i_spear,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Spears
+DESCRIPTION=Spear of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={31 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_SPEAR_mystic]
+DEFNAME=i_SPEAR_mystic
+ID=i_spear
+NAME=Mystic Spear
+RESOURCES=i_spear,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Spears
+DESCRIPTION=Mystic Spear
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={31 80}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_sword_viking_vanq_fireball]
+//Viking Sword of Vanquishing & Fireball 40 charges
+ID=i_sword_viking
+NAME=Viking of Vanquishing and Daemon's Breath
+RESOURCES=i_sword_viking,5 i_enchant_weapon,i_wand_1,40 i_scroll_fireball
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Special Weapons
+DESCRIPTION=Viking of Vanquishing and Daemon's Breath
+
+ON=@Create
+	ATTR=attr_magic
+	MOREX=s_fireball
+	MOREY=100.0
+	MORE2=40
+	remove //={31 90}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_sword_long_RUIN]
+DEFNAME=i_sword_long_RUIN
+ID=i_sword_long
+NAME=Longsword of Ruin
+RESOURCES=i_sword_long,i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Longswords
+DESCRIPTION=Longsword of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_MIGHT]
+DEFNAME=i_sword_long_MIGHT
+ID=i_sword_long
+NAME=Longsword of Might
+RESOURCES=i_sword_long,2 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Longswords
+DESCRIPTION=Longsword of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_FORCE]
+DEFNAME=i_sword_long_FORCE
+ID=i_sword_long
+NAME=Longsword of Force
+RESOURCES=i_sword_long,3 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Longswords
+DESCRIPTION=Longsword of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_POWER]
+DEFNAME=i_sword_long_POWER
+ID=i_sword_long
+NAME=Longsword of Power
+RESOURCES=i_sword_long,4 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Longswords
+DESCRIPTION=Longsword of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={125 126}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_vanq]
+DEFNAME=i_sword_long_vanq
+ID=i_sword_long
+NAME=Longsword of Vanquishing
+RESOURCES=i_sword_long,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Longswords
+DESCRIPTION=Longsword of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_mystic]
+DEFNAME=i_sword_long_mystic
+ID=i_sword_long
+NAME=Mystic Longsword
+RESOURCES=i_sword_long,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Longswords
+DESCRIPTION=Mystic Longsword
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_sword_viking_vanq_Brimstone]
+//Viking Sword of Vanquishing & Flamestrike 40 charges
+DEFNAME=i_sword_viking_vanq_Brimstone
+ID=i_sword_viking
+NAME=Viking of Vanquishing and Brimstone
+RESOURCES=i_sword_viking,5 i_enchant_weapon,i_wand_1,40 i_scroll_flamestrike
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Special Weapons
+DESCRIPTION=Viking of Vanquishing and Brimstone
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={31 90}
+	ATTR=attr_magic
+	MOREX=s_flamestrike
+	MOREY=100.0
+	MORE2=40
+
+[ITEMDEF i_sword_viking_vanq_Electricity]
+//Viking Sword of Vanquishing & Energy Bolt 40 charges
+DEFNAME=i_sword_viking_vanq_Electricity
+ID=i_sword_viking
+NAME=Viking of Vanquishing and Electricity
+RESOURCES=i_sword_viking,5 i_enchant_weapon,i_wand_1,40 i_scroll_energy_bolt
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Special Weapons
+DESCRIPTION=Viking of Vanquishing and Electricity
+
+ON=@Create
+	ATTR=attr_magic
+	MOREX=s_energy_bolt
+	MOREY=100.0
+	MORE2=40
+	remove //={31 90}
+	COLOR=063
+
+[ITEMDEF i_crossbow_heavy_vanq_Daemon_Breath]
+//Heavy Crossbow of Vanquishing & Fireball 40 charges
+DEFNAME=i_crossbow_heavy_vanq_Daemon_Breath
+ID=i_crossbow_heavy
+NAME=Heavy Crossbow of Vanquishing & Daemon's Breath
+RESOURCES=i_crossbow_heavy,5 i_enchant_weapon,i_wand_1,40 i_scroll_fireball
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Special Weapons
+DESCRIPTION=Heavy Crossbow of Vanquishing & Daemon's Breath
+
+ON=@Create
+	MOREX=s_fireball
+	MOREY=100.0
+	MORE2=40
+	ATTR=attr_magic
+	remove //=31 100
+	COLOR=color_magic_weap
+
+[ITEMDEF i_bow_vanq_Electricity]
+//Bow of Vanquishing & Energy Bolt 40 Charges
+DEFNAME=i_bow_vanq_Electricity
+ID=i_bow
+NAME=Bow of Vanquishing & Electricity
+RESOURCES=i_bow,5 i_enchant_weapon,i_wand_1,40 i_scroll_energy_bolt
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Special Weapons
+DESCRIPTION=Bow of Vanquishing & Electricity
+
+ON=@Create
+	MOREX=s_energy_bolt
+	MOREY=100.0
+	MORE2=40
+	ATTR=attr_magic
+	remove //=31 60
+	COLOR=063
+
+[ITEMDEF i_BOW_Smite_Electricity]
+//GM Bow of Smite and Energy Bolt
+DEFNAME=i_BOW_Smite_Electricity
+ID=i_bow
+NAME=GM Bow of Smite and Electricity
+RESOURCES=i_bow,50 i_enchant_weapon,i_wand_1,100 i_scroll_energy_bolt
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Special Weapons
+DESCRIPTION=GM Bow of Smite and Electricity
+
+ON=@Create
+	ATTR=attr_magic
+	MOREX=s_energy_bolt
+	MOREY=500.0
+	MORE2=100
+	remove //={20 30}
+	COLOR=063
+
+
+[ITEMDEF i_SPEAR_SHORT_RUIN]
+DEFNAME=i_SPEAR_SHORT_RUIN
+ID=i_spear_short
+NAME=Short Spear of Ruin
+RESOURCES=i_spear_short,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Short Spears
+DESCRIPTION=Short Spear of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={70 71}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_SPEAR_SHORT_MIGHT]
+DEFNAME=i_SPEAR_SHORT_MIGHT
+ID=i_spear_short
+NAME=Short Spear of Might
+RESOURCES=i_spear_short,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Short Spears
+DESCRIPTION=Short Spear of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={75 76}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_spear_short_FORCE]
+DEFNAME=i_spear_short_FORCE
+ID=i_spear_short
+NAME=Short Spear of Force
+RESOURCES=i_spear_short,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Short Spears
+DESCRIPTION=Short Spear of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_spear_short_POWER]
+DEFNAME=i_spear_short_POWER
+ID=i_spear_short
+NAME=Short Spear of Power
+RESOURCES=i_spear_short,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Short Spears
+DESCRIPTION=Short Spear of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_spear_short_vanq]
+DEFNAME=i_spear_short_vanq
+ID=i_spear_short
+NAME=Short Spear of Vanquishing
+RESOURCES=i_spear_short,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Short Spears
+DESCRIPTION=Short Spear of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_spear_short_mystic]
+DEFNAME=i_spear_short_mystic
+ID=i_spear_short
+NAME=Mystic Short Spear
+RESOURCES=i_spear_short,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Short Spears
+DESCRIPTION=Mystic Short Spear
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_WAR_FORK_RUIN]
+DEFNAME=i_WAR_FORK_RUIN
+ID=I_WAR_FORK
+NAME=War Fork of Ruin
+RESOURCES=i_WAR_FORK,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Forks
+DESCRIPTION=War Fork of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_WAR_FORK_MIGHT]
+DEFNAME=i_WAR_FORK_MIGHT
+ID=I_WAR_FORK
+NAME=War Fork of Might
+RESOURCES=i_WAR_FORK,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Forks
+DESCRIPTION=War Fork of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_WAR_FORK_FORCE]
+DEFNAME=i_WAR_FORK_FORCE
+ID=I_WAR_FORK
+NAME=War Fork of Force
+RESOURCES=i_WAR_FORK,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Forks
+DESCRIPTION=War Fork of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={125 126}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_WAR_FORK_POWER]
+DEFNAME=i_WAR_FORK_POWER
+ID=I_WAR_FORK
+NAME=War Fork of Power
+RESOURCES=i_WAR_FORK,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Forks
+DESCRIPTION=War Fork of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_WAR_FORK_vanq]
+DEFNAME=i_WAR_FORK_vanq
+ID=I_WAR_FORK
+NAME=War Fork of Vanquishing
+RESOURCES=i_WAR_FORK,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Forks
+DESCRIPTION=War Fork of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={135 136}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_WAR_FORK_mystic]
+DEFNAME=i_WAR_FORK_mystic
+ID=I_WAR_FORK
+NAME=Mystic War Fork
+RESOURCES=i_WAR_FORK,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Forks
+DESCRIPTION=Mystic War Fork
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={135 136}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_CLUB_RUIN]
+DEFNAME=i_CLUB_RUIN
+ID=i_club
+NAME=Club of Ruin
+RESOURCES=i_club,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Clubs
+DESCRIPTION=Club of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={45 46}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CLUB_MIGHT]
+DEFNAME=i_CLUB_MIGHT
+ID=i_club
+NAME=Club of Might
+RESOURCES=i_club,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Clubs
+DESCRIPTION=Club of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={50 51}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CLUB_FORCE]
+DEFNAME=i_CLUB_FORCE
+ID=i_club
+NAME=Club of Force
+RESOURCES=i_club,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Clubs
+DESCRIPTION=Club of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={55 56}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CLUB_POWER]
+DEFNAME=i_CLUB_POWER
+ID=i_club
+NAME=Club of Power
+RESOURCES=i_club,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Clubs
+DESCRIPTION=Club of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={60 61}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CLUB_vanq]
+DEFNAME=i_CLUB_vanq
+ID=i_club
+NAME=Club of Vanquishing
+RESOURCES=i_club,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Clubs
+DESCRIPTION=Club of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={65 66}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_CLUB_mystic]
+DEFNAME=i_CLUB_mystic
+ID=i_club
+NAME=Mystic Club
+RESOURCES=i_club,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Clubs
+DESCRIPTION=Mystic Club
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={65 66}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_MACE_RUIN]
+DEFNAME=i_MACE_RUIN
+ID=i_mace
+NAME=Mace of Ruin
+RESOURCES=i_mace,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Maces
+DESCRIPTION=Mace of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={70 71}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MACE_MIGHT]
+DEFNAME=i_MACE_MIGHT
+ID=i_mace
+NAME=Mace of Might
+RESOURCES=i_mace,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Maces
+DESCRIPTION=Mace of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={75 76}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MACE_FORCE]
+DEFNAME=i_MACE_FORCE
+ID=i_mace
+NAME=Mace of Force
+RESOURCES=i_mace,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Maces
+DESCRIPTION=Mace of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MACE_POWER]
+DEFNAME=i_MACE_POWER
+ID=i_mace
+NAME=Mace of Power
+RESOURCES=i_mace,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Maces
+DESCRIPTION=Mace of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MACE_vanq]
+DEFNAME=i_MACE_vanq
+ID=i_mace
+NAME=Mace of Vanquishing
+RESOURCES=i_mace,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Maces
+DESCRIPTION=Mace of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MACE_mystic]
+DEFNAME=i_MACE_mystic
+ID=i_mace
+NAME=Mystic Mace
+RESOURCES=i_mace,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Maces
+DESCRIPTION=Mystic Mace
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_MAUL_RUIN]
+DEFNAME=i_MAUL_RUIN
+ID=i_maul
+NAME=Maul of Ruin
+RESOURCES=i_maul,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Mauls
+DESCRIPTION=Maul of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={70 71}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MAUL_MIGHT]
+DEFNAME=i_MAUL_MIGHT
+ID=i_maul
+NAME=Maul of Might
+RESOURCES=i_maul,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Mauls
+DESCRIPTION=Maul of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={75 76}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MAUL_FORCE]
+DEFNAME=i_MAUL_FORCE
+ID=i_maul
+NAME=Maul of Force
+RESOURCES=i_maul,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Mauls
+DESCRIPTION=Maul of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MAUL_POWER]
+DEFNAME=i_MAUL_POWER
+ID=i_maul
+NAME=Maul of Power
+RESOURCES=i_maul,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Mauls
+DESCRIPTION=Maul of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MAUL_vanq]
+DEFNAME=i_MAUL_vanq
+ID=i_maul
+NAME=Maul of Vanquishing
+RESOURCES=i_maul,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Mauls
+DESCRIPTION=Maul of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_MAUL_mystic]
+DEFNAME=i_MAUL_mystic
+ID=i_maul
+NAME=Mystic Maul
+RESOURCES=i_maul,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Mauls
+DESCRIPTION=Mystic Maul
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_mace_war_RUIN]
+DEFNAME=i_mace_war_RUIN
+ID=i_mace_war
+NAME=War Mace of Ruin
+RESOURCES=i_mace_war,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Maces
+DESCRIPTION=War Mace of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={125 126}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_mace_war_MIGHT]
+DEFNAME=i_mace_war_MIGHT
+ID=i_mace_war
+NAME=War Mace of Might
+RESOURCES=i_mace_war,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Maces
+DESCRIPTION=War Mace of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_mace_war_FORCE]
+DEFNAME=i_mace_war_FORCE
+ID=i_mace_war
+NAME=War Mace of Force
+RESOURCES=i_mace_war,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Maces
+DESCRIPTION=War Mace of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={135 136}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_mace_war_POWER]
+DEFNAME=i_mace_war_POWER
+ID=i_mace_war
+NAME=War Mace of Power
+RESOURCES=i_mace_war,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Maces
+DESCRIPTION=War Mace of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={140 141}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_mace_war_vanq]
+DEFNAME=i_mace_war_vanq
+ID=i_mace_war
+NAME=War Mace of Vanquishing
+RESOURCES=i_mace_war,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Maces
+DESCRIPTION=War Mace of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={145 146}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_mace_war_mystic]
+DEFNAME=i_mace_war_mystic
+ID=i_mace_war
+NAME=Mystic War Mace
+RESOURCES=i_mace_war,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Maces
+DESCRIPTION=Mystic War Mace
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={145 146}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_HAMMER_PICK_RUIN]
+DEFNAME=i_HAMMER_PICK_RUIN
+ID=i_hammer_pick
+NAME=Hammer Pick of Ruin
+RESOURCES=i_hammer_pick,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hammer Picks
+DESCRIPTION=Hammer Pick of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={70 71}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_HAMMER_PICK_MIGHT]
+DEFNAME=i_HAMMER_PICK_MIGHT
+ID=i_hammer_pick
+NAME=Hammer Pick of Might
+RESOURCES=i_hammer_pick,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hammer Picks
+DESCRIPTION=Hammer Pick of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={75 76}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_HAMMER_PICK_FORCE]
+DEFNAME=i_HAMMER_PICK_FORCE
+ID=i_hammer_pick
+NAME=Hammer Pick of Force
+RESOURCES=i_hammer_pick,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hammer Picks
+DESCRIPTION=Hammer Pick of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_HAMMER_PICK_POWER]
+DEFNAME=i_HAMMER_PICK_POWER
+ID=i_hammer_pick
+NAME=Hammer Pick of Power
+RESOURCES=i_hammer_pick,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hammer Picks
+DESCRIPTION=Hammer Pick of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_HAMMER_PICK_vanq]
+DEFNAME=i_HAMMER_PICK_vanq
+ID=i_hammer_pick
+NAME=Hammer Pick of Vanquishing
+RESOURCES=i_hammer_pick,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hammer Picks
+DESCRIPTION=Hammer Pick of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_HAMMER_PICK_MYSTIC]
+DEFNAME=i_HAMMER_PICK_MYSTIC
+ID=i_hammer_pick
+NAME=Mystic Hammer Pick
+RESOURCES=i_hammer_pick,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hammer Picks
+DESCRIPTION=Mystic Hammer Pick
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_hammer_war_RUIN]
+DEFNAME=i_hammer_war_RUIN
+ID=i_hammer_war
+NAME=War Hammer of Ruin
+RESOURCES=i_hammer_war,i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Hammers
+DESCRIPTION=War Hammer of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_war_MIGHT]
+DEFNAME=i_hammer_war_MIGHT
+ID=i_hammer_war
+NAME=War Hammer of Might
+RESOURCES=i_hammer_war,2 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Hammers
+DESCRIPTION=War Hammer of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_war_FORCE]
+DEFNAME=i_hammer_war_FORCE
+ID=i_hammer_war
+NAME=War Hammer of Force
+RESOURCES=i_hammer_war,3 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Hammers
+DESCRIPTION=War Hammer of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_war_POWER]
+DEFNAME=i_hammer_war_POWER
+ID=i_hammer_war
+NAME=War Hammer of Power
+RESOURCES=i_hammer_war,4 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Hammers
+DESCRIPTION=War Hammer of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={125 126}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_war_vanq]
+DEFNAME=i_hammer_war_vanq
+ID=i_hammer_war
+NAME=War Hammer of Vanquishing
+RESOURCES=i_hammer_war,5 i_enchant_weapon
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Hammers
+DESCRIPTION=War Hammer of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_war_mystic]
+DEFNAME=i_hammer_war_mystic
+ID=i_hammer_war
+NAME=Mystic War Hammer
+RESOURCES=i_hammer_war,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Hammers
+DESCRIPTION=Mystic War Hammer
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_ruin]
+DEFNAME=i_AXE_RUIN
+ID=i_axe
+NAME=Axe of Ruin
+RESOURCES=i_axe,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Axes
+DESCRIPTION=Axe of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_might]
+DEFNAME=i_AXE_MIGHT
+ID=i_axe
+NAME=Axe of Might
+RESOURCES=i_axe,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Axes
+DESCRIPTION=Axe of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_force]
+DEFNAME=i_AXE_FORCE
+ID=i_axe
+NAME=Axe of Force
+RESOURCES=i_axe,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Axes
+DESCRIPTION=Axe of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_power]
+DEFNAME=i_AXE_POWER
+ID=i_axe
+NAME=Axe of Power
+RESOURCES=i_axe,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Axes
+DESCRIPTION=Axe of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={95 96}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_vanq]
+DEFNAME=i_AXE_vanq
+ID=i_axe
+NAME=Axe of Vanquishing
+RESOURCES=i_axe,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Axes
+DESCRIPTION=Axe of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_AXE_mystic]
+DEFNAME=i_AXE_mystic
+ID=i_axe
+NAME=Mystic Axe
+RESOURCES=i_axe,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Axes
+DESCRIPTION=Mystic Axe
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_exec_ruin]
+DEFNAME=i_axe_exec_RUIN
+ID=i_axe_exec
+NAME=Executioner's Axe of Ruin
+RESOURCES=i_axe_exec,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Executioner's Axes
+DESCRIPTION=Executioner's Axe of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_exec_might]
+DEFNAME=i_axe_exec_MIGHT
+ID=i_axe_exec
+NAME=Executioner's Axe of Might
+RESOURCES=i_axe_exec,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Executioner's Axes
+DESCRIPTION=Executioner's Axe of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={95 96}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_exec_force]
+DEFNAME=i_axe_exec_FORCE
+ID=i_axe_exec
+NAME=Executioner's Axe of Force
+RESOURCES=i_axe_exec,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Executioner's Axes
+DESCRIPTION=Executioner's Axe of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_exec_power]
+DEFNAME=i_axe_exec_POWER
+ID=i_axe_exec
+NAME=Executioner's Axe of Power
+RESOURCES=i_axe_exec,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Executioner's Axes
+DESCRIPTION=Executioner's Axe of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={105 106}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_exec_vanq]
+DEFNAME=i_axe_exec_vanq
+ID=i_axe_exec
+NAME=Executioner's Axe of Vanquishing
+RESOURCES=i_axe_exec,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Executioner's Axes
+DESCRIPTION=Executioner's Axe of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_exec_mystic]
+DEFNAME=i_axe_exec_mystic
+ID=i_axe_exec
+NAME=Mystic Executioner's Axe
+RESOURCES=i_axe_exec,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Executioner's Axes
+DESCRIPTION=Mystic Executioner's Axe
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_battle_ruin]
+DEFNAME=i_axe_battle_RUIN
+ID=i_axe_battle
+NAME=Battle Axe of Ruin
+RESOURCES=i_axe_battle,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Battle Axes
+DESCRIPTION=Battle Axe of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_might]
+DEFNAME=i_axe_battle_MIGHT
+ID=i_axe_battle
+NAME=Battle Axe of Might
+RESOURCES=i_axe_battle,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Battle Axes
+DESCRIPTION=Battle Axe of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_force]
+DEFNAME=i_axe_battle_FORCE
+ID=i_axe_battle
+NAME=Battle Axe of Force
+RESOURCES=i_axe_battle,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Battle Axes
+DESCRIPTION=Battle Axe of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_power]
+DEFNAME=i_axe_battle_POWER
+ID=i_axe_battle
+NAME=Battle Axe of Power
+RESOURCES=i_axe_battle,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Battle Axes
+DESCRIPTION=Battle Axe of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={125 126}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_vanq]
+DEFNAME=i_axe_battle_vanq
+ID=i_axe_battle
+NAME=Battle Axe of Vanquishing
+RESOURCES=i_axe_battle,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Battle Axes
+DESCRIPTION=Battle Axe of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_mystic]
+DEFNAME=i_axe_battle_mystic
+ID=i_axe_battle
+NAME=Mystic Battle Axe
+RESOURCES=i_axe_battle,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Battle Axes
+DESCRIPTION=Mystic Battle Axe
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_double_ruin]
+DEFNAME=i_axe_double_RUIN
+ID=i_axe_double
+NAME=Double Axe of Ruin
+RESOURCES=i_axe_double,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Axes
+DESCRIPTION=Double Axe of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_Double_might]
+DEFNAME=i_axe_double_MIGHT
+ID=i_axe_double
+NAME=Double Axe of Might
+RESOURCES=i_axe_double,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Axes
+DESCRIPTION=Double Axe of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_double_force]
+DEFNAME=i_axe_double_FORCE
+ID=i_axe_double
+NAME=Double Axe of Force
+RESOURCES=i_axe_double,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Axes
+DESCRIPTION=Double Axe of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={120 121}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_double_power]
+DEFNAME=i_axe_double_POWER
+ID=i_axe_double
+NAME=Double Axe of Power
+RESOURCES=i_axe_double,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Axes
+DESCRIPTION=Double Axe of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={125 126}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_double_vanq]
+DEFNAME=i_axe_double_vanq
+ID=i_axe_double
+NAME=Double Axe of Vanquishing
+RESOURCES=i_axe_double,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Axes
+DESCRIPTION=Double Axe of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_double_mystic]
+DEFNAME=i_axe_double_mystic
+ID=i_axe_double
+NAME=Mystic Double Axe
+RESOURCES=i_axe_double,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Axes
+DESCRIPTION=Mystic Double Axe
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={130 131}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_two_hand_ruin]
+DEFNAME=i_axe_two_hand_RUIN
+ID=i_axe_two_hand
+NAME=Two Handed Axe of Ruin
+RESOURCES=i_axe_two_hand,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Two Handed Axes
+DESCRIPTION=Two Handed Axe of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={70 71}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_two_hand_might]
+DEFNAME=i_axe_two_hand_MIGHT
+ID=i_axe_two_hand
+NAME=Two Handed Axe of Might
+RESOURCES=i_axe_two_hand,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Two Handed Axes
+DESCRIPTION=Two Handed Axe of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={75 76}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_two_hand_force]
+DEFNAME=i_axe_two_hand_FORCE
+ID=i_axe_two_hand
+NAME=Two Handed Axe of Force
+RESOURCES=i_axe_two_hand,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Two Handed Axes
+DESCRIPTION=Two Handed Axe of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_two_hand_power]
+DEFNAME=i_axe_two_hand_POWER
+ID=i_axe_two_hand
+NAME=Two Handed Axe of Power
+RESOURCES=i_axe_two_hand,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Two Handed Axes
+DESCRIPTION=Two Handed Axe of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_two_hand_vanq]
+DEFNAME=i_axe_two_hand_vanq
+ID=i_axe_two_hand
+NAME=Two Handed Axe of Vanquishing
+RESOURCES=i_axe_two_hand,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Two Handed Axes
+DESCRIPTION=Two Handed Axe of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_two_hand_mystic]
+DEFNAME=i_axe_two_hand_mystic
+ID=i_axe_two_hand
+NAME=Mystic Two Handed Axe
+RESOURCES=i_axe_two_hand,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Two Handed Axes
+DESCRIPTION=Mystic Two Handed Axe
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_war_ruin]
+DEFNAME=i_axe_war_RUIN
+ID=i_axe_war
+NAME=War Axe of Ruin
+RESOURCES=i_axe_war,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Axes
+DESCRIPTION=War Axe of Ruin
+
+ON=@Create
+	MOREY=20.0
+	ATTR=attr_magic
+	remove //={80 81}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_war_might]
+DEFNAME=i_axe_war_MIGHT
+ID=i_axe_war
+NAME=War Axe of Might
+RESOURCES=i_axe_war,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Axes
+DESCRIPTION=War Axe of Might
+
+ON=@Create
+	MOREY=40.0
+	ATTR=attr_magic
+	remove //={85 86}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_war_force]
+DEFNAME=i_axe_war_FORCE
+ID=i_axe_war
+NAME=War Axe of Force
+RESOURCES=i_axe_war,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Axes
+DESCRIPTION=War Axe of Force
+
+ON=@Create
+	MOREY=60.0
+	ATTR=attr_magic
+	remove //={90 91}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_war_power]
+DEFNAME=i_axe_war_POWER
+ID=i_axe_war
+NAME=War Axe of Power
+RESOURCES=i_axe_war,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Axes
+DESCRIPTION=War Axe of Power
+
+ON=@Create
+	MOREY=80.0
+	ATTR=attr_magic
+	remove //={95 96}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_war_vanq]
+DEFNAME=i_axe_war_VANQ
+ID=i_axe_war
+NAME=War Axe of Vanquishing
+RESOURCES=i_axe_war,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Axes
+DESCRIPTION=War Axe of Vanquishing
+
+ON=@Create
+	MOREY=100.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_war_mystic]
+DEFNAME=i_axe_war_mystic
+ID=i_axe_war
+NAME=Mystic War Axe
+RESOURCES=i_axe_war,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic War Axes
+DESCRIPTION=Mystic War Axe
+
+ON=@Create
+	MOREY=120.0
+	ATTR=attr_magic
+	remove //={100 101}
+	COLOR=color_magic_weap
+
+
+[ITEMDEF i_axe_battle_large_ruin]
+DEFNAME=i_axe_battle_large_RUIN
+ID=i_axe_battle_large
+NAME=Large Battle Axe of Ruin
+RESOURCES=i_axe_battle_large,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Large Battle Axes
+DESCRIPTION=Large Battle Axe of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_large_might]
+DEFNAME=i_axe_battle_large_MIGHT
+ID=i_axe_battle_large
+NAME=Large Battle Axe of Might
+RESOURCES=i_axe_battle_large,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Large Battle Axes
+DESCRIPTION=Large Battle Axe of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_axe_battle_large_force]
+DEFNAME=i_axe_battle_large_FORCE
+ID=i_axe_battle_large
+NAME=Large Battle Axe of Force
+RESOURCES=i_axe_battle_large,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Large Battle Axes
+DESCRIPTION=Large Battle Axe of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={120 121}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_axe_battle_large_power]
+DEFNAME=i_axe_battle_large_POWER
+ID=i_axe_battle_large
+NAME=Large Battle Axe of Power
+RESOURCES=i_axe_battle_large,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Large Battle Axes
+DESCRIPTION=Large Battle Axe of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={125 126}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_axe_battle_large_vanq]
+DEFNAME=i_axe_battle_large_vanq
+ID=i_axe_battle_large
+NAME=Large Battle Axe of Vanquishing
+RESOURCES=i_axe_battle_large,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Large Battle Axes
+DESCRIPTION=Large Battle Axe of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={130 131}
+
+[ITEMDEF i_axe_battle_large_mystic]
+DEFNAME=i_axe_battle_large_mystic
+ID=i_axe_battle_large
+NAME=Mystic Large Battle Axe
+RESOURCES=i_axe_battle_large,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Large Battle Axes
+DESCRIPTION=Mystic Large Battle Axe
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={135 140}
+
+
+[ITEMDEF i_hatchet_ruin]
+DEFNAME=i_hatchet_ruin
+ID=i_hatchet
+NAME=Hatchet of Ruin
+RESOURCES=i_hatchet,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hatchets
+DESCRIPTION=Hatchet of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={110 111}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hatchet_might]
+DEFNAME=i_hatchet_might
+ID=i_hatchet
+NAME=Hatchet of Might
+RESOURCES=i_hatchet,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hatchets
+DESCRIPTION=Hatchet of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={115 116}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hatchet_force]
+DEFNAME=i_hatchet_force
+ID=i_hatchet
+NAME=Hatchet of Force
+RESOURCES=i_hatchet,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hatchets
+DESCRIPTION=Hatchet of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={120 121}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_hatchet_power]
+DEFNAME=i_hatchet_power
+ID=i_hatchet
+NAME=Hatchet of Power
+RESOURCES=i_hatchet,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hatchets
+DESCRIPTION=Hatchet of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={125 126}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_hatchet_vanq]
+DEFNAME=i_hatchet_vanq
+ID=i_hatchet
+NAME=Hatchet of Vanquishing
+RESOURCES=i_hatchet,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hatchets
+DESCRIPTION=Hatchet of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={130 131}
+
+[ITEMDEF i_hatchet_mystic]
+DEFNAME=i_hatchet_mystic
+ID=i_hatchet
+NAME=Mystic Hatchet
+RESOURCES=i_hatchet,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Hatchets
+DESCRIPTION=Mystic Hatchet
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={135 140}
+
+
+[ITEMDEF i_dagger_ruin]
+DEFNAME=i_dagger_ruin
+ID=i_dagger
+NAME=Dagger of Ruin
+RESOURCES=i_dagger,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daggers
+DESCRIPTION=Dagger of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_dagger_might]
+DEFNAME=i_dagger_might
+ID=i_dagger
+NAME=Dagger of Might
+RESOURCES=i_dagger,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daggers
+DESCRIPTION=Dagger of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_dagger_force]
+DEFNAME=i_dagger_force
+ID=i_dagger
+NAME=Dagger of Force
+RESOURCES=i_dagger,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daggers
+DESCRIPTION=Dagger of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_dagger_power]
+DEFNAME=i_dagger_power
+ID=i_dagger
+NAME=Dagger of Power
+RESOURCES=i_dagger,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daggers
+DESCRIPTION=Dagger of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_dagger_vanq]
+DEFNAME=i_dagger_vanq
+ID=i_dagger
+NAME=Dagger of Vanquishing
+RESOURCES=i_dagger,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daggers
+DESCRIPTION=Dagger of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_dagger_mystic]
+DEFNAME=i_dagger_mystic
+ID=i_dagger
+NAME=Mystic Dagger
+RESOURCES=i_dagger,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daggers
+DESCRIPTION=Mystic Dagger
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_knife_butcher_ruin]
+DEFNAME=i_knife_butcher_ruin
+ID=i_knife_butcher
+NAME=Butcher Knife of Ruin
+RESOURCES=i_knife_butcher,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Butcher Knives
+DESCRIPTION=Butcher Knife of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_knife_butcher_might]
+DEFNAME=i_knife_butcher_might
+ID=i_knife_butcher
+NAME=Butcher Knife of Might
+RESOURCES=i_knife_butcher,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Butcher Knives
+DESCRIPTION=Butcher Knife of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_knife_butcher_force]
+DEFNAME=i_knife_butcher_force
+ID=i_knife_butcher
+NAME=Butcher Knife of Force
+RESOURCES=i_knife_butcher,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Butcher Knives
+DESCRIPTION=Butcher Knife of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_knife_butcher_power]
+DEFNAME=i_knife_butcher_power
+ID=i_knife_butcher
+NAME=Butcher Knife of Power
+RESOURCES=i_knife_butcher,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Butcher Knives
+DESCRIPTION=Butcher Knife of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_knife_butcher_vanq]
+DEFNAME=i_knife_butcher_vanq
+ID=i_knife_butcher
+NAME=Butcher Knife of Vanquishing
+RESOURCES=i_knife_butcher,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Butcher Knives
+DESCRIPTION=Butcher Knife of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_knife_butcher_mystic]
+DEFNAME=i_knife_butcher_mystic
+ID=i_knife_butcher
+NAME=Mystic Butcher Knife
+RESOURCES=i_knife_butcher,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Butcher Knives
+DESCRIPTION=Mystic Butcher Knife
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_knife_skinning_ruin]
+DEFNAME=i_knife_skinning_ruin
+ID=i_knife_skinning
+NAME=Skinning Knife of Ruin
+RESOURCES=i_knife_skinning,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Skinning Knives
+DESCRIPTION=Skinning Knife of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_knife_skinning_might]
+DEFNAME=i_knife_skinning_might
+ID=i_knife_skinning
+NAME=Skinning Knife of Might
+RESOURCES=i_knife_skinning,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Skinning Knives
+DESCRIPTION=Skinning Knife of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_knife_skinning_force]
+DEFNAME=i_knife_skinning_force
+ID=i_knife_skinning
+NAME=Skinning Knife of Force
+RESOURCES=i_knife_skinning,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Skinning Knives
+DESCRIPTION=Skinning Knife of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_knife_skinning_power]
+DEFNAME=i_knife_skinning_power
+ID=i_knife_skinning
+NAME=Skinning Knife of Power
+RESOURCES=i_knife_skinning,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Skinning Knives
+DESCRIPTION=Skinning Knife of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_knife_skinning_vanq]
+DEFNAME=i_knife_skinning_vanq
+ID=i_knife_skinning
+NAME=Skinning Knife of Vanquishing
+RESOURCES=i_knife_skinning,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Skinning Knives
+DESCRIPTION=Skinning Knife of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_knife_skinning_mystic]
+DEFNAME=i_knife_skinning_mystic
+ID=i_knife_skinning
+NAME=Mystic Skinning Knife
+RESOURCES=i_knife_skinning,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Skinning Knives
+DESCRIPTION=Mystic Skinning Knife
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_cleaver_meat_ruin]
+DEFNAME=i_cleaver_meat_ruin
+ID=i_cleaver_meat
+NAME=Cleaver of Ruin
+RESOURCES=i_cleaver_meat,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cleavers
+DESCRIPTION=Cleaver of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_cleaver_meat_might]
+DEFNAME=i_cleaver_meat_might
+ID=i_cleaver_meat
+NAME=Cleaver of Might
+RESOURCES=i_cleaver_meat,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cleavers
+DESCRIPTION=Cleaver of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_cleaver_meat_force]
+DEFNAME=i_cleaver_meat_force
+ID=i_cleaver_meat
+NAME=Cleaver of Force
+RESOURCES=i_cleaver_meat,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cleavers
+DESCRIPTION=Cleaver of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_cleaver_meat_power]
+DEFNAME=i_cleaver_meat_power
+ID=i_cleaver_meat
+NAME=Cleaver of Power
+RESOURCES=i_cleaver_meat,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cleavers
+DESCRIPTION=Cleaver of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_cleaver_meat_vanq]
+DEFNAME=i_cleaver_meat_vanq
+ID=i_cleaver_meat
+NAME=Cleaver of Vanquishing
+RESOURCES=i_cleaver_meat,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cleavers
+DESCRIPTION=Cleaver of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_cleaver_meat_mystic]
+DEFNAME=i_cleaver_meat_mystic
+ID=i_cleaver_meat
+NAME=Mystic Cleaver
+RESOURCES=i_cleaver_meat,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Cleavers
+DESCRIPTION=Mystic Cleaver
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_hammer_smith_ruin]
+DEFNAME=i_hammer_smith_ruin
+ID=i_hammer_smith
+NAME=Smith's Hammer of Ruin
+RESOURCES=i_hammer_smith,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Smith's Hammers
+DESCRIPTION=Smith's Hammer of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_smith_might]
+DEFNAME=i_hammer_smith_might
+ID=i_hammer_smith
+NAME=Smith's Hammer of Might
+RESOURCES=i_hammer_smith,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Smith's Hammers
+DESCRIPTION=Smith's Hammer of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_hammer_smith_force]
+DEFNAME=i_hammer_smith_force
+ID=i_hammer_smith
+NAME=Smith's Hammer of Force
+RESOURCES=i_hammer_smith,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Smith's Hammers
+DESCRIPTION=Smith's Hammer of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_hammer_smith_power]
+DEFNAME=i_hammer_smith_power
+ID=i_hammer_smith
+NAME=Smith's Hammer of Power
+RESOURCES=i_hammer_smith,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Smith's Hammers
+DESCRIPTION=Smith's Hammer of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_hammer_smith_vanq]
+DEFNAME=i_hammer_smith_vanq
+ID=i_hammer_smith
+NAME=Smith's Hammer of Vanquishing
+RESOURCES=i_hammer_smith,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Smith's Hammers
+DESCRIPTION=Smith's Hammer of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_hammer_smith_mystic]
+DEFNAME=i_hammer_smith_mystic
+ID=i_hammer_smith
+NAME=Mystic Smith's Hammer
+RESOURCES=i_hammer_smith,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Smith's Hammers
+DESCRIPTION=Mystic Smith's Hammer
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_staff_black_ruin]
+DEFNAME=i_staff_black_ruin
+ID=i_staff_black
+NAME=Black Staff of Ruin
+RESOURCES=i_staff_black,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Black Staves
+DESCRIPTION=Black Staff of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_staff_black_might]
+DEFNAME=i_staff_black_might
+ID=i_staff_black
+NAME=Black Staff of Might
+RESOURCES=i_staff_black,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Black Staves
+DESCRIPTION=Black Staff of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	 //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_staff_black_force]
+DEFNAME=i_staff_black_force
+ID=i_staff_black
+NAME=Black Staff of Force
+RESOURCES=i_staff_black,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Black Staves
+DESCRIPTION=Black Staff of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_staff_black_power]
+DEFNAME=i_staff_black_power
+ID=i_staff_black
+NAME=Black Staff of Power
+RESOURCES=i_staff_black,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Black Staves
+DESCRIPTION=Black Staff of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_staff_black_vanq]
+DEFNAME=i_staff_black_vanq
+ID=i_staff_black
+NAME=Black Staff of Vanquishing
+RESOURCES=i_staff_black,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Black Staves
+DESCRIPTION=Black Staff of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_staff_black_mystic]
+DEFNAME=i_staff_black_mystic
+ID=i_staff_black
+NAME=Mystic Black Staff
+RESOURCES=i_staff_black,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Black Staves
+DESCRIPTION=Mystic Black Staff
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_staff_gnarled_ruin]
+DEFNAME=i_staff_gnarled_ruin
+ID=i_staff_gnarled
+NAME=Gnarled Staff of Ruin
+RESOURCES=i_staff_gnarled,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Gnarled Staves
+DESCRIPTION=Gnarled Staff of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_staff_gnarled_might]
+DEFNAME=i_staff_gnarled_might
+ID=i_staff_gnarled
+NAME=Gnarled Staff of Might
+RESOURCES=i_staff_gnarled,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Gnarled Staves
+DESCRIPTION=Gnarled Staff of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_staff_gnarled_force]
+DEFNAME=i_staff_gnarled_force
+ID=i_staff_gnarled
+NAME=Gnarled Staff of Force
+RESOURCES=i_staff_gnarled,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Gnarled Staves
+DESCRIPTION=Gnarled Staff of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_staff_gnarled_power]
+DEFNAME=i_staff_gnarled_power
+ID=i_staff_gnarled
+NAME=Gnarled Staff of Power
+RESOURCES=i_staff_gnarled,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Gnarled Staves
+DESCRIPTION=Gnarled Staff of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_staff_gnarled_vanq]
+DEFNAME=i_staff_gnarled_vanq
+ID=i_staff_gnarled
+NAME=Gnarled Staff of Vanquishing
+RESOURCES=i_staff_gnarled,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Gnarled Staves
+DESCRIPTION=Gnarled Staff of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_staff_gnarled_mystic]
+DEFNAME=i_staff_gnarled_mystic
+ID=i_staff_gnarled
+NAME=Mystic Gnarled Staff
+RESOURCES=i_staff_gnarled,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Gnarled Staves
+DESCRIPTION=Mystic Gnarled Staff
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_staff_quarter_ruin]
+DEFNAME=i_staff_quarter_ruin
+ID=i_staff_quarter
+NAME=Quarter Staff of Ruin
+RESOURCES=i_staff_quarter,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Quarter Staves
+DESCRIPTION=Quarter Staff of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_staff_quarter_might]
+DEFNAME=i_staff_quarter_might
+ID=i_staff_quarter
+NAME=Quarter Staff of Might
+RESOURCES=i_staff_quarter,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Quarter Staves
+DESCRIPTION=Quarter Staff of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_staff_quarter_force]
+DEFNAME=i_staff_quarter_force
+ID=i_staff_quarter
+NAME=Quarter Staff of Force
+RESOURCES=i_staff_quarter,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Quarter Staves
+DESCRIPTION=Quarter Staff of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_staff_quarter_power]
+DEFNAME=i_staff_quarter_power
+ID=i_staff_quarter
+NAME=Quarter Staff of Power
+RESOURCES=i_staff_quarter,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Quarter Staves
+DESCRIPTION=Quarter Staff of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_staff_quarter_vanq]
+DEFNAME=i_staff_quarter_vanq
+ID=i_staff_quarter
+NAME=Quarter Staff of Vanquishing
+RESOURCES=i_staff_quarter,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Quarter Staves
+DESCRIPTION=Quarter Staff of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_staff_quarter_mystic]
+DEFNAME=i_staff_quarter_mystic
+ID=i_staff_quarter
+NAME=Mystic Quarter Staff
+RESOURCES=i_staff_quarter,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Quarter Staves
+DESCRIPTION=Mystic Quarter Staff
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_shepherds_crook_ruin]
+DEFNAME=i_shepherds_crook_ruin
+ID=i_shepherds_crook
+NAME=Shepherd's Crook of Ruin
+RESOURCES=i_shepherds_crook,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Shepherd's Crooks
+DESCRIPTION=Shepherd's Crook of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_shepherds_crook_might]
+DEFNAME=i_shepherds_crook_might
+ID=i_shepherds_crook
+NAME=Shepherd's Crook of Might
+RESOURCES=i_shepherds_crook,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Shepherd's Crooks
+DESCRIPTION=Shepherd's Crook of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_shepherds_crook_force]
+DEFNAME=i_shepherds_crook_force
+ID=i_shepherds_crook
+NAME=Shepherd's Crook of Force
+RESOURCES=i_shepherds_crook,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Shepherd's Crooks
+DESCRIPTION=Shepherd's Crook of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_shepherds_crook_power]
+DEFNAME=i_shepherds_crook_power
+ID=i_shepherds_crook
+NAME=Shepherd's Crook of Power
+RESOURCES=i_shepherds_crook,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Shepherd's Crooks
+DESCRIPTION=Shepherd's Crook of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_shepherds_crook_vanq]
+DEFNAME=i_shepherds_crook_vanq
+ID=i_shepherds_crook
+NAME=Shepherd's Crook of Vanquishing
+RESOURCES=i_shepherds_crook,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Shepherd's Crooks
+DESCRIPTION=Shepherd's Crook of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_shepherds_crook_mystic]
+DEFNAME=i_shepherds_crook_mystic
+ID=i_shepherds_crook
+NAME=Mystic Shepherd's Crook
+RESOURCES=i_shepherds_crook,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Shepherd's Crooks
+DESCRIPTION=Mystic Shepherd's Crook
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+[ITEMDEF i_sword_long_b_ruin]
+DEFNAME=i_sword_long_b_ruin
+ID=i_sword_long_b
+NAME=Long Sword of Ruin
+RESOURCES=i_sword_long_b,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Long Swords
+DESCRIPTION=Long Sword of Ruin
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=20.0
+	remove //={60 70}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_b_might]
+DEFNAME=i_sword_long_b_might
+ID=i_sword_long_b
+NAME=Long Sword of Might
+RESOURCES=i_sword_long_b,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Long Swords
+DESCRIPTION=Long Sword of Might
+
+ON=@Create
+	ATTR=attr_magic
+	MOREY=40.0
+	remove //={70 80}
+	COLOR=color_magic_weap
+
+[ITEMDEF i_sword_long_b_force]
+DEFNAME=i_sword_long_b_force
+ID=i_sword_long_b
+NAME=Long Sword of Force
+RESOURCES=i_sword_long_b,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Long Swords
+DESCRIPTION=Long Sword of Force
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={80 90}
+	ATTR=attr_magic
+	MOREY=60.0
+
+[ITEMDEF i_sword_long_b_power]
+DEFNAME=i_sword_long_b_power
+ID=i_sword_long_b
+NAME=Long Sword of Power
+RESOURCES=i_sword_long_b,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Long Swords
+DESCRIPTION=Long Sword of Power
+
+ON=@Create
+	COLOR=color_magic_weap
+	remove //={90 100}
+	ATTR=attr_magic
+	MOREY=80.0
+
+[ITEMDEF i_sword_long_b_vanq]
+DEFNAME=i_sword_long_b_vanq
+ID=i_sword_long_b
+NAME=Long Sword of Vanquishing
+RESOURCES=i_sword_long_b,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Long Swords
+DESCRIPTION=Long Sword of Vanquishing
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=100.0
+	remove //={100 110}
+
+[ITEMDEF i_sword_long_b_mystic]
+DEFNAME=i_sword_long_b_mystic
+ID=i_sword_long_b
+NAME=Mystic Long Sword
+RESOURCES=i_sword_long_b,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Long Swords
+DESCRIPTION=Mystic Long Sword
+
+ON=@Create
+	COLOR=color_magic_weap
+	ATTR=attr_magic
+	MOREY=120.0
+	remove //={110 120}
+
+
+//////////////////
+//Age of Shadows//
+//////////////////
+
+[ITEMDEF i_scythe_ruin]
+DEFNAME=i_scythe_ruin
+ID=i_scythe
+NAME=Scythe of Ruin
+RESOURCES=i_scythe,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scythes
+DESCRIPTION=Scythe of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_scythe_might]
+DEFNAME=i_scythe_might
+ID=i_scythe
+NAME=Scythe of Might
+RESOURCES=i_scythe,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scythes
+DESCRIPTION=Scythe of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_scythe_force]
+DEFNAME=i_scythe_force
+ID=i_scythe
+NAME=Scythe of Force
+RESOURCES=i_scythe,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scythes
+DESCRIPTION=Scythe of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_scythe_power]
+DEFNAME=i_scythe_power
+ID=i_scythe
+NAME=Scythe of Power
+RESOURCES=i_scythe,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scythes
+DESCRIPTION=Scythe of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_scythe_vanq]
+DEFNAME=i_scythe_vanq
+ID=i_scythe
+NAME=Scythe of Vanquishing
+RESOURCES=i_scythe,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scythes
+DESCRIPTION=Scythe of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_scythe]
+DEFNAME=i_mystic_scythe
+ID=i_scythe
+NAME=Mystic Scythe
+RESOURCES=i_scythe,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scythes
+DESCRIPTION=Mystic Scythe
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_scepter_ruin]
+DEFNAME=i_scepter_ruin
+ID=i_scepter
+NAME=Scepter of Ruin
+RESOURCES=i_scepter,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scepters
+DESCRIPTION=Scepter of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_scepter_might]
+DEFNAME=i_scepter_might
+ID=i_scepter
+NAME=Scepter of Might
+RESOURCES=i_scepter,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scepters
+DESCRIPTION=Scepter of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_scepter_force]
+DEFNAME=i_scepter_force
+ID=i_scepter
+NAME=Scepter of Force
+RESOURCES=i_scepter,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scepters
+DESCRIPTION=Scepter of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_scepter_power]
+DEFNAME=i_scepter_power
+ID=i_scepter
+NAME=Scepter of Power
+RESOURCES=i_scepter,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scepters
+DESCRIPTION=Scepter of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_scepter_vanq]
+DEFNAME=i_scepter_vanq
+ID=i_scepter
+NAME=Scepter of Vanquishing
+RESOURCES=i_scepter,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scepters
+DESCRIPTION=Scepter of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_scepter]
+DEFNAME=i_mystic_scepter
+ID=i_scepter
+NAME=Mystic Scepter
+RESOURCES=i_scepter,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Scepters
+DESCRIPTION=Mystic Scepter
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_repeating_crossbow_ruin]
+DEFNAME=i_repeating_crossbow_ruin
+ID=i_repeating_crossbow
+NAME=Repeating Crossbow of Ruin
+RESOURCES=i_repeating_crossbow,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Repeating Crossbows
+DESCRIPTION=Repeating Crossbow of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_repeating_crossbow_might]
+DEFNAME=i_repeating_crossbow_might
+ID=i_repeating_crossbow
+NAME=Repeating Crossbow of Might
+RESOURCES=i_repeating_crossbow,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Repeating Crossbows
+DESCRIPTION=Repeating Crossbow of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_repeating_crossbow_force]
+DEFNAME=i_repeating_crossbow_force
+ID=i_repeating_crossbow
+NAME=Repeating Crossbow of Force
+RESOURCES=i_repeating_crossbow,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Repeating Crossbows
+DESCRIPTION=Repeating Crossbow of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_repeating_crossbow_power]
+DEFNAME=i_repeating_crossbow_power
+ID=i_repeating_crossbow
+NAME=Repeating Crossbow of Power
+RESOURCES=i_repeating_crossbow,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Repeating Crossbows
+DESCRIPTION=Repeating Crossbow of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_repeating_crossbow_vanq]
+DEFNAME=i_repeating_crossbow_vanq
+ID=i_repeating_crossbow
+NAME=Repeating Crossbow of Vanquishing
+RESOURCES=i_repeating_crossbow,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Repeating Crossbows
+DESCRIPTION=Repeating Crossbow of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_repeating_crossbow]
+DEFNAME=i_mystic_repeating_crossbow
+ID=i_repeating_crossbow
+NAME=Mystic Repeating Crossbow
+RESOURCES=i_repeating_crossbow,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Repeating Crossbows
+DESCRIPTION=Mystic Repeating Crossbow
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_pike_ruin]
+DEFNAME=i_pike_ruin
+ID=i_pike
+NAME=Pike of Ruin
+RESOURCES=i_pike,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pikes
+DESCRIPTION=Pike of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_pike_might]
+DEFNAME=i_pike_might
+ID=i_pike
+NAME=Pike of Might
+RESOURCES=i_pike,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pikes
+DESCRIPTION=Pike of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_pike_force]
+DEFNAME=i_pike_force
+ID=i_pike
+NAME=Pike of Force
+RESOURCES=i_pike,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pikes
+DESCRIPTION=Pike of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_pike_power]
+DEFNAME=i_pike_power
+ID=i_pike
+NAME=Pike of Power
+RESOURCES=i_pike,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pikes
+DESCRIPTION=Pike of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_pike_vanq]
+DEFNAME=i_pike_vanq
+ID=i_pike
+NAME=Pike of Vanquishing
+RESOURCES=i_pike,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pikes
+DESCRIPTION=Pike of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_pike]
+DEFNAME=i_mystic_pike
+ID=i_pike
+NAME=Mystic Pike
+RESOURCES=i_pike,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Pikes
+DESCRIPTION=Mystic Pike
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_lance_ruin]
+DEFNAME=i_lance_ruin
+ID=i_lance
+NAME=Lance of Ruin
+RESOURCES=i_lance,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lances
+DESCRIPTION=Lance of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_lance_might]
+DEFNAME=i_lance_might
+ID=i_lance
+NAME=Lance of Might
+RESOURCES=i_lance,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lances
+DESCRIPTION=Lance of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_lance_force]
+DEFNAME=i_lance_force
+ID=i_lance
+NAME=Lance of Force
+RESOURCES=i_lance,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lances
+DESCRIPTION=Lance of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_lance_power]
+DEFNAME=i_lance_power
+ID=i_lance
+NAME=Lance of Power
+RESOURCES=i_lance,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lances
+DESCRIPTION=Lance of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_lance_vanq]
+DEFNAME=i_lance_vanq
+ID=i_lance
+NAME=Lance of Vanquishing
+RESOURCES=i_lance,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lances
+DESCRIPTION=Lance of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_lance]
+DEFNAME=i_mystic_lance
+ID=i_lance
+NAME=Mystic Lance
+RESOURCES=i_lance,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lances
+DESCRIPTION=Mystic Lance
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_paladin_sword_ruin]
+DEFNAME=i_paladin_sword_ruin
+ID=i_paladin_sword
+NAME=Paladin Sword of Ruin
+RESOURCES=i_paladin_sword,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Paladin Swords
+DESCRIPTION=Paladin Sword of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_paladin_sword_might]
+DEFNAME=i_paladin_sword_might
+ID=i_paladin_sword
+NAME=Paladin Sword of Might
+RESOURCES=i_paladin_sword,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Paladin Swords
+DESCRIPTION=Paladin Sword of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_paladin_sword_force]
+DEFNAME=i_paladin_sword_force
+ID=i_paladin_sword
+NAME=Paladin Sword of Force
+RESOURCES=i_paladin_sword,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Paladin Swords
+DESCRIPTION=Paladin Sword of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_paladin_sword_power]
+DEFNAME=i_paladin_sword_power
+ID=i_paladin_sword
+NAME=Paladin Sword of Power
+RESOURCES=i_paladin_sword,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Paladin Swords
+DESCRIPTION=Paladin Sword of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_paladin_sword_vanq]
+DEFNAME=i_paladin_sword_vanq
+ID=i_paladin_sword
+NAME=Paladin Sword of Vanquishing
+RESOURCES=i_paladin_sword,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Paladin Swords
+DESCRIPTION=Paladin Sword of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_paladin_sword]
+DEFNAME=i_mystic_paladin_sword
+ID=i_paladin_sword
+NAME=Mystic Paladin Sword
+RESOURCES=i_paladin_sword,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Paladin Swords
+DESCRIPTION=Mystic Paladin Sword
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_double_bladed_staff_ruin]
+DEFNAME=i_double_bladed_staff_ruin
+ID=i_double_bladed_staff
+NAME=Double Bladed Staff of Ruin
+RESOURCES=i_double_bladed_staff,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Bladed Staves
+DESCRIPTION=Double Bladed Staff of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_double_bladed_staff_might]
+DEFNAME=i_double_bladed_staff_might
+ID=i_double_bladed_staff
+NAME=Double Bladed Staff of Might
+RESOURCES=i_double_bladed_staff,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Bladed Staves
+DESCRIPTION=Double Bladed Staff of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_double_bladed_staff_force]
+DEFNAME=i_double_bladed_staff_force
+ID=i_double_bladed_staff
+NAME=Double Bladed Staff of Force
+RESOURCES=i_double_bladed_staff,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Bladed Staves
+DESCRIPTION=Double Bladed Staff of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_double_bladed_staff_power]
+DEFNAME=i_double_bladed_staff_power
+ID=i_double_bladed_staff
+NAME=Double Bladed Staff of Power
+RESOURCES=i_double_bladed_staff,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Bladed Staves
+DESCRIPTION=Double Bladed Staff of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_double_bladed_staff_vanq]
+DEFNAME=i_double_bladed_staff_vanq
+ID=i_double_bladed_staff
+NAME=Double Bladed Staff of Vanquishing
+RESOURCES=i_double_bladed_staff,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Bladed Staves
+DESCRIPTION=Double Bladed Staff of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_double_bladed_staff]
+DEFNAME=i_mystic_double_bladed_staff
+ID=i_double_bladed_staff
+NAME=Mystic Double Bladed Staff
+RESOURCES=i_double_bladed_staff,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Double Bladed Staves
+DESCRIPTION=Mystic Double Bladed Staff
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_bladed_staff_ruin]
+DEFNAME=i_bladed_staff_ruin
+ID=i_bladed_staff
+NAME=Bladed Staff of Ruin
+RESOURCES=i_bladed_staff,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bladed Staves
+DESCRIPTION=Bladed Staff of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_bladed_staff_might]
+DEFNAME=i_bladed_staff_might
+ID=i_bladed_staff
+NAME=Bladed Staff of Might
+RESOURCES=i_bladed_staff,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bladed Staves
+DESCRIPTION=Bladed Staff of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_bladed_staff_force]
+DEFNAME=i_bladed_staff_force
+ID=i_bladed_staff
+NAME=Bladed Staff of Force
+RESOURCES=i_bladed_staff,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bladed Staves
+DESCRIPTION=Bladed Staff of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_bladed_staff_power]
+DEFNAME=i_bladed_staff_power
+ID=i_bladed_staff
+NAME=Bladed Staff of Power
+RESOURCES=i_bladed_staff,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bladed Staves
+DESCRIPTION=Bladed Staff of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_bladed_staff_vanq]
+DEFNAME=i_bladed_staff_vanq
+ID=i_bladed_staff
+NAME=Bladed Staff of Vanquishing
+RESOURCES=i_bladed_staff,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bladed Staves
+DESCRIPTION=Bladed Staff of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_bladed_staff]
+DEFNAME=i_mystic_bladed_staff
+ID=i_bladed_staff
+NAME=Mystic Bladed Staff
+RESOURCES=i_bladed_staff,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bladed Staves
+DESCRIPTION=Mystic Bladed Staff
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_crescent_blade_ruin]
+DEFNAME=i_crescent_blade_ruin
+ID=i_crescent_blade
+NAME=Crescent Blade of Ruin
+RESOURCES=i_crescent_blade,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crescent Blades
+DESCRIPTION=Crescent Blade of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_crescent_blade_might]
+DEFNAME=i_crescent_blade_might
+ID=i_crescent_blade
+NAME=Crescent Blade of Might
+RESOURCES=i_crescent_blade,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crescent Blades
+DESCRIPTION=Crescent Blade of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_crescent_blade_force]
+DEFNAME=i_crescent_blade_force
+ID=i_crescent_blade
+NAME=Crescent Blade of Force
+RESOURCES=i_crescent_blade,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crescent Blades
+DESCRIPTION=Crescent Blade of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_crescent_blade_power]
+DEFNAME=i_crescent_blade_power
+ID=i_crescent_blade
+NAME=Crescent Blade of Power
+RESOURCES=i_crescent_blade,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crescent Blades
+DESCRIPTION=Crescent Blade of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_crescent_blade_vanq]
+DEFNAME=i_crescent_blade_vanq
+ID=i_crescent_blade
+NAME=Crescent Blade of Vanquishing
+RESOURCES=i_crescent_blade,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crescent Blades
+DESCRIPTION=Crescent Blade of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_crescent_blade]
+DEFNAME=i_mystic_crescent_blade
+ID=i_crescent_blade
+NAME=Mystic Crescent Blade
+RESOURCES=i_crescent_blade,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Crescent Blades
+DESCRIPTION=Mystic Crescent Blade
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_composite_bow_ruin]
+DEFNAME=i_composite_bow_ruin
+ID=i_composite_bow
+NAME=Composite Bow of Ruin
+RESOURCES=i_composite_bow,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Composite Bows
+DESCRIPTION=Composite Bow of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_composite_bow_might]
+DEFNAME=i_composite_bow_might
+ID=i_composite_bow
+NAME=Composite Bow of Might
+RESOURCES=i_composite_bow,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Composite Bows
+DESCRIPTION=Composite Bow of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_composite_bow_force]
+DEFNAME=i_composite_bow_force
+ID=i_composite_bow
+NAME=Composite Bow of Force
+RESOURCES=i_composite_bow,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Composite Bows
+DESCRIPTION=Composite Bow of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_composite_bow_power]
+DEFNAME=i_composite_bow_power
+ID=i_composite_bow
+NAME=Composite Bow of Power
+RESOURCES=i_composite_bow,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Composite Bows
+DESCRIPTION=Composite Bow of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_composite_bow_vanq]
+DEFNAME=i_composite_bow_vanq
+ID=i_composite_bow
+NAME=Composite Bow of Vanquishing
+RESOURCES=i_composite_bow,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Composite Bows
+DESCRIPTION=Composite Bow of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_composite_bow]
+DEFNAME=i_mystic_composite_bow
+ID=i_composite_bow
+NAME=Mystic Composite Bow
+RESOURCES=i_composite_bow,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Composite Bows
+DESCRIPTION=Mystic Composite Bow
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_bone_harvester_ruin]
+DEFNAME=i_bone_harvester_ruin
+ID=i_bone_harvester
+NAME=Bone Harvester of Ruin
+RESOURCES=i_bone_harvester,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bone Harvesters
+DESCRIPTION=Bone Harvester of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_bone_harvester_might]
+DEFNAME=i_bone_harvester_might
+ID=i_bone_harvester
+NAME=Bone Harvester of Might
+RESOURCES=i_bone_harvester,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bone Harvesters
+DESCRIPTION=Bone Harvester of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_bone_harvester_force]
+DEFNAME=i_bone_harvester_force
+ID=i_bone_harvester
+NAME=Bone Harvester of Force
+RESOURCES=i_bone_harvester,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bone Harvesters
+DESCRIPTION=Bone Harvester of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_bone_harvester_power]
+DEFNAME=i_bone_harvester_power
+ID=i_bone_harvester
+NAME=Bone Harvester of Power
+RESOURCES=i_bone_harvester,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bone Harvesters
+DESCRIPTION=Bone Harvester of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_bone_harvester_vanq]
+DEFNAME=i_bone_harvester_vanq
+ID=i_bone_harvester
+NAME=Bone Harvester of Vanquishing
+RESOURCES=i_bone_harvester,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bone Harvesters
+DESCRIPTION=Bone Harvester of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_bone_harvester]
+DEFNAME=i_mystic_bone_harvester
+ID=i_bone_harvester
+NAME=Mystic Bone Harvester
+RESOURCES=i_bone_harvester,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bone Harvesters
+DESCRIPTION=Mystic Bone Harvester
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+//////////////////
+//Samurai Empire//
+//////////////////
+
+[ITEMDEF i_bokuto_ruin]
+DEFNAME=i_bokuto_ruin
+ID=i_bokuto
+NAME=Bokuto of Ruin
+RESOURCES=i_bokuto,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bokutos
+DESCRIPTION=Bokuto of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_bokuto_might]
+DEFNAME=i_bokuto_might
+ID=i_bokuto
+NAME=Bokuto of Might
+RESOURCES=i_bokuto,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bokutos
+DESCRIPTION=Bokuto of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_bokuto_force]
+DEFNAME=i_bokuto_force
+ID=i_bokuto
+NAME=Bokuto of Force
+RESOURCES=i_bokuto,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bokutos
+DESCRIPTION=Bokuto of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_bokuto_power]
+DEFNAME=i_bokuto_power
+ID=i_bokuto
+NAME=Bokuto of Power
+RESOURCES=i_bokuto,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bokutos
+DESCRIPTION=Bokuto of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_bokuto_vanq]
+DEFNAME=i_bokuto_vanq
+ID=i_bokuto
+NAME=Bokuto of Vanquishing
+RESOURCES=i_bokuto,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bokutos
+DESCRIPTION=Bokuto of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_bokuto]
+DEFNAME=i_mystic_bokuto
+ID=i_bokuto
+NAME=Mystic Bokuto
+RESOURCES=i_bokuto,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Bokutos
+DESCRIPTION=Mystic Bokuto
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_daisho_ruin]
+DEFNAME=i_daisho_ruin
+ID=i_daisho
+NAME=Daisho of Ruin
+RESOURCES=i_daisho,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daishos
+DESCRIPTION=Daisho of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_daisho_might]
+DEFNAME=i_daisho_might
+ID=i_daisho
+NAME=Daisho of Might
+RESOURCES=i_daisho,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daishos
+DESCRIPTION=Daisho of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_daisho_force]
+DEFNAME=i_daisho_force
+ID=i_daisho
+NAME=Daisho of Force
+RESOURCES=i_daisho,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daishos
+DESCRIPTION=Daisho of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_daisho_power]
+DEFNAME=i_daisho_power
+ID=i_daisho
+NAME=Daisho of Power
+RESOURCES=i_daisho,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daishos
+DESCRIPTION=Daisho of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_daisho_vanq]
+DEFNAME=i_daisho_vanq
+ID=i_daisho
+NAME=Daisho of Vanquishing
+RESOURCES=i_daisho,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daishos
+DESCRIPTION=Daisho of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_daisho]
+DEFNAME=i_mystic_daisho
+ID=i_daisho
+NAME=Mystic Daisho
+RESOURCES=i_daisho,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Daishos
+DESCRIPTION=Mystic Daisho
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_kama_ruin]
+DEFNAME=i_kama_ruin
+ID=i_kama
+NAME=Kama of Ruin
+RESOURCES=i_kama,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Kamas
+DESCRIPTION=Kama of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_kama_might]
+DEFNAME=i_kama_might
+ID=i_kama
+NAME=Kama of Might
+RESOURCES=i_kama,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Kamas
+DESCRIPTION=Kama of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_kama_force]
+DEFNAME=i_kama_force
+ID=i_kama
+NAME=Kama of Force
+RESOURCES=i_kama,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Kamas
+DESCRIPTION=Kama of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_kama_power]
+DEFNAME=i_kama_power
+ID=i_kama
+NAME=Kama of Power
+RESOURCES=i_kama,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Kamas
+DESCRIPTION=Kama of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_kama_vanq]
+DEFNAME=i_kama_vanq
+ID=i_kama
+NAME=Kama of Vanquishing
+RESOURCES=i_kama,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Kamas
+DESCRIPTION=Kama of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_kama]
+DEFNAME=i_mystic_kama
+ID=i_kama
+NAME=Mystic Kama
+RESOURCES=i_kama,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Kamas
+DESCRIPTION=Mystic Kama
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_lajatang_ruin]
+DEFNAME=i_lajatang_ruin
+ID=i_lajatang
+NAME=Lajatang of Ruin
+RESOURCES=i_lajatang,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lajatangs
+DESCRIPTION=Lajatang of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_lajatang_might]
+DEFNAME=i_lajatang_might
+ID=i_lajatang
+NAME=Lajatang of Might
+RESOURCES=i_lajatang,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lajatangs
+DESCRIPTION=Lajatang of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_lajatang_force]
+DEFNAME=i_lajatang_force
+ID=i_lajatang
+NAME=Lajatang of Force
+RESOURCES=i_lajatang,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lajatangs
+DESCRIPTION=Lajatang of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_lajatang_power]
+DEFNAME=i_lajatang_power
+ID=i_lajatang
+NAME=Lajatang of Power
+RESOURCES=i_lajatang,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lajatangs
+DESCRIPTION=Lajatang of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_lajatang_vanq]
+DEFNAME=i_lajatang_vanq
+ID=i_lajatang
+NAME=Lajatang of Vanquishing
+RESOURCES=i_lajatang,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lajatangs
+DESCRIPTION=Lajatang of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_lajatang]
+DEFNAME=i_mystic_lajatang
+ID=i_lajatang
+NAME=Mystic Lajatang
+RESOURCES=i_lajatang,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Lajatangs
+DESCRIPTION=Mystic Lajatang
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_no_dachi_ruin]
+DEFNAME=i_no_dachi_ruin
+ID=i_no_dachi
+NAME=No-Dachi of Ruin
+RESOURCES=i_no_dachi,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic No-Dachis
+DESCRIPTION=No-Dachi of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_no_dachi_might]
+DEFNAME=i_no_dachi_might
+ID=i_no_dachi
+NAME=No-Dachi of Might
+RESOURCES=i_no_dachi,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic No-Dachis
+DESCRIPTION=No-Dachi of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_no_dachi_force]
+DEFNAME=i_no_dachi_force
+ID=i_no_dachi
+NAME=No-Dachi of Force
+RESOURCES=i_no_dachi,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic No-Dachis
+DESCRIPTION=No-Dachi of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_no_dachi_power]
+DEFNAME=i_no_dachi_power
+ID=i_no_dachi
+NAME=No-Dachi of Power
+RESOURCES=i_no_dachi,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic No-Dachis
+DESCRIPTION=No-Dachi of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_no_dachi_vanq]
+DEFNAME=i_no_dachi_vanq
+ID=i_no_dachi
+NAME=No-Dachi of Vanquishing
+RESOURCES=i_no_dachi,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic No-Dachis
+DESCRIPTION=No-Dachi of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_no_dachi]
+DEFNAME=i_mystic_no_dachi
+ID=i_no_dachi
+NAME=Mystic No-Dachi
+RESOURCES=i_no_dachi,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic No-Dachis
+DESCRIPTION=Mystic No-Dachi
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_nunchaku_ruin]
+DEFNAME=i_nunchaku_ruin
+ID=i_nunchaku
+NAME=Nunchaku of Ruin
+RESOURCES=i_nunchaku,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Nunchakus
+DESCRIPTION=Nunchaku of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_nunchaku_might]
+DEFNAME=i_nunchaku_might
+ID=i_nunchaku
+NAME=Nunchaku of Might
+RESOURCES=i_nunchaku,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Nunchakus
+DESCRIPTION=Nunchaku of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_nunchaku_force]
+DEFNAME=i_nunchaku_force
+ID=i_nunchaku
+NAME=Nunchaku of Force
+RESOURCES=i_nunchaku,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Nunchakus
+DESCRIPTION=Nunchaku of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_nunchaku_power]
+DEFNAME=i_nunchaku_power
+ID=i_nunchaku
+NAME=Nunchaku of Power
+RESOURCES=i_nunchaku,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Nunchakus
+DESCRIPTION=Nunchaku of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_nunchaku_vanq]
+DEFNAME=i_nunchaku_vanq
+ID=i_nunchaku
+NAME=Nunchaku of Vanquishing
+RESOURCES=i_nunchaku,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Nunchakus
+DESCRIPTION=Nunchaku of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_nunchaku]
+DEFNAME=i_mystic_nunchaku
+ID=i_nunchaku
+NAME=Mystic Nunchaku
+RESOURCES=i_nunchaku,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Nunchakus
+DESCRIPTION=Mystic Nunchaku
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_sai_ruin]
+DEFNAME=i_sai_ruin
+ID=i_sai
+NAME=Sai of Ruin
+RESOURCES=i_sai,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Sais
+DESCRIPTION=Sai of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_sai_might]
+DEFNAME=i_sai_might
+ID=i_sai
+NAME=Sai of Might
+RESOURCES=i_sai,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Sais
+DESCRIPTION=Sai of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_sai_force]
+DEFNAME=i_sai_force
+ID=i_sai
+NAME=Sai of Force
+RESOURCES=i_sai,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Sais
+DESCRIPTION=Sai of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_sai_power]
+DEFNAME=i_sai_power
+ID=i_sai
+NAME=Sai of Power
+RESOURCES=i_sai,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Sais
+DESCRIPTION=Sai of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_sai_vanq]
+DEFNAME=i_sai_vanq
+ID=i_sai
+NAME=Sai of Vanquishing
+RESOURCES=i_sai,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Sais
+DESCRIPTION=Sai of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_sai]
+DEFNAME=i_mystic_sai
+ID=i_sai
+NAME=Mystic Sai
+RESOURCES=i_sai,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Sais
+DESCRIPTION=Mystic Sai
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_tekagi_ruin]
+DEFNAME=i_tekagi_ruin
+ID=i_tekagi
+NAME=Tekagi of Ruin
+RESOURCES=i_tekagi,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tekagis
+DESCRIPTION=Tekagi of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_tekagi_might]
+DEFNAME=i_tekagi_might
+ID=i_tekagi
+NAME=Tekagi of Might
+RESOURCES=i_tekagi,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tekagis
+DESCRIPTION=Tekagi of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_tekagi_force]
+DEFNAME=i_tekagi_force
+ID=i_tekagi
+NAME=Tekagi of Force
+RESOURCES=i_tekagi,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tekagis
+DESCRIPTION=Tekagi of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_tekagi_power]
+DEFNAME=i_tekagi_power
+ID=i_tekagi
+NAME=Tekagi of Power
+RESOURCES=i_tekagi,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tekagis
+DESCRIPTION=Tekagi of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_tekagi_vanq]
+DEFNAME=i_tekagi_vanq
+ID=i_tekagi
+NAME=Tekagi of Vanquishing
+RESOURCES=i_tekagi,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tekagis
+DESCRIPTION=Tekagi of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_tekagi]
+DEFNAME=i_mystic_tekagi
+ID=i_tekagi
+NAME=Mystic Tekagi
+RESOURCES=i_tekagi,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tekagis
+DESCRIPTION=Mystic Tekagi
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_tessen_ruin]
+DEFNAME=i_tessen_ruin
+ID=i_tessen
+NAME=Tessen of Ruin
+RESOURCES=i_tessen,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tessens
+DESCRIPTION=Tessen of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_tessen_might]
+DEFNAME=i_tessen_might
+ID=i_tessen
+NAME=Tessen of Might
+RESOURCES=i_tessen,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tessens
+DESCRIPTION=Tessen of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_tessen_force]
+DEFNAME=i_tessen_force
+ID=i_tessen
+NAME=Tessen of Force
+RESOURCES=i_tessen,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tessens
+DESCRIPTION=Tessen of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_tessen_power]
+DEFNAME=i_tessen_power
+ID=i_tessen
+NAME=Tessen of Power
+RESOURCES=i_tessen,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tessens
+DESCRIPTION=Tessen of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_tessen_vanq]
+DEFNAME=i_tessen_vanq
+ID=i_tessen
+NAME=Tessen of Vanquishing
+RESOURCES=i_tessen,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tessens
+DESCRIPTION=Tessen of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_tessen]
+DEFNAME=i_mystic_tessen
+ID=i_tessen
+NAME=Mystic Tessen
+RESOURCES=i_tessen,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tessens
+DESCRIPTION=Mystic Tessen
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_tetsubo_ruin]
+DEFNAME=i_tetsubo_ruin
+ID=i_tetsubo
+NAME=Tetsubo of Ruin
+RESOURCES=i_tetsubo,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tetsubos
+DESCRIPTION=Tetsubo of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_tetsubo_might]
+DEFNAME=i_tetsubo_might
+ID=i_tetsubo
+NAME=Tetsubo of Might
+RESOURCES=i_tetsubo,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tetsubos
+DESCRIPTION=Tetsubo of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_tetsubo_force]
+DEFNAME=i_tetsubo_force
+ID=i_tetsubo
+NAME=Tetsubo of Force
+RESOURCES=i_tetsubo,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tetsubos
+DESCRIPTION=Tetsubo of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_tetsubo_power]
+DEFNAME=i_tetsubo_power
+ID=i_tetsubo
+NAME=Tetsubo of Power
+RESOURCES=i_tetsubo,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tetsubos
+DESCRIPTION=Tetsubo of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_tetsubo_vanq]
+DEFNAME=i_tetsubo_vanq
+ID=i_tetsubo
+NAME=Tetsubo of Vanquishing
+RESOURCES=i_tetsubo,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tetsubos
+DESCRIPTION=Tetsubo of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_tetsubo]
+DEFNAME=i_mystic_tetsubo
+ID=i_tetsubo
+NAME=Mystic Tetsubo
+RESOURCES=i_tetsubo,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Tetsubos
+DESCRIPTION=Mystic Tetsubo
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_wakizashi_ruin]
+DEFNAME=i_wakizashi_ruin
+ID=i_wakizashi
+NAME=Wakizashi of Ruin
+RESOURCES=i_wakizashi,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Wakizashis
+DESCRIPTION=Wakizashi of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_wakizashi_might]
+DEFNAME=i_wakizashi_might
+ID=i_wakizashi
+NAME=Wakizashi of Might
+RESOURCES=i_wakizashi,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Wakizashis
+DESCRIPTION=Wakizashi of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_wakizashi_force]
+DEFNAME=i_wakizashi_force
+ID=i_wakizashi
+NAME=Wakizashi of Force
+RESOURCES=i_wakizashi,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Wakizashis
+DESCRIPTION=Wakizashi of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_wakizashi_power]
+DEFNAME=i_wakizashi_power
+ID=i_wakizashi
+NAME=Wakizashi of Power
+RESOURCES=i_wakizashi,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Wakizashis
+DESCRIPTION=Wakizashi of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_wakizashi_vanq]
+DEFNAME=i_wakizashi_vanq
+ID=i_wakizashi
+NAME=Wakizashi of Vanquishing
+RESOURCES=i_wakizashi,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Wakizashis
+DESCRIPTION=Wakizashi of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_wakizashi]
+DEFNAME=i_mystic_wakizashi
+ID=i_wakizashi
+NAME=Mystic Wakizashi
+RESOURCES=i_wakizashi,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Wakizashis
+DESCRIPTION=Mystic Wakizashi
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+[ITEMDEF i_yumi_ruin]
+DEFNAME=i_yumi_ruin
+ID=i_yumi
+NAME=Yumi of Ruin
+RESOURCES=i_yumi,i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Yumis
+DESCRIPTION=Yumi of Ruin
+
+ON=@Create
+ remove //={60 70}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=20.0
+
+[ITEMDEF i_yumi_might]
+DEFNAME=i_yumi_might
+ID=i_yumi
+NAME=Yumi of Might
+RESOURCES=i_yumi,2 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Yumis
+DESCRIPTION=Yumi of Might
+
+ON=@Create
+ remove //={70 80}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=40.0
+
+[ITEMDEF i_yumi_force]
+DEFNAME=i_yumi_force
+ID=i_yumi
+NAME=Yumi of Force
+RESOURCES=i_yumi,3 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Yumis
+DESCRIPTION=Yumi of Force
+
+ON=@Create
+ remove //={80 90}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=60.0
+
+[ITEMDEF i_yumi_power]
+DEFNAME=i_yumi_power
+ID=i_yumi
+NAME=Yumi of Power
+RESOURCES=i_yumi,4 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Yumis
+DESCRIPTION=Yumi of Power
+
+ON=@Create
+ remove //={90 100}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=80.0
+
+[ITEMDEF i_yumi_vanq]
+DEFNAME=i_yumi_vanq
+ID=i_yumi
+NAME=Yumi of Vanquishing
+RESOURCES=i_yumi,5 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Yumis
+DESCRIPTION=Yumi of Vanquishing
+
+ON=@Create
+ remove //={100 110}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=100.0
+
+[ITEMDEF i_mystic_yumi]
+DEFNAME=i_mystic_yumi
+ID=i_yumi
+NAME=Mystic Yumi
+RESOURCES=i_yumi,6 i_enchant_weapon
+
+CATEGORY=Provisions - Weapons - Magic
+SUBSECTION=Magic Yumis
+DESCRIPTION=Mystic Yumi
+
+ON=@Create
+ remove //={110 120}
+ COLOR=color_magic_weap
+ ATTR=attr_magic
+ MOREY=120.0
+
+
+////////////////////
+//Mondain's Legacy//
+////////////////////
+
+
+
+
+/////////////////
+//Stygian Abyss//
+/////////////////
+
+[EOF]

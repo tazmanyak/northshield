@@ -1,0 +1,946 @@
+﻿[function f_vendor_yer_ver]
+src.sys_error Yerini değiştirmek istediğiniz vendoru seçiniz.
+src.targetf f_vendor_yer_ver_x
+
+[function f_vendor_yer_ver_x]
+argo.tag.p <src.p>
+
+[function f_get_vendor_list]
+ref1 = <argv[0]>
+local.kordinat = <argv[1]>
+FORCONT <ref1> 0
+	if <type> == t_container
+		forcont <uid> 0
+			if !(<tag0.fiyat> < 1)
+				if !(<isempty <tag.magicweapon>>)
+					db.execute "insert ev_vendor_sistemi VALUES (NULL, '<addslashes <uid>>','<addslashes <tag0.magicweapon> <name>>','<addslashes <local.kordinat>>','<addslashes |<hitpoints>/<maxhits>|>');"
+				else
+					db.execute "insert ev_vendor_sistemi VALUES (NULL, '<addslashes <uid>>','<addslashes <name>>','<addslashes <local.kordinat>>','<addslashes |<hitpoints>/<maxhits>|>');"
+				endif
+			endif
+		endfor
+	endif
+			
+	if !(<tag0.fiyat> < 1)
+		if !(<isempty <tag.magicweapon>>)
+			db.execute "insert ev_vendor_sistemi VALUES (NULL, '<addslashes <uid>>','<addslashes <tag0.magicweapon> <name>>','<addslashes <local.kordinat>>','<addslashes |<hitpoints>/<maxhits>|>');"
+		else
+			db.execute "insert ev_vendor_sistemi VALUES (NULL, '<addslashes <uid>>','<addslashes <name>>','<addslashes <local.kordinat>>','<addslashes |<hitpoints>/<maxhits>|>');"
+		endif
+	endif
+endfor
+
+
+[function basharfbuyuk]
+return <strtoupper <strsub 0 1 <args>> > <strtolower <strsub 1 99 <args>> >
+
+
+[function f_set_vendor_owner]
+local.vendor = 0
+forchars 6144
+	if strmatch(<baseid>,c_vendor_player_burak)
+		ref1 = <tag0.owner>
+		ref1.tag.my_vendor <uid>
+		serv.log <ref1.name>
+		//SetCustomVendorOwner <tag0.owner>
+		local.vendor ++
+	endif
+endfor
+serv.log Number of Vendor : <dlocal.vendor>
+
+
+[itemdef i_pv_burak]
+id i_memory
+name vendor ana kontroller
+type t_eq_script
+
+on=@create
+timer 604800
+attr attr_newbie|attr_decay
+
+
+On=@Timer
+db.connect
+db.execute delete from vendor_list_genel where vendor_uid='<cont.uid>'
+db.close
+ref1 <cont.tag0.owner>
+cont.owner.tag.vendor=
+ref1.notice Vendorunuz süresi dolduğu için silinmiştir.Hasılatınız(çek olarak) ve eşyalarınız bankanıza aktarılmıştır.
+//ref1.tag.owner
+ref1.tag.my_vendor
+
+
+///// ITEMLARI CANTADA TOPLA /////
+topobj.findlayer(1).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(2).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(3).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(4).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(5).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(6).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(7).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(8).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(10).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(12).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(13).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(14).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(17).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(18).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(19).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(20).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(22).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(23).cont=<topobj.findlayer.layer_pack.uid>
+topobj.findlayer(24).cont=<topobj.findlayer.layer_pack.uid>
+
+////////////////////////
+
+
+topobj.findlayer.21.attr 0
+topobj.findlayer.21.cont <ref1.findlayer.29>
+ref1.tag.vendorum_var
+serv.newitem i_deed_pv_burak
+new.cont <ref1.findlayer(layer_bankbox)> 
+if <eval <cont.tag.hasilat>> > 15000
+serv.newitem i_check_brnx
+new.more1  <eval <cont.tag.hasilat>>
+new.more2 <ref1.uid>
+new.cont <ref1.findlayer(layer_bankbox)> // Adamim hasilati varsa onuda bankasina aktardik lan :D
+endif
+cont.remove
+remove
+return 1
+
+
+[ITEMDEF i_deed_pv_burak]
+name House Vendor Deed 
+id 5359
+type t_script
+value 50000
+
+On=@Create
+color 0455
+attr 04
+
+on=@click
+message @1153,,1 Vendor belgesi
+return 1
+
+on=@dclick
+forchars 3
+	if strmatch(<id>,c_vendor_player_burak)
+		src.sys_normal Vendorlar arasi mesafe an az 5 kare olmalidir.
+		return 1
+	endif
+endfor
+
+if <src.tag.vendorum_var>
+	src.sys_error Zaten bir vendora sahipsin.
+	return 1
+endif
+
+link= <src.region.uid>
+REF1=<UID.<SRC.REGION.UID>.MORE2>
+
+//if <src.region.tag.craftkoy>
+if (<src.isneartype t_deed 0>) && (<src.region.tag.vendor_kabul>)
+	local.kabul 1
+else
+	local.kabul 0
+endif
+//endif
+
+if !<local.kabul>
+	if !(<REF1.HousePlayerAccess <SRC>> >= 3)
+		src.sysmessage @,,1 Sadece kendi evinize kurabilirsiniz.
+		return 1
+	endif
+endif
+
+
+//if <src.is_tabelaya_yakin>
+//src.sysmessage @1153 Tabelaya cok yakinsiniz.
+//return 1
+//endif
+
+if <src.is_kapiya_yakin>
+src.sysmessage @1153 Kapiya cok yakinsiniz.
+return 1
+endif
+
+//if !(strmatch("<src.region.name>","Britain"))
+//	src.sys_normal Britain disinda baska sehre player vendor kuramassiniz.
+//	return 1
+//endif
+
+db.connect
+newnpc c_vendor_player_burak
+db.execute insert vendor_list_genel (vendor_uid, vendor_name) values ('<new.uid>','<new.name>')
+db.close
+ref1= <new.uid>
+new.p <src.p>
+timerf 1,new.SetCustomVendorOwner <SRC>
+new.food 999
+new.tag0.p <new.p>
+new.tag0.owner <src.uid>
+src.tag0.vendor <new.uid>
+new.memorydel <src.uid>
+newitem i_memory
+new.attr 04
+new.more1 04
+new.more2 <serv.time>
+new.morep <ref1.p>
+new.color memory_ipet
+new.timer -1
+new.link <src.uid>
+new.cont <ref1.uid>
+ref1.flags <ref1.flags>&statf_pet
+ref1.update
+src.tag.vendorum_var 1
+src.tag.my_vendor <ref1.uid>
+src.sys_trk Vendorunuz kuruldu.İyi oyunlar.
+remove
+return 1
+//// KURULUM OLAYLARI BURDAN ///
+
+[chardef c_vendor_player_burak]
+name #names_humanmale the Player Vendor
+id c_man
+can mt_equip|mt_nonmover
+hiredaywage 0
+desires i_gold
+tevents e_player_vendor
+tspeech spk_yeni_ev_vendor
+On=@Create
+NPC=brain_vendor
+allskills 1000
+archery
+tactics
+swordsmanship
+fencing
+macefighting
+wrestling
+hiding
+stealth
+str 9500
+dex 25
+int 25
+color colors_skin
+speechcolor 0481
+food 990
+npc 1
+invul 1
+
+itemnewbie random_male_hair
+color colors_hair
+itemnewbie random_facial_hair
+color match_hair
+item i_robe
+color colors_all
+item i_boots_calf
+color colors_all
+item i_torch_lit
+morey -1
+itemnewbie i_backpack
+itemnewbie i_bankbox
+color 0384
+timer 900
+attr 014
+itemnewbie i_pv_burak
+
+On=@Death
+return 1
+
+On=@GetHit
+return 1
+
+on=@hittry
+RETURN 1
+
+on=@hunger
+return 1
+
+ON=@Attack
+RETURN 1
+
+ON=@UserWarMode
+flags &= ~statf_war
+RETURN 1
+
+on=@spelleffect
+RETURN 1
+
+ON=@CallGuards
+RETURN 1
+
+ON=@EnvironChange
+flags &= ~statf_invisible
+
+
+[speech spk_yeni_ev_vendor]
+
+
+
+
+
+[dialog d_evvendorpanel]
+250,50
+noclose
+nomove
+page 1
+makebg 50,50,200,100
+ref1 <tag0.owner>
+dhtmlgump 100 80 155 17 0 0 <def.bfont_lgreen>Satın Al (Çanta)
+button 80 80 2714 2715 1 0 1
+dhtmlgump 100 100 155 17 0 0 <def.bfont_lgreen>Satın Al (Banka)
+button 80 100 2714 2715 1 0 33
+dhtmlgump 100 120 155 17 0 0 <def.bfont_lred>Çıkış
+button 80 120 2714 2715 1 0 0
+page 2
+makebg 50,50,200,120
+
+dhtmlgump 70 70 155 17 0 0 <def.bfont_white>Eşyanın adı: <def.bfont_lgreen><name>
+dhtmlgump 70 90 155 17 0 0 <def.bfont_white>Fiyat: <def.bfont_lgreen><bolukayir <dtag0.fiyat>> Altın
+
+button 90 110 2714 2715 1 0 2
+dhtmlgump 110 110 155 17 0 0 <def.bfont_white>Satın Al
+button 90 130 2714 2715 1 0 3
+dhtmlgump 110 130 155 17 0 0 <def.bfont_lred>Geri
+
+
+[dialog d_evvendorpanel button]
+on 0
+src.ctag0.alisveris 0
+
+on=1
+//src.dialog d_evvendorpanel
+targetf f_evvendorbuy
+src.ctag0.alisveris 0
+
+on=33
+targetf f_evvendorbuy
+src.ctag0.alisveris 0
+src.ctag.buy_bank 1
+
+on=2
+if (<src.gold> < <dtag0.fiyat>)
+src.sys_error Yeterli altınınız yok.
+elif (<tag0.fiyat> < 1)
+src.sys_error Bu eşya satılık değil.
+elif !strmatch('<topobj.baseid>','c_vendor_player_burak')
+src.sys_error Alamazsınız
+else
+
+src.gold -= <dtag0.fiyat>
+topobj.tag0.hasilat += <dtag0.fiyat>
+if <src.ctag.buy_bank>
+cont <src.findlayer.layer_bankbox.uid>
+src.ctag.buy_bank
+src.sys_error <bolukayir <dtag0.fiyat>> karşılığında <name> aldınız, eşyanız bankanızdadır.
+else
+serv.f_option_mysql 0
+db.connect
+db.execute insert into vendor_satilan_itemlar (uid, name, fiyat, satinalan, vendorismi, zaman) values ('<uid>','<addslashes <name>>','<eval <tag.fiyat>>','<addslashes <src.name>>','<addslashes <topobj.name>>','<addslashes <serv.rtime>>')
+if <db.connected>
+	//serv.log #connected 2
+	db.execute delete from vendor_list_items where item_id='<uid>'
+endif
+src.sys_error <bolukayir <dtag0.fiyat>> karşılığında <name> aldınız, eşyanız çantanızdadır.
+if (<baseid> == i_full_spellbook) || (<baseid> == i_runebook)
+	attr 04
+endif
+cont <src.findlayer.21.uid>
+endif
+tag0.fiyat
+if <db.connected>
+	//serv.log #connected 2
+	db.execute delete from vendor_list_items where item_id='<uid>'
+endif
+src.ctag0.alisveris 0
+src.closealldialogs
+src.dialog d_evvendorpanel
+endif
+return 1
+src.ctag0.alisveris 0
+sdialog d_evvendorpanel 1
+
+on=3
+sdialog d_evvendorpanel 1
+
+[function f_evvendorbuy]
+if strmatch('<argo.topobj.tag0.owner>','<src.uid>')
+src.sys_error Siz bu vendorun sahibisiniz.
+elif !(<argo.topobj.findlayer(21).findcont(0)>)
+src.sys_error Şu an satılık eşya yok.
+elif (<src.gold> < <argo.tag0.fiyat>)
+src.sys_error <bolukayir <argo.dtag0.fiyat>> altınınız yok.
+elif (<argo.tag0.fiyat> < 1)
+src.sys_error Bu eşya satılık değil.
+elif !strmatch('<argo.topobj.baseid>','c_vendor_player_burak')
+src.sys_error Bu eşya vendorda değil.
+else
+argo.sdialog d_evvendorpanel 2
+src.ctag0.alisveris 1
+endif
+return 1
+
+[dialog d_evvendor]
+250,50
+nomove
+page 1
+////makebg 50,50,200,110
+makebg 50,50,200,<qval (<tag0.owner> = <src.uid>) ? 140 : 110>
+ref1 <tag0.owner>
+ref2 <uid>
+dhtmlgump 70 60 185 40 0 0 <def.bfont_white>Alışveriş yapmak istediğiniz biçimi seçin.
+dhtmlgump 100 100 155 17 0 0 <def.bfont_lgreen>Klasik Vendor
+button 80 100 2714 2715 1 0 1
+dhtmlgump 100 120 155 17 0 0 <def.bfont_lgreen>Liste Biçimi
+button 80 120 2714 2715 1 0 2
+if strmatch('<src.uid>','<tag0.owner>')
+dhtmlgump 100 140 155 17 0 0 <def.bfont_lred>Vendor Ayarları
+button 80 140 2714 2715 1 0 3
+endif
+page 2
+makebg 50,50,200,140
+dhtmlgump 100 70 155 17 0 0 <def.bfont_lgreen>Fiyat ver
+button 80 70 2714 2715 1 0 4
+
+dhtmlgump 100 90 155 17 0 0 <def.bfont_lred>Satış Listesi
+button 80 90 2714 2715 1 0 99
+
+dhtmlgump 100 110 155 17 0 0 <def.bfont_lgreen>Hasılat
+button 80 110 2714 2715 1 0 6
+dhtmlgump 100 130 155 17 0 0 <def.bfont_lgreen>Süresinizi uzat
+button 80 130 2714 2715 1 0 9
+dhtmlgump 100 150 155 17 0 0 <def.bfont_lgreen>Vendoru Kaldır
+button 80 150 2714 2715 1 0 10
+page 3
+makebg 50,50,200,80
+resizepic 85 70 3000 122 28
+dtextentry 87 70 146 17 1153 1 <dtag0.fiyat>
+button 60 75 2714 2715 1 0 7
+dhtmlgump 110 100 155 17 0 0 <def.bfont_white>Fiyat belirle
+page 4
+makebg 50,50,200,100
+dhtmlgump 65 65 155 17 0 0 <def.bfont_white><dtag0.hasilat> altınınız var.
+resizepic 85 100 3000 122 28
+dtextentry 87 100 146 17 1153 2 <dtag0.hasilat>
+button 60 105 2714 2715 1 0 8
+page 5
+makebg 50,50,250,150
+dhtmlgump 65 65 220 40 0 0 <def.bfont_lgreen><kalansure <eval <ref2.findid.i_pv_burak.timer>>> <def.bfont_white>daha hizmet edecek.
+dhtmlgump 95 105 220 40 0 0 <def.bfont_white>1 günlük uzat.(15k)
+button 75 105 2714 2715 1 0 11
+dhtmlgump 95 125 220 40 0 0 <def.bfont_white>5 günlük uzat.(60k)
+button 75 125 2714 2715 1 0 13
+dhtmlgump 95 145 220 40 0 0 <def.bfont_white>10 günlük uzat.(110k)
+button 75 145 2714 2715 1 0 14
+page 6
+makebg 50,50,270,120
+dhtmlgump 65 65 250 40 0 0 <def.bfont_lgreen>Vendoru sildiğinizde çantasındaki itemler bankanıza aktarılacaktır. Emin misiniz?
+dhtmlgump 95 115 220 40 0 0 <def.bfont_white>Evet
+button 75 115 2714 2715 1 0 12
+dhtmlgump 95 135 220 40 0 0 <def.bfont_lred>Hayır
+button 75 135 2714 2715 1 0 0
+
+[dialog d_evvendor button]
+
+on=99
+sdialog d_mysql_genel_satis
+src.ctag0.sayfa_limit 0
+
+on=13
+if (<src.gold> < 60000)
+src.sys_error 60k altınınız yok.
+else
+src.gold -= 60000
+findid.i_pv_burak.timer += 432000
+src.sys_normal 60k karşılığında 5 gün daha eklendi. Toplamda <kalansure <findid.i_pv_burak.timer>> daha hizmet edeceğim
+endif
+return 1
+
+on=14
+if (<src.gold> < 110000)
+src.sys_error 110k altınınız yok.
+else
+src.gold -= 110000
+findid.i_pv_burak.timer += 864000
+src.sys_normal 110k karşılığında 10 gün daha eklendi. Toplamda <kalansure <findid.i_pv_burak.timer>> daha hizmet edeceğim
+endif
+return 1
+on 1
+if strmatch('<src.uid>','<tag0.owner>')
+say_error Satılacak eşyaları buraya koyabilirsiniz.
+sdialog d_evvendorpanel 1
+src.ctag0.alisveris 1
+face <src.uid>
+pack
+elif (<src.flags>&statf_dead)
+src.sys_error Şuanki durumunuda bu işlemi gerçekleştiremezsiniz.
+elif !(<canseelos>) && (<distance> > 4)
+src.sys_error Vendora ulaşamıyorsunuz.
+elif !(<findlayer(21).findcont(0)>)
+say_error Şuan satılık malım yok.Lütfen daha sonra tekrar geliniz.
+else
+src.sys_error İyi alışverişler.
+sdialog d_evvendorpanel 1
+src.ctag0.alisveris 1
+face <src.uid>
+pack
+endif
+return 1
+
+on 2
+if (<src.flags>&statf_dead)
+src.sys_error Şuanki durumunuda bu işlemi gerçekleştiremezsiniz.
+elif !(<canseelos>) && (<distance> > 4)
+src.sys_error Vendora ulaşamıyorsunuz.
+elif !(<findlayer(21).findcont(0)>)
+say_error Şuan satılık malım yok.Lütfen daha sonra tekrar geliniz.
+else
+src.sys_error İyi alışverişler.
+src.ctag0.pack <findlayer.21.uid>
+src.ctag0.dialogindex 1
+sdialog d_evvendorlistesi
+src.ctag0.alisveris 1
+face <src.uid>
+endif
+return 1
+
+on=3
+if !strmatch('<src.uid>','<tag0.owner>')
+sys_error Vendorun sahibi değilsiniz.
+else
+sdialog d_evvendor 2
+pack
+endif
+return 1
+
+on=4
+src.sys_error .fiyat xx şeklinde fiyat veriniz.
+//targetf f_evvendorfiyat
+//src.sys_normal Fiyatlandırmak istediğiniz eşyayı seçin
+
+on=5
+for 24
+	if !(<dlocal._for> == 21) && !(<dlocal._for> == 2) && !(<dlocal._for> == 1) && !(<dlocal._for> == 8) && !(<dlocal._for> == 18)
+		findlayer.<dlocal._for>.remove
+		local.id = <src.findlayer.<dlocal._for>.baseid>
+		if strmatch(<local.id>,i_protective_magerobe) || strmatch(<local.id>,i_robe_warlock)
+			newitem i_hooded_shroud
+			new.color <src.findlayer.<dlocal._for>.color>
+			equip <new>
+		elseif strmatch(<local.id>,i_robe_warrior)
+			newitem i_robe
+			new.color <src.findlayer.<dlocal._for>.color>
+			equip <new>
+		else
+			newitem <src.findlayer.<dlocal._for>.baseid>
+			new.color <src.findlayer.<dlocal._for>.color>
+			equip <new>
+		endif
+	endif
+endfor
+
+on=6
+sdialog d_evvendor 4
+
+on=7
+if !(<isnumeric <argtxt[1]>>)
+src.sys_error Yanlızca rakam yazabilirsiniz.
+elif (<strsub 0 1 <argtxt[1]>> == 0)
+src.sys_error İlk rakamı sıfır yazamazsınız.
+elif (strlen(<argtxt[1]>) > 7)
+src.sys_error Fiyatı en fazla 9.999.999 yapabilirsiniz.
+elif !strmatch('<topobj.tag0.owner>','<src.uid>')
+src.sys_error Bu vendorun sahibi değilsiniz
+else
+tag0.fiyat <dargtxt[1]>
+src.sys_normal <name>: <bolukayir <dargtxt[1]>> altın olarak belirlendi.
+endif
+return 1
+
+on=8
+if !(<isnumeric <argtxt[2]>>)
+src.sys_error Yanlızca rakam yazabilirsiniz.
+return 1
+elif (<strsub 0 1 <argtxt[2]>> == 0)
+src.sys_error İlk rakamı sıfır yazamazsınız.
+return 1
+elif (strlen(<argtxt[2]>) > 7)
+src.sys_error En fazla 9.999.999 altın çekebilirsiniz.
+return 1
+elif !strmatch('<topobj.tag0.owner>','<src.uid>')
+src.sys_error Bu vendorun sahibi değilsiniz
+return 1
+elif <tag0.hasilat> <= 0
+	src.sysmessage @,,1 Vendorda bakiye mevcut degil.
+	return 1
+elif !(<tag0.hasilat> > <dargtxt[2]>)
+src.sys_error Yazdiginiz miktar kadar kadar altin vendorunuzun hasilatinda bulunmuyor.
+return 1
+else
+tag0.hasilat -= <dargtxt[2]>
+src.gold += <dargtxt[2]>
+src.sys_normal <bolukayir <argtxt[2]>> altın bankanıza aktarılmıştır.
+endif
+return 1
+
+on=9
+sdialog d_evvendor 5
+
+on=10
+sdialog d_evvendor 6
+
+on=11
+if (<src.gold> < 15000)
+src.sys_error 15k altınınız yok.
+else
+src.gold -= 15000
+findid.i_pv_burak.timer += 86400
+src.sys_normal 15k karşılığında 1 gün daha eklendi. Toplamda <kalansure <findid.i_pv_burak.timer>> daha hizmet edeceğim
+endif
+return 1
+
+on=12
+findid.i_pv_burak.timer 1
+
+
+[dialog d_evvendorlistesi]
+250,50
+nomove
+page 1
+makebg 50,50,300,400
+dhtmlgump 145 30 220 40 0 0 <def.bfont_white>   Vendor İçerik//(<uid.<src.ctag0.pack>.cont.name>)
+local.x 70
+ref1 <src.ctag0.pack>
+for a <src.ctag0.dialogindex> <eval <src.ctag0.dialogindex>+6>
+IF !(<ref1.findcont.<eval <dlocal.a>-1>> == 0)
+ref2 <ref1.findcont.<eval <dlocal.a>-1>>
+local.x +=40
+dhtmlgump 110 <dlocal.x> 220 40 0 0 <def.bfont_white><ref2.amount> adet <qval (!<isempty <ref2.tag.magicweapon>>) && <ref2.isweapon> && !<isevent.t_weapon_slayer_new>) ? <ref2.tag0.magicweapon>:> <ref2.name> <qval (<ref2.tag0.fiyat> < 1)?<def.bfont_lred>(Satılık Değil):<def.bfont_lgreen>(<bolukayir <ref2.dtag0.fiyat>> gp)>
+if (<ref2.tag0.fiyat> > 0)
+button 90 <dlocal.x> 2714 2715 1 0 <dlocal.a>
+endif
+if strmatch('<ref2.type>','t_container')
+if (<ref2.rescount> > 0)
+BUTTON 70 <dlocal.x> 2117 2118 1 0 <eval <dlocal.a>+10000>
+endif
+endif
+endif
+endfor
+BUTTON 305 403 9903 9905 1 0 77777
+BUTTON 70 403 9909 9911 1 0 77778
+page 2
+ref1 <src.ctag0.buyingitem>
+if strmatch('<ref1.type>','t_container')
+makebg 50,50,300,330
+else
+makebg 50,50,300,180
+endif
+dhtmlgump 85 60 220 40 0 0 <def.bfont_lred> <qval (!<isempty <ref1.tag.magicweapon>>) && <ref1.isweapon>) ? <ref1.tag0.magicweapon>:> <ref1.name><def.bfont_white> eşyasını satın almak istiyor musunuz?
+resizepic 75 100 5054 100 100
+tilepichue 85 120 <ref1.id> <ref1.dcolor>
+if <ref1.isweapon> || <ref1.isarmor> || <ref1.type>==t_clothing
+dhtmlgump 180 100 155 17 0 0 <def.bfont_lred>Hasar: <def.bfont_white> <ref1.hits>/<ref1.maxhits>//<muldiv <ref1.maxhits>,<ref1.hits>,100>% eski
+endif
+if <ref1.isweapon>
+dhtmlgump 180 120 155 17 0 0 <def.bfont_lred>Dam: <def.bfont_white><ref1.dam>
+endif
+if <ref1.isarmor> || <ref1.type>==t_clothing
+dhtmlgump 180 120 155 17 0 0 <def.bfont_lred>Armor: <def.bfont_white><ref1.armor>
+endif
+if (<ref1.amount> > 1)
+dhtmlgump 180 120 155 17 0 0 <def.bfont_lred>Adet: <def.bfont_white><ref1.amount>
+endif
+
+if <ref1.type>==t_figurine
+	ref12 = <ref1.more2>
+	dhtmlgump 180 120 155 17 0 0 <def.bfont_lred>Str: <ref12.str> | Dex: <ref12.dex>
+endif
+if <ref1.type>==t_dye_vat
+  if !(strmatch(*Sinirsiz*,<tag.doluluk>))
+		if (strmatch('<ref1.tag.doluluk>','Bos'))
+			local.doluluk Boş
+		elif (<eval <tag.doluluk>> < 100)
+			local.doluluk Doluluk: % 1 
+		else
+			local.doluluk Doluluk: % <eval <tag.doluluk>/100>
+		endif
+  else
+		local.doluluk Limitsiz
+  endif
+	dhtmlgump 180 120 155 17 0 0 <def.bfont_lred><local.doluluk>
+endif
+if strmatch('<ref1.type>','t_container')
+local.items=<def.bfont_lred>İçindekiler:<def.br><def.bfont_white>
+local.count 0
+forcont <ref1.uid> 0
+local.items .=<amount> <name><def.br>
+local.count ++
+endfor
+dhtmlgump 70 200 270 150 0 1 Toplam Eşya: <dlocal.count><def.br><local.items>
+endif
+
+
+makebg 350,50,100,60
+dhtmlgump 380 60 155 17 0 0 <def.bfont_lgreen>Satın Al
+button 360 60 2714 2715 1 0 99999
+dhtmlgump 380 80 155 17 0 0 <def.bfont_lred>Çıkış
+button 360 80 2714 2715 1 0 0
+
+
+[dialog d_evvendorlistesi button]
+on=0
+forchars 5
+	if <id> == c_ev_genel
+		src.ctag0.alisveris 0
+		src.closealldialogs
+		if !<isempty <src.ctag.mysql_keyword>>
+			src.dialog d_mysql_item_list 4
+		elseif strmatch("general","<src.ctag.selection>")
+			src.dialog d_mysql_item_list 1
+		elseif strmatch("npc","<src.ctag.selection>")
+			src.dialog d_mysql_item_list 2
+		elseif strmatch("weapon","<src.ctag.selection>")
+			src.dialog d_mysql_item_list 1
+		endif
+		src.ctag0.sayfa_limit=0
+		return 1
+	endif
+endfor
+src.ctag0.alisveris 0
+on 99999
+ref1 <src.ctag0.buyingitem>
+	if (<src.gold> < <ref1.dtag0.fiyat>)
+	src.sys_error Yeterli altınınız yok.
+	elif (<ref1.tag0.fiyat> < 1)
+	src.sys_error Bu eşya satılık değil.
+	elif !strmatch('<ref1.topobj.baseid>','c_vendor_player_burak')
+	src.sys_error Alamazsınız
+else
+	serv.f_option_mysql 0
+	db.connect
+	db.execute insert into vendor_satilan_itemlar (uid, name, fiyat, satinalan, vendorismi, zaman) values ('<ref1.uid>','<ref1.name>','<eval <ref1.tag.fiyat>>','<addslashes <src.name>>','<addslashes <ref1.topobj.name>>','<addslashes <serv.rtime>>')
+
+	src.sys_error <bolukayir <ref1.dtag0.fiyat>> karşılığında <ref1.name> aldınız, eşyanız çantanızdadır.
+	src.gold -= <ref1.dtag0.fiyat>
+	ref1.topobj.tag0.hasilat += <ref1.dtag0.fiyat>
+	if (<ref1.baseid> == i_full_spellbook) || (<ref1.baseid> == i_runebook)
+		ref1.attr 04
+	endif
+	ref1.cont <src.findlayer.21.uid>
+	src.ctag0.alisveris 0
+	ref1.tag0.fiyat
+	if <db.connected>
+		//serv.log #connected 2
+		db.execute delete from vendor_list_items where item_id='<ref1.uid>'
+	endif
+endif
+return 1
+src.ctag0.alisveris 0
+sdialog d_evvendorlistesi 1
+
+on 1 9999
+ref1 <src.ctag0.pack>
+src.ctag0.buyingitem <ref1.findcont.<eval <argn>-1>.uid>
+sdialog d_evvendorlistesi 2
+
+ON = 10001 20000
+src.ctag0.pack_old <src.ctag0.pack>
+ref1 <src.ctag0.pack>
+src.ctag0.pack <ref1.findcont.<eval <dargn>-10001>.uid>
+src.ctag0.dialogindex 1
+sdialog d_evvendorlistesi
+//src.say <ref1.findcont.<eval <dargn>-10001>.name>
+
+
+ON = 77777
+SRC.CTAG0.dialogindex +=7
+SDIALOG d_evvendorlistesi
+
+
+ON = 77778
+IF (<SRC.dCTAG0.dialogindex> > 1)
+  SRC.CTAG.dialogindex -=7
+  SDIALOG d_evvendorlistesi
+else
+ref1 <src.ctag0.pack>
+if !<ref1>
+	src.dialog d_mysql_genel_vendor
+	return 1
+endif
+ref2 = <ref1.cont.uid>
+if !<ref2>
+	src.dialog d_mysql_genel_vendor
+	return 1
+endif
+	if <ref2.ischar>
+		src.dialog d_mysql_genel_vendor
+		src.ctag0.pack_1 <src.ctag0.pack>
+	else
+		ref11 = <src.ctag0.pack_old>
+		ref22 = <src.ctag0.pack>
+		if <ref11.uid> != <ref22.uid>
+		src.ctag0.pack <src.ctag0.pack_old>
+		src.ctag0.dialogindex 1
+		sdialog d_evvendorlistesi
+		else
+		ref3 = <ref22.cont.uid>
+		ref4 = <ref3.cont.uid>
+		if <ref4>
+		  src.ctag0.pack <ref3.cont.uid>
+		else
+			 src.ctag0.pack <ref3.uid>
+		endif
+		src.ctag0.dialogindex 1
+		sdialog d_evvendorlistesi
+		endif
+	endif
+endif
+
+
+//[function asd]
+//ref1 <src.ctag0.pack>
+//say <ref1.findcont.<args>.name>
+
+[function f_evvendorfiyat]
+return 1
+// if !strmatch('<argo.topobj.baseid>','c_vendor_player_burak')
+// src.sys_error Sadece vendordaki itemlere fiyat verebilirsiniz.
+// elif !strmatch('<argo.topobj.tag0.owner>','<src.uid>')
+// src.sys_error Bu vendorun sahibi değilsiniz.
+// else
+// //argo.sdialog d_evvendor 3
+
+	// if !(<isnumeric <args>>)
+		// src.sys_error Yanlızca rakam yazabilirsiniz.
+	// elif (<isempty <args>>)
+		// src.sys_error Herhangi bir fiyat belirlemediniz.
+	// elif (<strsub 0 1 <args>> == 0)
+		// src.sys_error İlk rakamı sıfır yazamazsınız.
+	// elif (strlen(<args>) > 7)
+		// src.sys_error Fiyatı en fazla 9.999.999 yapabilirsiniz.
+	// else
+		// argo.tag0.fiyat <args>
+		// src.sys_normal <name>: <bolukayir <args>> altın olarak belirlendi.
+	// endif
+	// return 1
+// endif
+
+// Fiyat, Mysql
+
+[function f_evvendorfiyat_mysql]
+ref1 <src.ctag.vendor_sent_item>
+if !strmatch('<ref1.topobj.baseid>','c_vendor_player_burak')
+src.sys_error Sadece vendordaki itemlere fiyat verebilirsiniz.
+elif !strmatch('<ref1.topobj.tag0.owner>','<src.uid>')
+src.sys_error Bu vendorun sahibi değilsiniz.
+else
+//argo.sdialog d_evvendor 3
+	//serv.log <args>
+	if <isempty <args>>
+		src.sys_error Fiyatlandırmadınız.
+	elif !(<isnumeric <args>>)
+		src.sys_error Yanlızca rakam yazabilirsiniz.
+	elif (<isempty <args>>)
+		src.sys_error Herhangi bir fiyat belirlemediniz.
+	elif (<strsub 0 1 <args>> == 0)
+		src.sys_error İlk rakamı sıfır yazamazsınız.
+	elif (strlen(<args>) > 7)
+		src.sys_error Fiyatı en fazla 9.999.999 yapabilirsiniz.
+	else
+		ref1.tag0.fiyat <args>
+		serv.f_option_mysql 0
+		db.connect
+		if <db.connected>
+			//serv.log #connected 1
+			db.execute insert vendor_list_items (item_id,item_type,item_name) values ('<ref1.uid>','<ref1.type>','<addslashes <qval <isempty <ref1.tag.magicweapon>> ? <ref1.name>:<ref1.tag0.magicweapon> <ref1.name>>>')
+			db.close
+		endif
+		src.sys_normal <ref1.name>: <bolukayir <args>> altın olarak belirlendi.
+		src.sys_error Ürününüz genel vendor listesine eklenmiştir.
+	endif
+	return 1
+endif
+//
+
+
+
+[events e_player_vendor]
+on=@dclick
+src.ctag0.vendoruid <uid>
+ref1 <tag0.owner>
+if strmatch('<tag0.owner>','<src.uid>')
+sayua <eval 07a1> 0 0 1 Hoşgeldiniz Efendim.
+endif
+if !(<src.ctag0.alisveris> == 1)
+sdialog d_evvendor
+endif
+if !(<memoryfindtype.memory_ipet>)
+	memorydel <src.uid>
+	newitem i_memory
+	new.attr 04
+	new.more1 04
+	new.more2 <serv.time>
+	new.morep <p>
+	new.color memory_ipet
+	new.timer -1
+	new.link <tag0.owner>
+	new.cont <uid>
+	flags <flags>&statf_pet
+endif
+return 1
+
+
+on=@click
+ref1 <tag0.owner>
+if !strmatch('<tag0.p>','<p>')
+p <tag0.p>
+update
+endif
+
+if !(<memoryfindtype.memory_ipet>)
+	memorydel <src.uid>
+	newitem i_memory
+	new.attr 04
+	new.more1 04
+	new.more2 <serv.time>
+	new.morep <p>
+	new.color memory_ipet
+	new.timer -1
+	new.link <tag0.owner>
+	new.cont <uid>
+	flags <flags>&statf_pet
+endif
+
+
+message @1153 [<ref1.name>]
+message @666 <name>
+return 1
+
+
+on=@spell_effect
+return 1
+
+on=@gethit
+if (<findid.i_rune_poison>)
+findid.i_rune_poison.remove
+endif
+return 1
+
+
+On=@Attack
+return 1
+
+On=@Hit
+return 1
+
+On=@HitTry
+return 1
+
+
+On=@Death
+hits <str>
+return 1
+
+[EOF]

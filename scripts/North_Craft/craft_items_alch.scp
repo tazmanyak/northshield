@@ -1,0 +1,38 @@
+[defname def_alch_items]
+// total page		
+alchemy_pagesum 	5
+// lesser
+alchemy_0_1		i_potion_healless
+alchemy_1_1		i_potion_cureless
+alchemy_2_1		i_potion_poisonless
+alchemy_3_1 		i_potion_ExplosionLess
+alchemy_4_1		i_potion_poisonless
+// normal
+alchemy_0_2		i_potion_heal
+alchemy_1_2		i_potion_cure
+alchemy_2_2		i_potion_poison
+alchemy_3_2		i_potion_agility
+alchemy_4_2		i_potion_nightsight
+alchemy_5_2		i_potion_refresh
+alchemy_6_2		i_potion_strength
+alchemy_7_2		i_potion_Explosion
+// greater
+alchemy_0_3		i_potion_healgreat
+alchemy_1_3		i_potion_curegreat
+alchemy_2_3		i_potion_poisongreat
+alchemy_3_3		i_potion_agilitygreat
+alchemy_4_3		i_potion_strengthgreat
+alchemy_5_3		i_potion_ExplosionGreat
+
+alchemy_0_4		i_potion_poisondeadly
+alchemy_1_4		i_potion_refreshtotal
+alchemy_2_4		i_potion_bleed
+
+alchemy_0_5		i_flask1_empty
+//alchemy_1_5		
+//alchemy_2_5
+//alchemy_3_5
+//alchemy_4_5
+
+
+[EOF]

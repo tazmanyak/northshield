@@ -1,0 +1,1145 @@
+﻿
+////////////////////////////// BENZER GRUP EŞYALARI KATEGORIZE ET - ÇAPULCULAR İÇİN NİMET /////////////////////////////////
+[function yenile]
+src.sys_error Frame yenilendi.
+forchars 30
+	update
+endif
+src.update
+
+
+[function banka_duzenle]
+src.sys_error Geçici süreliğine devre dışıdır.
+return 1
+ref1=<uid>
+forcont <findlayer.29>	
+if (!<local.<type>_bag>) && (<type>!=t_container)	//place similar items into same bag
+serv.newitem i_backpack
+new.color=colors_all
+new.tag0.item_type=<type>
+new.cont=<ref1.findlayer.29>
+local.<type>_bag=<new>
+endif
+if <local.<type>_bag>
+cont=<local.<type>_bag>
+endif
+endfor
+forcont <findlayer.29>	//place bags that don't have more than couple items inside into the main bank box
+ if <type>==t_container
+  if <count><=2
+    ref2=<uid>
+   forcont <ref2>
+    cont=<ref1.findlayer.29>
+   endfor
+    ref2.remove
+  endif
+ endif
+endfor
+forcont <findlayer.29>	//remove empty bags
+if <type>==t_container
+if <count>==0
+remove
+endif
+endif
+endfor
+
+[Plevel 1]
+ates_reiz
+pkaf
+banka_duzenle
+yenile
+
+[plevel 2]
+gname
+
+///////////////// PK AF ///////////////////////////////
+[function pkaf]
+src.sys_error PK affından yararlanmak istiyorsanız ekrana EVET yazıp ENTER tuşuna basınız.
+SRC.PROMPTCONSOLE f_pk_af
+
+[function f_pk_af]
+if strmatch("evet","<args>")
+	if !<src.tag.pk_af>
+		src.kills 0
+		src.karma 0
+		src.sys_error Kill ve Karma değerleriniz sıfırlanmıştır.
+		src.tag.pk_af 1
+	else
+		src.sys_error Aftan yararlanmışsınız.
+	endif
+endif
+return 1
+////////////////////////////////////////////////////////
+
+[function gname]
+goname <args>
+
+//////////////////////////// RESYNC INTERNAL OLARAK HARDCODED FIREWALL PORT FORWARD ////////////////////////////
+[function ates_reiz]
+if strmatch(*adervis*,<src.account.name>) || <src.isgm>
+
+timerf 3,duyurx Firewall Mesaj : Sunucuya bir saldırı tespit edildiği için sunucu bağlantısı 5 saniyeliğine resetlenmektedir. Oyundan çıkmayınız.
+timerf 3,serv.resync
+timerf 15, duyurx Firewall Mesaj : Bağlantı güncellendi.
+endif
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////// ONLINE BROADCASTING TWITCH ICIN GEZDIRME ZIMBIRTILARI//////////////////////////////////
+[itemdef i_observer_timer] 
+id=i_memory 
+type=t_eq_script 
+name=observer timer
+
+on=@timer
+cont.goclient
+timer 15
+return 1
+
+[function make_observer]
+targetf make_observerx
+
+[Plevel 1]
+make_observerx
+
+
+[function make_observerx]
+if strmatch("taz","<account.name>")
+serv.newitem i_observer_timer
+new.equip
+timer 30
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////ITEM POSITION ////////////////////////////////////
+[function show_contp]
+sys_normal Seçimi yapınız
+targetf show_contpx 
+[function show_contpx]
+sys_normal Posizyon : <argo.contp>
+
+//////////////////////////////////////////////////////////////////////
+
+///////////////////////// ŞEKİLLİ SAYILAR SENDPACKET TEST//////////////
+[function show_number]
+//srv.log <name>
+sendpacket 0bf w11 w022 01 d<uid> <args>
+////////////////////////////////////////////////////////////////////////
+
+//////////////////////////// OTO PH DEVRE DIŞI -- HER AN KULLANILABILIR //////////////
+[function power_hour_open]
+if !(<rtime.day> == <var0.last_power_hour>)
+	var.last_power_hour = <rtime.day>
+	var.ph_durum 1
+	for 0 49
+		try serv.skill.<dlocal.x>.adv_rate <def.phder1>
+	endfor
+	duyurx Power Hour %100 olarak 2 saat boyunca aktiftir.
+	timerf 7200, uid.<def.ph_stone>.aktif
+	timerf 7200, duyur 2 saat sürelik power hour kapandı.
+endif
+//////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////// OTO PVP KONTROL ZIMBIRTILARI ////////////////////////
+[function pvp_kontrol_auto]
+if (<rtime.day> == 9)
+	if !(<rtime.day> == <var0.last_pvp>)
+		uid.018f31.findid.i_cpvpci.timer 1
+		var.last_pvp = <rtime.day>
+	endif
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////////
+[function zenginkontrol]
+if !(<rtime.day> == <VAR0.last_zengin>)
+		VAR.last_zengin = <rtime.day>
+		zenginbul
+endif
+	
+[function kordinat_ver]
+src.weblink <src.p>
+
+[function f_packet_login]
+serv.log <args>
+
+[function f_move_check_ev]
+//ref1 <local.char>
+for x 1 9
+	serv.log <local.<dlocal.x>>
+endfor
+[function göster]
+forplayers 6144
+	if strmatch(*<args>*,<name>)
+		go <src.p>
+	endif
+endfor
+
+[function getuid]
+foritems 7144
+	if <uid>==<args>
+		src.sys_error İsim : <cont.name>
+	endif
+endfor
+
+
+//////////////// AQUERY/AEXECUTE TEST ZIMBIRTISI //////////
+[FUNCTION f_execute_callback]
+IF (<ARGN2> == 0)
+    SERV.LOG islem basarisiz (<ARGS>)
+ELSE
+    SERV.LOG islem basarili (<ARGS>)
+ENDIF
+RETURN
+/////////////////////////////////////////////////////
+[Plevel 1]
+cozunurluk
+
+[function cozunurluk]
+src.sys_error Options'a girip ekran cozunurlugu degistikten sonra APPLY yapiniz...
+
+
+////////////////////////// BURAK'IN İŞSİZLİKLERİ ! //////////////////////////////////
+[function sendstatus]
+sendpacket 011 W042 D<uid> 046 069 072 06F 074 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 W<hits> W<maxhits> 00 01 <cinsiyet> W<STR> W<DEX> W<INT> W<STAM> W<MAXSTAM> W<MANA> W<MAXMANA> D<GOLD> W<AC> W<WEIGHT>
+
+/////////////////////////////////////////////////////////////////////////////////////
+[function cinsiyet]
+if (<obody> = c_woman)
+return 1
+endif
+return 0 
+
+
+
+
+[function uoloop]
+src.sys_error Makroman açılıyor lütfen bekleyiniz.
+
+[Plevel 1]
+uretim
+uoloop
+forum
+
+
+/////////////////////// Üretim modunu aç/kapat /////////////////////
+[function uretim]
+if !<src.tag.craft_cop_aktif>
+	src.tag.craft_cop_aktif 1
+	src.sysmessage @,,1 Uretim modunu actiniz.
+else
+	src.tag.craft_cop_aktif 0
+	src.sysmessage @,,1 Uretim modunu kapattiniz.	
+endif
+//////////////////////////////////////////////////////////////
+
+[function f_give_max_online]
+return <eval <VAR.clirecord>>
+
+[function f_online_player]
+//local.player = 0
+//FOR 0 <EVAL <SERV.CLIENTS>-1>
+//	if <SERV.CLIENT.<dLOCAL._FOR>.ACCOUNT.>
+//		local.player ++
+//	endif
+//endfor
+
+return <eval <SERV.CLIENTS>+25>
+//<eval <local.player>>
+	
+
+		
+//////////////////////////// ACC RECOVERY ///////////////////////////////////////////
+
+[function f_acc_recovery]
+local.file = C:\Sphere\recovery_acc\<argn>.txt
+IF !(<FILE.INUSE>)
+FILE.MODE.APPEND=1
+IF (<FILE.OPEN <STRARG <local.file>>>) //IF (0<FILE.OPEN <ARGS> >)
+	serv.newnpc c_man
+	WHILE ((STRCMPI(<FILE.READLINE <HVAL <LOCAL._WHILE>+1>>,<FILE.READLINE 0>))
+		new.<FILE.READLINE <HVAL <LOCAL._WHILE>+1>>
+		serv.log <FILE.READLINE <HVAL <LOCAL._WHILE>+1>>
+	endwhile
+endif
+FILE.CLOSE
+serv.account update
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+[function sitegir]
+serv.allclients dialog_up d_web_yonlendirme
+
+
+[function forum]
+if strmatch(<args>,"")
+	src.sys_error forum fonksiyonundan sonra sayfa id sini giriniz. Ornegin .forum 50
+	return 1
+endif
+
+src.weblink forum.tns.gen.tr/index.php?topic=<args>
+
+
+[function site_yonlendir]
+src.sys_error Yonlendirmek istediginiz playeri seciniz.
+targetf sitegirx_player <args>
+
+[function sitegirx_player]
+argo.weblink <args>
+
+[function sitegirx]
+dialog d_web_yonlendirme
+
+[plevel 7]
+herifi_gocert
+
+
+//////////////////////////////// Birisi canınımı sıktı - trollemek mi istiyorsun tam senlik //////////////////
+[function herifi_gocert]
+if strmatch("aeisec","<account.name>") || strmatch("tazmanyak","<account.name>")
+src.sysmessage @,,1 Sistemine tecavuz etmek istediginiz kisiyi seciniz. :D 
+targetf herifi_gocertx
+endif
+[function herifi_gocertx]
+if strmatch("<argo.account.name>","rhodos")
+	//src.sysmessage @,,1 hadi lan ordan.
+	return 1
+else
+for 2500
+argo.weblink www.nobrain.dk
+endfor
+endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+[function onlinestaff]
+var.onlinestaff 0
+serv.allclients onlinestaffx
+return <eval <var.onlinestaff>>
+
+[function onlinestaffx] //// PAGE HELPER yaptıydık bir ara , onlarda staff muamelesi yapalım dedik//////////////////////
+if <account.plevel> > 1 || strmatch("haciyatmaz","<account.name>") || strmatch("kralciplak","<account.name>") || strmatch("vanderus","<account.name>")
+	var.onlinestaff +=1
+endif
+
+
+
+
+//////////////////////////////////
+
+[FUNCTION DUNGLOCATION]
+IF (<VAR0.DUNGLOCATION.TRIES> > 250) && (<ISITEM>)
+REMOVE
+RETURN 1
+ENDIF
+DORAND 6
+LOCAL.MOREP=<eval {5313 5326}>,<eval {577 625}>
+LOCAL.MOREP=<eval {5394 5592}>,<eval {1954 2028}>
+LOCAL.MOREP=<eval {5388 5512}>,<eval {662 754}>
+LOCAL.MOREP=<eval {5134 5163}>,<eval {798 870}>
+LOCAL.MOREP=<eval {5914 5990}>,<eval {147 238}>
+LOCAL.MOREP=<eval {5515 5621}>,<eval {15 119}>
+ENDDO
+LOCAL.TMP2=<NEW>
+LOCAL.TMP=<OBJ>
+SERV.NEWNPC C_ZOMBIE
+ref1 = <new.uid>
+NEW.REMOVEFROMVIEW
+NEW.FLAGS |= STATF_INVISIBLE
+NEW.P=<LOCAL.MOREP>
+NEW.FIX
+OBJ=<ref1.region.uid>
+IF (<obj.isamulti>)
+NEW.REMOVE
+NEW=<LOCAL.TMP2>
+OBJ=<LOCAL.TMP>
+VAR0.DUNGLOCATION.TRIES ++
+DUNGLOCATION
+RETURN 1
+ELIF (<ref1.region.flags>&region_flag_guarded) || (<ref1.region.flags>&region_flag_safe) || (<ref1.isneartype t_rock>) || (<ref1.isneartype t_tree>) || (<ref1.isneartype t_door>) || (<ref1.isneartype t_wall>) || (<ref1.isneartype t_water>) || (<ref1.isneartype t_multi 10>) || (<ref1.p.terrain>==0244)
+NEW.REMOVE
+NEW=<LOCAL.TMP2>
+OBJ=<LOCAL.TMP>
+VAR0.DUNGLOCATION.TRIES ++
+DUNGLOCATION
+RETURN 1
+ENDIF
+VAR.DUNGLOCATION.TRIES=
+NEW.REMOVE
+NEW=<LOCAL.TMP2>
+OBJ=<LOCAL.TMP>
+return <LOCAL.MOREP>
+
+[FUNCTION SANDLOCATION]
+DORAND 6
+LOCAL.MOREP=<eval {1600 1645}>,<eval {3525 3565}>
+LOCAL.MOREP=1970,<eval {2930 2946}>
+LOCAL.MOREP=<eval {130 157}>,<eval {1459 1478}>
+LOCAL.MOREP=1073,<eval {361 371}>
+LOCAL.MOREP=<eval {1853 2028}>,<eval {809 914}>
+LOCAL.MOREP=<eval {5300 5756}>,<eval {2532 2816}>
+//LOCAL.MOREP=<eval {1584 2384}>,<eval {1520 1796}>,-90,3
+ENDDO
+LOCAL.TMP2=<NEW>
+LOCAL.TMP=<OBJ>
+SERV.NEWNPC C_ZOMBIE
+ref1 = <new.uid>
+NEW.REMOVEFROMVIEW
+NEW.FLAGS |= STATF_INVISIBLE
+NEW.P=<LOCAL.MOREP>
+NEW.FIX
+OBJ=<new.region.uid>
+IF (<obj.type>==t_multi)
+NEW.REMOVE
+NEW=<LOCAL.TMP2>
+OBJ=<LOCAL.TMP>
+SANDLOCATION
+RETURN 1
+ELIF (<ref1.region.flags>&region_flag_guarded) || (<ref1.region.flags>&region_flag_safe) || (<ref1.ISSTUCK>)
+NEW.REMOVE
+NEW=<LOCAL.TMP2>
+OBJ=<LOCAL.TMP>
+SANDLOCATION
+RETURN 1
+ENDIF
+FIX
+NEW.REMOVE
+NEW=<LOCAL.TMP2>
+OBJ=<LOCAL.TMP>
+return <LOCAL.MOREP>
+
+[FUNCTION SNOWLOCATION]
+DORAND 3
+BEGIN
+IF !(<R2>)
+LOCAL.MOREP=<EVAL {5129 5572}>,<EVAL {2317 2405}>
+ELSE
+LOCAL.MOREP=<EVAL {5752 6122}>,<EVAL {2330 2456}>
+ENDIF
+//FIX
+LOCAL.TMP2=<NEW>
+LOCAL.TMP=<OBJ>
+SERV.NEWNPC C_ZOMBIE
+ref1 = <new.uid>
+NEW.REMOVEFROMVIEW
+NEW.FLAGS |= STATF_INVISIBLE
+NEW.P=<LOCAL.MOREP>
+NEW.FIX
+
+IF (<ref1.p.z> >= 10)
+SNOWLOCATION
+RETURN 1
+ENDIF
+END
+LOCAL.MOREP=<EVAL {3868 4206}>,<EVAL {181 751}>
+LOCAL.MOREP=<EVAL {5673 5876}>,<EVAL {144 245}>
+ENDDO
+
+LOCAL.TMP2=<NEW>
+LOCAL.TMP=<OBJ>
+SERV.NEWNPC C_ZOMBIE
+ref1 = <new.uid>
+NEW.REMOVEFROMVIEW
+NEW.FLAGS |= STATF_INVISIBLE
+NEW.P=<LOCAL.MOREP>
+NEW.FIX
+
+IF (<ref1.ISNEARTYPE T_ROCK>) || (<ref1.ISNEARTYPE T_WATER>) || (<ref1.ISNEARTYPE T_TREE 2>) || (<UID.<ref1.REGION.UID>.ISAMULTI>) || (<ref1.p.terrain>==0244)
+SNOWLOCATION
+RETURN 1
+ENDIF
+return <LOCAL.MOREP>
+
+//////////////////////////
+
+[FUNCTION music222]
+IF (<ISCHAR>)
+	IF (0<ISPLAYER>) && (0<ISONLINE>)
+	SENDPACKET 06D W<HVAL <ARGN1>>
+	ENDIF
+ENDIF
+
+///////////////////////////
+
+
+[FUNCTION F_LIST_ALLPARTYMEMBERS]
+IF (<ISINPARTY>)
+	IF (<PARTY.MEMBERS> > 1)
+		FOR 0 <EVAL <PARTY.MEMBERS>-1>
+			IF (<LOCAL._FOR> >= 0)
+			LOCAL.PARTYMEMBERS .= <PARTY.MEMBER.<dLOCAL._FOR>.UID>;
+			ENDIF
+		ENDFOR
+	ENDIF
+ELSE
+RETURN
+ENDIF
+RETURN <LOCAL.PARTYMEMBERS>
+
+
+[function memoryusageofsphere]
+//serv.log <mem>
+return <eval <mem>/1000>
+
+[function bekleyenpagekac]
+return <eval <uid.<var.pg_box>.rescount>>
+
+
+
+[FUNCTION RANDOMPAGENUM]
+var.page_num += 1
+return <var.page_num>
+
+
+
+[FUNCTION RANDOMDOUBLE]
+IF (<ARGN1>)
+LOCAL.VAL=<EVAL <ARGN1>*1000000>
+ELSE
+LOCAL.VAL=1000000
+ENDIF
+FLOAT.RANDOM=<FLOATVAL <R<dLOCAL.VAL>>/1000000>
+RETURN <FLOAT.RANDOM>
+
+
+[FUNCTION EHNUM]
+IF (STRMATCH(0*,<ARGV[0]>))
+RETURN 1
+ELSE
+RETURN 0
+ENDIF
+
+[FUNCTION GUILDIMG]
+IF (<ISEMPTY <TAG.LOGO>>)
+RETURN tns.gen.tr/northshield.png
+ELSE
+RETURN <TAG0.LOGO>
+ENDIF
+
+[FUNCTION GETMEMBERLIST]
+IF (<member.count>)
+LOCAL.MEMBERLIST=<member.0.name>,
+FOR <member.count>
+IF !(<member.<dlocal._for>>)
+RETURN <local.memberlist>
+ELSE
+LOCAL.MEMBERLIST .= <member.<HVAL <local._for>>.name>,
+ENDIF
+ENDFOR
+ENDIF
+
+[FUNCTION GETALLIGNMENT]
+IF !(<more1>)
+RETURN Neutral
+ELSEIF (<more1>==1)
+RETURN Order
+ELSEIF (<more1>==2)
+RETURN Chaos
+ENDIF
+
+[FUNCTION GETMASTER]
+IF !(0<MASTERUID>)
+REMOVE
+RETURN [none]
+ELSE
+RETURN <MASTER>
+ENDIF
+
+
+
+
+[FUNCTION recordhp]
+RETURN <eval <var0.clirecord>>
+
+///////////////////
+
+[function brtuyesayisi]
+return <eval <uid.040007971.member.count>>
+
+[function deluuyesayisi]
+return <eval <uid.04000163d4.member.count>>
+
+[FUNCTION killspk]
+IF !(0<ARGN>)
+RETURN <LEVEL>
+ELSE
+LEVEL=<ARGN>
+ENDIF
+
+
+
+[function goclient]
+IF (0<CTAG.NEXTCLI> > <HVAL <SERV.CLIENTS>-1>) || !(<ISEMPTY <ARGS>>)
+CTAG.NEXTCLI
+ENDIF
+GOCLI 0<CTAG.NEXTCLI>
+CTAG.NEXTCLI=<HVAL 0<CTAG.NEXTCLI>+1>
+
+
+//if ( strmatch('<args>','yardim') )
+//	sysmessage @55,3,1 goclient SAYI ile baslangiç sayisini verirsin. Sayi 0-325 arasi olmak zorundadir.
+//	sysmessage @55,3,1 goclient ile de baslangiç sayisindan 1 azalarak client lara gidersin...
+//	sysmessage @55,3,1 goclient AUTO ile o sayiyi server otomatik verir.
+//elseif (strmatch('<args>','auto'))
+//	tag.gocli <eval(<serv.clients>)>
+//	sysmessage @67,3,1 client baslangiç sayisi <serv.clients> olarak kaydedildi.
+//elseif !(strmatch('<args>',''))
+//	tag.gocli <eval(<args>)>
+//	sysmessage @67,3,1 client baslangiç sayisi <args> olarak kaydedildi.
+//elseif ( strmatch('<args>','') )
+//	if !(<eval (<tag.gocli>)> < 0)
+//		lib_gocli <eval(<tag.gocli>)>
+//		sysmessage @025,3,1 Client number : <eval (<tag.gocli>)>
+//		tag.gocli <eval(<tag.gocli>-1)>
+//	else
+//		tag.gocli <serv.clients>
+//		sysmessage @055,4,1 Client bitti. Bastan basliyoruz.
+//		goclient
+//	endif
+//endif 
+//return 1
+
+[function lib_gocli]
+local.argn <argn>
+if (<dlocal.argn> > <serv.clients>)
+	sysmessage @028,4,1 Girilen deger online client sayisini astigi için bu sayiya esitlenmistir. 
+	local.argn <eval(<serv.clients>)-1>
+	tag.gocli <serv.clients>
+endif	
+if (<serv.client.<dlocal.argn>.isonline>)
+	if !(strmatch('<serv.client.<dlocal.argn>.account.name>','')) || !(strmatch('<serv.client.<dlocal.argn>.account.name>','0'))
+		if (<serv.client.<dlocal.argn>.account.plevel> <7)
+			go <serv.client.<dlocal.argn>.p>
+			update
+		endif
+	endif
+endif
+
+
+[function writefile2]
+if !(<file.inuse>)
+	file.mode.create=1
+	file.mode.append=1
+	file.mode.writeflag=1
+	if (<file.open <strarg <args>>>)
+		file.writeline <streat <args>>
+		file.close
+	endif
+endif
+
+
+
+[FUNCTION GETGUILD]
+IF (<ISPLAYER>)
+	IF (<ISGM>)
+	RETURN Yetkili
+	ELSEIF (<flags>&statf_incognito) || !(<guild>)
+	RETURN [Yok]
+	ELSE
+	RETURN <guild.name>
+	ENDIF
+ELSE
+RETURN 0
+ENDIF
+
+[FUNCTION ispk]
+IF (!(<ISPLAYER>))
+	IF (<KARMA> < -2000)
+	RETURN 1
+	ELSE
+	RETURN 0
+	ENDIF
+ENDIF
+IF (<KILLS> > <SERV.MURDERMINCOUNT>)
+RETURN 1
+ENDIF
+RETURN 0
+
+/////////////////////
+
+[FUNCTION dialog_up]
+TRYSRC <UID> SRC.SDIALOG <ARGS>
+
+//////////////////
+
+[FUNCTION listen]
+IF !(<ISEMPTY <ARGS>>)
+HEARALL <ARGS>
+ELSE
+RETURN <HEARALL>
+ENDIF
+
+////////////////////
+
+[FUNCTION ISBADSTR]
+IF (<STRPOS 0 41 <ARGS>>!=-1) || (<ISEMPTY <ARGS>>) || (STRMATCH(*<ASC [[]>*,<ASC <ARGS>>)) || (STRMATCH(*<ASC ]>*,<ASC <ARGS>>)) || (STRMATCH(*<ASC [(]>*,<ASC <ARGS>>))) || (STRMATCH(*<ASC ->*,<ASC <ARGS>>)) || (STRMATCH(*<ASC [}`>?´;:^%$*¨!<#._~|=+&/æ{]>*,<ASC <ARGS>>)) || (STRMATCH(*<ASC @>*,<ASC <ARGS>>))
+RETURN 1
+ELSE
+RETURN 0
+ENDIF
+
+/////////////////////
+
+[function becriminal]
+IF !(<iscriminal>)
+	IF !(<findid.i_criminal_timer>)
+	flags |= statf_criminal
+	serv.newitem i_criminal_timer
+	equip <new>
+	sysmessageloc -1,502275
+	ENDIF
+ENDIF
+
+[itemdef i_criminal_timer]
+ID=i_memory
+TYPE=t_eq_script
+NAME=criminal timer
+
+ON=@Equip
+timer=<HVAL 60*<SERV.CRIMINALTIMER>>
+
+ON=@Timer
+cont.flags &= ~statf_criminal
+remove
+return 1
+
+
+[plevel 4]
+find
+findacc
+findip
+
+[function find]
+if !(<isempty <args>>)
+serv.allclients find_test <args>
+endif
+
+[function find_test]
+IF (STRMATCH(<strsub 0 <HVAL strlen(<args>)> <NAME>>*,<ARGS>))
+src.go <p>
+ENDIF
+
+[FUNCTION findacc]
+if !(<isempty <args>>)
+SERV.ALLCLIENTS find_find <ARGS>
+endif
+
+[FUNCTION find_find]
+IF (STRMATCH(<strsub 0 <HVAL strlen(<args>)> <ACCOUNT>>*,<ARGS>))
+SRC.GO <P>
+ENDIF
+
+[function findip]
+if !(<isempty <args>>)
+serv.allclients find_test_ip <args>
+endif
+
+[function find_test_ip]
+IF (STRMATCH(<strsub 0 <HVAL strlen(<args>)> <ACCOUNT.LASTIP>>*,<ARGS>))
+src.go <p>
+ENDIF
+
+
+
+
+[function uyari]
+if (<src.account.plevel> > 2)
+newitem=i_deed_uyari
+ACT.P=<P>
+else
+return 1
+endif
+
+
+[function uyari2]
+if (<src.account.plevel> > 2)
+newitem=i_deed_uyari2
+ACT.P=<P>
+else
+return 1
+endif
+
+[ITEMDEF i_deed_uyari]
+DEFNAME=i_deed_uyari
+ID=i_deed
+NAME=Uyari Deed
+
+On=@Create
+color 0793
+timer -1
+attr 010
+
+on=@click
+message @38,1,1 [Uyarı]
+message @,,1 <name>
+return 1
+
+[ITEMDEF i_deed_uyari2]
+DEFNAME=i_deed_uyari2
+ID=i_deed
+NAME=Uyari Deed
+
+On=@Create
+timer 1
+tag.uyari Bos
+color 0793
+timer -1
+attr 010
+
+on=@click
+message @38,1,1 [Uyarı]
+message @,,1 <tag.uyari>
+return 1
+
+on=@timer
+say @38,1,1 [Uyarı]
+say @,,1 <tag.uyari>
+timer 10
+return 1
+
+
+
+[plevel 2]
+star
+
+[function star]
+src.go 5146,1759
+
+[Plevel 4]
+lock
+
+[function durum]
+src.sysmessage @,,1 Fame = <fame>
+src.sysmessage @,,1 Karma = <karma>
+src.sysmessage @,,1 Kill Durumu = <kills> 
+src.sysmessage @,,1 Aclik Durumu = <food> / 15
+
+[Function lock]
+src.sysmessage @,,1 Hangi Itemi Sabitliyeceksiniz ?
+src.xattr 08000
+return 1
+
+[plevel 3]
+fieldattixxxaaabbbpottiabi
+
+[function fieldattixxxaaabbbpottiabi]
+src.newitem i_dispeler
+src.act.p <src.p>
+src.act.move 0 -2
+timerf 2,try uid.<act.uid>.remove
+
+
+
+[function egil]
+src.anim 32
+
+
+[Plevel 1]
+egil
+durum
+uretim
+
+[function r] //// Akıl almaz işler
+LOCAL.MYSQL_BACKUP <sysspawn <DEF0.SVN_BAT>>
+timerf 2,serv.resync
+
+[function rap]
+sayua 0481,6,0,enu <args>
+
+[Plevel 2]
+inlor
+
+[function inlor]
+//src.SPELLEFFECT s_night_sight,100.0
+//src.message @0481 * Isildar *
+
+if !<src.nightsight> = 1
+src.nightsight 1
+src.message @,,1 Aydinlandiniz...
+else
+src.message @,,1 Hava zaten aydinlik.
+endif
+
+
+[FUNCTION hoppa]
+src.findid.i_movee.remove
+src.newitem i_movee
+src.act.equip
+return 1
+
+[ITEMDEF i_movee]
+NAME=move
+WEIGHT=1
+LAYER=layer_special
+TYPE=t_eq_script
+
+
+ON=@CREATE
+ATTR=attr_newbie|attr_move_never|attr_magic
+timer 10
+
+ON=@EQUIP
+TARGET Kimi Yerinden Oynatacaksiniz!
+RETURN 1
+
+ON=@TARGON_ITEM
+LINK.gonder <SRC.TARGP>
+RETURN 1
+
+ON=@TARGON_CHAR
+LINK=<SRC.TARG.UID>
+TARGETG Nereye Oynatacaksiniz!
+RETURN 1
+
+ON=@TARGON_GROUND
+LINK.go <SRC.TARGP>
+RETURN 1
+
+on=@timer
+remove
+return 1
+
+
+[Plevel 7]
+hoppa
+
+[FUNCTION hoppa]
+src.findid.i_movee.remove
+src.newitem i_movee
+src.act.equip
+return 1
+
+[ITEMDEF i_movee]
+NAME=move
+WEIGHT=1
+LAYER=layer_special
+TYPE=t_eq_script
+
+
+ON=@CREATE
+ATTR=attr_newbie|attr_move_never|attr_magic
+timer 10
+
+ON=@EQUIP
+TARGET kimi hoplatacaksiniz!
+RETURN 1
+
+ON=@TARGON_ITEM
+LINK.gonder <SRC.TARGP>
+RETURN 1
+
+ON=@TARGON_CHAR
+LINK=<SRC.TARG.UID>
+TARGETG nereye hoplatacaz!
+RETURN 1
+
+ON=@TARGON_GROUND
+LINK.go <SRC.TARGP>
+RETURN 1
+
+on=@timer
+remove
+
+[FUNCTION htmllogin]
+var.br <br
+var.center <center
+var.centerb </center
+var.a <a href=
+var.ab </a
+var.b <b
+var.bb </b
+var.font1 <basefont color=#20aa20
+var.font2 <basefont color=#aa0000
+var.pg_font1 <basefont color=#ffffff
+var.pg_font2 <basefont color=#99dd40
+var.rn_font <basefont color=#07082E
+var.rn_font2 <basefont color=#025057
+var.fontkirmizi <basefont color=#ff0000
+
+[itemdef i_alt_f4]
+name alt f4 yok artiqin
+id i_gold
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 45
+
+On=@Timer
+if (<cont>)
+	cont.disconnect
+endif
+remove
+return 1
+
+
+[function teleporter]
+serv.newitem i_rune_alchem_6
+new.type t_telepad
+new.name @1153 <args>
+new.morep <p>
+new.attr 010
+new.bounce
+new.name <region.name>
+
+////////////////////////////////////
+
+[function gate]
+serv.newitem i_moongate_black
+new.type t_telepad
+new.name @1153 <args>
+new.morep <p>
+new.attr 010
+new.bounce
+new.name <region.name>
+
+[function cnct]
+return <eval ((<serv.time> - <tag.sa_timer>) / 600)>
+
+[function sanim] // region-wide
+region.allclients sanim2 <args>
+
+[function sanim2]
+if (<account.plevel> > 1)
+	anim <args>
+endif
+
+[function sgo] // server-wide
+serv.allclients sgo2 <ARGS>
+
+[function sgo2]
+if (<account.plevel> > 1)
+	go <args>
+endif
+
+[function ssay]
+serv.allclients ssay2 <args>
+
+[function ssay2]
+if (<account.plevel> > 1)
+	say <args>
+endif
+
+[function edittest]
+serv.allclients editchk2
+
+[function editchk2]
+if ((<skilltotal> > 700.1) && (0<account.plevel> < 2))
+	serv.allclients sysmessage @1153 Dikkat: '<name>' .adli charin skillleri toplami  700.0 'den fazla (<skilltotal>)
+	serv.allclients sysmessage @1153 Kontrol Tamamlandi.
+return 1
+endif
+
+[FUNCTION stafftrig2]
+if (<account.plevel> > 1)
+	smsgx <args>
+endif
+
+//[function sysmessageua] 
+//act.sayua <eval <var.sysmessageua>> 0 0 1 <args> 
+
+
+[function smsgx] 
+var.act <act>
+var.p <p>
+newitem i_memory
+act.p 6000 2000
+var.regfla <act.region.flags>
+act.region.flags <region.flags>
+p 6000 2000
+act.sayua <eval <var.smsgx>> 0 0 1 <args>
+p <var.p>
+act.region.flags <var.regfla>
+act.remove
+act <var.act>
+
+[function f_disc]
+newitem i_insta_disconnecter
+act.equip
+
+[itemdef i_insta_disconnecter]
+name Instant Disconnecter
+id i_memory
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 3	
+
+On=@Timer
+if (<cont>)
+	cont.disconnect
+endif
+remove
+return 1
+
+
+[FUNCTION gel]
+SRC.CONSUME 1000 i_resq
+SRC.NEWITEM i_resq
+SRC.ACT.EQUIP
+RETURN 1
+[ITEMDEF i_resq]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Player Rescue
+ON=@EQUIP
+TARGET @95,,1 Hangi Player Yanina Gelsin?
+RETURN 1
+ON=@TARGON_CHAR
+IF !<SRC.TARG.NPC>
+	SRC.TARG.UPDATEX
+	SRC.TARG.P <SRC.P>
+	SRC.TARG.UPDATEX
+ELSE
+	SRC.SYSMESSAGE @95,,1 Sadece player'lari getirebilirsiniz.
+ENDIF
+REMOVE 1
+RETURN 1
+
+/////////////////////////////////////////////////////////////
+
+[FUNCTION NPCTELE]
+SRC.CONSUME 1000 i_resq_npc
+SRC.NEWITEM i_resq_npc
+SRC.ACT.EQUIP
+RETURN 1
+
+[ITEMDEF i_resq_npc]
+ID=i_memory
+TYPE=t_eq_script
+NAME=NPC Rescue
+ON=@EQUIP
+TARGET @95,,1 Hangi NPC yanina gelsin?
+RETURN 1
+ON=@TARGON_CHAR
+IF <SRC.TARG.NPC>
+	SRC.TARG.UPDATEX
+	SRC.TARG.P <SRC.P>
+	SRC.TARG.UPDATE
+ELSE
+	SRC.SYSMESSAGE @95,,1 Sadece NPC'leri getirebilirsiniz.
+ENDIF
+REMOVE 1
+RETURN 1
+
+
+[EOF]

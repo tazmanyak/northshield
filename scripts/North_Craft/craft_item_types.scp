@@ -1,0 +1,92 @@
+﻿[typedef t_scroll_blank]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx inscription
+return 1
+endif
+
+[typedef t_sewing_kit]
+on=@dclick
+if !strmatch(<name>,Disguise Kit)
+if <topobj>==<src>
+	src.craftxx tailoring
+return 1
+endif
+endif
+[typedef t_feather]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx bowcraft
+return 1
+endif
+
+[typedef t_ingot]
+on=@dclick
+if <topobj>==<src>
+	if strmatch(*iron*,<baseid>)
+		src.craftxx blacksmith_iron
+	elif strmatch(i_ingot_dull_copper,<baseid>)
+		src.craftxx blacksmith_dcopper
+	elif strmatch(i_ingot_copper,<baseid>)
+		src.craftxx blacksmith_copper
+	elif strmatch(*bronze*,<baseid>)
+		src.craftxx blacksmith_bronze
+	elif strmatch(*gold*,<baseid>)
+		src.craftxx blacksmith_golden
+	elif strmatch(*shadow*,<baseid>)
+		src.craftxx blacksmith_shadow
+	elif strmatch(*agapite*,<baseid>)
+		src.craftxx blacksmith_agapite
+	//elif strmatch(*silver*,<baseid>)
+	//	src.craftxx blacksmith_silver
+	elif strmatch(*mytheril*,<baseid>)
+		src.craftxx blacksmith_mytheril
+	elif strmatch(*verite*,<baseid>)
+		src.craftxx blacksmith_verite
+	elif strmatch(*valorite*,<baseid>)
+		src.craftxx blacksmith_valorite
+	elif strmatch(*bloodrock*,<baseid>)
+		src.craftxx blacksmith_bloodrock
+	elif strmatch(*blackrock*,<baseid>)
+		src.craftxx blacksmith_blackrock
+	endif
+return 1
+endif
+
+[typedef t_carpentry]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx carpentry
+return 1
+endif
+
+[typedef t_tinker_tools]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx tinkering
+return 1
+endif
+
+[typedef t_potion_empty]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx alchemy
+return 1
+endif
+
+[typedef t_mortar]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx alchemy
+return 1
+endif
+
+[typedef t_reagent]
+on=@dclick
+if <topobj>==<src>
+	src.craftxx alchemy
+return 1
+endif
+
+
+[eof]

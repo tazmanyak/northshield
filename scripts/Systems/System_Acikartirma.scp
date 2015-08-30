@@ -1,0 +1,4159 @@
+//Instructions(YOU WILL NEED A MYSQL DATABASE)
+//
+//	1)do .install_auctions
+//	2)do .add_auction <some name> ie: .add_auction main //I'm not certain but I don't think you can use spaces, mind this is also the name that will appear above the auction menu "<some name> auction"
+//	3)Target a safe container. Keep this container safe and out of reach, it contains all items that are in auction. You can use the same container for diferent auctions if you want.
+//	4)add c_auctioneer
+//	5)Dclick the auctioneer and press the button next to auction_items_<some name>
+//
+//repeat step 2-5 to create different auctions, 4-5 for every additional auctioneer
+//
+//Change min_auction_time, max_auction_time and auction_fee under defnames to change the amount of time can remain
+//in auction and the fee charged.
+//
+//Now you can say sell and buy to the auctioneer and you can start auctioning items Feel free to add more than 
+//one auctioneed to the same auction, and you can create more than one auction. For example a diffent one auction
+//for every town, or a specific kind of items.
+//
+//NOTES
+//
+//1) The auction system will use REAL time, so if your server goes down for a week, all auctions will end.
+//They will all be handled correctly though the moment the server comes back online and someone accesses the menu.
+//
+//
+//
+//Remove instruction: To remove the script entirely, you need to delete the mysql tables that were used
+//
+//
+//	.delete_all_auctions: Removes all auction related tables from the database
+//	.delete_auction auction_items_<name of auction>: Removes that specific auction from the database
+//
+//written for 56b by Kalizander
+
+//////////////////////////////////////////
+///		DEFNAMES		//
+//////////////////////////////////////////
+
+[DEFNAME auction_defs] 
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input. 
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+	src.hata Esya cantanizda degil.
+	return 1
+endif
+if (<argo.baseid> == i_gold)
+	src.sysmessage You can not sell gold
+	return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked) 
+	src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+	return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+	obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+	serv.newitem i_auction_memory
+	tag.auction_memory_uid=<new.uid>
+	DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+	obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+	DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+	f_fix_timer
+	DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+	if <db.row.<eval (<local.index>)>.uid>
+		local.y=(((<local.index>)*20)+65)
+		dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+		button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+		dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+		dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+		dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+		dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+	endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+	src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure: 
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :  
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz : 
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON] 
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+	src.hata Esya coktan ihaleye girdi, gec kaldiniz. 
+	return 1
+endif
+if !<isnum <ARGTXT[0]>>
+	src.hata  Teklifiniz gecerli bir deger icermiyor.
+	dialog d_auction_item_details
+	return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>) 
+	IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+		if 0<db.row.0.highestbidder>
+			ref1=<db.row.0.highestbidder>
+			serv.newitem i_check_brnx
+			new.more1=<db.row.0.currentbid>
+			new.more2 <ref1.uid>
+			new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+			try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir.. 
+		endif
+		DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+		SRC.GOLD -= <eval <ARGTXT[0]> >
+		src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+		DIALOG d_auction_item_details
+		return 1
+	else
+		src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+		dialog d_auction_item_details
+		return 1
+	endif
+else
+	src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+	dialog d_auction_item_details
+	return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0 
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+	src.hata Girdiginiz zaman dilimi yanlistir.
+	remove
+	return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+	src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+	remove
+	return 1
+elif !(<isnum <argtxt[2]>> )
+	src.hata Gecerli bir sayi yazmadiniz.	
+	remove
+	return 1
+elif (<argtxt[2]> < 1)
+	src.hata 1 yada 1 den fazla girmelisiniz.
+	remove
+	return 1
+elif !(<isnum <argtxt[3]>>)
+	src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+	remove
+	return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+	src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+	remove
+	return 1
+elif (<link.topobj> != <src.uid>)
+	src.hata Esya artik cantanizda degildir.
+	remove
+	return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+	src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+	remove
+	return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+	serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected. 
+	src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+	remove
+else
+	local.feemiz = <def.auction_fee>
+	link.cont=<uid>
+	cont=<topobj.tag.safebox_uid>
+	src.gold -= <eval (<def.auction_fee>)>
+	src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+	local.y=(((<local.index>)*20)+65)
+	dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+	button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+	local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+	tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+	serv.newitem i_auction_memory
+	tag.auction_memory_uid=<new.uid>
+	DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+	equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz. 
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir. 
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0 
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla 
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will 
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+	dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[itemdef i_auction_memory]
+name=Auction memory
+ID=i_handr_1
+type=t_eq_script
+LAYER=30
+value=1
+weight=0
+
+on=@create
+ATTR=attr_decay
+
+on=@Timer
+DB.QUERY "SELECT * FROM <topobj.tag.auction_table> ORDER BY saletime LIMIT 1"
+if !<db.row.0.uid> //no more items for sale
+	timer=-1
+	return 1
+endif
+if ((<db.row.0.saletime>-<serv.time>) > 0)
+	timerd=(<db.row.0.saletime>-<serv.time>)
+	return 1
+endif
+obj=<uid.<db.row.0.uid>.cont.uid> //We need a reference to the bag the object is in because it needs to be removed
+if !<db.row.0.highestbidder> //There haven't been any bids, return the item
+	try uid.<db.row.0.uid>.cont=<uid.<db.row.0.seller>.findlayer.29.uid>
+	try uid.<db.row.0.seller>.hata  <uid.<db.row.0.uid>.name> icin kimse teklifte bulunmadi, esya geri bankaniza konmustur.
+elif (<db.row.0.currentbid> < <db.row.0.minimum_price>) //There have been bids but the minimum sale price wasn't exceeded, return money to bidder, return item to seller
+	ref1=<db.row.0.highestbidder>
+	serv.newitem i_check_brnx
+	new.more1=<db.row.0.currentbid>
+	new.more2 <ref1.uid>
+	new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+	try uid.<db.row.0.highestbidder>.hata  <eval (<db.row.0.amount>)> icin en yuksek teklifi siz yapmistiniz  <uid.<db.row.0.uid>.name>, fakat esyanin minimum satis ucretinden dusuk teklif verildigi icin esyayi alamiyorsunuz.Paraniz bankaniza geri iade edilmistir.
+	try uid.<db.row.0.uid>.cont=<uid.<db.row.0.seller>.findlayer.29.uid>
+	try uid.<db.row.0.seller>.hata Minimum satis ucreti <uid.<db.row.0.uid>.name> icin teklifinizden yuksektir.Bu nedenle esyayi alamiyorsunuz.Paraniz bankaniza iade edilmistir.
+else//the item has been auctioned succefully, transfer money to seller, item to highestbidder
+	ref1=<db.row.0.seller>
+	serv.newitem i_check_brnx
+	new.more1=<db.row.0.currentbid>
+	new.more2 <ref1.uid>
+	new.cont=<uid.<db.row.0.seller>.findlayer.29.uid>
+	try uid.<db.row.0.seller>.hata <uid.<db.row.0.uid>.name>  <eval (<db.row.0.currentbid>)>gp. ye satildi.Bankaniza aktarilmistir.
+	try uid.<db.row.0.uid>.cont=<uid.<db.row.0.highestbidder>.findlayer.29.uid>
+	try uid.<db.row.0.highestbidder>.hata @,,1 <eval (<db.row.0.amount>)> icin ihaleyi siz kazandiniz <uid.<db.row.0.uid>.name>, Esya bankaniza aktarilmistir.
+endif
+obj.remove
+DB.EXECUTE "DELETE FROM <topobj.tag.auction_table> WHERE uid='<db.row.0.uid>'"
+DB.QUERY "SELECT saletime,uid FROM <topobj.tag.auction_table> ORDER BY saletime LIMIT 1" //Reset the timer, so fires when the next item is ready to be sold.
+if ((<db.row.0.saletime>-<serv.time>) < 0) //Timers can be lower then 0 when the server has crashed since the auction system uses real time instead of game time 
+	timerd=0
+else
+	timerd=(<db.row.0.saletime>-<serv.time>)
+endif
+return 1
+
+
+[eof][DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof]
+[DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof][DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof]
+[DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof][DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof]
+[DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof][DEFNAME auction_defs]
+auction_fee 10000	  	//Fee in gold that has to be payed to auction an item
+min_auction_time 120 	//in minutes
+max_auction_time 2880 	//1 week in minutes
+
+//////////////////////////////////////////
+///		FUNCTIONS		//
+//////////////////////////////////////////
+
+[FUNCTION f_auction_additem] //most control checks are in the dialog d_auction_sell_item because we need some player input.
+if (<argo.topobj> != <src.uid>) //we actually check this twice once here and once in d_auction_sell_item because it could have been moved while filling in the chart.
+src.hata Esya cantanizda degil.
+return 1
+endif
+if (<argo.baseid> == i_gold)
+src.sysmessage You can not sell gold
+return 1
+endif
+if (<argo.type> == t_container) || (<argo.type> == t_container_locked)
+src.hata Bu esya bir konteyner bu nedenle acik artirilmaya cikarilamaz.
+return 1
+endif
+serv.newitem i_bag
+new.name <argo.name> auction chart
+new.cont=<obj.findlayer.21.uid>
+new.link=<argo.uid>
+new.dialog d_auction_sell_item
+return 0
+
+[FUNCTION f_fix_timer] //Fires when an auction timer has expired but the auction has not been handled, This should happen never but you never know
+obj=<uid>
+if 0<uid.<tag.auction_memory_uid>.uid> //if there still is a memory item to handle this auction
+obj.try uid.<tag.auction_memory_uid>.trigger @timer
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+obj.equip <new.uid>
+endif
+return 0
+
+[FUNCTION install_auctions]
+DB.EXECUTE "create table auctions (auction_table varchar(30), auction_memory_uid varchar(10), safebox_uid varchar(10), name varchar(20))"
+src.sysmessage The auctioneer script has been installed.
+return 0
+
+[FUNCTION add_auction]
+DB.EXECUTE "create table auction_items_<args> (id int unsigned not null auto_increment primary key,uid varchar(10),amount int,currentbid int,step int,saletime int,minimum_price int,seller varchar(10),highestbidder varchar(10));"
+targetf f_target_safe_box <args>
+src.sysmessage Target a safe container, All items for this auction will be put there. Don't remove any items from this container.
+return 0
+
+[FUNCTION f_target_safe_box]
+DB.EXECUTE "INSERT INTO auctions(auction_table, auction_memory_uid, safebox_uid, name) VALUES('auction_items_<args>',NULL,'<argo.uid>','<args>');"
+src.sysmessage auction_items_<args> has been added. Dclick on an auctioneer to assign him to this auction.
+return 0
+
+[FUNCTION delete_all_auctions]
+DB.QUERY "SHOW TABLES like 'auction_items%'"
+FOR 0 (<db.ROW.NUMROWS>-1)
+DB.EXECUTE "drop table if exists <db.row.<eval (<local._FOR>)>.0>"
+ENDFOR
+DB.EXECUTE "drop table if exists auctions;"
+src.sysmessage The auctioneer script has been removed.
+return 0
+
+[FUNCTION delete_auction]
+DB.QUERY "SELECT auction_memory_uid FROM auctions WHERE auction_table='<args>'
+try uid.<db.row.0.auction_memory_uid>.remove
+DB.EXECUTE "drop table if exists <args>"
+DB.EXECUTE "DELETE FROM auctions WHERE auction_table='<args>'"
+src.sysmessage The table <args> has been removed.
+return 1
+
+
+
+//////////////////////////////////////////
+///		DIALOGS			//
+//////////////////////////////////////////
+
+[DIALOG d_auction_item_list] //should be called with the bankbox of the auctioneer as default object
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+//dtext 18 15 0C6 <tag.auction_name> auction
+dtext 220 15 0 Siralama :
+button 358 17 2117 2118 1 0 5
+dtext 378 15 0 Miktar
+button 438 17 2117 2118 1 0 6
+dtext 458 15 0 Sure
+button 503 17 2117 2118 1 0 7
+dtext 523 15 0 Son Teklif
+dtext 65 40 014D Son Teklif
+dtext 200 40 014D B.Fiyati
+dtext 330 40 014D Kalan Sure
+dtext 430 40 014D Miktar
+dtext 500 40 014D Isim
+//Mysql query that fetches the rows from <src.ctag.dialogindex> to <src.ctag.dialogindex>+18
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+if ((<db.row.0.saletime>-<serv.time>) < 0) //if one of the timers allready expired while the server was offline for example.
+f_fix_timer
+DB.QUERY "SELECT * FROM <tag.auction_table> ORDER BY <src.ctag.dialogorder> LIMIT <eval (<src.ctag.dialogindex>)>,<eval (<src.ctag.dialogindex>+18)>";
+endif
+FOR index 0 18
+if <db.row.<eval (<local.index>)>.uid>
+local.y=(((<local.index>)*20)+65)
+dtext 500 <local.y> 0 <uid.<db.row.<eval (<local.index>)>.uid>.name>
+button 40 <local.y> 5224 5003 1 0 <eval (<db.row.<eval (<local.index>)>.id>+10)> //I do the +1 because I can't use button 0, I do -1 again in the actual button code
+dtext 65 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.currentbid>)> gp
+dtext 200 <local.y> 0 <eval (<db.row.<eval (<local.index>)>.step>)> gp
+dtext 330 <local.y> 0 <eval ((<db.row.<eval (<local.index>)>.saletime>-<serv.time>)/600)> dakika
+dtext 430 <local.y> 0 <eval (<uid.<db.row.<eval (<local.index>)>.uid>.amount>)>
+endif
+ENDFOR
+button 60 443 9909 9911 1 0 1
+button 130 443 9903 9905 1 0 2
+button 140 15 2031 2032 1 0 3
+
+[DIALOG d_auction_item_list BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+
+on=1 //previous page
+if <src.ctag.dialogindex> > 0
+src.ctag.dialogindex=<src.ctag.dialogindex>-18
+ENDIF
+DIALOG d_auction_item_list
+return 1
+
+on=2 //next page
+src.ctag.dialogindex=<src.ctag.dialogindex>+18
+DIALOG d_auction_item_list
+return 1
+
+on=3
+dialog d_auction_help
+return 1
+
+on=5
+src.ctag.dialogorder=amount
+DIALOG d_auction_item_list
+return 1
+on=6
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+on=7
+src.ctag.dialogorder=currentbid
+DIALOG d_auction_item_list
+return 1
+
+on=4 99999999 //should be enough
+src.ctag.auctionid=<eval (<argn1>-10)>
+src.ctag.dialogindex=
+dialog d_auction_item_details
+return 1
+
+
+
+/////////////////////////////////////////
+
+[DIALOG d_auction_item_details] //should be called with the i_auction_chart of the item ad default object
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 410
+gumppic 357 70 064
+//dtext 18 15 0C6 <tag.auction_name> auction
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+tilepic 397 100 <uid.<db.row.0.uid>.id> <uid.<db.row.0.uid>.color>
+dtext 145 49 0 <eval (<uid.<db.row.0.uid>.amount>)> <uid.<db.row.0.uid>.name> - Baslatan <uid.<db.row.0.seller>.name>
+dtext 51 49 0 Isim:
+dtext 145 75 0 <eval (<eval (<db.row.0.saletime>-<serv.time>)>/600)> dakika
+dtext 51 75 0 Kalan Sure:
+dtext 49 101 0 Son Teklif:
+dtext 145 101 20 <eval (<db.row.0.currentbid>)>gp - <uid.0<db.row.0.highestbidder>.name>
+//dtext 145 121 20 Teklifi Yapan :
+
+
+dtext 49 127 0 Artirma Miktari:
+dtext 145 127 0 <eval (<db.row.0.step>)>gp
+dtext 49 153 0 Yeni Teklifiniz :
+dtext 45 183 90 Esyayi ayrintili gorebilmek icin bag simgesine tiklayiniz :
+dtext 45 253 90 Esyayi satin almak icin muhur simgesine tiklayiniz:
+button 45 203 9800 9800 1 0 2//1150 1153 1 0 2
+
+resizepic 137 152 3000 140 20
+dtextentry 145 153 300 25 0 0 <eval (<db.row.0.currentbid>+<db.row.0.step>)>
+button 45 273 9005 9004 1 0 1
+dtext 280 153 0 gp
+button 400 345 2324 2323 1 0 5
+button 465 345 2453 2454 1 0 0
+
+[DIALOG d_auction_item_details BUTTON]
+on=0
+src.ctag.auctionid=
+src.ctag.dialogorder=
+return 1
+on=1 //submit bid
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+if !<db.row.0.uid>
+src.hata Esya coktan ihaleye girdi, gec kaldiniz.
+return 1
+endif
+if !<isnum <ARGTXT[0]>>
+src.hata  Teklifiniz gecerli bir deger icermiyor.
+dialog d_auction_item_details
+return 1
+endif
+if <ARGTXT[0]> >= (<db.row.0.step>+<db.row.0.currentbid>)
+IF (<SRC.BANKBALANCE> >= <eval <ARGTXT[0]> >) //if <src.restest <ARGTXT[0]> i_gold>
+if 0<db.row.0.highestbidder>
+ref1=<db.row.0.highestbidder>
+serv.newitem i_check_brnx
+new.more1=<db.row.0.currentbid>
+new.more2 <ref1.uid>
+new.cont=<uid.(<db.row.0.highestbidder>).findlayer.29.uid>
+try uid.<db.row.0.highestbidder>.hata  <src.name>  <eval(<ARGTXT[0]>)> kadar yeni teklif yapti : <eval (<db.row.0.amount>)> <uid.<db.row.0.uid>.name>. Eger esyayi hala istiyorsaniz, daha yuksek bir teklifte bulunmalisiniz. Depositonuz bankaniza geri iade edilmistir..
+endif
+DB.EXECUTE "UPDATE <tag.auction_table> SET currentbid='<ARGTXT[0]>', highestbidder='<src.uid>' WHERE uid='<db.row.0.uid>'"
+SRC.GOLD -= <eval <ARGTXT[0]> >
+src.hata Bu esya icin en yuksek teklifi suanlik siz yaptiniz , eger baskalari sizden yuksek teklif sunarsa bilgilendirileceksiniz.
+DIALOG d_auction_item_details
+return 1
+else
+src.hata  Teklif yapacak kadar yeterli paraniz  bankanizda bulunmamaktadir.//cantanizda
+dialog d_auction_item_details
+return 1
+endif
+else
+src.hata En dusuk <eval (<db.row.0.step>+<db.row.0.currentbid>)> kadar teklif yada daha fazlasini yapmak zorundasiniz.
+dialog d_auction_item_details
+return 1
+endif
+return 1
+on=5
+src.ctag.auctionid=
+src.ctag.dialogindex=0
+DIALOG d_auction_item_list
+return 1
+
+on=2
+DB.QUERY "SELECT * FROM <tag.auction_table> WHERE id='<eval (<src.ctag.auctionid>)>' LIMIT 1"
+obj=<uid.<db.row.0.uid>.cont.uid>
+src.sysmessage @69,1,1 Item'a bakabilmeniz icin 10 saniyeniz vardir.
+serv.newdupe <obj>
+new.attr=attr_move_never
+new.cont=<src.findlayer.21.uid>
+new.open
+FORCONT <new> 999
+attr=attr_move_never
+IF (<type>==t_container)
+open
+ENDIF
+ENDFOR
+src.tag.ellesme 1
+src.timerf 11,src.tag.ellesme
+timerf 10,try uid.<new.uid>.remove
+
+//new.open
+
+
+//new.cont=<obj.findlayer.21.uid>
+//////////////////////////////////////////
+
+[DIALOG d_auction_sell_item]
+100, 100
+PAGE 0
+resizepic 0 0 3500 550 270
+gumppic 357 70 064
+//dtext 18 15 0C6 <topobj.tag.auction_name> auction
+tilepic 397 100 <link.id> <link.color>
+dtext 205 49 0 <link.name>
+dtext 51 49 0 Isim:
+dtext 205 75 0 <eval (<link.amount>)>
+dtext 49 75 0 Adet:
+dtext 49 102 0 Baslangic Ucreti:
+resizepic 203 101 3000 140 20
+dtextentry 205 102 300 25 0 1 0
+dtext 49 129 0 Minimum artirma:
+resizepic 203 128 3000 140 20
+dtextentry 205 129 300 25 0 2 1
+dtext 49 156 0 Minimum satis ucreti:
+resizepic 203 153 3000 140 20
+dtextentry 205 154 300 25 0 3 0
+dtext 49 183 0 Ihale Suresi:
+resizepic 203 180 3000 22 20
+dtextentry 205 181 300 25 0 4 0
+dtext 227 183 0 gun
+resizepic 261 180 3000 27 20
+dtextentry 263 181 300 25 0 5 0
+dtext 290 183 0 saat
+resizepic 331 180 3000 27 20
+dtextentry 333 181 300 25 0 6 0
+dtext 360 183 0 dakika
+button 149 220 247 248 1 0 1
+button 215 220 242 241 1 0 0
+
+
+[DIALOG d_auction_sell_item BUTTON]
+on=0
+remove
+return 1
+on=1
+if !(<isnum <argtxt[4]>>) || !(<isnum <argtxt[5]>>) || !(<isnum <argtxt[6]>>)
+src.hata Girdiginiz zaman dilimi yanlistir.
+remove
+return 1
+endif
+local.auctiontime=<eval ((<argtxt[4]>*1440)+(<argtxt[5]>*60)+<argtxt[6]>)>
+if !(<isnum <argtxt[1]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif !(<isnum <argtxt[2]>> )
+src.hata Gecerli bir sayi yazmadiniz.
+remove
+return 1
+elif (<argtxt[2]> < 1)
+src.hata 1 yada 1 den fazla girmelisiniz.
+remove
+return 1
+elif !(<isnum <argtxt[3]>>)
+src.hata Baslangic parasi 0 yada daha buyuk olmali yada yazdiginiz sayi degil.
+remove
+return 1
+elif (<local.auctiontime> < <def.min_auction_time>) || (<local.auctiontime> > <def.max_auction_time>)
+src.hata Acik artirma suresi en az : <eval (<def.min_auction_time>)> dakika olmalidir.Ve en fazla sure  <eval (<def.max_auction_time>/60)> saatten uzun olmamalidir.
+remove
+return 1
+elif (<link.topobj> != <src.uid>)
+src.hata Esya artik cantanizda degildir.
+remove
+return 1
+elif !(<SRC.BANKBALANCE> >= <eval (<def.auction_fee>)>)	//(!<src.restest <eval (<def.auction_fee>)> i_gold>)
+src.hata  <eval (<def.auction_fee>)>gp kadar servis ucreti odemeniz gerekmektedir.
+remove
+return 1
+endif
+DB.EXECUTE "INSERT INTO <topobj.tag.auction_table>(uid, amount, currentbid, step, minimum_price, saletime, seller) VALUES('<link.uid>','<link.amount>','<eval (<argtxt[1]>)>','<eval (<argtxt[2]>)>','<eval (<argtxt[3]>)>','<eval (<serv.time>+(<local.auctiontime>*600))>','<src.uid>');"
+DB.query "SELECT saletime FROM <topobj.tag.auction_table> WHERE uid='<link.uid>'"
+if (<db.row.numrows> < 1)
+serv.log There was a problem when adding the item to the mysql database. Most likely the mysql database was not connected.
+src.hata Esya ekleme hatasi sistemsel bir sorun yasandi lutfen durumu yetkililere bildiriniz.
+remove
+else
+local.feemiz = <def.auction_fee>
+link.cont=<uid>
+cont=<topobj.tag.safebox_uid>
+src.gold -= <eval (<def.auction_fee>)>
+src.hata Esya acik artirmaya eklendi.
+endif
+return 1
+
+[DIALOG picK_auction_table]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Pick the auction you wish to assign this auctioneer to.
+DB.query "SHOW TABLES like 'auction_items%'"
+src.sysmessage <db.row.0.0>
+local.index=0
+while 0<db.row.<eval (<local.index>)>.0>
+local.y=(((<local.index>)*20)+65)
+dtext 74 <local.y> 0 <db.row.<eval (<local.index>)>.0>
+button 40 <local.y> 5224 5003 1 0 (<local.index>+1)
+local.index=<local.index>+1
+endwhile
+
+[DIALOG picK_auction_table BUTTON]
+on=0
+return 1
+on=1 5000
+DB.query "SHOW TABLES LIKE 'auction_items%'"
+tag.auction_table=<db.row.<eval (<argn1>-1)>.0>
+DB.query "SELECT auction_memory_uid,safebox_uid,name FROM auctions WHERE auction_table='<tag.auction_table>'
+tag.auction_name=<db.row.0.name>
+tag.safebox_uid=<db.row.0.safebox_uid>
+if 0<uid.0<db.row.0.auction_memory_uid>.uid>
+tag.auction_memory_uid=<db.row.0.auction_memory_uid>
+else
+serv.newitem i_auction_memory
+tag.auction_memory_uid=<new.uid>
+DB.EXECUTE "UPDATE auctions SET auction_memory_uid='<new.uid>' WHERE auction_table='<tag.auction_table>'"
+equip <new.uid>
+endif
+return 1
+
+
+
+//////////////////////////////////////////
+
+[DIALOG d_auction_help]
+0, 0
+PAGE 0
+resizepic 0 0 3500 640 480
+dtext 18 15 0C6 Acik Artirma Ile Ilgili Bilgilendirme :
+dtext 22 40 0 Hos Geldiniz.
+dtext 22 70 0 Acik artirmaya esyalar yetkililer tarafindan eklenir ve ihaleye sunulur.
+dtext 22 100 0 Acik artirmada olan esyalari gorebilmek icin " buy " yada cift tiklayabilirsiniz.
+dtext 22 120 0 Bu islemi gerceklestirdiginiz karsiniza bir dialog cikacaktir.
+dtext 22 140 0 Acik artirma sisteminde son teklif mimumum satis ucretinden kucukse esya satin alinamaz.
+//dtext 22 160 0
+dtext 22 180 0 Yaptiginiz tekliflerden sonra eger baskalarida bir teklif sunarsa bu durum size
+dtext 22 200 0 iletilecektir.
+dtext 22 230 0 Acik artirma vendoruna tikladiginizda cikan dialogda yapilan son teklifleri gorebilirsiniz.
+dtext 22 250 0 Esyalari son teklif tarihlerine fiyatlarina gore dialogda bulunan butonlarla
+dtext 22 270 0 siralayabilirsiniz.
+dtext 22 300 0 Her yaptiginiz teklifin bir onceki teklifden daha yukarda olmasi gerekmektedir.
+dtext 22 320 0 Eger teklifinizi tekrar artirmak isterseniz sadece artiracaginiz kadar para sizden alinir.
+//dtext 22 340 0 someone puts in a better offer. When someone bests your bid, you will get a message
+//dtext 22 360 0 notifying you of this and your money will be refunded to your bank box immediatly.
+//dtext 22 380 0 You can then put a new offer if you are still interested.
+//dtext 22 400 0 The highest offer that exceeds the minimum sale price when the auction ends will
+dtext 22 420 0 Son olarak ihale ustunuze kalirsa esyayi aldiginiza dair bir mesaj alacaksiniz.
+button 60 443 9909 9911 1 0 1
+
+[DIALOG d_auction_help BUTTON]
+on=0
+src.ctag.dialogindex=
+return 1
+on=1
+dialog d_auction_item_list
+return 1
+
+//////////////////////////////////////////
+///		AUCTIONEER		//
+//////////////////////////////////////////
+
+[CHARDEF c_auctioneer]
+NAME=#NAMES_HUMANMALE
+ID=c_man
+CAN=mt_nonmover|MT_USEHANDS|MT_EQUIP|MT_FIRE_IMMUNE
+ARMOR=200
+TSPEECH=s_auctioneer
+
+on=@click
+message @65,,1 Acik Arttirma Vendoru
+message @,,1 <name>
+return 1
+
+on=@dclick
+if <src.isgm>
+dialog picK_auction_table
+else
+obj=<uid>
+src.closealldialogs
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+return 0
+
+on=@create
+COLOR=colors_skin
+STR=1
+INT=0
+DEX=0
+FAME=100
+KARMA=100
+ALLSKILLS=0.0
+INVUL 1
+MODMAXWEIGHT=5000000
+
+ITEMNEWBIE=random_male_hair
+COLOR=colors_hair
+ITEMNEWBIE=random_facial_hair
+COLOR=match_hair
+ITEM=i_backpack
+WEIGHT=0
+ITEM=i_bankbox
+WEIGHT=0
+
+on=@npcrestock
+
+ITEM=i_shirt_plain
+COLOR=colors_all
+ITEM=random_pants
+COLOR=colors_all
+ITEM=random_shoes
+COLOR=colors_neutral
+
+//////////////////////////////////////////
+
+[SPEECH s_auctioneer]
+on=*buy*
+if <src.isgm>
+obj=<uid>
+src.ctag.dialogindex=0
+src.ctag.dialogorder=saletime
+DIALOG d_auction_item_list
+return 1
+endif
+
+on=*sell*
+//if <src.isgm>
+obj=<uid>
+targetf f_auction_additem
+src.hata Acik artirmaya eklemek istediginiz esyayi seciniz.
+return 1
+//endif
+
+
+//////////////////////////////////////////
+///		ITEMS			//
+//////////////////////////////////////////
+
+[eof]

@@ -1,0 +1,364 @@
+﻿[ITEMDEF i_pitchfork_shadow]
+ID=i_pitchfork
+NAME=Shadow Pitchfork
+TYPE=T_WEAPON_FENCE
+FLIP=1
+RESOURCES=5 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 20.0
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=11.0
+DUPELIST=0e88
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Pitchforks
+DESCRIPTION=Pitchfork
+
+ON=@Create
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+
+
+///////////////////////////////////////////////////////////////
+//////// DAGGERS
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_dagger_shadow]
+id=i_dagger
+NAME=shadow Dagger
+TYPE=T_WEAPON_FENCE
+FLIP=1
+
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+WEIGHT=1
+RESOURCES=3 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 0.0
+DUPELIST=0f52
+CATEGORY=Provisions - Weapons
+SUBSECTION=Daggers
+DESCRIPTION=Dagger
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+
+///////////////////////////////////////////////////////////////
+//////// KRYSSES
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_kryss_shadow]
+id=i_kryss
+name shadow Kyriss
+WEIGHT=2
+TYPE=T_WEAPON_FENCE
+FLIP=1
+SKILL=Fencing
+REQSTR=10
+TWOHANDS=N
+DUPELIST=01401
+RESOURCES=8 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 36.7
+CATEGORY=Provisions - Weapons
+SUBSECTION=Krysses
+DESCRIPTION=Kryss
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+on=@equip
+src.events +e_armorignore_fenc
+
+on=@unequip
+src.events -e_armorignore_fenc	
+ 
+
+
+
+///////////////////////////////////////////////////////////////
+//////// WAR FORKS
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_war_fork_shadow]
+id=i_war_fork
+name shadow War Fork
+RESOURCES=12 i_ingot_shadow
+WEIGHT=9
+SKILLMAKE=BLACKSMITHING 42.9
+CATEGORY=Provisions - Weapons
+SUBSECTION=War Forks
+DESCRIPTION=War Fork
+
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_armorignore_fenc
+
+on=@unequip
+src.events -e_armorignore_fenc 
+
+///////////////////////////////////////////////////////////////
+//////// SHORT SPEARS
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_spear_short_shadow]
+id=i_spear_short
+name shadow Short Spear
+RESOURCES=6 i_ingot_shadow
+WEIGHT=4
+TYPE=T_WEAPON_FENCE
+FLIP=1
+SKILL=Fencing
+REQSTR=40
+TWOHANDS=N
+DUPELIST=01403
+SKILLMAKE=BLACKSMITHING 45.3
+CATEGORY=Provisions - Weapons
+SUBSECTION=Short Spears
+DESCRIPTION=Short Spear
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_spear
+
+on=@unequip
+src.events -e_spear
+ 
+///////////////////////////////////////////////////////////////
+//////// SPEARS
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_spear_shadow]
+id=i_spear
+name shadow Spear
+RESOURCES=12 i_ingot_shadow
+TYPE=T_WEAPON_FENCE
+FLIP=1
+
+range 2
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=7
+SKILLMAKE=BLACKSMITHING 49.0
+DUPELIST=0f63
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Spears
+DESCRIPTION=Spear
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+ 
+///////////////////////////////////////////////////////////////
+//////// PIKES
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_pike_shadow]
+id=i_pike
+NAME=shadow Pike
+TYPE=t_weapon_fence
+
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=8.0
+SKILLMAKE=BLACKSMITHING 47.0
+RESOURCES=12 i_ingot_shadow
+VALUE=200
+DUPELIST=026c8
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Pikes
+DESCRIPTION=Pike
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+
+///////////////////////////////////////////////////////////////
+//////// LANCES
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_lance_shadow]
+id=i_lance
+NAME=shadow Lance
+TYPE=t_weapon_fence
+
+WEIGHT=12
+REQSTR=95
+VALUE=280
+DUPELIST=026ca
+RESOURCES=20 i_ingot_shadow
+SKILLMAKE=BLACKSMITHING 48.0
+CATEGORY=Provisions - Weapons
+SUBSECTION=Lances
+DESCRIPTION=Lance
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+	
+on=@equip
+src.events +e_dismount
+
+on=@unequip
+src.events -e_dismount
+
+
+///////////////////////////////////////////////////////////////
+//////// DOUBLE BLADED STAVES
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_double_bladed_staff_shadow]
+id=i_double_bladed_staff
+NAME=shadow Double Bladed Staff
+TYPE=t_weapon_fence
+
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=2
+SKILLMAKE=BLACKSMITHING 45.0
+RESOURCES=16 i_ingot_shadow
+RANGE=2
+VALUE=110
+DUPELIST=026c9
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Double Bladed Staves
+DESCRIPTION=Double Bladed Staff
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+
+///////////////////////////////////////////////////////////////
+//////// BLADED STAVES
+///////////////////////////////////////////////////////////////
+[ITEMDEF i_bladed_staff_shadow]
+id=i_bladed_staff
+NAME=shadow Bladed Staff
+NAME=Double Bladed Staff
+TYPE=t_weapon_fence
+SKILL=Fencing
+REQSTR=50
+TWOHANDS=Y
+WEIGHT=2
+SKILLMAKE=BLACKSMITHING 45.0
+RESOURCES=16 i_ingot_shadow
+RANGE=2
+VALUE=110
+DUPELIST=026c9
+CATEGORY=Provisions - Weapons - Fencing
+SUBSECTION=Double Bladed Staves
+DESCRIPTION=Double Bladed Staff
+
+ON=@Create
+  
+color color_o_shadow
+MOREY=10.0
+//ATTR=attr_magic
+HITPOINTS=75
+
+tag0.magicweapon
+tag0.upgradable 1
+
+	
+	
+on=@equip
+src.events +e_spear
+src.events +e_dismount
+
+on=@unequip
+src.events -e_spear
+src.events -e_dismount
+
+
+
+
+[EOF]

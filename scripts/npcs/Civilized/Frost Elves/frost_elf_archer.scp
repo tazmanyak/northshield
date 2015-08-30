@@ -1,0 +1,47 @@
+[CHARDEF c_frost_elf_archer]
+ID=c_elf_male
+NAME=#NAMES_ELF_MALE the Frost Elf Archer
+DAM=10,20
+ARMOR=15
+CAN=MT_EQUIP|MT_USEHANDS|MT_WALK|MT_MALE
+//ALIGNMENT=EVIL
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+RESDISP=5
+RESDISPDNID=c_man
+RESDISPDNHUE=045e
+
+CATEGORY=Civilized
+SUBSECTION=Frost-Elf (Evil)
+DESCRIPTION=Frost Elf Archer
+
+ON=@Create
+	NPC=BRAIN_HUMAN
+	KARMA={-3000 -4000}
+	FAME={2500 4000}
+	COLOR=05d
+
+	STR={70 90}
+	DEX={81 95}
+	INT={50 60}
+
+	ARCHERY={70.0 90.0}
+	MAGICRESISTANCE={20.0 30.0}
+	TACTICS={70.0 90.0}
+	WRESTLING={25.0 40.0}
+
+	ITEMNEWBIE=i_hair_krisna
+
+ON=@NPCRestock
+	ITEM=i_studded_tunic
+	ITEM=i_tunic
+	ITEM=random_shoes
+	COLOR=01bb
+	ITEM=i_bow
+	ITEM=i_arrow,{10 50}
+	ITEM=random_jewel
+	ITEM=i_gold,{60 80}
+
+[EOF]

@@ -1,0 +1,368 @@
+[CHARDEF 0f2]
+DEFNAME=c_deathwatch_beetle
+NAME=deathwatch beetle
+ICON=i_pet_deathwatch_beetle
+SOUND=snd_death_beetle1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=10,21
+ARMOR=35
+DESIRES=r_caves,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization,e_carnivores2,e_carnivores3
+FOODTYPE=40 t_fruit,t_grain
+RESOURCES=8 i_hide
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=53.4
+TAG.Control.Slots=1
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_BEETLE
+TEVENTS=e_poisoned_spit
+CATEGORY=Monsters
+SUBSECTION=Insects
+DESCRIPTION=Deathwatch Beetle
+RESLEVEL=3
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={135 160}
+   MAXHITS={120 130}
+   DEX={40 55}
+   MAXSTAM={40 55}
+   INT={30 40}
+   MAXMANA={30 40}
+   ANATOMY={30.0 35.0}
+   MAGICRESISTANCE={50.0 60.0}
+   //POISONING={55.0 65.0}
+   TACTICS={40.0 45.0}
+   TAMING={40.0 45.0}
+   WRESTLING={50.0 60.0}
+   MODAR={0 5}
+   RESCOLD={15 30}
+   RESENERGY={20 35}
+   RESFIRE={15 30}
+   RESPOISON={50 80}
+ON=@NpcRestock
+   ITEM=loot_deathwatch_beetle
+   //1 Potion, 1 Low Level Scroll, Armor
+   //Special: Bonsai Seed
+ON=@Hit
+   //Crushing Blow Attack
+   IF (<MANA> >= 20)
+      MANA -= 20
+      ARGN1 = <EVAL <ARGN1> + (<ARGN1> / 2)>  //adds 50% damage
+      ARGN2 = <DEF.dam_physical>
+   ENDIF
+
+[CHARDEF 0f4]
+//FIXME: has the ability to temporarily corrupt armor, which halves resistances.
+DEFNAME=c_rune_beetle
+NAME=rune beetle
+ICON=i_pet_beetle_rune
+SOUND=snd_monster_rune_beetle
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=42,60
+ARMOR=40
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=4 i_reag_obsidian
+BLOODCOLOR=colors_blood
+MOVERATE=130
+TAG.Barding.Diff=110.2
+TAG.Control.Slots=3
+TAG.DamEnergy=70
+TAG.DamPoison=10
+TAG.HitCorrosive=20
+TAG.HitPoison=4//Deadly
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_BEETLE
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Insects
+DESCRIPTION=Rune Beetle
+RESLEVEL=3
+RESDISPDNID=c_man
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=15000
+   KARMA=-15000
+   STR={400 465}
+   MAXHITS={310 360}
+   DEX={125 170}
+   MAXSTAM={125 170}
+   INT={95 125}
+   MAXMANA={95 125}
+   EVALUATINGINTEL={100.0 125.0}
+   MAGERY={100.0 110.0}
+   MAGICRESISTANCE={95.0 110.0}
+   MEDITATION={95.0 110.0}
+   //POISONING={100.0 125.0}
+   TACTICS={80.0 95.0}
+   TAMING={90.0 95.0}
+   WRESTLING={70.0 80.0}
+   MODAR={0 15}
+   RESCOLD={35 50}
+   RESENERGY={40 60}
+   RESFIRE={35 50}
+   RESPOISON={75 95}
+ON=@NpcRestock
+   ITEM=loot_rune_beetle
+   //1000 - 1200 Gold. Magic Items, 1 Medium Level Scroll, Body Parts, Bones, 5-14 Reagents
+   //Special: Bonsai Seed
+ON=@Hit
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SRC.NEWITEM i_bleed_timer
+      NEW.LINK=<UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+   //"when they are low in HP they lash out with lightning"
+
+[CHARDEF 02ca]
+//FIXME: Incomplete Stratics data
+//FIXME: If the ore is colored they change color to match what they have eaten.
+//FIXME: Burst of speed when hit by magic.
+//FIXME: When tamed, it can mine ore (triggered using context menu).
+//FIXME: Fractional stats when tamed.
+//FIXME: Must be beaten into submission before taming.
+DEFNAME=c_beetle_iron
+NAME=iron beetle
+ICON=i_pet_beetle_iron
+SOUND=snd_death_beetle1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,20
+ARMOR=55
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_ore
+RESOURCES=2 i_ore_iron
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=105.0
+TAG.Control.Slots=4
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_BEETLE
+CATEGORY=Monsters
+SUBSECTION=Insects
+DESCRIPTION=Iron Beetle
+ON=@Create
+   NPC=brain_monster
+   FAME=15000
+   KARMA=-15000
+   STR={760 890}
+   MAXHITS={760 890}
+   DEX={65 75}
+   MAXSTAM={65 75}
+   INT={36 51}
+   MAXMANA={36 51}
+   ANATOMY={80.0 90.0}
+   MAGICRESISTANCE={120.0 130.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={90.0 110.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={45 55}
+   RESFIRE={20 30}
+   RESPOISON={20 40}
+ON=@NpcRestock
+   ITEM=i_gold,{425 500}
+   ITEM=random_jewel,{2 4},R2
+   ITEM=random_ore,{3 6},R2
+   ITEM=random_armor_all_normal,R2
+   ITEM=random_weapon_all_normal,R2
+   ITEM=i_powdered_iron,{1 3},R5
+   ITEM=i_iron_beetle_scale,{1 3},R50
+ON=@ContextMenuRequest
+   IF (<IsMyPet>)
+      SRC.AddContextEntry 101,6122//or 6145
+//      SRC.AddContextEntry 102,6170//or 6171?
+      RETURN 0
+   ENDIF
+ON=@ContextMenuSelect
+   IF (<IsMyPet>)
+      IF (<ARGN>==101)
+         FINDLAYER(21).OPEN
+      ENDIF
+      IF (<ARGN>==102)
+         EMOTE digging
+         IF (<SKILLCHECK mining,<MINING>>)
+            EMOTE digging
+
+            FOR <P.STATICS>
+               LOCAL.GroundType=<P.STATICS.<EVAL <LOCAL._FOR>-1>.DEFNAME>
+               SERV.LOG ResourceFound: <EVAL <LOCAL._FOR>-1> ARGO=<ARGO.NAME> is a <LOCAL.GroundType>
+               IF (<LOCAL.GroundType>==i_floor_cave)
+                  FORITEMS 0
+                     IF (<BASEID>==i_worldgem_bit) && (<TYPE>==t_rock)
+                        SERV.LOG Found a worldgem of type t_rock
+                        LOCAL.FoundWorldgem=1
+                     ENDIF
+                  ENDFOR
+                  IF (<LOCAL.FoundWorldgem>==0)
+                     SERV.LOG Create a worldgembit
+                     SERV.NEWITEM i_worldgem_bit
+                     NEW.P=<P>
+                     NEW.TYPE=t_rock
+                     NEW.AMOUNT={5 10}
+                     NEW.MORE1=mr_iron
+                     NEW.TIMER=1000
+                  ENDIF
+               ENDIF
+            ENDFOR
+            FORITEMS 0
+               IF (<BASEID>==i_worldgem_bit) && (<TYPE>==t_rock)
+                  IF (<AMOUNT> > 0)
+                  SERV.NEWITEM i_ore_iron,<AMOUNT>
+                  NEW.P <P>
+                  AMOUNT=0
+                  EMOTE digging ore
+               ELSE
+                  EMOTE no ore located
+               ENDIF
+            ENDFOR
+         ELSE
+            SERV.LOG <NAME> failed used mining skill
+         ENDIF
+      ENDIF
+   ENDIF
+
+[CHARDEF 02e2]
+//FIXME: Incomplete Stratics data
+DEFNAME=c_fire_ant
+NAME=fire ant
+ICON=i_pet_fire_ant
+SOUND=snd_monster_tera_drone1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=15,18
+ARMOR=45
+DESIRES=r_caves,t_coin,t_gold,t_gem
+AVERSIONS=r_civilization
+FOODTYPE=25 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=76.0
+TAG.DamFire=60
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Insects
+DESCRIPTION=Fire Ant
+ON=@Create
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-5000
+   STR={200 250}
+   MAXHITS={250 300}
+   DEX={100 120}
+   MAXSTAM={100 120}
+   INT={15 30}
+   MAXMANA={15 30}
+   ANATOMY={5.0 15.0}
+   MAGICRESISTANCE={45.0 60.0}
+   TACTICS={70.0 85.0}
+   WRESTLING={70.0 85.0}
+   MODAR={0 10}
+   RESCOLD={35 45}
+   RESENERGY={35 45}
+   RESFIRE={90 100}
+   RESPOISON={35 45}
+ON=@NpcRestock
+   ITEM=loot_fire_ant
+   //299 - 299 Gold.
+   //Special: Seared Fire Ant Goo, level 3 Treasure Map
+ON=@Death
+   REF11=<UID>
+   FORCHARS 4
+      IF (<ISPLAYER>) || (<FLAGS>&statf_pet)
+         DAMAGE <R10,20> <DEF.dam_fire> <REF11>
+         EFFECT 3,i_fx_explode,1,16,0
+         SYSMESSAGELOC color_text,1112366//"The flammable goo covering you bursts into flame!"
+      ENDIF
+   END
+ON=@Hit
+   //Flammable Goo
+   IF (RAND(5)==0)
+      IF (<MANA> >= 5)
+         SRC.SYSMESSAGELOC color_text,1112366//"The flammable goo covering you bursts into flame!"
+         MANA -= 5
+         SRC.DAMAGE <R10,20> <DEF.dam_fire> <UID>
+         SRC.EFFECT 3,i_fx_explode,1,16,0
+      ELSE
+         SRC.SYSMESSAGELOC color_text,1112365//"Flammable goo sprays into the air!"
+      ENDIF
+   ENDIF
+
+[CHARDEF 0313]
+// The Ant Lion has the ability to "tunnel" under the ground and burst
+// up underneath its attackers, thereby doing a substantial amount of
+// damage. Running out of range when it starts tunneling will cause it
+// to reappear without doing any damage.
+DEFNAME=c_ant_lion
+NAME=ant lion
+ICON=i_pet_beetle_giant
+//SOUND=snd_monster_rune_beetle
+CAN=MT_WALK|MT_NONHUM
+DAM=21,54
+ARMOR=45
+DESIRES=r_jungle,t_coin,t_gold,t_gem
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=45 t_meat_raw
+RESOURCES=3 i_reag_fertile_dirt
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=77.8
+TAG.DamPoison=30
+TAG.HitPoison=3//Greater
+TAG.Slayer=SLAYER_BEETLE
+TEVENTS=e_carnivores2
+TEVENTS=e_poisoned_spit
+CATEGORY=Monsters
+SUBSECTION=Insects
+DESCRIPTION=Ant Lion
+RESLEVEL=2
+RESDISPDNID=c_man
+RESDISPDNHUE=55
+ON=@Create
+   NPC=brain_monster
+   FAME=4500
+   KARMA=-4500
+   STR={296 320}
+   MAXHITS={150 162}
+   DEX={81 105}
+   MAXSTAM={81 105}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={65.0 75.0}
+   //POISONING={85.0 95.0}
+   TACTICS={85.0 95.0}
+   WRESTLING={85.0 95.0}
+   MODAR={0 15}
+   RESCOLD={20 30}
+   RESENERGY={20 30}
+   RESFIRE={20 30}
+   RESPOISON={30 40}
+ON=@NpcRestock
+   ITEM=loot_ant_lion
+   //250 - 300 Gold. 1-10 Large Colored Ore (Dull Copper to Bronze), 1-5 Fertile Dirt, Bones
+   //Special: An Adventurer's Skeleton, Fragrant Seed, Peculiar Seed.
+ON=@Hit
+   //Dig a tunnel and heal when hit with ranged attack
+   IF (<DISTANCE>>2) && (RAND(2)==1)
+      SRC.SYSMESSAGE @color_text,,1 The ant lion dug a tunnel!
+      HITS += <R20,30>
+      IF (<HITS> > <MAXHITS>)
+         HITS = <MAXHITS>
+      ENDIF
+      REMOVEFROMVIEW
+      SERV.NEWITEM=i_hole
+      NEW.P=<P>
+      NEW.ATTR=attr_move_never|attr_decay
+      NEW.TIMER=5
+   ENDIF
+
+[EOF]

@@ -1,0 +1,64 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 17-Dec-2010
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX 
+// WildGenie - update
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// TODO: Disruptive Action Config
+//
+VERSION=0.56b
+
+[Skill 46]
+DEFNAME=Skill_Meditation
+KEY=Meditation
+TITLE=Stoic
+DELAY=0.5
+STAT_STR=10
+STAT_INT=100
+STAT_DEX=10
+BONUS_STR=5
+BONUS_DEX=5
+BONUS_INT=90
+BONUS_STATS=70
+//ADV_RATE=0.1,0.1,0.1
+//ADV_RATE=0,0,0
+VALUES=1,10,40
+
+on=@start
+if <src.flags>&statf_war
+src.sysmessage @,,1 Savas modundasiniz.
+return 1
+endif
+
+
+on=@success
+if (<meditation> > 49.9) && (<meditation> < 59.9)
+mana += 1
+endif
+
+if (<meditation> > 59.9) && (<meditation> < 79.9)
+mana += 2
+endif
+
+if (<meditation> > 79.9) && (<meditation> < 89.9)
+mana += 3
+endif
+
+if (<meditation> > 89.9) 
+mana += 4
+endif
+
+ON=@Fail
+src.sys_error Konsantrasyonunuzu kaybettiniz.
+return 1
+
+
+[EOF]

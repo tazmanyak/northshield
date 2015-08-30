@@ -1,0 +1,45 @@
+[defname def_black_mytheril_items]
+// total page
+blacksmith_mytheril_pagesum	4
+// platemail
+blacksmith_mytheril_0_1		i_platemail_leggings_mytheril
+blacksmith_mytheril_1_1		i_platemail_chest_mytheril
+blacksmith_mytheril_2_1		i_platemail_arms_mytheril
+blacksmith_mytheril_3_1		i_helm_plate_mytheril
+blacksmith_mytheril_4_1		i_platemail_gorget_mytheril
+blacksmith_mytheril_5_1		i_platemail_gloves_mytheril
+blacksmith_mytheril_6_1		i_shield_heater_mytheril
+blacksmith_mytheril_7_1		i_ringmail_gloves_mytheril
+blacksmith_mytheril_8_1		i_ringmail_leggings_mytheril
+blacksmith_mytheril_9_1		i_ringmail_sleeves_mytheril
+blacksmith_mytheril_10_1		i_ringmail_tunic_mytheril
+
+blacksmith_mytheril_11_1		i_chainmail_coif_mytheril
+blacksmith_mytheril_12_1		i_chainmail_leggings_mytheril
+blacksmith_mytheril_13_1		i_chainmail_tunic_mytheril
+// swords
+blacksmith_mytheril_0_2		i_katana_mytheril
+blacksmith_mytheril_1_2		i_scimitar_mytheril
+blacksmith_mytheril_2_2		i_cutlass_mytheril
+blacksmith_mytheril_3_2		i_bardiche_mytheril
+blacksmith_mytheril_4_2		i_halberd_mytheril
+blacksmith_mytheril_5_2		i_sword_long_mytheril
+blacksmith_mytheril_6_2		i_sword_viking_mytheril
+blacksmith_mytheril_7_2		i_sword_broad_mytheril
+
+// fence
+blacksmith_mytheril_0_3		i_dagger_mytheril
+blacksmith_mytheril_1_3		i_kryss_mytheril
+blacksmith_mytheril_2_3		i_pitchfork_mytheril
+blacksmith_mytheril_3_3		i_spear_mytheril
+blacksmith_mytheril_4_3		i_spear_short_mytheril
+blacksmith_mytheril_5_3		i_war_fork_mytheril
+// mace
+blacksmith_mytheril_0_4		i_axe_war_mytheril
+blacksmith_mytheril_1_4		i_hammer_pick_mytheril
+//blacksmith_mytheril_2_4		i_hammer_war_mytheril
+blacksmith_mytheril_2_4		i_maul_mytheril
+blacksmith_mytheril_3_4		i_mace_mytheril
+blacksmith_mytheril_4_4		i_mace_war_mytheril
+blacksmith_mytheril_5_4		i_helm_closed_mytheril
+[EOF]

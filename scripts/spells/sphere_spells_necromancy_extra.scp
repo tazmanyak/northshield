@@ -1,0 +1,573 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Wiccanian, ShiryuX, Anarch - Can't remember very well. This is more a compilation of authors
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Necromancy functions and other things used.
+// We move them here just to keep clean the main files and can tweak it without problems.
+//
+// These items are used for effects, just like i_fx_curse for magery spells =)
+[itemdef i_fx_lich_form]
+name=lich fx
+id=i_fire_column
+type=t_script
+
+on=@create
+color=01
+
+[itemdef i_fx_horrific_beast]
+name=beast fx
+id=i_fx_smoke
+type=t_script
+
+on=@create
+color=colors_neutral
+
+[itemdef i_fx_wraith_form]
+name=wraith fx
+id=i_fx_smoke
+
+on=@create
+color=00afd
+
+
+// Animate Dead
+[function f_AnimateDeadTarg]
+if <argo.type> == t_corpse
+	if <argo.link.uid>
+	sysmessage @,,2 1061085 // There's not enough life force there to animate.
+	return 0
+	endif
+local.castability = <eval (((<necromancy>*3)+(<spiritspeak>*7))/10)*18>
+local.delay = <eval (<necromancy> / 10) + <spiritspeak>>
+	if <local.castability> > <argo.tag0.corpsefame>
+		if <serv.chardef.<argo.morex>.tag0.animateid>
+		serv.newnpc <serv.chardef.<argo.morex>.tag0.animateid>
+		else
+		serv.newnpc <f_AnimateCharacter> <local.castability>
+		endif
+	new.p = <argo.p>
+	new.flags ^= statf_conjured
+	new.maxhits = <eval <local.castability>/50>
+	new.hits = <new.maxhits>
+	new.f_MakePetOf <uid>
+	ref10 = <new.uid>
+	serv.newitem i_rune_summon_creature
+	new.timer = <local.delay>
+	ref10.equip <new.uid>
+	endif
+else
+sysmessage @,,2 1061084 // You cannot animate that.
+return 0
+endif
+
+[function f_AnimateCharacter]
+if (<args> > 17500)
+return c_skeletal_dragon
+elseif (<args> > 15000)
+return c_lich_lord
+elseif (<args> > 12500)
+return c_flesh_golem
+elseif (<args> > 10000)
+return c_mummy
+elseif (<args> > 8000)
+return c_lich
+elseif (<args> > 6000)
+return c_skeletal_knight
+elseif (<args> > 4000)
+return c_skeletal_mage
+elseif (<args> > 2000)
+return c_patchwork_skeleton
+else
+return c_mound_maggots
+endif
+
+[function f_AnimateDeadDispel]
+uid.<args>.hits = 0
+
+
+// Blood Oath
+[function f_BloodOathDispel]
+if <tag0.BloodOathCaster>
+uid.<tag0.BloodOathCaster.tag.BloodOath
+uid.<tag0.BloodOathCaster>.events -e_BloodOathCurse
+tag.BloodOathCaster
+endif
+
+[events e_BloodOath]
+ON=@Hit
+uid.<tag0.BloodOath>.damage <eval (<argn1>*20)/100> <argn2> <uid>
+
+ON=@SpellCast
+uid.<tag0.BloodOath>.spelleffect <argn> <argn2>
+
+ON=@SpellEffect
+if (<argn> == 34) || (<argn> == 41)
+f_BloodOathDispel
+endif
+
+
+// Corpse Skin
+[itemdef i_rune_corpse_skin]
+NAME=Corpse Skin Effect
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+TEVENTS=t_armor
+TAG.ResPhysical=10
+TAG.ResCold=10
+TAG.ResFire=-10
+TAG.ResPoison=-10
+
+ON=@Equip
+src.color = 059f
+src.events +e_CorpseSkin
+
+ON=@UnEquip
+cont.color = <cont.oskin>
+cont.events -e_CorpseSkin
+
+ON=@Timer
+remove
+return 1
+
+[events e_CorpseSkin]
+ON=@SpellEffect
+if (<argn> == 34) || (<argn> == 41)
+consume i_rune_corpse_skin
+endif
+
+
+// Curse Weapon
+[events e_CurseWeapon]
+ON=@Equip
+if !<src.isevent.e_CurseWeaponEffect>
+src.events +e_CurseWeaponEffect
+endif
+
+ON=@Unequip
+src.events -e_CurseWeaponEffect
+
+[events e_CurseWeaponEffect]
+ON=@Hit
+sound 1317
+hits += <eval <argn1> / 2>
+if <hits> > <maxhits>
+hits = <maxhits>
+endif
+
+[function f_CurseWeaponDispel]
+if <cont.isplayer>
+cont.events -e_CurseWeaponEffect
+events -e_CurseWeapon
+endif
+
+
+// Pain Spike
+[function f_PainSpikeDispel]
+serv.log called this
+tag0.spell.painspike
+if !(<flags>&statf_dead)
+hits += <args>
+endif
+
+
+
+
+//#################################################\\
+//#                 Curse Weapon                  #\\
+//#################################################\\
+
+
+[itemdef i_curse_weapon]
+NAME=Curse Weapon
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+src.events +e_curse_weapon
+link=<src.tag.cursed_weapon>
+
+ON=@UnEquip
+cont.events -e_curse_weapon
+cont.tag.cursed_weapon=
+cont.sound snd_spell_magic_arrow
+
+ON=@Timer
+remove
+return 1
+
+[events e_curse_weapon]
+ON=@Hit
+if (<argo.uid>==<tag0.cursed_weapon>)
+  sound 1317
+  hits += <argn1>/2
+  if <hits> > <maxhits>
+     hits=<maxhits>
+  endif
+endif
+
+//#################################################\\
+//#                   Evil Omen                   #\\
+//#################################################\\
+
+[events e_evil_omen]
+ON=@GetHit
+argn1 += <argn1>/4
+events -e_evil_omen
+
+ON=@Spelleffect
+if (<argn> == 34) || (<argn> == 41)
+  events -e_evil_omen
+endif
+
+//#################################################\\
+//#                 Wraith Form                   #\\
+//#################################################\\
+
+[itemdef i_wraith_form]
+NAME=Wraith Form
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.body=c_Harrower
+  src.color=07fff
+  src.events +e_wraith
+
+ON=@UnEquip
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_wraith
+
+[events e_wraith]
+ON=@Hit
+src.sound 1307
+mana += <eval (<argn1>/3)*2>
+src.mana -= <eval (<argn1>/3)*2>
+if (<mana> > <maxmana>)
+mana=<maxmana>
+endif
+if (<src.mana> < 0)
+src.mana=0
+endif
+
+ON=@Spellcast
+if (<argn>==56)
+  src.sysmessage You can't do that in your current state
+  return 1
+endif
+
+//#################################################\\
+//#                   Mind Rot                    #\\
+//#################################################\\
+
+[itemdef i_mind_rot]
+ID=i_memory
+name=mind rot
+TYPE=t_eq_script
+
+ON=@Equip
+src.events +e_mind_rot
+
+ON=@UnEquip
+cont.events -e_mind_rot
+
+ON=@Timer
+remove
+return 1
+
+[events e_mind_rot]
+ON=@SpellSelect
+  mana -= {5 15}
+if (<src.mana> < 0)
+src.mana=0
+endif
+
+ON=@Spelleffect
+if (<argn> == 34) || (<argn> == 41)
+  consume i_mind_rot
+endif
+
+//#################################################\\
+//#                Summon Familiar                #\\
+//#################################################\\
+
+[skillmenu sm_summon_familiar]
+Which familiar do you wish to summon?
+
+ON=i_pet_hordedaemon Horde Minion
+TEST=necromancy 30.0 spiritspeak 30.0
+SUMMON=c_familiar_horde_minion
+
+ON=i_pet_wisp Shadow Wisp
+TEST=necromancy 50.0 spiritspeak 50.0
+SUMMON=c_familiar_wisp_shadow
+
+ON=i_pet_wolf Dark Wolf
+TEST=necromancy 60.0 spiritspeak 60.0
+SUMMON=c_familiar_dark_wolf
+
+ON=i_pet_snake_giant Death Adder
+TEST=necromancy 80.0 spiritspeak 80.0
+SUMMON=c_familiar_death_adder
+
+ON=i_pet_vampirebat Vampire Bat
+TEST=necromancy 100.0 spiritspeak 100.0
+SUMMON=c_familiar_vampire_bat
+
+//#################################################\\
+//#                 Horrific Beast                #\\
+//#################################################\\
+
+[itemdef i_beast_form]
+NAME=Beast Form
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.body=c_Moloch
+  src.color=0
+  src.events +e_beast_form
+
+ON=@UnEquip
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_beast_form
+
+ON=@Timer
+cont.hits += 1
+if (<cont.hits> > <cont.maxhits>)
+  cont.hits=<cont.maxhits>
+endif
+timer=1
+return 1
+
+[events e_beast_form]
+on=@hitdamagebonus
+var.<uid>_damagebonus += 25
+
+ON=@Spellcast
+if !((<argn>==106) || (<argn>==107) || (<argn>==113) || (<argn>==116))
+  src.sysmessage You can't do that in your current state
+  return 1
+endif
+
+
+//#################################################\\
+//#                  Poison Strike                #\\
+//#################################################\\
+
+[itemdef i_poison_cloud]
+defname=i_poison_cloud
+name=Poison Cloud
+id=i_fx_smoke
+
+ON=@Create
+color=00787
+
+ON=@Step
+  src.spelleffect 20 750
+  src.damage <more1> dam_poison <uid>
+  remove
+  return 1
+
+//#################################################\\
+//#                     Strangle                  #\\
+//#################################################\\
+
+[itemdef i_strangle]
+NAME=Strangle
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Timer
+  local.multiplier=(<eval (3-(<cont.stam>/<cont.maxstam>)*2>)
+  local.damage=(<more2>*<local.multiplier>)
+  cont.effect 3,i_fx_heal_effect,16,20,0,01,1
+  cont.damage <local.damage> dam_poison <cont.uid>
+  more1 -= 1
+  if (<more1> < 1)
+    remove
+  endif
+  timer=<more1>
+  return 1
+
+//#################################################\\
+//#                   Lich Form                  #\\
+//#################################################\\
+
+[itemdef i_lich_form]
+NAME=lich Form
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.body=c_lich
+  src.color=0
+  src.events +e_lich_form
+
+ON=@UnEquip
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_lich_form
+
+ON=@Timer
+cont.hits -= 5
+cont.mana += 13
+if (<cont.mana> > <cont.maxmana>)
+  cont.mana=<cont.maxmana>
+endif
+timer=10
+return 1
+
+[events e_lich_form]
+ON=@Spellcast
+if (<argn>==56)
+  src.sysmessage You can't do that in your current state
+  return 1
+endif
+
+
+
+//#################################################\\
+//#                 Vengeful Spirit               #\\
+//#################################################\\
+
+[ITEMDEF i_revenant_tracker]
+ID=i_memory
+NAME=Revenant Tracker
+TYPE=t_eq_script
+
+[ITEMDEF i_vengeful_spirit]
+ID=i_memory
+NAME=Vengeful Spirit
+TYPE=t_eq_script
+
+ON=@Equip
+timer=1
+
+ON=@Timer
+if (<uid.<cont.tag0.victim>.flags>&statf_dead)
+  uid.<cont.tag.owner>.findid.i_revenant_tracker.remove
+  uid.<cont.tag.owner>.sysmessage Your revenant succeeded!
+  cont.remove
+  return 1
+else
+  cont.p=<uid.<cont.tag.victim>.p>
+  cont.move <eval(rand(3))+-(rand(3))>
+  cont.attack <uid.<cont.tag.victim>>
+  more1 -= 1
+  if (<more1> < 1)
+    uid.<cont.tag.owner>.findid.i_revenant_tracker.remove
+    uid.<cont.tag.owner>.sysmessage Your revenant failed
+    cont.remove
+  endif
+  timer=10
+  return 1
+endif
+
+[CHARDEF c_revenant]
+ID=c_man
+NAME=Revenant
+SOUND=snd_MONSTER_GHOST1
+CAN=MT_USEHANDS|MT_EQUIP|MT_WALK|MT_RUN|MT_GHOST
+DAM=30,40
+TAG.DamPhysical=100
+TAG.PHYSICALRESIST=65
+TAG.FIRERESIST=20
+TAG.COLDRESIST=65
+TAG.POISONRESIST=100
+TAG.ENERGYRESIST=65
+
+ON=@Create
+    EVENTS +e_revenant
+    NPC=brain_monster
+    COLOR=0455
+    STR=200
+    DEX=150
+    INT=150
+    SWORDSMANSHIP=100.0
+    MAGICRESISTANCE=120.0
+    TACTICS=100.0
+    KARMA=-5000
+    FAME=0
+
+ON=@NPCRestock
+    ITEMNEWBIE=i_deathshroud
+    COLOR=0455
+    ITEMNEWBIE=i_halberd
+    COLOR=0455
+
+[events e_revenant]
+ON=@Death
+uid.<src.tag.owner>.findid.i_revenant_tracker.remove
+uid.<src.tag.owner>.sysmessage Your revenant failed
+
+ON=@Kill
+if (<argo.uid>==<src.tag.victim>)
+  uid.<src.tag.owner>.findid.i_revenant_tracker.remove
+  uid.<src.tag.owner>.sysmessage Your revenant succeeded!
+  remove
+endif
+
+//#################################################\\
+//#                 Vampiric Embrace              #\\
+//#################################################\\
+
+[itemdef i_vampire_form]
+NAME=Vampire Form
+ID=i_memory
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.body=c_vampire_bat
+  src.color=0
+  src.events +e_vampire_form
+
+ON=@UnEquip
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_vampire_form
+
+ON=@Timer
+cont.stam += {5 10}
+if (<cont.stam> > <cont.maxstam>)
+  cont.stam=<cont.maxstam>
+endif
+cont.mana += {5 10}
+if (<cont.mana> > <cont.maxmana>)
+  cont.mana=<cont.maxmana>
+endif
+timer=10
+return 1
+
+[events e_vampire_form]
+ON=@Spellcast
+if (<argn>==56)
+  src.sysmessage You can't do that in your current state
+  return 1
+endif
+
+ON=@Hit
+  hits += (<argn1>/100)*20
+  if <hits> > <maxhits>
+     hits=<maxhits>
+  endif
+
+[EOF]

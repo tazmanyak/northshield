@@ -1,0 +1,262 @@
+﻿
+[Plevel 1]
+donate
+
+[function donate]
+src.weblink forum.tns.gen.tr/index.php?topic=1897.msg14941#msg14941
+//src.dialog d_donation
+
+[DIALOG d_donation]
+0,0
+page 0
+resizepic 32 25 9200 445 295
+text 46 32 237 0
+text 60 70 167 1
+text 60 100 167 2
+text 60 130 167 3
+button 42 73 2103 2104 1 0 1
+button 42 103 2103 2104 1 0 2
+button 42 133 2103 2104 1 0 3
+htmlgump 180 29 294 287 4 1 1
+text 60 160 167 5
+button 42 163 2103 2104 1 0 4
+text 60 190 167 6
+button 42 193 2103 2104 1 0 5
+text 60 220 167 7
+button 42 223 2103 2104 1 0 6
+text 60 250 167 8
+button 42 253 2103 2104 1 0 7
+
+text 60 280 167 9
+button 42 283 2103 2104 1 0 8
+[DIALOG d_donation text]
+Bağış Seçenekleri:
+Guild Stone
+Necro(Rare-Leather)
+Siyah Saç/Sakal
+<def.bfont>color=#FF0000<def.r1>Fiery Weapon( Bağış: 10$ )<def.br><def.bfont>color=#000010<def.r1>Nandor questinden verilen fiery slayer weapon sahibi olabilirsiniz.<def.br><def.bfont>color=#FF0000<def.r1>Guild Stone( Bağış: 10$ )<def.br><def.bfont>color=#000010<def.r1>Guild stone tek seferlik bir bağışla sahip olunabilir. Oyun içerisinde gold ile almak istemeyen oyuncularımız için alternatiftir.<def.br><def.bfont>color=#FF0000<def.r1>Siyah Saç/Sakal( Bağış: 10$ )<def.br><def.bfont>color=#000010<def.r1>Bildiğiniz gibi oyun içerisinde siyah saç ve sakal rengi oyuncularımıza sunulmamaktadır. Oyun içerisinde siyah saç/sakal rengine sahip olmak istiyorsanız bağış sistemi üzerinden elde edebilirsiniz. Kullanım hakkı mevcut değildir ve kalıcı olarak verilir.<def.br><def.bfont>color=#FF0000<def.r1>Rare-Leather Dye Sınırsız( Bağış: 20$ )<def.br><def.bfont>color=#000010<def.r1>Sunucumuzda bulunan rare renkleri dye olarak sınırsız birşekilde sahip olmak isterseniz bunu tercih edebilirsiniz.<def.br><def.bfont>color=#FF0000<def.r1>Köy Sistemi( Bağış 20$-Aylık )<def.br><def.bfont>color=#000010<def.r1>Köy sistemi aynı ev tasarlama sisteminde olduğu gibi kullanıcı tarafından tasarlanabilir.Köy alanına ait bir stone ve köy menüsü ve öye alımı mevcutturAynı zamanda sadece size tahsis edilmiş vendorlar da mevcuttur.Köy alanının büyüklüğü 18x18 dir.Köy içerisine eşya sabitlenebilir ve güvenli kasa oluşturulabilir.<def.br><def.bfont>color=#FF0000<def.r1>Rename Deed( Bağış 5$ )<def.br><def.bfont>color=#000010<def.r1>Rename deed alarak oyundaki karakter isminizi değiştirebilirsiniz.<def.br><def.bfont>color=#FF0000<def.r1>4 Golden Skull( Bağış 10$ )<def.br><def.bfont>color=#000010<def.r1>Doom Dungeon girişi için istenilen golden skull 5 bin bone ile elde edilmektedir. Eğer 20bin tane bone değerindeki 4 golden skull almak isterseniz bunu tercih edebilirsiniz.<def.br><def.bfont>color=#FF0000<def.r1>100 Craft Puan( Bağış 20$ )<def.br><def.bfont>color=#000010<def.r1>Bulk Order ile elde ettiğiniz craft puanına +100 puan ekleyebilirsiniz.
+Rename Deed
+Köy Sistemi
+4 Golden Skull(Doom)
+100 Craft Puanı
+Fiery Weapon
+[DIALOG d_donation button]
+ON=1 8
+// Button 1
+// 
+src.weblink www.paypal.com/cgi-bin/webscr?cmd=_donations&business=FRDHUJD4TLBUL&lc=TR&item_name=North%20Shield%20Ultima%20Online%20Destek&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
+
+
+
+[itemdef i_ethereal_llama_3]
+name ethereal llama
+id i_pet_llama
+type t_normal
+//weight 0 - iptal edildi
+
+On=@Create
+attr attr_newbie
+color 045f
+
+On=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @55 Bu binegi kullanabilmeniz icin cantanizda olmali.
+elseif !(<src.body> == c_man) && !(<src.body> == c_woman)
+	src.sysmessage @55 Bu binege sadece insan seklindeyken binebilirsiniz.
+else
+	if (<src.findlayer(25)>)
+		src.dclick
+	endif
+	src.newitem i_et_llama_eq_3
+	src.act.more1 c_ethereal_mount_3
+	src.act.more2 <src.uid>
+	src.act.link <src.uid>
+	src.act.cont <src.uid>
+	src.act.color 07fff
+	src.update
+	remove
+endif
+return 1
+
+[itemdef i_ethereal_horse_3]
+name ethereal horse
+id i_pet_horse_brown_lt
+type t_normal
+//weight 0  - iptal edildi
+
+On=@Create
+attr attr_newbie
+color 045f
+
+On=@DClick
+if <tag.sahip> != <src.uid>
+	ref1 <tag.sahip>
+	cont <ref1.findplayer.layer_pack>
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @55 Bu binegi kullanabilmeniz icin cantanizda olmali.
+elseif !(<src.body> == c_man_nbl) && !(<src.body> == c_man) && !(<src.body> == c_woman)
+	src.sysmessage @55 Bu binege sadece insan seklindeyken binebilirsiniz.
+else
+	if (<src.findlayer(25)>)
+		src.dclick
+	endif
+	src.newitem i_et_horse_eq_3
+	src.act.more1 c_ethereal_mount_3
+	src.act.more2 <src.uid>
+	src.act.link <src.uid>
+	src.act.cont <src.uid>
+	src.act.color 07fff
+	src.update
+	remove
+endif
+return 1
+
+[itemdef i_et_llama_eq_3]
+name ethereal llama
+id i_mt_llama
+type t_eq_horse
+layer 25
+tdata3 c_ethereal_mount
+weight 0.0000001
+
+On=@UnEquip
+cont.newitem i_ethereal_llama_3
+//if !(<cont.findlayer(21).rescount> > 250) || !(<cont.weight> > <cont.weightmax>)
+if !(<eval <src.weight>> > 2500)    // || !(<cont.weight> > <cont.weightmax>)
+	cont.act.bounce
+else
+	cont.act.cont <cont.findlayer(29).uid>
+	cont.act.update
+	cont.sysmessage @55 Cantanizda asiri esya bulundugu icin ethereal bineginiz bankaniza yerlestirildi.
+	cont.sysmessage @55 Cantanizda asiri esya bulundugu icin ethereal bineginiz bankaniza yerlestirildi.
+	cont.sysmessage @55 Cantanizda asiri esya bulundugu icin ethereal bineginiz bankaniza yerlestirildi.
+
+endif
+return 1
+
+[itemdef i_et_horse_eq_3]
+name ethereal horse
+id i_mt_horse_brown_lt
+type t_eq_horse
+layer 25
+tdata3 c_ethereal_mount
+weight 0.0000001
+
+On=@UnEquip
+cont.newitem i_ethereal_horse_3
+//if !(<cont.findlayer(21).rescount> > 250) || !(<cont.weight> > <cont.weightmax>)
+if !(<eval <src.weight>> > 2500)    // || !(<cont.weight> > <cont.weightmax>)
+	cont.act.bounce
+else
+	cont.act.cont <cont.findlayer(29).uid>
+	cont.act.update
+	cont.sysmessage @55 Cantanizda asiri esya bulundugu icin ethereal bineginiz bankaniza yerlestirildi.
+	cont.sysmessage @55 Cantanizda asiri esya bulundugu icin ethereal bineginiz bankaniza yerlestirildi.
+	cont.sysmessage @55 Cantanizda asiri esya bulundugu icin ethereal bineginiz bankaniza yerlestirildi.
+
+endif
+return 1
+
+[chardef c_ethereal_mount_3]
+defname c_ethereal_mount
+name Ethereal Mount
+CAN=MT_WALK|MT_RUN
+On=@Create
+color 07fff
+//flags statf_hidden
+
+On=@SkillStart
+remove
+return 1
+
+On=@EnvirOnChange
+remove
+return 1
+on=@death
+remove
+return 1
+
+[itemdef i_pet_donation]
+id i_pet_ostard_zostrich
+name Donation Pet
+type t_normal
+tag.kota 15
+tag.pet_aktif 0
+tag.pet_type c_ostard_frenzied
+tag.pet_sure 0
+
+on=@click
+message @,,1 [ <name> ]
+message @69,1,1 [ <uid.<tag.sahip>.name> ]
+message @38,1,1 [Kullanım : <eval <tag.kota>>]
+return 1
+
+on=@create
+color 0455
+attr attr_newbie
+
+on=@dclick
+if <isempty <tag.sahip>>
+	tag.sahip <src.uid>
+	src.sys_normal Pet size atandı. Şuanda kullanabilirsiniz.
+	return 1
+endif
+
+if !(strmatch("<tag.sahip>","<src.uid>"))
+	ref1 = <tag.sahip>
+	cont <ref1.findlayer.layer_pack>
+	src.sys_error Bu size ait değildir.
+	return 1
+endif
+
+if <tag.pet_sure>
+	src.sys_error Şuan henüz yenisini çıkaramazsınız.
+	src.sys_error Yeni Pet çıkarma işlemi 12 saatte bir gerçekleştirilebilir.
+	return 1
+endif
+
+if <eval <tag.kota>> > 0
+	if !<tag.pet_aktif>
+		tag.kota --
+		tag.pet_sure 1
+		timerf 43200, tag.pet_sure 0
+		tag.pet_aktif 1
+		serv.newnpc <tag.pet_type>
+		new.tag.pet_donation 1
+		new.tag.pet_link <uid>
+		new.events +e_pet_donation
+		tag.last_pet <new.uid>
+		new.f_setmypet <src.uid>
+		
+	else
+		src.sys_normal Şuan zaten aktif bir pete sahipsin.
+		return 1
+	endif
+else
+		src.notice Donation Pet kullanım hakkınızı doldurdunuz. Yenisi talep edebilirsiniz.İyi oyunlar.
+		remove
+		return 1
+endif
+return 1
+
+//on=@timer
+//ref1 <tag.sahip>
+//ref1.notice Donation Pet kullanım süresi dolmuştur. Yenisi talep edebilirsiniz.İyi oyunlar.
+//uid.<tag.last_pet>.remove
+//remove
+return 1
+
+[events e_pet_donation]
+
+
+//on=@EnvironChange
+//ref1 <tag.pet_link>
+//if <ref1.timer> < 2
+//	ref1.trigger @timer
+//endif
+on=@death
+uid.<tag.pet_link>.tag.pet_aktif 0
+//uid.<tag.pet_link>.tag.kota --
+
+
+[EOF]

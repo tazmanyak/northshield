@@ -1,0 +1,78 @@
+// ACc Create.
+
+
+//
+// This function will be called when the query has been executed.
+//
+
+
+[function f_option_mysql]
+// Forum için.
+if <argn>==1
+	//serv.MySqlHost=127.0.0.1 //93.187.204.204	
+	serv.MySqlDatabase=forum
+else
+	//serv.MySqlHost=127.0.0.1 //93.187.204.204			
+	serv.MySqlDatabase=sphere
+endif
+
+[FUNCTION f_aquery_create_acc] // Kayıt query
+IF (<ARGN2> == 0)
+    SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    SERV.LOG Islem basarili, <dLOCAL.NUMROWS> adet hesap kaydedildi. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+        //SERV.LOG #<EVAL <LOCAL._FOR> + 1>. <LOCAL.<dLOCAL._FOR>.member_name>, <LOCAL.<dLOCAL._FOR>.email_address>, <LOCAL.<dLOCAL._FOR>.id_member>
+		if  <dLOCAL.NUMROWS> > 0	
+			local.accname <LOCAL.<dLOCAL._FOR>.member_name>
+			local.memberid <LOCAL.<dLOCAL._FOR>.id_member>
+			serv.account add <local.accname>
+			serv.account <local.accname> tag.email "<LOCAL.<dLOCAL._FOR>.email_address>"
+			serv.account <local.accname> tag.memberid <LOCAL.<dLOCAL._FOR>.id_member>	
+			var.accname <LOCAL.<dLOCAL._FOR>.member_name>
+			local.password <DB.AQUERY f_aquery_create_acc_pass, SELECT * FROM smf_themes WHERE id_member = '<eval <local.memberid>>' and variable = 'cust_oyun' >
+			local.pin <DB.AQUERY f_aquery_create_acc_pin, SELECT * FROM smf_themes WHERE id_member = '<eval <local.memberid>>' and variable = 'cust_pinkod' >
+			local.status <DB.AEXECUTE f_execute_callback, UPDATE smf_members SET status = '1' where id_member = '<eval <local.memberid>>' >
+		endif	
+    ENDFOR
+ENDIF
+RETURN
+
+
+[FUNCTION f_aquery_create_acc_pass] // Acc Şifre
+IF (<ARGN2> == 0)
+    SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    //SERV.LOG The command succeeded, <dLOCAL.NUMROWS> row(s) of data returned. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+		serv.account <var.accname> password <LOCAL.<dLOCAL._FOR>.value>
+		serv.account <var.accname> tag.sifresi "<LOCAL.<dLOCAL._FOR>.value>"	
+    ENDFOR	
+ENDIF
+RETURN
+
+[FUNCTION f_aquery_create_acc_pin] // Acc Pin
+IF (<ARGN2> == 0)
+    SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    //SERV.LOG The command succeeded, <dLOCAL.NUMROWS> row(s) of data returned. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+		serv.account <var.accname> tag0.pingiris <LOCAL.<dLOCAL._FOR>.value>	
+		serv.account <var.accname> tag0.ilkpin 1
+    ENDFOR	
+ENDIF
+RETURN
+
+
+[function f_acc_update] // Ana kayıt fonksiyonu
+serv.f_option_mysql 1
+db.connect
+//SERV.LOG Selecting some values in the background.
+IF (<DB.AQUERY f_aquery_create_acc, SELECT * FROM smf_members WHERE status = '0' and is_activated ='1'> == 0)
+    SERV.LOG Acc sekronizasyonunda problem ortaya cikti.
+ELSE
+    SERV.LOG Acc sekronizasyonu tamamlandi.
+ENDIF
+
+
+[EOF]

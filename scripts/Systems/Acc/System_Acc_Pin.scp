@@ -1,0 +1,69 @@
+// Pin,Þifre AQUERY/AEXECUTE Güncelleme - Xeon - Background MYSQL TASK //
+
+
+[FUNCTION f_aquery_pin] // Acc Pin
+IF (<ARGN2> == 0)
+    SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    //SERV.LOG The command succeeded, <dLOCAL.NUMROWS> row(s) of data returned. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+		local.id_member <LOCAL.<dLOCAL._FOR>.id_member>
+		if <dlocal.id_member> !=0
+			local.acc_name <DB.AQUERY f_aquery_accname, SELECT * FROM forum.smf_members WHERE id_member = '<dlocal.id_member>' >
+			local.pin <DB.AQUERY f_aquery_pin_get, SELECT * FROM smf_themes WHERE id_member = '<dlocal.id_member>' AND variable='cust_pinkod'>
+			local.sifre <DB.AQUERY f_aquery_sifre, SELECT * FROM smf_themes WHERE id_member = '<dlocal.id_member>' AND variable='cust_oyun'>
+			
+			serv.account <var.accname> tag0.pingiris <eval <var.acc_pin>>
+			serv.account <var.accname> password <var.acc_pass>
+			local.status <DB.AEXECUTE f_execute_callback, UPDATE smf_themes SET value = '0' where id_member = '<eval <local.id_member>>' AND variable='cust_status' >
+			serv.log Acc : <var.accname> - Pin : <eval <var.acc_pin>> - Sifre : <var.acc_pass>
+		endif
+	ENDFOR	
+ENDIF
+RETURN
+
+[FUNCTION f_aquery_accname] // Acc Pin
+IF (<ARGN2> == 0)
+    SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    //SERV.LOG The command succeeded, <dLOCAL.NUMROWS> row(s) of data returned. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+		var.accname = <LOCAL.<dLOCAL._FOR>.member_name>
+    ENDFOR	
+ENDIF
+RETURN
+
+[FUNCTION f_aquery_pin_get] // Acc Pin
+IF (<ARGN2> == 0)
+    //SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    //SERV.LOG The command succeeded, <dLOCAL.NUMROWS> row(s) of data returned. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+		var.acc_pin = <LOCAL.<dLOCAL._FOR>.value>
+    ENDFOR	
+ENDIF
+RETURN
+
+[FUNCTION f_aquery_sifre] // Acc Pin
+IF (<ARGN2> == 0)
+    SERV.LOG The command failed to execute. (<ARGS>)
+ELSE
+    //SERV.LOG The command succeeded, <dLOCAL.NUMROWS> row(s) of data returned. (<ARGS>)
+    FOR 0 <EVAL <LOCAL.NUMROWS> - 1>
+		var.acc_pass = <LOCAL.<dLOCAL._FOR>.value>
+    ENDFOR	
+ENDIF
+RETURN
+
+[function f_update_pin]
+serv.f_option_mysql 1
+db.connect
+//SERV.LOG Selecting some values in the background.
+IF (<DB.AQUERY f_aquery_pin, SELECT * FROM smf_themes WHERE variable= 'cust_status' AND value = '1' >)
+    SERV.LOG Her hangi bir pin,sifre degisikligi tespit edilmedi.
+ELSE
+    SERV.LOG Pin sekronizasyonu tamamlandi.
+ENDIF
+
+
+[EOF]

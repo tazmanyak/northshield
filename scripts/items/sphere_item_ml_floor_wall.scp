@@ -1,0 +1,153 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Sunday, November 25, 2007
+//
+// By Makar + Elric
+//
+
+[ITEMDEF 02cec]
+NAME=Simple Floor Tile
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Floor
+
+[ITEMDEF 02ced]
+NAME=Simple Floor Tile
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Floor
+
+[ITEMDEF 02cee]
+NAME=Simple Floor Tile
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Floor
+
+[ITEMDEF 02cef]
+NAME=Simple Short Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Short Wall
+
+[ITEMDEF 02cf0]
+NAME=Simple Short Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Short Wall
+
+[ITEMDEF 02cf1]
+NAME=Simple Half Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Half Wall
+
+[ITEMDEF 02cf2]
+NAME=Simple Half Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Half Wall
+
+[ITEMDEF 02cf3]
+NAME=Simple Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Wall
+
+[ITEMDEF 02cf4]
+NAME=Simple Window Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Window Wall
+
+[ITEMDEF 02cf5]
+NAME=Simple Window Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Window Wall
+
+[ITEMDEF 02cf6]
+NAME=Simple Window Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Window Wall
+
+[ITEMDEF 02cf7]
+NAME=Simple Window Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Window Wall
+
+[ITEMDEF 02cf8]
+NAME=Simple Window Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Simple Window Wall
+
+[ITEMDEF 02d14]
+NAME=Wooden Arch
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Arch
+
+[ITEMDEF 02d15]
+NAME=Wooden Arch
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Arch
+
+[ITEMDEF 02d16]
+NAME=Wooden Arch
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Arch
+
+[ITEMDEF 02d17]
+NAME=Wooden Arch
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Arch
+
+[ITEMDEF 02d18]
+NAME=Short Wooden Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Short Wooden Arch
+
+[ITEMDEF 02d19]
+NAME=Wooden Half Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Half Wall
+
+[ITEMDEF 02d1a]
+NAME=Wooden Corner Wall
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Half Wall
+
+[ITEMDEF 02d1b]
+NAME=Short Wooden Post
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Short Wooden Post
+
+[ITEMDEF 02d1c]
+NAME=Wooden Half Post
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Half Post
+
+[ITEMDEF 02d1d]
+NAME=Wooden Post
+CATEGORY=New Items
+SUBSECTION=ML
+DESCRIPTION=Wooden Post
+
+[EOF]

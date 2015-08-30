@@ -1,0 +1,148 @@
+[comment evil jester]
+Beware the grin and sny jokes of these jesters,
+for they are not your normal wise showman.
+The evil jesters are a force to be reckoned with.
+The villains comes prepared with an arsenal of
+spells to destroy even the most steadfast adventurer.
+Remember they are not limited to just a spell
+arsenal though, the jesters are also adept in
+hand to hand combat.
+With this in mind, any adventurer should come
+prepared when fighting this jovial nutcase.
+
+[chardef c_h_evil_jester]
+defname=c_h_evil_jester
+id=c_man
+name=#names_humanmale the jester
+can=mt_walk|mt_run|mt_usehands|mt_equip|mt_male
+moverate=100
+dam=1,4
+armor=0
+icon=i_pet_man
+sound=
+resources=
+foodtype=30 t_food, t_fruit
+aversions=t_trap
+desires=t_coin, t_gem, t_magic
+bloodcolor=0
+
+tevents=e_evil_jester
+//tspeech=spk_evil_jester
+tspeech=spk_human_prime
+tspeech=spk_human_default
+
+category=Civilized
+subsection=Miscellaneous
+description=Evil Jester
+
+on=@Create
+ npc=brain_human
+ color=colors_skin
+
+ fame=10000
+ karma=-10000
+
+ modar={ 30 40 }
+ resfire={ 50 60 }
+ rescold={ 10 20 }
+ respoison={ 75 80 }
+ resenergy={ 40 50 }
+
+ ostr={ 150 200 }
+ odex={ 250 300 }
+ oint={ 150 200 }
+ maxhits={ 800 1250 }	//I can way more than a hit.
+ maxstam=<eval (<odex>*2)>	//I have quite a bit of stamina.
+ maxmana=<eval (<oint>*2)>	//I also have quite a bit of mana.
+
+//More than a skilled advesary. Might tweak down or make variants.
+ wrestling={ 90.0 100.0 }
+ tactics={ 90.0 100.0 }
+ magicresistance={ 75.0 100.0 }
+ anatomy={ 20.0 50.0 }
+ poisoning={ 100.0 100.0 }
+ magery={ 90.0 100.0 }
+ evaluatingintel={ 50.0 75.0 }
+ meditation={ 60.0 80.0 }
+ parrying={ 60.0 80.0 }
+ macefighting={ 90.0 100.0 }
+ fencing={ 90.0 100.0 }
+ hiding={ 80.0 90.0 }
+ stealth={ 80.0 90.0 }
+
+ itemnewbie=random_male_hair
+ color=colors_hair
+// itemnewbie=random_facial_hair	//We tend to keep well groomed.
+// color=match_hair
+
+ itemnewbie=i_spellbook
+//healing spells
+ addspell=s_heal
+ addspell=s_cure
+ addspell=s_greater_heal
+//buff spells
+ addspell=s_protection
+ addspell=s_reactive_armor
+ addspell=s_bless
+//Miscellaneous
+ addspell=s_dispel
+ addspell=s_mass_dispel
+ addspell=s_mana_vampire
+ addspell=s_curse
+//Attack spells
+ addspell=s_harm
+ addspell=s_magic_arrow
+ addspell=s_fireball
+ addspell=s_poison
+ addspell=s_flamestrike
+ addspell=s_lightning
+ addspell=s_explosion
+ addspell=s_energy_bolt
+
+ item=i_hat_jester
+ item=i_jester_suit
+ itemnewbie=i_pants_long
+ itemnewbie=i_shoes_plain
+ item=i_scepter
+
+on=@NPCRestock
+ item=loot_evil_jester
+
+on=@Death
+ newloot=i_pants_jester
+ newloot=i_shoes_jester
+
+
+
+[events e_evil_jester]
+on=NPCSeeNewPlayer
+ if (<src.tag.alignment.faction> == chaos)//Chaos faction member?
+  local.x=<r1,5>
+  if (<local.x> == 1)//check to see if we care.
+   attack	//Looks like we don't, attack anyway.
+  else		//we cared.
+   salute	//So we salute you for your affiliation.
+  endif
+ endif
+ attack		//Anyone else, we just attack them.
+
+
+[template loot_evil_jester]
+defname=loot_evil_jester
+category=Loot Templates - NPC
+subsection=Civlized - Miscellaneous
+description=Evil Jester
+//container=i_backpack
+item=i_gold, { 800 1200 }
+item=random_scroll, { 1 2 }
+item=random_scroll, { 1 2 }
+item=random_scroll, { 1 2 }
+item=random_scroll, { 1 2 }
+item=random_potion, { 2 4 }
+item=random_potion, { 2 4 }
+item=random_jewel, { 1 2 }
+item=random_jewel, { 1 2 }
+item=random_food, { 2 4 }
+//item=random_drink
+//item=random_magic_weapon
+[EOF]

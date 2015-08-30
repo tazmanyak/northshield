@@ -1,0 +1,58 @@
+////////////////////////////////Fishing
+
+[ITEMDEF i_fishing_pole_yew]
+ID=i_fishing_pole
+name fishing pole
+SKILLMAKE=CARPENTRY 99.9, TAILORING 99.9
+RESOURCES=5 i_cloth, 40 i_log_bloodwood
+WEIGHT=6
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Fishing Pole
+
+on=@create
+color color_o_yew
+
+on=@click
+message @69,,1 [Yew]
+src.sysmessage @,,1 Kullanim [x]
+
+on=@dclick
+src.newitem i_fishing_pole_yew_items
+src.act.equip
+return 1
+
+[ITEMDEF i_fishing_pole_yew_items]
+ID=i_gold
+name Mtele
+TYPE=t_eq_script
+
+ON=@EQUIP
+targetg
+
+ON=@TARGON_GROUND
+src.go=<src.targp>
+return 1
+
+ON=@TARGON_ITEM
+return 1
+
+ON=@TARGON_CHAR
+return 1
+
+
+[function f_fishing_pole_yew]
+src.newitem i_chair_stool_bar
+new.color 0455
+new.attr 08000
+new.p <src.p>
+new.update
+new.timerf 10,remove
+src.update
+src.nudgeup 1
+
+
+
+
+
+[EOf]

@@ -1,0 +1,782 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+/////////////Stuck///////////
+[DIALOG d_web_yonlendirme]
+0,0
+page 0
+resizepic 39 24 9200 348 177
+htmlgump 48 57 331 98 0 1 1
+button 48 161 247 248 1 0 1
+text 50 30 67 1
+
+[DIALOG d_web_yonlendirme text]
+Yetkili tarafından bir siteye yönlendirilmek istiyorsunuz.<def.br>Yönlendirilecek site: <def.bfont> color=#FF0000<def.r1><var.sitem><def.br><def.bfont> color=#000010<def.r1>Eğer yönlendirmeyi kabul ediyorsanız lütfen aşağıdan OK seçiniz.
+TNS Web Site Yönlendirme
+
+[DIALOG d_web_yonlendirme button]
+on=0
+src.sys_error İptal ettiniz.
+ON=1
+src.weblink <var.sitem>
+// Button 1
+// 
+
+[function help]
+//src.dialog d_yenihelp
+
+[function helppage]
+
+
+if <src.isevent.e_ctf_white> || <src.isevent.e_ctf_red> || <src.isevent.e_yarisma_expo> || <src.isevent.e_yarisma_topuk> || <src.isevent.e_yarisma_lms> || <src.isevent.e_cpvp_duello> || <src.isevent.e_cpvp>
+src.sysmessage @,,1 Yarismalarda ve duellolarda kullanamazsiniz.
+return 1
+endif
+
+if <src.isevent.e_start_event>
+	src.sys_error oyuna baslangic asamasinda page atamazsiniz.
+	return 1
+endif
+
+if <src.isevent.e_jailed>
+	src.sys_error Cezali iken help menusunu kullanamazsiniz.
+	return 1
+endif
+
+if (<src.account.tag.pinkabul>==0)
+src.sms Giris yapmalisiniz..[ .Pin ]
+src.dialog d_pin_giris
+return 1
+endif
+if (<src.account.tag.pinkabul>==0)
+src.syshata Suan Bir Pininiz Yok. [.pin] Yaziniz...
+src.pin
+else
+if (<src.account.tag.pinkabul>==1)
+//sdialog d_yenihelp
+src.closealldialogs
+src.dialog d_help_menu
+else
+src.dialog d_pin_giris
+return 1
+endif
+
+[DIALOG d_yenimenu]	// 12
+// Put up a help system dialog that lists ingame commands etc.
+10, 10	// location on the screen.
+//resizepic 160 0 3600 450 450
+//resizepic 160 0 9200 350 450	
+//gumppictiled 170 10 330 430 2624
+
+//resizepic 160 0 5120 450 450
+//checkertrans 160 0 840 387
+
+
+resizepic 160 20 2620 400 420
+//resizepic 160 0 2620 400 320
+//resizepic 160 0 2620 400 100
+//checkertrans 165 5 390 410
+//checkertrans 160 0 400 420
+gumppic 140 -5 07724//058a
+//gumppic 280 300 02c95
+gumppic 100 0 028c8
+gumppic 555 0 028c9
+//gumppic 200 0 1418
+//gumppic 15 50 1800
+//gumppic 37 63 50468
+//gumppic 15 50 1889
+//gumppic 15 50 1883
+//gumppic 15 50 1811
+//gumppic 15 50 1812
+//gumppic 15 50 1891
+//gumppic 37 63 50409
+//gumppic 130 91 50628
+//gumppic 29 76 50984
+//text 220 17 995 0
+//button 250 300 243 241 1 0 0
+
+dhtmlgump 220 40 260 20 0 0 <def.center> <def.bfont_lgreen> <serv.name> Help Menusu <def.centere>
+dhtmlgump 280 115 260 20 0 0 <def.bfont_lred> Yoneticiden yardım iste
+dhtmlgump 280 140 260 20 0 0 <def.bfont_white> Kullanmakta olduğunuz bonuslar
+dhtmlgump 280 165 260 20 0 0 <def.bfont_white> Stuck 
+dhtmlgump 280 190 260 20 0 0 <def.bfont_white> Karakter bilginiz
+dhtmlgump 280 215 260 20 0 0 <def.bfont_lred> Online Listesi
+dhtmlgump 280 240 260 20 0 0 <def.bfont_white> Genel Komutlar
+dhtmlgump 280 265 260 20 0 0 <def.bfont_lgreen> North Shield - İstatistik
+
+
+//text 220 40 32 1
+//text 220 55 32 2
+//text 220 75 995 3
+//text 220 95 995 4
+
+button 230 115 210 211 1 0 1
+//text 280 115 995 5
+button 230 140 210 211 1 0 2
+//text 280 140 995 6
+button 230 165 210 211 1 0 3
+//text 280 165 995 7
+button 230 190 210 211 1 0 4
+//text 280 190 995 8
+button 230 215 210 211 1 0 5
+//text 280 215 995 9
+button 230 240 210 211 1 0 6
+//text 280 240 995 10
+button 230 265 210 211 1 0 7
+//text 280 265 995 11
+
+[DIALOG d_yenimenu TEXT]
+//<serv.name> Help System
+//Merhaba! <serv.name> help menusune,hosgeldiniz.
+//Sayin, <src.name> !
+//-//Online : <eval <serv.clients>>
+//Secim    Kategori
+//Yoneticiden yardım iste. //(Bekleyen pg. <uid.<var.pg_box>.rescount> )
+//Bonuslariniz
+//Stuck sistemi.
+//Karakter bilginiz.
+//Pin ayarlariniz.
+//<serv.name> Staff Kadrosu
+//Web Sitemiz // / Yeni !
+
+[DIALOG d_yenimenu BUTTON]
+ONBUTTON=1
+if !<onlinestaff>
+	src.sys_error Suan yetkili bulunmamaktadir.Foruma sorununuzu belirtmeniz daha dogru olacaktir.
+	src.weblink forum.tns.gen.tr/index.php?action=profile;u=1
+	return 1
+endif
+if ((<src.flags>&statf_stone))
+	src.sysmessage @38,,1 Page sistemini bu durumda kullanamazsiniz.
+	return 1
+elseif (<findid.i_page_suresi>)
+	src.sysmessage @38,,1 Page sistemini tekrar kullanabilmeniz icin <ftime <findid.i_page_suresi.timer>> kalmistir.
+	return 1
+else
+	src.dialog d_page_postala
+	//src.sys_normal Lutfen turkce karakter kullanmamaya ozen gosteriniz.
+	//src.DIALOG d_helpmenusu
+	return 1
+endif
+
+
+ONBUTTON=2
+//src.DIALOG d_helpmenusu
+src.bonus
+
+
+ONBUTTON=3
+if <src.tag.suanquestte>	
+	src.sysmessage @,,1 Quest yaparken kullanamazsiniz.
+	return 1
+endif
+
+if strmatch(*Doom*,<src.region.name>)
+	src.sys_error Bu bolgede stuck kullanamazsiniz.
+	return 1
+endif
+IF (<src.MEMORYFINDTYPE.memory_fight>)
+src.sysmessage @69,1,1 Savas Halindeyken bu menuyu kullanamassiniz.
+return 1
+endif
+
+if ((<src.flags>&statf_stone))
+	Smg Su anda stuck sistemini kullanamazsiniz.
+elseif <src.findid.i_stuck>
+	src.sysmessage @,,1 Tekrar kullanim sureniz dolmamistir.
+	return 1
+elseif (<findid.i_stuck.timer> < 0) || (<findid.i_stuck.timer> == 0)
+	findid.i_stuck.remove
+	src.dialog d_helpstuck
+elseif <isevent.e_nouse>
+	sysmessage @,,1 Ticaret yaparken bu imkansiz.
+	return 1
+elseif (<findid.i_stuck>)
+	Smg Stuck sistemini suan kullanamazsiniz.
+else
+dialog d_helpstuck
+endif
+
+
+ONBUTTON=4
+src.bilgilerim
+
+ONBUTTON=5
+src.online
+ONBUTTON=6
+src.oyuncu
+ONBUTTON=7
+//src.sysmessage @,,1 Kapali.
+src.dialog d_mysql_statistics
+
+///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////                                                 ///////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////                                                 //////
+///////////////////////////////////////////////////////////////////////////////////
+//////////////kurallar///////
+
+[DIALOG d_kurallar]
+88,68
+nomove
+
+resizepic 60 20 2620 262 400
+text 105 60 100 0
+htmlgump 66 28 250 385 1 1 1
+
+[DIALOG d_kurallar TEXT]
+Kurallar
+<serv.servname> Ultima Online sunucularinda sorunsuzca ve rahatca oynamak istiyorsaniz herkes gibi sizinde bazi kurallara uymaniz gerekmektedir.              Bu Kurallar:           Kufur etmek,tehdit yada taciz edici ve diger kullanicilari rahatsiz edecek davranislar gostermek * Flood yapmak * Basibos makro yapmak          * Speedhack,landfix gibi yamalar kullanarak sunucumuza girmek * Dil,Din,Irk,Cinsiyet ayrimi yapmak veya yapilmasini tesvik edici davranislarda bulunmak * Kullanicinin oyuncu olarak kendisini bir yetkili gibi gostererek diger kullanicilari kandirmasi * Politik tartismalar * Yanlis bilgi ile kullanici veya gorevliyi yanlis yonlendirmek * Kasitli veya kasitsiz olarak kaybedilen itemlerinizi geri istemek * Bug Somurmek * Toplu bolgelerde lag a sebebiyet verecek davranislarin sergilenmesi * Karakter,aile veya guild isimlerinde rahatsiz edici kelimeler kullanilmasi * Gereksiz,Bos,Kufur,Hakaret iceren page atmak * Reklam yapmak  kesinlikle yasaktir.  <serv.servname> Uo 
+
+[dialog d_kurallar BUTTON]
+ONBUTTON=0
+src.smg Belirtilen kurallara uyulmamasi halinde gerekli ceza uygulanacaktir.
+
+////////////cezalar////////
+
+[DIALOG d_cezalar]
+88,68
+nomove
+
+resizepic 60 20 2620 262 200
+text 105 60 100 0
+htmlgump 66 28 250 185 1 1 1
+
+[DIALOG d_cezalar TEXT]
+Cezalar
+<serv.servname> Ultima Online sunucularinda sorunsuzca ve rahatca oynamak istiyorsaniz herkes gibi sizinde bazi kurallara uymaniz gerekmektedir. Uyulmamasi halinde birtakim cezalar suclu kisiye uygulanacaktir.<var.br><var.br>Flood      1 Saat Jail <var.br>Hatali Page 4 Saat Jail <var.br>Hakaret    24 Saat Jail <var.br>Alan ihlali  80 Saat Jail <var.br>Makro    100 Saat Jail <var.br>Bug Abuse 120 Saat Jail <var.br>Speed gibi kotu ve adi bir durumla karsilasilirsa banlanma islemi yargisiz uygulanir!!! <serv.name>
+
+[DIALOG d_cezalar BUTTON]
+onbutton=0
+src.Smg Bilginize sunulur.
+
+////////////online durum////////////
+
+
+///////////durum///////
+[DIALOG d_age]
+88,68
+nomove
+PAGE 0
+resizepic 150 150 83 227 270
+resizepic 157 159 3000 215 252
+resizepic 160 162 3500 210 248
+
+resizepic 170 218 3000 190 4
+resizepic 170 260 3000 190 4
+resizepic 170 302 3000 190 4
+resizepic 170 342 3000 190 4
+
+htmlgump 190 175 250 20 0 0 0
+htmlgump 190 200 250 20 1 0 0
+htmlgump 190 220 250 20 2 0 0
+htmlgump 190 240 250 20 3 0 0
+htmlgump 190 265 250 20 4 0 0
+htmlgump 190 285 250 20 5 0 0
+htmlgump 190 305 250 20 6 0 0
+htmlgump 190 325 250 20 7 0 0
+htmlgump 190 345 250 20 8 0 0
+htmlgump 190 365 250 20 9 0 0
+htmlgump 190 380 250 20 10 0 0
+
+
+[DIALOG d_age TEXT]
+<src.name>
+Yas Bilginiz
+ilk Baglanti Tarihiniz:
+<ACCOUNT.FIRSTCONNECTDATE>
+Son Baglanti Tarihiniz:
+<ACCOUNT.LASTCONNECTDATE>
+Toplam Baglanti Sureniz:
+<eval (<account.totalconnecttime> / 60)> saat.
+Aclik Durumunuz:
+<var.tag.aclikdurumu>
+Yemek Derecesi : <food>
+
+
+[DIALOG d_age BUTTON]
+onbutton=0
+
+////aclik durumu///
+[function aclikdurumu]
+IF (<FOOD> <= 1)
+	var.tag.aclikdurumu= Acliktan Olmek Uzeresiniz
+ELSEIF ((<FOOD> == 2) || (<FOOD> == 3))
+	var.tag.aclikdurumu= Cok Acikmissiniz
+ELSEIF ((<FOOD> == 4) || (<FOOD> == 5))
+	var.tag.aclikdurumu= Acikmissiniz
+ELSEIF ((<FOOD> == 6) || (<FOOD> == 7))
+	var.tag.aclikdurumu= Biraz acikmissiniz
+ELSEIF ((<FOOD> == 8) || (<FOOD> == 9))
+	var.tag.aclikdurumu= Aclik hissetmiyorsunuz
+ELSEIF ((<FOOD> == 10) || (<FOOD> == 11))
+	var.tag.aclikdurumu= Doymussunuz
+ELSEIF ((<FOOD> == 12) || (<FOOD> == 13))
+	var.tag.aclikdurumu= Iyi doymussunuz
+ELSEIF (<FOOD> >= 14)
+	var.tag.aclikdurumu= Tamamen doymussunuz
+ENDIF
+
+
+
+
+
+[ITEMDEF i_stuck_slayer]
+NAME=stuck teleport
+ID=i_handr_1
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+        ATTR=attr_invis|attr_decay
+        MORE1=60 //Stuck süresi 60 olarak ayarladim 1 dakika icinde stuck yapilan yere gider
+
+ON=@Equip
+       // SRC.FLAGS=<SRC.FLAGS>|04 //stuck yapildiginda flag durumu ben adami paralize edecek sekilde ayarladim
+        TIMER=1
+ON=@Timer
+  	if ( <cont> )
+                if ( <more1> )
+                        CONT.Smg <EVAL(<more1>)> //smg olarak geri sayim efekti
+                        more1=<more1>-1
+                        TIMER=1
+                        return 1
+                else
+                        cont.GO <morep>
+                        CONT.FLAGS=<cont.flags>&~04
+                endif
+        endif
+        remove
+        return 1
+
+
+[ITEMDEF i_stuck_suresi]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Stuck Suresi
+
+ON=@Create
+ATTR=attr_decay
+
+ON=@equip
+TIMER=300 // 2 stuck arasi (sn cinsinden) /// 5 Dakika //
+
+ON=@Timer
+CONT.Smg Stuck Hakkiniz Acildi...
+REMOVE
+
+///kadro//
+[dialog d_kadro]
+60,90
+resizepic 0 0 83 350 250
+resizepic 7 9 3000 338 232
+resizepic 12 15 3500 328 227
+
+htmlgump 65 30 500 20 0 0 0
+
+htmlgump 35 60 100 20 1 0 0
+htmlgump 35 80 100 20 2 0 0
+htmlgump 35 100 100 20 3 0 0
+htmlgump 35 120 100 20 4 0 0
+htmlgump 35 140 100 20 5 0 0
+htmlgump 35 160 100 20 6 0 0
+htmlgump 35 180 100 20 7 0 0
+
+htmlgump 130 60 5000 20 8 0 0
+htmlgump 130 80 500 20 9 0 0
+htmlgump 130 100 500 20 10 0 0
+htmlgump 130 120 500 20 11 0 0
+htmlgump 130 140 500 20 12 0 0
+htmlgump 130 160 500 20 13 0 0
+htmlgump 130 180 500 20 14 0 0
+
+[dialog d_kadro text]
+<var.font5> <serv.name> Shard Yetkili Kadrosu
+<var.font5>Owner       
+<var.font5>AdmiN 
+<var.font5>DevolopeR
+<var.font5>Scripter
+<var.font5>GameMasteR
+<var.font5>SeeR
+<var.font5>CounseloR
+<var.BFONT_DGRAY>: Rasengan & Rhodos & Avatar                                   ///Owner
+<var.BFONT_DGRAY>: ------                        ///Admin
+<var.BFONT_DGRAY>: ------          ///Senior Gm
+<var.BFONT_DGRAY>: Avatar & Rhodos & Rasengan	                          ///Script Master
+<var.BFONT_DGRAY>:                                       ///GameMaster
+<var.BFONT_DGRAY>: 	                                ///Seer
+<var.BFONT_DGRAY>: 	---------		       ///Counselor
+
+[dialog d_kadro button]
+
+////page///
+
+
+///Bugbildir
+[dialog  d_xenbug]
+-180,240
+nomove
+
+resizepic 190 180 83 644 100
+resizepic 197 189 3000 632 82
+
+htmlgump 211 200 390 20 0 0 0
+resizepic 208 221 3000 610 26
+textentry 211 225 555 25 0 0 1
+button 785 223 4030 4031 1 0 1
+
+[dialog d_xenbug TEXT]
+<var.font1> Lutfen bugu aciklayici bir sekilde belirtiniz.
+<tag.pg_reason>
+
+[dialog  d_xenbug BUTTON]
+On=0
+sms islem iptal edildi.
+
+On=1
+if (strmatch('<argtxt[0]>',''))
+	sms Bugu belirtmediniz.
+	dialog d_xenbug
+endif
+
+[ITEMDEF i_page_suresi]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Page Suresi
+
+ON=@Create
+ATTR=attr_decay
+
+ON=@equip
+TIMER=600// 2 page arasi (sn cinsinden) /// 10 Dakika //
+
+ON=@Timer
+CONT.Smg Page Hakkiniz Acildi...
+REMOVE
+return 1
+
+
+
+
+///////////////////// GM VARMI KAC GM VAR TEST EDIYOR -- YEAH :) DeStRoY /////////////////////
+
+[itemdef i_gm_checker]
+id=i_grave_stone
+type=t_script
+name=GM Checker
+
+on=@create
+link=0
+color=236
+morex=0
+timer=30
+
+On=@Dclick
+return 1
+
+On=@Click
+message @255,0,1 GM Checker Stone
+message @35,0,1 Online Yetkili sayisi: <morex>
+return 1
+
+on=@timer
+timer 30
+try uid.<var.gmcheck>.morex 0
+src.gmcek
+return 1
+
+[function gmcek]
+var.gmcheck 0402d5b72
+///try uid.<var.gmcheck>.morex 0
+serv.allclients gm_check
+
+[Function gm_check]
+if (<account.plevel> > 1)
+try uid.<var.gmcheck>.morex <eval <uid.<var.gmcheck>.morex> +1>
+endif
+
+
+
+
+[events e_stuckvarsuan]
+
+on=@click 
+message @0785 ..:Stucking:..
+
+
+
+
+
+[dialog d_page_postala]     /////////////////Page i postalayim artikin demi loo
+-200,200
+resizepic 190 175 3500 643 100
+resizepic 200 185 9300 623 80
+htmlgump 211 200 290 20 0 0 0
+resizepic 208 221 9300 590 26
+textentry 211 225 555 25 0 0 1
+button 785 223  4024 4025 1 0 1
+
+[dialog d_page_postala TEXT]
+Atacaginiz Page'i Imla Kurallarina Gore Atiniz.
+<tag.pg_reason>
+
+[dialog d_page_postala BUTTON]
+On=0
+src.smg Page'iniz iptal edildi...
+
+On=1
+if (strmatch('<argtxt[0]>',''))
+	sys_error Sorununuzu belirtmediniz.
+	dialog d_gmpage
+elseif ((strlen(<argtxt[0]>)) > 155)
+	sys_error 155 karakteri gecmemesine ozen gosteriniz.
+	tag.pg_reason <argtxt[0]>
+	dialog d_page_postala
+	tag.pg_reason
+else
+	pg_call *Page* <argtxt[0]>
+	src.newitem i_page_suresi
+	src.new.equip
+endif
+
+
+[ITEMDEF i_stuck_ice]
+NAME=Stuck system
+ID=i_handr_1
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+        ATTR=attr_invis|attr_decay
+        MORE1=23
+
+ON=@Equip
+        //SRC.FLAGS=<SRC.FLAGS>|020004 
+TIMER=1
+ON=@Timer
+  	if ( <cont> )
+                if ( <more1> )
+                        more1=<more1>-1
+                        TIMER=1
+                        return 1
+                else
+                        cont.go <morep>
+		cont.events -e_stuckvarsuan
+                        cont.flags <cont.flags>&~04
+                endif
+        endif
+        remove
+        return 1
+
+on=@gethit
+findid.i_stuckcalistir.remove
+sysmessage @0810 Damage Yediginiz Icin Stuck Islemi Iptal Edilmistir.
+return 1
+
+
+[ITEMDEF i_stuck_suresi]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Stuck Suresi
+
+ON=@Create
+attr=attr_move_never|attr_can_decay|attr_invis
+
+ON=@equip
+TIMER=60
+
+ON=@Timer
+CONT.SMG Stuck hakkiniz acilmistir.Iyi Oyunlar.
+REMOVE
+return 1
+
+
+[dialog d_gmpage]
+-200,200
+nomove
+resizepic 190 175 3500 643 100
+resizepic 200 185 9300 623 80
+htmlgump 211 200 290 20 0 1 0
+resizepic 208 221 5054 590 26
+textentry 211 225 555 25 0 0 1
+button 785 223  4024 4025 1 0 1
+
+[dialog d_gmpage TEXT]
+Lutfen sorununuzu aciklayici bir sekilde belirtiniz.
+<tag.pg_reason>
+
+[dialog d_gmpage BUTTON]
+On=0
+
+On=1
+if (strmatch('<argtxt[0]>',''))
+	sysmessage @1153,,1 Sorununuzu belirtmediniz.
+	dialog d_gmpage
+elseif ((strlen(<argtxt[0]>)) > 110)
+	sysmessage @1153,,1 Lutfen page'iniz 110 karakteri gecmemesine ozen gosteriniz.
+	tag.pg_reason <argtxt[0]>
+	dialog d_page_postala
+	tag.pg_reason
+else
+	pg_call *Bug Abuse* <argtxt[0]>
+endif
+
+[dialog d_gmgorus]
+-200,200
+resizepic 190 175 3500 643 100
+resizepic 200 185 9300 623 80
+htmlgump 211 200 290 20 0 0 0 <def.bfont_dred> 
+resizepic 208 221 9300 590 26
+textentry 211 225 555 25 0 0 1
+button 785 223 4024 4025 1 0 1
+
+[dialog d_gmgorus TEXT]
+Belirtmek Istediginiz Bug Abuse Nedir?
+<tag.pg_reason>
+
+[dialog d_gmgorus BUTTON]
+On=0
+src.smg Bug Abuse Iptal Edildi...
+
+On=1
+if (strmatch('<argtxt[0]>',''))
+	src.smg Sorununuzu belirtmediniz.
+	dialog d_gmpage
+elseif ((strlen(<argtxt[0]>)) > 110)
+	src.smg 110 karakteri gecmemesine ozen gosteriniz.
+	tag.pg_reason <argtxt[0]>
+	dialog d_gmpage
+	tag.pg_reason
+else
+	pg_call *Bug Abuse* <argtxt[0]>
+src.newitem i_page_suresi
+src.new.equip
+endif
+
+
+
+[dialog d_helpstuck]
+50,50
+nomove
+
+resizepic 60 20 2620 225 220
+text 105 50 0250 0
+button 85 83 1209 1210 1 0 1
+text 105 80 800 1
+button 85 103 1209 1210 1 0 2
+text 105 100 800 2
+button 85 123 1209 1210 1 0 3
+text 105 120 800 3
+button 85 143 1209 1210 1 0 4
+text 105 140 800 4
+button 85 163 1209 1210 1 0 5
+text 105 160 800 5
+button 135 194 3 4 1 0 0
+text 155 190 800 6
+
+[dialog d_helpstuck text]
+Nereye gideceksiniz?
+Britain
+Moonglow
+Minoc
+Jhelom
+Buc's Den
+Kapat
+
+[dialog d_helpstuck button]
+On=1
+if <isevent.e_nouse>
+	sysmessage @,,1 Ticaret sirasinda imkansiz.
+	return 1
+endif
+
+sysmessage @55 Bir dakika icinde Britain'e gideceksiniz.
+newitem i_stuck
+act.morep 1495,1629,10
+act.equip
+
+On=2
+if <isevent.e_nouse>
+	sysmessage @,,1 Ticaret sirasinda imkansiz.
+	return 1
+endif
+
+sysmessage @55 Bir dakika icinde Moonglow'a gideceksiniz.
+newitem i_stuck
+act.morep 4442,1172
+act.equip
+
+On=3
+if <isevent.e_nouse>
+	sysmessage @,,1 Ticaret sirasinda imkansiz.
+	return 1
+endif
+
+sysmessage @55 Bir dakika icinde Minoc'a gideceksiniz.
+newitem i_stuck
+act.morep 2466,544
+act.equip
+
+On=4
+if <isevent.e_nouse>
+	sysmessage @,,1 Ticaret sirasinda imkansiz.
+	return 1
+endif
+
+sysmessage @55 Bir dakika icinde Jhelom'a gideceksiniz.
+newitem i_stuck
+act.morep 1383,3815
+act.equip
+
+On=5
+if <isevent.e_nouse>
+	sysmessage @,,1 Ticaret sirasinda imkansiz.
+	return 1
+endif
+
+sysmessage @55 Bir dakika icinde Buccaneer's Den'e gideceksiniz.
+newitem i_stuck
+act.morep 2706,2163
+act.equip
+
+[itemdef i_stuck]
+name stuck options
+id 0186a
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_newbie
+more1 60        
+
+On=@Equip
+src.sayu * stucked *
+timer 1
+
+On=@Timer
+if (<cont>)
+	if (<more2>)
+		cont.sysmessage @55 Stuck hakkiniz acilmistir.
+		remove
+	elseif (<more1>)
+		cont.sysmessage <eval <more1>>
+		cont.flags <cont.flags>|04
+		more1 (<more1> - 1)
+		timer 1
+	else
+		cont.GO <morep>
+		cont.flags <cont.flags>&~04
+		more2 1
+		timer 3600
+	endif
+endif
+return 1
+
+[eof]

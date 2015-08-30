@@ -1,0 +1,54 @@
+[CHARDEF c_sprite_elf]
+DEFNAME=c_sprite_elf
+NAME=#NAMES_ELF_FEMALE the Sprite
+ID=C_ELF_FEMALE
+CAN=MT_WALK|MT_FLY|MT_FEMALE
+DESIRES=i_gold,e_notoriety
+AVERSIONS=t_TRAP,t_eerie_stuff
+DAM=6,10
+//ARMOR=
+
+TSPEECH=spk_human_prime
+TSPEECH=spk_human_default
+
+RESDISP=5
+RESDISPDNID=c_woman
+RESDISPDNHUE=045e
+
+CATEGORY=Civilized
+SUBSECTION=Sprite-Elf (Evil)
+DESCRIPTION=Sprite
+
+ON=@Create
+	COLOR=045e
+	NPC=brain_Human
+	KARMA={-1500 -6000}
+	FAME={1200 3200}
+
+	STR={86 90}
+	DEX={91 100}
+	INT={71 85}
+
+	//ALIGNMENT=EVIL
+
+	FENCING={65.0 88.0}
+	WRESTLING={35.0 58.0}
+	MAGICRESISTANCE={60.0 80.0}
+	TACTICS={75.0 85.0}
+
+	ITEMNEWBIE=i_hair_PONYTAIL
+	COLOR=0597
+
+ON=@NPCRestock
+	ITEM=i_armor_female_plate
+	COLOR=0599
+	ITEM=i_kryss
+	COLOR=0599
+	ITEM=i_boots_calf
+	COLOR=0599
+	ITEM=i_cape
+	COLOR=0599
+	ITEM=random_coin_purse
+	ITEM={ backpack_meager 1 backpack_average 2 }
+
+[EOF]

@@ -1,0 +1,1147 @@
+
+[Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+	dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+	if <account.plevel> > 6
+		targetf f_forgive @,,1 Kimi affedeceksin ? 
+		return 1
+	else
+		src.sys_error Yetkin yok.
+		return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100 
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2 
+button 120 273 1209 1210 1 0 3 
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6 
+//button 120 393 1209 1210 1 0 7 
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text] 
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button] 
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3 
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[itemdef i_jail_coptoplat]
+id=i_memory
+type=t_eq_script
+name=jail hakaret
+
+on=@equip
+target 
+src.smy Kime cop toplatmak istersiniz ?
+timer 20
+
+on=@targon_char
+if <src.targ.isgm>
+src.sysmessage @,,1 Yetkin yok!
+remove
+return 1
+endif 
+src.targ.events +Jail_Coptoplama_Britain
+if <src.targ.ispk>
+	src.go delucia
+else
+src.targ.go Britain
+endif
+src.targ.tag0.cop <var0.CezaSayisi>
+src.smx <src.targ.name> cezalandirildi.
+serv.allclients.sysmessage @69,,1 <src.targ.name> cop toplama cezasina carptirildi.
+remove 
+return 1
+
+on=@timer
+attr=attr_decay
+remove
+
+[itemdef i_jail_odunkestir]
+id=i_memory
+type=t_eq_script
+name=jail hakaret
+
+on=@equip
+target 
+src.smy Kime odun kestirtmek istersiniz ?
+timer 20
+
+on=@targon_char
+if <src.targ.isgm>
+src.sysmessage @,,1 Yetkin yok!
+remove
+return 1
+endif 
+
+src.newitem i_hatchet
+src.act.equip
+src.act.tag0.saglamlik <src.act.hitpoints>
+src.act.cont <src.targ.uid>
+
+src.targ.events +Jail_oduncu
+if <src.targ.ispk>
+	src.go delucia
+else
+src.targ.go Britain
+endif
+src.targ.tag0.oduncu <var0.CezaSayisi>
+src.smx <src.targ.name> cezalandirildi.
+serv.allclients sysmessage @69,,1 <src.targ.name> odun kesme cezasina carptirildi.
+remove 
+return 1
+
+on=@timer
+attr=attr_decay
+remove
+
+[itemdef i_Jail_Baliktoplat]
+id=i_memory
+type=t_eq_script
+name=jail hakaret
+
+on=@equip
+target 
+src.smy Kime balik toplatmak istersiniz ?
+timer 20
+
+on=@targon_char
+if <src.targ.isgm>
+src.sysmessage @,,1 Yetkin yok!
+remove
+return 1
+endif
+
+src.newitem i_fishing_Pole
+src.act.equip
+src.act.tag0.saglamlik <act.hitpoints>
+src.act.cont <src.targ.uid>
+
+src.targ.events +Jail_Balikci
+if <src.targ.ispk>
+	src.go delucia
+else
+src.targ.go Britain
+endif
+src.targ.tag0.balikci <var0.CezaSayisi>
+src.smx <src.targ.name> cezalandirildi.
+serv.allclients sysmessage @69,,1 <src.targ.name> balik tutma cezasina carptirildi.
+remove 
+return 1
+
+on=@timer
+attr=attr_decay
+remove
+
+
+
+[eof][Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof]
+[Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof][Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof]
+[Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof][Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof]
+[Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof][Plevel 3]
+ja
+
+
+[function ja]
+if (strmatch(<args>,menu))
+dialog d_jailcore
+endif
+
+if (strmatch(<args>,af))
+if <account.plevel> > 6
+targetf f_forgive @,,1 Kimi affedeceksin ?
+return 1
+else
+src.sys_error Yetkin yok.
+return 1
+endif
+
+[EOF]
+
+[plevel 1]
+sicilim
+
+[plevel 2]
+ja
+
+
+
+[function sicilim] // playerlar icin sicil menusunu acan function
+dialog d_sicilimebakacem
+
+[dialog d_gonderbakemjaile] // staff icin jail menu dialoglari
+100,100
+page 0
+
+resizepic 100 140 3600 270 300
+text 170 160 920 0 0 0
+text 175 180 920 1 0 0
+text 140 210 920 2 0 0
+text 140 240 920 3 0 0
+text 140 270 920 4 0 0
+text 140 300 920 5 0 0
+text 140 330 920 6 0 0
+text 140 360 920 7 0 0
+text 140 390 920 8 0 0
+
+button 120 214 1209 1210 1 0 1
+button 120 243 1209 1210 1 0 2
+button 120 273 1209 1210 1 0 3
+//button 200 303 1209 1210 1 0 4
+//button 200 333 1209 1210 1 0 5
+//button 020 363 1209 1210 1 0 6
+//button 120 393 1209 1210 1 0 7
+
+//dtextentry 170 180 540 20 0 0
+dtextentry 310 210 90 20 990 1 xx
+dtextentry 310 240 90 20 990 2 xx
+dtextentry 310 270 90 20 990 3 xx
+
+[dialog d_gonderbakemjaile text]
+<serv.name> Jail Sistemi
+- Jail Cezalari -
+Cop Toplat
+Odun Kestir
+Balik Tuttur
+1
+2
+3
+4
+
+[dialog d_gonderbakemjaile button]
+
+onbutton=1
+if !(<isnum <argtxt[1]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[1]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[1]>>
+endif
+
+src.newitem=i_jail_coptoplat
+src.new.equip
+return 1
+
+onbutton=2
+if !(<isnum <argtxt[2]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[2]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[2]>>
+endif
+src.newitem=i_jail_odunkestir
+src.new.equip
+return 1
+
+onbutton=3
+if !(<isnum <argtxt[3]>>)
+src.sysmessage Sadece rakam kullanabilirsiniz.
+return 1
+elseif (<eval <argtxt[3]>> < 1)
+src.sysmessage Hatali bir rakam girdiniz.
+return 1
+else
+var0.CezaSayisi <eval <argtxt[3]>>
+endif
+
+src.newitem=i_jail_baliktoplat
+src.new.equip
+return 1
+
+onbutton=4
+
+
+onbutton=5
+
+
+onbutton=6
+
+
+onbutton=7
+
+
+
+[eof]

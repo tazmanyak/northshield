@@ -1,0 +1,132 @@
+﻿
+
+[function f_net_stats]
+local.spawn=<SYSSPAWN C:\Windows\System32\netstat.exe -n 10 > // netspawn
+
+
+
+[function f_tanit_protection]
+if ( <DB.connected> )
+	//local.cnum=0
+	for 0 <eval <serv.accounts>-1>
+		
+		local.acctnum=<local._for>
+		if <serv.account.<eval <local.acctnum>>.tag0.memberid>
+			if !<serv.account.<eval <local.acctnum>>.tag.accguvenlik> && !<serv.account.<eval <local.acctnum>>.tag.accguvenaktif>
+				serv.account <serv.account.<eval <local.acctnum>>.name> tag.accguvenlik 0
+				serv.account <serv.account.<eval <local.acctnum>>.name> tag.accguvenaktif 0
+			endif
+		endif
+	endfor
+endif
+
+[function f_update_acc_protection]
+//serv.log #SifreTest...
+if ( <DB.connected> )
+	//local.cnum=0
+	for 0 <eval <serv.accounts>-1>
+		
+		local.acctnum=<local._for>
+		if <serv.account.<eval <local.acctnum>>.tag0.memberid>
+			local.member = <serv.account.<eval <local.acctnum>>.tag0.memberid>
+			DB.QUERY "SELECT * FROM smf_themes WHERE id_member='<eval <local.member>>' AND variable='cust_hesapg'
+			if <ddb.row.numrows>			
+				while (!<isempty <db.row.<dlocal._while>.value>>)
+					local.value = <db.row.<dlocal._while>.value>
+
+
+					if <local.value> && !<serv.account.<eval <local.acctnum>>.tag.accguvenaktif>
+						serv.account <serv.account.<eval <local.acctnum>>.name> tag.accguvenlik 1
+						//serv.log #<serv.account.<eval <local.acctnum>>.name> guvenlik sistemini aktif etti.
+					endif
+					if !<local.value> && <serv.account.<eval <local.acctnum>>.tag.accguvenaktif>
+						serv.account <serv.account.<eval <local.acctnum>>.name> tag.accguvenlik 0
+						serv.account <serv.account.<eval <local.acctnum>>.name> tag.accguvenaktif 0
+						//serv.log #<serv.account.<eval <local.acctnum>>.name> guvenlik sistemini deaktif etti.
+					endif
+				endwhile		
+			endif
+		endif
+	endfor
+endif
+
+[DIALOG d_hesapguvenlik]
+0,0
+page 0
+nomove
+noclose
+resizepic 48 39 9200 345 273
+text 72 59 37 0
+htmlgump 60 90 323 152 1 1 1
+button 298 260 247 248 1 0 1
+
+[DIALOG d_hesapguvenlik text]
+Forumdan Talebiniz Onaylandi.
+Merhaba sayin oyuncumuz. Forumdan hesap guvenliginizi aktif etmis bulunmaktasiniz. Bundan sonra oyuna girisleriniz sadece suanda girmis oldugunuz bilgisayar uzerinden yapilacaktir. Hic bir sekilde baskasi sizin sifrenizi bilse dahi sizin bilgisayariniz disinizde girilemeyecektir. Eger sistemi iptal etmek isterseniz forumdan tekrar hesap ayarlarindan hesap guvenligini 0 yapiniz. Iyi oyunlar dileriz.
+
+[DIALOG d_hesapguvenlik button]
+
+ON=1
+src.account.tag.accguvenaktif 1
+src.account.tag.last_computer_check <src.account.tag.last_computer>
+src.sysmessage @,,1 Hesap guvenlik basvurunuz suandan itibaren aktiftir.
+return 1
+
+
+
+
+///////////////////////////////////////////////////////////////
+
+
+[function f_accountlang]
+//DIALOG d_connect
+serv.newitem i_accountlang
+src.new.equip
+
+
+
+
+[itemdef i_accountlang]
+id=i_gold
+type=t_eq_script
+
+ON=@create
+timer 5
+
+ON=@timer
+cont.sys_error Bağlantınız doğrulanamadı...
+trysrc <cont.uid> sendpacket 082 04
+remove
+return 1
+
+[DIALOG d_connect]
+0,0
+nomove
+noclose
+resizepic 0 0 2620 800 602
+gumppictiled 5 5 790 593 2624
+dhtmlgump 225 200 350 45 1 0 <def.center>Lütfen bağlantı programınız doğrulana kadar bekleyin...
+
+[DIALOG d_disconnect]
+0,0
+nomove
+noclose
+resizepic 0 0 2620 800 602
+gumppictiled 5 5 790 593 2624
+dhtmlgump 225 200 350 45 1 0 <def.center><def.BFONT_LRED>Bağlantı programınızda bir problem tespit edildi<def.br>Lütfen sitemizden tekrar bağlantı programını yükleyiniz.
+
+[function f_clean_disc]
+dialogclose d_connect
+dialogclose d_connectok
+dialogclose d_disconnect
+
+[FUNCTION f_paket191]
+IF (<LOCAL.4> == 02c)
+	RETURN 1
+ELSEIF (<LOCAL.4> != 0b)
+	RETURN 0
+ENDIF
+OBJ = <LOCAL.CHAR>
+OBJ.findid.i_accountlang.timer
+
+[EOF]

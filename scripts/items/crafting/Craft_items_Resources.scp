@@ -1,0 +1,75 @@
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_crystalgolem]
+NAME=Golem Crystal
+ID=i_crystal_purple
+TYPE=t_script
+
+on=@create
+color 0836
+	
+ON=@Click
+message @,,1 <name>
+return 1 
+
+ON=@DCLick
+src.sysmessage @,,1 Golem yapiminda kullanilir.
+return 1
+
+[ITEMDEF i_headgolem]
+NAME=Golem Head
+ID=01f18
+TYPE=t_script
+
+on=@create
+color 0836
+	
+ON=@Click
+message @,,1 <name>
+return 1 
+
+ON=@DCLick
+src.sysmessage @,,1 Golem yapiminda kullanilir.
+return 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[ITEMDEF i_crystal_puremagerobe]
+NAME=Crystal Mage
+ID=i_crystal_purple
+TYPE=t_script
+
+on=@create
+color 07a1
+	
+ON=@Click
+message @,,1 <name>
+return 1 
+
+ON=@DCLick
+src.sysmessage @,,1 Robe yapiminda kullanilir.
+return 1
+
+
+[ITEMDEF i_crystal_warlockrobe]
+NAME=Crystal Warlock
+ID=i_crystal_purple
+TYPE=t_script
+
+on=@create
+color 0455
+	
+ON=@Click
+message @,,1 <name>
+return 1 
+
+ON=@DCLick
+src.sysmessage @,,1 Robe yapiminda kullanilir.
+return 1
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[EOF]

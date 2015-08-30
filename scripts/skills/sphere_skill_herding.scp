@@ -1,0 +1,40 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[SKILL 20]
+DEFNAME=Skill_Herding
+KEY=Herding
+TITLE=Shepherd
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=50
+STAT_INT=50
+STAT_DEX=50
+BONUS_STR=25
+BONUS_DEX=45
+BONUS_INT=30
+BONUS_STATS=25
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=0,0,0
+
+on=@start
+if (<FLAGS>&STATF_HIDDEN) || (<FLAGS>&statf_invisible)
+		src.sysmessage @,,1 Gorunmez iken kullanamazsınız.
+		skill fail
+		return 1
+endif
+
+ON=@Fail
+	SRC.SYSMESSAGE You don't seem to be able to persuade that to move.
+
+ON=@Abort
+	SRC.SYSMESSAGE You give up trying to persuade that to move.
+
+[eof]
+

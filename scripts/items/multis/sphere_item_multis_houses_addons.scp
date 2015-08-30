@@ -1,0 +1,246 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF i_multi_forge_large_east]
+ID=i_forge_bellows_2_part_1_of_3_e
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=019a2 -1 0 0 0
+COMPONENT=019a6 -2 0 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Large Forge (South)
+
+[ITEMDEF i_multi_forge_large_south]
+ID=i_forge_bellows_2_part_1_of_3_s
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=01996 0 -1 0 0
+COMPONENT=0199a 0 -2 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Large Forge (South)
+
+[ITEMDEF i_multi_abbatoir]
+ID=01216
+NAME=Abbatoir
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=4622 -1 -1 0 0
+COMPONENT=4629 -1 0 0 0
+COMPONENT=4628 -1 1 0 0
+COMPONENT=4623 0 -1 0 0
+COMPONENT=4627 0 1 0 0
+COMPONENT=4624 1 -1 0 0
+COMPONENT=4625 1 0 0 0
+COMPONENT=4626 1 1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Abbatoir
+
+[ITEMDEF i_multi_hardwood_table_east]
+ID=03092
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03093 -1 0 0 0
+COMPONENT=03094 -2 0 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Hardwood Table (East)
+
+[ITEMDEF i_multi_hardwood_table_south]
+ID=03095
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03096 0 -1 0 0
+COMPONENT=03097 0 -2 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Hardwood Table (South)
+
+[ITEMDEF i_multi_alchemist_table_east]
+ID=03079
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0307a -1 0 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Alchemist Table (East)
+
+[ITEMDEF i_multi_alchemist_table_south]
+ID=03077
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03078 0 -1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Alchemist Table (South)
+
+[ITEMDEF i_multi_arcane_circle]
+ID=0307f
+NAME=Arcane Circle
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03083 -1 -1 0 0
+COMPONENT=03080 -1 0 0 0
+COMPONENT=0307d -1 1 0 0
+COMPONENT=03082 0 -1 0 0
+COMPONENT=0307c 0 1 0 0
+COMPONENT=03081 1 -1 0 0
+COMPONENT=0307e 1 0 0 0
+COMPONENT=0307b 1 1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Arcane Circle
+
+[ITEMDEF i_multi_elven_bed_east]
+ID=0304c
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0304d -1 0 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Elven Bed (East)
+
+[ITEMDEF i_multi_elven_bed_south]
+ID=03050
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03051 0 -1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Elven Bed (South)
+
+[ITEMDEF i_multi_long_table_east]
+ID=04030
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0402f -1 0 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Long Table (East)
+
+[ITEMDEF i_multi_long_table_south]
+ID=04032
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=04031 0 -1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Long Table (South)
+
+//[ITEMDEF i_multi_gargish_couch_east]
+//ID=04028
+//TYPE=t_multi
+//MULTIREGION=0,0,0,0
+//COMPONENT=04027 -1 0 0 0
+//CATEGORY=Multis
+//SUBSECTION=House Addons
+//DESCRIPTION=Gargish Couch (East)
+
+//[ITEMDEF i_multi_gargish_couch_south]
+//ID=0402a
+//TYPE=t_multi
+//MULTIREGION=0,0,0,0
+//COMPONENT=04029 0 -1 0 0
+//CATEGORY=Multis
+//SUBSECTION=House Addons
+//DESCRIPTION=Gargish Couch (South)
+
+[ITEMDEF i_multi_large_bed_east]
+ID=2685
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=2684 0 1 0 0
+COMPONENT=2681 1 0 0 0
+COMPONENT=2680 1 1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Large Bed (East)
+
+[ITEMDEF i_multi_large_bed_south]
+ID=0a83
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0a7f 0 1 0 0
+COMPONENT=0a82 1 0 0 0
+COMPONENT=0a7e 1 1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Large Bed (south)
+
+[ITEMDEF i_multi_pentagram]
+ID=0fea
+NAME=Pentagram
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0fe6 -1 0 0
+COMPONENT=0fe7 -1 -1 0
+COMPONENT=0fe8 0 -1 0r
+COMPONENT=0fe9 -1 1 0
+COMPONENT=0feb 1 -1 0
+COMPONENT=0fec 0 1 0
+COMPONENT=0fed 1 1 0
+COMPONENT=0fee 1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Pentagram
+
+//[ITEMDEF i_multi_short_table]
+//ID=04036
+//NAME=Short Table
+///TYPE=t_multi
+//MULTIREGION=0,0,0,0
+///COMPONENT=04035 -1 0 0
+//COMPONENT=04034 0 -1 0
+//COMPONENT=04033 -1 -1 0
+//CATEGORY=Multis
+//SUBSECTION=House Addons
+//DESCRIPTION=Short Table
+
+[ITEMDEF i_multi_small_bed_east]
+ID=0a5d
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0a62 1 0 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Small Bed (East)
+
+[ITEMDEF i_multi_small_bed_south]
+ID=0a5c
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=0a63 0 1 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Small Bed (South)
+
+[ITEMDEF i_multi_tall_elven_bed_east]
+ID=03053
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03054 0 1 0
+COMPONENT=03055 1 0 0
+COMPONENT=03052 1 1 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Tall Elven Bed (East)
+
+[ITEMDEF i_multi_tall_elven_bed_south]
+ID=03057
+TYPE=t_multi
+MULTIREGION=0,0,0,0
+COMPONENT=03058 0 1 0
+COMPONENT=03059 1 0 0
+COMPONENT=03056 1 1 0
+CATEGORY=Multis
+SUBSECTION=House Addons
+DESCRIPTION=Tall Elven Bed (South)
+
+[eof]

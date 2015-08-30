@@ -1,0 +1,21 @@
+[CHARDEF 0e6]
+DEFNAME=c_reaper_form
+NAME=reaper form
+ICON=i_pet_reaper
+SOUND=snd_monster_reaper1
+CAN=MT_WALK|MT_NONHUM
+DAM=17,20
+ARMOR=35
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_brown
+MOVERATE=200
+TAG.Barding.Diff=74.1
+TAG.DamPoison=20
+CATEGORY=Spells
+SUBSECTION=Spellweaving
+DESCRIPTION=Reaper Form
+
+[EOF]

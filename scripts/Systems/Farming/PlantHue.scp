@@ -1,0 +1,211 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 30-09-2009
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Xantier - Main system
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// This system lets you grow custom plants to decorate or recover hybrID=seeds !
+
+[defname planthues]
+PlantHue.Plain 01 | 04000000
+PlantHue.Red 02 | 04000000
+PlantHue.Blue 04 | 04000000
+PlantHue.Yellow 08 | 04000000
+
+PlantHue.BrightRed 02 | 04000000 | 08000000
+PlantHue.BrightBlue 04 | 04000000 | 08000000
+PlantHue.BrightYellow 08 | 04000000 | 08000000
+
+PlantHue.Purple (02 | 04000000) | (04 | 04000000)
+PlantHue.Green (04 | 04000000) | (08 | 04000000)
+PlantHue.Orange (02 | 04000000) | (08 | 04000000)
+
+PlantHue.BrightPurple (02 | 04000000 | 08000000) | (04 | 04000000 | 08000000)
+PlantHue.BrightGreen (04 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+PlantHue.BrightOrange (02 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+
+PlantHue.Black 010
+PlantHue.White 020
+PlantHue.Pink 040
+PlantHue.Magenta 080
+PlantHue.Aqua 0100
+PlantHue.FireRed 0200
+
+PlantHue.None 0
+PlantHue.Crossable 04000000
+PlantHue.Bright 08000000
+
+PlantHue.Number 19
+
+PlantHue_1_Hue 0
+PlantHue_1_GumpHue 0835
+PlantHue_1_PlantHue 01 | 04000000
+PlantHue_1_name Plain
+
+PlantHue_2_Hue 066D
+PlantHue_2_GumpHue 024
+PlantHue_2_PlantHue 02 | 04000000
+PlantHue_2_name Red
+
+PlantHue_3_Hue 053D
+PlantHue_3_GumpHue 06
+PlantHue_3_PlantHue 04 | 04000000
+PlantHue_3_name Blue
+
+PlantHue_4_Hue 08A5
+PlantHue_4_GumpHue 038
+PlantHue_4_PlantHue 08 | 04000000
+PlantHue_4_name Yellow
+
+PlantHue_5_Hue 021
+PlantHue_5_GumpHue 021
+PlantHue_5_PlantHue 02 | 04000000 | 08000000
+PlantHue_5_name BrightRed
+planthue_5_resources_8 i_red_leaf
+planthue_5_resources_10 i_red_leaf
+planthue_5_resources_12 i_red_leaf
+
+PlantHue_6_Hue 05
+PlantHue_6_GumpHue 06
+PlantHue_6_PlantHue 04 | 04000000 | 08000000
+PlantHue_6_name BrightBlue
+
+PlantHue_7_Hue 038
+PlantHue_7_GumpHue 035
+PlantHue_7_PlantHue 08 | 04000000 | 08000000
+PlantHue_7_name BrightYellow
+
+PlantHue_8_Hue 0d
+PlantHue_8_GumpHue 010
+PlantHue_8_PlantHue (02 | 04000000) | (04 | 04000000)
+PlantHue_8_name Purple
+
+PlantHue_9_Hue 059b
+PlantHue_9_GumpHue 042
+PlantHue_9_PlantHue (04 | 04000000) | (08 | 04000000)
+PlantHue_9_name Green
+
+PlantHue_10_Hue 046f
+PlantHue_10_GumpHue 02e
+PlantHue_10_PlantHue (02 | 04000000) | (08 | 04000000)
+PlantHue_10_name Orange
+
+PlantHue_11_Hue 010
+PlantHue_11_GumpHue 0d
+PlantHue_11_PlantHue (02 | 04000000 | 08000000) | (04 | 04000000 | 08000000)
+PlantHue_11_name BrightPurple
+
+PlantHue_12_Hue 042
+PlantHue_12_GumpHue 03f
+PlantHue_12_PlantHue (04 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+PlantHue_12_name BrightGreen
+PlantHue_12_resources_14 i_green_thorn
+Planthue_12_resources_16 i_green_thorn
+
+PlantHue_13_Hue 02b
+PlantHue_13_GumpHue 02b
+PlantHue_13_PlantHue (02 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+PlantHue_13_name BrightOrange
+Planthue_13_resources_2 i_orange_petal
+Planthue_13_resources_4 i_orange_petal
+Planthue_13_resources_6 i_orange_petal
+
+PlantHue_14_Hue 0455
+PlantHue_14_GumpHue 0
+PlantHue_14_PlantHue 010
+PlantHue_14_name Black
+
+PlantHue_15_Hue 0481
+PlantHue_15_GumpHue 0481
+PlantHue_15_PlantHue 020
+PlantHue_15_name White
+
+PlantHue_16_Hue 084a//048e
+PlantHue_16_GumpHue 084a
+PlantHue_16_PlantHue 040
+PlantHue_16_name Rare//Pink
+
+PlantHue_17_Hue 07d4//0486
+PlantHue_17_GumpHue 07d4
+PlantHue_17_PlantHue 080
+PlantHue_17_name Rare//Magenta
+
+PlantHue_18_Hue 08ad//0495
+PlantHue_18_GumpHue 08ad
+PlantHue_18_PlantHue 0100
+PlantHue_18_name Rare//Aqua
+
+PlantHue_19_Hue 0901//0489
+PlantHue_19_GumpHue 0901
+PlantHue_19_PlantHue 0200
+PlantHue_19_name Rare//FireRed
+
+PlantHue_20_Hue 080a//0489
+PlantHue_20_GumpHue 080a
+PlantHue_20_PlantHue 0200
+PlantHue_20_name FireRed//FireRed
+
+PlantHue_21_Hue 0489//0489
+PlantHue_21_GumpHue 0489
+PlantHue_21_PlantHue 0200
+PlantHue_21_name Rare//FireRed
+
+PlantHue_22_Hue 0812//0489
+PlantHue_22_GumpHue 0812
+PlantHue_22_PlantHue (04 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+PlantHue_22_name Rare//FireRed
+
+PlantHue_23_Hue 0810//0489
+PlantHue_23_GumpHue 0810
+PlantHue_23_PlantHue (04 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+PlantHue_23_name Rare//FireRed
+
+PlantHue_24_Hue 0809//0489
+PlantHue_24_GumpHue 0809
+PlantHue_24_PlantHue 020
+PlantHue_24_name Lighter White//FireRed
+
+PlantHue_25_Hue 0800//0489
+PlantHue_25_GumpHue 0800
+PlantHue_25_PlantHue 020
+PlantHue_25_name Rare//FireRed
+
+PlantHue_26_Hue 0794//0489
+PlantHue_26_GumpHue 0794
+PlantHue_26_PlantHue (04 | 04000000 | 08000000) | (08 | 04000000 | 08000000)
+PlantHue_26_name Rare//FireRed
+
+[function bHuetoPlant]
+for <def.planthue.number>
+	if (<def.planthue_<dlocal._for>_planthue>==<args>)
+	return <dlocal._for>
+	endif
+endfor
+
+[function bGenerateHue]
+return <eval {1 26}>
+
+[function f_plant_remover]
+foritems 7168
+	if (<color> == 0486)
+		color 0
+	endif
+endfor
+
+[function f_plant_remover2]
+foritems 8000
+	if (<color> == 0486)
+		serv.log s//color 0
+	endif
+endfor
+		
+
+[eof]

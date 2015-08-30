@@ -1,0 +1,1367 @@
+﻿
+[function hazir_pot_duel]  
+newitem i_bag
+ref1 = <new.uid>
+new.bounce
+
+newitem i_potion_healgreat
+new.amount <argn>
+new.cont <ref1>
+
+
+newitem i_potion_curegreat
+new.amount <argn>
+new.cont <ref1>
+
+newitem i_potion_poisondeadly
+new.amount <argn>
+new.cont <ref1>
+
+
+newitem i_potion_bleed
+new.amount <argn>
+new.cont <ref1>
+
+
+newitem i_potion_refreshtotal
+new.amount <argn>
+new.cont <ref1>
+
+
+newitem i_potion_agilitygreat
+new.amount <argn>
+new.cont <ref1>
+
+
+newitem i_bandage
+new.amount 5
+new.cont <ref1>
+
+newitem i_cloth_oil
+new.cont <ref1>
+
+newitem i_arrow
+new.amount 25
+new.bounce
+
+newitem i_xbolt
+new.amount 25
+new.bounce
+
+newitem loot_reg_30
+new.bounce
+
+[Plevel 1]
+duel
+
+[function duel]
+src.sys_normal Duello yapmak istediğiniz kişiyi seçiniz.
+targetf f_duel_x
+
+[function f_duel_x]
+if (<argo.uid>==<src.uid>)
+	src.sys_error Kendinizi seçemezsiniz.
+	return 1
+endif
+if <argo.tag.duelloda>
+	src.sysmessage @,,1 Şuanda bu kişi duelloda.
+	return 1
+else
+	src.ctag.duel_opponent = <argo.uid>
+	src.dialog d_duel_alan
+	if <src.findid.i_duellocu>
+		src.findid.i_duellocu.remove
+	endif
+endif
+
+
+[dialog d_duel_alan]
+50,50
+
+
+resizepic 50 0 2620 400 200
+checkertrans 55 5 390 190
+
+
+text 105 50 0250 0
+
+
+if <eval <var.duel_1>> == 1
+	text 105 80 38 1
+else
+ 	button 85 83 1209 1210 1 0 1
+	text 105 80 800 1
+endif
+
+
+if <eval <var.duel_2>> == 1
+	text 105 100 38 2
+else
+	button 85 103 1209 1210 1 0 2
+	text 105 100 800 2
+endif
+
+if <eval <var.duel_3>> == 1
+	text 105 120 38 3
+else
+	button 85 123 1209 1210 1 0 3
+	text 105 120 800 3
+endif
+
+//button 85 143 1209 1210 1 0 4
+//text 105 140 800 4
+
+
+//button 85 163 1209 1210 1 0 5
+//text 105 160 800 5
+
+
+//button 195 194 3 4 1 0 0
+//text 215 190 800 6
+
+[dialog d_duel_alan text]
+Kirmizi alanlar suanda dolu olan alanlardir.
+Duello Alan 1 ( Gargoyle City )
+Duello Alan 2 ( Zento )
+Duello Alan 3 ( Luna )
+//Duello Alan 4
+//Duello Alan 5
+//Kapat
+
+[dialog d_duel_alan button]
+
+On=1
+if !<src.isevent.e_cpvp_duello>
+src.dialog d_cpvp_duello
+src.ctag.duel_area 1
+else
+	src.sys_error Duellodayken tekrar duello atamazsiniz.
+endif
+
+On=2
+if !<src.isevent.e_cpvp_duello>
+src.dialog d_cpvp_duello
+src.ctag.duel_area 2
+else
+	src.sys_error Duellodayken tekrar duello atamazsiniz.
+endif
+On=3
+if !<src.isevent.e_cpvp_duello>
+src.dialog d_cpvp_duello
+src.ctag.duel_area 3
+else
+	src.sys_error Duellodayken tekrar duello atamazsiniz.
+endif
+On=4
+if !<src.isevent.e_cpvp_duello>
+src.dialog d_cpvp_duello
+src.ctag.duel_area 4
+else
+	src.sys_error Duellodayken tekrar duello atamazsiniz.
+endif
+
+On=5
+if !<src.isevent.e_cpvp_duello>
+src.dialog d_cpvp_duello
+src.ctag.duel_area 5
+else
+	src.sys_error Duellodayken tekrar duello atamazsiniz.
+endif
+
+
+
+
+
+
+
+
+
+
+[itemdef i_skor_duello]
+id i_bulletin_board
+name Skorlar
+type t_eq_script
+
+on=@create
+attr=attr_static|attr_move_never
+
+on=@dclick
+src.duellist
+src.duelgalib
+return 1
+
+
+[function duellist]
+dialog d_duellist
+
+[defname duelloplayer]
+duelloplayer 5
+
+[function duello5]
+tag0.duelkazan +=1
+for 1 <ddef.duelloplayer>
+        var.remove <ddef.duelloplayer>
+        for y 1 <ddef.duelloplayer>
+                ref1=<var.duelloplayer_<dlocal.y>>
+                if (<ref1> = <uid>)
+                        var.remove <dlocal.y>
+                endif
+        endfor
+        ref2=<var.duelloplayer_<dlocal._for>>
+        if (<dtag.duelkazan> >= <ref2.dtag.duelkazan>)
+                var.duelloplayer_<dvar.remove>
+                for x <dvar.remove> <dlocal._for>
+                        var.duelloplayer_<dlocal.x> <var.duelloplayer_<eval <dlocal.x> -1>>
+                endfor
+                var.duelloplayer_<dlocal._for> <uid>
+                var.remove
+                return 1
+        endif
+endfor
+
+[function duelyazdir]
+serv.deletefile C:\AppServ\www\Web\dueldiz.php
+serv.writefile C:\AppServ\www\Web\dueldiz.php
+for c 1 5
+obj = <var.duelloplayer_<dlocal.c>>
+IF (<FILE.OPEN C:\AppServ\www\Web\dueldiz.php>)
+file.writeline <var.ebe>body text=#FFFFFF background-color:transparent<var.ebesi>
+file.writeline <var.ebe>font size=2<var.ebesi><obj.name><var.ebe>/font<var.ebesi>  //<var.ebe>font face=Argos size=2<var.ebesi><obj.name> <var.ebe>/font<var.ebesi><var.ebe>font size=2<var.ebesi><var.ebe>font face=Argos <var.ebesi>:<var.ebe>/font<var.ebesi><var.ebe>font face=Argos color=#000000 <var.ebesi>:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><eval <obj.tag.pan>><var.ebe>/font<var.ebesi> //<var.ebe>font face=Argos color=#FF0000 <var.ebesi>Kills:<var.ebe>/font<var.ebesi> <var.ebe>font face=Argos <var.ebesi><obj.kills><var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>body text=#FFFFFF background=aaaa.png<var.ebesi>
+file.writeline <var.ebe>/font<var.ebesi>
+file.writeline <var.ebe>p<var.ebesi>
+file.close
+endif
+endfor
+
+[function duelpuanreset]
+for c 1 1000
+obj = <var.duelloplayer_<dlocal.c>>
+obj.tag.duelkazan
+endfor
+
+
+
+[function f_duel_tablo_list]
+for c 1 5
+obj = <var.duelloplayer_<dlocal.c>>
+	if !<isempty <var.duelloplayer_<dlocal.c>>>
+   		var.duel_list_name_<dlocal.c> <obj.name>
+  		var.duel_list_puan_<dlocal.c> <dobj.tag.duelkazan>
+	endif
+endfor
+
+[function f_get_duel]
+serv.f_duel_tablo_list
+if <argn1> == 1
+	return <var.duel_list_name_1>
+elif <argn1> == 11
+	return <eval <var.duel_list_puan_1>>
+elif <argn1> == 2
+	return <var.duel_list_name_2>
+elif <argn1> == 22
+	return <eval <var.duel_list_puan_2>>
+elif <argn1> == 3
+	return <var.duel_list_name_3>
+elif <argn1> == 33
+	return <eval <var.duel_list_puan_3>>
+elif <argn1> == 4
+	return <var.duel_list_name_4>
+elif <argn1> == 44
+	return <eval <var.duel_list_puan_4>>
+elif <argn1> == 5
+	return <var.duel_list_name_5>
+elif <argn1> == 55
+	return <eval <var.duel_list_puan_5>>
+endif
+
+
+[plevel 1]
+duellist
+
+[dialog d_duellist]
+120,260
+//resizepic 39 0 60000 525 205//ARka Fon
+//resizepic 50 12 83 501 180
+
+resizepic 50 0 2620 495 260
+checkertrans 55 5 485 250
+
+
+page 0 
+   dtext 270 30 38 Duello Top 5
+   dtext 75 80 38 1.                     
+   dtext 75 110 38 2.                        
+   dtext 75 140 38 3.
+   dtext 75 170 38 4.                          
+   dtext 75 200 38 5. 
+   dtext 450 80 38 Puan:                       
+   dtext 450 110 38 Puan:                         
+   dtext 450 140 38 Puan: 
+   dtext 450 170 38 Puan:  
+   dtext 450 200 38 Puan:       
+for c 1 5
+obj = <var.duelloplayer_<dlocal.c>>
+   dtext 106 <hval (<local.c>*30)+50> 50 <obj.name>
+   dtext 493 <hval (<local.c>*30)+50> 50 <dobj.tag.duelkazan>
+endfor
+
+[dialog d_duellist button]
+on=0
+
+[plevel 1]
+duelgalib
+
+[function duelgalib]
+src.sys_duello Suana kadar <eval <tag0.duelkazan>> kere duello'da galip geldiniz.
+
+
+[chardef c_cpvp_duello]
+name Duello Hakemi
+id c_man
+can mt_equip|mt_nonmover
+
+On=@Create
+str 9500
+dex 1000
+int 1000
+magery 100
+invul 1
+speechcolor 1953
+food 990
+color 083ea
+taming 32000
+
+ITEMNEWBIE=i_PLATEMAIL_ARMS
+ITEMNEWBIE=i_PLATEMAIL_leggings
+ITEMNEWBIE=i_PLATEMAIL_chest
+ITEMNEWBIE=i_PLATEMAIL_GORGET
+ITEMNEWBIE=i_PLATEMAIL_gloves
+ITEMNEWBIE=i_helm_closed
+ITEMNEWBIE=i_staff_black
+
+on=@gethit
+return 1
+on=@spelleffect
+return 1
+on=@death
+hits 100
+return 1
+on=@attack
+skill fail
+action -1
+return 1 
+
+on=@hit
+return 1
+
+on=@click
+messageua 0481,6,6,enu [<name>]
+messageua 0481,6,6,enu Duello Master
+return 1
+
+on=@dclick
+if (<src.findid.i_duellocu>)
+	src.findid.i_duellocu.remove
+endif
+if (<src.account.plevel>==7) || (<src.isgm>)
+	sdialog d_cpvp_duello_ayar
+elif (<src.account.plevel>==1) || (<src.account.plevel>==7)
+	if (<distance> >3)
+	src.sysmessage @1953,1,1,1 Yetisemiyorsunuz...
+	return 1
+	endif
+endif
+	sdialog d_cpvp_duello
+
+return 1
+
+[dialog d_cpvp_duello_ayar]
+0,0
+resizepic 100 100 5120 300 200
+resizepic 110 110 9350 280 180
+dhtmlgump 170 120 300 20 0 0 <serv.servname> Duello Sistemi
+
+button 120 150 210 211 1 0 1
+button 120 175 210 211 1 0 2
+button 120 200 210 211 1 0 3
+button 120 225 210 211 1 0 4
+button 120 250 210 211 1 0 5
+dhtmlgump 142 150 400 20 0 0 Normal Koordinati: <tag0.koordinat1>
+dhtmlgump 142 175 400 20 0 0 Gerisayim Koordinati: <tag0.koordinat2>
+dhtmlgump 142 200 400 20 0 0 Pvp'deki Koordinati: <tag0.koordinat3>
+dhtmlgump 142 225 400 20 0 0 1.Player: <tag0.koordinat4>
+dhtmlgump 142 250 400 20 0 0 2.Player: <tag0.koordinat5>
+
+[dialog d_cpvp_duello_ayar button]
+onbutton 1
+var.hakemuid <uid>
+targetfg hakemkoordinat 1
+onbutton 2
+var.hakemuid <uid>
+targetfg hakemkoordinat 2
+onbutton 3
+var.hakemuid <uid>
+targetfg hakemkoordinat 3
+onbutton 4
+var.hakemuid <uid>
+targetfg hakemkoordinat 4
+onbutton 5
+var.hakemuid <uid>
+targetfg hakemkoordinat 5
+
+[dialog d_cpvp_duello]
+0,0
+//resizepic 100 100 9300 300 270
+//resizepic 110 110 9300 280 250
+resizepic 100 100 2620 300 270	
+checkertrans 105 105 290 260
+//gumppictiled 110 110 280 250 2624
+
+resizepic 155 150 9300 185 20
+//checkertrans 160 155 175 10
+
+dtext 170 120 38 <serv.servname> Duello Sistemi
+
+dtext 120 150 60 Bahis:
+dtext 345 150 60 Gold
+dtextentry 170 150 100 20 910 1 15000
+checkbox 132 186 210 211 0 1
+checkbox 132 210 210 211 0 2
+
+dtext 130 230 48 Oyundan dustugunuzde/ciktiginizda
+dtext 130 250 48 60 saniye icerisinde tekrar girmesseniz
+dtext 130 270 48 duelloyu kaybedersiniz.
+dtext 160 190 50 Loot var 
+dtext 280 310 50 Potion adet:
+dtextentry 355 310 100 20 910 2 3
+dtext 160 210 50 Silaha poison var
+
+
+button 227 310 4023 4025 1 0 1
+
+[dialog d_cpvp_duello button]
+onbutton 1
+if !(<isnum <argtxt[1]>>) 
+src.sysmessage @38,1,1 Sadece rakam kullanabilirsiniz
+return 1
+elseif (<eval <argtxt[1]>> > 1000000)
+	src.sysmessage @38,1,1 1m den daha buyuk bir meblada duello gerceklestiremezsiniz.
+	return 1
+elseif (<eval <argtxt[1]>> < 15000)
+	src.sysmessage @38,1,1 15k dan daha dusuk bir meblada duello gerceklestiremezsiniz.
+	return 1
+elseif (<eval <argtxt[2]>> > 10)
+	src.sysmessage @,,1 10 adet pottan daha fazla pot ile duello gerceklestiremezsiniz.
+	return 1
+else
+
+
+
+serv.newitem i_duellocu
+src.new.link <uid>
+src.new.tag.duellocu <ctag.duel_opponent>
+src.new.tag.bahis <argtxt[1]>
+src.new.tag.loot <argchk[1]>
+src.new.tag.poison <argchk[2]>
+src.new.tag.pot_quantity <argtxt[2]>
+src.new.timer 45
+src.new.equip
+timerf 45,src.closealldialogs
+
+endif
+
+
+[dialog d_cpvp_duello_teklif]
+0,0
+resizepic 100 100 2620 300 270	
+checkertrans 105 105 290 260
+dtext 170 120 38 <serv.servname> Duello Sistemi
+
+dtext 120 150 60 <cont.name> Duello teklifinde bulundu.
+
+dtext 130 180 38 Bahis : <eval <tag.bahis>> Gold
+dtext 130 200 38 Loot : <qval (<tag0.loot>) ? var:yok>
+dtext 130 224 38 Silaha poison <qval (<tag0.poison>) ? var:yok>
+dtext 130 240 48 Oyundan dustugunuzde/ciktiginizda
+dtext 130 260 48 Yenilmis sayilirsiniz ve
+dtext 130 280 48 <eval <tag.bahis>> Gold Kaybedersiniz.
+dtext 130 300 48  Potion miktari : <eval <tag.pot_quantity>>
+
+button 123 320 4023 4025 1 0 1
+dtext 156 320 38 Kabul Ediyorum
+
+[dialog d_cpvp_duello_teklif button]
+on=0
+cont.sysmessage @1976,1,1,1 <src.name> teklifi kabul etmedi..
+cont.findid.i_duellocu.remove
+//move
+
+on=1
+
+
+if (<src.findtype.t_potion>) || (<src.findid.i_bandage>)
+src.sysmessage @,,1 Yaninizdaki potion ve bandaji lutfen birakiniz.
+cont.sysmessage @,,1 Rakibinizin cantasinda potion ya da bandaj bulunmakta...
+remove
+return 1
+endif
+
+if (<cont.findtype.t_potion>) || (<cont.findid.i_bandage>)
+cont.sysmessage @,,1 Yaninizdaki potion ve bandaji lutfen birakiniz.
+src.sysmessage @,,1 Rakibinizin cantasinda pot ya da bandaj bulunmakta...
+remove
+return 1
+endif
+
+
+
+if (<src.findlayer.25>) || (<cont.findlayer.25>)
+src.sysmessage @1953,1,1,1 Senin yada onun altinda binek var..
+cont.sysmessage @1953,1,1,1 Senin yada onun altinda binek var..
+remove
+return 1
+endif
+
+local.uid1 <src.uid>
+local.uid2 <cont.uid>
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<local.uid1>) || (<memoryfindtype.memory_ipet.link>==<local.uid2>)
+try uid.<local.uid1>.sysmessage @1953,1,1,1 Sizin veya rakibinizin binekleri etrafta oldugu surece duello baslamayacaktir.
+try uid.<local.uid2>.sysmessage @1953,1,1,1 Sizin veya rakibinizin binekleri etrafta oldugu surece duello baslamayacaktir.
+remove
+return 1
+endif
+endif
+endfor
+local.uid1
+local.uid2
+
+timer -1
+
+
+if (<eval <tag.bahis>> == 0)
+else
+if (<src.BANKBALANCE> >= <eval <tag.bahis>>) && (<cont.BANKBALANCE> >= <eval <tag.bahis>>)
+src.gold -= <eval <tag.bahis>>
+cont.gold -= <eval <tag.bahis>>
+else
+src.sysmessage @1976,1,1,1 <cont.name> veya sizde <eval <tag.bahis>> gold yok..
+cont.sysmessage @1976,1,1,1 <src.name> veya sizde <eval <tag.bahis>> gold yok..
+remove
+return 1
+endif
+endif
+
+if <eval <cont.ctag.duel_area>> == 1
+	if !<eval <var.duel_1>>
+		var.duel_1 1
+	else
+		src.sysmessage @,,1 Duello alani dolu.
+		cont.sysmessage @,,1 Duello alani dolu.
+		remove
+		return 1
+	endif
+endif
+
+if <eval <cont.ctag.duel_area>> == 2
+	if !<eval <var.duel_2>>
+		var.duel_2 1
+	else
+		src.sysmessage @,,1 Duello alani dolu.
+		cont.sysmessage @,,1 Duello alani dolu.
+		remove
+		return 1
+	endif
+endif
+
+if <eval <cont.ctag.duel_area>> == 3
+	if !<eval <var.duel_3>>
+		var.duel_3 1
+	else
+		src.sysmessage @,,1 Duello alani dolu.
+		cont.sysmessage @,,1 Duello alani dolu.
+		remove
+		return 1
+	endif
+endif
+
+if <eval <cont.ctag.duel_area>> == 4
+	if !<eval <var.duel_4>>
+		var.duel_4 1
+	else
+		src.sysmessage @,,1 Duello alani dolu.
+		cont.sysmessage @,,1 Duello alani dolu.
+		remove
+		return 1
+	endif
+endif
+
+
+if <eval <cont.ctag.duel_area>> == 5
+	if !<eval <var.duel_5>>
+		var.duel_5 1
+	else
+		src.sysmessage @,,1 Duello alani dolu.
+		cont.sysmessage @,,1 Duello alani dolu.
+		remove
+		return 1
+	endif
+endif
+
+//src.tag.events -e_safe2
+
+
+if <eval <cont.ctag.duel_area>> == 1
+	src.go 859,642,-40,2 //<link.tag.koordinat4>
+	cont.go 880,642,-40,2//<link.tag.koordinat5>
+	src.ctag.duel_area = 1
+	src.tag.duelloda = 1
+	cont.tag.duelloda = 1
+endif
+
+if <eval <cont.ctag.duel_area>> == 2
+	src.go 737,1247,30,4 //<link.tag.koordinat4>
+	cont.go 737,1264,30,4//<link.tag.koordinat5>
+	src.ctag.duel_area = 2
+	src.tag.duelloda = 1
+	cont.tag.duelloda = 1
+endif
+
+if <eval <cont.ctag.duel_area>> == 3
+	src.go 981,519,-50,3 //<link.tag.koordinat4>
+	cont.go 998,519,-50,3//<link.tag.koordinat5>
+	src.ctag.duel_area = 3
+	src.tag.duelloda = 1
+	cont.tag.duelloda = 1
+endif
+
+if <eval <cont.ctag.duel_area>> == 4
+	src.go 859,642,-40,2 //<link.tag.koordinat4>
+	cont.go 880,642,-40,2//<link.tag.koordinat5>
+	src.ctag.duel_area = 4
+	src.tag.duelloda = 1
+	cont.tag.duelloda = 1
+endif
+
+
+if <eval <cont.ctag.duel_area>> == 5
+	src.go 859,642,-40,2 //<link.tag.koordinat4>
+	cont.go 880,642,-40,2//<link.tag.koordinat5>
+	src.ctag.duel_area = 5
+	src.tag.duelloda = 1
+	cont.tag.duelloda = 1
+endif
+
+
+src.events +e_cpvp_duello
+src.findlayer(1).cont=<src.findlayer.layer_pack.uid>
+src.Kafesle_duel
+src.food 15
+trysrc <src.uid> hazir_pot_duel <eval <tag.pot_quantity>>
+//src.tag.cpvp_duello_rakip.events -e_safe2
+src.tag.cpvp_duello_rakip <cont.uid>
+src.tag.cpvp_duello_karma <src.karma>
+src.tag.cpvp_duello_kills <src.kills>
+src.tag.cpvp_duello_fame <src.fame>
+cont.events +e_cpvp_duello
+cont.findlayer(1).cont=<cont.findlayer.layer_pack.uid>
+cont.food 15
+cont.Kafesle_duel
+trysrc <cont.uid> hazir_pot_duel <eval <tag.pot_quantity>>
+//cont.events -e_safe2
+//cont.tag.cpvp_duello_rakip.events -e_safe2
+cont.tag.cpvp_duello_rakip <src.uid>
+cont.tag.cpvp_duello_karma <cont.karma>
+cont.tag.cpvp_duello_kills <cont.kills>
+cont.tag.cpvp_duello_fame <cont.fame>
+//link.tag.pvpdeyim 1
+//serv.newitem i_cpvp_duello_gerisayim
+//new.timer 1
+//new.morex 5
+//new.cont <link.uid>
+//link.go <link.tag.koordinat2>
+link.tag.player1 <src.uid>
+link.tag.player2 <cont.uid>
+
+//-----------------------------------------------------------------------------------------
+// Functions
+
+[function hakemkoordinat]
+try uid.<var.hakemuid>.tag.koordinat<args> <src.targp>
+src.sysmessage @1953,1,1,1 Yeni koordinat ayarlandi : <src.targp>
+
+[function cpvp_duello_loot]
+serv.newitem i_bag
+src.new.cont <src.findlayer.29>
+local.bag <src.new>
+var.lfor 
+for <uid.<args>.rescount>
+if (<uid.<args>.findcont.<eval <var.lfor>>.attr>&attr_newbie)
+var.lfor <eval <var.lfor>> +1
+else
+try uid.<args>.findcont.<eval <var.lfor>>.cont <uid.<local.bag>>
+endif
+endfor
+
+
+//-----------------------------------------------------------------------------------------
+// Items
+[itemdef i_duel_berabere]
+id i_memory
+type t_eq_script
+name duel berabere
+
+
+on=@timer
+cont.ctag.duello_beraber 1
+//cont.f_cpvp_duello_death
+cont.kill 1
+remove
+return 1
+
+
+
+[itemdef i_duellocu]
+id i_memory
+type t_eq_script
+name duellocu
+
+on=@equip
+ref1 = <tag.duellocu>
+//cont.sysmessage @,,1 <ref1.name>
+trysrc <ref1> sdialog d_cpvp_duello_teklif
+cont.sysmessage @1976,1,1,1 Teklif yapildi. Lutfen bekleyiniz.
+timer 60*12
+
+on=@timer
+remove
+return 1
+
+on=@targon_char
+if !(<src.targ.isplayer>)
+src.sysmessage @1952,1,1,1 Sadece playerlarla duello yapabilirsiniz
+return 1
+elif (<src.targ.isevent.e_cpvp_duello>)
+src.sysmessage @1952,1,1,1 <src.targ.name> zaten duello yapiyor.
+return 1
+elif (<src.isevent.e_cpvp_duello>)
+src.sysmessage @1952,1,1,1 Zaten pvp yapiyorsunuz
+return 1
+elif (<src.uid>==<src.targ.uid>)
+src.sysmessage @1952,1,1,1 Kendinizle duello yapamazsiniz
+return 1
+endif
+trysrc <src.targ.uid> sdialog d_cpvp_duello_teklif
+src.sysmessage @1976,1,1,1 Teklif yapildi. Lutfen bekleyiniz.
+timer 60*120
+return 1
+
+[itemdef i_cpvp_duello_gerisayim]
+id i_memory
+type t_eq_script
+name gerisayim
+
+on=@timer
+if (<morex>==0)
+cont.say Basarilar..
+cont.go <cont.tag.koordinat3>
+try uid.<cont.tag.player1>.events e_cpvp_duello
+try uid.<cont.tag.player2>.events e_cpvp_duello
+try uid.<cont.tag.player1>.events -e_cpvp_area
+try uid.<cont.tag.player2>.events -e_cpvp_area
+try uid.<cont.tag.player1>.findlayer(1).bounce
+try uid.<cont.tag.player2>.findlayer(1).bounce
+try uid.<cont.tag.player1>.findlayer(2).bounce
+try uid.<cont.tag.player2>.findlayer(2).bounce
+try uid.<cont.tag.player1>.findlayer(31).bounce
+try uid.<cont.tag.player2>.findlayer(31).bounce
+remove
+else
+timer 1
+morex -=1
+endif
+return 1
+
+
+[function duel_cantasil]
+forcont <findlayer.21.uid> 10
+if (<type>==<args>)
+remove
+endif
+endfor
+
+
+[events e_cpvp_duello]
+
+on=@logout
+src.stone 1
+act <src.tag.cpvp_duello_rakip>
+src.timerf 2,act.sysmessage @69,1,1 <src.name> oyundan dustu 60 saniye icerisinde oyuna girmesse otomatik kazanacaksiniz.
+src.timerf 60,src.f_cpvp_duello_death
+
+on=@login
+src.TIMERF CLEAR
+src.stone 0
+
+
+//on=@itemtargon_char
+//if (<findid.i_duellocu>)
+//obj <findid.i_duellocu.uid>
+//else
+//obj <uid.<tag.cpvp_duello_rakip>.findid.i_duellocu.uid>
+//endif
+
+
+on=@spellcast
+if (<argn>==45) || (<argn>==32) || (<argn>==52) || (<argn>==24) || (<argn>==57) || (<argn>==54) || (<argn>==50) || (<argn>==49) || (<argn>==45) || (<argn>==43) || (<argn>==40) || (<argn>==39) || (<argn>==28) || (<argn>==38) || (<argn>==44) || (<argn>==58)
+src.sysmessage @1976,1,1,1 Duello'da bu buyuleri kullanamazsiniz..
+f_fizzle
+skill fail
+return 1
+endif
+
+on=@itemdclick
+if (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosionless)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_egg_ostard_olgun) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_shrink_deed) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_shrink_new) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse_brown_dk)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_runebook) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.type> == t_figurine)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<findid.i_duellocu>)
+obj <findid.i_duellocu.uid>
+else
+obj <uid.<tag.cpvp_duello_rakip>.findid.i_duellocu.uid>
+endif
+
+obj
+act
+
+
+on=@ItemEquipTest
+if (<findid.i_duellocu>)
+obj <findid.i_duellocu.uid>
+else
+obj <uid.<tag.cpvp_duello_rakip>.findid.i_duellocu.uid>
+endif
+
+if (<eval <obj.tag.poison>>==0)
+	if <act.isevent.t_weapon_poisoned>
+		src.sysmessage @33,,1 Kurallara gore silahta poison yasak.
+		return 1
+	endif
+endif
+//if (<eval <obj.tag.poison>>==0) && (strmatch(*t_weapon*,<act.type>)) && (<eval <act.morez>> >0)
+//src.sysmessage @021 Poisonlu silah kullanamazsiniz.
+//act.unequip
+//endif
+
+On=@Death
+src.stone 1
+act.stone 1
+src.tag.duelloda
+act.tag.duelloda
+src.hits <src.str>
+act.hits <act.str>
+src.duel_cantasil t_potion
+act.duel_cantasil t_potion
+src.duel_cantasil t_reagent
+act.duel_cantasil t_reagent
+src.duel_cantasil t_bandage
+act.duel_cantasil t_bandage
+src.duel_cantasil t_container
+act.duel_cantasil t_container
+src.duel_cantasil t_weapon_bolt
+act.duel_cantasil t_weapon_bolt
+src.duel_cantasil t_weapon_arrow
+act.duel_cantasil t_weapon_arrow
+
+act <tag.cpvp_duello_rakip>
+if (<findid.i_duellocu>)
+obj <findid.i_duellocu.uid>
+else
+obj <act.findid.i_duellocu.uid>
+endif
+//obj.link.go <obj.link.tag.koordinat1>
+//obj.link.tag.pvpdeyim 
+src.timerf 3,src.f_cpvp_duello_death
+return 1
+
+
+on=@Skillstart
+
+if (<action> == (skill_hiding)) || (<action> == id(skill_hiding)) || (<action> == id(skill_stealth)) || (<action> == (skill_stealth))
+src.sysmessage @,,1 Hide olamazsiniz..
+skill fail
+return 1
+endif
+
+[function f_cpvp_duello_death]
+
+
+
+
+
+
+
+
+act <tag.cpvp_duello_rakip>
+if (<findid.i_duellocu>)
+obj <findid.i_duellocu.uid>
+else
+obj <act.findid.i_duellocu.uid>
+endif
+
+
+
+
+
+
+
+obj.link.go <obj.link.tag.koordinat1>
+obj.link.tag.pvpdeyim 
+obj.link.tag.player1
+obj.link.tag.player2
+go 5333,1825 //<obj.link.tag.koordinat1>
+criminal 0
+
+if (<memoryfindtype.memory_sawcrime>)
+memoryfindtype.memory_sawcrime.remove
+endif
+tag.cpvp_duello_fame <eval <tag.cpvp_duello_fame>>
+tag.cpvp_duello_karma <eval <tag.cpvp_duello_karma>>
+tag.cpvp_duello_kills <eval <tag.cpvp_duello_kills>>
+tag.cpvp_duello_rakip
+act.go 5333,1825//<obj.link.tag.koordinat1>
+act.criminal 0
+
+if (<act.memoryfindtype.memory_sawcrime>)
+act.memoryfindtype.memory_sawcrime.remove
+endif
+act.tag.cpvp_duello_fame <eval <act.tag.cpvp_duello_fame>>
+act.tag.cpvp_duello_karma <eval <act.tag.cpvp_duello_karma>>
+act.tag.cpvp_duello_kills <eval <act.tag.cpvp_duello_kills>>
+act.tag.cpvp_duello_rakip
+
+if !<ctag.duello_beraber>
+src.message @33,,1 Duelloyu kaybettiniz...
+endif
+//src.events +e_safe2
+src.findid.i_bleeder.remove
+src.findid.i_rune_poison.remove
+src.findid.i_memory_poison_new.remove
+src.update
+src.f_fizzle
+src.hits 100
+if !<ctag.duello_beraber>
+act.message @69,,1 Tebrikler..Duelloyu kazandiniz!
+endif
+//act.events +e_safe2
+act.findid.i_bleeder.remove
+act.findid.i_memory_poison_new.remove
+act.findid.i_rune_poison.remove
+act.hits 100
+act.update
+act.f_fizzle
+src.stone 0
+act.stone 0
+
+//if !(strmatch('<src.account.lastip>','<act.account.lastip>')) //Multi Test
+act.duello5
+//endif
+
+//if (strmatch('<src.account.lastip>','<act.account.lastip>'))
+//act.sysmessage Multi karakterle puan kazanamassiniz.
+//src.sysmessage Multi karakterle puan kazanamassiniz.
+//endif
+
+obj.remove
+
+hits <str>
+
+
+if !<ctag.duello_beraber>
+if (<eval <obj.tag.bahis>> >0)
+//trysrc <act> paraver <eval <obj.tag.bahis>*2>
+act.gold += <eval <obj.tag.bahis>*2>
+act.sysmessage @1976,1,1,1 <eval <obj.tag.bahis>*2> gold bankaniza aktarildi.
+endif
+if (<eval <obj.tag.loot>>==1)
+findlayer.1.cont <findlayer.21>
+findlayer.2.cont <findlayer.21>
+findlayer.3.cont <findlayer.21>
+findlayer.4.cont <findlayer.21>
+findlayer.5.cont <findlayer.21>
+findlayer.6.cont <findlayer.21>
+findlayer.7.cont <findlayer.21>
+findlayer.8.cont <findlayer.21>
+findlayer.10.cont <findlayer.21>
+findlayer.12.cont <findlayer.21>
+findlayer.13.cont <findlayer.21>
+findlayer.17.cont <findlayer.21>
+findlayer.18.cont <findlayer.21>
+findlayer.19.cont <findlayer.21>
+findlayer.20.cont <findlayer.21>
+findlayer.22.cont <findlayer.21>
+findlayer.23.cont <findlayer.21>
+findlayer.24.cont <findlayer.21>
+findlayer.31.cont <findlayer.21>
+trysrc <act> cpvp_duello_loot <findlayer.21>
+act.sysmessage @0790,,1 Rakibinizin Loot'u Bag icinde Bankaniza Aktarilmistir.
+endif
+endif
+
+//if (strmatch(*pvp*,<act.region.name>))
+//act.events +e_cpvp_area
+//endif
+act.events -e_cpvp_duello
+//if (strmatch(*pvp*,<region.name>))
+//events +e_cpvp_area
+//endif
+events -e_cpvp_duello
+
+
+if (<eval <src.ctag.duel_area>> == 1 )
+	var.duel_1 = 0
+elseif <eval <src.ctag.duel_area>> == 2
+	var.duel_2 = 0
+elseif <eval <src.ctag.duel_area>> == 3
+	var.duel_3 = 0
+elseif <eval <src.ctag.duel_area>> == 4
+	var.duel_4 = 0
+elseif <eval <src.ctag.duel_area>> == 5
+	var.duel_5 = 0
+endif
+//return 1
+
+if <ctag.duello_beraber>
+ src.gold += <eval <obj.tag.bahis>>
+ act.gold += <eval <obj.tag.bahis>*2>
+ act.sys_error Ucretiniz bankaniza geri iade edilmistir.
+ src.sys_error Ucretiniz bankaniza geri iade edilmistir.
+ src.ctag.duello_beraber
+ act.ctag.duello_beraber
+endif
+
+if !<ctag.duello_beraber>
+serv.allclients sysmessage @38,,1 Duello Duyuru :
+serv.allclients sysmessage @0790,,1 "<src.name>" ile "<act.name>" arasındaki duelloyu "<act.name>" kazanmıştır.
+var.sonduelkazanan=<serv.rtime> - "<src.name>" ile "<act.name>" arasındaki duelloyu "<act.name>" kazanmıştır.
+endif
+obj
+act
+
+[events e_cpvp_area]
+on=@attack
+skill fail
+action -1
+return 1
+
+on=@itemdclick
+if (<act.baseid> == i_shrink_deed) || (<act.baseid> == i_pet_horse) || (<act.baseid> == i_pet_horse_brown_dk) || (<act.type> == t_figurine) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosionless) || (<act.baseid> == i_runebook) || (<act.baseid> == i_egg_ostard_olgun)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+on=@hit
+return 1
+on=@gethit
+return 1
+on=@spellcast
+if !(<src.uid>==<act.uid>)
+f_fizzle
+return 1
+endif
+on=@skillgain
+return 1
+
+
+[events e_cpvp_area_delucia]
+on=@attack
+skill fail
+action -1
+return 1
+
+on=@itemdclick
+if (<act.baseid> == i_shrink_deed) || (<act.baseid> == i_pet_horse) || (<act.baseid> == i_pet_horse_brown_dk) || (<act.type> == t_figurine) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosionless) || (<act.baseid> == i_runebook) || (<act.baseid> == i_egg_ostard_olgun)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+on=@hit
+return 1
+on=@gethit
+return 1
+on=@spellcast
+if !(<src.uid>==<act.uid>)
+f_fizzle
+return 1
+endif
+on=@skillgain
+return 1
+
+
+[events e_duellogiris]
+
+on=@hit
+If !(<act.uid> == <src.uid>)
+src.sysmessage @38,,1 Bu alanda sadece Kendinize Armor ve stat buyulerini atabilirsiniz.
+return 1
+endif
+
+On=@SpellCast
+if ((<argn> == 28) || (<argn> == 24) || (<argn> == 32) || (<argn> == 33) || (<argn> == 39) || (<argn> == 40) || (<argn> == 45) || (<argn> == 46) || (<argn> == 47) || (<argn> == 49) || (<argn> == 50) || (<argn> >= 55) || (<argn> >= 44))
+	src.sysmessage @38,,1 Sadece Kendinize Armor ve stat buyulerini atabilirsiniz.
+	f_fizzle
+	return 1
+	endif
+If !(<act.uid> == <src.uid>)
+src.sysmessage @38,,1 Sadece Kendinize Armor ve stat buyulerini atabilirsiniz.
+return 1
+endif
+
+On=@SkillStart
+if (<action> == id(skill_hiding)) || (<action> == skill_hiding) || (<action> == id(skill_stealth)) || (<action> == skill_stealth)
+src.sysmessage @07a1 Burada bunu yapamazsiniz.
+skill fail
+return 1
+endif
+mana <int>
+If !(<act.uid> == <src.uid>)
+src.sysmessage @38,,1 Bu alanda sadece Kendinize Armor ve stat buyulerini atabilirsiniz.
+return 1
+endif
+
+on=@itemdclick
+if (<act.baseid> == i_shrink_deed) || (<act.baseid> == i_pet_horse) || (<act.baseid> == i_pet_horse_brown_dk) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosionless) || (<act.baseid> == i_runebook) || (<act.type> == t_figurine)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+
+
+
+
+[function paraver]
+serv.newitem i_gold
+new.amount <eval <obj.tag.bahis>*2>
+new.bounce
+
+[Function Kafesle_duel]
+//timerf 0,stam 0 // stam sifirlaki yürümesinler.
+//src.newitem i_duel_berabere
+//src.new.timer <eval 60*10>
+//src.new.equip
+//src.criminal
+//ctag.duello_beraber 1
+//src.ctag.duello_beraber 1
+//sysmessage @69,,1 Staminiz duello basladiginda fullenecektir.
+timerf 9,stam <dex>
+timerf 2,hits <str>
+timerf 2,mana <int> // stam basabilirsin duello basladi.
+// sincerly duello
+timerf 0,say 10 saniye sonra basliyor...
+timerf 1,sys_duello 9
+timerf 2,sys_duello 8
+timerf 3,sys_duello 7
+timerf 4,sys_duello 6
+timerf 5,sys_duello 5
+timerf 6,sys_duello 4
+timerf 7,sys_duello 3
+timerf 8,sys_duello 2
+timerf 9,sys_duello 1
+timerf 10,say  Basla 
+
+
+SERV.NEWITEM=065
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 1,1 
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=064
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 1,0
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=064
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE -1,0
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=064
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE -1,1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=063
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 0,1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=063
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 0,-1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=066
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE -1,-1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=063
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 1,-1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+
+
+[Itemdef i_Kafes_timer]
+Name Osman
+Id i_handr_1
+type t_eq_script
+
+ON=@Create
+ATTR attr_decay
+MORE1=9
+COLOR=0480
+
+ON=@Equip
+TIMER=1
+
+ON=@Timer
+if ( <cont> )
+if ( <more1> )
+cont.sysmessage (<more1>)>
+more1=<more1>-1
+TIMER=1
+return 1
+endif
+endif
+Remove
+RETURN 1
+
+///////////////////////////////////////////////////////////////////////////////////
+
+SERV.NEWITEM=065
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 1,1 
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=064
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 1,0
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=064
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE -1,0
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=064
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE -1,1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=063
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 0,1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=063
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 0,-1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=066
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE -1,-1
+NEW.ATTR=00002 
+NEW.TIMER=10
+
+SERV.NEWITEM=063
+NEW.TYPE=t_normal 
+NEW.COLOR=0455
+NEW.P=<P> 
+NEW.MOVE 1,-1
+NEW.ATTR=00002 
+NEW.TIMER=10
+[eof]

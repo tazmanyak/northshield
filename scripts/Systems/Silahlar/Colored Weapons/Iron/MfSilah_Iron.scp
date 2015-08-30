@@ -1,0 +1,356 @@
+﻿
+////////////////////////////////////////////////////////////////
+[ITEMDEF 0df0]
+DEFNAME=i_staff_black
+TYPE=T_WEAPON_MACE_STAFF
+FLIP=1
+DAM=13,16
+SPEED=31
+SKILL=MaceFighting
+REQSTR=35
+TWOHANDS=Y
+WEIGHT=6
+SKILLMAKE=CARPENTRY 75.9, t_carpentry
+RESOURCES=6 i_log
+DUPELIST=0df1
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Black Staves
+DESCRIPTION=Black Staff
+range 2
+
+ON=@Create
+HITPOINTS=40
+tag0.upgradable 1
+
+MOREY=10.0
+
+on=@equip
+//src.events +e_macebonus
+src.events +e_stam
+src.events +e_dismount
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+src.events -e_dismount
+
+[ITEMDEF 0df1]
+DUPEITEM=0df0
+
+
+///////////////////////////////////////////////////////////////
+//////// MACES
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+//////// WAR HAMMERS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01438]
+DEFNAME=i_hammer_war
+RESOURCES=16 i_ingot_iron
+WEIGHT=10
+TYPE=T_WEAPON_MACE_SMITH
+FLIP=1
+DAM=17,20
+SPEED=3.7
+SKILL=MaceFighting
+REQSTR=95
+TWOHANDS=Y
+DUPELIST=01439
+SKILLMAKE=BLACKSMITHING 34.2
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=War Hammers
+DESCRIPTION=War Hammer
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_macebonus
+src.events +e_stam
+src.events +e_blinded
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+src.events -e_blinded
+
+[ITEMDEF 01439]
+DUPEITEM=01438
+
+//////////////////////////////
+[ITEMDEF 0f5c]
+DEFNAME=i_mace
+RESOURCES=6 i_ingot_iron
+TYPE=T_WEAPON_MACE_SMITH
+FLIP=1
+dam 14,16
+speed=34
+SKILL=MaceFighting
+REQSTR=45
+TWOHANDS=N
+WEIGHT=14
+SKILLMAKE=BLACKSMITHING 14.5
+DUPELIST=0f5d
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Maces
+DESCRIPTION=Mace
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam
+
+///////////////////////////////////////////////////////////////
+//////// WAR MACES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 01406]
+DEFNAME=i_mace_war
+RESOURCES=14 i_ingot_iron
+WEIGHT=17
+TYPE=T_WEAPON_MACE_SMITH
+FLIP=1
+dam 15,19
+speed=3.7
+SKILL=MaceFighting
+REQSTR=80
+TWOHANDS=N
+DUPELIST=01407
+SKILLMAKE=BLACKSMITHING 28.0
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=War Maces
+DESCRIPTION=War Mace
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_macebonus
+src.events +e_stam
+src.events +e_armorignore_mf
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam 
+src.events -e_armorignore_mf
+
+///////////////////////////////////////////////////////////////
+//////// CLUBS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013b3]
+DEFNAME=i_club
+RESOURCES=4 i_log
+WEIGHT=9
+TYPE=T_WEAPON_MACE_SMITH
+FLIP=1
+dam 11,14
+speed=45
+SKILL=MaceFighting
+REQSTR=40
+TWOHANDS=N
+DUPELIST=013b4
+SKILLMAKE=CARPENTRY 65.0, t_carpentry
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Clubs
+DESCRIPTION=Club
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam 
+
+///////////////////////////////////////////////////////////////
+//////// DIAMOND MACES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 02d24]
+DEFNAME=i_diamond_mace
+Name=Diamond Mace
+TYPE=T_WEAPON_MACE_SHARP
+DAM=14,17
+SKILL=Macefighting
+REQSTR=35
+TWOHANDS=N
+SKILLMAKE=BLACKSMITHING 70.0
+RESOURCES=20 i_ingot_iron
+SPEED=25
+WEIGHT=10.0
+DUPELIST=02d30
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Diamond Maces
+DESCRIPTION=Diamond Mace
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam 
+
+///////////////////////////////////////////////////////////////
+//////// WAR AXES
+///////////////////////////////////////////////////////////////
+[ITEMDEF 013af]
+DEFNAME=i_axe_war
+RESOURCES=16 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 39.1
+WEIGHT=8
+TYPE=T_WEAPON_MACE_SHARP
+SKILL=MaceFighting
+FLIP=1
+speed=42
+dam 12,15
+REQSTR=35
+TWOHANDS=N
+DUPELIST=013b0
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Axes
+DESCRIPTION=War Axe
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam  
+
+///////////////////////////////////////////////////////////////
+//////// HAMMER PICKS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0143c]
+DEFNAME=i_hammer_pick
+WEIGHT=9
+TYPE=T_WEAPON_MACE_SMITH
+FLIP=1
+dam 15,15
+speed 3.5
+SKILL=MaceFighting
+REQSTR=45
+TWOHANDS=Y
+DUPELIST=0143d
+SKILLMAKE=BLACKSMITHING 34.2
+RESOURCES=16 i_ingot_iron
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Maces & Hammers
+DESCRIPTION=Hammer Pick
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_blinded
+src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam 
+src.events -e_blinded
+
+///////////////////////////////////////////////////////////////
+//////// MAULS
+///////////////////////////////////////////////////////////////
+[ITEMDEF 0143a]
+DEFNAME=i_maul
+RESOURCES=10 i_ingot_iron
+WEIGHT=10.0
+TYPE=T_WEAPON_MACE_SMITH
+FLIP=1
+speed=3.8
+dam 16,18
+SKILL=MaceFighting
+REQSTR=45
+TWOHANDS=N
+DUPELIST=0143b
+SKILLMAKE=BLACKSMITHING 19.4
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Mauls
+DESCRIPTION=Maul
+
+ON=@Create
+  
+tag0.magicweapon
+tag0.upgradable 1
+
+	MOREY=10.0
+	//ATTR=attr_magic
+	HITPOINTS=40
+	
+
+on=@equip
+src.events +e_blinded
+src.events +e_macebonus
+src.events +e_stam
+
+on=@unequip
+src.events -e_macebonus
+src.events -e_stam 
+src.events -e_blinded
+[EOF]

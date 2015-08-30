@@ -1,0 +1,110 @@
+[CHARDEF c_h_shipwright]
+DEFNAME=C_H_SHIPWRIGHT
+NAME=#NAMES_HUMANMALE the Shipwright
+ID=C_MAN
+DESIRES=i_gold,e_notoriety,t_log,t_board
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobShipwright
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_rehello
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Shipwright (male)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={66 80}
+	DEX={71 85}
+	INT={61 75}
+
+	PARRYING={15.0 35.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	TACTICS={15.0 35.0}
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_pants
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_SHIP
+	BUY=VENDOR_B_SHIP
+
+
+[CHARDEF c_h_shipwright_f]
+DEFNAME=C_H_SHIPWRIGHT_F
+NAME=#NAMES_HUMANFEMALE the Shipwright
+ID=C_WOMAN
+DESIRES=i_gold,e_notoriety,t_log,t_board
+AVERSIONS=t_TRAP,t_eerie_stuff
+
+TSPEECH=spk_human_prime
+TSPEECH=jobShipwright
+TSPEECH=spk_shopkeep
+TSPEECH=spk_rehello
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=Civilized
+SUBSECTION=Tradesmen
+DESCRIPTION=Shipwright (female)
+
+ON=@Create
+	NPC=brain_vendor
+	COLOR=colors_skin
+
+	STR={66 80}
+	DEX={71 85}
+	INT={61 75}
+
+	PARRYING={15.0 35.0}
+	SWORDSMANSHIP={15.0 38.0}
+	WRESTLING={15.0 38.0}
+	TACTICS={15.0 35.0}
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=RANDOM_LIGHT
+	ITEM=i_shirt_plain
+	COLOR=colors_all
+	ITEM=random_skirt
+	COLOR=colors_all
+	ITEM=random_shoes
+	COLOR=colors_neutral
+	ITEM=random_coin_purse
+	SELL=VENDOR_S_SHIP
+	BUY=VENDOR_B_SHIP
+
+[EOF]

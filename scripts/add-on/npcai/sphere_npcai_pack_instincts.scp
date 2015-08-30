@@ -1,0 +1,142 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[EVENTS e_Horses]
+on=@dclick
+if !(<src.flags>&statf_dead) && (<src.account.plevel> > 1) && !(strmatch('<src.account>','tazmanyak')) && !(strmatch('<src.account>','korayuras')) && !(strmatch('<src.account>','rasengan')) && !(strmatch('<src.account>','hakanabe'))// && !(strmatch('<src.account>','stf_yigit'))
+if ((<npc> == brain_monster) || (<npc> == brain_dragon) || (<npc> == brain_undead) || (<npc> == brain_animal) || (<baseid> == c_demon_balron))
+src.sysmessage @38 Yetkili charinizla bu islemi yapamazsiniz!
+src.sysmessage @50 Yapmis oldugunuz islem <src.account>.txt log dosyasina kaydedildi.
+src.writefile logs\stafflog\<src.account.name>---<strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi.Binege Binmeye Calisti.
+return 1
+endif
+endif
+endif
+
+on=@hunger
+if <findid.memory_ipet>
+memoryfindtype.memory_ipet.link.sysmessage @46,3,1 Binegibizin aclik seviyesi degisti : <food> !
+endif
+
+if (<food> > 50)
+	food 50
+endif	
+if (<food> == 2) && !(<flags>&statf_ridden)  //binilmiyorsa
+	sayu *acliktan basi doner*
+elseif (<food> == 2) && (<flags>&statf_ridden)	//binen varsa
+	memoryfindtype.memory_ipet.link.message @46,3,1 Bineginizin acliktan basi donuyor.
+elseif (<food> == 1) && !(<flags>&statf_ridden) //binilmiyorsa
+	sayu *acliktan olmek uzeredir*
+elseif (<food> == 1) && (<flags>&statf_ridden) //binen varsa
+	memoryfindtype.memory_ipet.link.message @46,3,1 Bineginiz acliktan olmek uzeredir.	
+elseif (<food> == 0) && !(<flags>&statf_ridden) //binilmiyorsa
+	sayu *acliktan olur*
+	hits 0
+	//act.equip
+elseif (<food> == 0) && (<flags>&statf_ridden) //binen varsa
+	memoryfindtype.memory_ipet.link.sysmessage @46,3,1 Bineginiz acliktan olmustur.
+	remove
+endif
+
+on=@attack
+//if (<src.isevent.e_safe>) || (<src.isevent.e_mekan>) || (<src.isevent.e_cpvp_duello>) || (<src.isevent.e_safe2>) || (<src.isevent.e_sp>) || (<src.isevent.e_chs>) || (<src.isevent.e_brt>) || (<src.isevent.e_xandloquest>) || (<src.isevent.e_questtroll>) || (<src.isevent.e_skillkas>) || (strmatch("<region.name>","monster zone"))
+//skill fail
+//return 1
+
+on=@click
+if (strmatch("<*","<name>") || (strmatch(">*","<name>") || (strmatch("#*","<name>") ||(strmatch("@*","<name>") || (strmatch("1*","<name>") || (strmatch("!*","<name>")
+name asd
+//remove
+return 1
+endif
+if (strmatch("bank","<name>") || (strmatch("balance*","<name>")
+name Fixed
+return 1
+endif
+update
+if (<memoryfindtype.memory_ipet>) 
+	message @50,1,1 [* <memoryfindtype.memory_ipet.link.name> *]
+	//var.sahipim <memoryfindtype.memory_ipet.link.name>
+endif
+//if (<fame> > 9990) 
+//	message @50,1,1 [* <memoryfindtype.memory_ipet.link.name> *]
+//	var.sahipim <memoryfindtype.memory_ipet.link.name>
+//	message @0481,1,1 <sex Lord/Lady> <name>
+//	return 1
+endif
+
+on=@Death
+serv.writefile C:\SERVER_LOGLARI\Tame_Tutanaklari\Binek_Olum.txt <serv.rtime> Binegin Sahibi : <memoryfindtype.memory_ipet.link.name> -- Olen Binegin adi : <name> -- Olduren : <act.name>
+
+[EVENTS e_Ostards]
+on=@dclick
+if !(<src.flags>&statf_dead) && (<src.account.plevel> > 1) && !(strmatch('<src.account>','tazmanyak')) && !(strmatch('<src.account>','korayuras')) && !(strmatch('<src.account>','rasengan')) && !(strmatch('<src.account>','oscar1')) && !(strmatch('<src.account>','stf_yigit'))
+if ((<npc> == brain_monster) || (<npc> == brain_dragon) || (<npc> == brain_undead) || (<npc> == brain_animal) || (<baseid> == c_demon_balron))
+src.sysmessage @38 Yetkili charinizla bu islemi yapamazsiniz!
+src.sysmessage @50 Yapmis oldugunuz islem <src.account>.txt log dosyasina kaydedildi.
+src.writefile logs\stafflog\<src.account.name>---<strsub 8 2 <serv.rtime>>-<strsub 5 2 <serv.rtime>>-<strsub 0 4 <serv.rtime>>.txt <strsub 11 8 <serv.rtime>> saatinde [ <src.tag.komut> ] komutu [ Uid : <src.targ.uid> ] & [ <src.targ.name> ] isimli objeye kullanildi.Binege Binmeye Calisti.
+return 1
+endif
+endif
+endif
+
+on=@hunger
+if <findid.memory_ipet>
+memoryfindtype.memory_ipet.link.sysmessage @46,3,1 Binegibizin aclik seviyesi degisti : <food> !
+endif
+
+if (<food> > 50)
+	food 50
+endif	
+if (<food> == 2) && !(<flags>&statf_ridden)  //binilmiyorsa
+	sayu *acliktan basi doner*
+elseif (<food> == 2) && (<flags>&statf_ridden)	//binen varsa
+	memoryfindtype.memory_ipet.link.message @46,3,1 Bineginizin acliktan basi donuyor.
+elseif (<food> == 1) && !(<flags>&statf_ridden) //binilmiyorsa
+	sayu *acliktan olmek uzeredir*
+elseif (<food> == 1) && (<flags>&statf_ridden) //binen varsa
+	memoryfindtype.memory_ipet.link.message @46,3,1 Bineginiz acliktan olmek uzeredir.	
+elseif (<food> == 0) && !(<flags>&statf_ridden) //binilmiyorsa
+	sayu *acliktan olur*
+	hits 0
+	//act.equip
+elseif (<food> == 0) && (<flags>&statf_ridden) //binen varsa
+	memoryfindtype.memory_ipet.link.sysmessage @46,3,1 Bineginiz acliktan olmustur.
+	remove
+endif
+
+on=@click
+if (strmatch("<*","<name>") || (strmatch(">*","<name>") || (strmatch("#*","<name>") ||(strmatch("@*","<name>") || (strmatch("1*","<name>") || (strmatch("!*","<name>")
+name asd
+//remove
+return 1
+endif
+if (strmatch("bank","<name>") || (strmatch("balance*","<name>")
+name Fixed
+return 1
+endif
+update
+if (<memoryfindtype.memory_ipet>) 
+	message @50,1,1 [* <memoryfindtype.memory_ipet.link.name> *]
+	//var.sahipim <memoryfindtype.memory_ipet.link.name>
+endif
+//if (<fame> > 9990) 
+//	message @50,1,1 [* <memoryfindtype.memory_ipet.link.name> *]
+//	var.sahipim <memoryfindtype.memory_ipet.link.name>
+//	message @0481,1,1 <sex Lord/Lady> <name>
+//	return 1
+endif
+
+on=@Death
+//serv.writefile C:\AppServ\www\web\binekoldurme.txt <serv.rtime> Binegin Sahibi : <var.sahipim> -- Olen Binegin adi : <name> -- Olduren : <act.name>
+serv.writefile C:\SERVER_LOGLARI\Tame_Tutanaklari\Binek_Olum.txt <serv.rtime> Binegin Sahibi : <memoryfindtype.memory_ipet.link.name> -- Olen Binegin adi : <name> -- Olduren : <act.name>
+
+[EVENTS e_Equine]
+[EVENTS e_Daemon]
+
+[eof]

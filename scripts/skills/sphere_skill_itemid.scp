@@ -1,0 +1,65 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[SKILL 3]
+DEFNAME=SKILL_APPRAISE
+KEY=ItemID
+TITLE=Merchant
+PROMPT_MSG=@,,2 500343
+DELAY=0.0
+//ADV_RATE=2.5,50.0,200.0
+//ADV_RATE=0,0,0
+STAT_STR=0
+STAT_INT=85
+STAT_DEX=0
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=25
+
+on=@wait
+if <def.scp.NewSkills_ItemID> == 1
+sysmessage @,,2 500343
+targetf f_itemid_start
+f_skill_delay <getargv 0 <def.skill.3.waittime>>
+return 1
+endif
+
+ON=@Select
+f_skill_delay <getargv 0 <def.skill.3.waittime>>
+
+ON=@Success
+f_skill_delay <getargv 1 <def.skill.3.waittime>>
+
+ON=@Fail
+f_skill_delay <getargv 2 <def.skill.3.waittime>>
+SRC.MESSAGE @,,2 500334
+
+[function f_itemid_start]
+if <skillusequick itemid <r60>>
+	if <argo.isitem>
+		if (<argo.isarmor>) || (<argo.isweapon>)
+		argo.attr |= attr_identified
+		argo.trigger @click
+		skillgain itemid <eval (<itemid> / 10) + 1>
+		f_skill_delay <getargv 1 <def.skill.3.waittime>>
+		else
+		sysmessage @,,2 500353 // You are not certain...
+		f_skill_delay <getargv 2 <def.skill.3.waittime>>
+		endif
+	elif <argo.ischar>
+		argo.trigger @click
+		f_skill_delay <getargv 1 <def.skill.3.waittime>>
+	endif
+else
+	sysmessage @,,2 500353 // You are not certain...
+	skillgain itemid <eval (<itemid> / 7) + 1>
+	f_skill_delay <getargv 2 <def.skill.3.waittime>>
+endif
+
+[eof]

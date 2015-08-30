@@ -1,0 +1,28 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 20-DEC-2010, WildGenie
+VERSION=0.56b
+
+[ITEMDEF i_malekis_honor]
+ID=i_shield_kite_metal
+NAME=Maleki´s Honor
+TEVENTS=t_set_juggernaut
+TEVENTS=t_iprop
+REQSTR=45
+WEIGHT=7
+CATEGORY=Provisions - Armor
+SUBSECTION=Kite Shield (Metal)
+DESCRIPTION=Maleki´s Honor
+TAG.ResPhysical=3
+TAG.ResFire=3
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@Create
+HITPOINTS={46 60}
+
+[EOF]

@@ -1,0 +1,102 @@
+﻿//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Coruja - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Enables the new Resistances used on AoS Combat System
+// This ONLY works for displaying the values on the status menu.
+[TYPEDEF t_jewelry]
+on=@equiptest
+if <tag.fastercasting>
+	if !<src.puremage>
+		src.sys_error Bu silahı sadece Pure Mage karakterler kullanabilir.
+		return 1
+	endif
+endif
+on=@click
+if (strmatch("<tag0.magicweapon>","Ruin"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Might"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Force"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+
+if (strmatch("<tag0.magicweapon>","Power"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif 
+
+if (strmatch("<tag0.magicweapon>","Vanquishing"))
+	message @07a1,1,1 [ <tag0.magicweapon> ]
+endif
+message @,,1 <name> <qval <eval <tag.fastercasting>>==1 ?[FR/FC]:>
+return 1
+
+[TYPEDEF t_armor]
+ON=@Click
+message @33,1,1 [ Sağlamlık: <hitpoints>/<maxhits> ]
+message @,,1 <name> <qval <tag.kaplama>?(Kaplama):>
+return 1
+
+
+//IF (<TAG0.ResPhysical>)
+//  SRC.SYSMESSAGE @,,1 Physical Resist <dTAG0.ResPhysical>%
+//ENDIF
+//IF (<TAG0.ResFire>)
+//  SRC.SYSMESSAGE @,,1 Fire Resist <dTAG0.ResFire>%
+//ENDIF
+//IF (<TAG0.ResCold>)
+//  SRC.SYSMESSAGE @,,1 Cold Resist <dTAG0.ResCold>%
+//ENDIF
+//IF (<TAG0.ResPoison>)
+//  SRC.SYSMESSAGE @,,1 Poison Resist <dTAG0.ResPoison>%
+//ENDIF
+//IF (<TAG0.ResEnergy>)
+//  SRC.SYSMESSAGE @,,1 Energy Resist <dTAG0.ResEnergy>%
+//ENDIF
+
+ON=@ClientToolTip
+IF (<TAG0.ResPhysical>)
+  SRC.AddCliloc 1060403,<dTAG0.ResPhysical>
+ENDIF
+IF (<TAG0.ResFire>)
+  SRC.AddCliloc 1060405,<dTAG0.ResFire>
+ENDIF
+IF (<TAG0.ResCold>)
+  SRC.AddCliloc 1060404,<dTAG0.ResCold>
+ENDIF
+IF (<TAG0.ResPoison>)
+  SRC.AddCliloc 1060406,<dTAG0.ResPoison>
+ENDIF
+IF (<TAG0.ResEnergy>)
+  SRC.AddCliloc 1060407,<dTAG0.ResEnergy>
+ENDIF
+
+ON=@Equip
+//SRC.ModAR += <TAG0.ResPhysical>
+//SRC.ResFire += <TAG0.ResFire>
+//SRC.ResCold += <TAG0.ResCold>
+//SRC.ResPoison += <TAG0.ResPoison>
+//SRC.ResEnergy += <TAG0.ResEnergy>
+
+ON=@Unequip
+//SRC.ModAR -= <TAG0.ResPhysical>
+//SRC.ResFire -= <TAG0.ResFire>
+//SRC.ResCold -= <TAG0.ResCold>
+//SRC.ResPoison -= <TAG0.ResPoison>
+//SRC.ResEnergy -= <TAG0.ResEnergy>
+
+[eof]

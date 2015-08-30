@@ -1,0 +1,22 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// pyromapes2k - Base crafting system used in here
+// coruja - Updated to be more OSI compatible
+// ShiryuX - Updated to the scriptpack and tweaked many parts of it
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// OSI Crafting System
+
+[events e_PlayerCraftingEvent]
+
+
+[eof]

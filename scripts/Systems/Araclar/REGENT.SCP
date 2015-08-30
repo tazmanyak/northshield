@@ -1,0 +1,248 @@
+///Son guncelleme : 24 Haziran 2009 - Destroy
+
+[TEMPLATE loot_reg_120] 
+CATEGORY=Item Templates 
+SUBSECTION=Reg Templates 
+DESCRIPTION=Reg Temp 
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,120
+ITEM=i_reag_blood_moss,120
+ITEM=i_reag_garlic,120
+ITEM=i_reag_ginseng,120
+ITEM=i_reag_mandrake_root,120
+ITEM=i_reag_nightshade,120
+ITEM=i_reag_sulfur_ash,120
+ITEM=i_reag_spider_silk,120
+
+[TEMPLATE loot_reg_90] 
+CATEGORY=Item Templates 
+SUBSECTION=Reg Templates 
+DESCRIPTION=Reg Temp 
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,90
+ITEM=i_reag_blood_moss,90
+ITEM=i_reag_garlic,90
+ITEM=i_reag_ginseng,90
+ITEM=i_reag_mandrake_root,90
+ITEM=i_reag_nightshade,90
+ITEM=i_reag_sulfur_ash,90
+ITEM=i_reag_spider_silk,90
+
+[TEMPLATE loot_reg_60] 
+CATEGORY=Item Templates 
+SUBSECTION=Reg Templates 
+DESCRIPTION=Reg Temp 
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,60
+ITEM=i_reag_blood_moss,60
+ITEM=i_reag_garlic,60
+ITEM=i_reag_ginseng,60
+ITEM=i_reag_mandrake_root,60
+ITEM=i_reag_nightshade,60
+ITEM=i_reag_sulfur_ash,60
+ITEM=i_reag_spider_silk,60
+
+[TEMPLATE loot_reg_30] 
+CATEGORY=Item Templates 
+SUBSECTION=Reg Templates 
+DESCRIPTION=Reg Temp 
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,30
+ITEM=i_reag_blood_moss,30
+ITEM=i_reag_garlic,30
+ITEM=i_reag_ginseng,30
+ITEM=i_reag_mandrake_root,30
+ITEM=i_reag_nightshade,30
+ITEM=i_reag_sulfur_ash,30
+ITEM=i_reag_spider_silk,30
+
+
+
+
+[ITEMDEF i_crystal_30]
+ID=01f19
+NAME=Reg Kristali [30]
+RESOURCES=4 i_rock_plain
+type=t_crystal_ball
+VALUE=1550
+
+CATEGORY=VirUS
+SUBSECTION=Buy
+DESCRIPTION=Reagents Crystal [30]
+
+ON=@CREATE
+ATTR=attr_newbie
+
+ON=@Click
+message @95,,1 [30] R.Crystal
+return 1
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu ancak cantanizda iken kullanabilirsiniz.
+	return 1
+endif
+SRC.sysMESSAGE @95,,1 * 30'lik Reg Crystal'i Olusturuldu *
+src.newitem loot_reg_30
+src.act.cont <cont>
+remove
+return 1
+
+[ITEMDEF i_crystal_60]
+ID=01f19
+NAME=Reg Kristali [60]
+type=t_crystal_ball
+RESOURCES=4 i_rock_plain
+VALUE=3200
+
+CATEGORY=VirUS
+SUBSECTION=Buy
+DESCRIPTION=Reagents Crystal [Normal]
+
+ON=@CREATE
+ATTR=attr_newbie
+
+ON=@Click
+message @95,,1 [60] R.Crystal
+return 1
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu ancak cantanizda iken kullanabilirsiniz.
+	return 1
+endif
+SRC.sysMESSAGE @95,,1 * 60'lik Reg Crystal'i Olusturuldu *
+src.newitem loot_reg_60
+src.act.cont <cont>
+remove
+return 1
+
+[ITEMDEF i_crystal_90]
+ID=01f19
+NAME=Reg Kristali [90]
+type=t_crystal_ball
+RESOURCES=4 i_rock_plain
+VALUE=4320
+
+CATEGORY=VirUS
+SUBSECTION=Buy
+DESCRIPTION=Reagents Crystal [Maximum]
+
+ON=@CREATE
+ATTR=attr_newbie
+
+ON=@Click
+message @95,,1 [90] R.Crystal
+return 1
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu ancak cantanizda iken kullanabilirsiniz.
+	return 1
+endif
+SRC.sysMESSAGE @95,,1 * 90'lik Reg Crystal'i Olusturuldu *
+src.newitem loot_reg_90
+src.act.cont <cont>
+remove
+return 1
+
+[ITEMDEF i_crystal_120]
+ID=01f19
+NAME=Reg Kristali [120]
+RESOURCES=4 i_rock_plain
+type=t_crystal_ball
+type=t_crystal_ball
+VALUE=5350
+
+CATEGORY=VirUS
+SUBSECTION=Buy
+DESCRIPTION=Reagents Crystal [120]
+
+ON=@CREATE
+ATTR=attr_newbie
+
+ON=@Click
+message @95,,1 [120] R.Crystal
+return 1
+
+ON=@DCLICK
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu ancak cantanizda iken kullanabilirsiniz.
+	return 1
+endif
+SRC.sysMESSAGE @95,,1 * 120'lik Reg Crystal'i Olusturuldu *
+src.newitem loot_reg_120
+src.act.cont <cont>
+remove
+return 1
+
+[TEMPLATE loot_reg_120]
+CATEGORY=Item Templates
+SUBSECTION=Reg Templates
+DESCRIPTION=Reg Temp
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,120
+ITEM=i_reag_blood_moss,120
+ITEM=i_reag_garlic,120
+ITEM=i_reag_ginseng,120
+ITEM=i_reag_mandrake_root,120
+ITEM=i_reag_nightshade,120
+ITEM=i_reag_sulfur_ash,120
+ITEM=i_reag_spider_silk,120
+
+[TEMPLATE loot_reg_90]
+CATEGORY=Item Templates
+SUBSECTION=Reg Templates
+DESCRIPTION=Reg Temp
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,90
+ITEM=i_reag_blood_moss,90
+ITEM=i_reag_garlic,90
+ITEM=i_reag_ginseng,90
+ITEM=i_reag_mandrake_root,90
+ITEM=i_reag_nightshade,90
+ITEM=i_reag_sulfur_ash,90
+ITEM=i_reag_spider_silk,90
+
+[TEMPLATE loot_reg_60]
+CATEGORY=Item Templates
+SUBSECTION=Reg Templates
+DESCRIPTION=Reg Temp
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,60
+ITEM=i_reag_blood_moss,60
+ITEM=i_reag_garlic,60
+ITEM=i_reag_ginseng,60
+ITEM=i_reag_mandrake_root,60
+ITEM=i_reag_nightshade,60
+ITEM=i_reag_sulfur_ash,60
+ITEM=i_reag_spider_silk,60
+
+[TEMPLATE loot_reg_30]
+CATEGORY=Item Templates
+SUBSECTION=Reg Templates
+DESCRIPTION=Reg Temp
+CONTAINER=i_bag
+ITEM=i_reag_black_pearl,30
+ITEM=i_reag_blood_moss,30
+ITEM=i_reag_garlic,30
+ITEM=i_reag_ginseng,30
+ITEM=i_reag_mandrake_root,30
+ITEM=i_reag_nightshade,30
+ITEM=i_reag_sulfur_ash,30
+ITEM=i_reag_spider_silk,30
+
+
+[EOF]
+
+
+
+
+
+
+
+
+
+
+
+

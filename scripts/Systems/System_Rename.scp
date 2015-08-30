@@ -1,0 +1,146 @@
+﻿
+[itemdef i_renamedeed]
+name Isim Degistirme Belgesi
+id 5359
+type t_script
+value 1000000
+
+on=@create
+color 0846
+attr 04
+
+on=@click
+message @029,,1 [ Belge ]
+message @024,,1 Rename Deed
+return 1
+
+on=@dclick
+src.closealldialogs
+src.f_isimdegis
+src.ctag.renamedeed <uid>
+return 1
+
+[function isimduzenle]
+local.ilkharf=<strsub 0 1 <name>>
+local.gerisi=<strsub 1 15 <name>>
+local.1=<strtoupper(<local.ilkharf>)>
+local.2=<strtolower(<local.gerisi>)>
+name <local.1><local.2>
+name <strarg <name>>
+update
+
+[function isimsorgu]
+obj=<uid>
+forplayers 6144
+if (<obj.uid> != <uid>)
+	if (strmatch(*<obj.name>*, '<uid.<uid>.name>'))
+		obj.f_isimdegis
+		obj.stone 1
+		return 1
+	elseif strmatch(*<obj.name>*,"Avatar") || strmatch(*<obj.name>*,"Rasengan")
+		src.dialog d_isimdegis
+		src.hata Bu isim baskası tarafından kullanılıyor.
+		return 1
+	endif
+endif
+endfor
+
+
+
+[function isimsorgu_x]
+local.name <args>
+name = <local.name>
+obj=<uid>
+forchars 6144
+if (<obj.uid> != <uid>)
+	if (strmatch(*<obj.name>*, '<uid.<uid>.name>'))
+		//obj.f_isimdegis
+		//obj.stone 1
+		return 1
+	endif
+endif
+endfor
+
+[function f_isimdegis]
+src.dialog d_isimdegis
+return 1
+
+[dialog d_isimdegis]
+20,20
+nomove
+//noclose
+nodispose
+//resizepic 0 0 5120 450 400
+//resizepic 10 10 3000 430 380
+
+resizepic 0 0 9200 450 400
+gumppictiled 10 10 430 380 2624
+
+
+//dtext 25 5 0 <serv.name> Isim Menüsü
+dhtmlgump 20 50 420 200 0 0 <def.br><def.bfont_lred>Isminizi degistirirken dikkat etmeniz gerekenler; <def.br><def.br><def.bfont_lgray>* Staff nickleri kullanmak yasaktir. <def.br>* Nickinizde "@'^!" turu simgeler kullanmak yasaktir. <def.br>* Kufur içerikli nick kullanmak yasaktir. <def.br>* Baskasinin nickini degistirip kullanmak yasaktir.<def.br>* Nickinizde bosluk bırakmanız yasaktır.
+
+dhtmlgump 20 260 420 25 0 0 <def.bfont_lred>Isminizi Belirtilen Kosullarda Yazınız.
+
+resizepic 100 307 3000 250 25
+dtextentry 110 310 200 20 0 1 <src.name>
+
+dhtmlgump 140 353 100 20 0 0 Tamam
+button 100 350 4005 4006 1 0 1
+
+[dialog d_isimdegis button]
+on=0
+if !<src.ctag.isimdeistirdi>
+src.hata Isminizi değistirmeniz gerekli.
+src.dialog d_isimdegis
+return 1
+endif
+on=1
+if (strmatch('<argtxt[1]>','')
+src.hata Lütfen Bir Isim Giriniz.
+return 1
+endif
+
+
+elif !<isalfa <argtxt[1]>>
+src.sysmessage @,,1 Hatali bir isim girdiniz.
+src.sdialog d_isimdegis
+return 1
+endif
+
+if ((strlen(<argtxt[1]>) > 12) || ((strlen(<argtxt[1]>) < 4)
+src.dialog d_isimdegis
+src.hata Isminiz AZ 4, en FAZLA 12 karakter olmalidir.
+return 1
+endif
+
+if <serv.LIST.player_names.COUNT>
+	if <serv.LIST.player_names.FINDELEM "<argtxt[1]>"> != -1 
+        	src.sys_error Suanki isminiz bir oyuncu tarafindan kullanilmaktadir.Isminizi tekrar belirleyiniz.
+		src.sdialog d_isimdegis
+		//return 1
+	else
+		serv.LIST.player_names.ADD <argtxt[1]>
+   	endif
+else
+   	serv.LIST.player_names.ADD <src.name>
+	//serv.log Unique player name list created
+endif
+
+
+
+src.name <argtxt[1]>
+src.tag.isim 1
+src.isimduzenle
+src.sysmessage @044,1,1 Isminiz <argtxt[1]> olarak değistirilmistir.
+src.ctag.isimdeistirdi 1
+src.closealldialogs
+if <src.ctag.renamedeed>
+	ref1 = <src.ctag.renamedeed>
+	ref1.remove
+endif
+src.events -e_tutorial
+src.stone 0
+
+[eof]
+

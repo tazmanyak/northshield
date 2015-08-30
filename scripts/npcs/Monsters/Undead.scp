@@ -1,0 +1,1513 @@
+[CHARDEF 03]
+DEFNAME=c_zombie
+NAME=zombie
+ICON=i_pet_zombie
+SOUND=snd_monster_zombie1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=5,10
+ARMOR=15
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=20 t_meat_raw
+RESOURCES=1 i_reag_bone
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=34.2
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+TEVENTS=e_carnivores
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Zombie
+ON=@Create
+   NPC=brain_undead
+   FAME=600
+   KARMA=-600
+   STR={45 70}
+   MAXHITS={30 45}
+   DEX={30 50}
+   MAXSTAM={30 50}
+   INT={25 40}
+   MAXMANA={25 40}
+   MAGICRESISTANCE={15.0 40.0}
+   PARRYING={35.0 50.0}
+   TACTICS={35.0 50.0}
+   WRESTLING={35.0 50.0}
+   MODAR={0 5}
+   RESCOLD={20 30}
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON={5 10}
+ON=@NPCRestock
+   ITEM=loot_zombie
+   //50 - 100 Gold. Body Parts, Bones
+on=@death
+if (<act.tag0.1questvar>==1)
+src.newitem=i_head_zombie
+new.bounce
+ELSE
+if !(<act.tag0.1questvar>==1)
+return 0
+endif
+endif
+
+
+[CHARDEF 018]
+//FIXME: Summons skeletons and polymorphs into a skeleton.
+//FIXME: Can be redeemed using the sacrifice virtue.
+DEFNAME=c_lich
+NAME=lich
+ICON=i_pet_liche
+SOUND=snd_monster_liche1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,35
+ARMOR=30
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=1 i_reag_blackmoor
+BLOODCOLOR=colors_green
+MOVERATE=120
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Lich
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-8000
+   STR={170 200}
+   DEX={125 145}
+   MAXSTAM={125 145}
+   INT={275 305}
+   MAXMANA={275 305}
+   ARCHERY={50.0 70.0}
+   EVALUATINGINTEL={95.0 105.0}
+   FENCING={50.0 70.0}
+   MACEFIGHTING={50.0 70.0}
+   MAGERY={70.0 80.0}
+   MAGICRESISTANCE={120.0 190.0}
+   MEDITATION={85.0 95.0}
+   NECROMANCY={70.0 80.0}
+   PARRYING={70.0 90.0}
+   SWORDSMANSHIP={50.0 70.0}
+   TACTICS={70.0 90.0}
+   WRESTLING={50.0 70.0}
+   ITEMNEWBIE=i_spellbook
+   ADDSPELL=s_clumsy
+   ADDSPELL=s_weaken
+   ADDSPELL=s_feeblemind
+   ADDSPELL=s_harm
+   ADDSPELL=s_magic_arrow
+   ADDSPELL=s_fireball
+   ADDSPELL=s_poison
+   ADDSPELL=s_paralyze
+   ADDSPELL=s_dispel
+   addspell=s_paralyze
+   ADDSPELL=s_flamestrike
+   //ADDSPELL=s_fire_bolt
+ON=@NPCRestock
+   ITEM=loot_lich
+   //275 - 325 Gold. 2 Medium Level Scrolls, 15-25 Necromancer Reagents, Magic Items
+   //Special: Level 3 Treasure Map
+
+on=@death
+if (<act.tag0.3questvar>==1)
+src.newitem=i_staff_lich
+new.bounce
+ELSE
+if !(<act.tag0.3questvar>==1)
+return 0
+endif
+endif
+
+[CHARDEF 01a]
+DEFNAME=c_spectre
+NAME=spectre
+ICON=i_pet_ghoul
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|mt_run|MT_GHOST|MT_USEHANDS|MT_EQUIP//|MT_PASSWALLS
+DAM=11,18
+ARMOR=25
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=67.8
+TAG.DamCold=50
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Spectre
+ON=@Create
+   NPC=brain_undead
+   FAME=4000
+   KARMA=-4000
+   STR={76 100}
+   MAXHITS={46 60}
+   DEX={76 95}
+   MAXSTAM={76 95}
+   INT={36 60}
+   MAXMANA={36 60}
+   EVALUATINGINTEL={55.0 70.0}
+   MAGICRESISTANCE={55.0 70.0}
+   MAGERY={55.0 70.0}
+   PARRYING={45.0 60.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={15 25}
+   RESENERGY=0
+   RESFIRE=0
+   RESPOISON={10 20}
+ON=@NPCRestock
+   ITEM=loot_spectre
+   //50 - 100 Gold. 10 Reagents
+
+[CHARDEF 032]
+DEFNAME=c_skeleton
+NAME=skeleton
+ICON=i_pet_skeleton
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=5,11
+ARMOR=15
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=2 i_reag_bone
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=38.9
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeleton
+ON=@Create
+   NPC=brain_undead
+   FAME=450
+   KARMA=-450
+   STR={56 80}
+   MAXHITS={34 48}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={16 40}
+   MAXMANA={16 40}
+   MAGICRESISTANCE={45.0 60.0}
+   PARRYING={45.0 60.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={25 40}
+   RESENERGY={5 15}
+   RESFIRE={5 10}
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=loot_skeleton
+   //25 - 50 Gold. Bone Armor
+
+[CHARDEF 038]
+DEFNAME=c_skeleton_w_axe
+NAME=skeleton
+ICON=i_pet_skeleton
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=5,11
+ARMOR=15
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=2 i_reag_bone
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=38.9
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeleton (axe)
+ON=@Create
+   NPC=brain_undead
+   FAME=450
+   KARMA=-450
+   STR={56 80}
+   MAXHITS={34 48}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={16 40}
+   MAXMANA={16 40}
+   MAGICRESISTANCE={45.0 60.0}
+   PARRYING={45.0 60.0}
+   SWORDSMANSHIP={45.0 55.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={25 40}
+   RESENERGY={5 15}
+   RESFIRE={5 10}
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=loot_skeleton
+   ITEM=i_axe
+   //ITEM=i_axe_skeleton,1,R50
+   //25 - 50 Gold. Bone Armor
+
+[CHARDEF 039]
+DEFNAME=c_skeleton_w_sword
+NAME=skeleton
+ICON=i_pet_skeleton
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=5,11
+ARMOR=15
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=2 i_reag_bone
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=38.9
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeleton (sword and shield)
+ON=@Create
+   NPC=brain_undead
+   FAME=450
+   KARMA=-450
+   STR={56 80}
+   MAXHITS={34 48}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={16 40}
+   MAXMANA={16 40}
+   MAGICRESISTANCE={45.0 60.0}
+   PARRYING={45.0 60.0}
+   SWORDSMANSHIP={45.0 55.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={25 40}
+   RESENERGY={5 15}
+   RESFIRE={5 10}
+   RESPOISON={25 35}
+ON=@NPCRestock
+   ITEM=loot_skeleton
+   ITEM=i_scimitar
+//   ITEM=i_scimitar_skeleton,1,R50
+   //25 - 50 Gold. Bone Armor
+
+[CHARDEF 04e]
+//FIXME: Summons lesser monsters and polymorphs into one.
+//FIXME: Cannot be provoked
+DEFNAME=c_liche_ancient
+NAME=ancient liche
+ICON=i_pet_liche
+SOUND=snd_monster_liche1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=35,69
+ARMOR=55
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=3 i_reag_blackmoor
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=135.9
+TAG.DamCold=40
+TAG.DamEnergy=40
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Liche (ancient)
+ON=@Create
+   DORAND 5
+   BEGIN
+      NAME=Almonjin
+      TITLE=The Foreseeing Eye
+   END
+   BEGIN
+      NAME=Baratoz
+      TITLE=Keeper of the Pit
+   END
+   BEGIN
+      NAME=Anshu
+      TITLE=The Breath of Life
+   END
+   BEGIN
+      NAME=Maliel
+      TITLE=The Hand of Fate
+   END
+   BEGIN
+      NAME=Kaltivel
+      TITLE=The Lorekeeper
+   END
+   ENDDO
+   NPC=brain_monster
+   FAME=23000
+   KARMA=-23000
+   STR={216 305}
+   MAXHITS={560 595}
+   DEX={96 115}
+   MAXSTAM={96 115}
+   INT={966 1045}
+   MAXMANA={225 269}
+   ARCHERY={75.0 100.0}
+   EVALUATINGINTEL={120.0 130.0}
+   FENCING={75.0 100.0}
+   MACEFIGHTING={75.0 100.0}
+   MAGERY={120.0 130.0}
+   MAGICRESISTANCE={175.0 200.0}
+   MEDITATION={100.0 102.0}
+   NECROMANCY={120.0 130.0}
+   PARRYING={90.0 100.0}
+   SWORDSMANSHIP={75.0 100.0}
+   TACTICS={90.0 100.0}
+   WRESTLING={75.0 100.0}
+   MODAR={0 10}
+   RESCOLD={50 60}
+   RESENERGY={25 30}
+   RESFIRE={25 30}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   ITEM=loot_lich_ancient
+   //1500 - 1700 Gold. 150-200 Necromancy Reagents, 2 Medium Level Scrolls, Magic Items
+   //Special: Level 5 Treasure Map
+
+on=@death
+if (<act.tag0.5questvar>==1)
+src.newitem=i_staff_alichl
+new.bounce
+ELSE
+if !(<act.tag0.5questvar>==1)
+return 0
+endif
+endif
+
+
+
+[CHARDEF 04f]
+DEFNAME=c_liche_lord
+NAME=liche lord
+ICON=i_pet_liche
+SOUND=snd_monster_liche1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=30,38
+ARMOR=40
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=1 i_reag_blackmoor
+BLOODCOLOR=colors_green
+MOVERATE=120
+TAG.Barding.Diff=106.4
+TAG.DamCold=60
+TAG.DamEnergy=40
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Liche Lord
+ON=@Create
+   NPC=brain_monster
+   FAME=18000
+   KARMA=-18000
+   STR={416 505}
+   MAXHITS={250 303}
+   DEX={146 165}
+   MAXSTAM={146 165}
+   INT={566 655}
+   MAXMANA={566 655}
+   ARCHERY={60.0 80.0}
+   EVALUATINGINTEL={90.0 100.0}
+   FENCING={60.0 80.0}
+   MACEFIGHTING={60.0 80.0}
+   MAGERY={90.0 100.0}
+   MAGICRESISTANCE={150.0 200.0}
+   NECROMANCY={90.0 100.0}
+   PARRYING={50.0 70.0}
+   SWORDSMANSHIP={60.0 80.0}
+   TACTICS={50.0 70.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD={50 60}
+   RESENERGY={40 50}
+   RESFIRE={30 40}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   ITEM=loot_liche_lord
+   
+
+[CHARDEF 052]
+//FIXME: cannot be provoked
+DEFNAME=c_dark_guardian
+NAME=dark guardian
+ICON=i_pet_liche
+SOUND=snd_monster_liche1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=43,48
+ARMOR=40
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=1 i_reag_blackmoor
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=88.1
+TAG.DamCold=40
+TAG.DamEnergy=50
+TAG.Slayer=SLAYER_UNDEAD
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Dark Guardian
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-8000
+   STR={126 150}
+   MAXHITS={153 179}
+   DEX={101 120}
+   MAXSTAM={101 120}
+   INT={201 235}
+   MAXMANA={201 235}
+   ARCHERY={50.0 70.0}
+   EVALUATINGINTEL={40.0 50.0}
+   FENCING={50.0 70.0}
+   MACEFIGHTING={50.0 70.0}
+   MAGERY={50.0 60.0}
+   MAGICRESISTANCE={50.0 70.0}
+   MEDITATION={85.0 95.0}
+   PARRYING={50.0 70.0}
+   SWORDSMANSHIP={50.0 70.0}
+   TACTICS={50.0 70.0}
+   WRESTLING={50.0 70.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={40 50}
+   RESFIRE={20 45}
+   RESPOISON={20 45}
+ON=@NPCRestock
+   ITEM=loot_dark_guardian
+   //400 - 500 Gold. 2 Medium Level Scrolls, 15-25 Necromancy Reagents
+   //Special: Level 1 Treasure Map, Level 2 Treasure Map, Level 3 Treasure Map, 30 Daemon Bones
+
+[CHARDEF 068]
+//FIXME: Cannot be provoked
+//FIXME: Breath weapon should cause cold damage
+DEFNAME=c_skeletal_dragon
+NAME=skeletal dragon
+ICON=i_pet_dragon
+SOUND=snd_monster_skeldragon
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=127,166
+ARMOR=75
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=19 i_ribs_raw
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=118.3
+TAG.DamFire=25
+TAG.Luck.Loot=loot_skeletal_dragon_luck
+TAG.Slayer=SLAYER_DRAGON//FIXME: Also SLAYER_UNDEAD
+TEVENTS=e_carnivores3
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeletal Dragon
+ON=@Create
+   NPC=brain_dragon
+   FAME=22500
+   KARMA=-22500
+   STR={898 1030}
+   MAXHITS={558 599}
+   DEX={168 200}
+   MAXSTAM={168 200}
+   INT={488 620}
+   MAXMANA={488 620}
+   EVALUATINGINTEL={80.0 100.0}
+   MAGERY={80.0 100.0}
+   MAGICRESISTANCE={100.0 130.0}
+   NECROMANCY={100.0 110.0}
+   TACTICS={97.0 100.0}
+   WRESTLING={97.0 100.0}
+   MODAR={0 5}
+   RESCOLD={40 60}
+   RESENERGY={40 60}
+   RESFIRE={40 60}
+   RESPOISON={70 80}
+ON=@NpcRestock
+   ITEM=loot_dragon_skeletal
+   //1600 - 1800 Gold. 5 Gems, Magic Items
+   //Special: Level 5 Treasure Map
+ON=@Hit
+   //Triple Damage Attack vs pets
+   IF (<FLAGS>&statf_pet)
+      ARGN1=<ARGN1> * 3
+      ARGN2=<DEF.dam_physical>
+   ENDIF
+
+[CHARDEF 093]
+DEFNAME=c_skeleton_knight
+NAME=skeletal knight
+ICON=i_pet_skeleton_knight
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=18,23
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=3 i_reag_bone
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=67.4
+TAG.DamCold=60
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeleton (knight)
+ON=@Create
+   NPC=brain_monster
+   FAME=3000
+   KARMA=-3000
+   STR={196 250}
+   DEX={76 95}
+   INT={36 60}
+   FENCING={60.0 85.0}
+   MACEFIGHTING={60.0 85.0}
+   MAGICRESISTANCE={65.0 80.0}
+   PARRYING={85.0 100.0}
+   SWORDSMANSHIP={85.0 100.0}
+   TACTICS={85.0 100.0}
+   WRESTLING={85.0 100.0}
+   MODAR={0 10}
+ON=@NPCRestock
+   ITEM=loot_skeletal_knight
+   //175 - 225 Gold. Platemail Armor
+
+
+[CHARDEF 094]
+DEFNAME=c_skeleton_mage
+NAME=skeletal mage
+ICON=i_pet_skeleton_mage
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=4,11
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=2 i_reag_bone
+BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=71.8
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeletal Mage
+RESLEVEL=2
+RESDISPDNID=c_skeleton
+RESDISPDNHUE=1625
+ON=@Create
+   NPC=brain_monster
+   FAME=3000
+   KARMA=-3000
+   STR={76 100}
+   MAXHITS={46 60}
+   DEX={56 75}
+   MAXSTAM={56 75}
+   INT={186 210}
+   MAXMANA={186 210}
+   EVALUATINGINTEL={60.0 70.0}
+   MAGERY={60.0 70.0}
+   MAGICRESISTANCE={55.0 70.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={50 60}
+   RESENERGY={30 40}
+   RESFIRE={20 30}
+   RESPOISON={20 30}
+ON=@NPCRestock
+   ITEM=loot_skeletal_mage
+   //125 - 150 Gold. 1 Medium Level Scroll, 3 Reagents, 3-10 Necromancy Reagents
+
+[CHARDEF 099]
+DEFNAME=c_ghoul
+NAME=ghoul
+ICON=i_pet_ghoul
+SOUND=snd_monster_zombie1
+CAN=MT_WALK|mt_run|MT_USEHANDS|MT_EQUIP
+DAM=10,15
+ARMOR=25
+DESIRES=r_jungle,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=15 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=41.5
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_carnivores
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Ghoul
+ON=@Create
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={76 100}
+   MAXHITS={46 60}
+   DEX={76 95}
+   MAXSTAM={76 95}
+   INT={36 60}
+   MAXMANA={36 60}
+   MAGICRESISTANCE={45.0 60.0}
+   TACTICS={45.0 60.0}
+   WRESTLING={45.0 55.0}
+   MODAR={0 5}
+   RESCOLD={20 30}
+   RESENERGY={10 20}
+   RESFIRE=0
+   RESPOISON={5 10}
+ON=@NPCRestock
+   ITEM=loot_ghoul
+   //50 - 100 Gold. Weapon
+
+[CHARDEF 09a]
+DEFNAME=c_mummy
+NAME=mummy
+ICON=i_pet_mummy
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|MT_USEHANDS|MT_EQUIP
+DAM=31,55
+ARMOR=45
+DESIRES=r_desert,r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=1 i_ribs_burned
+BLOODCOLOR=colors_green
+MOVERATE=200
+TAG.Barding.Diff=63.1
+TAG.DamCold=60
+TAG.Luck.Loot=loot_mummy_luck
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Mummy
+RESLEVEL=2
+RESDISPDNID=c_zombie
+RESDISPDNHUE=031f
+ON=@Create
+   NPC=brain_undead
+   FAME=4000
+   KARMA=-4000
+   STR={346 370}
+   MAXHITS={208 222}
+   DEX={71 90}
+   MAXSTAM={71 90}
+   INT={26 40}
+   MAXMANA={26 40}
+   MAGICRESISTANCE={15.0 40.0}
+   PARRYING={35.0 50.0}
+   TACTICS={35.0 50.0}
+   WRESTLING={35.0 50.0}
+   MODAR={0 10}
+   RESCOLD={50 60}
+   RESENERGY={20 30}
+   RESFIRE={10 20}
+   RESPOISON={20 30}
+ON=@NpcRestock
+   ITEM=loot_mummy
+   //275 - 325 Gold. 1 Potion, 1 Gem, 5 Garlic, 10 Clean Bandages, Magic Items
+   //Special: Level 1 Treasure Map, Fragrant Seed, Peculiar Seed.
+ON=@Hit
+   //Mummy Curse Attack
+   IF ( (<MANA> >= 10) && (RAND(5)==0) && !(<SRC.f_IsCursed>) )
+      SRC.EMOTE affected by the mummy curse
+      SRC.SPELLEFFECT s_curse,100.0,1,<UID>
+      SRC.EFFECT 3,i_fx_curse,1,16,0,044
+      SRC.SOUND snd_spell_curse
+      MANA -= 10
+   ENDIF
+
+[CHARDEF 09b]
+DEFNAME=c_rotting_corpse
+NAME=rotting corpse
+ICON=i_pet_rottingcorpse
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|MT_run|mt_fly
+DAM=21,26
+ARMOR=35
+DESIRES=r_jungle,r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=15 t_meat_raw
+RESOURCES=1 i_reag_fertile_dirt
+BLOODCOLOR=colors_green
+MOVERATE=200
+TEVENTS=e_carnivores2
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Rotting Corpse
+ON=@Create
+   NPC=brain_undead
+   FAME=1500
+   karma= -5000
+   STR={301 550}
+   DEX={250 260}
+   INT={151 200}
+   MAGICRESISTANCE={245.0 255.0}
+   PARRYING={90.0 100.0}
+   TACTICS={155.0 165.0}
+   WRESTLING={90.0 100.0}
+
+ON=@NpcRestock
+   ITEM=i_gold,1200
+   
+
+[CHARDEF 0ec]
+//Partial animation - skeleton with scimitar
+//Lady Jennifyr is a named Skeletal Knight from Bedlam.
+DEFNAME=c_lady_jennifyr
+NAME=Lady Jennifyr
+ICON=i_pet_skeleton_knight
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=24,30
+ARMOR=35
+DESIRES=t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+RESOURCES=3 i_reag_bone
+BLOODCOLOR=-1
+//FOODTYPE=
+MOVERATE=100
+TAG.Barding.Diff=135.5
+TAG.DamCold=60
+TAG.HitLowerFireResist=7
+TAG.Slayer=SLAYER_UNDEAD
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Skeleton Knight (Lady Jennifyr)
+ON=@Create
+   NPC=brain_monster
+   FAME=18200
+   KARMA=-18200
+   STR={210 315}
+   MAXHITS={1100 1450}
+   DEX={90 135}
+   MAXSTAM={90 135}
+   INT={45 105}
+   MAXMANA={45 105}
+   ANATOMY={125.0 140.0}
+   MAGICRESISTANCE={100.0 115.0}
+   TACTICS={125.0 145.0}
+   WRESTLING={125.0 140.0}
+   MODAR={0 20}
+   RESCOLD={30 60}
+   RESENERGY={60 80}
+   RESFIRE={70 85}
+   RESPOISON={50 70}
+ON=@NPCRestock
+   ITEM=loot_skeletal_knight
+
+[CHARDEF 0fb]
+DEFNAME=c_revenant_lion
+NAME=revenant lion
+ICON=i_pet_revenant_lion
+SOUND=snd_monster_rev_lion
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=42,58
+ARMOR=40
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=50 t_meat_raw
+RESOURCES=4 i_reag_pig_iron
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=94.0
+TAG.DamCold=30
+TAG.DamEnergy=30
+TAG.DamPoison=10
+TAG.HitPoison=3//Greater
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_carnivores2
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Revenant Lion
+RESLEVEL=3
+RESDISPDNID=c_dog
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_undead
+   FAME=4000
+   KARMA=-4000
+   STR={275 320}
+   MAXHITS={250 280}
+   DEX={95 115}
+   MAXSTAM={155 175}
+   INT={75 105}
+   MAXMANA={75 105}
+   EVALUATINGINTEL={80.0 90.0}
+   MAGERY={80.0 90.0}
+   MAGICRESISTANCE={70.0 80.0}
+   MEDITATION={85.0 95.0}
+   //POISONING={75.0 100.0}
+   TACTICS={60.0 80.0}
+   WRESTLING={80.0 90.0}
+   MODAR={0 20}
+   RESCOLD={50 60}
+   RESENERGY={40 50}
+   RESFIRE={20 30}
+   RESPOISON={55 65}
+ON=@NPCRestock
+   ITEM=loot_revenant_lion
+   //550 - 700 Gold. Magic Items, 2 Medium Level Scrolls, Bones, Body Parts, 6-8 Necro Reagents
+ON=@Hit
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SRC.NEWITEM i_bleed_timer
+      NEW.LINK = <UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+
+[CHARDEF 0fc]
+DEFNAME=c_lady_of_snow
+NAME=lady of the snow
+ICON=i_pet_ladysnow
+SOUND=snd_elementl_airelem5
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP|MT_FEMALE
+DAM=32,49
+ARMOR=45
+DESIRES=r_snow,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+//FOODTYPE=
+RESOURCES=3 i_reag_blackmoor
+BLOODCOLOR=colors_green
+MOVERATE=120
+TAG.Barding.Diff=111.4
+TAG.DamCold=80
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Lady of the Snow
+RESLEVEL=3
+RESDISPDNID=c_woman
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=15000
+   KARMA=-15000
+   STR={275 305}
+   MAXHITS={595 625}
+   DEX={105 125}
+   MAXSTAM={105 125}
+   INT={170 190}
+   MAXMANA={470 490}
+   EVALUATINGINTEL={80.0 90.0}
+   MAGERY={95.0 110.0}
+   MAGICRESISTANCE={90.0 105.0}
+   MEDITATION={85.0 90.0}
+   TACTICS={85.0 100.0}
+   WRESTLING={85.0 100.0}
+   MODAR={0 10}
+   RESCOLD={70 90}
+   RESENERGY={70 85}
+   RESFIRE={40 55}
+   RESPOISON={60 70}
+ON=@NpcRestock
+   ITEM=loot_lady_of_snow
+   //800 - 1000 Gold. Magic Items, 3 Reagents
+ON=@GetHit
+   //Thrown Weapon Attack (snowball)
+   IF (<DISTANCE> > 2) && (RAND(5)==0)
+      SRC.TARG.EFFECT 0,i_pet_elem_snow,2,1
+      IF (RAND(5)==0)
+         SRC.DAMAGE <R15,25> <DEF.dam_cold> <UID>
+      ENDIF
+   ENDIF
+ON=@Hit
+   //Icy Wind Attack
+   IF (RAND(5)==0)
+      REF11=<UID>
+      FORCHARS 3
+         IF (<ISPLAYER>) || (<FLAGS>&statf_pet)
+            LOCAL.DAM=<R10,20>
+            DAMAGE <LOCAL.DAM> <DEF.dam_cold> <REF11>
+//            SYSMESSAGE @color_text,,1 A powerful icy wind strikes you cold
+         ENDIF
+      END
+   ENDIF
+
+[CHARDEF 0130]
+DEFNAME=c_flesh_golem
+NAME=flesh golem
+ICON=i_pet_golem_flesh
+SOUND=snd_monster_zombie1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=36,45
+ARMOR=50
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=57.0
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Flesh Golem
+RESLEVEL=3
+RESDISPDNID=c_skeleton
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=1000
+   KARMA=-1800
+   STR={176 200}
+   MAXHITS={106 120}
+   DEX={51 75}
+   MAXSTAM={51 75}
+   INT={46 70}
+   MAXMANA={46 70}
+   MAGICRESISTANCE={50.0 75.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={60.0 70.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={30 40}
+   RESFIRE={25 35}
+   RESPOISON={60 70}
+ON=@NpcRestock
+   ITEM=loot_golem_flesh
+   //125 - 175 Gold.
+ON=@Hit
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SRC.NEWITEM i_bleed_timer
+      NEW.LINK=<UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+
+[CHARDEF 0131]
+DEFNAME=c_gore_fiend
+NAME=gore fiend
+ICON=i_pet_gorefiend
+SOUND=snd_monster_zombie1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=30,41
+ARMOR=35
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=48.8
+TAG.DamPoison=15
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Gore Fiend
+RESLEVEL=3
+RESDISPDNID=c_headless
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={161 185}
+   MAXHITS={97 111}
+   DEX={41 65}
+   MAXSTAM={41 65}
+   INT={46 70}
+   MAXMANA={46 70}
+   MAGICRESISTANCE={40.0 55.0}
+   //POISONING={50.0 60.0}
+   TACTICS={45.0 70.0}
+   WRESTLING={50.0 70.0}
+   MODAR={0 10}
+   RESCOLD={15 25}
+   RESENERGY={30 40}
+   RESFIRE={25 35}
+   RESPOISON={5 15}
+ON=@NpcRestock
+   ITEM=loot_gore_fiend
+   //125 - 175 Gold.
+ON=@Hit
+   //Concussion Attack
+   IF (<MANA> >= 25)
+      MANA -= 25
+      LOCAL.TargetHealthRatio = (<SRC.HITS>*100) / <SRC.MAXHITS>
+      LOCAL.TargetManaRatio = (<SRC.MANA>*100) / <SRC.MAXMANA>
+      LOCAL.ExtraDamage = <LOCAL.TargetHealthRatio> - <LOCAL.TargetManaRatio>
+      IF ( <LOCAL.ExtraDamage> < 0 ) // Make sure it is a positive integer
+         LOCAL.ExtraDamage -= <LOCAL.ExtraDamage> * 2
+      ENDIF
+      LOCAL.Extradamage = 10 + <LOCAL.ExtraDamage> / 4
+      ARGN1 = <ARGN1> + <LOCAL.ExtraDamage>
+      ARGN2 = <DEF.dam_god>
+      ACT.TAG.WeaponSkillHit = 3
+      ACT.TAG.WeaponSkillAttacker = <UID>
+      ACT.EVENTS = +e_WeaponSkillHit
+   ENDIF
+
+[CHARDEF 0135]
+DEFNAME=c_patchwork_skeleton
+NAME=patchwork skeleton
+ICON=i_pet_skeleton_patchwork
+SOUND=snd_monster_skletn1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=31,41
+ARMOR=55
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=4 i_reag_bone
+BLOODCOLOR=-1
+MOVERATE=100
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Patchwork Skeleton
+RESLEVEL=3
+RESDISPDNID=c_skeleton
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_undead
+   FAME=500
+   KARMA=-5000
+   STR={96 120}
+   MAXHITS={58 72}
+   DEX={71 95}
+   MAXSTAM={71 95}
+   INT={16 40}
+   MAXMANA={16 40}
+   MAGICRESISTANCE={70.0 95.0}
+   TACTICS={55.0 80.0}
+   WRESTLING={50.0 70.0}
+ON=@NpcRestock
+   ITEM=loot_patchwork_skeleton
+   //50 - 100 Gold.
+//ON=@Hit
+   //Dismount Attack
+  // IF (<MANA> >= 20) && (<SRC.FLAGS> & statf_onhorse)
+    //  MANA -= 20
+    //  SRC.DISMOUNT
+    //  SRC.EMOTE knocked off mount!
+    //  SRC.DAMAGE <R15,25> <DEF.dam_physical> <UID>
+ //  ENDIF
+
+[CHARDEF 0136]
+DEFNAME=c_wailing_banshee
+NAME=wailing banshee
+ICON=i_pet_wailingbanshee
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=18,26
+ARMOR=39
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=1 i_reag_brimstone
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=60.0
+TAG.DamCold=60
+TAG.DamPoison=20
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Wailing Banshee
+RESLEVEL=3
+RESDISPDNID=c_spectre
+RESDISPDNHUE=01
+ON=@Create
+   NPC=brain_monster
+   FAME=1500
+   KARMA=-1500
+   STR={126 150}
+   MAXHITS={76 90}
+   DEX={76 100}
+   MAXSTAM={76 100}
+   INT={86 110}
+   MAXMANA={86 110}
+   ANATOMY={25.0 35.0}
+   MAGICRESISTANCE={70.0 95.0}
+   //POISONING={45.0 55.0}
+   TACTICS={45.0 70.0}
+   WRESTLING={50.0 70.0}
+ON=@NpcRestock
+   ITEM=loot_wailing_banshee
+   //50 - 100 Gold.
+//ON=@Hit
+   //Mortal Strike Attack
+  // IF (<MANA> >= 30) && !(<SRC.FINDID.i_blockheal_timer>)
+   //   MANA -= 30
+    //  SRC.SOUND snd_spell_paralyze
+    //  SRC.NEWITEM=i_blockheal_timer
+    //  SRC.EQUIP <NEW>
+  // ENDIF
+
+[CHARDEF 02c0]
+//FIXME: No Stratics entry
+//This could be an undead creature instead...
+DEFNAME=c_shadow_lord
+NAME=shadow lord
+ICON=i_pet_harrower
+SOUND=snd_monster_shadowlord
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=15,25
+ARMOR=40
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=160.0
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Shadow Lord
+ON=@Create
+   NPC=brain_undead
+   FAME=5000
+   KARMA=-5000
+   STR={105 135}
+   MAXHITS={136 165}
+   DEX={66 95}
+   MAXSTAM={66 95}
+   INT={175 205}
+   MAXMANA={175 205}
+   EVALUATINGINTEL={70.0 80.0}
+   MAGERY={70.0 80.0}
+   MAGICRESISTANCE={70.0 90.0}
+   TACTICS={70.0 90.0}
+   WRESTLING={50.0 70.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={1 10}
+   RESFIRE={10 20}
+   RESPOISON={10 20}
+ON=@NPCRestock
+   ITEM=loot_skeletal_mage
+
+[CHARDEF 02d2]
+//FIXME: Incomplete Stratics data
+//FIXME: Cannot be provoked
+DEFNAME=c_gargoyle_undead
+NAME=undead gargoyle
+ICON=i_pet_gargoyle_undead
+SOUND=snd_monster_gargoyle_undead
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_EQUIP
+DAM=15,27
+ARMOR=45
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+//FOODTYPE=
+RESOURCES=3 i_reag_bone
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=92.5
+TAG.DamCold=60
+TAG.DamEnergy=40
+TAG.Slayer=SLAYER_GARGOYLE//FIXME: Needs SLAYER_UNDEAD as well
+TEVENTS=e_carnivores2
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Undead Gargoyle
+ON=@Create
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={250 350}
+   MAXHITS={200 300}
+   DEX={120 140}
+   MAXSTAM={120 140}
+   INT={250 350}
+   MAXMANA={250 350}
+   ANATOMY={25.0 35.0}
+   EVALUATINGINTEL={90.0 110.0}
+   MAGERY={115.0 125.0}
+   MAGICRESISTANCE={110.0 120.0}
+   MEDITATION={10.0 15.0}
+   TACTICS={60.0 70.0}
+   WRESTLING={60.0 70.0}
+   MODAR={0 10}
+   RESCOLD={45 55}
+   RESENERGY={40 50}
+   RESFIRE={30 40}
+   RESPOISON={55 65}
+ON=@NPCRestock
+   ITEM=loot_gargoyle_undead
+
+[CHARDEF 02e4]
+//FIXME: Incomplete Stratics data
+DEFNAME=c_dream_wraith
+NAME=dream wraith
+ICON=i_pet_dream_wraith
+SOUND=snd_monster_dream_wraith
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=18,25
+ARMOR=55
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=10000//Immune to barding
+TAG.DamCold=45
+TAG.DamEnergy=45
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Dream Wraith
+ON=@Create
+   NPC=brain_undead
+   FAME=8000
+   KARMA=-8000
+   STR={200 300}
+   MAXHITS={550 650}
+   DEX={100 200}
+   MAXSTAM={100 200}
+   INT={600 700}
+   MAXMANA={600 700}
+   ARCHERY={50.0 70.0}
+   ANATOMY={0.0 10.0}
+   EVALUATINGINTEL={100.0 120.0}
+   FENCING={50.0 70.0}
+   MACEFIGHTING={50.0 70.0}
+   MAGERY={100.0 120.0}
+   MAGICRESISTANCE={120.0 150.0}
+   MEDITATION={100.0 110.0}
+   NECROMANCY={90.0 100.0}
+   PARRYING={70.0 90.0}
+   SWORDSMANSHIP={50.0 70.0}
+   TACTICS={70.0 80.0}
+   WRESTLING={90.0 100.0}
+   MODAR={0 10}
+   RESCOLD={30 50}
+   RESENERGY={20 30}
+   RESFIRE={40 50}
+   RESPOISON={40 50}
+ON=@NPCRestock
+   ITEM=loot_dream_wraith
+
+[CHARDEF 02e8]
+DEFNAME=c_vampire
+NAME=vampire
+ICON=i_pet_man
+//SOUND=snd_human_moomph01//This sound is annoying, find a better one
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=110.0
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+   NAME=#NAMES_HUMANMALE
+   TITLE=the vampire
+   NPC=brain_undead
+   COLOR=047e
+   FAME=7500
+   KARMA=-7500
+   STR={400 450}
+   MAXHITS={250 350}
+   DEX={85 125}
+   MAXSTAM={85 125}
+   INT={200 300}
+   MAXMANA={200 300}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={70.0 80.0}
+   FENCING={45.0 58.0}
+   MACEFIGHTING={45.0 58.0}
+   MAGERY={100.0 120.0}
+   MAGICRESISTANCE={55.0 78.0}
+   MEDITATION={65.0 80.0}
+   NECROMANCY={100.0 120.0}
+   PARRYING={45.0 68.0}
+   SWORDSMANSHIP={45.0 58.0}
+   TACTICS={70.0 90.0}
+   WRESTLING={90.0 100.0}
+   RESCOLD={40 50}
+   RESENERGY={30 40}
+   RESFIRE={20 30}
+   RESPOISON={50 60}
+   ITEMNEWBIE=random_male_hair
+   COLOR=colors_hair
+   ITEMNEWBIE=random_facial_hair
+   COLOR=match_hair
+ON=@NPCRestock
+   ITEM=rich_monster_backpack
+   ITEM=random_armor_all_normal
+   ITEM=random_weapon_all_normal
+   ITEM=i_cape
+   //COLOR=1
+   ITEM=i_robe
+   //COLOR=1
+   ITEM=i_doublet
+   COLOR=0
+   ITEM=i_boots_calf
+   ITEM=i_bracelet_gold
+   ITEM=i_ring_gold
+   ITEMNEWBIE=random_male_hair
+   COLOR=colors_all
+
+[CHARDEF 02e9]
+DEFNAME=c_vampire_f
+NAME=vampire
+ICON=i_pet_man
+SOUND=snd_human_foomph01
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=110.0
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Female
+ON=@Create
+   NAME=#NAMES_HUMANFEMALE
+   TITLE=the vampire
+   NPC=brain_undead
+   COLOR=047e
+   FAME=7500
+   KARMA=-7500
+   STR={400 450}
+   MAXHITS={250 350}
+   DEX={85 130}
+   MAXSTAM={85 130}
+   INT={200 300}
+   MAXMANA={200 300}
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={70.0 80.0}
+   FENCING={45.0 58.0}
+   MACEFIGHTING={45.0 58.0}
+   MAGERY={100.0 120.0}
+   MAGICRESISTANCE={55.0 78.0}
+   MEDITATION={65.0 80.0}
+   NECROMANCY={100.0 120.0}
+   PARRYING={45.0 68.0}
+   SWORDSMANSHIP={45.0 58.0}
+   TACTICS={70.0 90.0}
+   WRESTLING={90.0 100.0}
+   RESCOLD={40 50}
+   RESENERGY={30 40}
+   RESFIRE={20 30}
+   RESPOISON={50 60}
+   ITEMNEWBIE=random_male_hair
+   COLOR=colors_hair
+   ITEMNEWBIE=random_facial_hair
+   COLOR=match_hair
+ON=@NPCRestock
+   ITEM=rich_monster_backpack
+   ITEM=random_armor_all_normal
+   ITEM=random_weapon_all_normal
+   ITEM=i_cape
+   //COLOR=1
+   ITEM=i_robe
+   //COLOR=1
+   ITEM=i_doublet
+   COLOR=0
+   ITEM=i_boots_calf
+   ITEM=i_bracelet_gold
+   ITEM=i_ring_gold
+   ITEMNEWBIE=random_female_hair
+   COLOR=colors_all
+
+[CHARDEF 03ca]
+//No Stratics entry since its just an equipment (deathrobe) animation
+DEFNAME=c_phantom
+NAME=phantom
+ICON=i_pet_liche
+SOUND=snd_monster_ghost1
+CAN=MT_WALK|MT_GHOST|MT_USEHANDS|MT_EQUIP//|MT_PASSWALLS
+DAM=10,18
+ARMOR=30
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=1 i_reag_blackmoor
+BLOODCOLOR=-1
+MOVERATE=120
+TAG.Barding.Diff=78.9
+TAG.DamCold=40
+TAG.Slayer=SLAYER_UNDEAD
+TEVENTS=e_undead
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Phantom
+ON=@Create
+   COLOR=colors_black
+   NPC=brain_undead
+   FAME=5500
+   KARMA=-5500
+   STR={130 150}
+   MAXHITS={130 150}
+   DEX={100 150}
+   MAXSTAM={100 150}
+   INT={170 190}
+   MAXMANA={170 190}
+   ARCHERY={10.0 20.0}
+   EVALUATINGINTEL={70.0 80.0}
+   FENCING={10.0 20.0}
+   MACEFIGHTING={10.0 20.0}
+   MAGERY={10.0 20.0}
+   MAGICRESISTANCE={50.0 79.0}
+   MEDITATION={75.0 100.0}
+   PARRYING={55.0 78.0}
+   SWORDSMANSHIP={60.0 90.0}
+   TACTICS={68.0 89.0}
+   WRESTLING={10.0 20.0}
+   MODAR={0 10}
+   RESCOLD={30 40}
+   RESENERGY={20 30}
+   RESFIRE={20 30}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   //ITEM=random_weapon_sword_normal
+   ITEM=average_undead_backpack
+
+[EOF]

@@ -1,0 +1,355 @@
+//////////////////////////////////CS EVENTS/////////////////////////////////////
+
+/////////PUANLAMA DIALOG///////////////////
+
+[itemdef i_deneme_cs_tasi] ///isimiz bitince silincek
+id=i_gravestone 
+type=t_eq_script 
+name=cs
+
+on=@create 
+attr 08000
+
+
+
+on=@timer
+return 1
+
+on=@dclick
+src.DIALOG d_kadhrasabi
+
+[Plevel 1]
+csdurum
+
+[function csdurum]
+if (<src.tag.yarismacs>==1)
+src.dialog d_csturnuva
+return 1
+else
+src.sysmessage @0810 Suan turnuvada degilsiniz
+return 1
+endif
+
+[dialog d_csturnuva]
+0,0
+nomove
+page 0
+gumppic 10 10 39
+dhtmlgump 40 15 200 20 0 0 Counter Strike Puan Durumu
+dhtmlgump 30 40 200 20 0 0 Baslangic: <var.saat>
+dhtmlgump 30 65 200 20 0 0 
+dhtmlgump 30 90 200 20 0 0 Counter Timi : <var.cspuan> Puan 
+dhtmlgump 30 115 200 20 0 0 Teror Timi  : <var.terorpuan> Puan
+dhtmlgump 30 140 200 20 0 0 
+dhtmlgump 30 190 200 20 0 0 Toplamda Katilan: <var.katilanlar> kisi var.
+dhtmlgump 30 215 200 20 0 0 
+
+
+[dialog d_csturnuva text]
+
+[dialog d_csturnuva button]
+
+
+///////////////////////////////////////////
+
+[function toplabaseye]
+sector.allclients postalabaseye
+sector.allclients sysmessage @69,1,1 Yarisma Sona Ermistir.
+
+[Plevel 1]
+postalabaseye
+
+[function postalabaseye]
+if (<isevent.e_kirmizi>)
+go 1163,2235,60
+stone 1
+else
+if (<isevent.e_mavi>)
+go 1131,2218,61
+stone 1
+return 1
+endif
+
+[itemdef i_cs_timer] 
+id=i_memory 
+type=t_eq_script 
+name=res timer 
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+on=@equip 
+if (<src.hits><1) 
+src.flags <src.flags>|04 
+src.sysmessage @60 5 Saniye Icinde Hayata Doneceksiniz. 
+timer 1 
+src.tag.pos <src.p> 
+endif 
+
+on=@timer 
+if (0<cont.hits> < 1) 
+cont.flags <cont.flags>&~04 
+if (<cont.tag.pos>==<cont.p>) 
+cont.region.flags 0880 
+cont.spelleffect s_resurrection 1000 
+if (strmatch(´<cont.events>´,´e_mavi´)) || (strmatch(´<cont.region.events>´,´e_kirmizi´)) 
+cont.region.flags 0892 
+endif 
+endif 
+cont.tag.regionflags 
+cont.tag.pos 
+cont.sayu * Hayata Doner * 
+cont.resurrect 1 
+cont.hits 100
+cont.SPELLEFFECT s_night_sight,100.0
+else 
+cont.sysmessage @39 Canlanmak icin yarismada olmalisiniz.
+remove 
+return 1 
+endif 
+remove 
+return 1 
+
+[itemdef i_teror_timer] 
+id=i_memory 
+type=t_eq_script 
+name=res timer 
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+on=@equip 
+if (<src.hits><1) 
+src.flags <src.flags>|04 
+src.sysmessage @60 5 Saniye Icinde Hayata Doneceksiniz. 
+timer 1 
+src.tag.pos <src.p> 
+endif 
+
+on=@timer 
+if (0<cont.hits> < 1) 
+cont.flags <cont.flags>&~04 
+if (<cont.tag.pos>==<cont.p>) 
+cont.region.flags 0880 
+cont.spelleffect s_resurrection 1000 
+if (strmatch(´<cont.events>´,´e_mavi´)) || (strmatch(´<cont.region.events>´,´e_kirmizi´)) 
+cont.region.flags 0892 
+endif 
+endif 
+cont.tag.regionflags 
+cont.tag.pos 
+cont.sayu * Hayata Doner * 
+cont.resurrect 1 
+cont.hits 100
+cont.SPELLEFFECT s_night_sight,100.0
+else 
+cont.sysmessage @39 Canlanmak icin yarismada olmalisiniz.
+remove 
+return 1 
+endif 
+remove 
+return 1 
+
+[function csbaslat]
+var.cs 1
+src.anons Counter-Strike Turnuvasi Baslamistir.
+src.anons Katilimlar icin lutfen .katil komutunu kullaniniz.
+
+[DIALOG d_kadhrasabi]
+50, 50
+PAGE 0
+resizepic 0 0 5170 340 240
+nomove
+text 32 36 1970 0
+text 32 61 1970 1
+text 32 84 1970 2
+
+button 40 115 2151 2152 1 0 1
+
+text 79 116 1970 3
+
+button 40 152 2151 2152 1 0 2
+
+text 79 156 1970 4
+
+[DIALOG d_kadhrasabi TEXT]
+Counter-Strike Turnuvasi
+Hangi timde olmak
+istiyorsaniz seciniz.
+{ Counter }  Takima Katilan : <eval <var.katilanlarmavi>>
+{ Terorist } Takima Katilan : <eval <var.katilanlarkirmizi>>
+
+
+[DIALOG d_kadhrasabi BUTTON]
+on=1
+if (<eval <var.katilanlarmavi>> > <eval <var.katilanlarkirmizi>>)
+src.sysmessage @0481,1 Syn.<name> Counter Takimin Sayisi Terorist Takimin Sayisindan Fazladir.Bu Yuzden Counter Takimina Katilamazsiniz.
+return 1
+else
+src.go 1131,2218,61     ////////Buraya mavi bölgesinin koordinatlari.
+src.binekolmazsaolmaz
+src.cantalarbanka
+src.events +e_mavi
+src.events -e_mekan
+src.events -e_olmesakin
+src.events -e_safe
+src.events -e_safe2
+src.events -e_sp
+src.events -e_brt
+src.events -e_chs
+src.events -e_spr
+src.hits 100
+src.dex 100
+src.str 100
+src.int 25
+src.SPELLEFFECT s_night_sight,100.0
+src.allskills 1000
+src.f_katil
+src.newitem i_robe
+src.act.color 0796
+src.act.name @0810 Counter Timi
+src.act.attr 04
+src.act.bounce
+src.newitem i_fx_sparkle
+src.act.color 0796
+src.sound 0202
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.sysmessage @0796,1,1 Counter Timindesin <src.name>!
+src.tag.yarismacs 1
+src.newitem=i_studded_tunic
+src.act.attr 08000
+src.act.color 084a
+src.act.equip
+src.newitem=i_studded_leggings
+src.act.attr 08000
+src.act.color 084a
+src.act.equip
+SRC.newitem i_studded_sleeves
+src.act.attr 08000
+src.act.color 084a
+src.act.equip
+src.newitem i_studded_gloves
+src.act.attr 08000
+src.act.color 084a
+src.act.equip
+src.newitem i_studded_gorget
+src.act.attr 08000
+src.act.color 084a
+src.act.equip
+src.newitem i_katana
+src.act.attr 08000
+src.act.color 084a
+src.act.bounce
+src.newitem i_spear
+src.act.attr 08000
+src.act.color 084a
+src.act.bounce
+src.newitem i_bow_elven
+src.act.attr 08000
+src.act.color 084a
+src.act.equip
+src.newitem loot_cs
+src.act.attr 04
+src.act.bounce
+var.katilanlarmavi (<eval <var.katilanlarmavi>> + 1)
+return 1
+endif
+on=2
+if (<eval <var.katilanlarkirmizi>> > <eval <var.katilanlarmavi>>)
+src.sysmessage @0481,1 Syn.<name> Terorist Takimin Sayisi Counter Takiminin Sayisindan Fazladir.Bu Yuzden Terorist Takimina Katilamazsiniz.
+return 1
+else
+src.go 1163,2235,60     ////////Buraya kirmizi bölgesinin koordinatlari.
+src.cantalarbanka
+src.binekolmazsaolmaz
+src.events +e_kirmizi
+src.events -e_mekan
+src.events -e_olmesakin
+src.events -e_safe
+src.events -e_safe2
+src.events -e_sp
+src.events -e_brt
+src.events -e_chs
+src.events -e_spr
+src.hits 100
+src.dex 100
+src.str 100
+src.int 25
+src.SPELLEFFECT s_night_sight,100.0
+src.allskills 1000
+src.f_katil
+src.newitem i_robe
+src.act.color 0799
+src.act.name @0810 Teror Timi
+src.act.attr 04
+src.act.bounce
+src.newitem i_fx_sparkle
+src.act.color 0799
+src.sound 0202
+src.act.p <src.p>
+src.act.timer 2
+src.act.attr attr_decay
+src.sysmessage @0799,1,1 Kirmizi takimdasin <src.name>!
+src.tag.yarismacs 1
+src.newitem=i_studded_tunic
+src.act.attr 08000
+src.act.color 0cb9
+src.act.equip
+src.newitem=i_studded_leggings
+src.act.attr 08000
+src.act.color 0cb9
+src.act.equip
+SRC.newitem i_studded_sleeves
+src.act.attr 08000
+src.act.color 0cb9
+src.act.equip
+src.newitem i_studded_gloves
+src.act.attr 08000
+src.act.color 0cb9
+src.act.equip
+src.newitem i_studded_gorget
+src.act.attr 08000
+src.act.color 0cb9
+src.act.equip
+src.newitem i_katana
+src.act.attr 08000
+src.act.color 0cb9
+src.act.bounce
+src.newitem i_spear
+src.act.attr 08000
+src.act.color 0cb9
+src.act.bounce
+src.newitem i_bow_elven
+src.act.attr 08000
+src.act.color 0cb9
+src.act.equip
+src.newitem loot_cs
+src.act.attr 04
+src.act.bounce
+var.katilanlarkirmizi (<eval <var.katilanlarkirmizi>> + 1)
+return 1
+Endif
+
+[function f_katil]
+src.sysmessage @0810 Katildiniz.
+src.stone 1
+return 1
+
+[TEMPLATE loot_cs]
+DEFNAME=loot_cs
+CATEGORY=Item Templates
+SUBSECTION=Loot Templates
+DESCRIPTION=Poor Backpack
+CONTAINER=i_bag
+ITEM=i_potion_healgreat,{5}
+ITEM=i_potion_bleed,{5}
+ITEM=i_arrow,{50 100}
+ITEM=i_potion_refreshtotal,{5}
+ITEM=i_bandage,{20}
+ITEM=i_potion_ExplosionGreat,{5}
+ 
+
+
+[EOF]

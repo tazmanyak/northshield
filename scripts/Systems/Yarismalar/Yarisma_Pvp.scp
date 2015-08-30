@@ -1,0 +1,500 @@
+﻿[function f_even_or_odd]
+if <eval <argn>%2> == 1
+	//src.sysmessage @,,1 Odd...
+	return 1
+else
+	//sysmessage @,,1 Even..
+	return 0
+endif	
+
+
+[defname 1vs1_topuk_ayarlari]  
+pvp_open_gate_p		"5321,1813"	 tag.pvp_rakibi pvp_yarismaci_tur_atla
+pvp_giris		"5311,2058"
+pvp_finish_and_go	"5307,2068" //"5325,1823"
+pvp_yarismaci_1 	"5322,2063,7"
+pvp_yarismaci_2 	"5322,2077,7"
+pvp_katilimci_baraji	"2"
+pvp_timer_gate		"600"
+pvp_stone		"040010d22"
+pvp_yarismaci_tur_atla	"5319,2081"
+
+deneme1		"021acf"
+deneme2		"021994"
+deneme3		"021a9c"
+deneme4		"021984"
+deneme5		"0219c0"
+deneme6		"02198f"
+
+// Yarisma Alani Event +e_cpvp_area
+// Pvp deki event e_cpvp_pvp_yeni
+
+
+
+[itemdef i_pvp_stone_yarisma]
+ID=0ede
+name Pvp Sayaci
+type t_normal
+
+on=@create
+attr 08000
+color 0995
+//timer 180
+
+//for x 1 32
+//	tag.pvp_katilimci_<dlocal.x> 0
+//	tag.pvp_katildi_<dlocal.x> 0
+//endfor
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@dclick
+if (<src.account.plevel> < 7)
+src.sysmessage @,,1 Bu islem icin yetkin yok.
+return 1
+endif
+timer 1
+return 1
+
+on=@timer
+if <eval <var.pvp_var_suan>> == 0
+
+var.pvp_geriye_kalan <eval <var.pvp_katilimcisi>>
+
+if <f_even_or_odd <eval <var.pvp_geriye_kalan>>>
+	local.pvp_sayisi 1
+else
+	local.pvp_sayisi 0
+endif
+
+if <eval <local.pvp_sayisi>> == 1
+	try uid.<tag.pvp_katilimci_<eval <var.pvp_katilimcisi>>>.sysmessage @,,1 Tur atladiniz.
+	try uid.<tag.pvp_katilimci_<eval <var.pvp_katilimcisi>>>.go <def.pvp_yarismaci_tur_atla>
+	//tag.pvp_katildi_<eval <var.pvp_katilimcisi>> 2 // tur atlattık
+	//try uid.<tag.pvp_katilimci_<eval <var.pvp_katilimcisi>>>.tag.pvp_sirano 1
+	var.pvp_geriye_kalan <eval <var.pvp_katilimcisi>-1>
+endif
+
+//if <eval <var.pvp_geriye_kalan>> != 0
+  //if <eval <var.pvp_var_suan>> == 0
+   if <eval <var.pvp_geriye_kalan>> != 0
+     if <eval <var.pvp_yapan>> != 2	
+	
+	try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.events +e_cpvp_pvp_yeni
+	try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.events -e_yarisma_pvp
+	try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.sysmessage @,,1 Pvp sirasi sizde, duellonuz baslamak uzere... 
+	
+	//try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.tag.pvp_rakibi <tag.pvp_katilimci_<eval <var.pvp_geriye_kalan> -1>
+	if <isempty <tag.rakip_1>>
+		tag.rakip_1 <tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>
+		try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.go <def.pvp_yarismaci_1>
+		try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.Kafesle_duel
+	else
+		tag.rakip_2 <tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>
+		try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.go <def.pvp_yarismaci_2>
+		try uid.<tag.pvp_katilimci_<eval <var.pvp_geriye_kalan>>>.Kafesle_duel
+	endif
+	
+	//tag.pvp_katildi_<eval <var.pvp_geriye_kalan>>> 2
+	var.pvp_yapan ++
+	var.pvp_geriye_kalan --
+       endif
+     endif
+
+  //endif
+//endif
+
+
+if !(<isempty <tag.rakip_1>>) && !(<isempty <tag.rakip_2>>)
+try uid.<tag.rakip_1>.tag.pvp_rakibi <tag.rakip_2>
+try uid.<tag.rakip_2>.tag.pvp_rakibi <tag.rakip_1>
+var.pvp_var_suan 1
+endif
+
+
+endif
+
+
+timer -1
+
+
+return 1
+	
+	
+
+[events e_yarisma_pvp]
+
+on=@death
+var.pvp_katilimcisi --
+var.pvp_geriye_kalan --
+events -e_yarisma_pvp
+f_pvp_loser
+hits <str>
+return 1
+
+on=@attack
+skill fail
+action -1
+return 1
+
+on=@itemdclick
+if (<act.baseid> == i_shrink_new) || (<act.baseid> == i_shrink_deed) || (<act.baseid> == i_pet_horse) || (<act.baseid> == i_pet_horse_brown_dk) || (<act.type> == t_figurine) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosionless) || (<act.baseid> == i_runebook) || (<act.baseid> == i_egg_ostard_olgun)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+on=@hit
+return 1
+on=@gethit
+return 1
+on=@spellcast
+if !(<src.uid>==<act.uid>)
+f_fizzle
+return 1
+endif
+on=@skillgain
+return 1
+
+on=@logout
+src.stone 1
+src.timerf 2,message @69,1,1 <src.name> oyundan dustu 60 saniye icerisinde oyuna girmesse otomatik kazanacaksiniz.
+src.timerf 60,src.f_pvp_loser_logout
+
+on=@login
+src.TIMERF CLEAR
+src.stone 0
+
+
+
+[events e_cpvp_pvp_yeni]
+
+on=@logout
+src.stone 1
+src.timerf 2,message @69,1,1 <src.name> oyundan dustu 60 saniye icerisinde oyuna girmesse otomatik kazanacaksiniz.
+src.timerf 60,src.f_pvp_loser_logout_duello
+
+on=@login
+src.TIMERF CLEAR
+src.stone 0
+
+
+
+
+on=@spellcast
+if (<argn>==45) || (<argn>==32) || (<argn>==52) || (<argn>==24) || (<argn>==57) || (<argn>==54) || (<argn>==50) || (<argn>==49) || (<argn>==45) || (<argn>==43) || (<argn>==40) || (<argn>==39) || (<argn>==28) || (<argn>==38) || (<argn>==44) || (<argn>==58)
+src.sysmessage @1976,1,1,1 Pvp'de bu buyuleri kullanamazsiniz..
+f_fizzle
+skill fail
+return 1
+endif
+
+on=@itemdclick
+if (<act.baseid> == i_potion_explosion) || (<act.baseid> == i_potion_explosiongreat) || (<act.baseid> == i_potion_explosionless)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_egg_ostard_olgun) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_shrink_deed) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_shrink_new) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_pet_horse_brown_dk)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.baseid> == i_runebook) 
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+if (<act.type> == t_figurine)
+src.sysmessage @2028 Bu bolgede kullanilmaz..
+return 1
+endif
+
+
+
+on=@ItemEquipTest
+if <act.isevent.t_weapon_poisoned>
+	src.sysmessage @33,,1 Kurallara gore silahta poison yasak.
+	return 1
+endif
+
+
+on=@death
+var.pvp_katilimcisi --
+//var.pvp_geriye_kalan --
+events -e_yarisma_pvp
+events -e_cpvp_pvp_yeni
+try uid.<tag.pvp_rakibi>.go <def.pvp_yarismaci_tur_atla>
+try uid.<tag.pvp_rakibi>.sysmessage @,,1 Kazandiniz...
+try uid.<tag.pvp_rakibi>.events -e_cpvp_pvp_yeni
+try uid.<tag.pvp_rakibi>.events +e_yarisma_pvp
+var.pvp_var_suan 0
+f_pvp_loser
+hits <str>
+try uid.<def.pvp_stone>.tag.rakip_1
+try uid.<def.pvp_stone>.tag.rakip_2
+try uid.<def.pvp_stone>.timer 10
+var.pvp_yapan 0
+return 1
+
+
+	
+on=@Skillstart
+
+if (<action> == (skill_hiding)) || (<action> == id(skill_hiding)) || (<action> == id(skill_stealth)) || (<action> == (skill_stealth))
+src.sysmessage @,,1 Hide olamazsiniz..
+skill fail
+return 1
+endif
+
+
+[function f_pvp_draw]
+if <isevent.e_yarisma_pvp>
+go <def.pvp_finish_and_go>
+f_pvp_fame_karma_kill_load
+invis 0
+events -e_yarisma_pvp
+events -e_cpvp_pvp_yeni
+
+Yarisma_Duyurusu Pvp yarismasi iptal edildi.
+endif
+
+
+
+[itemdef i_gate_pvp_alani]
+id i_moongate_blue
+name Pvp Etkinligi
+
+on=@click
+message @0808,1,1 Pvp Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+
+if (<src.findtype.t_potion>) || (<src.findid.i_bandage>)
+src.sysmessage @,,1 Yaninizdaki potion ve bandaji lutfen birakiniz.
+return 1
+endif
+
+
+if (<src.findlayer.25>) 
+src.sysmessage @1953,1,1,1 Binek üzerinde katılamazsınız.
+return 1
+endif
+
+local.uid1 <src.uid>
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<local.uid1>)
+try uid.<local.uid1>.sysmessage @1953,1,1,1 Etrafınızda bineğiniz olduğu taktirde yarışmaya katılamazsınız.
+return 1
+endif
+endif
+endfor
+local.uid1
+
+
+
+if <src.findtype.t_eq_trade_window>
+	src.sys_error Trade ekraninda yarismaya katilmazsiniz.
+	return 1
+endif
+if <src.account.plevel> > 1
+return 1
+endif
+src.hits <src.str>
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+var.pvp_katilimcisi ++
+serv.allclients Yarisma_katilan <src.name> yarismaya katildi. Toplam katilimci : <eval <var.pvp_katilimcisi>>
+src.events +e_yarisma_pvp
+src.go <def.pvp_giris>
+src.f_pvp_fame_karma_kill_save
+
+//for x 1 32
+	//ref1 = <uid.<def.pvp_stone>.tag.pvp_katilimci_<dlocal.x>>
+	////if <isempty <uid.<def.pvp_stone>.tag.pvp_katilimci_<dlocal.x>>>
+try uid.<def.pvp_stone>.tag.pvp_katilimci_<eval <var.pvp_katilimcisi>> <src.uid>
+try uid.<def.pvp_stone>.tag.pvp_katildi_<eval <var.pvp_katilimcisi>> 1
+src.tag.pvp_sirano <eval <var.pvp_katilimcisi>>
+return 1
+
+		return 1
+	//endif
+//
+	//if <uid.<def.pvp_stone>.tag.katilimci_<dlocal.x>> == 0
+	//	if <uid.<def.pvp_stone>.tag.katildi_<dlocal.x>> == 0
+	//		if !<src.tag.pvp_katildi>
+	//			try uid.<def.pvp_stone>.tag.pvp_katilimci_<dlocal.x> <src.uid>
+	//			try uid.<def.pvp_stone>.tag.pvp_katildi_<dlocal.x> 1
+	//			src.tag.pvp_katildi 1
+	//		endif
+	//	endif
+	//endif
+//endfor
+
+
+
+on=@step
+src.sysmessage @39,1,1 <src.name>, cift tiklayin.
+return 1
+
+
+on=@timer
+
+if (<eval <var.pvp_katilimcisi>> < <def.pvp_katilimci_baraji>)
+serv.allclients f_pvp_draw
+serv.allclients Yarisma_Duyurusu Katilimci sayisi baraji gecemedigi icin Pvp yarismasi iptal edildi.
+var.etkinlikprogramisondurum Yarisma_Duyurusu Katilimci sayisi baraji gecemedigi icin Pvp turnuvasi iptal edildi.
+var.katilim 0
+remove
+return 1
+endif
+
+var.pvp_katilimcisi_X <var.pvp_katilimcisi>
+//serv.allclients Pvp yarismasi basliyor. Katilimci : <eval <var.pvp_katilimcisi>> //, odul : <eval (<var.LMS_katilimcisi_X>*5000)> Gold.
+serv.allclients f_pvp_start
+try uid.<def.pvp_stone>.timer 1
+var.pvp_geriye_kalan 0
+var.katilim 0
+var.pvp_yapan 0
+remove
+return 1
+
+
+[function f_pvp_open]
+serv.allclients f_pvp_draw
+var.pvp_katilimcisi	0
+var.pvp_katilimcisi_x	0
+var.pvp_geriye_kalan	0
+
+for x 1 100
+	try uid.<def.pvp_stone>.tag.pvp_katilimci_<dlocal.x>
+	try uid.<def.pvp_stone>.tag.pvp_katildi_<dlocal.x>
+endfor
+
+try uid.<def.pvp_stone>.tag.rakip_1
+try uid.<def.pvp_stone>.tag.rakip_2
+
+//Serv.newitem i_gate_pvp
+//new.p <def.pvp_open_gate_p>
+//new.timer <def.pvp_timer_gate>
+
+[function f_pvp_start]
+
+
+if (<isevent.e_yarisma_pvp>)
+invis 0
+Yarisma_Duyurusu Yarisma basladi !
+endif
+
+
+[function f_pvp_winner]
+if <isevent.e_yarisma_pvp>
+var.son_last <name>	 // winner
+go <def.LMS_finish_and_go>
+say @,,1 Kazandiniz !
+f_pvp_fame_karma_kill_load
+invis 0
+
+//serv.newitem might_silah
+//new.cont <FINDLAYER.21>
+//account.tag0.connecttimeused -= 20
+//sysmessage @,,1 Might Random Magical silah ve 20 saat online sure kazandiniz.
+//gold += <eval (<var.LMS_katilimcisi_X>)*20000> // Katilimci sayisi X 20k gold --> Odul
+serv.allclients Yarisma_Duyurusu Pvp turnuvasini kazanan <name> olmustur.
+var.etkinlikprogramisondurum Pvp turnuvasi bitti , kazanan <name> olmustur.
+events -e_yarisma_pvp
+events -e_cpvp_pvp_yeni
+endif
+
+
+
+[function f_pvp_loser]
+
+
+if (<eval <var.pvp_katilimcisi>> == 1)
+serv.allclients f_pvp_winner
+go <def.pvp_finish_and_go>
+f_pvp_fame_karma_kill_load
+else
+
+go <def.pvp_finish_and_go>
+f_pvp_fame_karma_kill_load
+say @33,,1 Kaybettiniz.
+endif
+
+
+[function f_pvp_loser_logout]
+events -e_yarisma_pvp
+events -e_cpvp_pvp_yeni
+var.pvp_katilimcisi --
+var.pvp_geriye_kalan --
+f_pvp_loser
+
+[function f_pvp_loser_logout_duello]
+try uid.<tag.pvp_rakibi>.go <def.pvp_yarismaci_tur_atla>
+try uid.<tag.pvp_rakibi>.sysmessage @,,1 Kazandiniz...
+try uid.<tag.pvp_rakibi>.events -e_cpvp_pvp_yeni
+try uid.<tag.pvp_rakibi>.events +e_yarisma_pvp
+var.pvp_var_suan 0
+events -e_yarisma_pvp
+events -e_cpvp_pvp_yeni
+var.pvp_katilimcisi --
+f_pvp_loser
+
+
+
+
+
+[function f_pvp_fame_karma_kill_save]
+tag0.pvp_kill	<kills>
+tag0.pvp_fame	<fame>
+tag0.pvp_karma	<karma>
+
+[function f_pvp_fame_karma_kill_load]
+kills	<eval <tag0.pvp_kill>>
+fame	<eval <tag0.pvp_fame>>
+karma	<eval <tag0.pvp_karma>>
+flags &= ~statf_criminal
+binekstabil
+tag0.pvp_kill
+tag0.pvp_fame
+tag0.pvp_karma
+tag.pvp_rakibi
+tag.pvp_katildi
+tag.pvp_sirano
+
+
+
+
+
+
+
+
+[EOF]

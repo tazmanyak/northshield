@@ -1,0 +1,283 @@
+////////////////////////////////////////////////////////////
+////////////////NECRO BOOK////////////////////////////
+////////////////////////////////////////////////////////////
+
+[itemdef i_dl_book_necro]
+name	= Book of the Underworld
+id		= i_spellbook
+type		= t_spellbook
+on = @create
+	color	=09ec
+	attr		=04
+	morez	=64
+on = @dclick
+	dialog d_nec
+	return 1
+CATEGORY	=#_dungeon
+SUBSECTION	=Moria
+DESCRIPTION	=[items] Necro Book
+
+[dialog d_nec]
+0,0
+button 56 151 32 32 1 1 7
+gumppic 50 50 2220
+page 1
+text 140 65 <eval 38+(10000 * <isbit <more1>,0>)> 41
+text 280 65 <eval 38+(10000 * <isbit <more1>,3>/8)> 41
+button 115 95 2299 2299 1 1 1
+button 100 58 2205 2205 0 5 8
+button 373 58 2206 2206 0 2
+resizepic 110 90 83 60 60
+tilepic 120 100 8428
+gumppic 110 155 2101
+gumppic 125 155 2101
+gumppic 140 155 2101
+gumppic 155 155 2101
+gumppic 170 155 2101
+gumppic 185 155 2101
+gumppic 200 155 2101
+htmlgump 180 100 60 60 0 0 0
+text 110 160 900 1 08
+HTMLGUMP 120 180 80 80 2 0 0
+
+button 285 95 2299 2299 1 1 2
+resizepic 280 90 83 60 60
+tilepic 290 110 2594
+gumppic 280 155 2101
+gumppic 295 155 2101
+gumppic 310 155 2101
+gumppic 325 155 2101
+gumppic 340 155 2101
+gumppic 355 155 2101
+gumppic 370 155 2101
+htmlgump 350 100 60 60 3 0 0
+text 280 160 900 1 08
+HTMLGUMP 290 180 90 80 4 0 0
+page 2
+text 140 65 <eval 38+(10000 * (<isbit <more1>,2>/4))> 41
+text 280 65 <eval 38+(10000 * (<isbit <more1>,4>/16))> 41
+button 115 95 2299 2299 1 1 3
+button 100 58 2205 2205 0 1
+button 373 58 2206 2206 0 3
+resizepic 110 90 83 60 60
+tilepic 120 100 5204
+gumppic 110 155 2101
+gumppic 125 155 2101
+gumppic 140 155 2101
+gumppic 155 155 2101
+gumppic 170 155 2101
+gumppic 185 155 2101
+gumppic 200 155 2101
+htmlgump 180 100 60 60 5 0 0
+text 110 160 900 1 08
+HTMLGUMP 120 180 80 80 6 0 0
+
+button 285 95 2299 2299 1 1 4
+resizepic 280 90 83 60 60
+tilepic 285 100 14068
+gumppic 280 155 2101
+gumppic 295 155 2101
+gumppic 310 155 2101
+gumppic 325 155 2101
+gumppic 340 155 2101
+gumppic 355 155 2101
+gumppic 370 155 2101
+htmlgump 350 100 60 60 7 0 0
+text 280 160 900 1 08
+HTMLGUMP 290 180 90 80 8 0 0
+page 3
+text 140 65 <eval 38+(10000 * (<isbit <more1>,5>/32))> 41
+text 280 65 <eval 38+(10000 * (<isbit <more1>,1>/2))> 41
+button 115 95 2299 2299 1 1 5
+button 100 58 2205 2205 0 2
+button 373 58 2206 2206 0 4
+resizepic 110 90 83 60 60
+tilepic 100 98 14031
+tilepic 115 107 7960
+gumppic 110 155 2101
+gumppic 125 155 2101
+gumppic 140 155 2101
+gumppic 155 155 2101
+gumppic 170 155 2101
+gumppic 185 155 2101
+gumppic 200 155 2101
+htmlgump 177 100 100 60 9 0 0
+text 110 160 900 1 08
+HTMLGUMP 120 180 100 80 10 0 0
+
+button 285 95 2299 2299 1 1 6
+resizepic 280 90 83 60 60
+tilepic 283 99 4414
+tilepic 287 105 3789
+gumppic 280 155 2101
+gumppic 295 155 2101
+gumppic 310 155 2101
+gumppic 325 155 2101
+gumppic 340 155 2101
+gumppic 355 155 2101
+gumppic 370 155 2101
+htmlgump 350 100 60 60 11 0 0
+text 280 160 900 1 08
+HTMLGUMP 290 180 90 80 12 0 0
+page 4
+button 100 58 2205 2205 0 3
+text 110 90 900 13
+page 5
+resizepic 100 100 3600 400 300
+tilepic 120 120 3962
+tilepic 125 125 3962
+tilepic 160 120 3963
+tilepic 165 125 3963
+tilepic 210 120 3972
+tilepic 215 125 3972
+tilepic 240 120 3973
+tilepic 245 125 3973
+tilepic 280 120 3974
+tilepic 285 125 3974
+tilepic 320 120 3976
+tilepic 325 125 3976
+tilepic 360 120 3980
+tilepic 365 125 3980
+tilepic 400 120 3981
+tilepic 405 125 3981
+HTMLGUMP 130 140 40 20 14 0 0 0
+HTMLGUMP 170 140 40 20 15 0 0 0
+HTMLGUMP 215 140 40 20 16 0 0 0
+HTMLGUMP 250 140 40 20 17 0 0 0
+HTMLGUMP 290 140 40 20 18 0 0 0
+HTMLGUMP 330 140 40 20 19 0 0 0
+HTMLGUMP 370 140 40 20 20 0 0 0
+HTMLGUMP 410 140 40 20 21 0 0 0
+
+tilepic 120 170 3960
+tilepic 125 175 3960
+tilepic 160 170 3961
+tilepic 165 175 3961
+tilepic 210 170 3964
+tilepic 215 175 3964
+tilepic 240 170 3965
+tilepic 245 175 3965
+tilepic 280 170 3966
+tilepic 285 175 3966
+tilepic 320 170 3967
+tilepic 325 175 3967
+tilepic 360 170 3968
+tilepic 365 175 3968
+tilepic 400 170 3969
+tilepic 405 175 3969
+tilepic 440 170 3970
+tilepic 445 175 3970
+HTMLGUMP 130 190 40 20 22 0 0 0
+HTMLGUMP 170 190 40 20 23 0 0 0
+HTMLGUMP 215 190 40 20 24 0 0 0
+HTMLGUMP 250 190 40 20 25 0 0 0
+HTMLGUMP 290 190 40 20 26 0 0 0
+HTMLGUMP 330 190 40 20 27 0 0 0
+HTMLGUMP 370 190 40 20 28 0 0 0
+HTMLGUMP 410 190 40 20 29 0 0 0
+HTMLGUMP 450 190 40 20 30 0 0 0
+
+tilepic 120 220 3971
+tilepic 125 225 3971
+tilepic 160 220 3975
+tilepic 165 225 3975
+tilepic 210 220 3977
+tilepic 215 225 3977
+tilepic 240 220 3978
+tilepic 245 225 3978
+tilepic 280 220 3979
+tilepic 285 225 3979
+tilepic 320 220 3982
+tilepic 325 225 3982
+tilepic 360 220 3983
+tilepic 365 225 3983
+tilepic 400 220 3984
+tilepic 405 225 3984
+tilepic 440 220 3985
+tilepic 445 225 3985
+HTMLGUMP 130 240 40 20 31 0 0 1
+HTMLGUMP 170 240 40 20 32 0 0 0
+HTMLGUMP 215 240 40 20 33 0 0 0
+HTMLGUMP 250 240 40 20 34 0 0 0
+HTMLGUMP 290 240 40 20 35 0 0 0
+HTMLGUMP 330 240 40 20 36 0 0 0
+HTMLGUMP 370 240 40 20 37 0 0 0
+HTMLGUMP 410 240 40 20 38 0 0 0
+HTMLGUMP 450 240 40 20 39 0 0 0
+button 410 320 2234 2234 0 1
+
+
+[dialog d_nec text]
+Summon Undead
+Reagents:
+Bloodmoss Vial of Blood Bones
+Light
+Eyes of Newt Sulforous Ash
+Bone Armor
+Bones Spider Silk
+Firebolt
+Sulforous Ash Dragons Blood Black Pearl
+Hallucination
+Blackmoor Executioners Cap Nightshade
+Animate Dead
+Dragons Blood Vial of Blood Wyrm's Heart
+Book of the Underworld
+<src.rescount i_reag_black_pearl>
+<src.rescount i_reag_blood_moss>
+<src.rescount i_reag_garlic>
+<src.rescount i_reag_ginseng>
+<src.rescount i_reag_mandrake_root>
+<src.rescount i_reag_nightshade>
+<src.rescount i_reag_sulfur_ash>
+<src.rescount i_reag_spider_silk>
+<src.rescount i_reag_BATWING>
+<src.rescount i_reag_blackmoor>
+<src.rescount i_reag_blood_spawn>
+<src.rescount i_reag_blood_vial>
+<src.rescount i_reag_bone>
+<src.rescount i_reag_brimstone>
+<src.rescount i_reag_daemon_bone>
+<src.rescount i_reag_fertile_dirt>
+<src.rescount i_reag_dragon_blood>
+<src.rescount i_reag_executioners_cap>
+<src.rescount i_reag_eye_of_newt>
+<src.rescount i_reag_obsidian>
+<src.rescount i_reag_pig_iron>
+<src.rescount i_reag_pumice>
+<src.rescount i_reag_serpent_scale>
+<src.rescount i_reag_volcanic_ash>
+<src.rescount i_reag_dead_wood>
+<src.rescount i_reag_worm_heart>
+not used anymore	//<not used anymore>
+Not learned
+
+[dialog d_nec button]
+onbutton=1
+src.cast 65
+onbutton=2
+src.cast 68
+onbutton=3
+src.cast 67
+onbutton=4
+src.cast 69
+onbutton=5
+src.cast 70
+onbutton=6
+src.cast 66
+onbutton=7
+src.dialog d_necro_small
+
+[dialog d_necro_small]
+0,0
+nodispose
+noclose
+button 23 170 2284 2284 1 0 1
+resizepic 20 165 5120 50 56
+tilepic 20 170 4471
+[dialog d_necro_small text]
+[dialog d_necro_small button]
+onbutton=1
+	src.findid.i_book_necro.dclick
+
+
+[EOF]

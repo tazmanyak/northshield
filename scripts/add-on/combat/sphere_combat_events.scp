@@ -1,0 +1,244 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[events e_PlayerCombatEvent]
+on=@hittry
+if <def.scp.Combat_FormulasUsed> != 0
+argn1 = <f_combatsys_hitspeed <argn1>>
+actdiff = <f_combatsys_hitchance <actdiff>>
+endif
+if !<isempty <tag.override.hitspeed>>
+	tag.override.hitspeed =
+endif
+
+on=@spelleffect
+tag.spellhit = <argn1>
+if <isdamagespell <argn1>>
+tag0.gothitbyspell = <argn1>
+endif
+
+on=@hit
+if <weapon>
+argn1 = <eval {<weapon.dam>}>
+	if <weapon.attr>&attr_magic
+	argn1 += <eval <weapon.morey> / 7>
+	endif
+else
+argn1 = <eval <r1,4>>
+	if <flags>&statf_polymorph
+		if <def.scp.Combat_PolymorphDamage> == 1
+		argn1 = <eval {<serv.chardef.<body>.dam>}>
+		endif
+	endif
+endif
+if <src.f_combatsys_blockchance> || (<src.trigger @Shield> == 1)
+src.f_combatsys_block
+	doswitch <def.scp.Combat_BlockChance>
+	local.blank
+	return 1
+		begin
+		local.ar = <qval <weapon.isweapon.archery> ? <src.findlayer.2.armor.high> : <eval <src.findlayer.2.armor.high> / 2>>
+		argn1 = <max <local.ar>,0>
+		end
+	enddo
+endif
+doswitch <def.scp.Combat_FormulasUsed>
+local.totalbonus = 0
+	begin
+		doswitch <def.scp.Combat_DamageBonus>
+		local.totalbonus = 0
+		local.totalbonus = <f_combatsys_damagebonus_uor>
+		local.totalbonus = <f_combatsys_damagebonus_aos>
+		enddo
+	end
+local.totalbonus = <f_combatsys_damagebonus_uor>
+local.totalbonus = <f_combatsys_damagebonus_aos>
+enddo
+trigger @HitDamageBonus,<def.tat_as_argo>,<argo>
+local.totalbonus += <var0.<uid>_damagebonus>
+var.<uid>_damagebonus =
+local.totalbonus = <muldiv <argn1>,<local.totalbonus>,100>
+argn1 += <local.totalbonus>
+src.tag.hbcs = 1
+
+on=@gethit
+if <tag0.hbcs>
+	if <tag0.ignore.combat>
+	argn2 |= dam_god
+	tag.ignore.combat
+	elif ((<def.scp.Combat_FormulasUsed> == 1) && <def.scp.Combat_UseResistances>) || (<def.scp.Combat_FormulasUsed> == 3)
+	ref1 = <qval (<src.weapon>) ? <src.weapon>:<src>>
+	local.realphy = <eval 100 - (<ref1.tag0.DamFire> + <ref1.tag0.DamCold> + <ref1.tag0.DamPoison> + <ref1.tag0.DamEnergy>)>
+	local.physical = <muldiv <argn1>,<local.realphy>,100>
+	local.physical -= <muldiv <local.physical>,<eval <armor> + <modar>>,100>
+	local.fire = <muldiv <argn1>,<ref1.tag0.DamFire>,100>
+	local.fire -= <muldiv <local.fire>,<ResFire>,100>
+	local.cold = <muldiv <argn1>,<ref1.tag0.DamCold>,100>
+	local.cold -= <muldiv <local.cold>,<ResCold>,100>
+	local.poison = <muldiv <argn1>,<ref1.tag0.DamPoison>,100>
+	local.poison -= <muldiv <local.poison>,<ResPoison>,100>
+	local.energy = <muldiv <argn1>,<ref1.tag0.DamEnergy>,100>
+	local.energy -= <muldiv <local.energy>,<ResEnergy>,100>
+	argn1 = <eval <local.physical> + <local.fire> + <local.cold> + <local.poison> + <local.energy>>
+	argn2 |= dam_god
+	endif
+endif
+if <tag0.gothitbyspell>
+	if <def.scp.Combat_SpellBonus> == 1
+	local.damage = <r<serv.spell.<dtag.gothitbyspell>.effect>>
+	local.evalint = <eval (((<src.evaluatingintel>*3)/1000)+1)>
+	local.damageinc = <eval <src.int>/10>
+		if <src.inscription> >= 100.0
+		local.damageinc += 10
+		endif
+		if <def.scp.ItemProp_SpellDamageIncrease> == 1
+			if <src.tag0.SpellDamageIncrease>
+			local.damageinc += <qval (<src.tag.SpellDamageIncrease> > 15) ? 15 : <src.tag.SpellDamageIncrease>>
+			endif
+		endif
+	argn1 = <eval <local.damage>*<local.evalint>>
+	argn1 += <eval ((<argn1>*<local.damageinc>)/100)+1>
+	endif
+endif
+if <tag0.spellhit>
+	if <def.scp.NewSkills_ResistingSpells> == 1
+		if <serv.spell.<tag.spellhit>.flags>&spellflag_resist
+		local.resist = <eval <magicresistance>-((<src.evaluatingintel>*<spellcircle <tag.spellhit>>)/20)>
+			if <local.resist> > (<r>)
+			sysmessage @,,2 501783 // You feel yourself resisting magical energy.
+			argn1 -= <r<eval <magicresistance>/6>,<eval <magicresistance>/4>>
+			else
+			argn1 -= <r<eval <magicresistance>/7>>
+			endif
+		endif
+	endif
+endif
+tag.spellhit =
+tag.hbcs =
+tag.gothitbyspell =
+
+
+[events e_NpcCombatEvent]
+on=@hittry
+if <def.scp.Combat_FormulasUsed> != 0
+argn1 = <f_combatsys_hitspeed <argn1>>
+actdiff = <f_combatsys_hitchance <actdiff>>
+endif
+if !<isempty <tag.override.hitspeed>>
+	tag.override.hitspeed =
+endif
+
+on=@spelleffect
+tag.spellhit = <argn1>
+if <isdamagespell <argn1>>
+tag0.gothitbyspell = <argn1>
+endif
+
+on=@hit
+if <weapon>
+argn1 = <eval {<weapon.dam>}>
+	if <weapon.attr>&attr_magic
+	argn1 += <eval <weapon.morey> / 7>
+	endif
+else
+argn1 = <eval {<dam>}>
+endif
+if <src.f_combatsys_blockchance> || (<src.trigger @Shield> == 1)
+src.f_combatsys_block
+	doswitch <def.scp.Combat_BlockChance>
+	local.blank
+	return 1
+		begin
+		local.ar = <qval <weapon.isweapon.archery> ? <src.findlayer.2.armor.high> : <eval <src.findlayer.2.armor.high> / 2>>
+		argn1 = <max <local.ar>,0>
+		end
+	enddo
+endif
+doswitch <def.scp.Combat_FormulasUsed>
+local.totalbonus = 0
+	begin
+		doswitch <def.scp.Combat_DamageBonus>
+		local.totalbonus = 0
+		local.totalbonus = <f_combatsys_damagebonus_uor>
+		local.totalbonus = <f_combatsys_damagebonus_aos>
+		enddo
+	end
+local.totalbonus = <f_combatsys_damagebonus_uor>
+local.totalbonus = <f_combatsys_damagebonus_aos>
+enddo
+trigger @HitDamageBonus,<def.tat_as_argo>,<argo>
+local.totalbonus += <var0.<uid>_damagebonus>
+var.<uid>_damagebonus =
+local.totalbonus = <muldiv <argn1>,<local.totalbonus>,100>
+argn1 += <local.totalbonus>
+src.tag.hbcs = 1
+
+on=@gethit
+if <tag0.hbcs>
+	if <tag0.ignore.combat>
+	argn2 |= dam_god
+	tag.ignore.combat
+	elif ((<def.scp.Combat_FormulasUsed> == 1) && <def.scp.Combat_UseResistances>) || (<def.scp.Combat_FormulasUsed> == 3)
+	ref1 = <qval (<src.weapon>) ? <src.weapon>:<src>>
+	local.realphy = <eval 100 - (<ref1.tag0.DamFire> + <ref1.tag0.DamCold> + <ref1.tag0.DamPoison> + <ref1.tag0.DamEnergy>)>
+	local.physical = <muldiv <argn1>,<local.realphy>,100>
+	local.physical -= <muldiv <local.physical>,<eval <armor> + <modar>>,100>
+	local.fire = <muldiv <argn1>,<ref1.tag0.DamFire>,100>
+	local.fire -= <muldiv <local.fire>,<ResFire>,100>
+	local.cold = <muldiv <argn1>,<ref1.tag0.DamCold>,100>
+	local.cold -= <muldiv <local.cold>,<ResCold>,100>
+	local.poison = <muldiv <argn1>,<ref1.tag0.DamPoison>,100>
+	local.poison -= <muldiv <local.poison>,<ResPoison>,100>
+	local.energy = <muldiv <argn1>,<ref1.tag0.DamEnergy>,100>
+	local.energy -= <muldiv <local.energy>,<ResEnergy>,100>
+	argn1 = <eval <local.physical> + <local.fire> + <local.cold> + <local.poison> + <local.energy>>
+	argn2 |= dam_god
+	endif
+endif
+if <tag0.gothitbyspell>
+	if <def.scp.Combat_SpellBonus> == 1
+	local.damage = <r<serv.spell.<dtag.gothitbyspell>.effect>>
+	local.evalint = <eval (((<src.evaluatingintel>*3)/1000)+1)>
+	local.damageinc = <eval <src.int>/10>
+		if <src.inscription> >= 100.0
+		local.damageinc += 10
+		endif
+		if <def.scp.ItemProp_SpellDamageIncrease> == 1
+			if <src.tag0.SpellDamageIncrease>
+			local.damageinc += <qval (<src.tag.SpellDamageIncrease> > 15) ? 15 : <src.tag.SpellDamageIncrease>>
+			endif
+		endif
+	argn1 = <eval <local.damage>*<local.evalint>>
+	argn1 += <eval ((<argn1>*<local.damageinc>)/100)+1>
+	endif
+endif
+if <tag0.spellhit>
+	if <def.scp.NewSkills_ResistingSpells> == 0
+	tag.spellhit =
+	return 0
+	endif
+	if <serv.spell.<tag.spellhit>.flags>&spellflag_resist
+	local.resist = <eval <magicresistance>-((<src.evaluatingintel>*<spellcircle <tag.spellhit>>)/20)>
+		//if <local.resist> > (<r>)
+		//sysmessage @,,2 501783 // You feel yourself resisting magical energy.
+		//argn1 -= <r<eval <magicresistance>/6>,<eval <magicresistance>/4>>
+		//else
+		//argn1 -= <r<eval <magicresistance>/7>>
+		//endif
+	endif
+endif
+tag.spellhit =
+tag.hbcs =
+tag.gothitbyspell =
+
+
+////////////////////////////////
+
+
+
+[eof]

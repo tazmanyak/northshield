@@ -1,0 +1,132 @@
+[ITEMDEF 026b4]
+DEFNAME=i_scale
+TYPE=t_normal
+NAME=Scale%s
+PILE=1
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=@
+DUPELIST=026b2,026b3,026b1,026b5,026b6
+
+[ITEMDEF 026b2]
+DUPEITEM=026b4
+
+[ITEMDEF 026b3]
+DUPEITEM=026b4
+
+[ITEMDEF 026b1]
+DUPEITEM=026b4
+
+[ITEMDEF 026b5]
+DUPEITEM=026b4
+
+[ITEMDEF 026b6]
+DUPEITEM=026b4
+
+
+//For backwards compatability
+[ITEMDEF i_reag_dragon_scale]
+DEFNAME=i_reag_dragon_scale
+ID=i_scale
+NAME=Dragon Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=Dragon Scale
+
+
+[ITEMDEF i_scale_black]
+DEFNAME=i_scale_black
+ID=i_scale
+NAME=Dragon Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=Black Scale
+
+ON=@Create
+ COLOR=002C3
+
+
+[ITEMDEF i_scale_blue]
+DEFNAME=i_scale_blue
+ID=i_scale
+NAME=Sea Serpent Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=Blue Scale
+
+ON=@Create
+ COLOR=002B4
+
+
+[ITEMDEF i_scale_green]
+DEFNAME=i_scale_green
+ID=i_scale
+NAME=Dragon Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=Green Scale
+
+ON=@Create
+ COLOR=00304
+
+
+[ITEMDEF i_scale_red]
+DEFNAME=i_scale_red
+ID=i_scale
+NAME=Dragon Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=Red Scale
+
+ON=@Create
+ COLOR=00151
+
+
+[ITEMDEF i_scale_white]
+DEFNAME=i_scale_white
+ID=i_scale
+NAME=Dragon Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=White Scale
+
+ON=@Create
+ COLOR=002C2
+
+
+[ITEMDEF i_scale_yellow]
+DEFNAME=i_scale_yellow
+ID=i_scale
+NAME=Dragon Scale%s
+WEIGHT=0.1
+VALUE=5
+
+CATEGORY=Provisions - Blacksmithing
+SUBSECTION=Scales
+DESCRIPTION=Yellow Scale
+
+ON=@Create
+ COLOR=00224
+
+[EOF]

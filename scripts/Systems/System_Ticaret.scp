@@ -1,0 +1,1556 @@
+ï»¿[function ticaret]
+if <src.findid.i_ticaret_suresi>
+	src.sysmessage @,,1 Ticaretinize kalan sure : <ftime <src.findid.i_ticaret_suresi.timer>>
+	return 1
+else
+	src.sysmessage @,,1 Suan ticaret yapabilirsiniz.
+	return 1
+endif
+
+
+[plevel 1]
+arrowquest
+ticaret
+
+[ITEMDEF i_ticaret_suresi]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Ticaret Suresi
+
+ON=@Create
+attr=attr_move_never|attr_can_decay|attr_invis
+
+ON=@equip
+TIMER=<eval 60*60*24*1>
+
+ON=@Timer
+REMOVE
+return 1
+
+[function font_deneme]
+src.sysmessage @,,1 Orosbu Ã§ocuÄŸu
+
+[defname renkler]
+nhue 38,6,1,trk
+phue 0ad,6,1,trk
+mavi 0c1,6,1,trk
+
+[events e_nouse]
+on=@hit
+//if !(<src.isevent.e_haydut>)
+//src.sysmessage @03c1,6,1,1 Ticarettekiler sadece haydutlara saldirabilir
+//return 1
+
+on=@gethit
+//if !(<src.isevent.e_haydut>)
+//src.sysmessage @03c1,6,1,1 Ticaret esnasindakilere sadece haydutlar saldirabilir.
+//return 1
+
+on=@spelleffect
+////if !<src.isevent.e_haydut>
+//src.sysmessage @03c1,6,1,1 Ticaret esnasindakilere sadece haydutlar saldirabilir.
+//return 1
+
+//on=@move
+//src.sysmessage @03c1,6,1 At ile ticaret yapamazsin.Bineginiz bankaniza aktarilmistir.
+//src.binekolmazsaolmaz
+
+on=@itemstep
+if (<act.type>==t_telepad)
+src.sysmessage @03c1,6,1 Suanda telepad , teleporter yada gate ile ilgili herhangi birsey kullanamazsin.
+src.move
+return 1
+endif
+
+on=@itemdclick
+if (<act.type>==t_telepad) || (<act.baseid>==i_ship_finder) || (<act.baseid>==i_runebook) || (<act.baseid> == i_moongate_red) || (<act.baseid> == i_sign_brass) || (<act.baseid> == i_moongate_blue) || (<act.type> == t_door_open) || (<act.type> == t_door_locked) || (<act.type> == t_multi) || (<act.baseid> == i_rb_gate) || (<act.dispid> == i_moongate_blue)
+src.sysmessage @03c1,6,1 Suan da telepad , teleporter yada gate ile ilgili herhangi birsey kullanamazsin.
+return 1
+endif
+
+//i_ship_finder
+
+[itemdef i_durbun]
+id i_spyglass
+name Durbun
+type t_eq_script
+resources=15 i_ingot_iron
+skillmake=tinkering 98.1
+
+on=@click
+message @mavi,6,1,trk Dürbün
+return 1
+
+on=@dclick
+if (<src.tracking> < 100.0)
+src.sysmessage @0ad,6,1,trk Bunu kullanabilmek icin en az 100.0 tracking yeteneginiz olmali.
+return 1
+endif
+if !(<src.isevent.e_haydut>)
+src.sysmessage @phue,6,1,trk Bunu sadece haydutlar kullanabilir.
+return 1
+endif
+
+forchars 45
+if (<id>==c_guard_haydut)
+if (<findid.i_mem_yorul.morex>==2)
+src.sysmessage @0ad,6,1 <eval <src.distance <uid>>> kare ötede bir guard bulunuyor.(dinleniyor)
+else
+src.sysmessage @0ad,6,1 <eval <src.distance <uid>>> kare ötede bir guard bulunuyor.
+endif
+endif
+endfor
+return 1
+
+
+[function f_check_kontrat_limit]
+
+if <eval <tag.maxadet>> == 100
+	return 100
+elseif <eval <tag.maxadet>> == 250
+	return 250
+elseif <eval <tag.maxadet>> == 500
+	return 500
+elseif <eval <tag.maxadet>> == 5000
+	return 5000
+elseif <eval <tag.maxadet>> == 10000
+	return 10000
+elseif <eval <tag.maxadet>> == 15000
+	return 15000
+elseif <eval <tag.maxadet>> == 20000	
+	return 20000
+elseif <eval <tag.maxadet>> == 65000	
+	return 65000
+endif
+
+[itemdef i_ticaret_kontrat_500]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=500
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+
+[itemdef i_ticaret_kontrat_250]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=250
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+
+
+[itemdef i_ticaret_kontrat_100]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=100
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+
+[itemdef i_ticaret_kontrat]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=5000
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+[itemdef i_ticaret_kontrat_10]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=10000
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+[itemdef i_ticaret_kontrat_15]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=15000
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+[itemdef i_ticaret_kontrat_20]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=20000
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+[itemdef i_ticaret_kontrat_65]
+id i_deed
+name Ticaret kontrati
+type t_kontrat
+
+on=@create
+color 7940000
+tag.adet=0
+tag.onay=0
+tag.maxadet=65000
+tag.npcuid=0
+tag.item=0
+tag.morex7=0
+
+[typedef t_kontrat]
+on=@click
+message @,,1 [<dtag0.adet>/<dtag0.maxadet> <serv.itemdef.<tag0.item>.name>]
+
+on=@dclick
+
+
+if ((<tag0.item>==i_hides_cut) 
+  if !<src.tailoring> == 100.0
+	sys_error Deri ticareti icin 100.0 tailor sahibi olmalisiniz.
+	return 1
+  endif
+endif
+				
+if ((<tag0.item>==i_platemail_chest)
+  if !<src.blacksmithing> == 100.0
+	src.sys_error Platemail Chest ticareti icin 100.0 blacksmith sahibi olmalisiniz.
+	return 1
+  endif				
+endif
+
+if ((<tag0.item>==i_fish_cut_cooked)
+  if !<src.fishing> == 100.0
+	src.sys_error Balik ticareti icin 100.0 Fishing sahibi olmalisiniz.
+	return 1	
+  endif				
+endif
+
+if ((<tag0.item>==i_scroll_resurrection) 
+  if !<src.inscription> == 100.0
+	src.sys_error Scroll ticareti icin 100.0 inscription sahibi olmalisiniz.
+	return 1
+  endif					
+endif	
+
+
+
+
+foritems 50
+	if <baseid> == i_rb_gate
+		src.sys_error Yakinizda acik bir portal varken bu islemi yapamazsiniz.
+		return 1
+	endif
+endfor
+
+if strmatch("<src.tag.ticaretbelgem>","<uid>")
+if (<tag0.onay>==1)
+dialog d_kontrat_ozellik
+endif
+endif
+
+if !<src.tag.ticaretbelgem>
+	src.tag.ticaretbelgem <uid>
+	src.sysmessage @,,1 Artik bu belge size ait.
+	return 1
+endif
+
+if (<tag0.adet> != <tag0.maxadet>)
+	morex=2
+	src.sysmessage @38,6,1 Bu deed dolmamis. Dolmasi gerekli.
+	target
+	return 1
+endif
+
+if (<tag0.onay>==0)
+	if !(<tag0.npcuid>)
+		target @03c1,6,1 Oncelikle bir yuk hayvani seciniz. (pack llama)
+		morex=6
+		tag0.hayvansecim 1
+		return 1
+	endif
+endif
+
+	
+if (<tag0.hayvansecim>==1)
+	if (<tag0.onay>==0)
+		src.sysmessage @38,6,1 Bu kontrat hazir. Simdi kontrati onaylamak icin Britain daki onaylatici npc yi seciniz.
+		dialog d_kontrat
+		morex=5
+		return 1
+	endif
+endif
+
+if (<tag0.onay>==1)
+	if <tag0.hayvansecim>
+		if !(<tag0.morex7>==1)
+			morex=3
+			target @03c1,6,1 Simdi ise bilgi edinmek icin Britaindeki ticaret teslimciye tiklayin.Size kontratinizi nereye gotureceginizi soleyecektir.
+			return 1
+		endif
+	endif
+endif
+
+if (<tag0.onay>==1)
+	if <tag0.hayvansecim>
+		if (<tag0.morex7>==1)
+			if ((<tag0.item>==i_hides_cut) && (strmatch("<src.region.name>","Skara Brae"))
+				target @03c1,6,1 Simdi ise ticareti birlikte yaptigin yuk hayvanini sec.
+				morex=7	
+			endif
+
+			if ((<tag0.item>==i_platemail_chest) && (strmatch("<src.region.name>","Trinsic"))
+				target @03c1,6,1 Simdi ise ticareti birlikte yaptigin yuk hayvanini sec.
+				morex=7	
+			endif
+
+			if ((<tag0.item>==i_fish_cut_cooked) && (strmatch("<src.region.name>","Jhelom"))
+				target @03c1,6,1 Simdi ise ticareti birlikte yaptigin yuk hayvanini sec.
+				morex=7		
+			endif
+
+			if ((<tag0.item>==i_scroll_resurrection) && (strmatch("<src.region.name>","Nujel'm Docks"))
+				target @03c1,6,1 Simdi ise ticareti birlikte yaptigin yuk hayvanini sec.
+				morex=7		
+			endif
+
+
+			if ((<tag0.item>==i_yarn_ball) && (strmatch("<src.region.name>","Minoc"))
+				target @03c1,6,1 Simdi ise ticareti birlikte yaptigin yuk hayvanini sec.
+				morex=7		
+			endif				
+		endif
+	endif
+endif
+
+if (<tag0.isevery>==1)
+	target
+	src.sysmessage @,,1 Nereyi seciceksiniz ?
+	return 1
+endif
+
+
+
+
+on=@targon_char
+foritems 50
+	if <baseid> == i_rb_gate
+		sys_error Yakinizda acik bir portal varken bu islemi yapamazsiniz.
+		return 1
+	endif
+endfor
+
+if (<src.targ.id>==kacak)
+	src.targ.say @03c1,6,1 Tebrikler <src.name> ! Al iste bu kontrat ancak bu kadar eder...
+	src.newitem i_check_brnx
+	src.new.more2 <eval (<serv.itemdef.<tag.item>.value>*4)*<tag.adet>/2>
+	src.new.bounce
+	src.targ.tag.owner=0
+	src.targ.tag.kontrat=0
+	remove
+	return 1
+endif
+
+if (<morex>==3)
+	if !(<src.isevent.e_haydut>)
+		if (<argo.id>==c_ticaret_b)
+			if (<src.isevent.e_nouse>)
+				
+				if ((<tag0.item>==i_hides_cut) && !(strmatch("<src.region.name>","Skara Brae"))
+					src.sysmessage @03c1,6,1 Deriler sadece Skara brae sehrine verilir.
+					src.sysmessage @03c1,6,1 Lutfen cika oku takip ediniz.
+					src.arrowquest 640,2239,-3
+					tag0.morex7 1
+				endif
+
+				if ((<tag0.item>==i_platemail_chest) && !(strmatch("<src.region.name>","Trinsic"))
+					src.sysmessage @03c1,6,1 Platemail sadece Trinsic sehrine verilir.
+					src.sysmessage @03c1,6,1 Lutfen cikan oku takip ediniz.
+					src.arrowquest 2064,2855,-3
+					tag0.morex7 1
+				endif
+
+				if ((<tag0.item>==i_fish_cut_cooked) && !(strmatch("<src.region.name>","Jhelom"))
+					src.sysmessage @03c1,6,1 Cig balik sadece Jhelom sehrine  verilir.
+					src.sysmessage @03c1,6,1 Lutfen cikan oku takip ediniz.
+					src.arrowquest 1493,3695,-3
+					tag0.morex7 1
+				endif
+
+				if ((<tag0.item>==i_scroll_resurrection) && !(strmatch("<src.region.name>","Nujel'm"))
+					src.sysmessage @03c1,6,1 Resurrection scrollari sadece Nujel'm sehrine verilir.
+					src.sysmessage @03c1,6,1 Lutfen cikan oku takip ediniz.
+					src.arrowquest 3803,1279,5
+					tag0.morex7 1
+				endif
+
+
+				if ((<tag0.item>==i_yarn_ball) && !(strmatch("<src.region.name>","Minoc"))
+					src.sysmessage @03c1,6,1 Ball Of Yarn sadece Minoc'da verilir.
+					src.arrowquest 2525,582 
+					src.sysmessage @03c1,6,1 Lutfen cikan oku takip ediniz.
+					tag0.morex7 1
+				endif
+				tag0.isevery=1
+				tag0.morex7=1
+				return 1
+			endif
+		endif
+	endif
+endif
+
+if (<morex>==7)
+
+	if (<src.targ.id>==c_llama_pack)
+		//if !strmatch(<tag.npcuid>,<src.targ.uid>)
+		//	src.sysmessage @,,1 Bu sizin lamaniz degil !
+		//	return 1
+		//endif
+		if (<src.isevent.e_nouse>)
+			serv.newitem i_check_brnx
+			new.more2 <src.uid>
+			src.events -e_nouse
+
+			if (<tag.item>==i_scroll_resurrection)
+				new.more1 <eval (<serv.itemdef.<tag.item>.value>)*<f_check_kontrat_limit>*2>
+				src.sysmessage @38,6,1 Paraniz cek olarak cantanizdadir.
+				src.closealldialogs
+				src.arrowquest
+			endif
+
+			if (<tag.item>==i_hides_cut)
+				new.more1 <eval (<serv.itemdef.<tag.item>.value>)*<f_check_kontrat_limit>*2>
+				src.sysmessage @38,6,1 Paraniz cek olarak cantanizdadir.
+				src.closealldialogs
+				src.arrowquest
+			endif
+
+			if (<tag.item>==i_fish_cut_cooked)
+				new.more1 <eval (<serv.itemdef.<tag.item>.value>)*<f_check_kontrat_limit>*2>
+				src.sysmessage @38,6,1 Paraniz cek olarak cantanizdadir.
+				src.findid.i_ticaret_suresi.timer <eval <src.findid.i_ticaret_suresi.timer>/2>
+				src.closealldialogs
+				src.arrowquest
+			endif
+
+
+			if (<tag.item>==i_platemail_chest)
+				new.more1 <eval (<serv.itemdef.<tag.item>.value>)*<f_check_kontrat_limit>*2>
+				src.sysmessage @38,6,1 Paraniz cek olarak cantanizdadir.
+				src.closealldialogs
+				src.arrowquest
+			endif
+
+
+			if (<tag.item>==i_yarn_ball)
+				new.more1 <eval (<serv.itemdef.<tag.item>.value>)*<f_check_kontrat_limit>*2>
+				src.sysmessage @38,6,1 Paraniz cek olarak cantanizdadir.
+				src.closealldialogs
+				src.arrowquest
+			endif
+			new.tag.gp = <new.more1>
+			new.cont <src.findlayer(21).uid>
+		
+			remove
+			return 1
+		endif
+	endif
+endif
+
+
+if (<morex>==6)
+	if (<src.targ.id>==c_llama_pack)
+		if (<src.targ.ismypet>)
+		src.sysmessage @03c1,6,1 Yük hayvanini belirlediniz.
+		//src.tag.npcuid <src.targ.uid>
+		tag.npcuid <src.targ.uid>
+		src.targ.tag.owner=0
+		src.targ.tag.owner=<src.uid>
+		src.targ.tag.kontrat=0
+		src.targ.tag.kontrat=<uid>
+		return 1
+		endif
+	endif
+endif
+
+
+if (<morex>==5)
+	if (<src.targ.id>==c_onay)
+		if (<tag0.onay>==1)
+		src.sysmessage @03c1,6,1 Bu kontrat zaten onaylanmis.
+		return 1
+	endif
+
+	if (<src.targ.distance> > 3)
+		src.sysmessage @03c1,6,1 Kontrati yanlizca 3 kare yakinda onaylatabilirsiniz.
+		return 1
+	endif
+	tag.onay=1
+	morex=3
+	src.events +e_nouse
+	src.tag.p=<src.region.uid>
+	src.targ.say @03c1,6,1 Buyrun , iste kontratiniz. Onaylanmistir.
+	src.sysmessage @03c1,6,1 Kontrati onaylattiniz.
+	src.newitem  i_ticaret_suresi
+	src.act.equip
+	src.dialogclose d_kontrat
+	return 1
+endif
+
+
+
+on=@targon_item
+if (<src.targ.topobj.uid> != <src.uid>)
+	src.sysmessage @55,3,1 Cantanizda yada bankanizda olmasi gerek.
+	return 1
+endif
+
+foritems 50
+	if <baseid> == i_rb_gate
+		sys_error Yakinizda acik bir portal varken bu islemi yapamazsiniz.
+		return 1
+	endif
+endfor
+if strmatch("<src.tag.ticaretbelgem>","<uid>")
+if (<src.targ.tag0.onay>==1)
+src.targ.dialog d_kontrat_ozellik
+return 1
+endif
+endif
+
+
+if (<morex>==2)
+	if (<src.targ.baseid> != <tag0.item>)
+		src.sysmessage @38,6,1 Bu item , kontratta verilen item tipiyle eslesmiyor.
+		return 1
+	endif
+endif
+if (<src.isevent.e_nouse>)
+	src.sysmessage @03c1,6,1 Su anda götürülmesi beklenen onayli kontratiniz var.
+return 1
+endif
+
+if (<eval <tag0.maxadet> - <tag0.adet>> < <src.targ.amount>)
+	src.sysmessage @38,6,1 Bu kadar adet bu kontrata sigamaz.
+	return
+endif
+
+if (<tag0.adet> <= <tag0.maxadet>)
+	tag0.adet += <src.targ.amount>
+	src.targ.remove
+	src.sysmessage @38,6,1 Kontrata dolum yaptiniz.
+endif
+message @0480 [<dtag0.adet>/<dtag0.maxadet> <serv.itemdef.<tag0.item>.name>]
+//click
+if (<tag0.adet> >= <tag0.maxadet>)
+	src.sysmessage @38,6,1 Deed dolmustur. Simdi ticaret vendoruna gidebilirsiniz.
+	tag.p <src.p>
+	tag0.adet = <tag0.maxadet>
+endif
+return 1
+
+
+[dialog d_kontrat_ozellik]
+0,0
+page 0
+
+//resizepic 0 0 5054 220 220
+//resizepic 10 10 3000 200 200
+
+resizepic 0 0 9200 220 220	
+gumppictiled 10 10 200 200 2624
+
+gumppic 15 20 9004
+//gumppictiled 10 115 200 10 96
+button 15 85 9721 9722 1 0 1
+
+dhtmlgump 50 85 150 30 1 0 Kontrati iptal et!
+
+
+//gumppictiled 65 10 10 85 96
+dhtmlgump 15 120 190 80 1 1 Bu muhur kontratin onayli oldugunu gösterir. Imza : Denton. Eger kontrati iptal ederseniz 3'de 1 kesinti ile iade edilir.
+dhtmlgump 80 30 120 30 1 0 Kontrat Belgesi
+
+[dialog d_kontrat_ozellik button]
+
+on=1
+foritems 50
+	if <baseid> == i_rb_gate
+		src.sys_error Yakinizda acik bir portal varken bu islemi yapamazsiniz.
+		return 1
+	endif
+endfor
+if (strmatch("<src.tag.ticaretbelgem>","<uid>"))
+	src.sysmessage @,,1 [<dtag0.adet>/<dtag0.maxadet> <serv.itemdef.<tag0.item>.name>]
+	serv.newitem <tag0.item>
+	new.amount <eval <dtag0.adet> - <eval <dtag0.adet>/3> > 
+	new.cont <src.findlayer.29>
+	src.events -e_nouse
+	src.findid.i_ticaret_suresi.timer 1
+	src.closealldialogs
+	remove
+	//return 1
+else
+	src.sysmessage @,,1 Sadece belge sahibi iptal edebilir.
+	return 1
+endif
+
+[function f_kontrat_al]
+resizepic 10 10 5054 300 400
+resizepic 20 20 3000 280 380
+dhtmlgump 30 30 75 30 0 0 Item :
+
+button 40 50 9721 9722 1 0 1
+button 40 85 9721 9722 2 0 2
+button 40 120 9721 9722 3 0 3
+button 40 155 9721 9722 4 0 4
+
+dtext 80 50 32 100 luk kontrat
+dtext 80 85 32 250 lik kontrat
+dtext 80 120 32 500 luk kontrat
+dtext 80 155 32 5000 lik kontrat
+
+if !((<id>==c_h_scribe) || (<id>==c_h_scribe_F))
+dtext 80 190 32 10000 lik kontrat
+dtext 80 225 32 15000 lik kontrat
+dtext 80 260 32 20000 lik kontrat
+button 40 190 9721 9722 5 0 5
+button 40 225 9721 9722 6 0 6
+button 40 260 9721 9722 7 0 7
+endif
+
+if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+dtext 80 295 32 65000 lik kontrat
+button 40 295 9721 9722 7 0 8
+endif
+
+
+
+[dialog d_kontrat_al]
+0,0
+page 0
+
+
+//resizepic 10 10 9200 220 300	
+//gumppictiled 20 20 200 280 2624
+
+
+
+if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+	call f_kontrat_al
+	tilepic 60 25 <serv.itemdef.i_fish_cut_cooked.id>
+	//dhtmlgump 20 290 280 100 1 1 Ticarette 20000lik kontrata gore alicaginiz para : <eval (<serv.itemdef.i_fish_cut_cooked.value>*2)*20000> gb
+	dtext 110 25 55 <serv.itemdef.i_fish_cut_cooked.name>
+elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+	call f_kontrat_al
+	tilepic 60 25 <serv.itemdef.i_platemail_chest.id>
+	//dhtmlgump 20 290 280 100 1 1 Ticarette 20000lik kontrata gore alicaginiz para : <eval (<serv.itemdef.i_platemail_chest.value>)*20000> gb
+	dtext 110 25 55 <serv.itemdef.i_platemail_chest.name>
+elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+	call f_kontrat_al
+	tilepic 60 25 <serv.itemdef.i_Hides_cut.id>
+	//dhtmlgump 20 290 280 100 1 1 Ticarette 20000lik kontrata gore alicaginiz para : <eval (<serv.itemdef.i_hides_cut.value>)*20000> gb
+	dtext 110 25 55 <serv.itemdef.i_hides_cut.name>
+elif (<id>==c_h_scribe) || (<id>==c_h_scribe_F)
+	call f_kontrat_al
+	tilepic 60 25 <serv.itemdef.i_scroll_resurrection.id>
+	dtext 110 25 55 <serv.itemdef.i_scroll_Resurrection.name>
+	//dhtmlgump 20 290 280 100 1 1 Ticarette 20000lik kontrata gore alicaginiz para : <eval (<serv.itemdef.i_scroll_Resurrection.value>)*22000> gb
+elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+	call f_kontrat_al
+	tilepic 60 25 <serv.itemdef.i_yarn_ball.id>
+	dtext 110 25 55 <serv.itemdef.i_yarn_ball.name>
+	//dhtmlgump 20 290 280 100 1 1 Ticarette 20000lik kontrata gore alicaginiz para : <eval (<serv.itemdef.i_yarn_ball.value>)*20000> gb
+else
+	resizepic 10 10 5054 300 100
+	resizepic 20 20 3000 280 80
+	//dhtmlgump 30 30 75 30 0 0 BU VENDOR HERHANGI BIR TICARETLE UGRASMAMAKTADIR !
+	dhtmlgump 30 30 200 100 0 0 <def.bfont_red> BU VENDOR HERHANGI BIR TICARETLE UGRASMAMAKTADIR !
+endif
+
+[dialog d_kontrat_al button]
+on=1
+if (<src.restest 1000 i_gold>)
+	src.consume 1000 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_100
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat_100
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+		elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat_100
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat_100
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	//elif (<id>==c_h_farmer) || (<id>==c_h_farmer_f)
+		//serv.newitem i_ticaret_kontrat_100
+		//src.new.tag.item=i_baharat
+		//src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat_100
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 1000 gb gold yaninizda olmalidir.
+endif
+
+on=2
+if (<src.restest 1500 i_gold>)
+	src.consume 1500 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_250
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat_250
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+	elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat_250
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat_250
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	//elif (<id>==c_h_farmer) || (<id>==c_h_farmer_f)
+		//serv.newitem i_ticaret_kontrat_250
+		//src.new.tag.item=i_baharat
+		//src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat_250
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 1500 gb gold yaninizda olmalidir.
+endif
+
+
+on=3
+if (<src.restest 1750 i_gold>)
+	src.consume 1750 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_500
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat_500
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+	elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat_500
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat_500
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat_500
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 1750 gb gold yaninizda olmalidir.
+endif
+
+on=4
+if (<src.restest 3000 i_gold>)
+	src.consume 3000 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+	elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 3000 gb gold yaninizda olmalidir.
+endif
+
+on=5
+if (<src.restest 5000 i_gold>)
+	src.consume 5000 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_10
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat_10
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+	elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat_10
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat_10
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	elif (<id>==c_h_farmer) || (<id>==c_h_farmer_f)
+		serv.newitem i_ticaret_kontrat_10
+		src.new.tag.item=i_baharat
+		src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat_10
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 5000 gb gold yaninizda olmalidir.
+endif
+
+on=6
+if (<src.restest 7500 i_gold>)
+	src.consume 7500 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_15
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat_15
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+	elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat_15
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat_15
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat_15
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 7500 gb gold yaninizda olmalidir.
+endif
+
+on=7
+if (<src.restest 10000 i_gold>)
+	src.consume 10000 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_20
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	elif (<id>==c_h_blacksmith) || (<id>==c_h_blacksmith_f)
+		serv.newitem i_ticaret_kontrat_20
+		src.new.tag.item=i_platemail_chest
+		src.new.bounce
+	elif (<id>==c_h_tanner) || (<id>==c_h_tanner_f)
+		serv.newitem i_ticaret_kontrat_20
+		src.new.tag.item=i_hides_cut
+		src.new.bounce
+	elif (<id>==c_h_scribe) || (<id>==c_h_scribe_f)
+		serv.newitem i_ticaret_kontrat_20
+		src.new.tag.item=i_scroll_Resurrection
+		src.new.bounce
+	elif (<id>==c_h_tailor) || (<id>==c_h_tailor_f)
+		serv.newitem i_ticaret_kontrat_20
+		src.new.tag.item=i_yarn_ball
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 10000 gb gold yaninizda olmalidir.
+endif
+
+
+on=8
+if (<src.restest 20000 i_gold>)
+	src.consume 20000 i_gold
+	if (<id>==c_h_fisher) || (<id>==c_h_fisher_f)
+		src.newitem i_ticaret_kontrat_65
+		src.new.tag.item=i_fish_cut_cooked
+		src.new.bounce
+	endif
+else
+	src.sysmessage @,,1 Kontrat alabilmek icin 20000 gb gold yaninizda olmalidir.
+endif
+
+
+[dialog d_kontrat]
+0,0
+noclose
+page 0
+//resizepic 10 10 5054 300 210
+
+resizepic 0 0 9200 320 230	
+gumppictiled 10 10 300 210 2624
+
+//alphablack 20 20 280 190
+dhtmlgump 20 20 280 100 1 1 Bu kontrati onayladiktan sonra moongate, runebook , stuck hakki kullanilamaz. Ayrica bu kontrat cantanizdan oynatilamaz.Iptal ettiginiz takdirde kontrat silinecektir ! Kontrati onaylamak istiyormusunuz ?
+button 40 140 9004 9004 1 0 1
+dtext 20 120 55 Onayliyorum.
+button 240 140 9005 9005 2 0 2
+dtext 220 120 55 Iptal.
+
+[dialog d_kontrat button]
+on=2
+src.sysmessage @03c1,6,1 Ticaretten simdilik vazgectiniz.
+//src.events -e_nouse
+//remove
+
+on=1
+foritems 50
+	if <baseid> == i_rb_gate
+		src.sys_error Yakinizda acik bir portal varken bu islemi yapamazsiniz.
+		return 1
+	endif
+endfor
+if (<src.restest 1 i_ticaret_suresi>)
+src.sysmessage @69,1,1 Henuz bir dahaki ticaret icin sureniz dolmamistir.
+src.sysmessage @0709,1,1 Kalan Sure : <eval (<src.findid.i_ticaret_suresi.timer> /3600)> Saat Kalmistir.
+src.dialogclose d_kontrat
+return 1
+endif
+src.events +e_nouse
+attr attr_static|attr_move_never
+src.sysmessage @03c1,6,1 Simdi ise kontrati onaylaticak , onayliyici npc yi seciniz.
+morex=5
+target
+return 1
+
+[events e_haydut]
+on=@kill
+if (<act.id>==c_llama_pack) && (<uid.<act.tag0.owner>.isevent.e_nouse>)
+	try uid.<act.tag0.owner>.sysmessage @03c1,6,1 Bazi haydutlar yük hayvaninizi öldürdüler. Bu yüzden kontratin onayi gecersizdir. Lütfen tekrar onaylatmayi deneyiniz ve yeni bir yük hayvani seciniz.
+	try uid.<act.tag0.kontrat>.tag.onay=0
+	try uid.<act.tag0.kontrat>.tag.npcuid=0
+	sysmessage @03c1,6,1 Iyi is <name> ! Artik <uid.<act.tag0.owner>.name> isimli oyuncunun kontrati gecersiz. Iyi is cikarttin.
+elif (<src.isevent.e_nouse>)
+	act.findtype.t_kontrat.tag0.onay=0
+	act.findtype.t_kontrat.tag.npcuid=0
+	act.sysmessage @03c1,6,1 Haydutlar tarafindan öldürüldünüz. Kontratinizin artik onayi yok.
+	sysmessage @03c1,6,1 Iyi is <name> ! Artik <act.name> isimli oyuncunun kontrati gecersiz. Iyi is cikarttin.
+endif
+
+on=@click
+message @38,6,1,1 [Haydut]
+
+[speech haydutol]
+on=*haydutol*
+if !<src.isevent.e_haydut>
+	if <src.kills> >=6 
+		if <src.fame> > 5000
+			dialog d_haydutol
+		else
+			say @38,6,1 Hemen git burdan ben daha unlu haydutlar ariyorum !
+		endif
+	else
+		say @38,6,1 Sen daha bir karincayi bile incitmemissin !
+	endif
+endif
+
+[dialog d_haydutol]
+150,150
+page 0
+resizepic 0 0 2620 418 218
+resizepic 8 8 5054 400 200
+resizepic 18 18 2620 380 180
+checkertrans 18 18 380 180
+dhtmlgump 130 30 100 21 0 0 <def.bfont_yellow>UYARI !
+dhtmlgump 30 60 360 80 0 1 <def.bfont_white><def.bfont_size4> Haydutluk donusu olmayan bir istir. Tum hayatin boyunca korumalardan kacabilicekmisin ? Bu kontrati onaylarsan hayatin degisecektir ve donusu olmayacaktir ! Dunusu olmayan bir ise hazir misin ? Simdi secimini yap !
+button 60 160 239 240 1 0 1
+button 300 160 242 241 2 0 2
+
+[dialog d_haydutol button]
+on=1
+src.events +e_haydut
+say @03c1,6,1 Artik donusun yok ! Bir haydutsun ! Git hemen ise koyul.
+timerf 2,src.say @03c1,6,1 Tamam abi emrin olur...
+
+on=2
+say @03c1,6,1 Gule gule !
+
+[CHARDEF kacak]
+//DEFNAME= c_tuccar_m
+NAME=#NAMES_HUMANMALE
+ID=C_MAN
+CAN=mt_nonmover
+//moverate 40
+tspeech=haydutol
+DESIRES=i_gold,e_notoriety
+
+
+
+ON=@Create
+invul 1
+var.ticuid=<uid>
+NPC=brain_vendor
+title=Kacakci
+COLOR=colors_skin
+STR={51 65}
+DEX={41 55}
+INT={31 45}
+
+WRESTLING={15.0 38.0}
+TACTICS={25.0 48.0}
+
+SPEECHCOLOR={ 0231 1 0481 1 018b 1 0515 1 07d1 1 060a 1 0400 1 }
+ITEMNEWBIE=i_lantern
+ITEMNEWBIE=i_bandana
+color 0455
+ITEMNEWBIE=i_shirt_fancy
+COLOR 01
+ITEMNEWBIE=i_pants_long
+COLOR 01
+ITEMNEWBIE=i_cape
+COLOR 01
+ITEMNEWBIE=i_boots_calf
+COLOR 01
+ITEMNEWBIE=i_beard_mustache
+color 045f
+itemnewbie i_necklace_gold
+itemnewbie i_earrings_gold
+itemnewbie i_hair_afro
+color 045f
+itemnewbie i_Bracelet_gold
+itemnewbie i_leather_gloves
+color 07ad
+
+on=@click
+message @38,6,1 [Kacak Tuccar]
+message @060 <name>
+return 1
+
+on=@dclick
+src.dialog d_haydutbilgi
+
+on=@gethit
+return 1
+
+
+[CHARDEF c_ticaret_b]
+//DEFNAME= c_tuccar_m
+NAME=#NAMES_HUMANMALE the Merchant
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+can mt_nonmover
+
+
+ON=@Create
+invul 1
+var.ticuid=<uid>
+NPC=brain_vendor
+COLOR=colors_skin
+STR={51 65}
+DEX={41 55}
+INT={31 45}
+
+WRESTLING={15.0 38.0}
+TACTICS={25.0 48.0}
+
+SPEECHCOLOR={ 0231 1 0481 1 018b 1 0515 1 07d1 1 060a 1 0400 1 }
+ITEMNEWBIE=i_lantern
+ITEMNEWBIE=i_hat_wide_brim
+ITEMNEWBIE=i_shirt_fancy
+COLOR 0482
+ITEMNEWBIE=i_pants_long
+COLOR 0256
+ITEMNEWBIE=i_cape
+COLOR 0256
+ITEMNEWBIE=i_boots_calf
+COLOR 0256
+
+on=@click
+message @95,1,1 [Ticaret] [Teslim]
+message @0408 <name>
+return 1
+
+on=@dclick
+src.dialog d_ticaretkabul
+
+on=@gethit
+return 1
+
+[CHARDEF c_onay]
+NAME=#NAMES_HUMANMALE the Merchant Onay
+ID=C_MAN
+can=mt_run|mt_nonmover
+DESIRES=i_gold,e_notoriety
+can mt_nonmover
+
+
+ON=@Create
+name=<name>
+invul 1
+//var.ticuid=<uid>
+NPC=brain_vendor
+COLOR=colors_skin
+STR={51 65}
+DEX=0
+INT={31 45}
+
+WRESTLING={15.0 38.0}
+TACTICS={25.0 48.0}
+
+SPEECHCOLOR={ 0231 1 0481 1 018b 1 0515 1 07d1 1 060a 1 0400 1 }
+ITEMNEWBIE=i_lantern
+ITEMNEWBIE=i_hat_wide_brim
+ITEMNEWBIE=i_shirt_fancy
+COLOR 0482
+ITEMNEWBIE=i_pants_long
+COLOR 0256
+//ITEMNEWBIE=i_cape
+//COLOR 0256
+ITEMNEWBIE=i_boots_calf
+COLOR 0256
+
+on=@click
+message @95,1,1 [Ticaret] [Onay]
+message @0408 <name>
+return 1
+
+on=@dclick
+src.dialog d_ticaretonay
+
+on=@gethit
+return 1
+
+[CHARDEF c_ticaret_a]
+//DEFNAME= c_tuccar_m
+NAME=#NAMES_HUMANMALE
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+can mt_nonmover
+
+
+ON=@Create
+invul 1
+NPC=brain_vendor
+COLOR=colors_skin
+STR={51 65}
+DEX={41 55}
+INT={31 45}
+
+WRESTLING={15.0 38.0}
+TACTICS={25.0 48.0}
+
+SPEECHCOLOR={ 0231 1 0481 1 018b 1 0515 1 07d1 1 060a 1 0400 1 }
+ITEMNEWBIE=i_lantern
+ITEMNEWBIE=i_hat_wide_brim
+ITEMNEWBIE=i_shirt_fancy
+COLOR 0482
+ITEMNEWBIE=i_pants_long
+COLOR 0256
+ITEMNEWBIE=i_cape
+COLOR 0256
+ITEMNEWBIE=i_boots_calf
+COLOR 0256
+
+on=@click
+message @50 [Merchant]
+message @060 <name>
+return 1
+
+on=@gethit
+return 1
+
+
+[chardef c_guard_haydut]
+id c_man
+name Guard
+dam 30,40
+armor 50
+TEVENTS=e_guardhaydut
+//hiredaywage=50000
+
+on=@create
+color colors_skin
+npc=brain_animal
+
+str 100
+maxhits=150
+dex 100
+int 100
+
+karma=10000
+fame=5000
+
+itemnewbie i_hair_long
+color 045f
+itemnewbie i_platemail_chest
+color 0455
+itemnewbie i_platemail_arms
+color 0455
+itemnewbie i_platemail_leggings
+color 0455
+itemnewbie i_platemail_plate_helm
+color 0455
+itemnewbie i_platemail_gloves
+color 0455
+itemnewbie i_platemail_gorget
+color 0455
+
+itemnewbie i_mem_yorul
+//itemnewbie i_mem_geber
+
+
+[events e_guardhaydut]
+
+on=@click
+if (<isevent.e_ip>)
+message @38,6,1 [Bagli]
+else
+if !(<findid.i_mem_yorul.morex>==2)
+if (<src.isevent.e_haydut>)
+if <memoryfindtype.memory_ipet.link.isevent.e_nouse>
+go <src.p>
+src.kill
+return 1
+endif
+endif
+endif
+endif
+
+on=@npclookatchar
+if (<src.isplayer>)
+if !(<findid.i_mem_yorul.morex>==2)
+if (<src.isevent.e_haydut>)
+if <memoryfindtype.memory_ipet.link.isevent.e_nouse>
+go <src.p>
+src.kill
+endif
+endif
+endif
+
+on=@npcseenewplayer
+if !(<findid.i_mem_yorul.morex>==2)
+if (<src.isevent.e_haydut>)
+if <memoryfindtype.memory_ipet.link.isevent.e_nouse>
+go <src.p>
+src.kill
+return 1
+endif
+endif
+
+on=@dclick
+return 1
+
+on=@hittry
+if (<src.isevent.e_haydut>)
+if (<findid.i_mem_yorul>)
+return 1
+elseif <memoryfindtype.memory_ipet.link.isevent.e_nouse>
+return 1
+endif
+endif
+endif
+on=@attack
+if (<src.isevent.e_haydut>)
+if (<findid.i_mem_yorul>)
+return 1
+elseif <memoryfindtype.memory_ipet.link.isevent.e_nouse>
+return 1
+endif
+endif
+endif
+
+on=@gethit
+return 1
+
+[itemdef i_mem_geber]
+id i_boots_Calf
+name asd
+
+on=@create
+attr attr_invis
+timer=120
+
+on=@equip
+timer=120
+
+on=@timer
+cont.kill
+return 1
+
+[itemdef i_mem_yorul]
+id i_platemail_Gorget
+//layer layer_special
+name dsa
+
+on=@create
+morex 1
+attr attr_invis|attr_newbie
+timer={180 300}
+
+on=@equip
+timer={180 300}
+
+on=@timer
+if (<morex>==1)
+cont.say @03c1,6,1 cok yoruldum dinlenelim !
+cont.flags <cont.flags> | 04
+timer=60
+morex=2
+
+return 1
+endif
+if (<morex>==2)
+if !(<cont.isevent.e_ip>)
+cont.say @03c1,6,1 Devam edebiliriz
+cont.flags <cont.flags> &~ 04
+morex=1
+timer={120 300}
+return 1
+endif
+endif
+
+[itemdef i_rope_Haydut]
+id i_rope
+name Haydut Halati
+type t_eq_Script
+resources=10 i_cloth
+skillmake=tailoring 98.0
+
+on=@dclick
+if (<src.isevent.e_haydut>)
+target @38,6,1 Hangi ticaret gardiyanini bagliyicaksin ?
+return 1
+endif
+src.sysmessage @38,6,1 Bunu kullanabilmek icin haydut olmalisin.
+return 1
+
+on=@targon_char
+if (<src.targ.id>==c_guard_haydut)
+if (<src.targ.findid.i_mem_yorul.morex>==2)
+if !(<src.targ.isevent.e_ip>)
+src.newitem i_mem_geber
+trysrc <src.targ.uid> src.new.equip
+//src.targ.new.equip
+src.sysmessage @38,6,1 Gardiyani bagladiniz.
+src.targ.events +e_ip
+src.targ.say @03c1,6,1,trk *Ihh grhh*
+src.say @03c1,6,1,trk *Ipi dolar*
+src.targ.effect 0,936,4,4,4
+src.anim=31
+remove
+return 1
+else
+src.sysmessage @38,6,1 Bu gardiyan zaten bagli.
+return 1
+endif
+else
+src.sysmessage @38,6,1 Bu gardiyani baglamak icin önce yorulmasi lazim.
+return 1
+endif
+endif
+return 1
+
+[chardef c_satici]
+id c_man
+name #NAMES_HUMANMALE the Item seller
+armor 50
+can mt_nonmover
+TSPEECH=spk_human_prime
+TSPEECH=spk_shopkeep
+TSPEECH=spk_needs
+TSPEECH=spk_human_default
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_ConvInit
+TEVENTS=e_Human_Needs
+TEVENTS=e_Human_Greet
+TEVENTS=e_Human_Space
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+on=@create
+color colors_skin
+npc=brain_vendor
+
+str=100
+dex=100
+int=100
+
+karma 10000
+fame 5000
+
+wrestling 1000
+
+itemnewbie i_shirt_fancy
+color 07a1
+itemnewbie i_cap
+color 07ad
+itemnewbie i_pants_long
+color 07a1
+itemnewbie i_boots_calf
+color 07a1
+
+
+ON=@NPCRestock
+Sell=i_pet_haydut_Guard,{10 20}
+Sell=i_pet_llama_pack,{10 20}
+
+
+[events e_ip]
+
+
+
+[function gfsd]
+targetf f_dfda
+
+[function f_dfda]
+sysmessage <argo.memoryfindtype.memory_ipet.link.uid>
+
+
+
+[DIALOG d_haydutbilgi]
+0,0
+page 0
+//resizepic 9 7 3500 558 244
+gumppic 22 20 65448
+gumppic 33 26 65495
+dhtmlgump 118 20 438 110 1 1 Haydut olabilmen icin kotuluk adina kendini kanitlaman gerekir.6 kisi oldurmeden haydut olamassin ve de itibarinin olmasi icin Fame in 5000 i gecmelidir.Bu asamalari sagladiktan sonra " haydutol " diyerek kacak vendorundan haydut olabilirsin.Tekrar hatirlatiyoruz bu yolun geri donusu olmayacaktir. Tuccarlardan ele gecirdiginiz kontratlari "Nujel'm" den teslim edebilirsiniz.
+//resizepic 9 7 5100 536 107
+button 496 150 2312 2313 1 0 0
+//dtext 495 213 0 Kapat
+//gumppic 114 170 9752
+//dtext 32 144 415 Iyilik:
+//dtext 32 163 415 Kotuluk:
+//gumppic 113 151 9752
+//dtext 32 182 415 Tuccar:
+//dtext 448 142 415 Haydut:
+//dtext 115 182 5 0
+//dtext 506 142 5 0
+//dtext 33 201 415 Connector    :
+//dtext 115 200 5 Dogrulandi.
+
+[DIALOG d_haydutbilgi text]
+HtmlGump id.0
+
+
+[DIALOG d_haydutbilgi button]
+ON=0
+
+
+[DIALOG d_ticaretonay]
+0,0
+page 0
+//resizepic 9 7 3500 558 130
+
+resizepic 0 0 9200 580 200	
+gumppictiled 10 10 560 180 2624
+
+//gumppic 22 20 92
+gumppic 33 32 5565
+dhtmlgump 118 20 438 110 1 1   Size yardim edebilmem icin kontratinizi doldurduktan sonra onay islemini benimle gerceklestirmeniz gerekmektedir.Ben sadece onay islemini yapmaktayim.Skare Bre" , "Minoc" , "Jhelom" , "Serpent's Hold" , "Nujel'm" " ve "Trinsic" sehirlerinde hizmet vermekteyim.Bu sehirlerin her biri farkli mallarin alimini yapmaktadir.Pack Llamamizla birlikte Teslim Vendoruna malinizi teslim edebilirsiniz.Ben sadece onay islemini yapmaktayim.Kontratlari yapacaginiz ticarete gore Blacksmith, Tailor, Scribe, Fisher vendorlarina " kontrat " ifadesini kullanarak gelen ticaret menusunden kontratinizi alabilirsiniz.
+//resizepic 20 132 5100 536 107
+button 496 150 2312 2313 1 0 0
+//dtext 495 213 0 Kapat
+//gumppic 114 170 9752
+//dtext 32 144 415 Iyilik:
+//dtext 32 163 415 Kotuluk:
+//gumppic 113 151 9752
+//dtext 32 182 415 Tuccar:
+//dtext 448 142 415 Haydut:
+//dtext 115 182 5 0
+//dtext 506 142 5 0
+//dtext 33 201 415 Connector    :
+//dtext 115 200 5 Dogrulandi.
+
+[DIALOG d_ticaretonay text]
+HtmlGump id.0
+
+
+[DIALOG d_ticaretonay button]
+ON=0
+
+
+
+[DIALOG d_ticaretkabul]
+0,0
+page 0
+//resizepic 9 7 3500 558 130
+resizepic 0 0 9200 580 200	
+gumppictiled 10 10 560 180 2624
+gumppic 33 32 5565
+gumppic 22 20 65448
+gumppic 33 26 65418
+dhtmlgump 118 20 438 110 1 1   Kontratinizi sadece Britain sehri limaninda onaylattirabilirsiniz.Kontratinizi doldurup onaylattirdiktan sonra size yardimci olabilirim."Skare Bre" , "Minoc" , "Jhelom" , "Serpent's Hold" , "Nujel'm" " ve "Trinsic" sehirlerinde hizmet vermekteyim.Bu sehirlerin her biri farkli mallarin alimini yapmaktadir.Pack Llamamizla birlikte Teslim Vendoruna malinizi teslim edebilirsiniz.Ben sadece onay islemini yapmaktayim.Kontratlari yapacaginiz ticarete gore Blacksmith, Tailor, Scribe, Farmer, Fisher vendorlarina " kontrat " ifadesini kullanarak gelen ticaret menusunden kontratinizi alabilirsiniz.
+//resizepic 20 132 5100 536 80
+button 496 150 2312 2313 1 0 0
+//dtext 495 213 0 Kapat
+//gumppic 114 170 9752
+//dtext 32 144 415 Iyilik:
+//dtext 32 163 415 Kotuluk:
+//gumppic 113 151 9752
+//dtext 32 182 415 Tuccar:
+//dtext 448 142 415 Haydut:
+//dtext 115 182 5 0
+//dtext 506 142 5 0
+//dtext 33 201 415 Connector    :
+//dtext 115 200 5 Dogrulandi.
+
+[DIALOG d_ticaretkabul text]
+HtmlGump id.0
+
+
+[DIALOG d_ticaretkabul button]
+ON=0
+
+[EOF]

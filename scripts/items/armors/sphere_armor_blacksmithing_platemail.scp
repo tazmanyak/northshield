@@ -1,0 +1,132 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 01410]
+DEFNAME=i_platemail_arms
+TYPE=T_ARMOR
+RESOURCES=18 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 66.3
+WEIGHT=5
+FLIP=1
+REQSTR=80
+DUPELIST=01417
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Armor
+DESCRIPTION=Platemail Arms
+armor 40
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 01417]
+DUPEITEM=01410
+
+[ITEMDEF 01411]
+DEFNAME=i_platemail_leggings
+TYPE=T_ARMOR
+RESOURCES=20 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 68.8
+WEIGHT=7
+FLIP=1
+REQSTR=90
+DUPELIST=0141a
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Armor
+DESCRIPTION=Platemail Legs
+armor 40
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 0141a]
+DUPEITEM=01411
+
+[ITEMDEF 01412]
+DEFNAME=i_platemail_helm
+TYPE=T_ARMOR
+RESOURCES=15 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 62.6
+WEIGHT=5
+FLIP=1
+REQSTR=80
+DUPELIST=01419
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Armor
+DESCRIPTION=Platemail Helm
+armor 40
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 01419]
+DUPEITEM=01412
+
+[ITEMDEF 01413]
+DEFNAME=i_platemail_gorget
+TYPE=T_ARMOR
+RESOURCES=10 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 56.4
+WEIGHT=2
+FLIP=1
+REQSTR=45
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Armor
+DESCRIPTION=Platemail Gorget
+armor 40
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 01414]
+DEFNAME=i_platemail_gloves
+TYPE=T_ARMOR
+RESOURCES=12 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 58.9
+WEIGHT=2
+FLIP=1
+REQSTR=70
+DUPELIST=01418
+CATEGORY=Provisions - Armor - Blacksmithing
+SUBSECTION=Platemail Armor
+DESCRIPTION=Platemail Gauntlets
+armor 40
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 01418]
+DUPEITEM=01414
+
+[ITEMDEF 01415]
+DEFNAME=i_platemail_chest
+TYPE=T_ARMOR
+RESOURCES=25 i_ingot_iron
+SKILLMAKE=BLACKSMITHING 75.0
+WEIGHT=10.0
+FLIP=1
+REQSTR=95
+DUPELIST=01416
+CATEGORY=Provisions - Armor
+SUBSECTION=Platemail Armor
+DESCRIPTION=Platemail Breastplate
+armor 40
+
+
+ON=@Create
+COLOR=color_o_iron
+HITPOINTS=100
+
+[ITEMDEF 01416]
+DUPEITEM=01415
+
+[eof]

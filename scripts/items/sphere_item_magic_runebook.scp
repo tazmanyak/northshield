@@ -1,0 +1,1412 @@
+﻿[events e_safe]
+
+//Son guncelleme :22 Haziran 2005 - Destroy
+[typedef t_anti_rune_book]
+
+on=@click
+message  (invis)
+message @33,,1 (Anti Runebook)
+message @,,1 20 Kare
+return 1
+
+on=@dclick
+return 1
+
+
+on=@pickup_ground
+if <src.account.plevel> < 7
+src.sysmessage @32,,1 Bu islem loglara gecti.
+return 1
+endif
+
+[ITEMDEF i_jailcik]
+defname=i_jailcik
+type=t_script
+
+[ITEMDEF i_moonglow_kont]
+defname=i_moonglow_kont
+type=t_script
+
+
+
+[ITEMDEF i_anti_runebook]
+NAME=Anti Runebook
+ID=i_deed
+WEIGHT=5.0
+type t_anti_rune_book
+
+On=@Create
+color 0ba7
+attr 080
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_runebook_kopya]
+name Runebook Copying
+id 022c5
+TYPE=t_normal
+WEIGHT=0.1
+RESOURCES=16 i_scroll_blank, 4 i_scroll_recall, 1 i_scroll_gate_travel, 1 i_rune_marker
+SKILLMAKE=INSCRIPTION 80.0, MAGERY 70.0
+
+ON=@Create
+COLOR=08ad
+
+on=@dclick
+if <src.magery> < 1000
+src.sysmessage @1153,,1 Bu esyayi kullanabilmek icin 100.0 magery ve 100.0 inscription yeteneginiz olmali.
+return 1
+endif
+
+if <src.inscription> < 1000
+src.sysmessage @1153,,1 Bu esyayi kullanabilmek icin 100.0 magery ve 100.0 inscription yeteneginiz olmali.
+return 1
+endif
+
+src.sysmessage @1153,,1 Kopyalamak istediginiz runebooku secin.
+target 
+return 1
+
+on=@targon_char
+return 1
+
+on=@targon_ground
+return 1
+
+on=@targon_cancel
+src.sysmessage @1153,,1 Islemden vazgectiniz
+return 1
+
+on=@targon_item
+ref1=<src.targ.uid>
+
+if !(<ref1.topobj.uid> == <src.uid>)
+src.sysmessage @1153,,1 Esya cantanizda olmali
+return 1
+endif
+
+if !((strmatch('<ref1.baseid>','i_runebook')) || (strmatch('<ref1.baseid>','i_nbl_rb')))
+src.sysmessage @1153,,1 Sectiginiz esya bir runebook degil
+return 1
+endif
+
+if <ref1.tag0.pos1_x> == 00
+src.sysmessage @1153,,1 Sectiginiz kitabin ilk slot'u bos. Lütfen kitabin ilk slotuna bir rune ekleyin.
+return 1
+endif
+
+if <ref1.dtag0.kopyalandi> == 1
+src.sysmessage @1153,,1 Sectiginiz kitap zaten bir kopya. Kopyalanmis bir kitabi tekrar kopyalayamazsiniz.
+return 1
+endif
+
+serv.newdupe <ref1.uid>
+new.color 0901
+new.drop
+new.morex=0 // sarj sifirlandi
+new.tag.kopyalandi=1
+new.name= runebook [kopya]
+new.bounce <src.uid>
+ref1.drop
+ref1.bounce <src.uid>
+remove
+
+src.sysmessage @1153,,1 Kitabi basari ile kopyaladiniz.
+return 1
+
+
+
+[ITEMDEF 022C5]
+defname=i_runebook
+TYPE=t_script
+WEIGHT=0.1
+NAME=runebook
+RESOURCES=16 i_scroll_blank, 4 i_scroll_recall
+SKILLMAKE=INSCRIPTION 70.0, MAGERY 60.0
+
+CATEGORY=Custom Items
+SUBSECTION=Runebook
+DESCRIPTION=Runebook
+
+ON=@Create
+tag.enchanted 3
+color=0901
+morex=20 // charge
+attr=0024
+tag.name=isimsiz
+tag.eatrune=01
+morez= 0 // o anda kitapta kac yer kayitli sayisi
+//tag.pos_1_p=0 // rune koordinat
+//tag.pos_1_n=0 // rune ismi
+
+ON=@Click
+ 
+if !(strmatch('<tag.name>','isimsiz')
+	message @0481,3,1 a <name> [<tag.name>] // degi$tirilebilen isim
+	local.yazi [Sarj: <eval(<morex>)>] [Durum: <eval(<morez>)>/<eval 80 + <eval <tag0.enchanted> * 16>>]
+	//if (<eval <tag.enchanted>> != 0)
+	//	local.yazi <local.yazi> [Enchanted <eval <tag.enchanted>>]
+	//endif
+	message @0901,3,1 <local.yazi> <qval <dtag0.kopyalandi>==1 ? (Kopya): (Orjinal)>
+	return 1
+else
+	message @0481,3,1 a <name>
+	local.yazi [Sarj: <eval(<morex>)>] [Durum: <eval(<morez>)>/<eval 80 + <eval <tag0.enchanted> * 16>>]
+	//if (<eval <tag.enchanted>> != 0)
+	//	local.yazi <local.yazi> [Enchanted <eval <tag.enchanted>>]
+	//endif
+	message @0901,3,1 <local.yazi> <qval <dtag0.kopyalandi>==1 ? (Kopya) : (Orjinal)>
+	return 1
+endif
+//if (<color> != 0901)
+//color 0901
+//endif
+//return 1
+
+ON=@Dclick
+//if <src.isgm>
+//	serv.log <tagcount>
+//	for x 1 <tagcount>
+//	serv.writefile2 C:\taglist.txt <TAGAT.<dlocal.x>>
+//	endfor
+//endif
+if <src.isevent.e_nouse>
+	return 1
+endif
+if <src.isevent.e_makelast>
+	src.sys_error Makroda iken bu işlemi gerçekleştiremezsiniz.
+	return 1
+endif
+//if <src.isticaret_aktif>
+//src.sysmessage @1153,,1 Ticaret sirasinda kullanamazsiniz.
+//return 1
+//endif
+
+//if <f_deniz_burasi <p.x>,<p.y>,<p.z>> 
+//	src.sysmessage @,,1 Su uzerindeyken runebook kullanamazsin.
+//	return 1
+//endif
+
+if (<SRC.ISNEARTYPE t_anti_rune_book 20>)
+	src.sysmessage @,,1 Bu alanda runebook kullanamazsiniz.
+	return 1
+endif
+
+if <src.tag.suanquestte>	
+	src.sysmessage @,,1 Quest yaparken kullanamazsiniz.
+	return 1
+endif
+
+if <src.region.isevent.r_house_system>
+src.sysmessage @1153,,1 Ev icinde runebook kullanamazsiniz
+return 1
+endif
+
+if !(<attr>&attr_move_never)
+	ATTR=0024
+endif
+//if (<color> != 0901)
+//color 0901
+//endif
+SRC.SOUND=85
+src.dialogclose d_rb_kuculmus_ama
+src.dialogclose d_runebook
+//if (!(<topobj.uid> == <src.uid>) && !(<src.isgm>))
+//	src.sysmessage @38,3,1 Uzerinizde olmasi lazim.
+//	return 1
+//endif
+if (<uid.<src.memoryfindtype.08000.more2>.baseid> == i_nbl_rb)
+	src.sysmessage @38,3,1 Diger runebook acik.
+	return 1
+endif
+if (<uid.<src.memoryfindtype.08000.more2>.baseid> == i_runebook)
+	src.sysmessage @38,3,1 Diger runebook acik.
+	return 1
+endif
+if (<src.isevent.e_x_breakspell>)
+	src.FINDID.i_rb_delay.REMOVE
+	src.FINDID.i_rb_delay2.REMOVE
+	src.EVENTS -e_x_breakspell
+	src.f_fizzle
+endif
+//rb_gz_kontrolu 1,<eval 80 + <eval <tag.enchanted> * 16>> // gz kontrol
+SDIALOG d_nbl_rbook,<eval <tag.enson_sayfa>>
+return 1
+
+
+ON=@TargOn_Char
+RETURN 1
+
+ON=@TargOn_Item
+IF <SRC.TARG.TOPOBJ.UID> != <SRC.UID> 
+	SRC.SYSMESSAGE @55,,1 Ekleyeceginiz sey cantanizda olmali.
+	RETURN 1
+ENDIF 
+IF <MORE2>=1
+ 	IF ( <SRC.TARG.ID> = 01f4c )
+		MOREX=<MOREX> + <SRC.TARG.AMOUNT>
+    		SRC.TARG.REMOVE
+    		SRC.SYSMESSAGE @55 Kitaba,,1 <SRC.TARG.AMOUNT> sarj eklendi.
+		DClick
+		RETURN 1
+	ELSE
+  		SRC.SYSMESSAGE @55,,1 Bu bir recall scrollu degil. Sadece recall scrollarini kullanabilirsiniz.
+		DClick
+		RETURN 1
+  	ENDIF
+ELSEIF ((<eval <MORE2>>=20) || (<eval <MORE2>>=21) || (<eval <MORE2>>=22) || (<eval <MORE2>>=23) || (<eval <MORE2>>=24) || (<eval <MORE2>>=25) || (<eval <MORE2>>=26) || (<eval <MORE2>>=27))
+  	IF (( <SRC.TARG.TYPE> = t_rune ) || ( <SRC.TARG.TYPE> = 014 ))
+    		IF (<SRC.TARG.MOREX>==0)
+    			SRC.SYSMESSAGE @38,,1 Bu rune bos, bunu kullanamazsiniz.
+    			DClick
+			RETURN 1
+    		ENDIF
+  	ELSE
+  		SRC.SYSMESSAGE @38,,1 Bu bir rune degil.
+  		DClick
+		RETURN 1
+  	ENDIF
+	TAG.HOLD_LOCAL=<SRC.TARG.NAME>
+	TAG.HOLD_X=<SRC.TARG.MOREX>
+	TAG.HOLD_Y=<SRC.TARG.MOREY>
+	TAG.HOLD_Z=<SRC.TARG.MOREZ>
+	TAG.HOLD_M=<SRC.TARG.MOREM>
+	if (<eval <morez>> < <eval 80 + <eval <eval <tag.enchanted>> * 16>>)
+		if (<eval <i_nbl_rb_rune_ekle <eval (<eval <eval <MORE2>> - 20> * 16) + 1>,<eval 80 + <eval <eval <tag.enchanted>> * 16>>>> == 1)
+			SRC.SYSMESSAGE @55 Rune'u kitaba eklediniz.
+        		SRC.SOUND=79
+			morez += 1
+		endif		
+		DClick
+		RETURN 1
+	else
+		SRC.SYSMESSAGE @38,,1 Kitapta bunun icin bos yer kalmamis.
+		DClick
+		RETURN 1
+	endif
+ENDIF
+
+[ITEMDEF i_rb_gate]
+ID=i_moongate_blue
+RESOURCES=i_scroll_gate_travel
+TYPE=t_telepad
+NAME=Gate
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Moongates
+DESCRIPTION=RB Gate
+
+On=@Create
+color 022
+more1 5
+attr 010
+
+On=@DClick
+//if <src.isticaret_aktif>
+//src.sysmessage @1153,,1 Ticaret sirasinda kullanamazsiniz.
+//return 1
+//endif
+
+if <src.isevent.e_nouse>
+	return 1
+endif
+
+if !(<src.flags>&statf_stone) //&& !(<src.isevent.e_landtrade>) 
+	if (<distance> > 3)
+		src.sysmessage @55 Gate'e ulasamiyorsunuz.
+	else
+		if (<src.findid.i_gater>)
+			src.findid.i_gater.remove
+		endif
+		src.newitem i_gater
+		src.act.link <uid>
+		src.act.morep <morep>
+		src.act.equip
+	endif
+endif
+if (<timer> == -1)
+	timer 1
+endif
+return 1
+
+ON=@Step
+if <src.isevent.e_nouse>
+	return 1
+endif
+//if <src.isticaret_aktif>
+//src.sysmessage @1153,,1 Ticaret sirasinda kullanamazsiniz.
+//return 1
+//endif
+
+//if (<src.isevent.e_jail>) // || (<src.isevent.e_landtrade>)
+//		remove
+if !((<src.findid.i_gater>) || (<src.flags>&statf_stone))
+	src.newitem i_gater
+	src.act.link <uid>
+	src.act.morep <morep>
+	src.act.equip
+endif
+if (<timer> == -1)
+	timer 1
+endif
+return 1
+
+On=@Click
+link.sextant2
+if (<src.region.uid> == <region.uid>) 
+	message @0905,3,1 <link.region.name>
+	message @0900,3,1 [<var.coordinate>]
+else
+	message <link.region.name>
+	message [<var.coordinate>]
+	message
+endif
+var.coordinate
+if (<timer> == -1)
+	timer 1
+endif
+return 1
+
+On=@Timer
+if (<more1>)
+	more1 <more1> - 1
+	timer 1
+else
+	sfx 528
+	remove
+endif
+return 1
+
+on=@spelleffect
+if (<argn>==41)
+	link.remove
+	timer 0
+endif
+
+[DIALOG d_runebook]
+0,100
+gumppic 100 10 2201
+gumppic 125 50 57
+gumppic 145 50 58
+gumppic 160 50 58
+gumppic 175 50 58
+gumppic 190 50 58
+gumppic 205 50 58
+gumppic 220 50 58
+gumppic 230 50 59
+
+gumppic 290 50 57
+gumppic 310 50 58
+gumppic 325 50 58
+gumppic 340 50 58
+gumppic 355 50 58
+gumppic 370 50 58
+gumppic 385 50 58
+gumppic 395 50 59
+
+page 0
+//Recall Button
+button 125 65 2103 2104 1 0 1//Button 1
+button 125 80 2103 2104 1 0 2//Button 2
+button 125 95 2103 2104 1 0 3//Button 3
+button 125 110 2103 2104 1 0 4//Button 4
+button 125 125 2103 2104 1 0 5//Button 5
+button 125 140 2103 2104 1 0 6//Button 6
+button 125 155 2103 2104 1 0 7//Button 7
+button 125 170 2103 2104 1 0 8//Button 8
+//Gate Button
+button 135 65 2103 2104 1 0 17//Button 17
+button 135 80 2103 2104 1 0 18//Button 18
+button 135 95 2103 2104 1 0 19//Button 19
+button 135 110 2103 2104 1 0 20//Button 20
+button 135 125 2103 2104 1 0 21//Button 21
+button 135 140 2103 2104 1 0 22//Button 22
+button 135 155 2103 2104 1 0 23//Button 23
+button 135 170 2103 2104 1 0 24//Button 24
+//Erase Button //17.01.02
+button 260 65 2103 2104 1 0 25//Button 25
+button 260 80 2103 2104 1 0 26//Button 26
+button 260 95 2103 2104 1 0 27//Button 27
+button 260 110 2103 2104 1 0 28//Button 28
+button 260 125 2103 2104 1 0 29//Button 29
+button 260 140 2103 2104 1 0 30//Button 30
+button 260 155 2103 2104 1 0 31//Button 31
+button 260 170 2103 2104 1 0 32//Button 32
+//rename butonlar //17.01.02
+button 250 65 2103 2104 1 0 51//Button 51
+button 250 80 2103 2104 1 0 52//Button 52
+button 250 95 2103 2104 1 0 53//Button 53
+button 250 110 2103 2104 1 0 54//Button 54
+button 250 125 2103 2104 1 0 55//Button 55
+button 250 140 2103 2104 1 0 56//Button 56
+button 250 155 2103 2104 1 0 57//Button 57
+button 250 170 2103 2104 1 0 58//Button 58
+////opposite page
+//recall button
+button 285 65 2103 2104 1 0 9 //Button 9
+button 285 80 2103 2104 1 0 10 //Button 10
+button 285 95 2103 2104 1 0 11 //Button 11
+button 285 110 2103 2104 1 0 12//Button 12
+button 285 125 2103 2104 1 0 13//Button 13
+button 285 140 2103 2104 1 0 14//Button 14
+button 285 155 2103 2104 1 0 15//Button 15
+button 285 170 2103 2104 1 0 16//Button 16
+//Gate Button
+button 295 65 2103 2104 1 0 33//Button 33
+button 295 80 2103 2104 1 0 34//Button 34
+button 295 95 2103 2104 1 0 35//Button 35
+button 295 110 2103 2104 1 0 36//Button 36
+button 295 125 2103 2104 1 0 37//Button 37
+button 295 140 2103 2104 1 0 38//Button 38
+button 295 155 2103 2104 1 0 39//Button 39
+button 295 170 2103 2104 1 0 40//Button 40
+//Erase Button //17.01.02
+button 420 65 2103 2104 1 0 41//Button 41
+button 420 80 2103 2104 1 0 42//Button 42
+button 420 95 2103 2104 1 0 43//Button 43
+button 420 110 2103 2104 1 0 44//Button 44
+button 420 125 2103 2104 1 0 45//Button 45
+button 420 140 2103 2104 1 0 46//Button 46
+button 420 155 2103 2104 1 0 47//Button 47
+button 420 170 2103 2104 1 0 48//Button 48
+//rename Butonlar //17.01.02
+button 410 65 2103 2104 1 0 61//Button 61
+button 410 80 2103 2104 1 0 62//Button 62
+button 410 95 2103 2104 1 0 63//Button 63
+button 410 110 2103 2104 1 0 64//Button 64
+button 410 125 2103 2104 1 0 65//Button 65
+button 410 140 2103 2104 1 0 66//Button 66
+button 410 155 2103 2104 1 0 67//Button 67
+button 410 170 2103 2104 1 0 68//Button 68
+//Rune Ekle $arj Et
+button 303 22 2103 2104 1 0 49//Button 49
+button 303 37 2103 2104 1 0 50//Button 50
+htmlgump 318 18 100 20 17 0 0
+htmlgump 318 33 100 20 19 0 0
+
+htmlgump 148 61 100 17 0 // marked positions text
+htmlgump 148 76 100 17 1
+htmlgump 148 91 100 17 2
+htmlgump 148 106 100 17 3
+htmlgump 148 121 100 17 4
+htmlgump 148 136 100 17 5
+htmlgump 148 151 100 17 6
+htmlgump 148 166 100 17 7
+htmlgump 307 61 100 17 8
+htmlgump 307 76 100 17 9
+htmlgump 307 91 100 17 10
+htmlgump 307 106 100 17 11
+htmlgump 307 121 100 17 12
+htmlgump 307 136 100 17 13
+htmlgump 307 151 100 17 14
+htmlgump 307 166 100 17 15
+
+htmlgump 155 18 86 17 18
+htmlgump 155 33 90 17 21
+
+htmlgump 129 180 100 20 16 0 0
+htmlgump 129 192 100 20 20 0 0
+htmlgump 247 180 100 20 22 0 0
+htmlgump 241 192 100 20 24 0 0
+
+htmlgump 150 184 100 20 25 0 0
+htmlgump 156 196 100 20 26 0 0
+htmlgump 225 184 100 20 27 0 0
+htmlgump 207 196 100 20 28 0 0
+
+button 140 22 2103 2104 1 0 59 //Button 59, Rename Book //17.01.02
+//button 140 22 2103 2104 1 0 67 //Button 67, Rename Book
+
+[DIALOG d_runebook TEXT]
+<var.rb_font1>><TAG.LOCAL1>	//Location 1
+<var.rb_font1>><TAG.LOCAL2>	//Location 2
+<var.rb_font1>><TAG.LOCAL3>	//Location 3
+<var.rb_font1>><TAG.LOCAL4>	//Location 4
+<var.rb_font1>><TAG.LOCAL5>	//Location 5
+<var.rb_font1>><TAG.LOCAL6>	//Location 6
+<var.rb_font1>><TAG.LOCAL7>	//Location 7
+<var.rb_font1>><TAG.LOCAL8>	//Location 8
+//page 2 //Kar$i Sayfa
+<var.rb_font1>><TAG.LOCAL9>	//Location 9
+<var.rb_font1>><TAG.LOCAL10>	//Location 10
+<var.rb_font1>><TAG.LOCAL11>	//Location 11
+<var.rb_font1>><TAG.LOCAL12>	//Location 12
+<var.rb_font1>><TAG.LOCAL13>	//Location 13
+<var.rb_font1>><TAG.LOCAL14>	//Location 14
+<var.rb_font1>><TAG.LOCAL15>	//Location 15
+<var.rb_font1>><TAG.LOCAL16>	//Location 16
+| |_	//text 16
+Rune Ekle	//text 17
+<TAG.NAME>	//text 18
+Sarj Et	//text 19
+|___	//text 20
+Sarj: <MOREX>.	//text 21
+//| //17.01.02
+_| | //ren //17.01.02
+_|
+___| // sil
+gate
+recall
+isim
+cikart
+
+
+[DIALOG d_runebook BUTTON]
+ONBUTTON=0
+RETURN 1
+
+onbutton 1 16
+f_rc_rb <argn>
+//Gateler
+ONBUTTON 17 40
+f_gt_rb <argn>
+
+
+ONBUTTON=50
+MORE2=1
+TARGET Lutfen sarj etmek uzere kullanacaginiz bir recall scroll secin.
+RETURN 1
+
+ONBUTTON=25 48
+f_ar_rb <argn>
+
+
+ONBUTTON=49
+MORE2=2
+SRC.SYSMESSAGE @55 Eklemek istediginiz rune'u secin.
+TARGET
+
+ONBUTTON=51 68
+f_rn_rb <argn>
+
+
+ONBUTTON=59
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @55 Bu islem icin runebook'un cantanizda olmasi gerekiyor.
+	return 1
+endif
+DIALOG d_runebook_rename 
+RETURN 1
+
+[FUNCTION f_renameold]
+TAG.LOCALNO <ARGN>
+dialog d_runebook_localname
+RETURN 1
+
+[DIALOG d_runebook_localname]
+100,50
+resizepic 190 175 5054 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+text 215 200 995 0
+text 255 275 0000 1
+button 220 275 4005 4007 1 0 1
+text 355 275 0000 2
+button 320 275 4005 4007 1 0 2
+text 435 275 0000 4
+button 400 275 4005 4007 1 0 3
+textentry 225 237 253 25 0 0 3
+
+[DIALOG d_runebook_localname TEXT]
+Yeni isim ne olsun?
+Tamam
+Iptal
+<TAG.runename>
+Reset
+
+[DIALOG d_runebook_localname BUTTON]
+
+ONBUTTON=0
+RETURN 1
+
+ONBUTTON=1
+tryp 0 tag.local<eval(<tag.localno>)> <argtxt[0]>
+tag.localno=
+DClick
+return 1
+
+ONBUTTON=2
+DClick
+RETURN 1
+
+ONBUTTON=3
+	SRC.NEWITEM i_rb_research
+	SRC.ACT.P <TAG.LOCALMOREP>
+	tryp 0 TAG.LOCAL<eval(<tag.localno>)> <SRC.ACT.region.name>
+DClick
+RETURN 1
+	
+[ITEMDEF i_rb_delay]
+NAME=runebook delay
+ID=i_handr_1
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+        ATTR=attr_invis|attr_decay
+
+ON=@Equip
+	SRC.skill fail
+	SRC.ACTION=-1
+	SRC.FLAGS=(<SRC.FLAGS>&~00020)
+        TIMER=0
+        SRC.EVENTS = +e_x_breakspell
+	//if (<src.findid.i_spdelay_NEW>)
+	//	remove
+	//endif
+ON=@UNEQUIP
+	SRC.EVENTS = -e_x_breakspell
+
+ON=@Timer
+	IF ( <cont> )
+		IF (<CONT.region.ISEVENT.r_house_system>) && !( <CONT.isgm> ) && !(<cont.flags>&statf_dead)// ellesmeyin bu önemli gravestone vs vs // kosarak evin icinde acma
+			cont.f_fizzle  // fixlendi
+			cont.sysmessage @38 Ev icinde kullanimi yasaktir.
+			remove
+			return 1
+		ENDIF
+		IF ( <MORE1> ) && !( <CONT.isgm> )
+			MORE1=<MORE1>-1
+			TIMER=1
+			RETURN 1
+		ELSEif (<eval <tag.mezarmi>> == 1)
+			if !(<cont.flags>&statf_dead)
+				remove
+				return 1
+			endif
+			cont.go <morep>
+		else
+                        cont.GO <morep>
+		ENDIF
+	ENDIF
+CONT.EVENTS= -e_x_breakspell
+REMOVE
+RETURN 1
+
+[EVENTS e_x_breakspell]
+ON=@SpellCast
+IF !(<isgm>)
+	SYSMESSAGE @38 Konsantrasyonunuzu kaybettiniz.
+	FINDID.i_rb_delay.REMOVE
+	FINDID.i_rb_delay2.REMOVE
+	EVENTS= -e_x_breakspell
+	f_fizzle
+ENDIF
+
+ON=@GetHit
+IF !(<isgm>)
+	SYSMESSAGE @38 Konsantrasyonunuzu kaybettiniz, buyuyu yapmaya devam edemiyorsunuz.
+	FINDID.i_rb_delay.REMOVE
+	FINDID.i_rb_delay2.REMOVE
+	EVENTS= -e_x_breakspell
+	f_fizzle
+ENDIF 
+
+ON=@Hit
+IF !(<isgm>)
+	SYSMESSAGE @38 Konsantrasyonunuzu kaybettiniz, buyuyu yapmaya devam edemiyorsunuz.
+	FINDID.i_rb_delay.REMOVE
+	FINDID.i_rb_delay2.REMOVE
+	EVENTS= -e_x_breakspell
+	f_fizzle
+ENDIF
+
+ON=@Death 
+FINDID.i_rb_delay.REMOVE
+FINDID.i_rb_delay2.REMOVE
+EVENTS= -e_x_breakspell
+
+ON=@SkillStart
+IF !(<isgm>)
+	SYSMESSAGE @38 Konsantrasyonunuzu kaybettiniz.
+	FINDID.i_rb_delay.REMOVE
+	FINDID.i_rb_delay2.REMOVE
+	EVENTS= -e_x_breakspell
+	f_fizzle
+ENDIF
+
+[ITEMDEF i_rb_research]
+ID=i_gold
+NAME=research coin
+type t_normal
+VALUE=1
+CATEGORY=Rune Book
+SUBSECTION=area
+DESCRIPTION=Research Coin
+
+On=@Timer
+remove
+
+ON=@Create
+name Research Coin
+attr attr_invis|attr_decay
+timer 5
+color 0480
+
+[ITEMDEF i_rb_delay2]
+NAME=runebook gate delay
+ID=i_handr_1
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+        ATTR=attr_invis|attr_decay
+
+ON=@Equip
+	SRC.skill fail
+	SRC.ACTION=-1
+	SRC.FLAGS=(<SRC.FLAGS>&~00020)
+        TIMER=0
+        SRC.EVENTS=e_x_breakspell
+
+ON=@UNEQUIP
+	SRC.EVENTS= -e_x_breakspell
+
+ON=@Timer
+	IF ( <cont> )
+		IF ( <MORE1> ) && !( <CONT.isgm> ) //Acelem var bekletme diye sarki bile solerim bole giderse .
+			IF (<CONT.region.ISEVENT.r_house_system>) && !( <CONT.isgm> ) // kosarak evin icinde acma
+				cont.f_fizzle  // fixlendi
+				cont.sysmessage @38 Ev icinde kullanimi yasaktir.
+				remove
+				return 1
+			ENDIF
+			if (<cont.region.flags>&region_flag_ship)
+				cont.f_fizzle  // fixlendi
+				cont.sysmessage @38 Gemi icinde kullanimi yasaktir.
+				remove
+				return 1
+
+			ENDIF
+			//local.test 0
+  			//local.merkez <var.spawn_kontrol_merkezi>
+  			//for x 1 <eval <uid.<local.merkez>.tag.spawn_sayi>>
+			//if (<cont.DISTANCE <uid.<uid.<local.merkez>.tag.spawn_<eval <dlocal.x>>_bit>.uid>> < 11)
+			//	local.test 2
+			//endif
+  			//endfor
+			//if (<eval <local.test>> == 2)
+			//	cont.f_fizzle
+  			//	cont.SYSMESSAGE @38 Bu bolgede gate acamazsiniz.
+			//	remove
+  			//	RETURN 1	
+			//endif
+			IF (<MORE1> == 5)
+				cont.newitem i_moongate_blue_fx
+				cont.act.name summoning gate
+				cont.act.p <morep>
+				cont.act.morez 1
+				cont.act.color 022
+				cont.act.attr 012
+				cont.act.timer 5
+				cont.act.sfx 526
+			ENDIF
+			MORE1=<MORE1>-1
+			TIMER=1
+			RETURN 1
+		ELSE
+			cont.newitem i_rb_gate
+			cont.act.p <morep>
+			cont.act.morep <cont.p>
+			cont.act.timer 30
+			cont.act.sfx 535 // or 526 or 524
+			var.gateuid <cont.act.uid>
+
+			cont.newitem i_rb_gate
+			cont.act.link <var.gateuid>
+			cont.act.link.link <cont.act.uid>
+			cont.act.p <cont.p>
+			cont.act.morep <morep>
+			cont.act.timer 30
+			cont.act.sfx 535 // or 526 or 524
+			var.gateuid
+		ENDIF
+	ENDIF
+REMOVE
+RETURN 1
+
+
+// 16 Ocak - Runebook Rename Denemesi (Genie)
+//******************************************
+//17.01.02 (Genie)
+//Guncellendi
+[DIALOG d_runebook_rename] 
+100,50 //17.01.02 (Genie) //unutuldum unutuldum
+resizepic 190 175 5054 335 150        
+resizepic 200 185 3000 315 130        
+resizepic 220 235 3000 270 22         
+text 215 200 995 0                    
+text 255 275 0000 1                   
+button 220 275 4005 4007 1 0 1        
+text 355 275 0000 2   
+button 320 275 4005 4007 1 0 2  
+text 435 275 0000 4                   
+button 400 275 4005 4007 1 0 3        
+textentry 225 237 253 25 0 0 3        
+
+[DIALOG d_runebook_rename TEXT]
+Runebookun yeni ismi ne olsun?
+Tamam
+Iptal
+<TAG.NAME>
+Reset
+
+[DIALOG d_runebook_rename BUTTON]
+ONBUTTON=0
+RETURN 1
+ONBUTTON=1
+//IF !(0<ARGTXT[0]>==0) 
+TAG.name=<ARGTXT[0]>
+//ELSE
+//TAG.name=runebook
+//ENDIF
+DClick
+RETURN 1
+ONBUTTON=2
+DClick
+RETURN 1
+ONBUTTON=3
+TAG.name=isimsiz
+DClick
+RETURN 1
+//17.01.02 (Genie)
+//*********************************************
+
+//IF <strlen(<ARGTXT[0]>)> > 7
+//SRC.SYSMESSAGE Runebookun ismi en fazla 8 karakter olabilir.
+//	DIALOG d_runebook_rename
+//ELSE
+//<strmid(<ARGTXT[0]>,1,10)>
+//TAG.NAME=<strmid(<ARGTXT[0]>,1,10)>
+//ENDIF
+
+[function f_rc_rb]
+ref1= <uid>
+if <ref1>
+if !(<eval <argn>> <= 0)
+local.konum = <dtag.POS<argn>_X> <dtag.POS<argn>_Y> <dtag.POS<argn>_Z> <dtag.POS<argn>_M>
+else
+local.konum=
+endif
+else
+local.konum=
+endif
+IF <TAG.POS<argn>_X>=00
+  SRC.SYSMESSAGE @55 Bu alan bos.
+  RETURN 1
+ENDIF
+//IF !<dTAG.POS<argn>_M>=0
+//  SRC.SYSMESSAGE @55 Bu alana gidemezsiniz.
+//  RETURN 1
+//ENDIF
+IF !<SRC.ISGM>
+	// ev icinde olmayan bir bolgede dururken recall kullanmak
+	IF (<SRC.FINDID.i_spdelay_new>)
+		SRC.SYSMESSAGE @38 Bir onceki buyunuzu tamamlamadan kullanamazsiniz.
+		RETURN 1
+	ENDIF
+	IF (<SRC.FLAGS>&STATF_DEAD)
+		SRC.SYSMESSAGE @38 Oluyken kullanamazsiniz.
+		RETURN 1
+	ENDIF
+	if (<SRC.ISNEARTYPE t_anti_rune_book 20>)
+	src.sysmessage @,,1 Bu alanda runebook kullanamazsınız.
+	return 1
+	endif
+	IF (<src.flags>&statf_stone)
+		SRC.SYSMESSAGE @38 Stone iken kullanamazsiniz.      
+		RETURN 1
+	ENDIF
+	IF (<SRC.FLAGS>&statf_freeze)
+		SRC.SYSMESSAGE @38 Paralyzed iken kullanamazsiniz.
+		RETURN 1
+	ENDIF
+	//IF (<SRC.ISEVENT.e_landtrade>)
+	//	SRC.SYSMESSAGE @38 kara ticareti yapiyosun hava degil.
+	//	RETURN 1
+	//ENDIF
+	IF !<SRC.region.ISEVENT.r_house_system> 
+		IF (<SRC.REGION.FLAGS>&region_antimagic_recall_out) || (<SRC.REGION.FLAGS>&region_antimagic_all)
+			SRC.SYSMESSAGE @38 Bu bolgede recall kullanamazsiniz.
+			DClick
+			RETURN 1
+		ENDIF
+	ENDIF
+	//ev icinde ve ozel flagli yerlerde iken recall kullanmak 
+	IF (<SRC.REGION.FLAGS>&region_antimagic_all) || (<SRC.REGION.FLAGS>&region_antimagic_teleport)) || (<SRC.REGION.FLAGS>&region_antimagic_recall_out)
+		SRC.SYSMESSAGE @38 Bu bolgede recall kullanamazsiniz.
+		DClick
+		RETURN 1
+	ENDIF
+	IF (<SRC.FINDID.i_rb_delay>) || (<SRC.FINDID.i_rb_delay2>)
+		spell_say Kal Ort Por
+		f_fizzle
+		src.sysmessage @38 Konsantrasyonunuzu kaybettiniz.
+		RETURN 1
+	ENDIF
+  SRC.NEWITEM i_rb_research
+  SRC.ACT.P=<local.konum>
+  TAG.RESEARCH=<SRC.ACT.REGION.FLAGS>
+  //ref12=<serv.map(<EVAL <TAG.POS<argn>_X>>,<EVAL <TAG.POS<argn>_y>>,<EVAL <TAG.POS<argn>_Z>>,<EVAL <TAG.POS<argn>_M>>).region.uid>
+   ref12=<src.act.region.uid>
+   ref13=<src.act.uid>
+//  tag.research2=<src.act.region.resources>
+  	//if (<tag.research>&(r_dungeons))
+  		//src.sysmessage @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+  		//DClick
+  		//return 1
+  	//endif
+	if <ref13.f_spawn_check_exist>
+	 	SRC.SYSMESSAGE @1153,,1 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+  		DClick
+  		RETURN 1
+	ENDIF
+	if <ref12.region.isevent.r_house_system>
+	SRC.SYSMESSAGE @1153,,1 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+  		DClick
+  		RETURN 1
+	ENDIF
+  	IF (<TAG.RESEARCH>==0901)
+  		SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+  		DClick
+  		RETURN 1
+	ENDIF
+  	IF (<TAG.RESEARCH>&(region_flag_safe))
+			SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+			DClick
+			RETURN 1
+	ENDIF
+	IF (<TAG.RESEARCH>&(region_antimagic_recall_in))
+		SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+		DClick
+		RETURN 1
+	ENDIF
+
+	IF (<TAG.RESEARCH>==01092)
+		SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+		DClick
+		RETURN 1
+	ENDIF
+	//IF ( <SRC.MAGERY> < 200 )
+	//	SRC.SYSMESSAGE @38 Yeterli skill puanina sahip degilsiniz. (20 Magery Gerekli)
+	//	SRC.SOUND=92
+	//	Dclick
+	//	RETURN 1
+	//ENDIF
+	
+	//if (<src.findid.i_rp_jail>)
+	//	src.sysmessage @38 Su an bu buyuyu kullanamazsiniz.
+		//spell_say Kal Ort Por
+	//	f_fizzle
+	//	return 1
+	//endif
+	IF (<SRC.MANA><15)
+		SRC.SOUND=92
+		SRC.SYSMESSAGE @38 Yeterli mananiz yok.
+		DClick
+		RETURN 1
+	ENDIF
+	if <src.isevent.e_nouse>
+		src.sys_error Yok boyle bir sey...
+		f_fizzle
+		return 1
+	endif
+	IF (<MOREX> > 0)
+		MOREX=<MOREX>-1
+		SRC.spell_say Kal Ort Por
+		src.sd 2
+		SRC.ANIM=17
+		//SRC.MANA=(<SRC.MANA>+-15)
+	ELSEIF (<SRC.RESTEST 1 i_reag_black_pearl>) && (<SRC.RESTEST 1 i_reag_mandrake_root>) && (<SRC.RESTEST 1 i_reag_blood_moss>
+		IF ( <SRC.MAGERY> < 400 )
+			SRC.SYSMESSAGE @38  Yeterli skill puanina sahip degilsiniz. (40 Magery Gerekli)
+			SRC.SOUND=92
+			RETURN 0
+		ENDIF
+	  SRC.spell_say Kal Ort Por
+	  src.sd 2
+	  SRC.ANIM=17
+	  SRC.MANA=(<SRC.MANA>+-15)
+	  SRC.CONSUME=1 i_reag_black_pearl
+	  SRC.CONSUME=1 i_reag_blood_moss
+	  SRC.CONSUME=1 i_reag_mandrake_root
+	ELSE
+		SRC.SYSMESSAGE @38 Kitapta sarj kalmamis ve uzerinizde buyuyu yapacak malzeme yok.
+		SRC.SOUND 92
+		DClick
+		RETURN 1
+	ENDIF
+ENDIF
+//if !(strmatch("<TAG.POS<argn>_X>","") || strmatch("<TAG.POS<argn>_Y>","") || strmatch("<TAG.POS<argn>_Z>","") || strmatch("<TAG.POS<argn>_M>",""))
+SRC.NEWITEM i_rb_delay
+SRC.ACT.MOREP=<local.konum>//<EVAL <TAG.POS<argn>_X>> <EVAL <TAG.POS<argn>_Y>> <EVAL <TAG.POS<argn>_Z>> <EVAL <TAG.POS<argn>_M>>
+SRC.ACT.MORE1=4
+SRC.ACT.EQUIP
+//endif
+RETURN 1
+endif
+[Function f_gt_rb]
+ref1= <uid>
+if <ref1>
+if !(<eval <argn>> <= 0)
+local.konum = <dtag.POS<argn>_X> <dtag.POS<argn>_Y> <dtag.POS<argn>_Z> <dtag.POS<argn>_M>
+else
+local.konum=
+endif
+else
+local.konum=
+endif
+IF <TAG.POS<argn>_X>=00
+  SRC.SYSMESSAGE @55 Bu alan bos.
+  DClick
+  RETURN 1
+ENDIF
+//IF !<dTAG.POS<argn>_M>=0
+//  SRC.SYSMESSAGE @55 Bu alana gidemezsiniz.
+//  RETURN 1
+//ENDIF
+IF !<SRC.ISGM>
+	// ev olmayan bolgede iken gate acmak
+	IF !<SRC.region.ISEVENT.r_house_system>
+		IF (<SRC.REGION.FLAGS>&REGION_ANTIMAGIC_ALL) || (<SRC.REGION.FLAGS>&REGION_ANTIMAGIC_GATE) || (<SRC.REGION.FLAGS>&REGION_ANTIMAGIC_RECALL_IN) || (<SRC.REGION.FLAGS>&REGION_ANTIMAGIC_RECALL_OUT)
+			SRC.SYSMESSAGE @38 Bu bolgede gate acamazsiniz.
+			DClick
+			RETURN 1
+		ENDIF
+  	ENDIF
+  	//IF (<SRC.ISEVENT.e_landtrade>)
+	//		SRC.SYSMESSAGE @38 kara ticareti yapiyosun hava degil.
+	//		RETURN 1
+	//ENDIF
+	IF (<src.flags>&statf_stone)
+			SRC.SYSMESSAGE @38 Stoneken kullanamazsiniz.      
+			RETURN 1
+	ENDIF
+	IF (<SRC.FLAGS>&statf_freeze)
+			SRC.SYSMESSAGE @38 Paralyzed iken kullanamazsiniz.
+			RETURN 1
+	ENDIF
+           
+
+  	//ev icinde ve ozel flagli yerlerde iken gate acmak 
+  	IF (<SRC.REGION.FLAGS>&region_antimagic_all) || (<SRC.REGION.FLAGS>&region_antimagic_teleport)) || (<SRC.REGION.FLAGS>&region_antimagic_recall_out)
+  		SRC.SYSMESSAGE @38 Bu bolgede gate acamazsiniz.
+  		DClick
+  		RETURN 1
+	ENDIF
+	IF (<SRC.FINDID.i_rb_delay>) || (<SRC.FINDID.i_rb_delay2>)
+		SRC.findid.i_rb_delay.remove
+		SRC.findid.i_rb_delay2.remove
+		spell_say Kal Ort Por
+		f_fizzle
+		src.sysmessage @38 Konsantrasyonunuzu kaybettiniz.
+		RETURN 1
+	ENDIF
+  SRC.NEWITEM i_rb_research
+  SRC.ACT.P=<local.konum> //<EVAL <TAG.POS<argn>_X>> <EVAL <TAG.POS<argn>_Y>> <EVAL <TAG.POS<argn>_Z>> <EVAL <TAG.POS<argn>_M>>
+  TAG.RESEARCH=<SRC.ACT.REGION.FLAGS>
+  ref12=<src.act.region.uid>
+   ref13=<src.act.uid>
+//local.test 0
+//local.merkez <var.spawn_kontrol_merkezi>
+//for x 1 <eval <uid.<local.merkez>.tag.spawn_sayi>>
+//	if (<SRC.ACT.DISTANCE <uid.<uid.<local.merkez>.tag.spawn_<eval <dlocal.x>>_bit>.uid>> < 11)
+//		local.test 1
+//	elseif (<SRC.DISTANCE <uid.<uid.<local.merkez>.tag.spawn_<eval <dlocal.x>>_bit>.uid>> < 11)
+//		local.test 2
+//	endif
+//  endfor
+//	if (<eval <local.test>> == 1)
+//		SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+//		DClick
+//		RETURN 1
+//	elseif (<eval <local.test>> == 2)
+//		SRC.SYSMESSAGE @38 Bu bolgede gate acamazsiniz.
+//		DClick
+//		RETURN 1	
+//	endif
+	if <ref13.f_spawn_check_exist>
+	 	SRC.SYSMESSAGE @1153,,1 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+  		DClick
+  		RETURN 1
+	ENDIF
+	if <ref12.region.isevent.r_house_system>
+	SRC.SYSMESSAGE @1153,,1 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+  		DClick
+  		RETURN 1
+	ENDIF
+	// ev icine gate actirmiyor
+	IF (<TAG.RESEARCH>==0901)
+			SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+			DClick
+			RETURN 1
+	ENDIF
+	IF (<TAG.RESEARCH>&(region_flag_safe))
+			SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+			DClick
+			RETURN 1
+	ENDIF
+	IF (<TAG.RESEARCH>&(region_antimagic_recall_in))
+		SRC.SYSMESSAGE @38 Gitmek istediginiz bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+		DClick
+		RETURN 1
+	ENDIF
+	IF (<TAG.RESEARCH>==01092)
+		SRC.SYSMESSAGE @38 Bu bolgedeki kuvvetli buyu cemberi girisinizi engelliyor.
+		DClick
+		RETURN 1
+	ENDIF
+	IF ( <SRC.MAGERY> < 750 )
+		SRC.SYSMESSAGE @38 Yeterli beceriye sahip degilsiniz.
+		SRC.SOUND=92
+		DClick
+		RETURN 1
+	ENDIF
+	IF (<SRC.MANA><40)
+		SRC.SOUND=92
+		SRC.SYSMESSAGE @38 Yeterli mananiz yok.
+		DClick
+		RETURN 1
+	ENDIF
+	//if (<src.findid.i_rp_jail>==1)
+
+//		sysmessage @38 Su an bu buyuyu kullanamazsiniz.
+//		spell_say Vas Rel Por
+//		SRC.MANA=(<SRC.MANA>+-40)
+//		f_fizzle
+	if (<src.region.flags>&region_flag_ship)
+		src.sysmessage @55 Gemideyken kullanamazsiniz.
+	endif
+	IF ! (<SRC.RESTEST 1 i_reag_mandrake_root>) |! (<SRC.RESTEST 1 i_reag_sulfur_ash>) |! (<SRC.RESTEST 1 i_reag_black_pearl>)
+		SRC.SYSMESSAGE @38 Yeterli malzemeye sahip degilsiniz.
+		SRC.SOUND=92
+		DClick
+		RETURN 1
+	ENDIF
+  SRC.spell_say Vas Rel Por
+  src.sd 3
+  SRC.ANIM=17
+  SRC.MANA=(<SRC.MANA>+-40)
+   SRC.CONSUME=1 i_reag_black_pearl
+   SRC.CONSUME=1 i_reag_mandrake_root
+   SRC.CONSUME=1 i_reag_sulfur_ash
+ENDIF
+SRC.NEWITEM i_rb_delay2
+SRC.ACT.MOREP=<local.konum> //<EVAL <TAG.POS<argn>_X>> <EVAL <TAG.POS<argn>_Y>> <EVAL <TAG.POS<argn>_Z>> <EVAL <TAG.POS<argn>_M>>
+SRC.ACT.MORE1=4
+SRC.ACT.EQUIP
+RETURN 1
+
+[function f_ar_rb]
+if (<src.account.plevel> < 5 )
+	if !(<topobj.uid> == <src.uid>)
+		src.sysmessage @55 Bu islem icin runebook'un cantanizda olmasi gerekiyor.
+		DClick
+		return 1
+	else
+		IF ( <TAG.POS<argn>_X> == 0 )
+			SRC.SYSMESSAGE @55 Bu alan bos.
+			DClick
+			RETURN 1
+		ENDIF
+		SRC.NEWITEM=i_rune_marker
+		SRC.ACT.MOREX=<dTAG.POS<argn>_X>
+		SRC.ACT.MOREY=<dTAG.POS<argn>_Y>
+		SRC.ACT.MOREZ=<dTAG.POS<argn>_Z>
+		SRC.ACT.MOREM=<dTAG.POS<argn>_M>
+		SRC.ACT.NAME=<TAG.LOCAL<argn>>
+		SRC.ACT.BOUNCE
+		tryp 0 TAG.POS<argn>_X=0
+		tryp 0 TAG.LOCAL<argn>=
+		if (<baseid> == i_runebook)
+			morez -= 1
+		endif
+		DClick
+	endif
+else
+	IF ( <TAG.POS<argn>_X> == 0 )
+		SRC.SYSMESSAGE @55 Bu alan bos.
+		DClick
+		RETURN 1
+	ENDIF
+	SRC.NEWITEM=i_rune_marker
+	SRC.ACT.MOREX=<TAG.POS<argn>_X>
+	SRC.ACT.MOREY=<TAG.POS<argn>_Y>
+	SRC.ACT.MOREZ=<TAG.POS<argn>_Z>
+	SRC.ACT.MOREM=<TAG.POS<argn>_M>
+	SRC.ACT.NAME=<TAG.LOCAL<argn>>
+	SRC.ACT.BOUNCE
+	tryp 0 TAG.POS<argn>_X=0
+	tryp 0 TAG.LOCAL<argn>=
+	DClick
+endif
+
+[function f_rn_rb]
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @55 Bu islem icin runebook'un cantanizda olmasi gerekiyor.
+	DClick
+	return 1
+endif
+IF (<TAG.POS<argn>_X>=0)
+	SRC.SYSMESSAGE @38 Bu alan bos oldugundan ismini degistiremezsiniz.
+	DClick
+	RETURN 1
+ELSE
+	TAG.runename <TAG.LOCAL<argn>>
+	TAG.LOCALMOREP=<dTAG.POS<argn>_X> <dTAG.POS<argn>_Y> <dTAG.POS<argn>_Z> <dTAG.POS<argn>_M> //2012 - Avatar
+	f_renameold <argn>
+	RETURN 1
+ENDIF
+
+[function f_ra_rb]
+if !(<src.isgm>)
+	SRC.SYSMESSAGE @55 Rune'u kitaba eklediniz.
+        SRC.SOUND=79
+	tryp 0 TAG.LOCAL<argn>=<TAG.HOLD_LOCAL>
+	tryp 0 TAG.POS<argn>_X=<TAG.HOLD_X>
+	tryp 0 TAG.POS<argn>_Y=<TAG.HOLD_Y>
+	tryp 0 TAG.POS<argn>_Z=<TAG.HOLD_Z>
+	tryp 0 TAG.POS<argn>_M=<TAG.HOLD_M>
+	SRC.TARG.REMOVE
+	DClick
+        RETURN 1
+else // gm e paso rune harcatmayak..
+	SRC.SYSMESSAGE @55 Rune'u kitaba eklediniz.
+        SRC.SOUND=79
+	tryp 0 TAG.LOCAL<argn>=<TAG.HOLD_LOCAL>
+	tryp 0 TAG.POS<argn>_X=<TAG.HOLD_X>
+	tryp 0 TAG.POS<argn>_Y=<TAG.HOLD_Y>
+	tryp 0 TAG.POS<argn>_Z=<TAG.HOLD_Z>
+	tryp 0 TAG.POS<argn>_M=<TAG.HOLD_M>
+	DClick
+        RETURN 1
+endif
+
+[itemdef i_rbook_selector]
+id=i_worldgem_bit
+name Runebook secici
+layer=layer_special
+type=t_eq_script
+weight= 0
+
+on=@create
+attr=attr_newbie|attr_decay|attr_invis
+
+on=@equip
+if !(<findid.i_rbook_selector>)
+	timer 6
+	src.sysmessage @55 Kullanimda olacak rune book u seciniz.
+	target
+endif
+return 1
+
+On=@timer
+cont.sysmessage @38 Islevselligi kalmadi.
+remove
+return 1
+
+On=@targon_char
+remove
+return 1
+
+on=@targon_ground
+remove
+return 1
+
+on=@targon_item
+if (strmatch('<cont.targ.baseid>','i_runebook'))
+	cont.tag.aktifbook <cont.targ.uid>
+	cont.sysmessage @65 Kitap kaydedildi.
+else
+	cont.sysmessage @38 Sectiginiz esya runebook olmali.
+endif
+remove
+return 1
+
+[function git]
+sysmessage @38 Disabled.
+return 1
+if (<flags>&statf_dead)
+	sysmessage @38 Oluyken kullanamazsiniz.
+	return 1
+elseif (<findid.i_git_delay>)
+	sysmessage @38 Onceki buyu etkisi bitmeden kullanamazsiniz.
+	return 1
+elseif (strmatch('<args>','kitap'))
+	var.temppact <act>
+	newitem i_rbook_selector
+	act.equip
+	act <var.temppact>
+elseif (strmatch('<args>','1'))
+	yolla 1
+elseif (strmatch('<args>','2'))
+	yolla 2
+elseif (strmatch('<args>','3'))
+	yolla 3
+elseif (strmatch('<args>','4'))
+	yolla 4
+elseif (strmatch('<args>','5'))
+	yolla 5
+elseif (strmatch('<args>','6'))
+	yolla 6
+elseif (strmatch('<args>','7'))
+	yolla 7
+elseif (strmatch('<args>','8'))
+	yolla 8
+elseif (strmatch('<args>','9'))
+	yolla 9
+elseif (strmatch('<args>','10'))
+	yolla 10
+elseif (strmatch('<args>','11'))
+	yolla 11
+elseif (strmatch('<args>','12'))
+	yolla 12
+elseif (strmatch('<args>','13'))
+	yolla 13
+elseif (strmatch('<args>','14'))
+	yolla 14
+elseif (strmatch('<args>','15'))
+	yolla 15
+elseif (strmatch('<args>','16'))
+	yolla 16
+else
+	sysmessage @38 Kullanimi: .git kitap = Aktif Runebook Secimi
+	sysmessage @38 Kullanimi: .git 1-16 = Gideceginiz mevkii' nin runebook'unuzdaki yeri
+endif
+
+[function yolla]
+if (<flags>&statf_dead)
+	sysmessage @38 Oluyken kullanamazsiniz.
+	return 1
+elseif (<uid.<tag.aktifbook>.cont.uid> == <uid>) 
+	if (<findid.i_git_delay>)
+		sysmessage @38 Onceki buyunun etkisi daha bitmedi
+	else
+		var.temppact <act>
+		newitem i_git_delay
+		act.equip
+		act <uid.<tag.aktifbook>.uid>
+		act.f_rc_rb <args>
+		act <var.temppact>
+	endif
+else
+	sysmessage @38 Kullanimda olan runebook backpack'inizde olmalidir.
+endif
+
+[itemdef i_git_delay]
+id i_worldgem_bit
+name=git delay
+
+on=@create
+attr=attr_newbie|attr_decay|attr_invis
+
+on=@equip
+timer 3
+
+on=@timer
+remove
+return 1
+
+[EOF]

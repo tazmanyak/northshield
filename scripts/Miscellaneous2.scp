@@ -1,0 +1,175 @@
+[itemdef i_sabri_quest_haberci]
+name Mezarlik Questi
+id i_grave_stone
+type t_eq_script
+weight 0
+
+on=@click
+message @,,1 <name>
+return 1
+
+on=@dclick
+var.sabriquest <uid>
+return 1
+
+on=@create
+attr=080
+timer 500 // 20 dk da bir
+color 0542
+more2 48
+
+on=@timer
+local.hour=<serv.rtime.format %H>
+IF (<eval <local.hour>> == 01)
+	if (<eval <var.sabri_quest2>> == 1)
+	try uid.<var.sabri_quest>.remove
+	endif
+serv.allclients Yarisma_Duyurusu Minotaur , The Boss Of The Cemetery Britain Mezarlikta hayata dondu...
+var.etkinlikprogramisondurum The Boss Of The Cemetery Britain Mezarlikta hayata dondu...
+SERV.NEWNPC c_sabri_quest_boss
+new.events +e_mezar_etkinlik
+NEW.HOME 1361,1470,10
+NEW.HOMEDIST=6
+NEW.UPDATE
+new.p 1361,1470,10
+var.sabri_quest2 1
+var.sabri_quest <new.uid>
+timer 3601
+return 1
+endif
+
+timer 180
+return 1
+
+[CHARDEF c_sabri_quest_boss]
+id=c_minotaur_scout
+NAME=Minotaur , the boss of the cemetery
+CAN=MT_WALK|MT_Run|MT_NONHUM|MT_FIRE_IMMUNE
+DAM=80,90
+ARMOR=70
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TEVENTS=e_carnivores3,e_mezar_etkinlik
+CATEGORY=Monsters
+SUBSECTION=Dragonkind
+DESCRIPTION=Wyrm (ancient)
+
+ON=@Create
+   color 0
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-10000
+   STR=10000
+   DEX=650
+   INT=1500
+   MAGERY 3000.0
+   ANATOMY={75.0 100.0}
+   MAGICRESISTANCE=400.0
+   MEDITATION={52.0 75.0}
+   TACTICS={98.0 100.0}
+   WRESTLING={98.0 100.0}
+   EVALUATINGINTEL={200.0 905.0}
+
+ON=@NpcRestock
+//ITEM=i_egg_ostard,R4
+ITEM=i_treasure_map_lvl_1
+ITEM=i_treasure_map_lvl_2
+ITEM=i_treasure_map_lvl_3
+ITEM=i_treasure_map_lvl_4
+ITEM=i_treasure_map_lvl_5
+ITEM=i_upgrade_scroll3
+ITEM=i_upgrade_scroll6
+ITEM=i_upgrade_scroll9
+ITEM=i_upgrade_scroll12
+ITEM=i_upgrade_scroll12
+//ITEM=i_upgrade_scroll15,R4
+//ITEM=VAnq_Silah,R15
+ITEM=Power_Silah
+ITEM=Force_Silah
+ITEM=Might_Silah
+ITEM=ruin_Silah
+ITEM=i_gold,25000
+ITEM=i_gold,25000
+ITEM=i_gold,25000
+ITEM=i_gold,25000
+on=@attack
+if (rand(30) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(30) == 2)
+//SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(20) == 3)
+//src.bomba1
+src.damage {60 110}
+
+elseif (rand(30) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+endif
+
+on=@gethit
+if (<act.baseid>=c_vortex)
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif
+
+if (<act.baseid>=c_blade_spirit) 
+sayua 0481,2,0,eng,* Etkilenmez *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+src.remove 
+endif
+
+if (rand(40) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(20) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(40) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+on=@death
+var.etkinlikprogramisondurum The Boss Of The Cemetery olduruldu.
+var.sabri_quest2 0
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_QUEST_ALAN_TASI]
+name Quest Bolgesi
+id i_grave_stone
+type t_eq_script
+weight 0
+
+on=@click
+message @,,1 Silmeyin !
+message @,,1 <name>
+return 1
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[EOF]
+

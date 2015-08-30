@@ -1,0 +1,44 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Gygrazork - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// The event is in e_PlayerGenericEvent
+// sphere_events_player.scp file
+// But the skill is done and this function below is needed
+//
+[SKILL 26]
+DEFNAME=Skill_MagicResist
+KEY=MagicResistance
+TITLE=Resistor
+PROMPT_MSG=
+EFFECT=0.0,90.0
+STAT_STR=40
+STAT_INT=100
+STAT_DEX=40
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=50
+//ADV_RATE=10.0,200.0,800.0
+//ADV_RATE=1.0,1.0,1.0
+//ADV_RATE=0,0,0
+
+
+[function spellcircle] //argn1=spell number
+if (<argn1> >= 1) && (<argn1> <= 64) //only with default (mage) spells
+return <eval ((<argn1>-1)/8)+1>
+else
+return 1
+endif
+
+[eof]

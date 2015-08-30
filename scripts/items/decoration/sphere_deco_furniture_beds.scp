@@ -1,0 +1,203 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF 0a5c]
+DEFNAME=i_bed_small_s_1_2
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=0a63
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Small Bed (South - 1 of 2)
+
+[ITEMDEF 0a63]
+DEFNAME=i_bed_small_s_2_2
+DUPEITEM=0a5c
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Small Bed (South - 2 of 2)
+
+[ITEMDEF 0a5d]
+DEFNAME=i_bed_small_e_1_2
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=0a62
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Small Bed (East - 1 of 2)
+
+[ITEMDEF 0a62]
+DEFNAME=i_bed_small_e_2_2
+DUPEITEM=0a5d
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Small Bed (East - 2 of 2)
+
+[ITEMDEF 0a78]
+DEFNAME=i_bed_large_e_1_4
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=0a79,0a7c,0a7d
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (East - 1 of 4)
+
+[ITEMDEF 0a79]
+DEFNAME=i_bed_large_e_2_4
+DUPEITEM=0a78
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (East - 2 of 4)
+
+[ITEMDEF 0a7c]
+DEFNAME=i_bed_large_n_2_4
+DUPEITEM=0a78
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (East - 2 of 4)
+
+[ITEMDEF 0a7d]
+DEFNAME=i_bed_large_w_2_4
+DUPEITEM=0a78
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (East - 2 of 4)
+
+[ITEMDEF 0a7e]
+DEFNAME=i_bed_large_s_1_4
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=0a7f,0a82,0a83
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (South - 1 of 4)
+
+[ITEMDEF 0a7f]
+DEFNAME=i_bed_large_s_2_4
+TYPE=t_bed
+WEIGHT=50
+DUPEITEM=0a7e
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (South - 2 of 4)
+
+[ITEMDEF 0a82]
+DEFNAME=i_bed_large_s_3_4
+TYPE=t_bed
+WEIGHT=50
+DUPEITEM=0a7e
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (South - 3 of 4)
+
+[ITEMDEF 0a83]
+DEFNAME=i_bed_large_s_4_4
+TYPE=t_bed
+WEIGHT=50
+DUPEITEM=0a7e
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Large Bed (South - 4 of 4)
+
+[ITEMDEF 0304c]
+DEFNAME=i_bed_elven_e_1_2
+NAME=Elven Bed
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=0304d
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Elven Bed (East - 1 of 2)
+
+[ITEMDEF 0304d]
+DEFNAME=i_bed_elven_e_2_2
+DUPEITEM=0304c
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Elven Bed (East - 2 of 2)
+
+[ITEMDEF 03050]
+DEFNAME=i_bed_elven_s_1_2
+NAME=Elven Bed
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=03051
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Elven Bed (South - 1 of 2)
+
+[ITEMDEF 03051]
+DEFNAME=i_bed_elven_s_2_2
+DUPEITEM=03050
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Elven Bed (South - 2 of 2)
+
+[ITEMDEF 03052]
+DEFNAME=i_bed_elven_tall_e_1_4
+NAME=Tall Elven Bed
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=03053,03054,03055
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (East - 1 of 4)
+
+[ITEMDEF 03053]
+DEFNAME=i_bed_elven_tall_e_2_4
+DUPEITEM=03052
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (East - 2 of 4)
+
+[ITEMDEF 03054]
+DEFNAME=i_bed_elven_tall_e_3_4
+DUPEITEM=03052
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (East - 3 of 4)
+
+[ITEMDEF 03055]
+DEFNAME=i_bed_elven_tall_e_4_4
+DUPEITEM=03052
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (East - 4 of 4)
+
+[ITEMDEF 03056]
+DEFNAME=i_bed_elven_tall_s_1_4
+NAME=Tall Elven Bed
+TYPE=t_bed
+WEIGHT=50
+DUPELIST=03057,03058,03059
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (South - 1 of 4)
+
+[ITEMDEF 03057]
+DEFNAME=i_bed_elven_tall_s_2_4
+DUPEITEM=03056
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (South - 2 of 4)
+
+[ITEMDEF 03058]
+DEFNAME=i_bed_elven_tall_s_3_4
+DUPEITEM=03056
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (South - 3 of 4)
+
+[ITEMDEF 03059]
+DEFNAME=i_bed_elven_tall_s_4_4
+DUPEITEM=03056
+CATEGORY=Decoration - Furniture
+SUBSECTION=Beds
+DESCRIPTION=Tall Elven Bed (South - 4 of 4)
+
+[eof]

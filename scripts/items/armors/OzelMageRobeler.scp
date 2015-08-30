@@ -1,0 +1,175 @@
+
+[ITEMDEF i_mage_robe_earth]
+NAME=Earth Robe
+ID=i_hooded_shroud
+TYPE=T_armor_leather
+ARMOR=40
+Value=50000
+SKILLMAKE=TAILORING 99.9
+RESOURCES=72 i_cloth//,152 i_garmoll_hides,162 i_garmoll_blood
+
+on=@click
+message [Sağlamlık: %<eval (<more1L> * 100 ) / <more1H>>]
+message a <name>
+return 1
+
+
+ON=@Equip
+if !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+return 1
+else
+src.events +e_earthrobe
+endif
+
+ON=@unEquip
+src.events -e_earthrobe
+
+ON=@Create
+HITPOINTS=100
+COLOR=07ad
+
+[events e_earthrobe]
+ON=@GetHit
+if (<findid.i_rune_poison>)
+sayua 68,6,6,1 * poison resist *
+FINDID.i_rune_poison.remove
+sfx snd_spell_poison
+effect 3,0374a,1,15,1
+endif
+
+ON=@Spelleffect
+if (<argn>==55) || (<argn>==12) || (<argn>==57) || (<argn>==39) || (<argn>==20)
+sayua 68,6,6,1 * spell resist *
+return 1
+ENDIF
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_mage_robe_energy]
+NAME=Energy Robe
+ID=i_hooded_shroud
+TYPE=T_armor_leather
+ARMOR=40
+Value=50000
+SKILLMAKE=TAILORING 99.9
+RESOURCES=72 i_cloth//,152 i_garmoll_hides,162 i_garmoll_blood
+
+on=@click
+message [Sağlamlık: %<eval (<more1L> * 100 ) / <more1H>>]
+message a <name>
+return 1
+
+
+ON=@Equip
+if !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+return 1
+else
+src.events +e_energyrobe
+endif
+
+ON=@unEquip
+src.events -e_energyrobe
+
+ON=@Create
+HITPOINTS=100
+COLOR=07ad
+
+[events e_energyrobe]
+
+ON=@Spelleffect
+if (<argn>==55) || (<argn>==12) || (<argn>==57) || (<argn>==39) || (<argn>==20)
+sayua 68,6,6,1 * spell resist *
+return 1
+ENDIF
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_mage_robe_ice]
+NAME=Ice Robe
+ID=i_hooded_shroud
+TYPE=T_armor_leather
+ARMOR=40
+Value=50000
+SKILLMAKE=TAILORING 99.9
+RESOURCES=72 i_cloth//,152 i_garmoll_hides,162 i_garmoll_blood
+
+on=@click
+message [Sağlamlık: %<eval (<more1L> * 100 ) / <more1H>>]
+message a <name>
+return 1
+
+
+ON=@Equip
+if !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+return 1
+else
+src.events +e_energyrobe
+endif
+
+ON=@unEquip
+src.events -e_energyrobe
+
+ON=@Create
+HITPOINTS=100
+COLOR=07ad
+
+[events e_energyrobe]
+
+ON=@Spelleffect
+if (<argn>==55) || (<argn>==12) || (<argn>==57) || (<argn>==39) || (<argn>==20)
+sayua 68,6,6,1 * spell resist *
+return 1
+ENDIF
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ITEMDEF i_mage_robe_fire]
+NAME=Fire Robe
+ID=i_hooded_shroud
+TYPE=T_armor_leather
+ARMOR=40
+Value=50000
+SKILLMAKE=TAILORING 99.9
+RESOURCES=72 i_cloth//,152 i_garmoll_hides,162 i_garmoll_blood
+
+on=@click
+message [Sağlamlık: %<eval (<more1L> * 100 ) / <more1H>>]
+message a <name>
+return 1
+
+
+ON=@Equip
+if !(<src.puremage>)
+src.sysmessage @,,1 Giymek icin puremage olmalisin.
+unequip
+return 1
+else
+src.events +e_energyrobe
+endif
+
+ON=@unEquip
+src.events -e_energyrobe
+
+ON=@Create
+HITPOINTS=100
+COLOR=07ad
+
+[events e_energyrobe]
+
+ON=@Spelleffect
+if (<argn>==55) || (<argn>==12) || (<argn>==57) || (<argn>==39) || (<argn>==20)
+sayua 68,6,6,1 * spell resist *
+return 1
+ENDIF
+
+[EOF]

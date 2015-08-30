@@ -1,0 +1,207 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Functions for Item Properties.
+// Based on EA.
+
+///////////////////////////////////////////////////////////////
+//////// LUCK RANDOM LOOT FUNCTIONS
+///////////////////////////////////////////////////////////////
+// This includes a new NPC tag: tag.luck.loot = items,properties,template
+// Items is the max amount of items that you can get from loot
+// Properties is the max amount of properties per single item
+[function f_getbasetype]
+if <layer> == 9
+return pib_talisman
+elif <type> == t_musical
+return pib_instrument
+elif <type> == t_spellbook || <type> == t_spellbook_necro || <type> == t_spellbook_pala || <type> == t_spellbook_extra || <type> == t_spellbook_bushido || <type> == t_spellbook_ninjitsu || <type> == t_spellbook_arcanist || <type> == t_spellbook_mystic
+return pib_spellbook
+elif <type> == t_wand
+return pib_wand
+elif <isarmor>
+	if <type> == t_shield
+	return pib_shield
+	else
+	return pib_armor
+	endif
+elif <isweapon>
+	if <type> == t_weapon_bow || <type> == t_weapon_xbow
+	return pib_rangeweap
+	else
+	return pib_meleeweap
+	endif
+else
+return pib_jewelry
+endif
+
+[function f_getrandomproperty]
+local.props = 0
+local.type = <args>
+for z 1 <def.itemprops>
+args = <def.itemprop_<local.z>>
+	if (<argv[6]>&<def.<local.type>>)
+	local.props ++
+	local.prop<local.props> = <local.z>
+	endif
+endfor
+local.toret = <eval <r1,<local.props>>>
+return <local.prop<local.toret>>
+
+[function f_isproperty]
+local.prop = <args>
+args = <def.itemprop_<local.prop>>
+if <argv[4]> == 02
+	if <<argv[5]>_isprop>
+	return 1
+	endif
+else
+	if <tag0.<argv[5]>>
+	return 1
+	endif
+endif
+return 0
+
+
+///////////////////////////////////////////////////////////////
+//////// SLAYER PROPERTY FUNCTIONS
+///////////////////////////////////////////////////////////////
+[function f_slayer]
+
+[function f_slayer_cliloc]
+if <act.tag0.slayer.less>
+addcliloc <def.slayer_<act.tag0.slayer.less>_cliloc>
+elif <act.tag0.slayer.super>
+addcliloc <def.slayer_<act.tag0.slayer.super>_cliloc>
+endif
+
+[function f_slayer_isprop]
+if <tag0.slayer.less>
+return 1
+endif
+if <tag0.slayer.super>
+return 1
+endif
+return 0
+
+
+///////////////////////////////////////////////////////////////
+//////// SKILL BONUS PROPERTY FUNCTION
+///////////////////////////////////////////////////////////////
+[function f_skillbonus]
+local.isused = 1
+for 1 5
+	if !<tag0.skill.bonus.<dlocal._for>>
+		while (<local.isused> > 0)
+		local.isused = 0
+		local.toset = <r56>
+			for x <local._for>
+				if <getargv 0 <tag0.skill.bonus.<dlocal.x>>> == <local.toset>
+				local.isused = 1
+				endif
+			endfor
+		endwhile
+	tag0.skill.bonus.<dlocal._for> = <local.toset>,<args>
+	endif
+endfor
+
+[function f_skillbonus_cliloc]
+local.cliloc = 1060451 // ~1_skillname~ +~2_val~
+for 1 5
+	if <tag0.skill.bonus.<dlocal._for>>
+	args = <tag0.skill.bonus.<dlocal._for>>
+	addcliloc <local.cliloc>,<argv[0]>,<argv[1]>
+	local.cliloc ++
+	endif
+endfor
+
+[function f_skillbonus_isprop]
+local.bonus = 0
+for 1 5
+	if <tag0.skill.bonus.<dlocal._for>>
+	local.bonus ++
+	endif
+endfor
+if <local.bonus> == 5
+return 1
+endif
+return 0
+
+
+///////////////////////////////////////////////////////////////
+//////// LOWER REAGENT COST PROPERTY FUNCTIONS
+///////////////////////////////////////////////////////////////
+[function f_LowerReagentCost_Reagents]
+local.regamount = <f_resources <serv.spell.<argv[0]>.resources>>
+local.lrc = <tag0.LowerReagentCost>
+local.percent = <eval 100 / <local.regamount>>
+while (<local.lrc> > <local.percent>) && (<local.regamount> >= 1)
+local.lrc -= <local.percent>
+local.regamount --
+endwhile
+if <local.lrc> > 0
+	if <local.regamount> > 0
+		if <r<local.percent>> < <local.lrc>
+		local.regamount --
+		endif
+	endif
+endif
+if <local.regamount> > 0
+	for 0 <local.regamount>
+	consume <serv.spell.<argv[0]>.resources.<local._for>>
+	endfor
+endif
+
+[function f_LowerReagentCost_Tithing]
+if <tag0.LowerReagentCost> > 0
+local.toconsume = <eval (<def.spell.<argv[0]>.tithing>*<src.tag0.LowerReagentCost>)/100>
+else
+local.toconsume = <def.spell.<argv[0]>.tithing>
+endif
+tithing -= <local.toconsume>
+
+
+///////////////////////////////////////////////////////////////
+//////// SETS FUNCTIONS
+///////////////////////////////////////////////////////////////
+[function f_getset_pieces]
+local.set_amount = 0
+for 1 25
+	if <src.findlayer.<local._for>.istevent.<args>>
+	local.set_amount ++
+	local.set_layer_<local.set_amount> = <local._for>
+	endif
+endfor
+
+[function f_getset_pieces_equip]
+call f_getset_pieces
+if <local.set_amount> == <def.<args>.pieces>
+	for <local.set_amount>
+	src.findlayer.<local.set_layer_<local._for>>.trigger @ItemSetEquip,<def.tat_as_argn>,<local.set_amount>
+	endfor
+src.findlayer.<local.set_layer_1>.trigger @SetEquip,<def.tat_as_argn>,<local.set_amount>
+src.trigger @ItemSetEquip,<def.tat_as_argn>,<args>
+endif
+
+[function f_getset_pieces_unequip]
+call f_getset_pieces
+if <local.set_amount> == <def.<args>.pieces>
+	for <local.set_amount>
+	src.findlayer.<local.set_layer_<local._for>>.trigger @ItemSetUnEquip,<def.tat_as_argn>,<local.set_amount>
+	endfor
+src.findlayer.<local.set_layer_1>.trigger @SetUnEquip,<def.tat_as_argn>,<local.set_amount>
+src.trigger @ItemSetUnEquip,<def.tat_as_argn>,<args>
+endif
+
+[eof]

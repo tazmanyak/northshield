@@ -1,0 +1,50 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[TYPEDEF t_ninja_belt]
+DEFNAME=t_ninja_belt
+
+ON=@DCLICK
+IF (<TAG0.SHURIKEN>)
+	IF (<SRC.OSTR> >= 10)
+		TARGET=Throw a shuriken at what creature?
+	ELSE
+		SRC.SYSMESSAGE=You are not strong enough to use this.
+	ENDIF
+ELSE
+	SRC.SYSMESSAGE=You are out of shurikens.
+ENDIF
+RETURN 1
+
+ON=@TARGON_CHAR
+IF (<SRC.TARG.CANSEELOs>)
+	IF (<SRC.TARG.DISTANCE> < 7)
+		IF (<TAG0.SHURIKEN>)
+			TAG0.SHURIKEN -= 1
+			SRC.EFFECT=0,i_shuriken,4,4,0
+			SRC.DAMAGE=<EVAL {10,12}> 01 <SRC.UID>
+			SRC.SOUND=snd_WEAPONS_SWORD1
+		ELSE
+			SRC.SYSMESSAGE=You are out of shurikens.
+		ENDIF
+	ELSE
+		SRC.SYSMESSAGE=You are too far away.
+	ENDIF
+ELSE
+	SRC.SYSMESSAGE=You can not see that.
+ENDIF
+RETURN 1
+
+ON=@DropOn_Self
+IF (<ARGO.BASEID> == i_shuriken)
+   TAG0.Shuriken += <ARGO.AMOUNT>
+   ARGO.REMOVE
+   RETURN 1
+ENDIF
+
+[eof]

@@ -1,0 +1,101 @@
+[ITEMDEF i_removetimer_mem]
+ID=i_memory
+NAME=remove timer
+TYPE=t_eq_script
+
+ON=@Timer
+cont.remove
+return 1
+
+
+
+[FUNCTION removetimer]
+SERV.NEWITEM i_removetimer_mem
+EQUIP <NEW>
+NEW.TIMER=<ARGN1>
+
+
+
+[TYPEDEF t_treasure_chest]
+on=@click
+message @50  [ Hazine Sandigi ]
+if (<more>=0515)
+message @0810 Kilitli
+message @69,1,1 [<ftime <timer>>] sonra silinecektir.
+return 1
+else
+message @0810 Acik
+message @69,1,1 [<ftime <timer>>] sonra silinecektir.
+return 1
+endif
+
+
+ON=@DClick
+
+if !(strmatch("<src.tag.hazinekasam>","<uid>"))
+src.sysmessage @,,1 Kasa size ait degil.
+return 1
+endif
+
+forchars 25
+if (<isevent.e_treasure_guardian>)
+src.sysmessage @33,,1 Etrafta korumalar varken kasayi acamazsiniz.
+return 1
+endif
+endfor
+
+if strmatch("<type>","t_container_locked")
+src.sysmessage @,,1 Kasanin kilidini acmadan bir islem yapamazsin.
+return 1
+endif
+src.sysmessage @,,1 Kasanin silinmesine kalan sure <timer> saniyedir.
+//if <src.lockpicking> < <def.scp.Locpick_TMapLevel_<dtag0.map.level>>
+//	src.sysmessage @,,1 Yeterli seviyede lockpicking bilmiyorsunuz. Bu harita icin min skill : <def.scp.Locpick_TMapLevel_<dtag.map.level>>
+//	return 1
+//endif
+
+if !<tag.ksacildi>
+if <morey> > 1
+//if <r3> > 0
+tag.ksacildi 1
+timer 400
+endif
+src.poison 1100
+src.spelleffect s_mass_dispel,1000
+endif
+endif
+
+
+
+ON=@PickUp_Self
+ON=@PickUp_Ground
+return 1
+
+[events e_treasure_guardian]
+
+on=@hittry
+
+if <src.isevent.e_treasure_guardian>
+return 1
+endif
+
+on=@attack
+
+if <src.isevent.e_treasure_guardian>
+return 1
+endif
+
+
+ON=@deathcorpse
+if <isevent.e_treasure_guardian>
+	ref1 <argo.uid>
+	forcont <ref1> 0
+		if strmatch(*treasure*,<baseid>)
+			remove
+		endif
+	endfor
+endif
+
+//return 1
+
+[eof]

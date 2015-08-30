@@ -1,0 +1,98 @@
+
+[Plevel 1]
+online
+
+[FUNCTION online]
+if <isplayer>
+src.sys_error Online Oyuncu :<eval <serv.clients>+<dvar.botsayisi>>
+return 1
+elseif <src.account.plevel> > 1
+src.list
+return 1
+endif
+if <isempty <src.tag.arama_var>>
+	src.tag.arama_var Arama
+endif
+//sDIALOG d_online
+
+//src.sysmessage Not a valid command or format
+
+[DIALOG d_online]
+220,100
+src.closealldialogs
+PAGE 0
+
+resizepic 0 0 2620 695 315
+resizepic 12 13 5120 670 290
+checkertrans 12 13 670 290
+ 
+dhtmlgump 300 15 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7>Online Liste
+
+button 20 45 4005 4006 1 0 1
+
+if (<eval <tag.gosterge>> == 1)
+	dtext 60 45 65 Yerimi online listede gosterme ! ( Suan gozukuyorsunuz )
+else
+	dtext 60 45 55 Yerimi online listede goster ! ( Suan gozukmuyorsunuz )
+endif
+
+dhtmlgump 150 35 120 20 0 0 <DEF.BFONT_WHITE> //<SERV.CLIENTS> online oyuncu.
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+FOR 0 <EVAL <SERV.CLIENTS>-1>
+if <SERV.CLIENT.<dLOCAL._FOR>.ACCOUNT.>
+IF (<LOCAL.AUMENTAR> > 9)
+LOCAL.AUMENTAR=0
+button 80 285 015e1 015e5 0 <EVAL <LOCAL.PAGE>+1> 1
+dtext 100 283 55 Ileri
+LOCAL.PAGE ++
+PAGE <EVAL <LOCAL.PAGE>>
+button 20 285 015e3 015e7 0 <EVAL <LOCAL.PAGE>-1> 1
+dtext 40 283 55 Geri
+ENDIF
+REF1=<SERV.CLIENT.<dLOCAL._FOR>.UID>
+IF (<REF1.UID>) && (<REF1.UID> != 011be6)
+IF ((!(<REF1.ISGM>)) || ((<REF1.ISGM>) && (!(<REF1.FLAGS>&statf_insubstantial))))
+LOCAL.AUMENTAR ++
+IF (<REF1.ISGM>)
+LOCAL.COLOR=55
+ELIF (<ref1.NOTOGETFLAG <SRC>,0> == 6)//((<REF1.karma>) < <0>) || (<ref1.NOTOGETFLAG <SRC>,0> == 6)//((<REF1.kills>) > 3) //(<REF1.ISPK>)
+LOCAL.COLOR=36
+ELIF (<REF1.ISCRIMINAL>)
+LOCAL.COLOR=946
+ELSE
+LOCAL.COLOR=88
+ENDIF
+dtext 15 <EVAL (<LOCAL.AUMENTAR>*20)+60> <EVAL <LOCAL.COLOR>> <REF1.NAME>
+if <REF1.memoryfindtype.memory_guild>
+dtext 180 <EVAL (<LOCAL.AUMENTAR>*20)+60> 1152 Guild: <REF1.memoryfindtype.memory_guild.link.name>
+else
+	dtext 180 <EVAL (<LOCAL.AUMENTAR>*20)+60> 69 Guild: Yok
+endif
+//dtext 340 <EVAL (<LOCAL.AUMENTAR>*20)+60> 33 Kills: <REF1.kills>
+//dtext 410 <EVAL (<LOCAL.AUMENTAR>*20)+60> 33 Deaths: <REF1.deaths>
+	if (<eval <ref1.tag.gosterge>> == 1)
+		dtext 340 <EVAL (<LOCAL.AUMENTAR>*20)+60> 69 Bolge: <ref1.region.name>
+	endif
+ENDIF
+ENDIF
+endif
+ENDFOR
+
+
+
+[DIALOG d_online button]
+on=0
+on=1
+if (<eval <tag.gosterge>> == 1)
+	src.tag.gosterge
+	src.sysmessage @69,,1 Artik yeriniz gozukmuyor.
+	src.online
+else
+	src.tag.gosterge 1
+	src.sysmessage @69,,1 Yeriniz artik gozukuyor.
+	src.online
+endif
+
+[EOF]

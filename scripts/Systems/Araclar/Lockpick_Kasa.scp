@@ -1,0 +1,58 @@
+[function chest_reset]
+forinstances i_trap_spike_4
+	remove
+endfor
+
+forinstance i_chest_vesper2
+	color 0741
+endfor
+
+
+
+[ITEMDEF i_chest_vesper1]
+ID=0e40
+TYPE=2
+
+
+ON=@Create
+tag.kasabu 1
+TYPE=2
+MORE=0515
+MOREX=7
+COLOR=0741
+attr=attr_move_never
+
+ON=@Timer
+TYPE=2
+MORE=0515
+MOREX=7
+COLOR=0741
+//LINK=0515
+return 1
+
+
+
+[ITEMDEF i_chest_vesper2]
+ID=0e41
+
+ON=@Create
+tag.kasabu 1
+TYPE=2
+MORE=0515
+MOREX=7
+COLOR=0741
+attr=attr_move_never
+//LINK=0515
+
+ON=@Timer
+TYPE=2
+MORE=0515
+MOREX=7
+COLOR=0741
+//LINK=0515
+return 1
+
+on=@click
+
+
+[EOF]

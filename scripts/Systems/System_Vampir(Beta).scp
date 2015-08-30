@@ -1,0 +1,2550 @@
+
+[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+   NAME=Lord Michael , The Lord Of The Vampires
+   TITLE=the master vampire
+   NPC=brain_undead
+   COLOR=0
+   FAME=10000
+   KARMA=-10000
+   STR={400 450}
+   DEX={85 125}
+   INT={200 300}
+
+   ARCHERY={90.0 100.0}
+   EVALUATINGINTEL={70.0 80.0}
+   FENCING={45.0 58.0}
+   MACEFIGHTING={45.0 58.0}
+   MAGERY={100.0 120.0}
+   MAGICRESISTANCE={55.0 78.0}
+   MEDITATION={65.0 80.0}
+   NECROMANCY={100.0 120.0}
+   PARRYING={45.0 68.0}
+   SWORDSMANSHIP={45.0 58.0}
+   TACTICS={70.0 90.0}
+   WRESTLING={90.0 100.0}
+
+   ITEMNEWBIE=random_male_hair
+   COLOR=0455
+   ITEMNEWBIE=random_facial_hair
+   COLOR=0455
+ON=@NPCRestock
+   ITEMnewbie=i_cape
+   COLOR=1
+   ITEMnewbie=i_robe
+   COLOR=0455
+   ITEMnewbie=i_doublet
+   COLOR=1
+   ITEMnewbie=i_boots_calf
+   color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+src.act.equip
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6) 
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+	sysmessage @07a1,,1 Karanliktasiniz...
+	anim 17
+else
+	sysmessage @33,,1 Gun isigina magruz kaldiniz...
+	damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+	if (rand(5)==1)
+	//DOnusum icin item
+	endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+	if !(<act.color> = 0)
+	src.sysmessage @,,1 Bu normal bir kan degil.
+	return 1
+	endif
+	
+	if (<act.timer> < 45)
+	src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+	return 1
+	else
+	src.sysmessage @32,,1 Kani ictiniz.
+	src.anim 32
+	act.remove
+	return 1
+	endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6) 
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+	sysmessage @07a1,,1 Karanliktasiniz...
+	anim 17
+else
+	sysmessage @33,,1 Gun isigina magruz kaldiniz...
+	damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+	if (rand(5)==1)
+	argo.newitem i_donusum_vampir_Young
+	new.timer 1
+	argo.new.equip
+	endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[itemdef i_donusum_vampir_Elder]
+ID=i_gold
+name Elder Vampire Donusum
+TYPE=t_eq_script
+
+on=@timer
+local.hour=<serv.rtime.format %H>
+if (<eval <local.hour>> == 0)
+	cont.f_vampir_Elder_on
+	remove
+else
+	cont.sysmessage @07a1,,1 Uyari: Vampir tarafindan isirilmissiniz. Panzehir icmezseniz gece yarisi vampir olacaksiniz..
+	cont.effect=3,i_fx_glow,5,35
+	timer 180
+endif
+return 1
+
+[itemdef i_donusum_vampir_Young]
+ID=i_gold
+name Young Vampire Donusum
+TYPE=t_eq_script
+
+on=@timer
+local.hour=<serv.rtime.format %H>
+if (<eval <local.hour>> == 0)
+	cont.f_vampir_Young_on
+	remove
+else
+	cont.sysmessage @07a1,,1 Uyari: Vampir tarafindan isirilmissiniz. Panzehir icmezseniz gece yarisi vampir olacaksiniz.
+	timer 60
+endif
+return 1
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[itemdef i_visir]
+ID=i_gold
+name V_isir
+TYPE=t_eq_script
+
+ON=@EQUIP
+target
+src.sysmessage @33,,1 Hedef kim ?
+
+ON=@TARGON_GROUND
+remove
+return 1
+
+ON=@TARGON_ITEM
+remove
+return 1
+
+ON=@TARGON_CHAR
+
+if (<src.isevent.e_vampir_Elder>) || (<src.isevent.e_vampir_Young>)
+src.sysmessage 32,,1 Vampirleri isiramazsin.
+remove
+return 1
+endif
+
+if (<src.targ.hits> > 100)
+src.sysmessage @33,,1 Suan aviniz size direnecek kadar guclu.
+remove
+return 1
+endif
+
+if (<src.targ.distance> > 2)
+	src.sysmessage @33,,1 Hedef uzaginizda.
+	remove
+	return 1
+endif
+
+IF (<SRC.TARG.CANSEELOs>)
+src.targ.sd 6
+src.targ.say * Aargh *
+
+src.newitem i_vampire_converter
+src.act.equip
+src.act.cont <src.targ.uid>
+
+src.sd 6
+src.f_vampir_kitlemesi
+//src.go=<src.targp>
+remove
+else
+src.sysmessage @33,,1 Hedefi goremiyorsun.
+remove
+endif
+
+return 1
+
+
+ON=@TIMER
+remove
+return 1
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[itemdef i_vampire_converter]
+ID=i_gold
+name Vampir Converter
+TYPE=t_eq_script
+
+ON=@EQUIP
+timer 1
+more2 5
+
+on=@timer
+if (<eval <more2>> == 5)
+cont.damage
+cont.hits 80
+cont.f_vampir_yere_blood_at
+timer 1
+more2 --
+return 1
+elif (<eval <more2>> == 4)
+cont.damage
+cont.hits 60
+timer 1
+more2 --
+return 1
+elif (<eval <more2>> == 3)
+cont.damage
+cont.hits 40
+timer 1
+more2 --
+return 1
+elif (<eval <more2>> == 2)
+cont.damage
+cont.hits 20
+timer 1
+more2 --
+return 1
+elif (<eval <more2>> == 1)
+cont.damage
+cont.hits 0
+timer 1
+more2 --
+return 1
+elif (<eval <more2>> == 0)
+cont.sysmessage @69,,1 Bedeninize Vampir virusu bulasti !
+remove
+return 1
+endif
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_vampire_converter_anim]
+ID=i_gold
+name Vampir Converter
+TYPE=t_eq_script
+
+ON=@EQUIP
+timer 1
+more2 5
+
+on=@timer
+if (<eval <more2>> == 5)
+	cont.anim 31
+	timer 1
+	more2 --
+	return 1
+elif (<eval <more2>> == 4)
+	cont.anim 31
+	timer 1
+	more2 --
+	return 1
+elif (<eval <more2>> == 3)
+	cont.anim 31
+	timer 1
+	more2 --
+	return 1
+elif (<eval <more2>> == 2)
+	cont.anim 31
+	timer 1
+	more2 --
+	return 1
+elif (<eval <more2>> == 1)
+	cont.anim 31
+	timer 1
+	more2 --
+	return 1
+elif (<eval <more2>> == 0)
+	cont.anim 31
+	cont.sysmessage @69,,1 Hedefe virus bulastirildi.
+	remove
+	return 1
+endif
+////////////////////////////////////////////////////////////////////////////////////////
+
+[itemdef i_vampir_sayaci]
+ID=i_gold
+name Vampir Sayaci
+TYPE=t_eq_script
+
+ON=@EQUIP
+timer 60*60
+
+on=@timer
+if <cont.isonline>
+	cont.tag0.vampir_yas ++
+	cont.tag0.vampir_aclik_seviyesi --
+	cont.anim 32
+	cont.message @32,,1 Aclik seviyeniz degisti.
+if (<eval <cont.tag0.vampir_aclik_seviyesi>> == 0)
+	cont.hits 0
+	cont.message @32,,1 Acliktan oldun. Acilen kan bulman lazim...
+	cont.tag0.vampir_aclik_seviyesi 1
+endif
+
+endif
+timer 60*60
+return 1
+
+
+
+/////////////////////////////////////////////////////////////////////////Dialog
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240	
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42
+[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42
+[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42
+[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42[CHARDEF c_vampire_boss]
+id=c_vampire
+NAME=Vampire
+ICON=i_pet_man
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=25,30
+ARMOR=35
+DESIRES=r_graveyards,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=30 t_food,t_drink,t_fruit,t_grain
+RESOURCES=i_flesh_head, i_flesh_torso, i_flesh_right_arm, i_flesh_left_arm, i_flesh_left_leg, i_flesh_right_leg, i_blood_2
+BLOODCOLOR=colors_blood
+MOVERATE=100
+CATEGORY=Monsters
+SUBSECTION=Undead
+DESCRIPTION=Vampire Male
+ON=@Create
+NAME=Lord Michael , The Lord Of The Vampires
+TITLE=the master vampire
+NPC=brain_undead
+COLOR=0
+FAME=10000
+KARMA=-10000
+STR={400 450}
+DEX={85 125}
+INT={200 300}
+
+ARCHERY={90.0 100.0}
+EVALUATINGINTEL={70.0 80.0}
+FENCING={45.0 58.0}
+MACEFIGHTING={45.0 58.0}
+MAGERY={100.0 120.0}
+MAGICRESISTANCE={55.0 78.0}
+MEDITATION={65.0 80.0}
+NECROMANCY={100.0 120.0}
+PARRYING={45.0 68.0}
+SWORDSMANSHIP={45.0 58.0}
+TACTICS={70.0 90.0}
+WRESTLING={90.0 100.0}
+
+ITEMNEWBIE=random_male_hair
+COLOR=0455
+ITEMNEWBIE=random_facial_hair
+COLOR=0455
+ON=@NPCRestock
+ITEMnewbie=i_cape
+COLOR=1
+ITEMnewbie=i_robe
+COLOR=0455
+ITEMnewbie=i_doublet
+COLOR=1
+ITEMnewbie=i_boots_calf
+color 1
+
+
+
+//////////////////////////////////////////////////////////////Function
+[function f_vampir_Elder_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Elder
+src.color 038a
+src.oskin 038a
+src.title the Elder Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+src.sleep
+
+
+[function f_vampir_Young_on]
+
+src.newitem=i_vampir_sayaci
+
+src.act.equip
+
+src.tag0.vampir_yas
+src.tag0.vampir_kurban
+src.tag0.vampir_olum
+src.tag0.vampir_aclik_seviyesi 2
+
+src.say * Aarrgh *
+src.sysmessage @,,1 Vampire donustunuz.
+src.events +e_vampir_Young
+src.color 038a
+src.oskin 038a
+src.title the Young Vampire
+src.effect=3,i_fx_glow_spike,5,35
+src.karma -10000
+src.dismount
+
+[function visir]
+src.findid.i_visir.remove
+src.newitem=i_visir
+
+src.act.equip
+
+src.act.timer=30
+return 1
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Elder]
+
+on=@spellcast
+if (<argn1> == 22) && (<sector.isdark>) //|| <flags>&statf_nightsight)
+argn3 1
+src.sysmessage @33,,1 Vampirism Power !
+endif
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+//DOnusum icin item
+endif
+endif
+
+on=@itemdclick
+if (strmatch('<act.baseid>','i_blood_pool_large'))
+if !(<act.color> = 0)
+src.sysmessage @,,1 Bu normal bir kan degil.
+return 1
+endif
+
+if (<act.timer> < 45)
+src.sysmessage @,,1 Bu kan tazeligini kaybetmis.
+return 1
+else
+src.sysmessage @32,,1 Kani ictiniz.
+src.anim 32
+act.remove
+return 1
+endif
+endif
+
+//////////////////////////////////////////////////////////////Events
+[events e_vampir_Young]
+
+
+on=@spelleffect
+if (<argn>==6)
+damage 10
+say * Aargh *
+ENDIF
+
+on=@mount
+src.sysmessage @,,1 Vampirler binek kullanamaz.
+return 1
+
+ON=@EnvironChange
+if (<sector.isdark>)
+sysmessage @07a1,,1 Karanliktasiniz...
+anim 17
+else
+sysmessage @33,,1 Gun isigina magruz kaldiniz...
+damage 20 30
+endif
+
+on=@kill
+if <argo.isplayer>
+if (rand(5)==1)
+argo.newitem i_donusum_vampir_Young
+new.timer 1
+argo.new.equip
+endif
+endif
+
+//////////////////////////////////////////////////////////////ITEMS
+
+[function f_vampir_kitlemesi]
+src.newitem i_vampire_converter_anim
+src.act.equip
+
+[function f_vampir_kitlemesi_targ]
+src.newitem i_vampire_converter
+src.new.equip
+
+
+[function f_vampir_yere_blood_at]
+serv.newitem i_blood_2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf2
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+serv.newitem 01cf8
+new.p <src.p>
+new.attr 08000
+new.timerf 5,remove
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+[function vampir]
+sdialog d_vampir_menu
+
+[DIALOG d_vampir_menu]
+0,0
+page 0
+resizepic 160 0 9200 215 240
+gumppictiled 170 10 195 220 2624
+src.closealldialogs
+
+if <src.isevent.e_vampir_Elder>
+src.tag0.vampir_kidem Elder Vampire
+elif <src.isevent.e_vampir_Young>
+src.tag0.vampir_kidem Young Vampire
+endif
+
+dhtmlgump 180 20 300 20 0 0 <def.bfont_red> <src.name>
+dhtmlgump 180 40 300 20 0 0 <def.bfont_lgreen> Kideminiz : <def.bfont_white> <src.tag0.vampir_kidem>
+dhtmlgump 180 60 300 20 0 0 <def.bfont_lgreen> Vampir Yasiz : <def.bfont_white> <eval <src.tag0.vampir_yas>> Saat
+dhtmlgump 180 80 300 20 0 0 <def.bfont_lgreen> Kurban Sayiniz : <def.bfont_white> <eval <src.tag0.vampir_kurban>>
+dhtmlgump 180 100 300 20 0 0 <def.bfont_lgreen> Olum Sayisiniz : <def.bfont_white> <eval <src.tag0.vampir_olum>>
+
+dhtmlgump 180 140 300 20 0 0 <def.bfont_lgreen> Aclik Durumunuz ; <def.bfont_white> <eval <src.tag0.vampir_aclik_seviyesi>>/100
+
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 160 300 20 0 0 <def.bfont_lred> _
+endfor
+
+For 17
+dhtmlgump <eval (<local._for>*6)+174> 174 300 20 0 0 <def.bfont_lred> _
+endfor
+
+dhtmlgump 180 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 179 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 281 173 300 20 0 0 <def.bfont_lred> |
+dhtmlgump 282 173 300 20 0 0 <def.bfont_lred> |
+
+dhtmlgump 181 184 300 20 0 0 <def.bfont_lred> \ //0
+dhtmlgump 230 184 300 20 0 0 <def.bfont_lred> \ //50
+dhtmlgump 281 184 300 20 0 0 <def.bfont_lred> \ //100
+
+dhtmlgump 181 195 300 20 0 0 <def.bfont_lred> 0
+dhtmlgump 231 195 300 20 0 0 <def.bfont_lred> 50
+dhtmlgump 281 195 300 20 0 0 <def.bfont_lred> 100
+
+
+////////////////////////////////////////////////////////////////////////
+
+For <eval <src.tag0.vampir_aclik_seviyesi>>
+dhtmlgump <eval (<local._for>*1)+180> 173 300 20 0 0 <def.bfont_lgray> |
+endfor
+
+
+
+
+
+
+
+
+
+
+[EOF]
+
+//i_fx_glow
+//i_fx_glow2
+//i_fx_glow_spike
+//SRC.EFFECT=3,03789,5,42

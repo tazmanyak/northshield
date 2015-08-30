@@ -1,0 +1,189 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Ticaret Sistemi - Rhodos
+//////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_ticaretci]
+NAME=#NAMES_HUMANMALE the Merchant
+ID=C_MAN
+DESIRES=i_gold,e_notoriety
+can mt_nonmover
+
+ON=@Create
+invul 1
+NPC=brain_vendor
+COLOR=colors_skin
+STR={51 65}
+DEX={41 55}
+INT={31 45}
+
+WRESTLING={15.0 38.0}
+TACTICS={25.0 48.0}
+
+//SPEECHCOLOR={ 0231 1 0481 1 018b 1 0515 1 07d1 1 060a 1 0400 1 }
+ITEMNEWBIE=i_lantern
+ITEMNEWBIE=i_hat_wide_brim
+ITEMNEWBIE=i_shirt_fancy
+COLOR 0482
+ITEMNEWBIE=i_pants_long
+COLOR 0256
+ITEMNEWBIE=i_cape
+COLOR 0256
+ITEMNEWBIE=i_boots_calf
+COLOR 0256
+ITEMNEWBIE=i_ticaretci
+
+on=@click
+message @69,,1 Merchant
+
+on=@dclick
+sDIALOG d_ticaretci
+
+on=@gethit
+return 1
+
+//////////////////////////////////////////////////////////////
+
+[DIALOG d_ticaretci]
+0,0
+page 0
+
+resizepic 0 0 2620 680 510	
+
+gumppic 600 32 9004
+
+gumppic 33 32 5565
+
+dhtmlgump 118 20 450 100 1 1   Merhaba gezginci! Benim isim tuccarlik, uzak diyarlardan degerli esyalar getirdim. Ister esyalarimi satin alip kullanirsin istersen baska birine daha pahaliya satarsin. Secim senin! Iste mallarim ve degerleri.
+
+dtext 100 150 152 Esya
+dtext 265 150 152 Deger
+dtext 400 150 152 Stok
+dtext 505 150 152 Satin Alma Adedi
+
+for 5
+	tilepic 30 <eval (<local._for>*40)+179> <serv.itemdef.<tag.item<eval <local._for>>>.id>
+	dtext 100 <eval (<local._for>*40)+170> 10 <serv.itemdef.<tag.item<eval <local._for>>>.name>
+	dtext 265 <eval (<local._for>*40)+170> 33 <eval <tag0.itemdegeri<eval <local._for>>>> Gold
+	dtext 400 <eval (<local._for>*40)+170> 10 <eval <tag0.itemstok<eval <local._for>>>> Adet
+
+	dtext 355 <eval (<local._for>*40)+170> 44 <serv.itemdef.<tag.item<eval <local._for>>>.value> 
+
+	gumppic 505 <eval (<local._for>*40)+166> 2445
+	dtextentry 510 <eval (<local._for>*40)+170> 90 20 990 <eval <local._for>> 0
+	//button 500 <eval (<local._for>*40)+170> 2117 2118 1 0 <eval <local._for>>
+endfor
+
+button 510 450 2117 2118 1 0 1
+dtext 535 447 10 Satin Al
+
+local.zaman <eval <findid.i_ticaretci.timer>>
+
+dtext 50 427 1152 Esya cesitliligi : <eval <tag0.item_cesit>> !
+dtext 50 447 1152 Yeni mallarin gelmesine <eval (<local.zaman> / 3600)> saat <eval ((<local.zaman> / 60) - ((<local.zaman> / 3600) * 60))> dakika var.
+[DIALOG d_ticaretci text]
+HtmlGump id.0
+
+[DIALOG d_ticaretci button]
+ON=0
+
+ON=1
+local.ucret = 0
+FOR 5
+if !(<isnum <argtxt[<eval <local._for>>]>>)
+	src.sysmessage Sadece rakam kullanabilirsiniz.
+	return 1
+elseif (<eval <argtxt[<eval <local._for>>]>> < 0)
+	src.sysmessage Hatali bir rakam girdiniz.
+	return 1
+elseif (<eval <argtxt[<eval <local._for>>]>> > <eval <tag0.itemstok<eval <local._for>>>>)
+	src.sysmessage @33,,1 Belirttiginiz miktar stoklarimda yok.
+	return 1
+endif
+
+//local.ucret += <eval (<  <eval (<argtxt[<eval <local._for>>]>  >) * <eval <tag0.itemdegeri<eval <local._for>>>>  >
+local.ucret += <eval (<argtxt[<eval <local._for>>]>)* <tag0.itemdegeri<eval <local._for>>>     >
+
+ENDFOR
+
+if <eval <local.ucret>> > 0
+	src.sysmessage @,,1 Ucretim <eval <local.ucret>> gold.
+else
+	src.sysmessage @33,,1 Birsey almadiniz?
+	return 1
+endif
+
+if (<src.gold> < <eval <local.ucret>> )
+	src.sysmessage @33,,1 Bankanizda <eval <local.ucret>> Gold'u karsilayacak yeterince altin yok.
+	return 1
+endif
+
+src.gold -= <eval <local.ucret>>
+
+ref1 <uid>
+
+FOR 5  // Menudeki esyalari tariyor top. 5!
+	if <eval <argtxt[<eval <local._for>>]>> > 0
+
+		ref1.tag.itemstok<eval <local._for>> = <eval (<ref1.tag.itemstok<eval <local._for>>>)-<eval <argtxt[<eval <local._for>>]>>>
+
+		//serv.newitem <tag.item<eval <local._for>>>,1,<src>,21
+		src.newitem <tag.item<eval <local._for>>>
+		new.bounce
+		new.dupe <eval (<eval <argtxt[<eval <local._for>>]>>)-1>
+
+	endif
+ENDFOR
+
+//////////////////////////////////////////////////////////////
+
+[function itembelirt]
+
+local.item_1 =i_platemail_arms , i_platemail_leggings , i_platemail_helm , i_platemail_gorget , i_platemail_gloves , i_platemail_chest , i_armor_female_plate , i_ringmail_gloves , i_ringmail_tunic , i_ringmail_sleeves , i_ringmail_leggings , i_armor_female_bustier , i_armor_female_skirt , i_armor_female_leather , i_leather_sleeves , i_leather_gloves , i_leather_gorget , i_leather_leggings , i_leather_tunic 
+local.item_2=i_SCIMITAR , i_HALBERD , i_BARDICHE , i_CUTLASS , i_sword_viking , i_KATANA , i_sword_long , i_BOW , i_CROSSBOW , i_crossbow_heavy , i_PITCHFORK , i_KRYSS , i_SPEAR , i_SPEAR_SHORT , i_WAR_FORK , i_CLUB , i_MACE , i_MAUL , i_mace_war , i_HAMMER_PICK , i_hammer_war , i_AXE , i_axe_exec , i_axe_battle , i_axe_double , i_axe_two_hand , i_axe_war
+local.item_3=i_ship_finder,i_surahi,i_bag,i_candle,i_shovel,i_hammer_smith
+local.item_4=i_crystal_of_com_t1,i_crystal_of_com_t2,i_crystal_of_com_t3,i_gem_star_sapphire,i_gem_emerald,i_gem_sapphire,i_gem_ruby,i_gem_citrine,i_gem_amethyst,i_gem_tourmaline,i_gem_amber,i_gem_diamond
+local.item_5=i_beads,i_bracelet_gold,i_bracelet_silver,i_ring_gold,i_ring_silver,i_earrings_gold,i_earrings_silver,i_necklace_silver,i_necklace_silver_beads,i_necklace_gold,i_necklace_gold_beads
+
+local.item= <local.item_1>,<local.item_2>,<local.item_3>,<local.item_4>,<local.item_5>
+
+for 5
+	args = <local.item>
+	local.d <argv>
+	tag0.item<eval <local._for>> <argv[rand(<local.d>)]>
+
+	local.deger1= <eval (<serv.itemdef.<tag.item<eval <local._for>>>.value>)/3> 
+	local.deger2= <eval (<serv.itemdef.<tag.item<eval <local._for>>>.value>)*2>
+
+	tag0.itemstok<eval <local._for>> = <eval {10 80}>
+	
+	tag0.itemdegeri<eval <local._for>> = <eval {<eval <local.deger1>> <eval <local.deger2>>}>
+	
+endfor
+say @,,1 Yeni mallar geldi!!!
+tag0.item_cesit <local.d>
+
+//******//******//
+
+[itemdef i_ticaretci]
+ID=i_memory
+TYPE=t_eq_script
+name Ticaretci
+
+on=@create
+attr= attr_can_decay|attr_invis
+timer=0
+
+on=@equip
+timer=0
+
+on=@timer
+timer= 3600*2
+cont.itembelirt
+return 1
+
+////////////////
+
+
+
+
+[EOF]

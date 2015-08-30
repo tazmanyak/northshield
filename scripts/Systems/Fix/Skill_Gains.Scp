@@ -1,0 +1,199 @@
+************************************************************
+** 		    North  Uo  Shard		  **
+************************************************************
+VERSION=0.56b
+
+[function checkpeace]
+if ((<src.skilllock[9]> == 0) && (<src.skilltotal> < 700.0)
+	if (<src.peacemaking> < 40.0)
+	if (rand(3) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+elseif (<src.peacemaking> < 50.0)
+	if (rand(5) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+elseif (<src.peacemaking> < 60.0)
+	if (rand(6) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+elseif (<src.peacemaking> < 70.0)
+	if (rand(7) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+elseif (<src.peacemaking> < 80.0)
+	if (rand(8) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+elseif (<src.peacemaking> < 90.0)
+	if (rand(9) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+elseif (<src.peacemaking> < 100.0)
+	if (rand(12) == 1)
+	src.peacemaking=<src.peacemaking>+1
+	endif
+endif
+
+[function checkhealing]
+if ((<skilllock[17]> == 0) && (<skilltotal> < 700.0))
+	//if (<healing> < 30.0)
+	//	if (rand(6) == 1)
+	//		healing (<healing> + 1)
+	//	endif
+	//elseif (<healing> < 50.0)
+	//		if (rand(8) == 1)
+	//			healing (<healing> + 1)
+	//		endif
+	//elseif (<healing> < 75.0)
+	//		if (rand(10) == 1)
+	//			healing (<healing> + 1)
+	//		endif
+	if (<healing> < 100.0)
+		if (rand(15) == 1) // 24
+			healing (<healing> + 1)
+	endif
+	//endif
+endif
+
+[function checkanatomy]
+if ((<skilllock[1]> == 0) && (<skilltotal> < 700.0))
+	if (<anatomy> < 30.0)
+		if (rand(4) == 1)
+			anatomy (<anatomy> + 1)
+		endif
+	elseif (<anatomy> < 50.0)
+			if (rand(6) == 1)
+				anatomy (<anatomy> + 1)
+			endif
+	elseif (<anatomy> < 75.0)
+			if (rand(9) == 1)
+				anatomy (<anatomy> + 1)
+			endif
+	elseif (<anatomy> < 100.0)
+			if (rand(10) == 1) // 24
+				anatomy (<anatomy> + 1)
+			endif
+		endif
+	endif
+endif
+
+[function gainpickingskill]
+if ((<skilllock[24]> == 0) && (<skilltotal> < 700.0))
+		//if (<lockpicking> < 30.0)
+		//	if (rand(5) == 1)
+		//		lockpicking (<lockpicking> + 1)
+		//	endif
+		//elseif (<lockpicking> < 50.0)
+		//	if (rand(5) == 1)
+		//		lockpicking (<lockpicking> + 1)
+		//	endif
+		//elseif (<lockpicking> < 75.0)
+		//	if (rand(10) == 1)
+		//		lockpicking (<lockpicking> + 1)
+		//	endif
+		if (<lockpicking> < 100.0)
+			//if (rand(15) == 1) // 24
+			lockpicking (<lockpicking> + 1)
+			//endif
+		endif
+endif
+
+
+
+[function begging_success]
+if ((<skilllock[6]> == 0) && (<skilltotal> < 700.0))
+		if (<begging> < 30.0)
+			if (rand(2) == 1)
+				begging (<begging> + 1)
+			endif
+		elseif (<begging> < 50.0)
+			if (rand(6) == 1)
+				begging (<begging> + 1)
+			endif
+		elseif (<begging> < 75.0)
+			if (rand(8) == 1)
+				begging (<begging> + 1)
+			endif
+		elseif (<begging> < 100.0)
+			if (rand(12) == 1) // 24
+				begging (<begging> + 1)
+			endif
+		endif
+	endif
+endif
+
+
+
+[function checkveterinary]
+if ((<skilllock[39]> == 0) && (<skilltotal> < 700.0))
+		if (<veterinary> < 30.0)
+			if (rand(3) == 1)
+				veterinary (<veterinary> + 1)
+			endif
+		elseif (<veterinary> < 50.0)
+			if (rand(5) == 1)
+				veterinary (<veterinary> + 1)
+			endif
+		elseif (<veterinary> < 75.0)
+			if (rand(8) == 1)
+				veterinary (<veterinary> + 1)
+			endif
+		elseif (<veterinary> < 100.0)
+			if (rand(12) == 1) // 24
+				veterinary (<veterinary> + 1)
+			endif
+		endif
+	endif
+endif
+
+
+
+
+[function spiritgain]
+if (<skilltotal> < 700.0)// ((<skilllock[32]> == 0) &&
+	if (<spiritspeak> < 30.0)
+		if (rand(52) == 1)
+			spiritspeak (<spiritspeak> + 1)
+		endif
+	elseif (<spiritspeak> < 50.0)
+		if (rand(8) == 1)
+			spiritspeak (<spiritspeak> + 1)
+		endif
+		if (rand(10) == 1)
+			spiritspeak (<spiritspeak> + 1)
+		endif
+	elseif (<spiritspeak> < 100.0)
+		if (rand(15) == 1)
+			spiritspeak (<spiritspeak> + 1)
+		endif
+	endif
+endif
+
+
+
+// Bug fixlendi. (rand(1) == 1) .
+
+[function cartogain]
+if ((<skilllock[12]> == 0) && (<skilltotal> < 700.0))
+	if (<cartography> < 30.0)
+		if (rand(3) == 1)
+			cartography (<cartography> + 1)
+		endif
+	elseif (<cartography> < 50.0)
+		if (rand(5) == 1)
+			cartography (<cartography> + 1)
+		endif
+	elseif (<cartography> < 75.0)
+		if (rand(7) == 1)
+			cartography (<cartography> + 1)
+		endif
+	elseif (<cartography> < 100.0)
+		if (rand(9) == 1)
+			cartography (<cartography> + 1)
+		endif
+	endif
+endif
+
+
+[EOF]

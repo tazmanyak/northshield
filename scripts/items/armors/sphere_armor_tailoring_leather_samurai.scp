@@ -1,0 +1,134 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+
+[ITEMDEF 0277a]
+DEFNAME=i_leather_mempo
+NAME=Leather Mempo
+TYPE=t_armor
+RESOURCES=8 i_hides_cut
+SKILLMAKE=TAILORING 80.0
+WEIGHT=2
+FLIP=1
+REQSTR=30
+DUPELIST=027c5
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Samurai Armor
+DESCRIPTION=Leather Mempo
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 027c5]
+DUPEITEM=0277a
+
+[ITEMDEF 0277b]
+DEFNAME=i_leather_do
+NAME=Leather Do
+TYPE=t_armor
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 75.0
+WEIGHT=6
+FLIP=1
+REQSTR=40
+DUPELIST=027c6
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Samurai Armor
+DESCRIPTION=Leather Do
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 027c6]
+DUPEITEM=0277b
+
+[ITEMDEF 0277e]
+DEFNAME=i_leather_hiro_sode
+NAME=Leather Hiro Sode
+TYPE=t_armor
+RESOURCES=5 i_hides_cut
+SKILLMAKE=TAILORING 55.0
+WEIGHT=1.0
+FLIP=1
+REQSTR=25
+DUPELIST=027c9
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Samurai Armor
+DESCRIPTION=Leather Hiro Sode
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 027c9]
+DUPEITEM=0277e
+
+[ITEMDEF 02786]
+DEFNAME=i_leather_suneate
+NAME=Leather Suneate
+TYPE=t_armor
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 68.0
+WEIGHT=4.0
+FLIP=1
+REQSTR=20
+DUPELIST=027d1
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Samurai Armor
+DESCRIPTION=Leather Suneate
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 027d1]
+DUPEITEM=02786
+
+[ITEMDEF 0278a]
+DEFNAME=i_leather_haidate
+NAME=Leather Haidate
+TYPE=t_armor
+RESOURCES=12 i_hides_cut
+SKILLMAKE=TAILORING 68.0
+WEIGHT=4
+FLIP=1
+REQSTR=20
+DUPELIST=027d5
+CATEGORY=Provisions - Armor - Tailoring
+SUBSECTION=Leather Samurai Armor
+DESCRIPTION=Leather Haidate
+TAG.ResPhysical=2
+TAG.ResFire=4
+TAG.ResCold=3
+TAG.ResPoison=3
+TAG.ResEnergy=3
+
+ON=@CREATE
+HITPOINTS={50 60}
+
+[ITEMDEF 027d5]
+DUPEITEM=0278a
+
+[eof]

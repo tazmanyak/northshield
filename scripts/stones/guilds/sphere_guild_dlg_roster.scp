@@ -1,0 +1,137 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_roster]
+10,10
+IF (<isempty <SRC.CTAG.GuildRoster.Page>>)
+ SRC.CTAG.GuildRoster.Page=1
+ENDIF
+
+page 0
+Guild_RenderMainDialog
+dhtmlgump 266 43 110 26 0 0 <DEF.Guild.DialogFont.DarkBlue>Guild Kadrosu
+
+resizepic 130 75 0BB8 385 30
+dtextentry 135 80 375 30 0481 1
+button 520 75 0867 0868 1 0 4	//Filter Button
+
+button 65 80 015e3 015e7 1 0 1
+button 95 80 015e1 015e5 1 0 2
+
+FOR Table 4
+ LOCAL.Width = <STRARG <DEF.GuildRosterTable.<dLOCAL.Table>>>
+ gumppictiled <eval 65+<LOCAL.X>> 110 <eval <LOCAL.Width>+10> 26 0A40
+ gumppictiled <eval 67+<LOCAL.X>> 112 <eval <LOCAL.Width>+6> 22 0BBC
+ dhtmlgump <eval 70+<LOCAL.X>> 113 <LOCAL.Width> 20 0 0 <DEF.I><STREAT <DEF.GuildRosterTable.<dLOCAL.Table>>>
+ LOCAL.X += <eval <LOCAL.Width>+12>
+ENDFOR
+
+page 1
+LOCAL.X = 0
+LOCAL.Y=138
+FOR <eval (<SRC.CTAG0.GuildRoster.Page>-1)*8> <eval (<SRC.CTAG0.GuildRoster.Page>*8)-1>
+ REF1=
+ IF (<SRC.CTAG0.GuildRoster.SearchTotal>)
+   ARGS=<SRC.CTAG.GuildRoster.Search>
+   IF !(<isempty <ARGV[<LOCAL._FOR>]>>)
+    REF1=<MEMBER.<ARGV[<LOCAL._FOR>]>.UID>
+   ENDIF
+ ELSE
+   REF1=<MEMBER.<LOCAL._FOR>.UID>
+ ENDIF
+ IF (<REF1>)
+  FOR Table 4
+   LOCAL.Width = <STRARG <DEF.GuildRosterTable.<dLOCAL.Table>>>
+   IF (<LOCAL.Table>==1)
+    ARGS=<QVAL (<MASTERUID>==<REF1>)? <DEF.Guild.DialogFont.Green>><REF1.NAME>
+   ELIF (<LOCAL.Table>==2)
+    ARGS=<DEF.Guild.RankName.<dMemberFromUID.<REF1>.PRIV>>
+   ELIF (<LOCAL.Table>==3)
+    ARGS=<QVAL (<REF1.ISONLINE>)? Online:<STRARG <REF1.ACCOUNT.LASTCONNECTDATE>>>
+   ELIF (<LOCAL.Table>==4)
+    ARGS=<MemberFromUID.<REF1>.GuildTitle>
+   ENDIF
+   button 40 <eval <LOCAL.Y>+5> 04B9 04BA 1 0 <eval 200+<LOCAL._FOR>>
+   gumppictiled <eval 65+<LOCAL.X>> <LOCAL.Y> <eval <LOCAL.Width>+10> 26 0A40
+   gumppictiled <eval 67+<LOCAL.X>> <eval <LOCAL.Y>+2> <eval <LOCAL.Width>+6> 22 0BBC
+   dhtmlgump <eval 70+<LOCAL.X>> <eval <LOCAL.Y>+3> <LOCAL.Width> 20 0 0 <ARGS>
+   LOCAL.X += <eval <LOCAL.Width>+12>
+  ENDFOR
+  LOCAL.X = 0
+  LOCAL.Y += 28
+ ENDIF
+ENDFOR
+
+IF (<SRC.CTAG0.GuildRoster.Page> == <eval 1+(<QVAL (<SRC.CTAG0.GuildRoster.SearchTotal>)? <SRC.CTAG0.GuildRoster.SearchTotal>:<MEMBER.COUNT>>/8)>)
+ LOCAL.Y += 10
+ resizepic 225 <LOCAL.Y> 02486 150 26
+ button 230 <eval <LOCAL.Y>+5> 0845 0846 1 0 3
+ dhtmlgump 255 <eval <LOCAL.Y>+3> 110 26 0 0 Oyuncu Davet Et
+ENDIF
+
+
+[DIALOG d_guild_roster BUTTON]
+ON=0
+SRC.ClearCTAGS GuildRoster
+
+ON=1 2
+IF (<ARGN>==1)
+  IF (<SRC.CTAG0.GuildRoster.Page> > 1)
+   SRC.CTAG0.GuildRoster.Page -= 1
+  ENDIF
+ELIF (<ARGN>==2)
+  IF (<SRC.CTAG0.GuildRoster.Page> < <eval 1+(<QVAL (<SRC.CTAG0.GuildRoster.SearchTotal>)? <SRC.CTAG0.GuildRoster.SearchTotal>:<MEMBER.COUNT>>/8)>)
+   SRC.CTAG0.GuildRoster.Page += 1
+  ENDIF
+ENDIF
+SDIALOG d_guild_roster
+
+ON=3
+IF (<MemberFromUID.<SRC>.PRIV> < <DEF0.Guild.Priv.CanInvitePlayer>)
+ SRC.SYSMESSAGE @,,1 Bunu yapmaya izniniz yoktur.
+ELSE
+ SRC.SYSMESSAGE @,,1 Guilde hangi oyuncuyu davet etmek istiyorsunuz?
+ TARGETF Guild_InvitePlayer_CallBack
+ENDIF
+
+ON=4
+SRC.ClearCTAGS GuildRoster
+IF !(<isempty <ARGTXT[1]>>)
+ FOR 0 <eval <MEMBER.COUNT>-1>
+  REF1=<MEMBER.<LOCAL._FOR>.UID>
+  IF STRMATCH("*<ARGTXT[1]>*","<REF1.NAME>")
+    SRC.CTAG0.GuildRoster.Search .= ,<dLOCAL._FOR>
+    SRC.CTAG0.GuildRoster.SearchTotal ++
+  ENDIF
+ ENDFOR
+ SRC.CTAG0.GuildRoster.Search=<STREAT <SRC.CTAG0.GuildRoster.Search>>
+ IF !(<SRC.CTAG0.GuildRoster.SearchTotal>)
+  SRC.CTAG0.GuildRoster.SearchTotal=1
+ ENDIF
+ENDIF
+SDIALOG d_guild_roster
+
+ON=200 1000
+LOCAL.B=<eval <ARGN>-200>
+IF !(<isempty <SRC.CTAG.GuildRoster.Search>>)
+ ARGS=<SRC.CTAG.GuildRoster.Search>
+ REF1=<MEMBER.<ARGV[<LOCAL.B>]>.UID>
+ELSE
+ REF1=<MEMBER.<LOCAL.B>.UID>
+ENDIF
+REF1.SDIALOG d_guild_member_info
+
+ON=100 102
+SRC.ClearCTAGS GuildRoster
+Guild_RenderMainDialogButton <ARGN>
+
+/////////////////////////////////////////
+
+[DEFNAME GuildRoster_DialogTable]
+GuildRosterTable.1	"130,Isim"
+GuildRosterTable.2	"80,Derece"
+GuildRosterTable.3	"80,Son Aktivite"
+GuildRosterTable.4	"150,Guild Unvani"
+
+[EOF]

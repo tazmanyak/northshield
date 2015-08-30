@@ -1,0 +1,46 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[DIALOG d_guild_invitation]
+0,0
+
+resizepic 0 0 02422 350 170
+dhtmlgump 25 20 300 45 1 0 <DEF.CENTER>Guild'e uye olmak icin davetiye aldiniz!
+dhtmlgump 25 75 300 25 1 0 <DEF.CENTER><GUILD.NAME>
+button 195 130 0F2 0F1 1 0 0
+button 265 130 0F7 0F8 1 0 1 
+button 20 130 0D2 0D3 1 0 2
+dhtmlgump 45 130 150 30 0 0 <DEF.I>Guild davetiyelerini onemseme
+
+
+[DIALOG d_guild_invitation BUTTON]
+ON=0
+SYSMESSAGE @,,1 <SRC.NAME> <GUILD.NAME>'e olan guild davetiyesini reddetti.
+
+ON=1
+ref1=<guild>
+//if <ref1.member.count> < 30
+	UID.<GUILD>.Guild_AddMember <SRC>,1
+	SRC.SYSMESSAGE @,,1 <GUILD.NAME>'e uyeliginiz gerceklesmistir.
+	SYSMESSAGE @,,1 <SRC.NAME> <GUILD.NAME>'e uyelik davetiyenizi kabul etmistir.
+//else
+///	sys_error Guilde en fazla 30 uyelik alabilirsiniz.
+//endif
+ON=2
+SRC.SYSMESSAGE @,,1 Guild davetiye alimini onemsemediniz.
+SRC.TAG0.IgnoreGuildInvites=1
+
+[function guilddavet]
+if <SRC.TAG0.IgnoreGuildInvites>
+	SRC.TAG0.IgnoreGuildInvites 0
+	src.sys_error Guild alimini actiniz.
+else
+	SRC.TAG0.IgnoreGuildInvites 1
+	src.sys_error Guild alimini kapattiniz.
+endif
+
+[Plevel 1]
+guilddavet
+
+[EOF]

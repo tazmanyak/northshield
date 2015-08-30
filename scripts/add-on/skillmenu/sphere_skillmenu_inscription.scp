@@ -1,0 +1,152 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Based on sphere_skillmenu.scp
+
+[DEFNAME crafting_inscription]
+inscription_marking		"0" // 1 or 0
+inscription_materials		"0" // 1 or 0
+
+inscription_smelt		""
+inscription_repair		""
+inscription_check		"f_craft_inscription_mana" // f_craft_inscription_cancast
+inscription_check_notice	"1044379" // Inscribing scrolls also requires a blank scroll and mana.
+inscription_chanceatmin		"50.0"
+inscription_exceptional_bonus	""
+inscription_aftercraft		""	// function called on the item AFTER you craft it (if success only).
+
+inscription_category_1_name	"1044369"
+inscription_category_2_name	"1044370"
+inscription_category_3_name	"1044371"
+inscription_category_4_name	"1044372"
+inscription_category_5_name	"1044373"
+inscription_category_6_name	"1044374"
+inscription_category_7_name	"1044375"
+inscription_category_8_name	"1044376"
+inscription_category_9_name	"Miscellaneous"
+inscription_category_10_name	"Egitim"
+inscription_category_11_name	""
+
+inscription_category_1_1	"i_scroll_clumsy"
+inscription_category_1_2	"i_scroll_create_food"
+inscription_category_1_3	"i_scroll_feeblemind"
+inscription_category_1_4	"i_scroll_heal"
+inscription_category_1_5	"i_scroll_magic_arrow"
+inscription_category_1_6	"i_scroll_night_sight"
+inscription_category_1_7	"i_scroll_reactive_armor"
+inscription_category_1_8	"i_scroll_weaken"
+
+inscription_category_2_1	"i_scroll_agility"
+inscription_category_2_2	"i_scroll_cunning"
+inscription_category_2_3	"i_scroll_cure"
+inscription_category_2_4	"i_scroll_harm"
+inscription_category_2_5	"i_scroll_magic_trap"
+inscription_category_2_6	"i_scroll_magic_untrap"
+inscription_category_2_7	"i_scroll_protection"
+inscription_category_2_8	"i_scroll_strength"
+
+inscription_category_3_1	"i_scroll_bless"
+inscription_category_3_2	"i_scroll_fireball"
+inscription_category_3_3	"i_scroll_magic_lock"
+inscription_category_3_4	"i_scroll_poison"
+inscription_category_3_5	"i_scroll_telekinesis"
+inscription_category_3_6	"i_scroll_teleport"
+inscription_category_3_7	"i_scroll_unlock"
+inscription_category_3_8	"i_scroll_wall_of_stone"
+
+inscription_category_4_1	"i_scroll_archcure"
+inscription_category_4_2	"i_scroll_archprotection"
+inscription_category_4_3	"i_scroll_curse"
+inscription_category_4_4	"i_scroll_fire_field"
+inscription_category_4_5	"i_scroll_greater_heal"
+inscription_category_4_6	"i_scroll_lightning"
+inscription_category_4_7	"i_scroll_mana_drain"
+inscription_category_4_8	"i_scroll_recall"
+
+inscription_category_5_1	"i_scroll_blade_spirits"
+inscription_category_5_2	"i_scroll_dispel_field"
+inscription_category_5_3	"i_scroll_incognito"
+inscription_category_5_4	"i_scroll_magic_reflection"
+inscription_category_5_5	"i_scroll_mind_blast"
+inscription_category_5_6	"i_scroll_paralyze"
+inscription_category_5_7	"i_scroll_poison_field"
+inscription_category_5_8	"i_scroll_summon_creature"
+
+inscription_category_6_1	"i_scroll_dispel"
+inscription_category_6_2	"i_scroll_energy_bolt"
+inscription_category_6_3	"i_scroll_explosion"
+inscription_category_6_4	"i_scroll_invisibility"
+inscription_category_6_5	"i_scroll_mark"
+inscription_category_6_6	"i_scroll_mass_curse"
+inscription_category_6_7	"i_scroll_paralyze_field"
+inscription_category_6_8	"i_scroll_reveal"
+
+inscription_category_7_1	"i_scroll_chain_lightning"
+inscription_category_7_2	"i_scroll_energy_field"
+inscription_category_7_3	"i_scroll_flamestrike"
+inscription_category_7_4	"i_scroll_gate_travel"
+inscription_category_7_5	"i_scroll_mana_vampire"
+inscription_category_7_6	"i_scroll_mass_dispel"
+inscription_category_7_7	"i_scroll_meteor_swarm"
+inscription_category_7_8	"i_scroll_polymorph"
+
+inscription_category_8_1	"i_scroll_earthquake"
+inscription_category_8_2	"i_scroll_energy_vortex"
+inscription_category_8_3	"i_scroll_resurrection"
+inscription_category_8_4	"i_scroll_summon_elem_air"
+inscription_category_8_5	"i_scroll_summon_daemon"
+inscription_category_8_6	"i_scroll_summon_elem_earth"
+inscription_category_8_7	"i_scroll_summon_elem_fire"
+inscription_category_8_8	"i_scroll_summon_elem_water"
+
+inscription_category_9_1	"i_runebook"
+inscription_category_9_2	"i_runebook_kopya"
+inscription_category_9_3	"i_spellbook"
+inscription_category_9_4	"i_full_spellbook"
+inscription_category_9_5	""//"i_ibranice_earrings"
+inscription_category_9_6	""//"i_ibranice_ring"
+inscription_category_9_7	""
+inscription_category_9_8	""
+inscription_category_9_9	""
+inscription_category_9_10	""
+inscription_category_9_11	""
+inscription_category_9_12	""
+inscription_category_9_13	""
+inscription_category_9_14	""
+inscription_category_9_15	""
+inscription_category_9_16	""
+
+inscription_category_10_1	""
+inscription_category_10_2	""
+inscription_category_10_3	""
+inscription_category_10_4	""
+inscription_category_10_5	""
+inscription_category_10_6	""
+inscription_category_10_7	""
+inscription_category_10_8	""
+inscription_category_10_9	""
+inscription_category_10_10	""
+inscription_category_10_11	""
+inscription_category_10_12	""
+inscription_category_10_13	""
+inscription_category_10_14	""
+inscription_category_10_15	""
+inscription_category_10_16	""
+
+inscription_category_11_1	""
+inscription_category_11_2	""
+inscription_category_11_3	""
+inscription_category_11_4	""
+
+[eof]

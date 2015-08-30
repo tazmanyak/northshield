@@ -1,0 +1,1065 @@
+﻿//////////////////////////////////////////////////////////////////
+[function f_olumsuz]
+sayua 036,0,0,0 <args>
+
+[function f_olumlu]
+sayua 045,0,0,0 <args>
+
+//////////////////////////////////EFECKLER////////////////////////
+
+[FUNCTION effecttest] 
+local.t_x=<argn1> 
+local.t_y=<argn2> 
+src.sendpacket 0c0 00 D<var.src> D<var.target> W<var.effect> W<p.x> W<eval <p.y>> B<qval <argn3>?<argn3>:<p.z>> W<local.t_x> W<local.t_y> B<qval <argn3>?<argn3>:<p.z>> B<var.speed> B<var0.duration> 00 00 00 B<qval <var0.explode>?<var.explode>:0> D<hval <var.hue> - 1> D<var.rendermode> 
+//sector.allclients
+[FUNCTION fxt] 
+var.target=0 
+var.effect=<hval <argv[0]>> 
+var.speed=0 
+var.duration=016 
+var.hue=0455
+var.rendermode=<hval <argv[2]>> 
+var.src=0 
+var.explode=0 
+local.diff=4 
+for x 0 4 
+  for y 0 4 
+    //var.speed += 1 // Enable this if you want the 'X' effect 
+    effecttest <eval <p.x> + <local.x> +- <local.diff>> <eval <p.y> + <local.y> +- <local.diff>> <eval <p.z> + 10> 
+    effecttest <eval <p.x> +- <local.x> + <local.diff>> <eval <p.y> + <local.y> +- <local.diff>> <eval <p.z> + 10> 
+    effecttest <eval <p.x> + <local.x> +- <local.diff>> <eval <p.y> +- <local.y> + <local.diff>> <eval <p.z> + 10> 
+    effecttest <eval <p.x> +- <local.x> + <local.diff>> <eval <p.y> +- <local.y> + <local.diff>> <eval <p.z> + 10> 
+  endfor 
+endfor 
+effecttest_clean 
+
+[FUNCTION effecttest_clean] 
+var.target 
+var.effect 
+var.speed 
+var.hue 
+var.rendermode 
+var.src 
+var.explode
+/////////////////////////////////////////////////////////////////
+
+[plevel 1]
+medi
+stun
+disarm
+bonus
+
+[function medi]
+if (<meditation> < 99.9)
+	src.sysmessage @,,1 Meditation yeteneginiz 100.0 olmali.
+	return 1
+endif
+
+if !(strmatch("<account.name>","tazmanyak23"))
+if (<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0)
+	src.sysmessage @,,1 Savas skilleriniz sifir olmali.
+	return 1
+endif
+endif
+if <src.findid.i_bonus_medi>
+src.sysmessage @33,,1 Meditation bonusu kapatildi.
+src.findid.i_bonus_medi.remove
+return 1
+endif
+
+if <src.findid.i_bonus_medi>
+src.findid.i_bonus_medi.timer 2
+src.sysmessage @68,,1 Meditation bonus aktif !
+else
+newitem i_bonus_medi
+src.new.equip
+new.timer 2
+src.sysmessage @68,,1 Meditation bonus aktif !
+endif
+
+
+[itemdef i_bonus_medi]
+name=Meditation BOnus
+id=i_cannon_ball
+type=t_eq_script
+weight=0
+layer=30
+
+on=@create
+color 0810
+
+On=@Timer
+LINK=<cont.UID>
+
+IF ( <cont.MEDITATION> < 98.0 )
+	cont.SYSMESSAGE @0481 En az 98 Meditation olmali.
+cont.sysmessage @68,,1 Oto meditation kapandi lutfen pmage olunuz.
+remove
+	RETURN 1
+ENDIF
+if !(strmatch("<cont.account.name>","tazmanyak23"))
+IF ((<cont.tactics> > 0.0) || (<cont.wrestling> > 0.0) || (<cont.swordsmanship> > 0.0) || (<cont.fencing> > 0.0) || (<cont.macefighting> > 0.0) || (<cont.archery> > 0.0) )
+	Cont.SYSMESSAGE @33,,1 Combat Skillleri olmamali.
+cont.sysmessage @68,,1 Oto meditation kapandi lutfen pmage olunuz.
+	remove
+	RETURN 1
+ENDIF
+endif
+IF (<LINK.mana> < <LINK.int>) 
+LINK.mana=<LINK.mana>+1
+//CONT.EFFECT=3,i_fx_sparkle_2,10,20,10
+TIMER=10
+else
+TIMER=0
+ENDIF
+RETURN 1
+
+
+/////////////////////////////////////////////////////////////////
+
+
+[function stamdus]
+if (<src.stamina> > > 6)
+	src.stamina (<src.stamina> - {3 5})
+elseif (<src.stamina> < 6)
+	src.stamina 0
+endif
+
+[function manadus]
+if (<src.mana> > 6)
+	src.mana (<src.mana> - {4 6})
+elseif (<src.mana> < 6)
+	src.mana 0
+endif
+
+///////////////////////////////////////////////// MANA DRAIN
+
+[events e_manadrain] 
+On=@Hit
+//if (<findlayer(2).type> == t_weapon_mace_staff) && (<macefighting> >= 78.0)
+//if (rand(15)==1)
+//src.manadus
+//src.manadus
+//src.sayua 075f,0,0,0 * Mana Drain *
+//return 1
+//endif
+//endif
+/////////////////////////////////////////////////////////////////////////// WARRIOR BONUS (Special Pulse)
+
+
+[events e_Special_Pulse]
+
+on=@hit
+
+if (<findlayer(2).baseid>==i_shield_north)
+	 if ((<Parrying> > 79.8) && (<tactics> > 79.8) && (<ANATOMY> > 79.8))
+		Dorand 9
+
+		begin
+		if <src.findid.i_rune_night_sight>
+			if (rand(6) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Nighsight Spell Has Been Destroyed *
+			src.findid.i_rune_night_sight.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_protection>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Protection Spell Has Been Destroyed *
+			src.findid.i_rune_protection.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_reactive_armor>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Reactive Armor Spell Has Been Destroyed *
+			src.findid.i_rune_reactive_armor.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_bless>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Bless Spell Has Been Destroyed *
+			src.findid.i_rune_bless.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_magic_reflection>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * M.Reflection Spell Has Been Destroyed *
+			src.findid.src.findid.i_rune_magic_reflection.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_strength>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Strength Spell Has Been Destroyed *
+			src.findid.i_rune_strength.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_agility>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Agility Spell Has Been Destroyed *
+			src.findid.i_rune_agility.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_cunning>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Cunning Spell Has Been Destroyed *
+			src.findid.i_rune_cunning.remove
+			//src.damage {3 10}
+			//return 1
+			endif
+		endif
+		end
+
+		begin
+		if <src.findid.i_rune_archprotection>
+			if (rand(8) == 1)
+			f_olumlu * Special Pulse *
+			src.f_olumsuz * Archprotection Spell Has Been Destroyed *
+			src.findid.i_rune_archprotection.remove
+			//src.damage {3 10}
+			return 1
+			endif
+		endif
+		end
+	endif
+endif
+
+
+
+/////////////////////////////////////////////////////////////////////////// STAM SHOT
+[events e_stam] 
+On=@Hit 
+
+if (<macefighting> > 50.0) && <src.isplayer>
+  if <src.stam> < 4
+  src.stam 0
+  else
+  src.stam -=3
+  endif
+
+  if ( rand(165) <= (<eval(<macefighting> / 80)> + <eval(<anatomy> / 80)>) ) && (<findlayer.2.type> == t_weapon_mace_staff)
+    if (<src.stam> < 21)
+    src.stam 0
+    src.damage {12 18}
+    src.olumsuz1 * Stam Shot *
+    src.sysmessage @33,,1 <name> tarafindan stam shot yediniz.
+	src.action -1
+	src.skill fail
+    return 1
+    endif
+
+    src.damage {6 12}
+    src.stam -=20
+    src.olumsuz1 * Stam Shot *
+    src.sysmessage @33,,1 <name> tarafindan stam shot yediniz.
+	src.action -1
+	src.skill fail
+    
+  endif
+endif
+
+
+/////////////////////////////////////////////////////////////////// SHIELD DAMAGED
+
+[events e_macebonus] 
+
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)
+	return 0
+else
+if <armslore> > 78.1 
+	if ( rand(150) <= (<eval(<macefighting> / 80)> + <eval(<armslore> / 80)>) )
+		if (<src.findlayer(2).type>==t_shield)
+			src.f_olumsuz * Kalkanı hasar alır *
+			src.findlayer(2).damage 1000
+			src.findlayer(2).damage 1000
+			src.findlayer(2).damage 1000
+		elseif (<src.findlayer(13).type>==t_armor)
+			src.f_olumsuz * Zırhı hasar alır *
+			src.findlayer(13).damage 1000
+			src.findlayer(13).damage 1000
+			src.findlayer(13).damage 1000
+		elseif (<src.findlayer(13).type>==t_armor_leather) || (<src.findlayer(13).type>==t_clothing)
+			src.f_olumsuz * Tunic hasar alır *
+			src.findlayer(13).damage 1000
+			src.findlayer(13).damage 1000
+			src.findlayer(13).damage 1000	
+		endif
+	endif
+endif
+endif
+
+[events e_blinded] 
+
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)  || (<src.npc>)
+	return 0
+elseif ((<findlayer(2).type> == T_WEAPON_MACE_SMITH) || (<findlayer(1).type> == T_WEAPON_MACE_SMITH)) && (<macefighting> >= 78.0)
+	if (rand(125) <= <eval (<anatomy> / 40)>) && !(<src.findid.i_sakatblow>)
+		src.damage {7 10}
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_sakatblow
+		src.act.equip
+		src.act <local.act>
+		src.f_olumsuz * Sakatlanır *
+		return 1
+	endif
+endif
+
+
+
+
+[itemdef i_sakatblow]
+name=sakatblow
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.speedmode 2
+//src.events +e_parablow
+timer 3
+
+On=@UnEquip
+cont.speedmode 0
+
+on=@timer
+remove
+return 1
+
+
+/////////////////////////////////////////////////////////////////// ARMOR IGNORELER
+
+[events e_armorignore_Sw]
+
+On=@Hit
+if (<mana> > 7) && (<ar>><src.ar>)
+	if (<swordsmanship> >= 78.0) && (<r2> == 1) //swler icin//Hammer Pick, War Axe, Kryss, Pitchfork,Broadsword,long sw
+		if ( rand(165) <= (<eval(<swordsmanship> / 80)> + <eval(<armslore> / 80)>) )
+			if (<argn><35)
+				if <src.isplayer>
+				src.hits <eval (<src.hits> - <argn>)>
+				mana (<mana> - 6)
+				SRC.DAMAGE=<EVAL {5,10}> 01 <UID>
+				f_fizzle
+				f_olumlu * Armor Ignore *
+				src.effect 3,i_fx_glow_spike,1,15,1
+				return 1
+				endif
+			endif
+		endif
+	endif
+endif
+
+[events e_armorignore_fenc]
+
+On=@Hit
+if (<mana> > 7) && (<ar>><src.ar>)
+	if (<fencing> >= 78.0) && (<r2> == 1) //swler icin//Hammer Pick, War Axe, Kryss, Pitchfork,Broadsword,long sw
+		if ( rand(165) <= (<eval(<fencing> / 80)> + <eval(<armslore> / 80)>) )
+			if (<argn><35)
+				if <src.isplayer>
+				src.hits <eval (<src.hits> - <argn>)>
+				mana (<mana> - 6)
+				SRC.DAMAGE=<EVAL {5,10}> 01 <UID>
+				f_fizzle
+				f_olumlu * Armor Ignore *
+				src.effect 3,i_fx_glow_spike,1,15,1
+				return 1
+				endif
+			endif
+		endif
+	endif
+endif
+
+[events e_armorignore_mf]
+
+ 
+On=@Hit
+if (<mana>>7) && (<ar>><src.ar>)
+	if (<macefighting> >= 78.0) && (<r2> == 1)//mfler icin icin//Hammer Pick, War Axe, Kryss, Pitchfork,Broadsword,long sw
+		if ( rand(165) <= (<eval(<macefighting> / 80)> + <eval(<armslore> / 80)>) )
+			if (<argn><35)
+				src.hits <eval (<src.hits> - <argn>)>
+				mana (<mana> - 6)
+				SRC.DAMAGE=<EVAL {5,10}> 01 <UID>
+				f_fizzle
+				f_olumlu * Armor Ignore *
+				src.effect 3,i_fx_glow_spike,1,15,1
+				return 1
+			endif
+		endif
+	endif
+endif
+
+[events e_armorignore_bow]
+
+on=@hit
+if ((strmatch('<src.region.events>','r_delucia')) || (strmatch('<src.region.events>','r_events_pazar')))
+	return 1
+endif
+if (<mana>>7) && (<ar>><src.ar>)
+	if (<findlayer(2).baseid> == i_bow_composite) && (<archery> >= 78.0)
+		if ( rand(160) <= (<eval(<archery> / 80)> + <eval(<armslore> / 80)>) )
+			if (<argn><35)
+				if <src.isplayer>
+				src.hits <eval (<src.hits> - <argn>)>
+				mana (<mana> - 6)
+				SRC.DAMAGE=<EVAL {5,10}> 01 <UID>
+				f_fizzle
+				f_olumlu * Armor Ignore *
+				src.effect 3,i_fx_glow_spike,1,15,1
+				return 1
+				endif
+			endif
+		endif
+	endif
+endif
+
+
+///////////////////////////////////////////////////////////// BLEEDING
+
+[events e_bleeding]
+
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>) || (<src.npc>)
+	return 0
+elif (<r4>==1)
+	if (rand(175) <= (<eval (<swordsmanship> / 40)>+<eval (<anatomy> / 40)>) ) && !(<src.findid.i_bleeder>) && (<swordsmanship> > 98.0)
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_bleeder
+		src.act.equip
+		src.act.more <src.armor>
+		src.act <local.act>
+		src.sysmessage @,,1 Yaralandınız.
+		src.f_olumsuz * Yarası Açılır *
+	//elseif (rand(350) == (<eval (<swordsmanship> / 10)>+<eval (<anatomy> / 10)>) ) && (<src.findid.i_bleeder>) && (<swordsmanship> > 98.0)
+	//	src.skill fail
+	//	src.findid.i_bleeder.morex=3
+	//	src.sysmessage @55 yaralariniz tekrar acildi
+	//	src.f_olumsuz * Yarası Tekrar Açılır *
+	endif
+endif
+
+On=@Death
+findid.i_bleeder.remove
+
+
+[itemdef i_bleeder]
+name=Bleeder
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+ON=@CREATE
+morex=3
+
+On=@Equip
+timer 1
+src.events +e_bleeding2
+
+On=@UnEquip
+src.events -e_bleeding2
+
+On=@Timer
+timer 10
+if (<morex>==00)
+	cont.sys_error Yaranız kapandı.
+	remove
+	return 1
+else
+		
+		if (<morex> > 5)
+				cont.hits (<cont.hits> - 10)
+				cont.damage 1
+				cont.sysmessage @,,1 Yaranız kanıyor.
+				cont.f_olumsuz * Yarası Kanar *
+				sfx 054c
+				morex=<eval(<morex>-1)>
+		elseif (<morex> < 6)
+				cont.hits (<cont.hits> - 5)
+				cont.damage 1
+				cont.f_olumsuz * Yarası Kanar *
+				sfx 054c
+				morex=<eval(<morex>-1)>
+		endif
+endif
+return 1
+
+[events e_bleeding2]
+On=@Death
+findid.i_bleeder.remove
+
+
+//////////////////////////////////////////////////////////// DISMOUNT
+
+[events e_dismount]
+
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)
+	return 0
+elseif (((<findlayer(2).type> == t_weapon_sword) && (<swordsmanship> >= 78.0)) || ((<findlayer(2).type> == T_WEAPON_MACE_STAFF) && (<macefighting> >= 78.0)) || ((<findlayer(2).type> == t_weapon_fence) && (<fencing> >= 78.0)))
+	ref1 = <findlayer.2.uid>
+	if <src.findlayer.25>
+		if <findlayer.25>
+			if (rand(12) = 1)
+				//argn1 += 5
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		elif strmatch("Vanquishing","<ref1.tag.magicweapon>")
+			if (rand(2) == 1)
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		elif strmatch("Power","<ref1.tag.magicweapon>")
+			if (rand(3) == 1)
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		elif strmatch("Force","<ref1.tag.magicweapon>")
+			if rand(4)==1
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		else
+			if rand(5)==1
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		endif							
+	endif
+endif
+
+
+
+[function f_binektendus]
+if (<findlayer(25)>)
+dclick
+f_olumsuz * Binekten Düşer *
+//local.act <src.act.uid>
+//newitem i_parablow
+//act.equip
+//act <local.act>
+endif
+
+
+////////////////////////////////////////////////////////////////////////////////// 
+
+[events e_spear]							
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)  || (<src.npc>)
+	return 0
+elseif (<findlayer(2).type> == t_weapon_fence) && (<fencing> >= 78.0) && (<r2>==1)
+	if (rand(175) <= (<eval (<fencing> / 40)>+<eval (<anatomy> / 40)>) ) && !(<src.findid.i_parablow>) && (<fencing> > 98.0)
+		src.damage {7 10}
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_parablow
+		src.act.equip
+		src.act <local.act>
+		src.f_olumsuz * Paradarbe Alır *
+		return 1
+	endif
+endif
+
+[events e_parablow]
+On=@GetHit 
+findid.i_parablow.remove
+
+On=@Death
+findid.i_parablow.remove
+
+[itemdef i_parablow]
+name=parablow
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.flags <src.flags>|04
+src.events +e_parablow
+timer 2
+
+On=@UnEquip
+cont.events -e_parablow
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+
+/////////////////////////////////////////////////////////////// Stun
+
+[function stun]
+if (<isevent.e_wrestler>)
+	sysmessage @69,,1 Stun: kapali
+	events -e_wrestler
+elseif ((<wrestling> > 79.9)
+	sysmessage @69,,1 Stun: acik
+	events +e_wrestler
+else
+	sysmessage @155,,1 Stun yapabilmek icin 80.0 Wrestling skilline ihtiyaciniz var.
+endif
+
+/////////////////////////////////////////////////////////////// DISARM
+
+[function disarm]
+if (<isevent.e_disarm>)
+		sysmessage @69,,1 Disarm: kapali
+		events -e_disarm
+elseif ((<wrestling> > 79.9) && (<armslore> > 79.9))
+		sysmessage @69,,1 Disarm: acik
+		events +e_disarm
+else
+		sysmessage @155,,1 Disarm yapabilmek icin 80 Wrestling ve Arms Lore skilline ihtiyaciniz var.
+endif
+
+[events e_disarm] 
+On=@Hit
+if ((<wrestling> < 80.0) || (<armslore> < 80.0))
+		sysmessage @38 Disarm icin gereken skillere sahip degilsiniz.
+		events -e_disarm
+elseif !(<findlayer(1)> || <findlayer(2)>) 
+		if (rand(2) == 1) && !(<src.findid.i_disarmed>)   //4tu
+		//if (rand(100) >= <eval(<eval(<src.armslore>*3)>/40)> ) && !(<src.findid.i_disarmed>)
+			if (<src.findlayer(1)> || <src.findlayer(2)>)
+				src.findlayer(1).unequip
+				if (<src.findlayer(2)>)
+					src.findlayer(2).unequip
+				endif
+				src.f_olumsuz * Sılahsızlandırılır *
+				src.newitem i_disarmed
+				src.act.equip	
+			endif
+		endif 
+endif
+
+[itemdef i_disarmed]
+name=disarmed
+id=i_worldgem_bit
+TYPE=t_eq_script
+LAYER=layer_special
+
+on=@create 
+attr attr_decay
+
+On=@Equip
+timer 5
+
+on=@timer 
+remove 
+return 1
+
+
+[events e_wrestler]
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)
+		return 0
+elseif (<src.distance> > 2)
+		return 0
+elseif (<findlayer(1)>) || ((<findlayer(2)>) && !(<findlayer(2).type>==t_shield))
+		return 0
+elseif (<wrestling> >= 78.1)
+		src.damage {1 2}
+		if (rand(125) <= <eval (<anatomy> / 40)>) && !(<src.findid.i_stunner>)
+			//src.damage {6 10} // bu damage ayari ile oynamayiniz efenim.
+			//src.skill fail
+			local.act <src.act.uid>
+			src.newitem i_stunner
+			src.act.equip
+			src.act <local.act>
+			src.f_olumsuz * Sersemler *
+			src.skill fail
+			return 1
+		endif
+endif
+
+[events e_stunner]
+On=@GetHit
+events -e_stunner
+
+On=@Death
+findid.i_stunner.remove
+
+[itemdef i_stunner]
+name=wrestler stun
+id=i_worldgem_bit
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+cont.flags <cont.flags>|04
+cont.events +e_stunner
+timer=3
+
+On=@UnEquip
+cont.events -e_stunner
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[events e_dismount_crossbow_heavy]
+
+On=@Hit
+ref1 = <findlayer.2.uid>
+if (<archery> > 79.9)
+	if <src.findlayer.25>
+		if <findlayer.25>
+			if (rand(8) = 1)
+				//argn1 += 5
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		elif strmatch("Vanquishing","<ref1.tag.magicweapon>")
+			//argn1 += 5
+			src.skill fail
+			src.damage 1 01 <uid>
+			src.f_binektendus
+			//return 1
+		elif strmatch("Power","<ref1.tag.magicweapon>")
+			if (rand(5) <= 3)
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		elif strmatch("Force","<ref1.tag.magicweapon>")
+			if rand(4)==1
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		else
+			if rand(6)==1
+				src.skill fail
+				src.damage 1 01 <uid>
+				src.f_binektendus
+				//return 1
+			endif
+		endif							
+	endif
+endif
+
+[events e_paradarbe_crossbow]
+
+On=@Hit
+if (<archery> > 79.9)
+if <src.findlayer.25>
+	if <findlayer.25>
+		if (rand(25) = 1)
+			argn1 += 5
+         		src.skill fail
+			local.act <src.act.uid>
+         		src.newitem i_parablow
+			src.act.equip
+			src.act <local.act>
+			src.f_olumsuz * Paradarbe Alır *
+			return 1
+		endif
+	else
+		if (rand(15) = 1)
+			argn1 += 5
+         		src.skill fail
+			local.act <src.act.uid>
+         	src.newitem i_parablow
+			src.act.equip
+			src.act <local.act>
+			src.f_olumsuz * Paradarbe Alır *
+			return 1
+		endif
+	endif
+endif
+endif
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[itemdef i_spdelay_NEW] // bunnar adamda kaliodu (timer -1) fixlendi uzulmeyin
+name=magery delay 
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+if (<src.body> == c_man)
+	src.body c_man_nomove
+	src.obody c_man
+	morex = 1 // erkek icin
+	name magery delay (man)
+elseif (<src.body> == c_woman)
+	src.body c_woman_nomove
+	src.obody c_woman
+	morex = 2 // bayan icin
+	name magery delay (woman)
+else
+	cont.flags <cont.flags>|04 // paralarim lan adami uniseksmi$
+	name magery delay (unicex)
+	morex 3 //unisix icin
+endif
+
+if (<more1>)
+	timer <more1>
+endif
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+            if ((<cont.body> == c_harrower) || (<cont.body> == c_Wailing_Banshee) || (<cont.body> == c_Moloch) || (<cont.body> == c_liche))
+            cont.flags <cont.flags>&~04
+	    else
+	    cont.body <cont.obody>
+            endif
+endif
+
+cont.flags <cont.flags>&~04
+cont.TAG.NoMoveTill=
+
+On=@Timer
+remove
+return 1
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////Func.
+
+[function bonus]
+src.dialog d_bonus_bilgi
+
+[DIALOG d_bonus_bilgi]
+220,100
+src.closealldialogs
+PAGE 0
+dhtmlgump 150 15 120 20 0 0 <DEF.BFONT_WHITE><DEF.BFONT_SIZE7>Bonus Bilgi
+
+resizepic 0 0 2620 385 425
+resizepic 12 13 5120 360 400
+checkertrans 12 13 360 400
+
+//htmlgump 25 40 345 154 0 1 0
+
+if <src.findid.i_bonus_medi>
+	dtext 220 60 69 Meditation Bonus
+else
+	dtext 220 60 31 Meditation Bonus
+endif
+
+if (<src.puremage>)
+	dtext 220 80 69 Pure Magery Bonus
+else
+	dtext 220 80 31 Pure Magery Bonus
+endif
+
+if (<src.puremage>) && (<src.EVALUATINGINTEL> == 100.0)
+	dtext 220 100 69 Evaluatingintel Bonus
+else
+	dtext 220 100 31 Evaluatingintel Bonus
+endif
+
+
+////////////////////////////////////////////////////////////
+
+if <src.isevent.e_bleeding>
+	dtext 20 60 69 Bleeding Bonus
+else
+	dtext 20 60 31 Bleeding Bonus
+endif
+
+if <src.isevent.e_Special_Pulse>
+	dtext 20 80 69 Special Pulse
+else
+	dtext 20 80 31 Special Pulse
+endif
+
+if <src.isevent.e_macebonus>
+	dtext 20 100 69 Stam Drop & Stam Shot
+else
+	dtext 20 100 31 Stam Drop & Stam Shot
+endif
+
+if <src.isevent.e_macebonus>
+	dtext 20 120 69 Mace Bonus
+else
+	dtext 20 120 31 Mace Bonus
+endif
+
+if <src.isevent.e_armorignore_Sw>
+	dtext 20 140 69 Armor Ignore (Sw)
+else
+	dtext 20 140 31 Armor Ignore (Sw)
+endif
+
+if <src.isevent.e_armorignore_fenc>
+	dtext 20 160 69 Armor Ignore (Fenc)
+else
+	dtext 20 160 31 Armor Ignore (Fenc)
+endif
+
+if <src.isevent.e_armorignore_mf>
+	dtext 20 180 69 Armor Ignore (Mf)
+else
+	dtext 20 180 31 Armor Ignore (Mf)
+endif
+
+if <src.isevent.e_armorignore_bow>
+	dtext 20 200 69 Armor Ignore (Archer)
+else
+	dtext 20 200 31 Armor Ignore (Archer)
+endif
+
+if <src.isevent.e_dismount>
+	dtext 20 220 69 Attan Dusurme
+else
+	dtext 20 220 31 Attan Dusurme
+endif
+
+if <src.isevent.e_spear>
+	dtext 20 240 69 Paradarbe
+else
+	dtext 20 240 31 Paradarbe
+endif
+
+if <src.isevent.e_dismount_crossbow_heavy>
+	dtext 20 260 69 H.Crossbow Dismount
+else
+	dtext 20 260 31 H.Crossbow Dismount
+endif
+
+if <src.isevent.e_paradarbe_crossbow>
+	dtext 20 280 69 Crossbow Paradarbe
+else
+	dtext 20 280 31 Crossbow Paradarbe
+endif
+
+if <src.isevent.e_wrestler>
+	dtext 20 300 69 Stun
+else
+	dtext 20 300 31 Stun
+endif
+
+if <src.isevent.e_disarm>
+	dtext 20 320 69 Disarm
+else
+	dtext 20 320 31 Disarm
+endif
+
+button 20 370 4005 4006 1 0 1
+dtext 55 371 155 Bilgi
+
+//////////////////////////////////////////////////////////////////////
+
+if <src.isevent.e_graveyard_activity_bonus_expo>
+	dtext 220 240 69 Expo Bonus (G.A.)
+else
+	dtext 220 240 31 Expo Bonus (G.A.)
+endif
+
+if <src.isevent.e_graveyard_activity_bonus_stone>
+	dtext 220 260 69 Stone Bonus (G.A.)
+else
+	dtext 220 260 31 Stone Bonus (G.A.)
+endif
+
+if <src.isevent.e_graveyard_activity_bonus_kritik>
+	dtext 220 280 69 Kritik Bonus (G.A.)
+else
+	dtext 220 280 31 Kritik Bonus (G.A.)
+endif
+
+if <src.isevent.e_graveyard_activity_bonus_gold>
+	dtext 220 300 69 Gold Bonus (G.A.)
+else
+	dtext 220 300 31 Gold Bonus (G.A.)
+endif
+
+if <src.isevent.e_graveyard_activity_bonus_tavuk>
+	dtext 220 320 69 Converter Bonus (G.A.)
+else
+	dtext 220 320 31 Converter Bonus (G.A.)
+endif
+
+//////////////////////////////////////////////////////////////////////
+
+
+[dialog d_bonus_bilgi text]
+
+[dialog d_bonus_bilgi button]
+on=1
+//src.weblink 
+
+
+
+
+
+[EOF]

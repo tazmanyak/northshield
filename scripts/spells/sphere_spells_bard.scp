@@ -1,0 +1,122 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+//Provocation (Exhiliarator)
+// Inspire; Uus Por; Upkeep 8
+// Invigorate; An Zu; Upkeep 10
+//Peacemaking (Galvanizer)
+// Resilience; Kal Mani Tym; Upkeep 8
+// Perseverance; Uus Jux Sanct; Upkeep 8
+//Discordance (Desponder)
+// Tribulaion; In Jux Hur Rel; Upkeep 16
+// Despair; Kal Des Mani Tym; Upkeep 18
+//Will add more info later.
+
+[SPELL 701]
+DEFNAME=s_inspire
+NAME=Inspire
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=0
+SKILLREQ=Provocation 90.0
+INTERRUPT=0.0,0.0
+
+[SPELL 702]
+DEFNAME=s_invigorate
+NAME=Invigorate
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=30
+SKILLREQ=Provocation 90.0
+INTERRUPT=0.0,0.0
+
+[SPELL 703]
+DEFNAME=s_resilience
+NAME=Resilience
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=30
+SKILLREQ=Peacemaking 90.0
+INTERRUPT=0.0,0.0
+
+[SPELL 704]
+DEFNAME=s_perseverance
+NAME=Perseverance
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=30
+SKILLREQ=Peacemaking 90.0
+INTERRUPT=0.0,0.0
+
+[SPELL 705]
+DEFNAME=s_tribulation
+NAME=Tribulation
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=30
+SKILLREQ=Discordance 90.0
+INTERRUPT=0.0,0.0
+
+[SPELL 706]
+DEFNAME=s_despair
+NAME=Despair
+SOUND=0
+RUNES=
+CAST_TIME=
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=
+EFFECT_ID=
+EFFECT=
+DURATION=
+MANAUSE=30
+SKILLREQ=Discordance 90.0
+INTERRUPT=0.0,0.0
+
+[eof]

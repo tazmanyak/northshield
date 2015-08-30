@@ -1,0 +1,168 @@
+///////////////////////////////////////////
+/// Script feito por Coruja //////////////
+/////////////////////////////////////////
+
+[FUNCTION IsAlly]
+IF !(<more1>)
+RETURN 0//Neutral
+ELSEIF (<more1>==1)
+RETURN 1//Order
+ELSEIF (<more1>==2)
+RETURN 2//Chaos
+ENDIF
+
+[DIALOG d_guild_diplomacy]
+10,10
+IF (<isempty <SRC.CTAG.GuildDiplomacy.Page>>)
+ SRC.CTAG.GuildDiplomacy.Page=1
+ENDIF
+
+page 0
+Guild_RenderMainDialog
+dhtmlgump 431 43 110 26 0 0 <DEF.Guild.DialogFont.DarkBlue>Diplomasi
+
+resizepic 130 75 0BB8 385 30
+dtextentry 135 80 375 30 0481 1
+button 520 75 0867 0868 1 0 3	//Filter Button
+
+button 65 80 015e3 015e7 1 0 1
+button 95 80 015e1 015e5 1 0 2
+
+FOR Table 3
+ LOCAL.Width = <STRARG <DEF.GuildDiplomacyTable.<dLOCAL.Table>>>
+ gumppictiled <eval 65+<LOCAL.X>> 110 <eval <LOCAL.Width>+10> 26 0A40
+ gumppictiled <eval 67+<LOCAL.X>> 112 <eval <LOCAL.Width>+6> 22 0BBC
+ dhtmlgump <eval 70+<LOCAL.X>> 113 <LOCAL.Width> 20 0 0 <DEF.I><STREAT <DEF.GuildDiplomacyTable.<dLOCAL.Table>>>
+ LOCAL.X += <eval <LOCAL.Width>+12>
+ENDFOR
+
+page 1
+LOCAL.X = 0
+LOCAL.Y=138
+FOR <eval (<SRC.CTAG0.GuildDiplomacy.Page>-1)*8> <eval (<SRC.CTAG0.GuildDiplomacy.Page>*8)-1>
+ REF1=
+ IF (<SRC.CTAG0.GuildDiplomacy.SearchTotal>)
+   ARGS=<SRC.CTAG.GuildDiplomacy.Search>
+   IF !(<isempty <ARGV[<LOCAL._FOR>]>>)
+    REF1=<SERV.GUILDSTONES.<ARGV[<LOCAL._FOR>]>.UID>
+   ENDIF
+ ELSE
+   REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+ ENDIF
+ IF (<REF1>)
+  FOR Table 3
+   LOCAL.Width = <STRARG <DEF.GuildDiplomacyTable.<dLOCAL.Table>>>
+   IF (<LOCAL.Table>==1)
+    IF (<REF1>==<SRC.GUILD>)
+    ARGS=<DEF.Guild.DialogFont.Green><REF1.NAME>
+    ELIF (<IsAlly <REF1>>)
+    ARGS=<DEF.Guild.DialogFont.Green><REF1.NAME>
+    ELIF (<IsWarRing <REF1>>)
+    ARGS=<DEF.Guild.DialogFont.Red><REF1.NAME>
+    ELSE
+    ARGS=<REF1.NAME>
+    ENDIF
+   ELIF (<LOCAL.Table>==2)
+    ARGS=<REF1.ABBREV>
+   ELIF (<LOCAL.Table>==3)
+    IF (<IsWarRing <REF1>>)
+     ARGS=Savas
+   //ELIF (<IsAlly <REF1>>)
+    // ARGS=Ittifak
+    ELSE
+     ARGS=Baris
+    ENDIF
+   ENDIF
+   button 40 <eval <LOCAL.Y>+5> <QVAL (<Guild_HasRelationship <REF1>>)? 08AF 08AF:04B9 04BA> 1 0 <eval 200+<LOCAL._FOR>>
+   gumppictiled <eval 65+<LOCAL.X>> <LOCAL.Y> <eval <LOCAL.Width>+10> 26 0A40
+   gumppictiled <eval 67+<LOCAL.X>> <eval <LOCAL.Y>+2> <eval <LOCAL.Width>+6> 22 0BBC
+   dhtmlgump <eval 70+<LOCAL.X>> <eval <LOCAL.Y>+3> <LOCAL.Width> 20 0 0 <ARGS>
+   LOCAL.X += <eval <LOCAL.Width>+12>
+  ENDFOR
+  LOCAL.X=0
+  LOCAL.Y += 28
+ ENDIF
+ENDFOR
+
+IF (<SRC.CTAG0.GuildDiplomacy.Page> == <eval 1+(<QVAL (<SRC.CTAG0.GuildDiplomacy.SearchTotal>)? <SRC.CTAG0.GuildDiplomacy.SearchTotal>:<SERV.GUILDS>>/8)>)
+ LOCAL.Y += 10
+ IF (<SRC.CTAG0.GuildDiplomacy.OnlyRelationship>)
+  ARGS=Guild ile iliskileri bulunan guildler
+ ELIF (<SRC.CTAG0.GuildDiplomacy.OnlyAwaytingAction>)
+  ARGS=Hareket beklenen guildler
+ ELSE
+  ARGS=Tum Guildleri Goster
+ ENDIF
+ dhtmlgump 66 <eval <LOCAL.Y>+5> 280 26 0 0 <DEF.Guild.DialogFont.DarkBlue><ARGS>
+ IF (<DEF0.Guild.EnableAdvancedSearch>)
+  resizepic 350 <LOCAL.Y> 02486 200 26
+  button 355 <eval <LOCAL.Y>+5> 0845 0846 1 0 4
+  dhtmlgump 380 <eval <LOCAL.Y>+3> 160 26 0 0 Gelismis Arama
+ ENDIF
+ENDIF
+
+
+[DIALOG d_guild_diplomacy BUTTON]
+ON=0
+SRC.ClearCTAGS GuildDiplomacy
+
+ON=1 2
+IF (<ARGN>==1)
+  IF (<SRC.CTAG0.GuildDiplomacy.Page> > 1)
+   SRC.CTAG0.GuildDiplomacy.Page -= 1
+  ENDIF
+ELIF (<ARGN>==2)
+  IF (<SRC.CTAG0.GuildDiplomacy.Page> < <eval 1+(<QVAL (<SRC.CTAG0.GuildDiplomacy.SearchTotal>)? <SRC.CTAG0.GuildDiplomacy.SearchTotal>:<SERV.GUILDS>>/8)>)
+   SRC.CTAG0.GuildDiplomacy.Page += 1
+  ENDIF
+ENDIF
+SDIALOG d_guild_diplomacy
+
+ON=3
+SRC.ClearCTAGS GuildDiplomacy
+IF !(<isempty <ARGTXT[1]>>)
+ FOR 0 <eval <SERV.GUILDS>-1>
+  REF1=<SERV.GUILDSTONES.<LOCAL._FOR>.UID>
+  IF STRMATCH("*<ARGTXT[1]>*","<REF1.NAME>") || STRMATCH("*<ARGTXT[1]>*","<REF1.ABBREV>")
+   SRC.CTAG0.GuildDiplomacy.Search .= ,<dLOCAL._FOR>
+   SRC.CTAG0.GuildDiplomacy.SearchTotal ++
+  ENDIF
+ ENDFOR
+ SRC.CTAG0.GuildDiplomacy.Search=<STREAT <SRC.CTAG0.GuildDiplomacy.Search>>
+ IF !(<SRC.CTAG0.GuildDiplomacy.SearchTotal>)
+  SRC.CTAG0.GuildDiplomacy.SearchTotal=1
+ ENDIF
+ENDIF
+SDIALOG d_guild_diplomacy
+
+ON=4
+IF (<DEF0.Guild.EnableAdvancedSearch>)
+ SDIALOG d_guild_advanced_search
+ENDIF
+
+ON=200 1000
+LOCAL.B=<eval <ARGN>-200>
+IF !(<isempty <SRC.CTAG.GuildDiplomacy.Search>>)
+ ARGS=<SRC.CTAG.GuildDiplomacy.Search>
+ REF1=<SERV.GUILDSTONES.<ARGV[<LOCAL.B>]>.UID>
+ELSE
+ REF1=<SERV.GUILDSTONES.<LOCAL.B>.UID>
+ENDIF
+IF (<REF1>==<UID>)
+ SDIALOG d_guild_main
+ELSE
+ REF1.SDIALOG d_guild_info
+ENDIF
+
+ON=100 102
+SRC.ClearCTAGS GuildDiplomacy
+Guild_RenderMainDialogButton <ARGN>
+
+/////////////////////////////////////////
+
+[DEFNAME GuildDiplomacy_DialogTable]
+GuildDiplomacyTable.1	"280,Guild Ismi"
+GuildDiplomacyTable.2	"50,Kisaltma"
+GuildDiplomacyTable.3	"120,Durum"
+
+[EOF]

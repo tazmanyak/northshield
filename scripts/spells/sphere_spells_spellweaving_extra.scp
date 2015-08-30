@@ -1,0 +1,176 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX, jeem
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Spellweaving functions and other things used.
+// We move them here just to keep clean the main files and can tweak it without problems.
+//
+
+// Arcane Circle
+[function f_GiveArcaneFocus]
+if !<restest i_arcane_focus>
+serv.newitem i_arcane_focus,1,<findlayer(layer_pack).uid>
+new.more1 = <argv[1]>
+new.timerf <argv[0]>,remove
+sysmessage @,,2 1072516,#1032629,<dargv[0]>
+sysmessage @,,2 1072740 // An arcane focus appears in your backpack.
+else
+findid.i_arcane_focus.timerf CLEAR
+new.more1 = <argv[1]>
+new.timerf <argv[0]>,remove
+sysmessage @,,2 1072828 // Your arcane focus is renewed.
+endif
+
+[function IsInArcaneCircle]
+foritems 0
+	if (<dispid> == 0fea) || (<dispid> == 01216) || (<dispid> == 0307f) || (<dispid> == 01d10) || (<dispid> == 01d0f) || (<dispid> == 01d1f) || (<dispid> == 01d12)
+	return 1
+	endif
+endfor
+for 0 <eval (<p.statics> - 1)>
+	if (<p.statics.<dlocal._for>> == 0fea) || (<p.statics.<dlocal._for>> == 01216) || (<p.statics.<dlocal._for>> == 0307f) || (<p.statics.<dlocal._for>> == 01d10) || (<p.statics.<dlocal._for>> == 01d0f) || (<p.statics.<dlocal._for>> == 01d1f) || (<p.statics.<dlocal._for>> == 01d12)
+	return 1
+	endif
+endfor
+return 0
+
+[function IsInSanctuary]
+if (((<map> == 0) || (<map> == 1)) && (<p.x> == 6267) && (<p.y> == 131) && (<p.z> == 5))
+return 1
+endif
+return 0
+
+[itemdef 03155]
+defname=i_arcane_focus
+name=Arcane Focus
+type=t_normal
+weight=1
+tag0.cliloc.name = 1032629
+
+on=@create
+attr=attr_magic|attr_newbie|attr_move_never
+
+on=@clienttooltip
+src.addcliloc <tag0.cliloc.name>
+src.addcliloc 1060485,<dmore1>
+src.addcliloc 1072517,<dtimer>
+return 1
+
+on=@timer
+cont.sysmessage @,,2 1072515,#<tag0.cliloc.name>
+remove
+return 1
+
+// Gift Of Renewal
+[ITEMDEF i_giftofrenewal]
+NAME=Gift of Renewal
+ID=i_memory
+TYPE=t_eq_script
+
+on=@equip
+src.tag0.override.regenval_0 += <more1>
+src.f_AddBuff GiftOfRenewal,<timer>,<dmore1>
+
+on=@timer
+cont.sfx 0455
+cont.sysmessage @,,2 1075071 // The Gift of Renewal has faded.
+remove
+return 1
+
+on=@unequip
+src.tag0.override.regenval_0 -= <more1>
+
+// Attunement
+[ITEMDEF i_attunement]
+NAME=Attune Weapon
+ID=i_memory
+TYPE=t_eq_script
+
+on=@equip
+src.events +e_attunement
+src.f_AddBuff AttuneWeapon,<timer>,<link.name>
+
+on=@unequip
+src.events -e_attunement
+
+on=@timer
+topobj.sysmessage @,,2 1075125 // Your attunement fades.
+sfx 01f8
+remove
+return 1
+
+[events e_attunement]
+on=@hitdamagebonus
+if <argo> == <findid(i_attunement).tag0.weap> && <src> == <findid(i_attunement).link>
+var0.<uid>_damagebonus += 50
+endif
+
+// Thunderstorm
+[function DoThunderstormDamage]
+ref1 = <uid>
+forchars <argv[2]>
+	if <canseelos <uid>>
+		if <action> == skill_magery || <action> == skill_necromancy || <action> == skill_chivalry || <action> == skill_spellweaving || <action> == skill_mysticism
+		tag0.FasterCastRecovery -= 6
+		timerf <argv[3]>,tag0.FasterCastRecovery += 6
+		f_AddBuff Thunderstorm,<dargv[3]>,6
+		endif
+		
+		if <isplayer>
+		damage <argv[1]>,dam_magic|dam_lightning|dam_energy,<argv[4]>
+		else
+		damage <argv[0]>,dam_magic|dam_lightning|dam_energy,<argv[4]>
+		endif
+	endif
+endfor
+
+// Reaper Form
+[itemdef i_reaper_form]
+id=i_memory
+type=t_eq_script
+
+on=@equip
+tag.Body = <cont.body>
+cont.body = c_reaper_redux
+if <cont.resfire> >= 25
+tag0.resfiredecrease = 25
+cont.resfire -= 25
+else
+tag0.resfiredecrease = <cont.resfire>
+cont.resfire = 0
+endif
+cont.modar += 5
+cont.rescold += 5
+cont.respoison += 5
+cont.resenergy += 5
+
+cont.tag0.SwingSpeedIncrease += <tag0.Bonus>
+cont.tag0.SpellDamageIncrease += <tag0.Bonus>
+
+cont.SpeedMode = 2
+
+on=@unequip
+cont.body = <tag0.Body>
+
+cont.resfire += <tag0.resfiredecrease>
+cont.modar -= 5
+cont.rescold -= 5
+cont.respoison -= 5
+cont.resenergy -= 5
+
+cont.tag0.SwingSpeedIncrease -= <tag0.Bonus>
+cont.tag0.SpellDamageIncrease -= <tag0.Bonus>
+
+cont.SpeedMode = 0
+
+[EOF]

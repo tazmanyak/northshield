@@ -1,0 +1,591 @@
+////////////////////////Craftlar Icin Eldivenler
+//
+//carpentry
+//tinkering
+//blacksmithing
+//alchemy
+//inscription
+//tailoring
+//farmer
+///////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////Mysterious Roll
+
+[itemdef i_mysterious_roll]
+id i_scroll_blank
+name Mysterious Roll
+
+
+on=@create
+color 07a1
+
+on=@dclick
+if (<cont.uid> != <src.findlayer.21.uid>)
+	src.sysmessage @33,,1 Cantanizda olmadan bu islemi gerceklestiremezsiniz.
+	return 1
+endif
+src.consume 1 i_mysterious_roll
+
+serv.newitem {i_parchment_of_farmer 1 i_parchment_of_carpentry 1 i_parchment_of_tinkering 1 i_parchment_of_blacksmithing 1 i_parchment_of_alchemy 1 i_parchment_of_inscription 1 i_parchment_of_tailoring 1}
+new.bounce
+
+return 1
+
+////////////////////////////////////////////////////////////////////////Craftsman magic parchment
+
+[itemdef i_parchment_of_farmer]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Farmer )
+
+/////////////
+
+[itemdef i_parchment_of_carpentry]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Carpentry )
+
+/////////////
+
+[itemdef i_parchment_of_tinkering]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Tinkering )
+
+/////////////
+
+[itemdef i_parchment_of_blacksmithing]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Blacksmithing )
+
+//////////////
+
+[itemdef i_parchment_of_alchemy]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Alchemy )
+
+///////////////
+
+[itemdef i_parchment_of_inscription]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Inscription )
+
+[itemdef i_parchment_of_tailoring]
+id 014f0
+name Craftsman Magic Parchment
+
+on=@create
+color 07a1
+
+on=@click
+message @07a1,,1 ( Tailoring )
+
+
+////////////////////////////////////////////////////////////////////////mystical piece of skin
+
+[itemdef i_mystical_skin]
+id i_hides_cut
+name Mystical Piece Of Skin
+
+on=@create
+color 07a1
+
+
+////////////////////////////////////////////////////////////////////////Mystical yarn
+
+[itemdef i_mystical_yarn]
+id i_yarn_ball
+name Mystical Yarn
+
+on=@create
+color 07a1
+
+////////////////////////////////////////////////////////////////////////The legendary gloves
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////Farmer
+/////////////////////////////////////////////////////
+[itemdef i_craft_gloves_farmer]
+id i_hide_gloves
+name Master Farmer Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_farmer
+SKILLMAKE=TAILORING 120.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_farmer 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+
+ON=@Equip
+src.events +e_legendary_gloves
+
+ON=@unEquip
+src.events -e_legendary_gloves
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////Tailor
+/////////////////////////////////////////////////////
+
+[itemdef i_craft_gloves_tailor]
+id i_hide_gloves
+name Master Tailor Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_tailoring
+SKILLMAKE=TAILORING 100.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_tailor 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+ON=@Equiptest
+if (<src.tailoring> < 100.0)
+src.sysmessage @33,,1 Bu eldiveni giymek icin 100.0 Tailoring becerisine sahip olmalisin.
+return 1
+endif
+
+ON=@Equip
+if (<src.tailoring> < 100.0)
+unequip
+return 1
+else
+src.events +e_legendary_gloves
+src.tailoring +=200
+endif
+
+ON=@unEquip
+src.tailoring -=200
+src.events -e_legendary_gloves
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////Carpentry
+/////////////////////////////////////////////////////
+
+[itemdef i_craft_gloves_carpentry]
+id i_hide_gloves
+name Master Carpentry Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_carpentry
+SKILLMAKE=TAILORING 120.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_carpentry 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+ON=@Equiptest
+if (<src.carpentry> < 100.0)
+src.sysmessage @33,,1 Bu eldiveni giymek icin 100.0 Cailoring becerisine sahip olmalisin.
+return 1
+endif
+
+ON=@Equip
+if (<src.carpentry> < 100.0)
+unequip
+return 1
+else
+src.events +e_legendary_gloves
+src.carpentry +=200
+endif
+
+ON=@unEquip
+src.carpentry -=200
+src.events -e_legendary_gloves
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////tinkering
+/////////////////////////////////////////////////////
+
+
+[itemdef i_craft_gloves_tinkering]
+id i_hide_gloves
+name Master Tinkering Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_tinkering
+SKILLMAKE=TAILORING 120.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_tinkering 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+ON=@Equiptest
+if (<src.tinkering> < 100.0)
+src.sysmessage @33,,1 Bu eldiveni giymek icin 100.0 Tinkering becerisine sahip olmalisin.
+return 1
+endif
+
+ON=@Equip
+if (<src.tinkering> < 100.0)
+unequip
+return 1
+else
+src.events +e_legendary_gloves
+src.tinkering +=200
+endif
+
+ON=@unEquip
+src.tinkering -=200
+src.events -e_legendary_gloves
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////blacksmithing
+/////////////////////////////////////////////////////
+
+
+[itemdef i_craft_gloves_blacksmithing]
+id i_hide_gloves
+name Master Blacksmithing Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_blacksmithing
+SKILLMAKE=TAILORING 120.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_blacksmithing 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+ON=@Equiptest
+if (<src.blacksmithing> < 100.0)
+src.sysmessage @33,,1 Bu eldiveni giymek icin 100.0 Blacksmithing becerisine sahip olmalisin.
+return 1
+endif
+
+ON=@Equip
+if (<src.blacksmithing> < 100.0)
+unequip
+return 1
+else
+src.events +e_legendary_gloves
+src.blacksmithing +=200
+endif
+
+ON=@unEquip
+src.blacksmithing -=200
+src.events -e_legendary_gloves
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////alchemy
+/////////////////////////////////////////////////////
+
+
+[itemdef i_craft_gloves_alchemy]
+id i_hide_gloves
+name Master Alchemy Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_alchemy
+SKILLMAKE=TAILORING 120.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_alchemy 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+ON=@Equiptest
+if (<src.alchemy> < 100.0)
+src.sysmessage @33,,1 Bu eldiveni giymek icin 100.0 Alchemy becerisine sahip olmalisin.
+return 1
+endif
+
+ON=@Equip
+if (<src.alchemy> < 100.0)
+unequip
+return 1
+else
+src.events +e_legendary_gloves
+src.alchemy +=200
+endif
+
+ON=@unEquip
+src.alchemy -=200
+src.events -e_legendary_gloves
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////inscription
+/////////////////////////////////////////////////////
+
+
+[itemdef i_craft_gloves_inscription]
+id i_hide_gloves
+name Master Inscription Gloves
+RESOURCES=8 i_mystical_skin,8 i_mystical_yarn,1 i_parchment_of_inscription
+SKILLMAKE=TAILORING 120.0,MAGERY 100.0
+
+on=@create
+color 07a1
+tag.craft_inscription 1
+HITPOINTS=100
+
+ON=@Click
+message @33,1,1 [ Saglamlik: % <hitpoints> ]
+message @07a1,,1 (The Legendary Gloves)
+
+ON=@Equiptest
+if (<src.inscription> < 100.0)
+src.sysmessage @33,,1 Bu eldiveni giymek icin 100.0 Inscription becerisine sahip olmalisin.
+return 1
+endif
+
+ON=@Equip
+if (<src.inscription> < 100.0)
+unequip
+return 1
+else
+src.events +e_legendary_gloves
+src.inscription +=200
+endif
+
+ON=@unEquip
+src.inscription -=200
+src.events -e_legendary_gloves
+
+
+
+
+/////////////////////////EVent
+
+[events e_legendary_gloves]
+
+
+On=@itemdclick  // Farmer Için
+
+if strmatch(*Farmer*,"<src.findlayer.7.name>")
+	if strmatch(*tohum*,"<act.name>")
+		if !<act.tag.ustaeller>
+			src.sysmessage @33,,1 <src.findlayer.7.name> eskimeye ugradi...Saglamlik %<src.findlayer.7.hitpoints>
+			src.findlayer.7.damage {700 3000}
+			act.tag.ustaeller 1
+			src.sysmessage @,,1 Legendary Farmer bonus aktif.
+		endif
+	endif
+endif
+
+on=@login
+src.findlayer.7.unequip
+src.events -e_legendary_gloves
+
+on=@logout
+src.findlayer.7.unequip
+src.events -e_legendary_gloves
+
+on=@SkillGain
+//src.findlayer.7.unequip
+//src.events -e_legendary_gloves
+//return 1
+
+
+
+on=@ItemCreate
+if !(strmatch(*Farmer*,"<src.findlayer.7.name>"))
+	src.sysmessage @33,,1 <src.findlayer.7.name> eskimeye ugradi...Saglamlik %<src.findlayer.7.hitpoints>
+	src.findlayer.7.damage {700 3000}
+endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////Yaratiklar
+
+[CHARDEF c_mystical_sheep]
+ID=c_sheep_shorn
+NAME=Legendary Sheep
+CAN=MT_EQUIP|MT_WALK|MT_RUN|MT_USEHANDS
+DAM=11,33
+ARMOR=30
+FOODTYPE=80 t_meat_raw
+DESIRES=i_gold
+RESOURCES=99 i_ribs_raw
+
+ON=@Create
+	NPC=brain_dragon
+	COLOR=07a1
+	STR={1095 1125}
+	DEX={156 205}
+	INT={450 525}
+	MAGERY={550.0 760.0}
+	MAGICRESISTANCE={99.0 100.0}
+	TACTICS={99.0 100.0}
+	WRESTLING={90.0 93.0}
+	FAME={3000 9000}
+	KARMA={-4999 -5999}
+
+ON=@NPCRestock
+item=i_gold,{15000 20000}
+//ITEM=i_mystical_skin,R4
+//ITEM=i_mystical_yarn,R4
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+endif
+
+ON=@Gethit
+
+if <act.findid.i_rune_summon_creature>
+sayua 0481,2,0,eng,* Buyu Etkisini Kaldirir *
+act.remove
+endif
+
+/////////////////////////////////////////////////////
+
+[CHARDEF c_mystical_ghost]
+ID=c_grim_reaper
+NAME=Legendary Ghost
+CAN=MT_EQUIP|MT_WALK|MT_USEHANDS
+DAM=8,15
+ARMOR=30
+
+ON=@Create
+	COLOR=07a1
+	STR={500 600}
+	DEX={80 120}
+	INT={450 525}
+	MAGERY={550.0 760.0}
+	MAGICRESISTANCE={99.0 100.0}
+	TACTICS={99.0 100.0}
+	WRESTLING={90.0 93.0}
+	FAME={3000 9000}
+	KARMA={-4999 -5999}
+
+ON=@NPCRestock
+item=i_gold,{1000 2000}
+ITEM=i_mysterious_roll,R6
+
+ON=@SPELLEFFECT
+If (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8) || (<argn>==38) || (<argn>==20)
+sayua 0819,6,1,enu  * Buyuden Etkilenmez *
+return 1
+endif
+
+ON=@Gethit
+if (<hits> < 5)
+message @,,1  Kendini Iyilestirir 
+effect=3,i_fx_heal_effect,6,35,1
+sound snd_spell_greater_heal
+hits=(<hits> + 25)
+endif
+
+
+if <act.findid.i_rune_summon_creature>
+sayua 0481,2,0,eng,* Buyu Etkisini Kaldirir *
+act.remove
+endif
+
+/////////////////////////////////////////////
+
+[CHARDEF c_g_of_gz]
+ID=c_man
+NAME=Guardian Of Ghost Zone
+can mt_equip|mt_nonmover
+DAM=11,33
+ARMOR=30
+FOODTYPE=80 t_meat_raw
+DESIRES=i_gold
+RESOURCES=99 i_ribs_raw
+
+ON=@Create
+	COLOR=07a1
+	STR=1000
+	DEX=1000
+	INT={450 525}
+	MAGICRESISTANCE={99.0 100.0}
+	TACTICS={99.0 100.0}
+	WRESTLING={90.0 93.0}
+	FAME={3000 9000}
+	KARMA={-4999 -5999}
+
+on=@death
+remove
+
+ON=@NpcLooKAtChar
+IF (<SRC.ISPLAYER>) 
+	if (<src.account.plevel> < 2) 
+		if (<src.hits> > 0)
+			src.go 1208,2580
+			src.message @33,,1 Sadece oluler girebilir !
+		endif
+	endif
+endif
+
+
+ON=@NPCSeeNewPlayer
+IF (<SRC.ISPLAYER>) 
+	if (<src.account.plevel> < 2) 
+		if (<src.hits> > 0)
+			src.go 1208,2580
+			src.message @33,,1 Sadece oluler girebilir !
+		endif
+	endif
+endif
+
+[itemdef i_ghost_zone_enter]
+id i_floor_marble
+name Hayalet Girisi
+
+on=@create
+color 07a1
+attr 080
+
+on=@step
+IF (<SRC.ISPLAYER>) 
+	if (<src.account.plevel> < 2) 
+		if (<src.hits> < 1)
+			src.go 1186,2596
+		endif
+	endif
+endif
+
+[EOF]

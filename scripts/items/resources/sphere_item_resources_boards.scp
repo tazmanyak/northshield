@@ -1,0 +1,113 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED: 
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// Khaos and ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// boards, resources, etc. All for lumberjacking
+
+///////////////////////////////////////////////////////////////
+//////// OSI BOARDS
+///////////////////////////////////////////////////////////////
+// This are the boards used in OSI.
+[ITEMDEF 01bd7]
+//DEFNAME2=lumber
+DEFNAME=i_board
+RESOURCES=2 i_log
+SKILLMAKE=1 carpentry, t_carpentry
+VALUE=2
+WEIGHT=1
+TYPE=T_BOARD
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Board
+DUPELIST=01bd8,01bd9,01bda,01bdb,01bdc
+
+[ITEMDEF i_board_oak]
+ID=i_board
+NAME=oak board%s
+VALUE=5
+TYPE=T_board
+WEIGHT=1
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Oak Board
+
+ON=@Create
+COLOR=color_o_oak
+
+[ITEMDEF i_board_ash]
+ID=i_board
+NAME=ash board%s
+VALUE=5
+TYPE=T_board
+WEIGHT=1
+
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Ash Board
+
+ON=@Create
+COLOR=color_o_ash
+
+[ITEMDEF i_board_yew]
+ID=i_board
+NAME=yew board%s
+VALUE=5
+TYPE=T_board
+WEIGHT=1
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Yew Board
+
+ON=@Create
+COLOR=color_o_yew
+
+[ITEMDEF i_board_heartwood]
+ID=i_board
+NAME=heartwood board%s
+VALUE=5
+TYPE=T_board
+WEIGHT=1
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Heartwood Board
+
+ON=@Create
+COLOR=color_o_heartwood 
+
+[ITEMDEF i_board_bloodwood]
+ID=i_board
+NAME=bloodwood board%s
+VALUE=5
+TYPE=T_board
+WEIGHT=1
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Bloodwood Board
+
+ON=@Create
+COLOR=color_o_bloodwood 
+
+[ITEMDEF i_board_frostwood]
+ID=i_board
+NAME=frostwood board%s
+VALUE=5
+TYPE=T_board
+WEIGHT=1
+CATEGORY=Resources - Lumberjacking
+SUBSECTION=Boards
+DESCRIPTION=Frostwood Board
+
+ON=@Create
+COLOR=color_o_frostwood 
+
+[eof]

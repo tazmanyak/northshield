@@ -1,0 +1,518 @@
+[ITEMDEF i_hide_dragon]
+ID=i_hide
+DEFNAME=i_hide_dragon
+NAME=Dragon Hide
+
+ON=@Create
+COLOR=03e5
+
+[ITEMDEF i_hide_cyclop]
+ID=i_hide
+DEFNAME=i_hide_cyclop
+NAME=Cyclops Hide
+
+ON=@Create
+COLOR=098
+
+[ITEMDEF i_hide_terathan]
+ID=i_hide
+DEFNAME=i_hide_terathan
+NAME=Terathan Hide
+
+ON=@Create
+COLOR=01d8
+
+[ITEMDEF i_hide_daemon]
+ID=i_hide
+DEFNAME=i_hide_daemon
+NAME=Daemon Hide
+
+ON=@Create
+COLOR=08a
+
+[ITEMDEF i_hide_ophidian]
+ID=i_hide
+DEFNAME=i_hide_ophidian
+NAME=Ophidian Hide
+
+ON=@Create
+COLOR=0156
+
+[ITEMDEF i_hide_gargoyle]
+ID=i_hide
+DEFNAME=i_hide_gargoyle
+NAME=Gargoyle Hide
+
+ON=@Create
+COLOR=01f2
+
+////////Armaduras///////////
+
+///Dragon///
+
+[ITEMDEF i_dragon_sleeves]
+ID=i_leather_sleeves
+DEFNAME=i_dragon_sleeves
+NAME=Dragon Sleeves
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_dragon
+SKILLMAKE=Skill_Tailoring 95.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+COLOR=03e5
+HITPOINTS={80 110}
+
+[ITEMDEF i_dragon_gloves]
+ID=i_leather_gloves
+DEFNAME=i_dragon_gloves
+NAME=Dragon Gloves
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_dragon
+SKILLMAKE=Skill_Tailoring 95.0,t_sewing_kit
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=03e5
+
+[ITEMDEF i_dragon_gorget]
+ID=i_leather_gorget
+DEFNAME=i_dragon_gorget
+NAME=Dragon Gorget
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_dragon
+SKILLMAKE=Skill_Tailoring 95.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=03e5
+
+[ITEMDEF i_dragon_leggings]
+ID=i_leather_leggings
+DEFNAME=i_dragon_leggings
+NAME=Dragon Leggings
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_dragon
+SKILLMAKE=Skill_Tailoring 95.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=03e5
+
+[ITEMDEF i_dragon_tunic]
+ID=i_leather_tunic
+DEFNAME=i_dragon_tunic
+NAME=Dragon Tunic
+ARMOR=80
+WEIGHT=2
+RESOURCES=14 i_hide_dragon
+SKILLMAKE=Skill_Tailoring 95.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=03e5
+
+[ITEMDEF i_dragon_cap]
+ID=i_leather_cap
+DEFNAME=i_dragon_cap
+NAME=Dragon Cap
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_dragon
+SKILLMAKE=Skill_Tailoring 95.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=03e5
+
+///Terathan///
+
+[ITEMDEF i_Terathan_sleeves]
+ID=i_leather_sleeves
+DEFNAME=i_Terathan_sleeves
+NAME=Terathan Sleeves
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Terathan
+SKILLMAKE=Skill_Tailoring 70.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01d8
+
+[ITEMDEF i_Terathan_gloves]
+ID=i_leather_gloves
+DEFNAME=i_Terathan_gloves
+NAME=Terathan Gloves
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Terathan
+SKILLMAKE=Skill_Tailoring 70.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01d8
+
+[ITEMDEF i_Terathan_gorget]
+ID=i_leather_gorget
+DEFNAME=i_Terathan_gorget
+NAME=Terathan Gorget
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Terathan
+SKILLMAKE=Skill_Tailoring 70.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01d8
+
+[ITEMDEF i_Terathan_leggings]
+ID=i_leather_leggings
+DEFNAME=i_Terathan_leggings
+NAME=Terathan Leggings
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Terathan
+SKILLMAKE=Skill_Tailoring 70.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01d8
+
+[ITEMDEF i_Terathan_tunic]
+ID=i_leather_tunic
+DEFNAME=i_Terathan_tunic
+NAME=Terathan Tunic
+ARMOR=80
+WEIGHT=2
+RESOURCES=14 i_hide_Terathan
+SKILLMAKE=Skill_Tailoring 70.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01d8
+
+[ITEMDEF i_Terathan_cap]
+ID=i_leather_cap
+DEFNAME=i_Terathan_cap
+NAME=Terathan Cap
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Terathan
+SKILLMAKE=Skill_Tailoring 70.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01d8
+
+///Daemon///
+
+[ITEMDEF i_Daemon_sleeves]
+ID=i_leather_sleeves
+DEFNAME=i_Daemon_sleeves
+NAME=Daemon Sleeves
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Daemon
+SKILLMAKE=Skill_Tailoring 90.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=08a
+
+[ITEMDEF i_Daemon_gloves]
+ID=i_leather_gloves
+DEFNAME=i_Daemon_gloves
+NAME=Daemon Gloves
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Daemon
+SKILLMAKE=Skill_Tailoring 90.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=08a
+
+[ITEMDEF i_Daemon_gorget]
+ID=i_leather_gorget
+DEFNAME=i_Daemon_gorget
+NAME=Daemon Gorget
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Daemon
+SKILLMAKE=Skill_Tailoring 90.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=08a
+
+[ITEMDEF i_Daemon_leggings]
+ID=i_leather_leggings
+DEFNAME=i_Daemon_leggings
+NAME=Daemon Leggings
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Daemon
+SKILLMAKE=Skill_Tailoring 90.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=08a
+
+[ITEMDEF i_Daemon_tunic]
+ID=i_leather_tunic
+DEFNAME=i_Daemon_tunic
+NAME=Daemon Tunic
+ARMOR=80
+WEIGHT=2
+RESOURCES=14 i_hide_Daemon
+SKILLMAKE=Skill_Tailoring 90.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=08a
+
+[ITEMDEF i_Daemon_cap]
+ID=i_leather_cap
+DEFNAME=i_Daemon_cap
+NAME=Daemon Cap
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Daemon
+SKILLMAKE=Skill_Tailoring 90.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+COLOR=08a
+
+///Ophidian///
+
+[ITEMDEF i_Ophidian_sleeves]
+ID=i_leather_sleeves
+DEFNAME=i_Ophidian_sleeves
+NAME=Ophidian Sleeves
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Ophidian
+SKILLMAKE=Skill_Tailoring 80.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=0156
+
+[ITEMDEF i_Ophidian_gloves]
+ID=i_leather_gloves
+DEFNAME=i_Ophidian_gloves
+NAME=Ophidian Gloves
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Ophidian
+SKILLMAKE=Skill_Tailoring 80.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=0156
+
+[ITEMDEF i_Ophidian_gorget]
+ID=i_leather_gorget
+DEFNAME=i_Ophidian_gorget
+NAME=Ophidian Gorget
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Ophidian
+SKILLMAKE=Skill_Tailoring 80.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=0156
+
+[ITEMDEF i_Ophidian_leggings]
+ID=i_leather_leggings
+DEFNAME=i_Ophidian_leggings
+NAME=Ophidian Leggings
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Ophidian
+SKILLMAKE=Skill_Tailoring 80.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=0156
+
+[ITEMDEF i_Ophidian_tunic]
+ID=i_leather_tunic
+DEFNAME=i_Ophidian_tunic
+NAME=Ophidian Tunic
+ARMOR=80
+WEIGHT=2
+RESOURCES=14 i_hide_Ophidian
+SKILLMAKE=Skill_Tailoring 80.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=0156
+
+[ITEMDEF i_Ophidian_cap]
+ID=i_leather_cap
+DEFNAME=i_Ophidian_cap
+NAME=Ophidian Cap
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Ophidian
+SKILLMAKE=Skill_Tailoring 80.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=0156
+
+///Gargoyle///
+
+[ITEMDEF i_Gargoyle_sleeves]
+ID=i_leather_sleeves
+DEFNAME=i_Gargoyle_sleeves
+NAME=Gargoyle Sleeves
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Gargoyle
+SKILLMAKE=Skill_Tailoring 65.0,t_sewing_kit
+VALUE=500
+TEVENTS=T_STATUS_BONUS
+TEVENTS=T_PROPRIEDADES
+TAG.SKILLINCREASE=EvaluatingIntel
+TAG.SKILLINCREASEVALUE=20
+TAG.INTINCREASE=2
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01f2
+
+[ITEMDEF i_Gargoyle_gloves]
+ID=i_leather_gloves
+DEFNAME=i_Gargoyle_gloves
+NAME=Gargoyle Gloves
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Gargoyle
+SKILLMAKE=Skill_Tailoring 65.0,t_sewing_kit
+VALUE=500
+TEVENTS=T_STATUS_BONUS
+TEVENTS=T_PROPRIEDADES
+TAG.SKILLINCREASE=EvaluatingIntel
+TAG.SKILLINCREASEVALUE=20
+TAG.INTINCREASE=2
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01f2
+
+[ITEMDEF i_Gargoyle_gorget]
+ID=i_leather_gorget
+DEFNAME=i_Gargoyle_gorget
+NAME=Gargoyle Gorget
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Gargoyle
+SKILLMAKE=Skill_Tailoring 65.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01f2
+
+[ITEMDEF i_Gargoyle_leggings]
+ID=i_leather_leggings
+DEFNAME=i_Gargoyle_leggings
+NAME=Gargoyle Leggings
+ARMOR=80
+WEIGHT=2
+RESOURCES=10 i_hide_Gargoyle
+SKILLMAKE=Skill_Tailoring 65.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01f2
+
+[ITEMDEF i_Gargoyle_tunic]
+ID=i_leather_tunic
+DEFNAME=i_Gargoyle_tunic
+NAME=Gargoyle Tunic
+ARMOR=80
+WEIGHT=2
+RESOURCES=14 i_hide_Gargoyle
+SKILLMAKE=Skill_Tailoring 65.0,t_sewing_kit
+VALUE=500
+
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01f2
+
+[ITEMDEF i_Gargoyle_cap]
+ID=i_leather_cap
+DEFNAME=i_Gargoyle_cap
+NAME=Gargoyle Cap
+ARMOR=80
+WEIGHT=2
+RESOURCES=8 i_hide_Gargoyle
+SKILLMAKE=Skill_Tailoring 65.0,t_sewing_kit
+VALUE=500
+
+
+ON=@Create
+HITPOINTS={80 110}
+COLOR=01f2
+
+[EOF]

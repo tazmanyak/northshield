@@ -1,0 +1,45 @@
+[defname def_black_bloodrock_items]
+// total page
+blacksmith_bloodrock_pagesum	4
+// platemail
+blacksmith_bloodrock_0_1		i_platemail_leggings_bloodrock
+blacksmith_bloodrock_1_1		i_platemail_chest_bloodrock
+blacksmith_bloodrock_2_1		i_platemail_arms_bloodrock
+blacksmith_bloodrock_3_1		i_helm_plate_bloodrock
+blacksmith_bloodrock_4_1		i_platemail_gorget_bloodrock
+blacksmith_bloodrock_5_1		i_platemail_gloves_bloodrock
+blacksmith_bloodrock_6_1		i_shield_heater_bloodrock
+blacksmith_bloodrock_7_1		i_ringmail_gloves_bloodrock
+blacksmith_bloodrock_8_1		i_ringmail_leggings_bloodrock
+blacksmith_bloodrock_9_1		i_ringmail_sleeves_bloodrock
+blacksmith_bloodrock_10_1		i_ringmail_tunic_bloodrock
+
+blacksmith_bloodrock_11_1		i_chainmail_coif_bloodrock
+blacksmith_bloodrock_12_1		i_chainmail_leggings_bloodrock
+blacksmith_bloodrock_13_1		i_chainmail_tunic_bloodrock
+// swords
+blacksmith_bloodrock_0_2		i_katana_bloodrock
+blacksmith_bloodrock_1_2		i_scimitar_bloodrock
+blacksmith_bloodrock_2_2		i_cutlass_bloodrock
+blacksmith_bloodrock_3_2		i_bardiche_bloodrock
+blacksmith_bloodrock_4_2		i_halberd_bloodrock
+blacksmith_bloodrock_5_2		i_sword_long_bloodrock
+blacksmith_bloodrock_6_2		i_sword_viking_bloodrock
+blacksmith_bloodrock_7_2		i_sword_broad_bloodrock
+
+// fence
+blacksmith_bloodrock_0_3		i_dagger_bloodrock
+blacksmith_bloodrock_1_3		i_kryss_bloodrock
+blacksmith_bloodrock_2_3		i_pitchfork_bloodrock
+blacksmith_bloodrock_3_3		i_spear_bloodrock
+blacksmith_bloodrock_4_3		i_spear_short_bloodrock
+blacksmith_bloodrock_5_3		i_war_fork_bloodrock
+// mace
+blacksmith_bloodrock_0_4		i_axe_war_bloodrock
+blacksmith_bloodrock_1_4		i_hammer_pick_bloodrock
+//blacksmith_bloodrock_2_4		i_hammer_war_bloodrock
+blacksmith_bloodrock_2_4		i_maul_bloodrock
+blacksmith_bloodrock_3_4		i_mace_bloodrock
+blacksmith_bloodrock_4_4		i_mace_war_bloodrock
+
+[EOF]

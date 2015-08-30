@@ -1,0 +1,2940 @@
+﻿VERSION=0.56b
+[Plevel 1]
+df
+
+[function df]
+forinstances i_Darknight_Spawner
+	if (<timer>==-1)
+		src.sys_normal Dark Father questi aktif.
+		return 1
+	else
+		src.sys_normal Dark Father questinin aktif olmasına <ftime <timer>> kalmıştır.
+		return 1
+	endif
+endfor	
+src.sys_normal Dark Creeper spawnı aktif
+
+[function dark_check]
+forchars 50
+	if strmatch(*Dark*,<name>)
+		serv.log <name>
+		return 1
+	else
+		return 0
+	endif
+endfor
+[EVENTS e_npc_necromancer_paladin]
+ON=@NpcActFight
+IF (<NECROMANCY>)
+	IF (<CANSEELOS>) && (<TAG0.LASTCASTING> <= <SERV.TIME>) //&& (<FLOATVAL 0.25> > <RANDOMDOUBLE>)
+	//SERV.LOG Necromancy, going to cast a spell, selecting:
+		//WHILE (!(<LOCAL.SPELL>))
+		DORAND 7
+			LOCAL.SPELL=s_Evil_Omen
+			LOCAL.SPELL=s_blood_oath
+			LOCAL.SPELL=s_mind_rot
+			LOCAL.SPELL=s_Vengeful_Spirit
+			LOCAL.SPELL=s_Pain_Spike
+			LOCAL.SPELL=s_Poison_Strike
+			LOCAL.SPELL=s_Wither
+		ENDDO
+		//ENDWHILE
+	//SERV.LOG <LOCAL.SPELL> Necro spell cast!
+	TAG.LASTCASTING=<EVAL <SERV.TIME>+50>
+		IF (<LOCAL.SPELL> != s_Wither)
+		SRC.SPELLEFFECT <LOCAL.SPELL>,<NECROMANCY>,<UID>
+		ELSE
+		SPELLEFFECT S_Wither,<NECROMANCY>,<UID>
+		ENDIF
+	ENDIF
+ENDIF
+IF (<CHIVALRY>)
+	IF (<TAG0.LASTCASTING> <= <SERV.TIME>) && (<FLOATVAL 0.25> > <RANDOMDOUBLE>)
+		DORAND 5
+		LOCAL.SPELL=s_Cleanse_By_Fire
+		LOCAL.SPELL=s_Close_Wounds
+		LOCAL.SPELL=s_Divine_Fury
+		LOCAL.SPELL=s_Holy_Light
+		LOCAL.SPELL=s_Dispel_Evil
+		ENDDO
+	TAG.LASTCASTING=<EVAL <SERV.TIME>+65>
+	SPELLEFFECT <LOCAL.SPELL>,<CHIVALRY>,<UID>
+	ENDIF
+ENDIF
+
+
+// ****************************************************************************
+// SPHERE by : Menasoft 1997-2005
+// www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+// ****************************************************************************
+// FILE LAST UPDATED: Monday, Sept 26, 2005
+// by ClouD_BR
+
+
+[CHARDEF 0138]
+//"The Abyssmal Horror is the fifth and final champion you have to face
+// in the Doom Gauntlet, before the Dark Father is summoned."
+//FIXME: Cannot be first target of a provoke attempt.
+//FIXME: Cannot be area peaced.
+DEFNAME=c_abyssmal_horror
+NAME=abyssmal horror
+ICON=i_pet_abyssmal_horror
+SOUND=snd_monster_slime1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=39,49
+RANGE=2
+ARMOR=30
+DESIRES=r_dungeon_doom,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=t_meat_raw
+MAXFOOD=45
+RESOURCES=4 i_reag_eye_of_newt
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=160.0
+TAG.PoisonDamagePercent=50
+TAG.SlayerGroup=DEMON
+TEVENTS=e_carnivores3,e_dragon
+CATEGORY=Monsters
+SUBSECTION=Champions
+DESCRIPTION=Abyssmal Horror
+RESLEVEL=3
+RESDISPDNID=c_sea_serpent
+RESDISPDNHUE=55
+ON=@Create
+   NPC=brain_monster
+   FAME={4000 4499}
+   KARMA={-4000 -4499}
+   STR={401 421}
+   MAXHITS={5995 6005}
+   DEX={81 90}
+   MAXSTAM={122 145}
+   INT={401 421}
+   MAXMANA={401 421}
+   ANATOMY={85.0 95.0}
+   EVALUATINGINTEL={195.0 205.0}
+   MAGERY={110.0 120.0}
+   MAGICRESISTANCE={115.0 120.0}
+   MEDITATION={195.0 205.0}
+   //POISONING={81.0 96.0}
+   TACTICS={95.0 105.0}
+   WRESTLING={84.0 88.0}
+   oAR={0 5}
+   RESCOLD={50 55}
+   RESENERGY={75 80}
+   RESFIRE=100
+   RESPOISON={60 65}
+ON=@NpcRestock
+   ITEM=loot_abyssmal_horror
+on=@gethit
+if rand(5)==1
+	binekstabil
+endif
+ON=@Hit
+   //Mortal Strike Attack
+   IF (<MANA> >= 30) && !(<SRC.FINDID.i_blockheal_timer>)
+      MANA -= 30
+      SRC.SOUND snd_spell_paralyze
+      SERV.NEWITEM=i_blockheal_timer
+      SRC.EQUIP <NEW>
+   ENDIF
+   //Whirlwind Attack
+   IF (<MANA> >= 15)
+      MANA -= 15
+      REF11=<UID>
+      FORCHARS 2
+         FORCHARMEMORYTYPE MEMORY_FIGHT
+            IF (<LINK>==<REF11>) && !(<SRC>==<CONT.UID>) && (<CONT.ISPLAYER>)
+               CONT.DAMAGE <ARGN1>/2 <ARGN2> <REF11>
+            ENDIF
+         ENDFOR
+      ENDFOR
+   ENDIF
+
+[COMMENT DOOM_STEALING]
+Add these lines to your stealing skill:
+
+
+[PLEVEL 4]
+GENERATEDOOM
+
+[FUNCTION GENERATEDOOM]
+IF !(<VAR0.GENERATEDDOOM>)
+SERV.NEWITEM 067d
+NEW.P=355,15,-1,3
+NEW.TYPE=T_DOOR_LOCKED
+NEW.TIMER
+NEW.ATTR=ATTR_MOVE_NEVER
+VAR.DARK_GUARDIAN_DOOR1=<NEW>
+NEW.ADD_TIMER_ACT 1,UID.<NEW>.TIMER -1
+SERV.NEWITEM 067f
+NEW.P=355,14,-1,3
+NEW.TYPE=T_DOOR_LOCKED
+NEW.TIMER
+NEW.ATTR=ATTR_MOVE_NEVER
+VAR.DARK_GUARDIAN_DOOR2=<NEW>
+NEW.ADD_TIMER_ACT 1,UID.<NEW>.TIMER -1
+SERV.NEWITEM 0fea
+NEW.COLOR=03bc
+NEW.P=365,15,-1,3
+NEW.ATTR=ATTR_MOVE_NEVER
+SERV.NEWITEM i_chest_metal
+NEW.P=364,10,-2,3
+NEW.COLOR=04ec
+NEW.ATTR=ATTR_MOVE_NEVER
+SERV.NEWITEM i_ankh
+NEW.ATTR=ATTR_MOVE_NEVER
+NEW.P=491,52,-1,3
+SERV.NEWITEM 03
+NEW.ATTR=ATTR_MOVE_NEVER
+NEW.P=491,51,-1,3
+SERV.NEWNPC C_SYLVANA_SORCERESS
+NEW.P=422,198,-1,3
+SERV.NEWITEM=i_bell_doom
+NEW.ATTR=ATTR_MOVE_NEVER
+NEW.P=417,246,22,3
+SERV.NEWITEM i_floor_slate_grey
+NEW.COLOR=0ad
+NEW.ATTR=ATTR_MOVE_NEVER
+NEW.P=324,64,-1,3
+LOCAL.1=<R1,5>
+LOCAL.2=<R1,5>
+WHILE (<LOCAL.2>==<LOCAL.1>)
+LOCAL.2=<R1,5>
+ENDWHILE
+LOCAL.3=<R1,5>
+WHILE ((<LOCAL.3>==<LOCAL.1>) || (<LOCAL.3>==<LOCAL.2>))
+LOCAL.3=<R1,5>
+ENDWHILE
+LOCAL.4=<R1,5>
+WHILE ((<LOCAL.4>==<LOCAL.1>) || (<LOCAL.4>==<LOCAL.2>) || (<LOCAL.4>==<LOCAL.3>))
+LOCAL.4=<R1,5>
+ENDWHILE
+NEW.TAG.CORRETO <EVAL <LOCAL.1>>.<EVAL <LOCAL.2>>.<EVAL <LOCAL.3>>.<EVAL <LOCAL.4>>
+LOCAL.CHAO=<NEW>
+FOR 4
+SERV.NEWITEM i_lever
+NEW.ATTR=ATTR_MOVE_NEVER
+NEW.COLOR=36
+NEW.TYPE=T_LAMP_LEVER
+NEW.LINK=<LOCAL.CHAO>
+DOSWITCH <EVAL <LOCAL._FOR>-1>
+BEGIN
+NEW.P=323,71,2,3
+NEW.MOREP=323,72,-1,3
+END
+BEGIN
+NEW.P=316,64,2,3
+NEW.MOREP=323,65,-1,3
+END
+BEGIN
+NEW.P=323,58,2,3
+NEW.MOREP=324,58,-1,3
+END
+BEGIN
+NEW.P=332,63,2,3
+NEW.MOREP=332,64,-1,3
+END
+ENDDO
+TRY UID.<LOCAL.CHAO>.TAG.DOOM.LEVER<EVAL <LOCAL._FOR>>=<NEW>
+ENDFOR
+	SERV.NEWITEM i_box_brass
+	NEW.TYPE=T_CAIXA_DOOMLAMP
+	NEW.P=469,96,5,3
+if (rand(3) == 1)
+	SERV.NEWITEM 053b
+	NEW.TYPE=T_CHAO_SAIRLAMPROOM
+	NEW.COLOR=025
+endif
+if (rand(3) == 1)
+	NEW.P=469,92,-1,3
+	SERV.NEWITEM i_doom_fancy_wind_chimes
+	NEW.P=461,99,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_inquisitor_resolution
+	NEW.P=471,99,-1,3
+	NEW.ATTR=030
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_lamppost
+	NEW.P=472,96,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_skull_candle
+	NEW.P=287,61,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_Tower_Lantern
+	NEW.P=349,32,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_lamppost
+	NEW.P=439,10,0,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_blade_righteous
+	NEW.P=494,59,-3,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_painting_ruined
+	NEW.P=290,104,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_stretched_hide
+	NEW.P=267,171,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_guillotine
+	NEW.P=314,144,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_gruesomestandard
+	NEW.P=359,187,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_skull_candle
+	NEW.P=426,172,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_cards_tarot
+	NEW.P=394,156,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_goat_skinned
+	NEW.P=493,173,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_brazier
+	NEW.P=295,247,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_giftbox
+	NEW.P=362,220,0,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_painting_ruined
+	NEW.P=328,216,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_goat_skinned
+	NEW.P=348,233,0,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_stretched_hide
+	NEW.P=370,234,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_lamppost
+	NEW.P=432,196,-1,3
+	NEW.ATTR=010
+endif
+if (rand(3) == 1)
+	SERV.NEWITEM i_doom_titan_hammer
+	NEW.P=494,212,-1,3
+	NEW.ATTR=010
+endif
+	SERV.NEWNPC c_Darknight_Creeper
+	NEW.P=327,433,-1,3
+	NEW.HOME=327,433,-1,3
+	NEW.HOMEDIST=10
+
+	SERV.NEWITEM i_multi_blood_pent
+	NEW.P=429,436,-1,3
+	NEW.MULTICREATE
+
+SYSMESSAGE @55 Doom generated.
+SERV.LOG Doom generated
+VAR.GENERATEDDOOM=1
+ENDIF
+
+[CHARDEF c_sylvana_sorceress]
+ID=c_woman
+NAME=Victoria, the sorceress
+DEFNAME=c_sylvana_sorceress
+CAN=MT_NONMOVER
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Sylvana
+DESIRES=i_reag_daemon_bone
+TEVENTS=e_dragon
+
+on=@create
+FLAGS |= statf_invul
+title=the sorceress
+str=100
+dex=100
+int=100
+color=00
+ITEMNEWBIE=i_robe
+COLOR=01
+ITEMNEWBIE=i_hair_long
+
+on=@gethit
+return 1
+
+on=@spelleffect
+return 1
+
+ON=@ReceiveItem
+IF (<LEVEL>)
+SAY @55 Beklemen gerekiyor, şuanda yaratıkla başkası savaşıyor.
+ELIF (<TAG0.<SRC>> >= 0)
+TRY TAG.<SRC>=<EVAL <TAG0.<SRC>>+<ARGO.AMOUNT>>
+TRY UID.<ARGO.UID>.REMOVE
+ENDIF
+IF (<TAG0.<SRC>> >= 5000)
+ANIM 16
+SAY @33 Ah Kum Nah Tur
+ADD_TIMER_ACT 3,SAY @33 Yaratik dungeon icerisinde stone circle icinde spawn oldu.
+SERV.NEWNPC C_BONE_DEMON
+NEW.P=442,204,-3,3
+NEW.HOME=442,204,-3,3
+NEW.HOMEDIST=4
+NEW.EXP=<UID>
+NEW.EVENTS +e_questsylvana_daemon
+LEVEL=<SRC>
+NEW.REMOVETIMER=<EVAL 60*60>
+SRC.SYSMESSAGE @55 Yaratigi oldurmen icin 60 dakikan var
+duyurx Bone Demon Doom'da aktif etti. Cyloth'a bir adim daha yaklasildi...
+TRY TAG.<SRC>
+ENDIF
+RETURN 1
+
+ON=@NpcLooKAtChar
+IF (<SRC.ISPLAYER>)
+IF !(<SRC.FINDID.i_golden_skull>)
+SDIALOG D_DOOM_SYLVANA
+ENDIF
+ENDIF
+
+[EVENTS e_questsylvana_daemon]
+ON=@Death
+SERV.NEWITEM i_golden_skull
+NEW.ATTR=ATTR_NEWBIE
+TRY UID.<UID.<EXP>.LEVEL>.BOUNCE <NEW>
+TRY UID.<UID.<EXP>.LEVEL>.SYSMESSAGE @55 Victoria: Harika! Simdi guneydeki limana git ve cani cal.
+TRY UID.<EXP>.LEVEL
+
+[DIALOG D_DOOM_SYLVANA]
+200,180
+PAGE 1
+resizepic 20 20 3500 350 170
+checkertrans 20 20 350 170
+dhtmlgump 60 40 280 120 1 1 <DEF.BFONT_DGREEN>Gorev : 5 bin adet demon bone topla ve Victori'nin uzerine birak ve o sana yolu gostersin...
+
+[DIALOG D_DOOM_SYLVANA BUTTON]
+ON=0
+SRC.EVENTS +e_emdoom
+
+[EVENTS e_emdoom]
+ON=@Kill
+IF (<ARGO.NPC>)
+IF (STRMATCH(*Doom*,<ARGO.REGION.NAME>))
+SERV.NEWITEM i_reag_daemon_bone,15
+TRY UID.<ARGO.UID>.BOUNCE <NEW>
+ENDIF
+IF !(STRCMPI(Doom Gauntlet,<ARGO.REGION.NAME>))
+IF (<R50,450> == 1 ) //|| (<ISGM>)
+
+SERV.NEWITEM <HVAL <DEF.DOOMGAUNTLET_ARTIFACTS>>
+serv.log <new.name> | <new.cont.name> artifact dusurdu.
+TRY UID.<ARGO.UID>.BOUNCE <NEW>
+ENDIF
+ENDIF
+ENDIF
+
+on=@login
+if strmatch(*Doom Gauntlet*,<src.region.name>)
+src.timerf clear
+endif
+
+on=@logout
+if strmatch(*Doom Gauntlet*,<src.region.name>)
+src.timerf 1200, src.go Doom
+endif
+
+[ITEMDEF i_golden_skull]
+ID=i_bone_skull
+NAME=golden skull
+TYPE=T_NORMAL
+TAG.NOVENDOR=1
+
+ON=@Create
+COLOR=084d
+
+[ITEMDEF i_bell_doom]
+ID=i_beehive
+TYPE=T_NORMAL
+NAME=Dead Bell
+TAG.NOVENDOR=1
+
+ON=@Dclick
+IF !(<SRC.FINDID.i_golden_skull>)
+SRC.SYSMESSAGE @55 Chyloth: defol buradan !, Karsi tarafa gececek kadar guclu gozukmuyorsun. Ne ezik bir seysin sen oyle.
+//SERV.NEWNPC c_skeletal_dragon
+//NEW.P=420,252,0,3
+//NEW.HOME=420,252,0,3
+//NEW.HOMEDIST=10
+//NEW.REMOVETIMER=<EVAL 60*5>
+//NEW.UPDATE
+ELSE
+SERV.NEWNPC=C_CHYLOTH
+NEW.P=417,247,4,3
+NEW.FLAGS |= statf_invul|statf_dead
+NEW.SDIALOG D_CHYLOTH_BELL
+NEW.UPDATE
+NEW.SAY @55 Ancak oluler oteki tarafa gecebilir ! <SRC.NAME>!
+NEW.REMOVETIMER=20
+ENDIF
+RETURN 1
+
+[CHARDEF C_CHYLOTH]
+ID=C_MAN
+CAN=MT_NONMOVER|MT_EQUIP|MT_USEHANDS
+NAME=Chyloth
+CATEGORY=Doom
+SUBSECTION=Chyloth
+DESCRIPTION=Chyloth
+
+ON=@Create
+STR=1
+INT=1
+STR=1
+COLOR=01
+ITEMNEWBIE=i_deathshroud
+COLOR=36
+
+[DIALOG D_CHYLOTH_BELL]
+200,180
+PAGE 1
+resizepic 10 20 3500 290 140
+checkertrans 10 20 290 140
+dtext 30 40 0ad Karsi tarafa mi gitmek istiyorsun
+dtext 30 60 0ad Peki yanindakiler partide mi?
+button 30 120 249 248 1 0 1
+button 210 120 243 241 1 0 0
+
+[DIALOG D_CHYLOTH_BELL BUTTON]
+ON=0
+REMOVE
+
+ON=1
+IF (<DISTANCE> <= 9)
+	IF (<SRC.FINDID.i_golden_skull>)
+		IF !<SRC.ISINPARTY>
+			src.sys_error Partide değilsiniz.
+			return 1
+		endif
+		IF !(<EVAL <SRC.PARTY.MEMBERS>> > 3)
+			src.sys_error Doom Dungeon, Dark Father questine 4 kişiden daha az sayıda giremezsiniz.
+			return 1
+		endif
+		IF (<SRC.ISINPARTY>)
+			FOR 0 <EVAL <SRC.PARTY.MEMBERS>-1>
+				IF (<SRC.PARTY.MEMBER.<LOCAL._FOR>.DISTANCE <SRC>> <= 9)
+					OBJ=<SRC.PARTY.MEMBER.<LOCAL._FOR>.UID>
+					IF (<OBJ>!=<SRC>)
+						OBJ.GO 424,329,0,3
+					ENDIF
+				ENDIF
+			ENDFOR
+		ENDIF
+	SRC.GO 424,329,0,3
+	SRC.CONSUME i_golden_skull
+	ENDIF
+ENDIF
+REMOVE
+
+/////////////////////////////
+//////Chefes////////
+[ITEMDEF i_DOOMCHAMPCONTROL]
+ID=i_worldgem_bit
+NAME=Doom champion control
+TYPE=T_NORMAL
+
+ON=@Create
+ATTR=ATTR_INVIS|ATTR_MOVE_NEVER
+
+ON=@Timer
+TRY UID.<TAG0.CHEFE>.REMOVE
+SERV.NEWITEM i_Darknight_Spawner
+NEW.P=330,433,-1,3
+NEW.TIMER=1
+VAR.DOOMCHAMPCONTROL
+REMOVE
+RETURN 1
+
+[CHARDEF 313]
+DEFNAME=c_Darknight_Creeper
+NAME=Darknight Creeper
+ARMOR=100
+DAM=59,59
+TAG.UNDEADSLAYERDAM=1
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Darknight Creeper
+TEVENTS=e_dragon
+
+ON=@Create
+NPC=BRAIN_MONSTER
+STR=3000
+DEX=1000
+INT=330
+MAXHITS=8000
+WRESTLING=900
+MAGICRESISTANCE=900
+TACTICS=1000
+MAGERY=120.0
+POISONING=120.0
+EVALUATINGINTEL=120.0
+MEDITATION=150.0
+FAME=6000
+KARMA={-5000 -6999}
+
+ON=@NPCRestock
+ITEM=i_gold,{1600 3000}
+on=@gethit
+if rand(5)==1
+	binekstabil
+endif
+
+ON=@Death
+SERV.NEWNPC c_flesh_renderer
+NEW.P=335,508,-1,3
+NEW.HOME=335,508,-1,3
+NEW.HOMEDIST=10
+LOCAL.CHEFE=<NEW>
+IF (<VAR0.DOOMCHAMPCONTROL>)
+TRY UID.<VAR0.DOOMCHAMPCONTROL>.REMOVE
+ENDIF
+SERV.NEWITEM=i_DOOMCHAMPCONTROL
+NEW.P=424,436,-1,3
+NEW.TIMER=<EVAL 60*60*2>
+NEW.TAG.CHEFE=<LOCAL.CHEFE>
+VAR.DOOMCHAMPCONTROL=<NEW>
+REGION.ALLCLIENTS SYSMESSAGE @55,3,1 Yeni boss bir baska odada spawn oldu.
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+
+[CHARDEF 315]
+DEFNAME=c_flesh_renderer
+NAME=Flesh Renderer
+ARMOR=120
+DAM=48,61
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Flesh Renderer
+MOVERATE=10
+TEVENTS=e_dragon
+
+ON=@Create
+NPC=BRAIN_MONSTER
+STR=1400
+DEX=1100
+INT=250
+MAXHITS=9500
+WRESTLING=1000
+TACTICS=900
+MAGICRESISTANCE=1500
+FAME=6000
+KARMA={-5000 -6999}
+
+on=@gethit
+if rand(5)==1
+	binekstabil
+endif
+ON=@Hit
+IF (<SRC.FLAGS>&statf_onhorse)
+SRC.DCLICK <SRC>
+ENDIF
+
+ON=@NPCRestock
+ITEM=i_gold,{1600 3000}
+
+ON=@Death
+REGION.ALLCLIENTS SYSMESSAGE @55,3,1 Yeni boss bir baska odada spawn oldu.
+SERV.NEWNPC c_impaler
+NEW.P=407,529,-1,3
+NEW.HOME=407,529,-1,3
+NEW.HOMEDIST=10
+LOCAL.CHEFE=<NEW>
+IF (<VAR0.DOOMCHAMPCONTROL>)
+TRY UID.<VAR0.DOOMCHAMPCONTROL>.REMOVE
+ENDIF
+SERV.NEWITEM=i_DOOMCHAMPCONTROL
+NEW.P=424,436,-1,3
+NEW.TIMER=<EVAL 60*60*2>
+NEW.TAG.CHEFE=<LOCAL.CHEFE>
+VAR.DOOMCHAMPCONTROL=<NEW>
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+
+[CHARDEF 306]
+DEFNAME=c_impaler
+NAME=Impaler
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+ARMOR=130
+DAM=52,79
+TAG.DAEMONSLAYERDAM=1
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Impaler
+TEVENTS=e_dragon
+
+ON=@Create
+NPC=BRAIN_MONSTER
+STR=1500
+DEX=150
+INT=200
+MAXHITS=10000
+WRESTLING=1000
+TACTICS=1000
+FAME=6000
+KARMA={-5000 -6999}
+
+ON=@NPCRestock
+ITEM=i_gold,{1600 3000}
+
+on=@gethit
+if rand(5)==1
+	binekstabil
+endif
+
+ON=@Death
+SERV.NEWNPC c_shadow_knight
+NEW.P=475,518,-1,3
+NEW.HOME=475,518,-1,3
+NEW.HOMEDIST=10
+REGION.ALLCLIENTS SYSMESSAGE @55,3,1 Yeni boss bir baska odada spawn oldu.
+LOCAL.CHEFE=<NEW>
+IF (<VAR0.DOOMCHAMPCONTROL>)
+TRY UID.<VAR0.DOOMCHAMPCONTROL>.REMOVE
+ENDIF
+SERV.NEWITEM=i_DOOMCHAMPCONTROL
+NEW.P=424,436,-1,3
+NEW.TIMER=<EVAL 60*60*2>
+NEW.TAG.CHEFE=<LOCAL.CHEFE>
+VAR.DOOMCHAMPCONTROL=<NEW>
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+
+[CHARDEF 311]
+DEFNAME=c_shadow_knight
+NAME=Shadow Knight
+ARMOR=140
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_EQUIP
+DAM=35,60
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Shadow Knight
+MOVERATE=20
+TEVENTS=e_dragon
+
+ON=@Create
+NPC=BRAIN_MONSTER
+STR=1200
+DEX=1700
+INT=300
+MAXHITS=9500
+WRESTLING=1200
+TACTICS=1200
+SWORDSMANSHIP=1000
+HIDING=1250
+STEALTH=1250
+FAME=6000
+KARMA={-5000 -6999}
+
+ON=@NPCRestock
+ITEM=i_gold,{1600 3000}
+
+on=@gethit
+if rand(5)==1
+	binekstabil
+endif
+ON=@Death
+SERV.NEWNPC c_true_abyssmal_horror
+NEW.P=493,438,-1,3
+NEW.HOME=493,438,-1,3
+NEW.HOMEDIST=10
+REGION.ALLCLIENTS SYSMESSAGE @55,3,1 Yeni boss bir baska odada spawn oldu.
+LOCAL.CHEFE=<NEW>
+IF (<VAR0.DOOMCHAMPCONTROL>)
+TRY UID.<VAR0.DOOMCHAMPCONTROL>.REMOVE
+ENDIF
+SERV.NEWITEM=i_DOOMCHAMPCONTROL
+NEW.P=424,436,-1,3
+NEW.TIMER=<EVAL 60*60*2>
+NEW.TAG.CHEFE=<LOCAL.CHEFE>
+VAR.DOOMCHAMPCONTROL=<NEW>
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+
+[CHARDEF c_true_abyssmal_horror]
+ID=c_abyssmal_horror
+DEFNAME=c_true_abyssmal_horror
+NAME=the Abyssmal Horror
+ARMOR=140
+CAN=MT_WALK|MT_USEHANDS
+DAM=39,49
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Abyssmal Horror
+MOVERATE=55
+TEVENTS=e_dragon
+
+ON=@Create
+NPC=BRAIN_MONSTER
+STR=1400
+DEX=170
+INT=500
+MAXHITS=9000
+WRESTLING=800
+TACTICS=1000
+MAGICRESISTANCE=1200
+MAGERY=1200
+EVALUATINGINTEL=2000
+MEDITATION=2000
+FAME=6000
+KARMA={-5000 -6999}
+ITEMNEWBIE=i_spellbook
+ADDCIRCLE 8,1
+
+ON=@NPCRestock
+ITEM=i_gold,{1600 2000}
+
+on=@gethit
+if rand(5)==1
+	binekstabil
+endif
+
+ON=@Death
+serv.duyur Dark Father Spawni aktif oldu. 
+REGION.ALLCLIENTS SYSMESSAGE @55,3,1 DARK FATHER spawn oldu.
+SERV.NEWNPC C_DARK_FATHER
+NEW.P=429,436,-1,3
+NEW.HOME=429,436,-1,3
+NEW.HOMEDIST=20
+LOCAL.CHEFE=<NEW>
+IF (<VAR0.DOOMCHAMPCONTROL>)
+TRY UID.<VAR0.DOOMCHAMPCONTROL>.REMOVE
+ENDIF
+SERV.NEWITEM=i_DOOMCHAMPCONTROL
+NEW.P=424,436,-1,3
+NEW.TIMER=<EVAL 60*60*2>
+NEW.TAG.CHEFE=<LOCAL.CHEFE>
+VAR.DOOMCHAMPCONTROL=<NEW>
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+
+[NAMES NAMES_DARK_FATHER]
+19
+Ankou
+Arhaios Ophis
+Armarus
+Arsat
+Azazel
+Ga'ahp
+Grigorus
+Hrallath
+Heksen
+Karnax
+Keelus
+Kra'an
+Peinsluth
+Peirazo
+Ponerus
+Taet Nu'uhn
+Therion
+Turi'el
+Vairocan
+
+[chardef 318]
+DEFNAME=C_dark_father
+NAME=#NAMES_DARK_FATHER the Dark Father
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+DAM=86,67
+ARMOR=220
+CATEGORY=Addon
+SUBSECTION=Doom
+DESCRIPTION=Dark Father
+BLOODCOLOR=0ad
+TAG.DAEMONSLAYERDAM=1
+MOVERATE=5
+TEVENTS=e_dragon
+
+ON=@Create
+NPC=brain_monster
+FAME={6000 9000}
+KARMA={-5000 -5999}
+STR=25000
+MAXHITS=25000
+DEX=500
+INT=1000
+//NECROMANCY=120.0
+TACTICS=100.0
+WRESTLING=120.0
+MAGERY=100.0
+EVALUATINGINTEL=100.0
+MEDITATION=120.0
+MagicResistance=150.0
+ITEMNEWBIE=i_spellbook
+ADDCIRCLE 8,1
+
+ON=@SpellCast
+IF (<ACT.DISTANCE> < 2)
+LOCAL.MAGE=<MAGERY>
+MAGERY=0
+ATTACK <ACT>
+MAGERY=<LOCAL.MAGE>
+ENDIF
+
+on=@attack
+
+if (rand(60) == 1)
+	src.effect 3,i_fx_explode,3,25,1
+	src.sound snd_spell_explosion
+        src.damage {60 110}
+
+elseif (rand(60) == 2)
+SRC.GO <P>
+ATTACK <SRC>
+
+elseif (rand(40) == 3)
+src.bomba1
+src.damage {60 110}
+
+elseif (rand(50) == 4)
+go <src.p>
+attack <src>
+
+endif
+
+ON=@Gethit
+if (<hits> < 250) 
+//sayua 150,2,0,eng,* Kendini Tedavi Eder *
+effect=3,i_fx_heal_effect,6,35,1 
+sound snd_spell_greater_heal 
+hits=(<hits> + 10) 
+endif 
+
+GOTO <SRC.P>
+if rand(5)==1
+	binekstabil
+endif
+if rand(20)==1
+	go <src.p>
+endif
+
+if (<hits> < 5000) 
+IF rand(5)==1
+SERV.NEWITEM i_unholy_bone
+NEW.P=<P>
+NEW.TIMER=80
+ENDIF
+endif
+ON=@NpcRestock
+ITEM=i_gold,{5000 7000}
+
+ON=@Death
+ref1 = <attacker.max>
+serv.duyur Dark Father feci bir sekilde olduruldu..(Max Damage Veren : <ref1.name> )
+serv.b Dark Father katledildi...
+SERV.NEWITEM i_Darknight_Spawner
+NEW.P=330,433,-1,3
+NEW.TIMER=<EVAL 60*60*24*2>
+IF (<VAR0.DOOMCHAMPCONTROL>)
+TRY UID.<VAR0.DOOMCHAMPCONTROL>.REMOVE
+VAR.DOOMCHAMPCONTROL
+ENDIF
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+RANDMAGICITEM
+//RANDMAGICITEM
+//RANDMAGICITEM
+
+ON=@DeathCorpse
+SERV.NEWITEM <HVAL <DEF.DOOMGAUNTLET_ARTIFACTS>>
+NEW.CONT=<ARGO.UID>
+//SERV.NEWITEM <HVAL <DEF.DOOMGAUNTLET_ARTIFACTS>>
+//NEW.CONT=<ARGO.UID>
+//SERV.NEWITEM <HVAL <DEF.DOOMGAUNTLET_ARTIFACTS>>
+//NEW.CONT=<ARGO.UID>
+
+
+ON=@NPCActFollow
+IF rand(20)==1
+SERV.NEWITEM i_unholy_bone
+NEW.P=<P>
+NEW.TIMER=80
+ENDIF
+
+
+
+[function f_duzelt_doom]
+forchars 500
+	if !<isplayer> || !(<baseid> == c_dark_father)
+		remove
+	endif
+endfor
+
+forinstances i_unholy_bone
+	remove
+endfor
+[ITEMDEF i_unholy_bone]
+ID=i_reag_daemon_bone
+NAME=Unholy Bone
+TYPE=T_NORMAL
+
+ON=@Create
+ATTR=ATTR_MOVE_NEVER
+COLOR=038b
+
+ON=@Timer
+SERV.NEWNPC {c_lady_jennifyr 1 c_skeleton 1 c_skeleton_w_sword 1 c_skeleton_w_axe 1 c_patchwork_skeleton 1 c_liche 1 c_m_skeletonarcher 1 c_liche_lord 1 c_rotting_corpse 1 c_mummy 1 c_spectre 1}
+NEW.P=<P>
+NEW.UPDATE
+NEW.REMOVETIMER <EVAL 30*2>
+REMOVE
+RETURN 1
+
+ON=@Damage
+REMOVE
+
+ON=@Step
+IF (<SRC.ISPLAYER>)
+REMOVE
+ENDIF
+
+[ITEMDEF i_Darknight_Spawner]
+ID=i_worldgem_bit
+TYPE=T_NORMAL
+NAME=DarkKnight Creeper Spawner
+
+ON=@Create
+ATTR=ATTR_INVIS|ATTR_MOVE_NEVER
+
+ON=@Timer
+SERV.NEWNPC c_Darknight_Creeper
+NEW.P=330,433,-1,3
+NEW.HOME=330,433,-1,3
+NEW.HOMEDIST=10
+NEW.UPDATE
+REMOVE
+RETURN 1
+
+//////////////////////////////////////
+////////////Artefatos////////////////
+[ITEMDEF i_doom_skull_candle]
+ID=i_skull_candle
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=skull candle
+TAG.DOOMARTIFACT=2
+TYPE=T_NORMAL
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,2
+
+[ITEMDEF i_doom_stretched_hide]
+ID=i_hide_stretched
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Stretched Hide
+TAG.DOOMARTIFACT=3
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,3
+
+[ITEMDEF i_doom_lamppost]
+ID=i_lamppost1
+NAME=lamp post
+VALUE=4500
+TAG.StealingTimer=9
+CATEGORY=Artifacts
+SUBSECTION=Doom Artifacts
+DESCRIPTION=Doom Lamppost
+
+
+
+[ITEMDEF i_doom_Tower_Lantern]
+ID=024bf
+NAME=tower lantern
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Doom Tower Lantern
+TAG.DOOMARTIFACT=8
+TYPE=T_NORMAL
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,4
+
+[ITEMDEF i_doom_fancy_wind_chimes]
+ID=02833
+NAME=fancy wind chimes
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Doom fancy wind chimes
+TAG.DOOMARTIFACT=16
+TYPE=T_NORMAL
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,6
+
+[ITEMDEF i_doom_giftbox]
+ID=9002
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Doom gift box
+TAG.DOOMARTIFACT=42
+TYPE=T_NORMAL
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,9
+
+[ITEMDEF i_doom_goat_skinned]
+ID=i_goat_skinned
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=skinned goat
+TAG.DOOMARTIFACT=24
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,2
+
+[ITEMDEF i_doom_cards_tarot]
+ID=i_cards_tarot
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=tarot cards
+TAG.DOOMARTIFACT=24
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,2
+
+[ITEMDEF i_doom_guillotine]
+ID=i_guillotine
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=guilotine
+TAG.DOOMARTIFACT=53
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,6
+
+[ITEMDEF i_doom_brazier]
+ID=i_brazier
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=brazier
+TAG.DOOMARTIFACT=24
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,2
+
+[ITEMDEF i_doom_gruesomestandard]
+ID=i_gruesomestandard
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=gruesomestandard
+TAG.DOOMARTIFACT=24
+
+ON=@Create
+//COLOR={0470 0500}
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,5
+
+on=@dclick
+IF <isevent.t_locked_down>
+	src.sysmessage @1153 Sabitlikten kaldirmalisiniz.
+	return 1
+endif
+if !(<uid> == <src.uid>)
+	bounce <src>
+	return 1
+endif
+
+
+[ITEMDEF i_doom_painting_ruined]
+DEFNAME=i_doom_painting_ruined
+ID=i_portrait_big
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=ruined painting
+TAG.DOOMARTIFACT=96
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,7
+
+[ITEMDEF i_doom_blade_righteous]
+ID=i_sword_long
+NAME=Blade of the Righteous
+SKILL=Swordsmanship
+DAM=35,19
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Blade of the Righteous
+TAG.DOOMARTIFACT=24*28
+TAG.DAMINCREASE=50
+TAG.LIFELEECH=50
+WEIGHT=2.2
+SPEED=30
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_weapon_slayer_new
+TEVENTS=t_luck_item
+TAG.LUCK=50
+TAG.SLAYERGROUP=DAEMON
+
+ON=@Create
+COLOR=0481
+HITPOINTS=255
+
+ON=@Equip
+SRC.modstr += 10
+
+ON=@UneQuip
+SRC.modstr -= 10
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,10
+SRC.ADDCLILOC 1060431,10
+
+[ITEMDEF i_doom_titan_hammer]
+ID=i_hammer_war
+NAME=Titan's Hammer
+type=t_weapon_mace_sharp
+SKILL=Macefighting
+DAM=20,20
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Titan's Hammer
+TAG.DOOMARTIFACT=24*28
+WEIGHT=2.5
+SPEED=28
+TWOHANDS=Y
+REQSTR=95
+TAG.DAMINCREASE=50
+TAG.HITCHANCEINCREASE=15
+TEVENTS=T_ORB_CLILOC
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.LUCK=50
+
+ON=@Create
+TAG.ORB.EFEITO=01000
+COLOR=color_magic_invulnerability
+HITPOINTS=255
+
+ON=@Equip
+src.events +e_macebonus
+src.events +e_stam
+SRC.modstr += 15
+
+
+ON=@UneQuip
+SRC.modstr -= 15
+src.events -e_macebonus
+src.events -e_stam
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,10
+SRC.ADDCLILOC 1060485,15
+
+[ITEMDEF i_doom_zyronic_claw]
+ID=i_axe_exec
+NAME=Zyronic Claw
+SKILL=Swordsmanship
+DAM=15,17
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Zyronic Claw
+//TEVENTS=t_aos_weapon
+TAG.DOOMARTIFACT=24*28
+TAG.HITCHANCEINCREASE=30
+TAG.MANALEECH=50
+TAG.DAMINCREASE=50
+WEIGHT=2
+SPEED=33
+TWOHANDS=Y
+REQSTR=40
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_ORB_CLILOC
+TEVENTS=t_luck_item
+TAG.LUCK=60
+TAG.SLAYERGROUP=ELEMENTAL
+
+ON=@Create
+TAG.ORB.EFEITO=08|010|0200
+COLOR=color_o_bloodrock
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,10
+
+[ITEMDEF i_doom_inquisitor_resolution]
+DEFNAME=i_doom_inquisitor_resolution
+ID=i_platemail_gloves
+//type=t_armor_leather
+NAME=Inquisitor's Resolution
+ARMOR=60
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Inquisitor's Revolution
+TAG.DOOMARTIFACT=24*28
+WEIGHT=2
+REQSTR=15
+TEVENTS=t_luck_item
+TAG.LUCK=50
+
+ON=@Create
+COLOR=0122
+HITPOINTS=255
+ATTR=ATTR_MAGIC
+MOREY=800
+
+
+ON=@Equip
+SRC.modint += 10
+SRC.MAGERY += 10.0
+SRC.EVALUATINGINTEL += 10.0
+SRC.MAGICRESISTANCE += 10.0
+
+ON=@UneQuip
+SRC.modint -= 10
+SRC.MAGERY -= 10.0
+SRC.EVALUATINGINTEL -= 10.0
+SRC.MAGICRESISTANCE -= 10.0
+
+///////////////////////////
+
+[FUNCTION DOOMLOCATION]
+P=<eval {269 492}>,<eval {6 242}>,0,3
+FIX
+IF (<isneartype t_rock 1>) || (<isneartype t_tree 1>) || (<isneartype t_door 1>) || (<isneartype t_wall 2>) || (<serv.map(<p.x>,<p.y>,<map>).statics.0.id>==01d0) || (<isneartype t_window>) || (<z> >= 2) || (<P.TERRAIN>==0244)
+DOOMLOCATION
+RETURN 1
+ENDIF
+
+//////////////////////////
+
+[ITEMDEF i_doomartifact_spawn]
+ID=i_worldgem_bit
+TYPE=T_NORMAL
+NAME=Doom Artifact Spawn
+CATEGORY=Doom
+SUBSECTION=Artefatos
+DESCRIPTION=Spawner
+
+ON=@Create
+ATTR=ATTR_INVIS|ATTR_MOVE_NEVER
+
+ON=@Timer
+SERV.NEWITEM <MORE1>
+NEW.P=<P>
+NEW.ATTR |= ATTR_MOVE_NEVER
+REMOVE
+RETURN 1
+
+////////////////////////////////////
+//////////Dark Guardians///////////
+
+/////////////////////////////
+
+[CHARDEF C_DARK_GUARDIAN]
+ID=c_liche
+DEFNAME=C_DARK_GUARDIAN
+NAME=Dark Guardian
+DAM=30,40
+ARMOR=25
+CAN=MT_WALK|MT_USEHANDS
+CATEGORY=Doom
+SUBSECTION=Dark Guardians
+DESCRIPTION=Dark Guardian
+
+ON=@Create
+NPC=BRAIN_MONSTER
+STR={100 130}
+MAXHITS={150 200}
+INT={200 300}
+DEX=90
+TACTICS={500 700}
+WRESTLING={200 400}
+MAGERY={500 700}
+MAGICRESISTANCE={500 700}
+EVALUATINGINTEL={400 500}
+FAME={1000 2000} 
+KARMA={-7000 -8000}
+ITEMNEWBIE=i_spellbook
+ADDCIRCLE=7,1
+
+[ITEMDEF i_poison_fog_creator]
+ID=i_worldgem_bit
+NAME=Poison Fog Creator
+TYPE=T_NORMAL
+
+ON=@Create
+ATTR=ATTR_INVIS|ATTR_MOVE_NEVER
+
+ON=@Timer
+FOR 15
+SERV.NEWITEM i_poison_gas_darkguard
+NEW.P=<P>
+NEW.MOVE <EVAL {-9 9}> <EVAL {-9 9}>
+NEW.MORE1=<MORE1>
+NEW.ATTR=ATTR_DECAY|ATTR_MOVE_NEVER|ATTR_CAN_DECAY
+NEW.TIMER=25
+NEW.FIX
+ENDFOR
+TIMER=26
+MORE1 += 100
+RETURN 1
+
+[ITEMDEF i_poison_gas_darkguard]
+ID=i_trap_gas_3
+TYPE=T_FLOOR
+NAME=poison gas
+
+ON=@Step
+IF (<SRC.ISPLAYER>)
+SRC.SPELLEFFECT S_POISON,<MORE1>,<UID>
+ENDIF
+
+
+
+[FUNCTION DARK_GUARDIAN_ROOM_SET]
+FOR 2
+SERV.NEWNPC C_DARK_GUARDIAN
+DORAND 4
+NEW.P=365,9,-1,3
+NEW.P=369,14,-1,3
+NEW.P=366,22,-2,3
+NEW.P=358,22,-1,3
+ENDDO
+NEW.EVENTS +e_dark_guardian_room_npc
+NEW.UPDATE
+NEW.ATTACK <UID>
+VAR0.DARKGUARDIANS += 1
+ENDFOR
+TAG.EVENT.ID=200
+EVENTS +e_darkguard_player
+VAR0.DARKGUARDIANPLAYERS += 1
+
+[EVENTS e_dark_guardian_room_npc]
+ON=@Death
+VAR0.DARKGUARDIANS -= 1
+IF !(<VAR0.DARKGUARDIANS>)
+VAR.DARKGUARDIANS
+SERV.NEWITEM i_chest_metal
+NEW.P=365,15,-1,3
+NEW.ATTR=ATTR_DECAY|ATTR_MOVE_NEVER|ATTR_CAN_DECAY
+NEW.TIMER=59
+LOCAL.CHEST=<NEW>
+SERV.NEWITEM i_gold,{50000 60000},<LOCAL.CHEST>
+//FOR <R1,3>
+serv.randmagicitem
+NEW.CONT=<LOCAL.CHEST>
+//ENDFOR
+TRY UID.<VAR0.DARK_GUARDIAN_DOOR1>.TIMER
+TRY UID.<VAR0.DARK_GUARDIAN_DOOR2>.TIMER
+ACT.ADD_TIMER_ACT 1,UID.<VAR0.DARK_GUARDIAN_DOOR1>.TIMER -1
+ACT.ADD_TIMER_ACT 2,UID.<VAR0.DARK_GUARDIAN_DOOR2>.TIMER -1
+SERV.NEWITEM i_darkguardian_room_controler
+NEW.P=365,15,-1,3
+NEW.TIMER=60
+VAR.DARKGUARDIANCONTROLER=1
+SERV.NEWITEM i_darkguardian_room_controler
+NEW.P=358,15,-1,3
+NEW.TIMER=60
+VAR.DARKGUARDIANCONTROLER=2
+ENDIF
+
+[EVENTS e_darkguard_player]
+ON=@DeathCorpse
+TAG.DARKGUARDBODY=<ARGO.UID>
+
+ON=@LogOut
+HITS=1
+FORCHARS 20
+IF (<BASEID>==C_DARK_GUARDIAN)
+ATTACK <SRC>
+ENDIF
+ENDFOR
+
+ON=@Death
+SAIRDARKGUARDIAN 1
+
+[ITEMDEF i_darkguardian_room_controler]
+ID=i_worldgem_bit
+NAME=Dark Guardian Room Controler
+TYPE=T_NORMAL
+
+ON=@Create
+ATTR=ATTR_INVIS|ATTR_MOVE_NEVER
+
+ON=@Timer
+REGION.ALLCLIENTS SAIRDARKGUARDIAN 1
+REGION.ALLCHARSIDLE SAIRDARKGUARDIAN 1
+VAR0.DARKGUARDIANCONTROLER -= 1
+IF (<VAR0.DARKGUARDIANCONTROLER> < 1)
+VAR.DARKGUARDIANCONTROLER
+ENDIF
+FORCHARS 15
+IF (<FLAGS>&statf_pet)
+IF !(STRCMPI(<REGION.NAME>,<OBJ.REGION.NAME>))
+GO 354,14,-1,3
+ENDIF
+ENDIF
+ENDFOR
+REMOVE
+RETURN 1
+
+[FUNCTION SAIRDARKGUARDIAN]
+IF (<ISPLAYER>)
+IF (<TAG0.EVENT.ID>)
+VAR0.DARKGUARDIANPLAYERS -= 1
+IF !(<VAR0.DARKGUARDIANPLAYERS>)
+IF (<ARGN1>)
+TRY UID.<VAR0.DARK_GUARDIAN_DOOR1>.TIMER
+TRY UID.<VAR0.DARK_GUARDIAN_DOOR2>.TIMER
+ADD_TIMER_ACT 1,UID.<VAR0.DARK_GUARDIAN_DOOR1>.TIMER -1
+ADD_TIMER_ACT 2,UID.<VAR0.DARK_GUARDIAN_DOOR2>.TIMER -1
+VAR.DARKGUARDIANCONTROLER
+ENDIF
+VAR.DARKGUARDIANS
+FORITEMS 15
+IF (<BASEID>==i_poison_fog_creator) || (<BASEID>==i_poison_gas_darkguard)
+REMOVE
+ENDIF
+ENDFOR
+FORCHARS 20
+IF (<BASEID>==C_DARK_GUARDIAN)
+REMOVE
+ENDIF
+ENDFOR
+VAR.DARKGUARDIANPLAYERS
+ENDIF
+EVENTS -e_darkguard_player
+TAG.EVENT.ID
+IF (<ARGN1>)
+IF (<TAG0.DARKGUARDBODY>)
+TRY UID.<TAG0.DARKGUARDBODY>.REMOVEFROMVIEW
+TRY UID.<TAG0.DARKGUARDBODY>.P=495,51,-1,3
+TRY UID.<TAG0.DARKGUARDBODY>.UPDATE
+ENDIF
+GO 495,51,-1,3
+ENDIF
+TAG.DARKGUARDBODY
+EVENTS -e_darkguard_player
+ENDIF
+ENDIF
+
+
+
+///////////////////////////////////////
+/////////////Lamp Puzzle//////////////
+
+[TYPEDEF T_LAMP_LEVER]
+ON=@Dclick
+IF (<LINK.TIMER>==-1)
+	IF (<TIMER>==-1)
+		IF <src.isneartype t_telepad 1> //(<SRC.P.X>==<MOREX>) && (<SRC.P.Y>==<MOREY>)
+			LINK.TAG.ATUAL .= <EVAL <MORE1>>.
+			TIMER=5
+			DISPID=0108e
+		UPDATE
+			IF (<EVAL STRLEN(<LINK.TAG.ATUAL>)>==8)
+				IF (<LINK.TAG.ATUAL>!=<LINK.TAG.CORRETO>)
+					LINK.DOOMLAMPERRO
+				ELSE
+					LINK.DOOMLAMPCERTO
+				ENDIF
+			ENDIF
+		ELSE
+			SRC.SYSMESSAGE @55 Stay on the square.
+		ENDIF
+	ENDIF
+ENDIF
+RETURN 1
+
+ON=@Timer
+LINK.TAG.ATUAL
+LINK.DOOMLAMPRESET
+RETURN 1
+
+[FUNCTION DOOMLAMPCERTO]
+LOCAL.TMP=<OBJ>
+OBJ=<UID>
+FORCLIENTS 0
+IF (<OBJ.TIMER>==-1)
+LOCAL.1=<R1,5>
+LOCAL.2=<R1,5>
+WHILE (<LOCAL.2>==<LOCAL.1>)
+LOCAL.2=<R1,5>
+ENDWHILE
+LOCAL.3=<R1,5>
+WHILE ((<LOCAL.3>==<LOCAL.1>) || (<LOCAL.3>==<LOCAL.2>))
+LOCAL.3=<R1,5>
+ENDWHILE
+LOCAL.4=<R1,5>
+WHILE ((<LOCAL.4>==<LOCAL.1>) || (<LOCAL.4>==<LOCAL.2>) || (<LOCAL.4>==<LOCAL.3>))
+LOCAL.4=<R1,5>
+ENDWHILE
+OBJ.TAG.CORRETO <EVAL <LOCAL.1>>.<EVAL <LOCAL.2>>.<EVAL <LOCAL.3>>.<EVAL <LOCAL.4>>
+OBJ.TIMER=<EVAL 60*10>
+OBJ.COLOR=33
+GO 468,96,-1,3
+EVENTS +e_lamproom
+SERV.NEWITEM=i_lamproom_sair
+EQUIP <NEW>
+NEW.TIMER=<EVAL 60*5>
+ENDIF
+ENDFOR
+OBJ=<LOCAL.TMP>
+
+[FUNCTION DOOMLAMPERRO]
+DOOMLAMPRESET
+FORCLIENTS 20
+SERV.NEWITEM i_boulder
+NEW.P=<P>
+NEW.MOVE W
+NEW.ATTR=ATTR_DECAY|ATTR_MOVE_NEVER|ATTR_CAN_DECAY
+NEW.TIMER=5
+DAMAGE {90 120} 01
+SYSMESSAGE @36 Errado!
+ENDFOR
+
+[FUNCTION DOOMLAMPRESET]
+LOCAL.TMP=<OBJ>
+FOR 4
+OBJ=<TAG0.DOOM.LEVER<EVAL <LOCAL._FOR>>>
+OBJ.TIMER -1
+OBJ.DISPID=i_lever
+OBJ.UPDATE
+ENDFOR
+TAG.ATUAL
+OBJ=<LOCAL.TMP>
+
+[EVENTS e_lamproom]
+ON=@Death
+FINDID.i_lamproom_sair.REMOVE
+REMOVEFROMVIEW
+MOVETO 428,233,-1,3
+EVENTS -e_lamproom
+UPDATE
+
+ON=@Kill
+IF !(<ARGO.ISPLAYER>)
+LOCAL.TMP=<OBJ>
+OBJ=<ARGO.UID>
+OBJ.GO 428,233,-1,3
+FINDID.i_lamproom_sair.REMOVE
+REMOVEFROMVIEW
+MOVETO 428,233,-1,3
+EVENTS -e_lamproom
+UPDATE
+ENDIF
+OBJ=<LOCAL.TMP>
+
+[TYPEDEF T_CHAO_SAIRLAMPROOM]
+ON=@Step
+SRC.FINDID.i_lamproom_sair.REMOVE
+SRC.GO 429,233,-1,3
+SRC.EVENTS -e_lamproom
+
+[TYPEDEF T_CHAO_LAMPROOM]
+ON=@Timer
+COLOR=0ad
+RETURN 1
+
+[TYPEDEF T_CAIXA_DOOMLAMP]
+ON=@Dclick
+IF (<TIMER>==-1)
+SERV.NEWNPC c_wanderer_void
+NEW.P=470,96,-1,3
+NEW.UPDATE
+NEW.ATTACK <SRC>
+NEW.REMOVETIMER=<EVAL 60*5>
+TIMER=<EVAL 60*5>
+ENDIF
+RETURN 1
+
+ON=@Timer
+RETURN 1
+
+ON=@Dropon_Self
+IF !(<SRC.ISGM>)
+RETURN 1
+ENDIF
+
+[ITEMDEF i_lamproom_sair]
+ID=i_memory
+TYPE=T_EQ_SCRIPT
+NAME=laproom sair
+
+ON=@Timer
+CONT.GO 429,233,-1,3
+CONT.EVENTS -e_lamproom
+REMOVE
+RETURN 1
+
+////////////////////////////////////
+////Gauntlet Artifacts/////
+
+[ITEMDEF i_Arcane_Shield]
+DEFNAME=i_Arcane_Shield
+NAME=Arcane Shield
+ID=i_shield_kite_wood
+TYPE=t_shield
+ARMOR=10
+REQSTR=25
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=10
+TAG.HITCHANCEDECREASE=15
+TAG.LUCK=65
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0256
+HITPOINTS=255
+
+ON=@Equip
+SPELLEFFECT s_night_sight,1000
+
+
+[ITEMDEF i_Armor_Fortune]
+DEFNAME=i_Armor_Fortune
+NAME=Armor of Fortune
+ID=i_leather_tunic
+TYPE=t_armor_leather
+ARMOR=35
+REQSTR=35
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=5
+TAG.HITCHANCEDECREASE=15
+TAG.LUCK=200
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=093
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_Axe_Heavens]
+DEFNAME=i_Axe_Heavens
+NAME=Axe of the Heavens
+ID=i_axe_double
+TYPE=t_weapon_sword
+DAM=15,18
+SPEED=33
+WEIGHT=2.6
+SKILL=Swordsmanship
+REQSTR=45
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TEVENTS=T_ORB_CLILOC
+TAG.DAMINCREASE=50
+TAG.HITCHANCEINCREASE=15
+TAG.LUCK=20
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+TAG.ORB.EFEITO=020
+COLOR=03c8
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_Blade_Insanity]
+DEFNAME=i_Blade_Insanity
+NAME=Blade of Insanity
+ID=i_katana
+TYPE=t_weapon_sword
+DAM=11,13
+SPEED=44
+WEIGHT=2.2
+SKILL=Swordsmanship
+REQSTR=25
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMINCREASE=50
+TAG.SWINGINCREASE=30
+TAG.STAMLEECH=20
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=03c8
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_Bone_Crusher]
+DEFNAME=i_Bone_Crusher
+NAME=Bone Crusher
+ID=i_mace_war
+TYPE=t_weapon_mace_smith
+TEVENTS=t_luck_item
+DAM=16,17
+SPEED=28
+WEIGHT=2.5
+SKILL=Macefighting
+REQSTR=80
+TEVENTS=T_PROPRIEDADES
+TAG.DAMINCREASE=75
+TAG.SWINGINCREASE=10
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=021e
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+SRC.ADDCLILOC 1060485,10
+
+ON=@Equip
+SRC.modstr += 10
+
+ON=@UnEquip
+SRC.modstr -= 10
+
+[ITEMDEF i_Bracelet_Health]
+DEFNAME=i_Bracelet_Health
+NAME=Bracelet of Health
+ID=i_bracelet_gold
+TEVENTS=t_luck_item
+WEIGHT=2.5
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=33
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1061078,11
+SRC.ADDCLILOC 1060431,5
+SRC.ADDCLILOC 1060444,10
+
+ON=@Equip
+TIMER=5
+SRC.MAXHITS += 5
+
+ON=@UnEquip
+SRC.MAXHITS -= 5
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.HITS += 10
+IF (<CONT.HITS> > <CONT.MAXHITS>)
+CONT.HITS=<CONT.MAXHITS>
+ENDIF
+TIMER=5
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Breath_Dead]
+DEFNAME=i_Breath_Dead
+NAME=Breath of the Dead
+ID=i_bone_harvester
+TYPE=t_weapon_sword
+DAM=13,15
+SPEED=36
+WEIGHT=2.5
+SKILL=Swordsmanship
+REQSTR=25
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=50
+TAG.LIFELEECH=100
+TAG.DAMINCREASE=50
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=03e1
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_Divine_Countenance]
+DEFNAME=i_Divine_Countenance
+NAME=Divine Countenance
+ID=i_mask_blue
+TYPE=T_ARMOR
+WEIGHT=3.5
+REQSTR=10
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=30
+TAG.DAMAGERETURN=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=color_rock
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060440,2
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+SRC.modint += 8
+
+ON=@UnEquip
+SRC.modint -= 8
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.MANA += 2
+IF (<CONT.MANA> > <CONT.MAXMANA>)
+CONT.MANA=<CONT.MAXMANA>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Frostbringer]
+DEFNAME=i_Frostbringer
+NAME=Frostbringer
+ID=i_bow
+TYPE=t_weapon_bow
+DAM=16,18
+SPEED=25
+WEIGHT=2.0
+SKILL=Archery
+REQSTR=30
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TEVENTS=T_ORB_CLILOC
+TAG.LUCK=30
+TAG.DAMINCREASE=50
+TAG.HITDISPEL=50
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+TAG.ORB.EFEITO=<DEF.DAM_COLD>
+COLOR=012a
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.STAM += 10
+IF (<CONT.STAM> > <CONT.MAXSTAM>)
+CONT.STAM=<CONT.MAXSTAM>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Gauntlets_Nobility]
+DEFNAME=i_Gauntlets_Nobility
+NAME=Gauntlets of Nobility
+ID=i_leather_gloves
+WEIGHT=2.0
+REQSTR=40
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=100
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0139
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060485,8
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.modstr += 8
+
+ON=@UnEquip
+SRC.modstr -= 8
+
+[ITEMDEF i_Hat_Magi]
+DEFNAME=i_Hat_Magi
+NAME=Hat of the Magi
+ID=i_hat_wizards
+WEIGHT=2.0
+REQSTR=10
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=80
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0481
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060432,8
+SRC.ADDCLILOC 1060440,4
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+SRC.modint += 8
+
+ON=@UnEquip
+SRC.modint -= 8
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.MANA += 4
+IF (<CONT.MANA> > <CONT.MAXMANA>)
+CONT.MANA=<CONT.MAXMANA>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Helm_Insight]
+DEFNAME=i_Helm_Insight
+NAME=Helm of Insight
+ID=i_platemail_helm
+TYPE=T_ARMOR
+TEVENTS=t_luck_item
+ARMOR=60
+WEIGHT=4.0
+REQSTR=80
+
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=color_o_mytheril
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060432,8
+SRC.ADDCLILOC 1060439,15
+SRC.ADDCLILOC 1060440,2
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+SRC.modint += 8
+SRC.MAXMANA += 15
+
+ON=@UnEquip
+SRC.modint -= 8
+SRC.MAXMANA -= 15
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.MANA += 2
+IF (<CONT.MANA> > <CONT.MAXMANA>)
+CONT.MANA=<CONT.MAXMANA>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Holy_Knights_Breastplate]
+ID=i_platemail_chest
+DEFNAME=i_Holy_Knights_Breastplate
+NAME=Holy Knight's Breastplate
+TYPE=T_ARMOR
+ARMOR=80
+WEIGHT=4.0
+REQSTR=95
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0481
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060431,10
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.MAXHITS += 10
+
+ON=@UnEquip
+SRC.MAXHITS -= 10
+
+[ITEMDEF i_Hunters_Headdress]
+ID=i_mask_deer
+DEFNAME=i_Hunters_Headdress
+NAME=Hunter's Headdress
+TYPE=T_ARMOR
+TEVENTS=t_luck_item
+ARMOR=50
+WEIGHT=4.0
+REQSTR=95
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=030a
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060409,8
+SRC.ADDCLILOC 1060451,Archery,20
+SRC.ADDCLILOC 1015008
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.SPELLEFFECT s_night_sight,1000
+SRC.ARCHERY += 20.0
+SRC.moddex += 8
+
+ON=@UnEquip
+SRC.ARCHERY -= 20.0
+SRC.moddex -= 8
+
+[ITEMDEF i_Jackals_Collar]
+DEFNAME=i_Jackals_Collar
+NAME=Jackal's Collar
+ID=i_platemail_gorget
+ARMOR=90
+WEIGHT=4.0
+REQSTR=45
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+TEVENTS=t_luck_item
+
+ON=@CREATE
+COLOR=color_o_rusty
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060409,15
+SRC.ADDCLILOC 1060444,2
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+SRC.moddex += 15
+
+ON=@UnEquip
+SRC.moddex -= 15
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.HITS += 2
+IF (<CONT.HITS> > <CONT.MAXHITS>)
+CONT.HITS=<CONT.MAXHITS>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Legacy_Dread_Lord]
+DEFNAME=i_Legacy_Dread_Lord
+NAME=Legacy of the Dread Lord
+ID=i_bardiche
+TYPE=t_weapon_sword
+DAM=17,18
+SPEED=35
+WEIGHT=2.5
+SKILL=Swordsmanship
+REQSTR=45
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=60
+TAG.DAMINCREASE=50
+TAG.SWINGINCREASE=30
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=39
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,10
+
+[ITEMDEF i_Leggings_Bane]
+DEFNAME=i_Leggings_Bane
+NAME=Leggings of Bane
+ID=i_ringmail_leggings
+ARMOR=100
+WEIGHT=3.0
+REQSTR=60
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=100
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0ad
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060484,8
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.MAXSTAM += 8
+
+ON=@UnEquip
+SRC.MAXSTAM -= 8
+
+[ITEMDEF i_Midnight_Bracers]
+DEFNAME=i_Midnight_Bracers
+NAME=Midnight Bracers
+ID=i_bone_arms
+ARMOR=45
+WEIGHT=2.2
+REQSTR=55
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=30
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0386
+HITPOINTS=255
+
+
+ON=@Equip
+SRC.MAGERY += 20.0
+
+ON=@UnEquip
+SRC.MAGERY -= 20.0
+
+[ITEMDEF i_Ornate_Crown_Harrower]
+DEFNAME=i_Ornate_Crown_Harrower
+NAME=Ornate Crown of the Harrower
+ID=i_bone_helmet
+ARMOR=45
+WEIGHT=2.2
+REQSTR=20
+TEVENTS=T_LUCK_ITEM
+TEVENTS=T_PROPRIEDADES
+TAG.DAMINCREASE=20
+TAG.LUCK=50
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0ad
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060444,2
+SRC.ADDCLILOC 1060443,3
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.HITS += 2
+CONT.STAM += 3
+IF (<CONT.HITS> > <CONT.MAXHITS>)
+CONT.HITS=<CONT.MAXHITS>
+ENDIF
+IF (<CONT.STAM> > <CONT.MAXSTAM>)
+CONT.STAM=<CONT.MAXSTAM>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Ring_Good_Fortune]
+DEFNAME=i_Ring_Good_Fortune
+NAME=Ring of Good Fortune
+ID=i_ring_gold
+WEIGHT=3.0
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=100
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_Ring_Vile]
+DEFNAME=i_Ring_Vile
+NAME=Ring of the Vile
+ID=i_ring_gold
+WEIGHT=3.0
+TEVENTS=T_LUCK_ITEM
+TEVENTS=T_PROPRIEDADES
+TAG.DAMINCREASE=15
+TAG.LUCK=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@Create
+COLOR=0ad
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060409,8
+SRC.ADDCLILOC 1060443,6
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+TIMER=4
+SRC.moddex += 8
+
+ON=@UnEquip
+SRC.moddex -= 8
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.STAM += 6
+IF (<CONT.STAM> > <CONT.MAXSTAM>)
+CONT.STAM=<CONT.MAXSTAM>
+ENDIF
+TIMER=4
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_Serpents_Fang]
+DEFNAME=i_Serpents_Fang
+NAME=Serpent's Fang
+ID=i_kryss
+TYPE=t_weapon_fence
+DAM=10,12
+SPEED=50
+WEIGHT=2.5
+SKILL=Fencing
+REQSTR=10
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_ORB_CLILOC
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=40
+TAG.DAMINCREASE=50
+TAG.HITCHANCEINCREASE=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+TAG.ORB.EFEITO=<DEF.DAM_POISON>|01000
+COLOR=029b
+HITPOINTS=255
+morey 100.0
+attr attr_magic
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+on=@equip
+src.events +e_serpent_fang
+
+on=@unequip
+src.events -e_serpent_fang
+
+[ITEMDEF i_Shadow_Dancer_Leggings]
+ID=i_leather_leggings
+DEFNAME=i_Shadow_Dancer_Leggings
+NAME=Shadow Dancer Leggings
+TEVENTS=t_luck_item
+WEIGHT=7.0
+ARMOR=60
+REQSTR=20
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@Create
+COLOR=03e5
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060451,Stealing,20
+SRC.ADDCLILOC 1060452,Stealth,20
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.STEALING += 20.0
+SRC.STEALTH += 20.0
+
+ON=@UnEquip
+SRC.STEALING -= 20.0
+SRC.STEALTH -= 20.0
+
+[ITEMDEF i_Spirit_Totem]
+ID=i_mask_bear
+DEFNAME=i_Spirit_Totem
+NAME=Spirit of the Totem
+WEIGHT=6.0
+ARMOR=100
+REQSTR=10
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@Create
+COLOR=03e5
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060485,20
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.modstr += 20
+
+ON=@UnEquip
+SRC.modstr -= 20
+
+[ITEMDEF i_staff_magi]
+ID=i_staff_black
+NAME=Staff of the Magi
+TEVENTS=t_iprop
+TAG.Artifact=11
+TAG.SpellChanneling=1
+TAG.MageWeapon=0
+TAG.FasterCasting=1
+TAG.DamageIncrease=50
+TAG.DamEnergy=100
+CATEGORY=Provisions - Weapons - Macefighting
+SUBSECTION=Black Staves
+DESCRIPTION=Staff of the Magi
+
+ON=@Create
+HITPOINTS={36 48}
+COLOR=0481
+
+[ITEMDEF i_The_Beserkers_Maul]
+ID=i_maul
+DEFNAME=i_The_Beserkers_Maul
+NAME=The Beserker's Maul
+DAM=14,16
+SPEED=30
+WEIGHT=2.8
+SKILL=Macefighting
+REQSTR=45
+TEVENTS=T_PROPRIEDADES
+TAG.DAMINCREASE=50
+TAG.SWINGINCREASE=75
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=34
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_The_Dragon_Slayer]
+ID=i_lance
+DEFNAME=i_The_Dragon_Slayer
+NAME=The Dragon Slayer
+DAM=31,18
+SPEED=24
+WEIGHT=2.7
+SKILL=Macefighting
+REQSTR=95
+TEVENTS=t_weapon_slayer_new
+//TEVENTS=T_AOS_WEAPON
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=110
+TAG.SLAYERGROUP=DRAGON
+TAG.DAMINCREASE=50
+TAG.SWINGINCREASE=20
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=color_o_valorite
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1061078,11
+
+ON=@Equip
+SRC.modstr += 10
+SRC.moddex += 10
+ON=@UneQuip
+SRC.modstr -= 10
+SRC.moddex -= 10
+
+[ITEMDEF i_The_Dryad_Bow]
+ID=i_bow
+DEFNAME=i_The_Dryad_Bow
+NAME=The Dryad Bow
+DAM=16,18
+SPEED=25
+WEIGHT=2.6
+SKILL=Archery
+REQSTR=30
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=40
+TAG.DAMINCREASE=35
+TAG.SWINGINCREASE=50
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+TAG.SKILL=<R0,50>
+TAG.SKILLINCREASE={5 2 10 1}
+COLOR=04f8
+HITPOINTS=255
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060451,<SERV.SKILL.<TAG0.SKILL>.NAME>,<EVAL <TAG0.SKILLINCREASE>>
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_The_Taskmaster]
+ID=i_war_fork
+DEFNAME=i_The_Taskmaster
+NAME=The Taskmaster
+DAM=12,13
+SPEED=43
+WEIGHT=2.6
+SKILL=Fencing
+REQSTR=45
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_ORB_CLILOC
+TEVENTS=t_luck_item
+TAG.DAMINCREASE=35
+TAG.HITCHANCEINCREASE=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+TAG.ORB.EFEITO=<DEF.DAM_POISON>|01000
+COLOR=0ad
+HITPOINTS=255
+morey 100.0
+attr attr_magic
+
+ON=@ClientTooltip
+//SRC.ADDCLILOC 1061078,10
+
+on=@equip
+src.events +e_serpent_fang
+
+on=@unequip
+src.events -e_serpent_fang
+
+[ITEMDEF i_Tunic_Fire]
+ID=i_chainmail_tunic
+DEFNAME=i_Tunic_Fire
+NAME=Tunic of Fire
+ARMOR=110
+WEIGHT=11.5
+REQSTR=60
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=60
+TAG.DAMAGERETURN=15
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=04ea
+HITPOINTS=255
+
+ON=@Equip
+SRC.SPELLEFFECT S_NIGHT_SIGHT,1000
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1015008
+SRC.ADDCLILOC 1061078,11
+
+[ITEMDEF i_Voice_Fallen_King]
+ID=i_leather_gorget
+DEFNAME=i_Voice_Fallen_King
+NAME=Voice of the Fallen King
+ARMOR=100
+WEIGHT=6.0
+REQSTR=20
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=50
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=03b3
+HITPOINTS=255
+
+ON=@Equip
+TIMER=5
+SRC.modstr += 8
+
+ON=@UnEquip
+SRC.modstr -= 8
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060485,8
+SRC.ADDCLILOC 1060443,3
+SRC.ADDCLILOC 1060444,5
+SRC.ADDCLILOC 1061078,11
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+CONT.STAM += 3
+IF (<CONT.STAM> > <CONT.MAXSTAM>)
+CONT.STAM=<CONT.MAXSTAM>
+ENDIF
+CONT.HITS += 5
+IF (<CONT.HITS> > <CONT.MAXHITS>)
+CONT.HITS=<CONT.MAXHITS>
+ENDIF
+TIMER=5
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[ITEMDEF i_aegis]
+ID=i_shield_heater
+DEFNAME=i_aegis
+NAME=Ægis
+ARMOR=15
+WEIGHT=13.0
+REQSTR=90
+TEVENTS=T_PROPRIEDADES
+TEVENTS=T_LUCK_ITEM
+TAG.DAMAGERETURN=15
+TAG.HITCHANCEDECREASE=20
+TAG.LUCK=100
+CATEGORY=Doom
+SUBSECTION=Gauntlet Artefatos
+DESCRIPTION=@
+
+ON=@CREATE
+COLOR=0481
+HITPOINTS=255
+
+ON=@Equip
+TIMER=5
+
+ON=@ClientTooltip
+SRC.ADDCLILOC 1060450,5
+SRC.ADDCLILOC 1061078,11
+
+ON=@Timer
+IF (<CONT.ISPLAYER>)
+HITS += 5
+IF (<HITS> > <MAXHITS>)
+HITS=<MAXHITS>
+ENDIF
+TIMER=15
+RETURN 1
+ENDIF
+
+ON=@Dropon_Ground
+IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+TIMER -1
+ELSE
+ATTR |= ATTR_DECAY
+TIMER=<EVAL <SERV.DECAYTIMER>*60>
+ENDIF
+
+[DEFNAME doom_gauntlet]
+DOOMGAUNTLET_ARTIFACTS {i_Arcane_Shield 1 i_Armor_Fortune 1 i_Axe_Heavens 1 i_Blade_Insanity 1 i_Bone_Crusher 1 i_Bracelet_Health 1 i_Breath_Dead 1 i_Divine_Countenance 1 i_Frostbringer 1 i_Gauntlets_Nobility 1 i_Hat_Magi 1 i_Helm_Insight 1 i_Holy_Knights_Breastplate 1 i_Hunters_Headdress 1 i_Jackals_Collar 1 i_Legacy_Dread_Lord 1 i_Leggings_Bane 1 i_Midnight_Bracers 1 i_Ornate_Crown_Harrower 1 i_Ring_Good_Fortune 1 i_Ring_Vile 1 i_Serpents_Fang 1 i_Shadow_Dancer_Leggings 1 i_Spirit_Totem 1 i_Staff_Magi 1 i_The_Beserkers_Maul 1 i_The_Dragon_Slayer 1 i_The_Dryad_Bow 1 i_The_Taskmaster 1 i_Tunic_Fire 1 i_Voice_Fallen_King 1 i_aegis 1}
+
+////////////////////////
+
+[function add_timer_act]
+IF !(<isempty <argv[0]>>)
+IF !(<isempty <argv[1]>>)
+IF (<isnum <argv[0]>>)
+serv.newitem=i_gold
+new.events=t_command_caller
+new.attr=attr_invis|attr_decay
+new.timer=<argv[0]>
+new.tag.command=<argv[1]>
+IF (<ARGO.UID>)
+new.p=<argo.p>
+new.link=<argo.uid>
+ELSE
+new.p=<p>
+new.link=<uid>
+ENDIF
+new.removefromview
+ENDIF
+ENDIF
+ENDIF
+
+[typedef t_command_caller]
+ON=@Timer
+try link.<tag.command>
+remove
+return 1
+
+
+[TYPEDEF T_PROPRIEDADES]
+ON=@ClientToolTip
+IF (<TAG0.DAMINCREASE>)
+SRC.ADDCLILOC 1060401,<EVAL <TAG0.DAMINCREASE>>
+ENDIF
+IF (<TAG0.SWINGINCREASE>)
+SRC.ADDCLILOC 1060486,<EVAL <TAG0.SWINGINCREASE>>
+ENDIF
+IF (<TAG0.HITCHANCEINCREASE>)
+SRC.ADDCLILOC 1060415,<EVAL <TAG0.HITCHANCEINCREASE>>
+ENDIF
+IF (<TAG0.LIFELEECH>)
+SRC.ADDCLILOC 1060422,<EVAL <TAG0.LIFELEECH>>
+ENDIF
+IF (<TAG0.MANALEECH>)
+SRC.ADDCLILOC 1060427,<EVAL <TAG0.MANALEECH>>
+ENDIF
+IF (<TAG0.STAMLEECH>)
+SRC.ADDCLILOC 1060430,<EVAL <TAG0.STAMLEECH>>
+ENDIF
+IF (<TAG0.HITDISPEL>)
+SRC.ADDCLILOC 1060417,<EVAL <TAG0.HITDISPEL>>
+ENDIF
+IF (<TYPE>==T_ARMOR) || (<TYPE>==T_SHIELD) || (<TYPE>==T_ARMOR_LEATHER) || (<TYPE>==T_CLOTHING)
+IF (<TAG0.DAMAGERETURN>)
+SRC.ADDCLILOC 1060442,<EVAL <TAG0.DAMAGERETURN>>
+ENDIF
+IF (<TAG0.HITCHANCEDECREASE>)
+SRC.ADDCLILOC 1042971,Hit Chance Decrease : <EVAL <TAG0.HITCHANCEDECREASE>>%
+ENDIF
+ELIF (STRMATCH(*t_weapon*,<TYPE>))
+SRC.ADDCLILOC 1061167,<SPEED>
+SRC.ADDCLILOC <QVAL <TWOHANDS> ? 1061171:1061824>
+IF (<TYPE>==T_WEAPON_SWORD)
+SRC.ADDCLILOC 1061172
+ELIF (<TYPE>==T_WEAPON_FENCE)
+SRC.ADDCLILOC 1061174
+ELIF (<TYPE>==T_WEAPON_MACE_SMITH) || (<TYPE>==T_WEAPON_MACE_SHARP)
+SRC.ADDCLILOC 1061173
+ELIF (<TYPE>==T_WEAPON_BOW)
+SRC.ADDCLILOC 1061175
+ENDIF
+ENDIF
+
+[TYPEDEF T_ORB_CLILOC]
+ON=@ClientTooltip
+SHOWORBDAMAGES
+
+[FUNCTION SHOWORBDAMAGES]
+IF (<TAG0.ORB.EFEITO>)
+IF (<TAG0.ORB.EFEITO>&01)
+LOCAL.DAMAGETYPES .= God Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&08)
+LOCAL.DAMAGETYPES .= Poison Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&010)
+LOCAL.DAMAGETYPES .= Fire Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&020)
+LOCAL.DAMAGETYPES .= Eletric Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&0100)
+LOCAL.DAMAGETYPES .= Acid Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&0200)
+LOCAL.DAMAGETYPES .= Cold Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&0800)
+LOCAL.DAMAGETYPES .= Piercing Damage/
+ENDIF
+IF (<TAG0.ORB.EFEITO>&01000)
+LOCAL.DAMAGETYPES .= Area Damage/
+ENDIF
+LOCAL.HEHE=<EVAL <EVAL STRLEN(<LOCAL.DAMAGETYPES>)>-2>
+SRC.ADDCLILOC 1070722,<STRSUB 1 <LOCAL.HEHE> <LOCAL.DAMAGETYPES>>
+ENDIF
+
+
+[FUNCTION RANDMAGICITEM]
+DORAND 4
+SERV.NEWITEM might_silah
+SERV.NEWITEM force_silah
+SERV.NEWITEM power_silah
+SERV.NEWITEM vanq_silah
+ENDDO
+BOUNCE <NEW>
+
+[events e_serpent_fang]
+on=@hit
+if rand(2) == 1
+	if <poisoning> >= 75.0
+			src.poison 750
+		else
+			src.poison 500
+		endif
+	endif
+endif
+
+[EOF]

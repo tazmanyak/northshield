@@ -1,0 +1,79 @@
+[DEFNAME champions_monstergroups]
+champ_Abyss_1 {c_m_mongbat_arboreal 1 c_m_imp 1}
+champ_Abyss_2 {c_gargoyle 1 c_harpy 1}
+champ_Abyss_3 {c_m_gargoyle_stone 1 c_fire_gargoyle 1}
+champ_Abyss_4 {c_succubus 1 c_daemon 1}
+champ_Abyss_champion c_semidar
+champ_Abyss_Reward //{i_gladiator_collar 1 i_Lieutenant_Royal_guard 1}
+
+champ_Arachnid_1 {c_scorpion_giant 1 c_spider_giant 1}
+champ_Arachnid_2 {c_terathan_drone 1 c_terathan_warrior 1}
+champ_Arachnid_3 {c_terathan_warrior 1 c_terathan_matriarch 1}
+champ_Arachnid_4 {c_elemental_poison 1 c_terathan_avenger 1}
+champ_Arachnid_champion c_Mephitis
+champ_Arachnid_Reward //{010dc 17 010db 17 i_spider_statue 17 i_calm 17 i_oblivion_needle 33}
+
+champ_ColdBlood_1 {c_lizardman 1 c_snake 1}
+champ_ColdBlood_2 {c_m_lava_lizard 1 c_ophidian_warrior 1 c_ophidian_enforcer 1}
+champ_ColdBlood_3 {c_dragon_small_red 1 c_ophidian_justiciar 1 c_ophidian_zealot 1}
+champ_ColdBlood_4 {c_dragon_red 1 c_ophidian_avenger 1 c_m_ophidian_knight 1}
+champ_ColdBlood_champion c_Rikktor
+champ_ColdBlood_Reward {i_crown_talkeesh 17 i_knowlegable_person 11 i_brave_knight_britannia 11 i_Lieutenant_Royal_guard 11 i_ophidianarchmage_statue 25 i_ophidianwarrior_statue 25}
+
+champ_ForestLord_1 {c_pixie 1 c_shadow_wisp 1}
+champ_ForestLord_2 {c_kirin 1 c_wisp 1}
+champ_ForestLord_3 {c_centaur 1 c_m_unicorn 1}
+champ_ForestLord_4 {c_serpentine_dragon 1 c_forest_lord 1}
+champ_ForestLord_champion c_Lord_Oaks
+champ_ForestLord_Reward {i_orc_chief_helm 17 i_fx_spin_head 50 i_Djinn_Ring 6 i_Detective_boots 6 i_Lieutenant_Royal_guard 6 i_knowlegable_person 6 i_samaritan_robe 6 i_royal_guard_survival_knife 6}
+
+champ_VerminHord_1 {c_slime 1 c_rat_giant 1}
+champ_VerminHord_2 {c_ratman 1 c_ratman_w_sword 1}
+champ_VerminHord_3 {c_ratman_mage 1 c_ratman_w_mace 1}
+champ_VerminHord_4 {c_ratman_mage 1 c_ratman_w_sword_king 1}
+champ_VerminHord_champion c_Barracoon
+//champ_VerminHord_Reward {i_fang_ractus 17 i_slime_statue 50 i_oak_leaf_cloak 9 i_gauntlets_anger 9 i_Detective_boots 9 i_Djinn_Ring 9}
+
+champ_UnholyTerror_1 {c_spectre 1 c_m_ghoul 1 c_m_wraith 1 c_m_ghost 1}
+champ_UnholyTerror_2 {c_m_skeleton_mage 1 c_m_mummy 1 c_m_wraith 1}
+champ_UnholyTerror_3 {c_liche 1 c_m_skeleton_knight 1 c_m_mummy 1}
+champ_UnholyTerror_4 {c_m_liche_lord 1 c_rotting_corpse 1}
+champ_UnholyTerror_champion c_Neira
+champ_UnholyTerror_Reward {i_blood_drips 50 i_captain_john_hat 11 i_detective_boots 11 i_necromancer_shroud 11 i_shroud_deceit 17}
+
+champ_SleepingDragon_1 {c_big_worm_hatch 1 c_lizardman 1}
+champ_SleepingDragon_2 {c_big_worm 1 c_kappa 1}
+champ_SleepingDragon_3 {c_revenant_lion 1 c_m_lesser_hiryu 1}
+champ_SleepingDragon_4 {c_oni 1 c_m_hiryu 1}
+champ_SleepingDragon_champion c_Serado
+champ_SleepingDragon_Reward {i_pacify 17 02313 25 0283e 25 i_detective_boots 8 i_brave_knight_britannia 8 i_oak_leaf_cloak 8 i_Lieutenant_Royal_guard 9}
+
+champ_Pestilence_1 {c_plague_spawn 1 c_bogling 1}
+champ_Pestilence_2 {c_plague_beast 1 c_bog_thing 1}
+champ_Pestilence_3 {c_plague_beast_lord 1 c_monstrous_interred_grizzle 1}
+champ_Pestilence_4 {c_pestilent_bandages 1 c_fetid_essence 1}
+champ_Pestilence_champion c_Ilhenir
+//champ_Pestilence_Reward {i_plaguebeast_statue 25 i_reddeath_statue 25 i_Lieutenant_Royal_guard 17 i_necromancer_shroud 16 i_oblivion_needle 17}
+
+champ_Minotaur_1 {c_minotaur_captain 1 c_minotaur 1 c_minotaur_scout 1}
+champ_Minotaur_2 {c_minotaur_captain 1 c_minotaur 1 c_minotaur_scout 1}
+champ_Minotaur_3 {c_minotaur_captain 1 c_minotaur 1 c_minotaur_scout 1}
+champ_Minotaur_4 {c_minotaur_captain 1 c_minotaur 1 c_minotaur_scout 1}
+champ_Minotaur_champion c_Meraktus
+champ_Minotaur_Reward {i_subdue 33 i_pet_minotaur 66}
+
+champ_TwistedGlade_1 {c_pixie 1 c_shadow_wisp 1}
+champ_TwistedGlade_2 {c_centaur 1 c_dryad 1}
+champ_TwistedGlade_3 {c_satyr 1 c_cu_sidhe 1}
+champ_TwistedGlade_4 {c_feral_treefellow 1 c_raging_grizzlie 1}
+champ_TwistedGlade_champion c_Twaulo
+champ_TwistedGlade_Reward {i_oblivion_needle 20 i_knowlegable_person 20 i_pet_dreadhorn 60}
+
+champ_Harrower_Reward {i_harrower_evil_idol 33 i_harrower_skull_pole 33 i_acid_proof_robe 17 i_robe_britannia_ari 17}
+
+CHAMPIONLEVELMINUTE 10*60
+CHAMPIONCOMPLETETIME 60*60*2
+TOTALMONSTERS 136
+champion_goldprize 1000000
+
+[EOF]

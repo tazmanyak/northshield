@@ -1,0 +1,189 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[ITEMDEF i_quell]
+ID=i_bardiche
+NAME=Quell [Replica]
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitManaLeech=100
+TAG.HitChanceIncrease=10
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=50
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Quell [Replica]
+
+ON=@Create
+HITPOINTS=150
+
+[ITEMDEF i_gladiator_collar]
+ID=i_platemail_gorget
+NAME=Gladiator's Collar [Replica]
+TEVENTS=t_iprop
+TAG.HitPointIncrease=10
+TAG.HitChanceIncrease=10
+TAG.MageArmor=1
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Gladiator's Collar [Replica]
+TAG.ResPhysical=18
+TAG.ResFire=18
+TAG.ResCold=17
+TAG.ResPoison=18
+TAG.ResEnergy=16
+
+ON=@Create
+COLOR=0665
+HITPOINTS=150
+
+[ITEMDEF i_pacify]
+ID=i_pike
+NAME=Pacify [Replica]
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitManaLeech=100
+TAG.HitChanceIncrease=10
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=50
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Pacify [Replica]
+
+ON=@Create
+HITPOINTS=150
+
+[ITEMDEF i_crown_talkeesh]
+ID=i_bandana
+NAME=Crown of Tal'Keesh [Replica]
+TEVENTS=t_iprop
+TAG.IntelligenceBonus=8
+TAG.ManaRegeneration=4
+TAG.SpellDamageIncrease=10
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Crown of Tal'Keesh [Replica]
+TAG.ResFire=5
+TAG.ResCold=9
+TAG.ResPoison=20
+TAG.ResEnergy=20
+
+ON=@Create
+COLOR=1165
+HITPOINTS=150
+
+[ITEMDEF i_shroud_deceit]
+ID=i_bone_chest
+NAME=Shroud of Deceit [Replica]
+REQSTR=60
+TEVENTS=t_iprop
+TAG.Skill.Bonus.1=MagicResistance,10.0
+TAG.HitPointRegeneration=3
+TAG.MageArmor=1
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Shroud of Deceit [Replica]
+TAG.ResPhysical=11
+TAG.ResFire=6
+TAG.ResCold=18
+TAG.ResPoison=15
+TAG.ResEnergy=13
+
+ON=@Create
+COLOR=colors_gray
+HITPOINTS=150
+
+[ITEMDEF i_subdue]
+ID=i_scythe
+NAME=Subdue [Replica]
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitManaLeech=100
+TAG.HitChanceIncrease=10
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=50
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Subdue [Replica]
+
+ON=@Create
+HITPOINTS=255
+
+[ITEMDEF i_calm]
+ID=i_halberd
+NAME=Calm [Replica]
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitManaLeech=100
+TAG.SwingSpeedIncrease=20
+TAG.DamageIncrease=50
+TAG.BestWeaponSkill=1
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Calm [Replica]
+
+ON=@Create
+HITPOINTS=150
+
+[ITEMDEF i_orc_chieftain_helm]
+ID=i_helm_orc
+NAME=Orc Chieftain Helm [Replica]
+REQSTR=30
+TEVENTS=t_iprop
+TAG.HitPointIncrease=30
+TAG.HitPointRegenreation=3
+TAG.Luck=100
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Orc Chieftain Helm [Replica]
+TAG.ResPhysical=23
+TAG.ResFire=1
+TAG.ResCold=23
+TAG.ResPoison=3
+TAG.ResEnergy=5
+
+ON=@Create
+COLOR=colors_green
+HITPOINTS=150
+
+[ITEMDEF i_acid_proof_robe]
+ID=i_robe
+NAME=Acid-Proof Robe [Replica]
+REQSTR=10
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Acid-Proof Robe [Replica]
+TAG.ResFire=5
+
+ON=@Create
+HITPOINTS=150
+COLOR=0902
+ATTR=attr_newbie
+
+[ITEMDEF i_fang_ractus]
+ID=i_kryss
+NAME=Fang of Ractus [Replica]
+TEVENTS=t_iprop
+TAG.SpellChanneling=1
+TAG.HitPoisonArea=20
+TAG.HitChanceIncrease=5
+TAG.DefenseChanceIncrease=5
+TAG.DamageIncrease=35
+CATEGORY=Provisions - Artifacts - Champions
+SUBSECTION=Unique Artifacts
+DESCRIPTION=Fang of Ractus [Replica]
+TAG.ResPoison=15
+
+ON=@Create
+HITPOINTS=150
+COLOR=colors_green
+
+[EOF]

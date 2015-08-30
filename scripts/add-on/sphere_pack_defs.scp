@@ -1,0 +1,394 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// SphereCommunityPack - All the script.
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Default lists, something like "small" settings.
+// If need to change color, sounds, etc, search around here.
+
+[DEFNAME WAITINGTIMES] // select/start, success, fail, others (in case needed for some skills) - 0 means reset -1 means no action
+skill.1.waittime				"2.0, -1, -1"				// Anatomy (Done)
+skill.2.waittime				"1.0, -1, -1"				// Animal Lore (Done)
+skill.3.waittime				"1.0, -1, -1"				// Item Identification (Done)
+skill.4.waittime				"1.0, -1, -1"				// Arms Lore (Done)
+skill.6.waittime				"21600.0, 10.0, 0, 0"		// Begging (Done)
+skill.9.waittime				"3.0, 10.0, 5.0"			// Peacemaking (Done)
+skill.14.waittime				"6.0, -1, -1"				// Detecting Hidden (Done)
+skill.15.waittime				"1.0, -1, -1"				// Discordance (Done)
+skill.16.waittime				"1.0, -1, -1"				// Evaluating Intelligence (Done)
+skill.19.waittime				"1.0, -1, -1"				// Forensic Evaluation (Done)
+skill.21.waittime				"-1, 10.0, 1.0"				// Hiding (Done)
+skill.22.waittime				"2.0, 10.0, 5.0"			// Provocation (Done)
+skill.30.waittime				"2.0, -1, -1"				// Poisoning (Done)
+skill.32.waittime				"-1, 1.0, 1.0"				// Spirit Speak (Done)
+skill.35.waittime				"21600.0, 0, 0, 0"			// Animal Taming (Done)
+skill.36.waittime				"1.0, -1, -1"				// Taste Identification (Done)
+skill.38.waittime				"3.0, -1, -1"				// Tracking
+skill.46.waittime				"-1, 10.0, 10.0, 5.0, 2.5"	// Meditation (Done)
+skill.47.waittime				"-1, 10.0, 10.0"			// Stealth (Done)
+skill.48.waittime				"10.0, -1, -1"				// Remove Trap (Done)
+
+[DEFNAME TITHINGCONSUME]
+spell.201.tithing				"10" // Cleanse by Fire
+spell.202.tithing				"10" // Close Wounds
+spell.203.tithing				"10" // Consecrate Weapon
+spell.204.tithing				"10" // Dispel Evil
+spell.205.tithing				"10" // Divine Fury
+spell.206.tithing				"10" // Enemy of One
+spell.207.tithing				"10" // Holy Light
+spell.208.tithing				"30" // Noble Sacrifice
+spell.209.tithing				"10" // Remove Curse
+spell.210.tithing				"20" // Sacred Journey
+
+[DEFNAME COLORS_SCP]
+colors_gargoyle		{1755 1779}
+colors_horn		{1801 1 1803 1 1805 1 1807 1 1809 1 1891 1 1893 1 1896 1 1899 1 1779 1 1777 1 1775 1 1764 1 1762 1 1760 1}
+
+[DEFNAME DIALOG_COLORS]
+dcolor_white					16777215
+dcolor_red					15540260
+
+[DEFNAME COLOR_FISH]
+color_o_sos_tile				0
+color_o_sos_ancient				0
+
+[DEFNAME COLOR_LOG]
+color_o_log					0
+color_o_oak					04a6
+color_o_ash					04a7
+color_o_yew					0847//04a8
+color_o_heartwood				04a9
+color_o_bloodwood				0846//04aa
+color_o_frostwood				04ab
+color_o_sunwood					04ac
+
+[DEFNAME COLOR_HIDE]
+color_o_leather					0
+color_o_spined					08ac
+color_o_horned					0845
+color_o_barbed					0851
+
+[DEFNAME COLOR_ORE]
+color_o_iron					0
+color_o_dull_copper				0973
+color_o_shadow					0966
+color_o_copper					096d
+color_o_bronze					0972
+color_o_gold					08a5
+color_o_agapite					0979
+color_o_verite					089f
+color_o_valorite				08ab
+
+[DEFNAME COLOR_ORE_BACKWARDS]
+color_o_oldcopper				0590
+color_o_silver					0231 //option: 0
+color_o_bloodrock				04c2
+color_o_blackrock				0455
+color_o_mytheril				052d //or 0528
+color_o_rose					0665
+color_o_rusty					0750
+
+[DEFNAME COLOR_SETS]
+color_o_darkwood_set				0494
+
+[DEFNAME COLOR_FISH]
+color_o_fishprize				51
+color_o_fishwondrous			86
+color_o_fishtrulyrare			76
+color_o_fishpeculiarhighly		66
+
+[DEFNAME COLOR_GRANITE]
+color_o_granite					0
+
+[DEFNAME SPELLWEAVING_SOUNDS]
+snd_spell_arcane_circle			1472
+snd_spell_gift_renewal			1481
+
+[DEFNAME MYSTICISM_SOUNDS]
+snd_spell_animated_weapon		1611
+snd_spell_bombard				1612
+snd_spell_cleansing_winds		1613
+snd_spell_eagle_strike			1614
+snd_spell_enchant				1615
+snd_spell_hail_storm			1616
+snd_spell_healing_stone			1617
+snd_spell_mass_sleep			1618
+snd_spell_nether_bolt			1620
+snd_spell_nether_cyclone		1621
+snd_spell_pure_magic			1622
+snd_spell_rising_colossus		1623
+snd_spell_sleep					1624
+snd_spell_spell_plague			1625
+snd_spell_spell_trigger			1626
+snd_spell_stone_form			1627
+
+[DEFNAME SA_GARGOYLE_SOUND]
+snd_gargoyle_female_a			1525
+snd_gargoyle_female_d			1526
+snd_gargoyle_female_h			1527
+snd_gargoyle_female_n			1528
+snd_gargoyle_male_a				1529
+snd_gargoyle_male_d				1530
+snd_gargoyle_male_h				1531
+snd_gargoyle_male_n				1532
+
+[DEFNAME SA_MONSTER_SOUND]
+snd_monster_medusa_a			1555
+snd_monster_medusa_d			1556
+snd_monster_medusa_h			1557
+snd_monster_medusa_n			1558
+snd_monster_rotworm_a			1579
+snd_monster_rotworm_d			1580
+snd_monster_rotworm_h			1581
+snd_monster_rotworm_n			1582
+snd_monster_slasher_of_veils_a	1587
+snd_monster_slasher_of_veils_d	1588
+snd_monster_slasher_of_veils_h	1589
+snd_monster_slasher_of_veils_n	1590
+snd_monster_stygian_dragon_a	1599
+snd_monster_stygian_dragon_d	1600
+snd_monster_stygian_dragon_h	1601
+snd_monster_stygian_dragon_n	1602
+
+snd_monster_chicken_lizard   1509
+snd_monster_medusa                 1555
+snd_monster_goblin                 1534
+snd_monster_gargoyle_undead  1607
+snd_monster_navreynighteyes  1563
+snd_monster_slith            1591
+snd_monster_skree            1583
+snd_monster_mimic                       1559
+snd_monster_dragon_faerie       1513
+snd_monster_dragon_wolf   1517
+snd_abyssal_infernal     1493
+snd_monster_elem_lava           1547
+snd_monster_maddening_horror 1551
+snd_monster_boura                       1505
+snd_death_beetle1                 1264
+snd_monster_stoneform           1595
+snd_monster_bloodworm   1501
+snd_monster_rotworm             1579
+snd_monster_raptor                 1571
+snd_monster_kepetch               1543
+snd_monster_homunculous   1542
+
+[DEFNAME MISC_SOUNDS]
+snd_quest_abandon				1460
+snd_quest_accept				1461
+snd_quest_complete				1462
+snd_quest_update				1463
+snd_virtuecards_add_remove		1466
+snd_virtuecards_rightcombo		1467
+snd_virtuecards_wrongcombo		1468
+snd_gargoyle_pluck				1489
+snd_imbue						1490
+snd_throw_h						1491
+snd_throw_m						1491
+snd_mysticism					1619
+
+[DEFNAME STAT_NAMES]
+stat_0_name	str
+stat_1_name	int
+stat_2_name	dex
+
+[DEFNAME NOTO_FLAGS]
+NotoGood						1
+NotoGuildSame					2
+NotoNeutral						3
+NotoCriminal					4
+NotoGuildWar					5
+NotoEvil						6
+
+[DEFNAME SPELL_FLAGS_NEW]
+spellflag_targ_player			0200004 // targ_char + targ_no_npc
+spellflag_targ_npc				0100004 // targ_char + targ_no_player
+
+[DEFNAME BUFF_ICONS]
+bufficon_sleep					1049
+bufficon_stoneform				1050
+bufficon_spellplague			1051
+bufficon_gargoyleberserk		1052 // i assume this is a new ability
+bufficon_gargoylefly			1054 // and this is the flying effect
+
+[DEFNAME BUFF_CLILOCS]
+buffcliloc_empty				1070722
+buffcliloc_poison_1				1017383
+buffcliloc_poison_2				1075633 // 1070722 //empty
+buffcliloc_nightsight_1			1075643
+buffcliloc_nightsight_2			1075644
+buffcliloc_deathstrike_1		1075645
+buffcliloc_deathstrike_2		1075646
+buffcliloc_evilomen_1			1075647
+buffcliloc_evilomen_1			1075648
+buffcliloc_enemyofone_1			1075653 // Enemy of One
+buffcliloc_enemyofone_2			1075654 // +~1_PERCENT~% damage to ~2_ARTICLE~ ~3_TEMPLATES~.<br>+~4_PERCENT~% damage from anything except ~2_ARTICLE~ ~3_TEMPLATES~ to you.
+buffcliloc_hidden_1				1075655
+buffcliloc_hidden_2				1075656
+buffcliloc_bloodoathcaster_1	1075659 // Blood Oath (caster)
+buffcliloc_bloodoathcaster_2	1075660 // +20% damage from ~1_TARGET~<br>Base damage from ~1_TARGET~ inflicted back on them.
+buffcliloc_bloodoathcurse_1		1075661 // Blood Oath (curse)
+buffcliloc_bloodoathcurse_2		1075662 // Any damage inflicted on ~1_CASTER~ is inflicted on you as well.
+buffcliloc_corpseskin_1			1075663 // Corpse Skin
+buffcliloc_corpseskin_2			1075664 // +10% physical resist.<br>+10% cold resist.<br>-15% fire resist.<br>-15% poison resist.
+buffcliloc_mindrot_1			1075665 // Mind Rot
+buffcliloc_mindrot_2			1075666 // +25% increased mana cost.
+buffcliloc_painspike_1			1075667 // Pain Spike
+buffcliloc_painspike_2			1075668 // +~1_DMG~ hit points when Pain Spike wears off.
+buffcliloc_giftofrenewal		1075796 // Gift of Renewal
+buffcliloc_giftofrenewal		1075797 // +~1_DMG~ hit points every 2 seconds
+buffcliloc_reactivearmor_1		1075812
+buffcliloc_reactivearmor_2		1075813
+buffcliloc_protection_1			1075814
+buffcliloc_protection_2			1075815
+buffcliloc_archprotection		1075816
+buffcliloc_archprotection		1070722 // empty!
+buffcliloc_magicreflection_1	1075817
+buffcliloc_magicreflection_1	1075818
+buffcliloc_incognito_1			1075819
+buffcliloc_incognito_2			1075820
+buffcliloc_disguised_1			1075821
+buffcliloc_disguised_2			1075820
+buffcliloc_animalform_1			1075822
+buffcliloc_animalform_2			1075823
+buffcliloc_polymorph_1			1075824
+buffcliloc_polymorph_2			1075820 // use 1070722 = empty or 1075823 = You are transformed into ~1_ARTICLE~ ~2_FORM~.
+buffcliloc_invisibility_1		1075825
+buffcliloc_invisibility_2		1075826
+buffcliloc_paralyze_1			1075827
+buffcliloc_paralyze_2			1075828
+buffcliloc_bleed_1				1075829
+buffcliloc_bleed_2				1075830
+buffcliloc_clumsy_1				1075831
+buffcliloc_clumsy_2				1075832
+buffcliloc_feeblemind_1			1075833
+buffcliloc_feeblemind_1			1075834
+buffcliloc_curse_1				1075835
+buffcliloc_curse_2				1075836 // 1075840
+buffcliloc_weaken_1				1075837
+buffcliloc_weaken_2				1075838
+buffcliloc_masscurse_1			1075839
+buffcliloc_masscurse_2			1075840
+buffcliloc_agility_1			1075841
+buffcliloc_agility_2			1075842
+buffcliloc_cunning_1			1075843
+buffcliloc_cunning_2			1075844
+buffcliloc_strength_1			1075845
+buffcliloc_strength_2			1075846
+buffcliloc_bless_1				1075847
+buffcliloc_bless_2				1075848
+
+[DEFNAME tables_html_tags]
+p_table_head			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#fffff0"><tr><td>
+p_table_head_end		</td></tr></table>
+p_table				<table width="100%">
+p_table_end			</table>
+th				<th>
+the				</th>
+tr				<tr>
+tre				</tr>
+td				<td>
+tde				</td>
+
+[defname tables_files]
+alchemy_file			Alchemy.html
+animaltaming_file		AnimalTaming.html
+archery_file			Archery.html
+blacksmithing_file		Blacksmithing.html
+bowcraft_file			Bowcraft.html
+carpentry_file			Carpentry.html
+cartography_file		Cartography.html
+chivalry_file			Chivalry.html
+cooking_file			Cooking.html
+fencing_file			Fencing.html
+fishing_file			Fishing.html
+inscription_file		Inscription.html
+macefighting_file		Macefighting.html
+magery_file			Magery.html
+magicresistance_file		ResistingSpells.html
+mining_file			Mining.html
+necromancy_file			Necromancy.html
+spellweaving_file		Spellweaving.html
+swordsmanship_file		Swordsmanship.html
+throwing_file			Throwing.html
+tailoring_file			Tailoring.html
+tinkering_file			Tinkering.html
+crossbow_file			Archery.html
+axefighting_file		Swordsmanship.html
+sandmining_file			Mining.html
+itemprop_file			itemprop.php
+
+[defname tables_settings]
+// $skill.Table	$props
+// Lists the data to insert in the table.
+// So when you execute the command you have to define:
+// local.$prop = <value>
+// Example: if $prop = name.
+// Code: local.name = <serv.itemdef.<local.item>.name>
+// Crafting Tables
+Alchemy.Table				Name,Resources,Skillmake,PotionStrength
+Blacksmithing.Table			Name,Resources,Skillmake
+Bowcraft.Table				Name,Resources,Skillmake
+Carpentry.Table				Name,Resources,Skillmake
+Cartography.Table			Name,Resources,Skillmake
+Cooking.Table				Name,Resources,Skillmake
+Tailoring.Table				Name,Resources,Skillmake
+Tinkering.Table				Name,Resources,Skillmake
+Inscription.Table			Name,Resources,Skillmake
+// Resources Tables
+Mining.Table				Name,MinSkill,MaxSkill,Chance
+SandMining.Table			Name,MinSkill,MaxSkill,Chance
+Fishing.Table				Name,MinSkill,MaxSkill,Chance
+// Magic Tables
+Magery.Table				Spell,Resources,Mana,SkillReq
+Necromancy.Table			Spell,Resources,Mana,SkillReq
+Chivalry.Table				Spell,Tithing,Mana,SkillReq
+Spellweaving.Table			Spell,Mana,SkillReq
+// Combat Tables
+Swordsmanship.Table			Weapon,StrReq,Damage,Speed
+Archery.Table				Weapon,StrReq,Damage,Speed
+Axefighting.Table			Weapon,StrReq,Damage,Speed
+Macefighting.Table			Weapon,StrReq,Damage,Speed
+Fencing.Table				Weapon,StrReq,Damage,Speed
+Crossbow.Table				Weapon,StrReq,Damage,Speed
+// NPCs Related Tables
+AnimalTaming.Table			Name,SkillReq
+
+// $prop.$key
+// $key could be:
+// - Name: The text to write in the web table
+// - FixedPoint: If 1, FVAL instead of EVAL the number.
+Chance.FixedPoint			"1"
+MinSkill.FixedPoint			"1"
+MinSkill.Name				"Min Skill"
+MaxSkill.FixedPoint			"1"
+MaxSkill.Name				"Max Skill"
+PotionStrength.Name			"Strength"
+PotionStrength.FixedPoint		"1"
+SkillReq.Name				"Skill Required"
+StrReq.Name				"Required STR"
+
+[defname tables_spells]
+magery_morez			1
+magery_spells			63
+necromancy_morez		100
+necromancy_spells		18
+chivalry_morez			200
+chivalry_spells			25
+spellweaving_morez		600
+spellweaving_spells		16
+
+[defname tables_resources]
+sandmining_region		r_default_sand
+mining_region			r_default_rock
+fishing_region			r_default_water
+
+[eof]

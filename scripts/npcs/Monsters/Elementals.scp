@@ -1,0 +1,879 @@
+[COMMENT monsters_elementals]
+The Magery summoning spell elementals are in the Spells directory.
+
+Regarding ore elementals:
+Melee attacks do 25 to 40 damage per hit. It has a special type of
+gas attack which looks like a large yellowish white flamestrike. This
+gas does from 15-45 points of damage per hit. It also decreases stamina
+by 8 points, and makes a hissing sound similar to the sound made when
+someone trips a box trapped with gas. Poison (magical or liquid) seems
+to have no effect on Ore Elementals. Ore Elementals rate from tough
+(Copper) to almost invincible (Valorite).
+
+
+
+
+
+
+[CHARDEF c_elemental_ore_iron]
+id=c_elemental_earth_summoned
+NAME=iron elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=20,25
+ARMOR=30
+DESIRES=r_caves,r_desert,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=6 i_ore_iron
+BLOODCOLOR=0
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (iron)
+ON=@Create
+   NPC=brain_monster
+   color 0810
+   FAME=0
+   KARMA=-3500
+   STR=150
+   DEX=50
+   INT=50
+   MAGICRESISTANCE=50.0
+   TACTICS=50.0
+   WRESTLING=50.0
+
+ON=@NPCRestock
+   ITEM=i_ore_iron,{5 10}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[CHARDEF 06e]
+DEFNAME=c_elemental_ore_copper_dull
+NAME=dull copper elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=25,35
+ARMOR=35
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_dull_copper
+BLOODCOLOR=color_o_dull_copper//_dull
+MOVERATE=120
+TAG.Barding.Diff=73.8
+TAG.Luck.Loot=loot_elemental_dull_copper_luck
+TAG.Slayer=SLAYER_EARTHELEM
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (dull copper)
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR=200
+   DEX=100
+   INT=50
+   MAGICRESISTANCE=100.0
+   TACTICS={60.0 100.0}
+   WRESTLING={60.0 100.0}
+ON=@NPCRestock
+   //ITEM=loot_elemental_ore_copper_dull
+   ITEM=i_ore_dull_copper,{5 10}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 06d]
+//FIXME: "Reflects 50% damage done by spells OR melee."
+DEFNAME=c_elemental_ore_copper
+NAME=copper elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=25,35
+ARMOR=30
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_copper
+BLOODCOLOR=color_o_copper
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (copper)
+ON=@Create
+   NPC=brain_monster
+   FAME=4800
+   KARMA=-4800
+   STR=220
+   DEX=100
+   INT=50
+   MAGICRESISTANCE={50.0 95.0}
+   TACTICS={60.0 100.0}
+   WRESTLING={60.0 100.0}
+
+ON=@NPCRestock
+   ITEM=i_ore_copper,{5 10}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 06c]
+//FIXME: Bronze Elemental has a gas attack that can hit nearby characters.
+DEFNAME=c_elemental_ore_bronze
+NAME=bronze elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=25,35
+ARMOR=35
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_bronze
+BLOODCOLOR=color_o_bronze
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (bronze)
+ON=@Create
+   NPC=brain_monster
+   FAME=5000
+   KARMA=-5000
+   STR={220 240}
+   DEX={126 145}
+   INT={71 92}
+   MAGICRESISTANCE={50.0 95.0}
+   TACTICS={60.0 100.0}
+   WRESTLING={60.0 100.0}
+ON=@NPCRestock
+   ITEM=i_ore_bronze,{5 10}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 0a6]
+DEFNAME=c_elemental_ore_gold
+NAME=golden elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=25,35
+ARMOR=35
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_gold
+BLOODCOLOR=color_o_gold
+MOVERATE=120
+TAG.Barding.Diff=73.9
+TAG.Luck.Loot=loot_elemental_golden_luck
+TAG.Slayer=SLAYER_EARTHELEM
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (gold)
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={226 255}
+   DEX={126 145}
+   INT={71 92}
+   MAGICRESISTANCE={50.0 95.0}
+   TACTICS={60.0 100.0}
+   WRESTLING={60.0 100.0}
+ON=@NPCRestock
+   ITEM=i_ore_gold,{5 10}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 06b]
+DEFNAME=c_elemental_ore_agapite
+NAME=agapite elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=30,40
+ARMOR=40
+DESIRES=r_caves,r_desert,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_agapite
+BLOODCOLOR=color_o_agapite
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (agapite)
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={256 295}
+   DEX={156 195}
+   INT={71 92}
+   MAGICRESISTANCE={50.0 125.0}
+   TACTICS={60.0 120.0}
+   WRESTLING={60.0 120.0}
+ON=@NPCRestock
+   ITEM=i_ore_agapite,{5 10}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 06f]
+DEFNAME=c_elemental_ore_shadow
+NAME=shadow iron elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=30,40
+ARMOR=40
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_shadow
+BLOODCOLOR=color_o_shadow
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (shadow)
+ON=@Create
+   NPC=brain_monster
+   FAME=4500
+   KARMA=-4500
+   STR={266 295}
+   DEX={156 195}
+   INT={71 92}
+   MAGICRESISTANCE={100.0 125.0}
+   TACTICS={60.0 120.0}
+   WRESTLING={60.0 120.0}
+ON=@NPCRestock
+   ITEM=i_ore_shadow,{5 10}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 071]
+DEFNAME=c_elemental_ore_verite
+NAME=verite elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=35,45
+ARMOR=45
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_verite
+BLOODCOLOR=color_o_verite
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (verite)
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={326 355}
+   DEX={226 245}
+   INT={71 92}
+   MAGICRESISTANCE={100.0 155.0}
+   TACTICS={90.0 160.0}
+   WRESTLING={90.0 190.0}
+ON=@NPCRestock
+   ITEM=i_ore_verite,{5 10}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF 070]
+DEFNAME=c_elemental_ore_valorite
+NAME=valorite elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=35,45
+ARMOR=50
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=8 i_ore_valorite
+BLOODCOLOR=color_o_valorite
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (valorite)
+ON=@Create
+   NPC=brain_monster
+   FAME=3500
+   KARMA=-3500
+   STR={326 355}
+   DEX={226 245}
+   INT={71 92}
+   MAGICRESISTANCE={100.0 155.0}
+   TACTICS={90.0 160.0}
+   WRESTLING={90.0 190.0}
+ON=@NPCRestock
+   ITEM=i_ore_valorite,{5 10}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[CHARDEF c_elemental_ore_mytheril]
+id=c_elemental_earth_summoned
+NAME=mytheril elemental
+ICON=i_pet_elem_earth
+SOUND=snd_elementl_erthel1
+CAN=MT_WALK|MT_USEHANDS
+DAM=40,50
+ARMOR=50
+DESIRES=r_caves,r_desert,t_coin,t_gold,t_gem,t_potion,t_arock,t_ore
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_arock,t_coin,t_ore,t_ingot
+RESOURCES=6 i_ore_mytheril
+BLOODCOLOR=0
+MOVERATE=120
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Ore Elemental (iron)
+ON=@Create
+   NPC=brain_monster
+   color color_o_mytheril
+   FAME=3500
+   KARMA=-3500
+   STR={326 355}
+   DEX={226 245}
+   INT={71 92}
+   MAGICRESISTANCE={100.0 155.0}
+   TACTICS={90.0 160.0}
+   WRESTLING={90.0 190.0}
+
+ON=@NPCRestock
+   ITEM=i_ore_mytheril,{4 8}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+[CHARDEF 083]
+DEFNAME=c_efreet
+NAME=efreet
+ICON=i_pet_efreet
+SOUND=snd_monster_efreet1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS
+DAM=27,32
+ARMOR=50
+DESIRES=r_desert,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=25 t_meat_raw
+//RESOURCES=1 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=200
+TAG.Barding.Diff=85.0
+TAG.DamEnergy=50
+TAG.DamFire=50
+TAG.Luck.Loot=loot_elemental_efreet_luck
+TAG.Slayer=SLAYER_ELEMENTAL
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Efreet
+ON=@Create
+   NPC=brain_monster
+   FAME=10000
+   KARMA=-10000
+   STR={326 355}
+   MAXHITS={196 213}
+   DEX={266 285}
+   MAXSTAM={266 285}
+   INT={171 195}
+   MAXMANA={171 195}
+   ANATOMY={75.0 85.0}
+   ARCHERY={60.0 80.0}
+   EVALUATINGINTEL={60.0 75.0}
+   FENCING={60.0 80.0}
+   MACEFIGHTING={60.0 80.0}
+   MAGERY={60.0 75.0}
+   MAGICRESISTANCE={60.0 75.0}
+   MEDITATION={90.0 105.0}
+   PARRYING={60.0 80.0}
+   SWORDSMANSHIP={60.0 80.0}
+   TACTICS={60.0 80.0}
+   WRESTLING={60.0 80.0}
+   MODAR={0 10}
+   RESCOLD=0
+   RESENERGY={40 50}
+   RESFIRE={60 70}
+   RESPOISON={30 40}
+ON=@NpcRestock
+   ITEM=loot_efreet
+   //400 - 500 Gold. Special: Daemon Bone Armor, Level 4 Treasure Map
+on=@death
+if (<act.tag0.7questvar>==1)
+src.newitem=i_efreet_eye
+new.bounce
+ELSE
+if !(<act.tag0.7questvar>==1)
+return 0
+endif
+endif
+
+[CHARDEF 09e]
+DEFNAME=c_elemental_acid
+NAME=acid elemental
+ICON=i_pet_elem_acid
+SOUND=snd_elementl_watrel1
+CAN=MT_WALK|MT_SWIM|MT_NONHUM
+DAM=26,42
+ARMOR=45
+DESIRES=r_ruins,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=83.9
+TAG.CorrosiveBlood=25
+TAG.DamEnergy=25
+TAG.DamFire=50
+//TAG.Luck.Loot=FIXME
+TAG.Slayer=SLAYER_ELEMENTAL
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Elemental (acid)
+ON=@Create
+   NPC=brain_monster
+   FAME=10000
+   KARMA=-10000
+   STR={326 355}
+   MAXHITS={196 213}
+   DEX={66 85}
+   MAXSTAM={66 85}
+   INT={111 135}
+   MAXMANA={271 295}
+   EVALUATINGINTEL={70.0 85.0}
+   MAGERY={70.0 85.0}
+   MAGICRESISTANCE={60.0 75.0}
+   TACTICS={80.0 90.0}
+   WRESTLING={70.0 90.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={30 40}
+   RESFIRE={40 50}
+   RESPOISON={10 20}
+ON=@NPCRestock
+   ITEM=loot_elemental_acid
+   //400 - 500 Gold. Magic Items
+   //Special: Level 2 Treasure Map
+
+[CHARDEF 09f]
+DEFNAME=c_elemental_blood
+NAME=blood elemental
+ICON=i_pet_elem_blood
+SOUND=snd_elementl_watrel1
+CAN=MT_WALK|MT_SWIM|MT_NONHUM
+DAM=57,91
+ARMOR=55
+DESIRES=r_dungeon,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=93.5
+TAG.CorrosiveBlood=15
+TAG.DamEnergy=50
+TAG.DamPoison=50
+TAG.Luck.Loot=loot_elemental_blood_luck
+TAG.Slayer=SLAYER_BLOODELEM
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Elemental (blood)
+ON=@Create
+   NPC=brain_monster
+   FAME=12500
+   KARMA=-12500
+   STR={526 615}
+   MAXHITS={316 369}
+   DEX={66 85}
+   MAXSTAM={66 85}
+   INT={126 150}
+   MAXMANA={226 350}
+   EVALUATINGINTEL={85.0 100.0}
+   MAGERY={85.0 100.0}
+   MAGICRESISTANCE={80.0 95.0}
+   MEDITATION={10.0 50.0}
+   //POISONING={110.0 120.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={80.0 100.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={30 40}
+   RESFIRE={20 30}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   ITEM=loot_elemental_blood
+   //700 - 900 Gold. Magic Items
+   //Special: Level 5 Treasure Map
+
+[CHARDEF 0a2]
+DEFNAME=c_elemental_poison
+NAME=poison elemental
+ICON=i_pet_elem_poison
+SOUND=snd_elementl_airelem1
+CAN=MT_WALK|MT_FLY|MT_NONHUM
+DAM=36,57
+ARMOR=60
+DESIRES=r_swamp,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+RESOURCES=i_reag_nightshade
+BLOODCOLOR=colors_green
+MOVERATE=150
+TAG.Barding.Diff=105.1
+TAG.DamPoison=90
+TAG.HitPoison=5//Lethal
+TAG.Luck.Loot=loot_elemental_poison_luck
+TAG.Slayer=SLAYER_POISONELEM
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Elemental (poison)
+ON=@Create
+   NPC=brain_monster
+   FAME=12500
+   KARMA=-12500
+   STR={426 515}
+   MAXHITS={256 309}
+   DEX={266 285}
+   MAXSTAM={166 185}
+   INT={144 166}
+   MAXMANA={361 435}
+   EVALUATINGINTEL={80.0 95.0}
+   MAGERY={80.0 95.0}
+   MAGICRESISTANCE={85.0 115.0}
+   MEDITATION={80.0 120.0}
+   //POISONING={100.0 125.0}
+   TACTICS={80.0 100.0}
+   WRESTLING={70.0 100.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={40 50}
+   RESFIRE={20 30}
+   RESPOISON=100
+ON=@NPCRestock
+   ITEM=loot_elemental_poison
+   //750 - 950 Gold. 4 Nightshade, 1 Medium Level Scroll, 1 Lesser Poison Potion, Magic Items
+   //Special: Level 5 Treasure Map
+   
+
+	
+[CHARDEF 0a4]
+//FIXME: No Stratics entry...looks like a purple air elemental
+DEFNAME=c_elemental_swamp
+NAME=swamp elemental
+ICON=i_pet_elem_blood
+SOUND=snd_elementl_watrel1
+CAN=MT_WALK|MT_SWIM|MT_NONHUM
+DAM=18,36
+ARMOR=45
+DESIRES=r_swamp,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_green
+MOVERATE=100
+TAG.Barding.Diff=130.1
+TAG.DamPoison=50
+TAG.HitPoison=4//Deadly
+TAG.Slayer=SLAYER_ELEMENTAL
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Swamp Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-8000
+   STR={350 400}
+   MAXHITS={350 400}
+   DEX={115 125}
+   MAXSTAM={115 125}
+   INT={126 150}
+   MAXMANA={126 150}
+   MAXMANA={226 350}
+   EVALUATINGINTEL={65.0 70.0}
+   MAGERY={65.0 70.0}
+   MAGICRESISTANCE={60.0 75.0}
+   MEDITATION={10.0 50.0}
+   //POISONING={100.0 110.0}
+   TACTICS={60.0 70.0}
+   WRESTLING={60.0 70.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={10 20}
+   RESFIRE={20 30}
+   RESPOISON={50 60}
+ON=@NPCRestock
+   ITEM=loot_elemental_swamp
+
+[CHARDEF 0c4]
+//FIXME: Flurry of twigs that lowers Physical Resistance
+//FIXME: Lowers Energy Resistance of creatures it hits
+DEFNAME=c_kaze_kemono
+NAME=kaze kemono
+ICON=i_pet_kazekemono
+SOUND=snd_elementl_airelem5
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_NONHUM
+DAM=33,48
+ARMOR=50
+DESIRES=r_forests,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+FOODTYPE=25 t_meat_raw
+//RESOURCES=
+BLOODCOLOR=colors_brown
+MOVERATE=100
+TAG.Barding.Diff=87.3
+TAG.DamCold=10
+TAG.DamEnergy=70
+TAG.DamFire=10
+TAG.DamPoison=10
+TAG.Slayer=SLAYER_ELEMENTAL
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Kaze Kemono
+RESLEVEL=3
+RESDISPDNID=c_elemental_air
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-8000
+   STR={205 275}
+   MAXHITS={250 310}
+   DEX={100 155}
+   MAXSTAM={100 155}
+   INT={100 110}
+   MAXMANA={100 110}
+   ANATOMY={25.0 35.0}
+   MAGERY={95.0 105.0}
+   MAGICRESISTANCE={110.0 120.0}
+   //POISONING={55.0 65.0}
+   TACTICS={55.0 65.0}
+   WRESTLING={85.0 95.0}
+   MODAR={0 20}
+   RESCOLD={30 60}
+   RESENERGY={60 80}
+   RESFIRE={30 60}
+   RESPOISON={50 70}
+ON=@NpcRestock
+   ITEM=loot_elemental_kaze_kemono
+   //550 - 650 Gold. Magic Items, 2 Gems
+
+[CHARDEF 0c7]
+//FIXME: Needs paralyzing blow skill
+DEFNAME=c_rai_ju
+NAME=rai-ju
+ICON=i_pet_raiju
+SOUND=snd_elementl_airelem5
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_NONHUM
+DAM=24,30
+ARMOR=45
+DESIRES=r_mountains,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization,e_carnivores3
+//RESOURCES=
+FOODTYPE=25 t_meat_raw
+MOVERATE=100
+TAG.Barding.Diff=82.0
+TAG.DamCold=10
+TAG.DamEnergy=10
+TAG.DamFire=60
+TAG.DamPoison=10
+TAG.Slayer=SLAYER_ELEMENTAL
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Rai-Ju
+RESLEVEL=3
+RESDISPDNID=c_elemental_air
+RESDISPDNHUE=33
+ON=@Create
+   NPC=brain_monster
+   FAME=8000
+   KARMA=-8000
+   STR={155 225}
+   MAXHITS={200 280}
+   DEX={85 135}
+   MAXSTAM={85 135}
+   INT={175 180}
+   MAXMANA={35 45}
+   ANATOMY={25.0 35.0}
+   MAGICRESISTANCE={110.0 120.0}
+   //POISONING={55.0 65.0}
+   TACTICS={55.0 65.0}
+   WRESTLING={85.1 95.0}
+   MODAR={0 20}
+   RESCOLD={30 60}
+   RESENERGY={60 80}
+   RESFIRE={70 85}
+   RESPOISON={50 70}
+ON=@NPCRestock
+   ITEM=loot_rai_ju
+   //550 - 650 Gold. Magic Items, 2 Gems
+ON=@Hit
+   //Stunning Blow
+   IF !(<SRC.FLAGS>&statf_freeze)&&(<MANA>>20)
+      MANA -= 20
+      SRC.SPELLEFFECT s_paralyze,100,1,<UID>
+      SRC.EFFECT 3,i_fx_field_paralyze,1,16,0,02
+      SRC.SOUND snd_spell_paralyze
+   ENDIF
+
+[CHARDEF 012c]
+//FIXME: Immune to poison
+DEFNAME=c_crystal_elemental
+NAME=crystal elemental
+ICON=i_pet_elem_crystal
+SOUND=snd_monster_harpy1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=20,29
+ARMOR=50
+DESIRES=r_caves,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=45 t_meat_raw
+//RESOURCES=1 i_crystals_broken
+//BLOODCOLOR=-1
+MOVERATE=100
+TAG.Barding.Diff=83.6
+TAG.DamEnergy=20
+TAG.Slayer=SLAYER_ELEMENTAL
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Crystal Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=6500
+   KARMA=-6500
+   STR={135 160}
+   MAXHITS={145 155}
+   DEX={50 65}
+   MAXSTAM={50 65}
+   INT={85 110}
+   MAXMANA={85 110}
+   EVALUATINGINTEL={70.0 75.0}
+   MAGERY={70.0 75.0}
+   MAGICRESISTANCE={80.0 90.0}
+   MEDITATION={65.0 75.0}
+   TACTICS={75.0 85.0}
+   WRESTLING={65.0 75.0}
+   MODAR={0 10}
+   RESCOLD={40 50}
+   RESENERGY={55 60}
+   RESFIRE={40 50}
+   RESPOISON=100
+ON=@NpcRestock
+   ITEM=loot_elemental_crystal
+   //400 - 500 Gold. 4 Gems.
+ON=@Hit
+   //Bleed Attack
+   IF (<MANA> >= 25) && !(<SRC.FINDID.i_bleed_timer>)
+      MANA -= 25
+      SRC.NEWITEM i_bleed_timer
+      NEW.LINK=<UID>
+      SRC.EQUIP <NEW>
+   ENDIF
+
+[CHARDEF 02d0]
+DEFNAME=c_elemental_lava
+NAME=lava elemental
+ICON=i_pet_elem_lava
+SOUND=snd_monster_elem_lava
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=12,18
+ARMOR=60
+//DESIRES=r_mountains_volcanic,t_coin,t_gold,t_gem,t_wand,t_potion,t_scroll,t_reagent
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+RESOURCES=2 i_ribs_raw
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=104.3
+TAG.DamPoison=90
+TAG.Slayer=SLAYER_ELEMENTAL//FIXME: Needs SLAYER_FLAME as well
+TEVENTS=e_carnivores3
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Lava Elemental
+ON=@Create
+   NPC=brain_monster
+   FAME=12500
+   KARMA=-12500
+   STR={445 510}
+   MAXHITS={260 270}
+   DEX={170 195}
+   MAXSTAM={170 195}
+   INT={365 400}
+   MAXMANA={365 400}
+   ANATOMY={1.0 15.0}
+   EVALUATINGINTEL={80.0 95.0}
+   MAGERY={90.0 95.0}
+   MAGICRESISTANCE={100.0 110.0}
+   MEDITATION={95.0 105.0}
+   //POISONING={95.0 105.0}
+   TACTICS={80.0 95.0}
+   WRESTLING={70.0 90.0}
+   MODAR={0 10}
+   RESCOLD={20 30}
+   RESENERGY={40 50}
+   RESFIRE={20 30}
+   RESPOISON=100
+ON=@NPCRestock
+   ITEM=random_essence_virtue,{2 3},R5
+   ITEM=loot_elemental_lava
+   //800 - 1000 Gold. 1 Lesser Poison Potion, 9 Reagents, 2 Gems, 1 Scroll, 4 - 5 Magic Items
+   //Special: Lava Serpent Crust, Tattered Scroll, Pottery Fragments, Devious (level 5) Treasure Map
+
+[CHARDEF 0316]
+//FIXME: Throws sand
+DEFNAME=c_elemental_sand_vortex
+NAME=sand vortex
+ICON=i_pet_vortex_sand
+SOUND=snd_elementl_airelem1
+CAN=MT_WALK|MT_FLY|MT_USEHANDS|MT_NONHUM
+DAM=5,27
+ARMOR=80
+DESIRES=r_desert,t_coin,t_gold,t_gem,t_potion
+AVERSIONS=t_trap,r_civilization
+FOODTYPE=35 t_meat_raw
+//RESOURCES=
+BLOODCOLOR=colors_white
+MOVERATE=120
+TAG.Barding.Diff=75.6
+TAG.DamFire=10
+TAG.Slayer=SLAYER_ELEMENTAL
+TEVENTS=e_carnivores2
+CATEGORY=Monsters
+SUBSECTION=Elementals
+DESCRIPTION=Elemental (sand vortex)
+ON=@Create
+   NPC=brain_monster
+   FAME=4500
+   KARMA=-4500
+   STR={96 120}
+   MAXHITS={51 62}
+   DEX={171 195}
+   MAXSTAM={171 195}
+   INT={76 100}
+   MAXMANA={76 100}
+   MAGICRESISTANCE={145.0 155.0}
+   TACTICS={66.0 75.0}
+   WRESTLING={75.0 85.0}
+   MODAR={0 10}
+   RESCOLD={60 70}
+   RESENERGY={60 70}
+   RESFIRE={60 70}
+   RESPOISON={60 70}
+ON=@NPCRestock
+//   ITEM=loot_elemental_sand_vortex
+   ITEM=i_sand,{1 3}
+   //100 - 150 Gold. Bones
+   //Special: Level 4 Treasure Map
+
+[EOF]

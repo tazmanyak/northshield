@@ -1,0 +1,1074 @@
+﻿
+[Plevel 1]
+craftpuan
+
+[FUNCTION ENCOMENDA]
+IF (<<ARGN1>> < 75.0)
+SYSMESSAGE @,,1 Bunun için sahip olmanız gereken min skill : 75.0 in <SERV.SKILL.<ARGN1>.KEY>.
+ELIF !(<FINDID.i_bulk_request_timer>)
+if !<isgm>
+SERV.NEWITEM i_bulk_request_timer
+NEW.MORE1=<ARGN1>
+EQUIP <NEW>
+endif
+SERV.NEWITEM i_bulk_order_deed
+BOUNCE <NEW>
+NEW.TAG.VENDORID=<UID.<CTAG.BULKORDERVENDORID>.BASEID>
+CTAG.BULKORDERVENDORID
+NEW.MOREZ=<ARGN1>
+NEW.MORE1=<HVAL {10 1 15 1 20 1}>
+	IF (<ARGN1> == 34)
+	NEW.COLOR=023c
+		IF (<<ARGN1>> <= 70.0)
+		TRYSRC <UID> NEW.BULKITEMSELECTTAILOR
+		ELSE
+		TRYSRC <UID> NEW.BULKITEMSELECTTAILOR 1
+		ENDIF
+	ELIF (<ARGN1>==7)
+		IF (<<ARGN1>> <= 70.0)
+		TRYSRC <UID> NEW.BULKITEMSELECTBS
+		ELSE
+		TRYSRC <UID> NEW.BULKITEMSELECTBS 1
+		ENDIF
+	ELIF !(<ARGN1>)
+	NEW.COLOR=020b
+		IF (<<ARGN1>> <= 70.0)
+		TRYSRC <UID> NEW.BULKITEMSELECTALCH
+		ELSE
+		TRYSRC <UID> NEW.BULKITEMSELECTALCH 1
+		ENDIF
+	ELIF (<ARGN1>==8)
+	NEW.COLOR=0175
+		IF (<<ARGN1>> <= 70.0)
+		TRYSRC <UID> NEW.BULKITEMSELECTBC
+		ELSE
+		TRYSRC <UID> NEW.BULKITEMSELECTBC 1
+		ENDIF
+	ENDIF
+ELSE
+SYSMESSAGE @,,1 Yeni bir deed alabilmek için beklemeniz gereken süre: <ftime <FINDID.i_bulk_request_timer.TIMER>>
+ENDIF
+CTAG.BULKORDERVENDORID
+
+///////////////////////////////////
+
+[FUNCTION BULKITEMSELECTALCH]
+IF !(<ARGN1>)
+IF !(<R3>)
+FOR 4
+MORE2 ++
+SETBULKALCHEASY <LOCAL._FOR>
+ENDFOR
+NAME=Large Bulk Order Deed
+ELSE
+SETBULKALCHEASY 1
+LOCAL.NEW=<NEW>
+SERV.NEWITEM=<TAG0.ITEM1>
+IF !(<NEW.COLOR> >= 1000)
+TAG.COR=<NEW.COLOR>
+ELSE
+TAG.COR=<EVAL <NEW.COLOR>+1>
+ENDIF
+NEW.REMOVE
+NEW=<LOCAL.NEW>
+MORE2=1
+ENDIF
+ELSE
+IF (<SRC.ALCHEMY> >= 70.0) && (<eval <src.tag.craft_puan>> >= 100)
+LOCAL.RAND=50
+ELSE
+LOCAL.RAND=70
+ENDIF
+IF (<R100> > <LOCAL.RAND>)
+FOR 4
+MORE2 ++
+DORAND 3
+SETBULKALCHHARD <LOCAL._FOR>
+SETBULKALCHEASY <LOCAL._FOR>
+SETBULKALCHHARD <LOCAL._FOR>
+ENDDO
+ENDFOR
+NAME=Large Bulk Order Deed
+ELSE
+DORAND 3
+SETBULKALCHHARD 1
+SETBULKALCHEASY 1
+SETBULKALCHHARD 1
+ENDDO
+LOCAL.NEW=<NEW>
+SERV.NEWITEM=<TAG0.ITEM1>
+IF !(<NEW.COLOR> >= 1000)
+TAG.COR=<NEW.COLOR>
+ELSE
+TAG.COR=<EVAL <NEW.COLOR>+1>
+ENDIF
+NEW.REMOVE
+NEW=<LOCAL.NEW>
+MORE2=1
+ENDIF
+ENDIF
+
+[FUNCTION SETBULKALCHEASY]
+DORAND 16
+TRY TAG.ITEM<ARGN1>=i_potion_agility
+TRY TAG.ITEM<ARGN1>=i_potion_agilitygreat
+TRY TAG.ITEM<ARGN1>=i_potion_cureless
+TRY TAG.ITEM<ARGN1>=i_potion_cure
+TRY TAG.ITEM<ARGN1>=i_potion_explosionless
+TRY TAG.ITEM<ARGN1>=i_potion_explosion
+TRY TAG.ITEM<ARGN1>=i_potion_healless
+TRY TAG.ITEM<ARGN1>=i_potion_heal
+TRY TAG.ITEM<ARGN1>=i_potion_nightsight
+TRY TAG.ITEM<ARGN1>=i_potion_poisonless
+TRY TAG.ITEM<ARGN1>=i_potion_poison
+TRY TAG.ITEM<ARGN1>=i_potion_poisongreat
+TRY TAG.ITEM<ARGN1>=i_potion_refresh
+TRY TAG.ITEM<ARGN1>=i_potion_refreshtotal
+TRY TAG.ITEM<ARGN1>=i_potion_strength
+TRY TAG.ITEM<ARGN1>=i_potion_strengthgreat
+ENDDO
+
+[FUNCTION SETBULKALCHHARD]
+DORAND 4
+TRY TAG.ITEM<ARGN1>=i_potion_curegreat
+TRY TAG.ITEM<ARGN1>=i_potion_explosiongreat
+TRY TAG.ITEM<ARGN1>=i_potion_healgreat
+TRY TAG.ITEM<ARGN1>=i_potion_poisondeadly
+ENDDO
+
+///////////////////////////////////
+
+[FUNCTION BULKITEMSELECTTAILOR]
+IF !(<ARGN1>)
+	IF !(<R3>)
+		FOR 4
+		MORE2 ++
+		SETBULKTAILOREASY 0 <LOCAL._FOR>
+		ENDFOR
+	NAME=Large Bulk Order Deed
+	ELSE
+	SETBULKTAILOREASY 0 1
+	MORE2=1
+	ENDIF
+ELSE
+	IF (<SRC.TAILORING> >= 70.0) && (<eval <src.tag.craft_puan>> >= 100)
+	LOCAL.RAND=50
+	ELSE
+	LOCAL.RAND=70
+	ENDIF
+	IF (<R100> > <LOCAL.RAND>)
+		FOR 4
+		MORE2 ++
+		SETBULKTAILOREASY 0 <LOCAL._FOR>
+		ENDFOR
+	NAME=Large Bulk Order Deed
+	ELSE
+		IF (<R2>)
+			DORAND 2
+			SETBULKTAILOREASY 0 1
+			SETBULKTAILORHARD 1
+			ENDDO
+		MORE2=1
+		ELSE
+			FOR 4
+				DORAND 3
+				SETBULKTAILORHARD <LOCAL._FOR>
+				SETBULKTAILOREASY 0 <LOCAL._FOR>
+				SETBULKTAILORHARD <LOCAL._FOR>
+				ENDDO
+			MORE2 ++
+			NAME=Large Bulk Order Deed
+			ENDFOR
+		ENDIF
+		IF !(<R3>)
+		MOREY=1
+		ENDIF
+	ENDIF
+ENDIF
+
+[FUNCTION SETBULKTAILORHARD]
+DORAND 10
+TRY TAG.ITEM<ARGN1>=i_barbed_tunic
+TRY TAG.ITEM<ARGN1>=i_barbed_leggings
+TRY TAG.ITEM<ARGN1>=i_barbed_gorget
+TRY TAG.ITEM<ARGN1>=i_barbed_gloves
+TRY TAG.ITEM<ARGN1>=i_barbed_sleeves
+TRY TAG.ITEM<ARGN1>=i_horned_tunic
+TRY TAG.ITEM<ARGN1>=i_horned_leggings
+TRY TAG.ITEM<ARGN1>=i_horned_gorget
+TRY TAG.ITEM<ARGN1>=i_horned_gloves
+TRY TAG.ITEM<ARGN1>=i_horned_sleeves
+TRY TAG.ITEM<ARGN1>=i_protective_magerobe
+ENDDO
+TAG.TAILOR_HARD 1
+
+[FUNCTION SETBULKTAILOREASY]
+DORAND 33
+TRY TAG.ITEM<ARGN2>=i_boots_calf
+TRY TAG.ITEM<ARGN2>=i_sandals
+TRY TAG.ITEM<ARGN2>=i_shoes_plain
+TRY TAG.ITEM<ARGN2>=i_boots_thigh
+TRY TAG.ITEM<ARGN2>=i_bonnet
+TRY TAG.ITEM<ARGN2>=i_cap
+TRY TAG.ITEM<ARGN2>=i_hat_feather
+TRY TAG.ITEM<ARGN2>=i_hat_floppy
+TRY TAG.ITEM<ARGN2>=i_hat_jester
+TRY TAG.ITEM<ARGN2>=i_hat_straw
+TRY TAG.ITEM<ARGN2>=i_hat_straw_tall
+TRY TAG.ITEM<ARGN2>=i_hat_tricorne
+TRY TAG.ITEM<ARGN2>=i_hat_wide_brim
+TRY TAG.ITEM<ARGN2>=i_hat_wizards
+TRY TAG.ITEM<ARGN2>=i_bandana
+TRY TAG.ITEM<ARGN2>=i_sash
+TRY TAG.ITEM<ARGN2>=i_apron_full
+TRY TAG.ITEM<ARGN2>=i_apron_half
+TRY TAG.ITEM<ARGN2>=i_skull_cap
+TRY TAG.ITEM<ARGN2>=i_kilt
+TRY TAG.ITEM<ARGN2>=i_pants_long
+TRY TAG.ITEM<ARGN2>=i_skirt_long
+TRY TAG.ITEM<ARGN2>=i_pants_short
+TRY TAG.ITEM<ARGN2>=i_cape
+TRY TAG.ITEM<ARGN2>=i_doublet
+TRY TAG.ITEM<ARGN2>=i_dress_full
+TRY TAG.ITEM<ARGN2>=i_shirt_fancy
+TRY TAG.ITEM<ARGN2>=i_jester_suit
+TRY TAG.ITEM<ARGN2>=i_dress_plain
+TRY TAG.ITEM<ARGN2>=i_shirt_plain
+TRY TAG.ITEM<ARGN2>=i_robe
+TRY TAG.ITEM<ARGN2>=i_surcoat
+TRY TAG.ITEM<ARGN2>=i_tunic
+ENDDO
+
+///////////////////////////////////
+
+[FUNCTION BULKITEMSELECTBS]
+IF !(<ARGN1>)
+	IF !(<R3>)
+		FOR 4
+		MORE2 ++
+		SETBULKBSEASY 0 <LOCAL._FOR>
+		ENDFOR
+		NAME=Large Bulk Order Deed
+	ELSE
+	SETBULKBSEASY 0 1
+	MORE2=1
+	ENDIF
+ELSE
+	IF (<SRC.BLACKSMITHING> >= 70.0) && (<eval <src.tag.craft_puan>> >= 100)
+	LOCAL.RAND=50
+	ELSE
+	LOCAL.RAND=70
+	ENDIF
+	IF (<R100> > <LOCAL.RAND>)
+		IF !(<R2>)
+			FOR 4
+			MORE2 ++
+			SETBULKBSEASY 0 <LOCAL._FOR>
+			ENDFOR
+		NAME=Large Bulk Order Deed
+		ELSE
+		SETBULKBSEASY 0 1
+		MORE2=1
+		ENDIF
+	ELSE
+		IF (<R3>)
+		CALL SETBULKBSEASY 1 1
+		MORE2=1
+		ELSE
+			FOR 4
+			CALL SETBULKBSEASY 1 <dLOCAL._FOR>
+			MORE2 ++
+			ENDFOR
+		NAME=Large Bulk Order Deed
+		ENDIF
+		IF !(<R3>)
+		MOREY=1
+		ENDIF
+	ENDIF
+ENDIF
+
+[FUNCTION SETBULKCARPEASY]
+
+
+[FUNCTION SETBULKBSEASY]
+DORAND 38
+TRY TAG.ITEM<ARGN2>=i_scimitar
+TRY TAG.ITEM<ARGN2>=i_sword_long
+TRY TAG.ITEM<ARGN2>=i_sword_viking
+TRY TAG.ITEM<ARGN2>=i_chainmail_coif
+TRY TAG.ITEM<ARGN2>=i_chainmail_leggings
+TRY TAG.ITEM<ARGN2>=i_chainmail_tunic
+TRY TAG.ITEM<ARGN2>=i_ringmail_gloves
+TRY TAG.ITEM<ARGN2>=i_ringmail_tunic
+TRY TAG.ITEM<ARGN2>=i_ringmail_sleeves
+TRY TAG.ITEM<ARGN2>=i_ringmail_leggings
+TRY TAG.ITEM<ARGN2>=i_axe_battle_large
+TRY TAG.ITEM<ARGN2>=i_katana
+TRY TAG.ITEM<ARGN2>=i_kryss
+TRY TAG.ITEM<ARGN2>=i_spear_short
+TRY TAG.ITEM<ARGN2>=i_war_fork
+TRY TAG.ITEM<ARGN2>=i_mace_war
+TRY TAG.ITEM<ARGN2>=i_helm_closed
+TRY TAG.ITEM<ARGN2>=i_dagger
+TRY TAG.ITEM<ARGN2>=i_helm_open
+TRY TAG.ITEM<ARGN2>=i_bascinet
+TRY TAG.ITEM<ARGN2>=i_helm_nose
+TRY TAG.ITEM<ARGN2>=i_platemail_arms
+TRY TAG.ITEM<ARGN2>=i_platemail_leggings
+TRY TAG.ITEM<ARGN2>=i_platemail_helm
+TRY TAG.ITEM<ARGN2>=i_platemail_gorget
+TRY TAG.ITEM<ARGN2>=i_platemail_gloves
+TRY TAG.ITEM<ARGN2>=i_platemail_chest
+TRY TAG.ITEM<ARGN2>=i_hammer_war
+TRY TAG.ITEM<ARGN2>=i_maul
+TRY TAG.ITEM<ARGN2>=i_hammer_pick
+TRY TAG.ITEM<ARGN2>=i_halberd
+TRY TAG.ITEM<ARGN2>=i_cutlass
+TRY TAG.ITEM<ARGN2>=i_axe_two_hand
+TRY TAG.ITEM<ARGN2>=i_shield_round_bronze
+TRY TAG.ITEM<ARGN2>=i_shield_buckler
+TRY TAG.ITEM<ARGN2>=i_shield_kite_metal
+TRY TAG.ITEM<ARGN2>=i_shield_heater
+TRY TAG.ITEM<ARGN2>=i_shield_round_metal
+ENDDO
+IF (<ARGN1>)
+	DORAND 8
+	TAG.MATERIALTOBEMADE=mytheril
+	TAG.MATERIALTOBEMADE=valorite
+	TAG.MATERIALTOBEMADE=verite
+	TAG.MATERIALTOBEMADE=gold
+	TAG.MATERIALTOBEMADE=agapite
+	TAG.MATERIALTOBEMADE=bronze
+	TAG.MATERIALTOBEMADE=shadow
+	TAG.MATERIALTOBEMADE=copper
+	ENDDO
+TAG.COR=<DEF.color_o_<TAG.MATERIALTOBEMADE>>
+ENDIF
+
+//////////////////////////////////////
+
+[FUNCTION BULKITEMSELECTBC]
+IF !(<ARGN1>)
+IF !(<R3>)
+FOR 4
+MORE2 ++
+SETBULKBCEASY <LOCAL._FOR>
+ENDFOR
+NAME=Large Bulk Order Deed
+ELSE
+SETBULKBCEASY 1
+MORE2=1
+ENDIF
+ELSE
+IF (<SRC.BOWCRAFT> >= 70.0) && (<eval <src.tag.craft_puan>> >= 100)
+LOCAL.RAND=50
+ELSE
+LOCAL.RAND=70
+ENDIF
+IF (<R100> > <LOCAL.RAND>)
+IF !(<R2>)
+FOR 4
+MORE2 ++
+SETBULKBCEASY <LOCAL._FOR>
+ENDFOR
+NAME=Large Bulk Order Deed
+ELSE
+SETBULKBCEASY 1
+MORE2=1
+ENDIF
+ELSE
+IF (<R3>)
+SETBULKBCEASY 1
+IF !(<MOREX>)
+MOREX=<SERV.ITEMDEF.<TAG0.ITEM1>.RESOURCES.1.KEY>
+ENDIF
+MORE2=1
+ELSE
+FOR 4
+SETBULKBCEASY <LOCAL._FOR>
+MORE2 ++
+ENDFOR
+NAME=Large Bulk Order Deed
+IF !(<R3>)
+MOREY=1
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+
+[function craftpuan]
+src.sys_normal Craft Puanınız : <eval <src.tag.craft_puan>>
+
+[FUNCTION SETBULKBCEASY]
+DORAND 5
+TRY TAG.ITEM<ARGN1>=i_bow
+TRY TAG.ITEM<ARGN1>=i_crossbow
+TRY TAG.ITEM<ARGN1>=i_ARROW
+TRY TAG.ITEM<ARGN1>=i_xbolt
+TRY TAG.ITEM<ARGN1>=i_crossbow_heavy
+ENDDO
+
+//////////////////////////////////////
+
+[ITEMDEF 8792]
+DEFNAME=i_bulk_order_deed
+TYPE=t_normal
+NAME=Bulk Order Deed
+WEIGHT=2
+VALUE=10
+
+on=@click
+message @,,1 <name>
+return 1
+ON=@Dclick
+DIALOG d_BULK_ORDER
+RETURN 1
+
+ON=@Targon_Ground
+RETURN 1
+
+ON=@Targon_Item
+if <argo.tag.vendordanaldim>
+	src.sys_error Vendordan aldığını vendoramı kakalayacaksın ! Hiç yakışmıyor.
+	DIALOG d_BULK_ORDER
+	return 1
+endif
+IF !(<SRC.TAG0.EVENT.ID>)
+	IF (<SRC.TARG.CONT>)
+		IF (<SRC.TARG.TOPOBJ.UID>==<SRC>)
+			if <argo.type> == t_potion
+				FOR 4
+					IF (<TAG0.ITEM<dLOCAL._FOR>> == <SRC.TARG.BASEID>)
+						IF !(<ISEMPTY <TAG.MATERIALTOBEMADE>>)
+							IF !(STRMATCH("*<TAG.MATERIALTOBEMADE>*","<ARGO.NAME>"))
+							DIALOG d_BULK_ORDER
+							RETURN 1
+							ENDIF
+						ENDIF
+						IF (<TAG0.ITEM<dLOCAL._FOR>.FEITO> < <MORE1>) && !(<LOCAL.AUMENTOU>)
+							TRY TAG0.ITEM<dLOCAL._FOR>.FEITO=<EVAL <TAG0.ITEM<dLOCAL._FOR>.FEITO>+1>
+							LOCAL.AUMENTOU=1
+							SRC.TARG.CONSUME 1
+						ENDIF
+					ENDIF
+				ENDFOR
+			else
+				FOR 4
+					IF strmatch("<serv.itemdef.<TAG0.ITEM<dLOCAL._FOR>>.id>","<SRC.TARG.ID>")
+						IF !(<ISEMPTY <TAG.MATERIALTOBEMADE>>)
+							IF !(STRMATCH("*<TAG.MATERIALTOBEMADE>*","<ARGO.NAME>"))
+							DIALOG d_BULK_ORDER
+							RETURN 1
+							ENDIF
+						ENDIF
+						IF (<TAG0.ITEM<dLOCAL._FOR>.FEITO> < <MORE1>) && !(<LOCAL.AUMENTOU>)
+							TRY TAG0.ITEM<dLOCAL._FOR>.FEITO=<EVAL <TAG0.ITEM<dLOCAL._FOR>.FEITO>+1>
+							LOCAL.AUMENTOU=1
+							SRC.TARG.CONSUME 1
+						ENDIF
+					ENDIF
+				ENDFOR
+			endif
+		ENDIF
+	ENDIF
+DIALOG d_BULK_ORDER
+TARGET
+ENDIF
+RETURN 1
+
+ON=@Dropon_Char
+IF (<ARGO.BASEID> == <TAG0.VENDORID>)
+	FOR 4
+		IF (<TAG0.ITEM<dLOCAL._FOR>.FEITO> == <MORE1>)
+		LOCAL.OK ++
+		ENDIF
+	ENDFOR
+	IF (<MORE1> == 4) && (<LOCAL.OK> != 4)
+		LOCAL.OK=0
+	ENDIF
+	IF (<LOCAL.OK>)
+		REF1=<ARGO.UID>
+		src.sys_normal Tebrikler <SRC.NAME>! İşte ödülün !
+		if <ISEMPTY <TAG.MATERIALTOBEMADE>>
+			if !<TAG.TAILOR_HARD> // TAILOR GOLD VER
+				SRC.NEWGOLD={2500 5500}
+			else
+				SRC.NEWGOLD={15000 22500} * <DLOCAL.OK> * 3
+			endif
+		else // BLACKSMITH GOLD VER -
+			if strmatch("mytheril","<TAG.MATERIALTOBEMADE>")
+				local.multip 5
+			elseif strmatch("shadow","<TAG.MATERIALTOBEMADE>")
+				local.multip 3
+			elseif strmatch("valorite","<TAG.MATERIALTOBEMADE>")
+				local.multip 4
+			elseif strmatch("verite","<TAG.MATERIALTOBEMADE>")
+				local.multip 3
+			else
+				local.multip 2
+			endif
+			SRC.NEWGOLD={15000 22500} * <DLOCAL.OK> * <dlocal.multip>
+		endif
+		SRC.FAME += <EVAL (<MORE1>*50)>
+		if !<src.tag.craft_puan>
+			src.tag.craft_puan 1
+		else
+			src.tag.craft_puan ++
+		endif
+		src.sys_normal Craft puanı kazandınız. Craft puanı görmek için .craftpuan yazabilirsiniz.
+		// db.connect
+		// db.query "SELECT * FROM best_crafters WHERE uid = '<src.uid>'";
+		// if <db.row.0>
+			// db.query "UPDATE best_crafters SET puan = '<src.dtag.craft_puan>' WHERE uid='<src.uid>'"
+		// else
+			// db.execute insert into best_crafters (name,title,puan,uid) VALUES ('<addslashes <src.name>>','','<src.dtag.craft_puan>','<src.uid>')
+		// endif
+		// db.close
+	
+		if !<TAG.TAILOR_HARD>
+			SRC.RANDBULKITEM <QVAL <ISEMPTY <TAG.MATERIALTOBEMADE>> ? 0:1> <MOREZ>
+		else
+			SRC.RANDBULKITEM 1
+		endif
+		CONSUME 1
+	ELSE
+		RETURN 1
+	ENDIF
+ELSE
+RETURN 1
+ENDIF
+
+///////////////////////////
+
+[DIALOG d_BULK_ORDER]
+250,200
+src.closealldialogs
+PAGE 0
+resizepic 10 10 5054 470 230
+resizepic 20 20 5120 450 210
+checkertrans 20 20 450 210
+IF (<MORE2> == 1)
+tilepichue 395 70 <serv.itemdef.<tag0.item1>.id> <eval <tag0.cor>>
+ENDIF
+gumppic 0 5 10460
+gumppic 460 5 10460
+gumppic 0 220 10460
+gumppic 460 220 10460
+dtext 170 20 1152 <NAME>
+dtext 40 45 1152 Yapılacak sayı:            <dMORE1>
+dtext 40 70 1152 Yapılacak eşya:
+dtext 245 70 1152 Yapılan sayı:
+IF (<MORE2> == 1)
+dtext 40 95 1152 <SERV.ITEMDEF.<TAG0.ITEM1>.NAME>
+dtext 245 95 1152 <EVAL <TAG0.ITEM1.FEITO>>
+dtext 40 125 1152 Karşılanması gereken eşya karakteristiği:
+	IF (!(<ISEMPTY <TAG.MATERIALTOBEMADE>>)) && !(<MOREY>)
+	dtext 40 150 1152 Tüm eşyalar <TAG.MATERIALTOBEMADE> ile yapılmalı.
+	ELIF (!(<ISEMPTY <TAG.MATERIALTOBEMADE>>)) && (<MOREY>)
+	dtext 40 150 1152 Bütün eşyalar <TAG.MATERIALTOBEMADE> ile yapılmalı.
+	dtext 40 170 1152 Bütün eşyalar mükemmel(exceptional) kalitede olmalı.
+	ELIF (<MOREY>) && !(<MOREX>)
+	dtext 40 150 1152 Bütün eşyalar mükemmel(exceptional) kalitede olmalı.
+	ENDIF
+ELSE
+dtext 40 95 1152 <SERV.ITEMDEF.<TAG0.ITEM1>.NAME>
+dtext 40 115 1152 <SERV.ITEMDEF.<TAG0.ITEM2>.NAME>
+dtext 40 135 1152 <SERV.ITEMDEF.<TAG0.ITEM3>.NAME>
+dtext 40 155 1152 <SERV.ITEMDEF.<TAG0.ITEM4>.NAME>
+dtext 245 95 1152 <dTAG0.ITEM1.FEITO>
+dtext 245 115 1152 <dTAG0.ITEM2.FEITO>
+dtext 245 135 1152 <dTAG0.ITEM3.FEITO>
+dtext 245 155 1152 <dTAG0.ITEM4.FEITO>
+	IF (!(<ISEMPTY <TAG.MATERIALTOBEMADE>>))
+	dtext 40 175 1152 Bütün eşyalar <TAG.MATERIALTOBEMADE> ile yapılmalı.
+	ELIF (<MOREY>) && !(<MOREX>)
+	dtext 40 175 1152 Bütün eşyalar mükemmel(exceptional) kalitede olmalı
+	ENDIF
+ENDIF
+button 90 200 4005 4006 1 0 1
+dtext 125 200 1152 Eşyaları deed'e ekleyin.
+
+[DIALOG d_BULK_ORDER BUTTON]
+ON=1
+TARGET @,,1 Hangi eşyayı eklemek istiyorsun?
+
+//////////////////////////
+
+[ITEMDEF i_bulk_request_timer]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Bulk Order Deed Timer
+
+ON=@Equip
+TIMER=900
+//IF (<SRC.<MORE1>> <= 60.0)
+//TIMER=<HVAL 60*60*2>
+//ELSE
+//TIMER=<HVAL 60*60*4>
+//ENDIF
+
+ON=@Timer
+CONT.notice Şuan da başka bir bulk order siparişi alabilirsiniz.
+REMOVE
+RETURN 1
+
+///////////////////////////
+
+[ITEMDEF 8793]
+DEFNAME=i_bulk_order_book
+NAME=@,,1 Bulk Order Book
+TYPE=T_CONTAINER
+TDATA2=03c
+VALUE=25000
+
+
+///////////////////////////
+////////Prêmios///////////
+
+[ITEMDEF i_leather_gloves_mining]
+ID=i_leather_gloves
+NAME=Leather gloves of mining
+DYE=1
+TAG.MINING 2.0
+
+ON=@Create
+HITPOINTS=100
+
+ON=@Equip
+SRC.MINING +=2.0
+
+ON=@UnEquip
+SRC.MINING -=2.0
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1060451,Mining,1
+
+[ITEMDEF i_studded_gloves_mining]
+ID=i_studded_gloves
+NAME=Studded gloves of mining
+DYE=1
+TAG.MINING 3.0
+
+ON=@Create
+HITPOINTS=100
+
+ON=@Equip
+SRC.MINING += 3.0
+
+ON=@UnEquip
+SRC.MINING -= 3.0
+
+ON=@ClientToolTip
+SRC.ADDCLILOC 1060451,Mining,3
+
+[ITEMDEF i_ringmail_gloves_mining]
+ID=i_ringmail_gloves
+NAME=Ringmail gloves of mining
+DYE=1
+TAG.MINING 6.0
+
+ON=@Create
+HITPOINTS=100
+
+ON=@Equip
+SRC.MINING += 6.0
+
+ON=@UnEquip
+SRC.MINING -= 6.0
+
+
+[ITEMDEF i_ancient_smithy_hammer]
+ID=i_hammer_smith
+NAME=Ancient smithy hammer
+TYPE=T_WEAPON_MACE_SMITH
+DYE=1
+TAG.LUCK=100
+TAG.CHARGES=120
+
+ON=@Create
+COLOR=0481
+MORE2=<HVAL {100 5 150 4 300 3 600 1}>
+HITPOINTS=255
+
+ON=@ClientToolTip
+
+
+ON=@Dclick
+
+ON=@Equip
+SRC.BLACKSMITHING += <MORE2>
+
+ON=@UnEquip
+SRC.BLACKSMITHING -= <MORE2>
+
+[ITEMDEF i_colored_anvil]
+ID=i_anvil
+NAME=an anvil
+DYE=1
+
+ON=@Create
+COLOR=colors_all
+
+[ITEMDEF i_powder_Temperment]
+ID=i_reag_sulfur_ash
+NAME=Powder of Temperment
+TYPE=T_NORMAL
+
+ON=@Create
+COLOR=60
+
+ON=@Dclick
+TARGET @,,1 Hangi eşyayı geliştirmek istiyorsun ?
+RETURN 1
+
+ON=@Targon_Item
+IF (<SRC.TARG.CONT>)
+	IF (<SRC.TARG.TOPOBJ.UID>==<SRC>)
+		IF ((<SRC.TARG.ISARMOR>) || (<SRC.TARG.ISWEAPON>)) && (<SRC.TARG.MAXHITS> < 255)
+			IF (<EVAL <SRC.TARG.MAXHITS>> >= 255)
+			src.sys_error Zaten hedefin maxhitsi 255 ya da daha fazladır.
+			ELSE
+			SRC.TARG.MAXHITS=255
+			src.hitpoints 255
+			src.sys_normal İşlem başarılı ile gerçekleştirildi.
+			ENDIF
+		SRC.TARG.HITS=<SRC.TARG.MAXHITS>
+		SRC.TARG.UPDATE
+		CONSUME 1
+		ENDIF
+	ENDIF
+ENDIF
+RETURN 1
+
+[ITEMDEF i_clothing_bless_deed]
+ID=i_deed
+NAME=Clothing Bless Deed
+TYPE=T_NORMAL
+
+ON=@DClick
+TARGET @,,1 Hangi eşya üzerinde kullanmak istiyorsun?
+RETURN 1
+
+ON=@Targon_Item
+IF (<SRC.TARG.CONT>)
+	IF (<SRC.TARG.TOPOBJ.UID>==<SRC>)
+		IF (<ARGO.BASEID> == i_hooded_shroud) && !(<SRC.TARG.ATTR>&ATTR_NEWBIE)
+		SRC.TARG.ATTR |= attr_newbie
+		CONSUME 1
+		ENDIF
+	ENDIF
+ENDIF
+RETURN 1
+
+[FUNCTION RANDBULKITEM]
+IF (<ARGN1>)
+	if (<eval <src.tag.craft_puan>> >= 100)
+		if rand(10) == 1
+			SERV.NEWITEM {i_powder_Temperment 3 i_colored_anvil 5} //i_ancient_smithy_hammer 5 
+			NEW.BOUNCE
+			return 1
+		endif
+	endif
+	
+	
+	
+	if (<eval <src.tag.craft_puan>> >= 150)
+		if rand(10) == 1
+			SERV.NEWITEM i_clothing_bless_deed
+			NEW.BOUNCE
+			return 1
+		endif
+	endif
+	
+	if (<eval <src.tag.craft_puan>> >= 200)
+		if rand(10) == 1
+			SERV.NEWITEM i_leather_gloves_mining
+			NEW.BOUNCE
+			return 1
+		endif
+	endif
+	
+	if (<eval <src.tag.craft_puan>> >= 250)
+		if rand(10) == 1
+			SERV.NEWITEM i_studded_gloves_mining
+			NEW.BOUNCE
+			return 1
+		endif
+	endif
+	
+	if (<eval <src.tag.craft_puan>> >= 300)
+		if rand(10) == 1
+			SERV.NEWITEM i_ringmail_gloves_mining
+			NEW.BOUNCE
+			return 1
+		endif
+	endif
+	
+	if (<eval <src.tag.craft_puan>> >= 500)
+		if rand(10) == 1
+			SERV.NEWITEM i_ancient_smithy_hammer
+			NEW.BOUNCE
+			return 1
+		endif
+	endif
+ELSE
+	if rand(50) == 1
+		SERV.NEWITEM { i_powder_Temperment 5}
+		NEW.BOUNCE
+	endif
+ENDIF
+
+
+//if (<eval <src.tag.craft_puan>> >= 500)
+		
+
+//FINDID.i_bulk_request_timer.TIMER
+//IF (<NEW.BASEID> == i_power_scroll)
+//NEW.MORE1=<ARGN2>
+//NEW.NAME=Power Scroll of <SERV.SKILL.<ARGN2>.NAME> (<NEW.POWERSCROLLNAME>)
+[function show_quality]
+src.sys_normal 1 - quality 2 - morey
+targetf f_show_quality
+
+[function f_show_quality]
+if <argn> == 1
+	src.sys_normal Quality : <argo.quality>
+else
+	src.sys_normal Morey : <eval <argo.morey>>
+endif
+
+
+[DIALOG d_bs_upgrade]
+0,0
+page 0
+
+resizepic 46 59 2620 560 327
+checkertrans 46 59 560 327
+//resizepic 53 67 5100 545 310
+gumppic 67 80 71126
+gumppic 78 86 70138
+dhtmlgump 108 80 416 110 1 1 Sanırım sende eşya üretmekte sıkıntı yaşıyorsun.Herhangi bir metal silahına başka elementlerden kaplama yapabilirim. Kaplanan eşyan sadece görüntüden ibaret olacaktır. Bulk Order'a sorunsuzca verebilirsin. Kapladığınız silah ya da zırhın damage,armor ve durability değişimi söz konusu değildir.Bulk Order sistemindeki işleyişi iyileştirmek için yapılmıştır.
+resizepic 108 210 2620 104 104
+resizepic 433 210 2620 104 104
+gumppic 287 219 1417
+button 296 228 5555 5556 1 0 1
+button 150 318 9901 9900 2 0 2
+button 475 318 9901 9900 1 0 3
+//button 295 343 242 241 1 0 4
+dtext 133 192 865 Silah/Set
+dtext 461 192 865 Materyal
+if !<isempty <src.ctag.silahimiz>>
+tilepic 127 233 <uid.<src.ctag.silahimiz>.dispiddec>
+endif
+if !<isempty <src.ctag.socketimiz>>
+tilepic 454 233 <uid.<src.ctag.socketimiz>.dispiddec>
+endif
+[DIALOG d_bs_upgrade text]
+HtmlGump id.0
+Weapon
+Socket
+
+[DIALOG d_bs_upgrade button]
+
+on=2
+src.newitem i_silahisec
+src.act.equip
+src.sysmessage @,,1 Lütfen geliştirmek istediğiniz silahı/seti seçiniz.
+return 1
+on=3
+src.newitem i_socketsec
+src.act.equip
+src.sysmessage @,,1 Lütfen kullanmak istediğiniz materyali seçiniz.
+return 1
+on=1
+if (strmatch('<src.ctag.silahimiz>','') || (strmatch('<src.ctag.socketimiz>','')
+src.sysmessage @,,1 Lutfen silahı/seti ve materyali seçiniz.
+src.dialog d_bs_upgrade
+return 1
+else
+src.sockettak
+return 1
+endif
+
+[itemdef i_silahisec]
+defname i_silahisec
+name silah secioz
+id 0186a
+type t_eq_script
+weight 0
+layer layer_special
+
+on=@create
+attr attr_invis|attr_newbie
+return 1
+
+on=@equip
+timer 300
+target
+return 1
+
+on=@timer
+cont.ctag.silahimiz
+remove
+return 1
+
+oN=@targon_char
+	src.sysmessage @1153,1 Sadece silahlara socket takabilirsiniz.
+	src.findid.i_silahisec.remove
+	src.ctag.silahimiz
+src.dialog d_bs_upgrade
+return 1
+
+on=@targon_ground
+	src.sysmessage @1153,1 Sadece silahlara socket takabilirsiniz.
+	src.findid.i_silahisec.remove
+	src.ctag.silahimiz
+	src.dialog d_bs_upgrade
+return 1
+
+on=@targon_item
+local.resources <SERV.ITEMDEF.<ARGO.BASEID>.RESOURCES>
+if !((<src.targ.type> == t_weapon_fence) ||(<src.targ.type> == t_weapon_sword) || (<src.targ.type> == t_weapon_axe) || (<src.targ.type> == t_weapon_mace_Smith) || (<src.targ.type> == t_armor) || (<src.targ.type> == t_shield))
+	src.sys_error Sadece silah yada metal setleri geliştirebilirsiniz.
+	src.dialog d_bs_upgrade
+	src.findid.i_silahisec.remove
+	src.ctag.silahimiz
+elseif !(strmatch(*iron*,<local.resources>))
+	
+	src.sys_error iron ingot dışında yapılmış hiç bir silah ve seti geliştiremezsiniz.
+	src.dialog d_bs_upgrade
+	src.findid.i_silahisec.remove
+	src.ctag.silahimiz
+else
+	src.sys_normal <local.resources>
+	src.ctag.silah_gerekli <strsub 0 2 <local.resources>>
+	src.ctag.silahimiz <src.targ.uid>
+	src.findid.i_silahisec.remove
+	src.dialogclose d_bs_upgrade
+	src.dialog d_bs_upgrade
+endif
+return 1
+
+on=@targon_cancel
+src.findid.i_silahisec.remove
+src.ctag.silahimiz
+src.dialog d_bs_upgrade
+return 1
+
+[itemdef i_socketsec]
+defname i_socketsec
+name socket secioz
+id 0186a
+type t_eq_script
+weight 0
+layer layer_special
+
+on=@create
+attr attr_invis|attr_newbie
+return 1
+
+on=@equip
+timer 300
+target
+return 1
+
+
+on=@timer
+cont.ctag.socketimiz
+remove
+return 1
+
+
+oN=@targon_char
+	src.sys_error Sadece buyulu taslari silahlara takabilirsiniz.
+	src.dialog d_bs_upgrade
+	src.findid.i_socketsec.remove
+	src.ctag.socketimiz
+return 1
+
+on=@targon_ground
+	src.sys_error Sadece buyulu taslari silahlara takabilirsiniz.
+src.dialog d_bs_upgrade
+	src.findid.i_socketsec.remove
+	src.ctag.socketimiz
+return 1
+
+on=@targon_item
+if !(<src.targ.type> == t_ingot)
+	src.sys_error Sadece element(ingot) seçebilirsiniz.
+	src.dialog d_bs_upgrade
+	src.findid.i_socketsec.remove
+	src.ctag.socketimiz
+elseif !(<argo.amount> >= <eval <src.ctag.silah_gerekli>/2>)
+	src.sys_error Eklediğiniz silah/set için gereken geliştirmeyi yapabilmek için yeterli ingot sahibi değilsiniz.
+	src.dialog d_bs_upgrade
+	src.findid.i_socketsec.remove
+	src.ctag.socketimiz
+else
+	src.ctag.socketimiz <src.targ.uid>
+	src.dialogclose d_bs_upgrade
+	src.dialog d_bs_upgrade
+	endif
+return 1
+
+on=@targon_cancel
+src.findid.i_socketsec.remove
+src.ctag.socketimiz
+src.dialog d_bs_upgrade
+return 1
+
+[function sockettak]
+if !<src.restest <eval <src.ctag.silah_gerekli>/2> <uid.<src.ctag.socketimiz>.baseid>>
+	src.sys_error Kaplama yapacak kadar ingot sahibi değilsiniz.
+	return 1
+endif
+
+if strmatch(*verite*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Verite
+	local.color color_o_verite
+elseif strmatch(*valorite*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Valorite
+	local.color color_o_valorite
+elseif strmatch(*gold*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Golden
+	local.color color_o_gold
+elseif strmatch(*agapite*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Agapite
+	local.color color_o_agapite
+elseif strmatch(*bronze*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Bronze
+	local.color color_o_bronze
+elseif strmatch(*shadow*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Shadow
+	local.color color_o_shadow
+elseif strmatch(*copper*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Copper
+	local.color color_o_copper
+elseif strmatch(*blackrock*,<uid.<src.ctag.socketimiz>.baseid>)
+	src.sys_error Bununla kaplayamazsınız.
+	return 1
+elseif strmatch(*bloodrock*,<uid.<src.ctag.socketimiz>.baseid>)
+	src.sys_error Bununla kaplayamazsınız.
+	return 1
+elseif strmatch(*mytheril*,<uid.<src.ctag.socketimiz>.baseid>)
+	local.name Mytheril
+	local.color color_o_mytheril
+	//return 1
+elseif strmatch(*silver*,<uid.<src.ctag.socketimiz>.baseid>)
+	src.sys_error Bununla kaplayamazsınız.
+	return 1
+elseif strmatch(*iron*,<uid.<src.ctag.socketimiz>.baseid>)
+	src.sys_error Bununla kaplayamazsınız.
+	return 1
+endif
+
+
+src.consume <eval <src.ctag.silah_gerekli>/2> <uid.<src.ctag.socketimiz>.baseid>
+local.name_old = <uid.<src.ctag.silahimiz>.name>
+uid.<src.ctag.silahimiz>.name <local.name> <local.name_old>
+uid.<src.ctag.silahimiz>.color <local.color>
+uid.<src.ctag.silahimiz>.tag.kaplama 1
+src.sys_normal Başarılı bir şekilde kaplama işlemini gerçekleştirdiniz.
+src.ctag.silahimiz
+src.ctag.socketimiz
+[EOF]

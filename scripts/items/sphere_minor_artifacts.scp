@@ -1,0 +1,539 @@
+// FILE LAST UPDATED: 17-Jan-2006 / RanX
+
+[DEFNAME MINORS_SETTINGS] //these settings will only affect these artifacts, unless you add the event and tags to other items
+USE_OSI_SPEEDCALCULATION 0 //1=yes,0=no
+USE_OSI_DAMCALCULATION 1 //1=yes,0=no
+minorartis {i_Alchemists_Bauble 1 i_Arctic_Death_Dealer 1 i_Blaze_Death 1 i_Bow_Juka_King 1 i_Burglar_Bandana 1 i_Candelabra_Souls 1 i_Captain_Quacklebush_Cutlass 1 i_Cavorting_Club 1 i_Cold_Blood 1 i_Enchanted_Titan_Leg_Bone 1 i_Ghost_Ship_Anchor 1 i_Gloves_Pugilist 1 i_Luna_Lance 1 i_Night_Kiss 1 i_Nox_Ranger_Heavy_Crossbow 1 i_Orcish_Visage 1 i_Pixie_Swatter 1 i_Polar_Bear_Mask 1 i_seahorse_statuette 1 Ship_Model_HMSCape 1 i_Wrath_Dryad 1 0241d 1 02851 1 02855 1 02a4b 1 i_fire_horn 1 i_sprinter_legs 1 i_spiked_chest 1 i_Heart_Lion 1 i_Art_Shield_Invul 1 i_Aegis_Grace 1 i_Boomstick 1 i_Bonesmasher 1 i_Raeds_Glory 1 i_Wildfire_Bow 1 i_Windsong 1 i_Talon_Bite 1 i_Soul_Seeker 1 i_Dreads_Revenge 1 i_Blade_Dance 1 i_Flesh_Ripper 1 i_Robe_Equinox 1 i_robe_Eclipse 1 i_Righteous_Anger 1 i_Bloodwood_Spirit 1 i_Brightsight_Lenses 1 i_Crimson_Cinture 1 i_Fey_Leggings 1 01beb 1 i_admirals_hearty_rum 1 i_dread_pirate_hat 1 i_Phillip_Wooden_Steed 1}
+//this makes it easier if you want to add random artifacts
+//Note: You should use the slayer_weapon scripts, although it's not necessary, but to have the weapons like they really are.
+
+[ITEMDEF i_Alchemists_Bauble]
+ID=i_bracelet_gold
+NAME=Alchemist's Bauble
+WEIGHT=5
+TEVENTS=t_luck_item
+TAG.LUCK=30
+
+ON=@Create
+	COLOR=0823d
+
+ON=@Equip
+	SRC.MAGERY += 10.0
+	SRC.ALCHEMY += 10.0
+
+ON=@UnEquip
+	SRC.MAGERY -= 10.0
+	SRC.ALCHEMY -= 10.0
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Magery,10
+	SRC.ADDCLILOC 1060452,Alchemy,10
+
+[ITEMDEF i_Burglar_Bandana]
+ID=i_bandana
+NAME=Burglar's Bandana
+REQSTR=10
+TEVENTS=t_luck_item
+TAG.LUCK=40
+
+ON=@Equip
+	SRC.SNOOPING += 10.0
+	SRC.STEALING += 10.0
+	SRC.STEALTH += 10.0
+	SRC.MODDEX += 5
+
+ON=@UnEquip
+	SRC.SNOOPING -= 10.0
+	SRC.STEALING -= 10.0
+	SRC.STEALTH -= 10.0
+	SRC.MODDEX -= 5
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Snooping,10
+	SRC.ADDCLILOC 1060452,Stealing,10
+	SRC.ADDCLILOC 1060453,Stealth,10
+	SRC.ADDCLILOC 1060409,5
+
+[ITEMDEF i_Candelabra_Souls]
+ID=i_candleabra2_lit
+NAME=Candelabra of Souls
+TYPE=T_NORMAL
+
+ON=@Create
+	COLOR=colors_all
+
+[ITEMDEF i_Ghost_Ship_Anchor]
+ID=i_anchor
+NAME=Ghost Ship Anchor
+
+ON=@Create
+	COLOR=color_rock
+
+[ITEMDEF i_Gloves_Pugilist]
+ID=i_leather_gloves
+NAME=Gloves of the Pugilist
+REQSTR=20
+
+ON=@Create
+	HITPOINTS=255
+	COLOR=color_o_rusty
+
+ON=@Equip
+	SRC.WRESTLING += 10.0
+	SRC.MODDEX += 8
+
+ON=@UnEquip
+	SRC.WRESTLING -= 10.0
+	SRC.MODDEX -= 8
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Wrestling,10
+	SRC.ADDCLILOC 1060409,8
+
+[ITEMDEF i_Orcish_Visage]
+ID=i_mask_orc
+NAME=Orcish Visage
+REQSTR=30
+TEVENTS=t_luck_item
+TAG.LUCK=30
+
+ON=@Create
+	HITPOINTS=255
+	COLOR=02a6
+
+ON=@Equip
+	src.tag.origdex=<src.dex>
+	SRC.MODSTR += 10
+	SRC.MAXSTAM += 5
+
+ON=@UnEquip
+	SRC.MODSTR -= 10
+	SRC.MAXSTAM -= (5 - <src.dex> + <src.tag.origdex>)
+	src.tag.origdex =
+
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060484,5
+	SRC.ADDCLILOC 1060485,10
+
+[ITEMDEF i_Polar_Bear_Mask]
+ID=i_mask_bear
+NAME=Polar Bear Mask
+REQSTR=30
+TEVENTS=t_luck_item
+TAG.LUCK=40
+
+ON=@Create
+	HITPOINTS=255
+	COLOR=0481
+
+ON=@Equip
+	TIMER=5
+	SRC.SPELLEFFECT s_night_sight,1000
+
+ON=@Timer
+	IF (<CONT.ISPLAYER>)
+		CONT.HITS += 2
+		IF (<CONT.HITS> > <CONT.MAXHITS>)
+			CONT.HITS=<CONT.MAXHITS>
+		endif
+		TIMER=5
+		RETURN 1
+	endif
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060444,2
+	SRC.ADDCLILOC 1060485,10
+	SRC.ADDCLILOC 1015008
+
+[ITEMDEF Ship_Model_HMSCape]
+ID=i_model_ship
+NAME=Ship Model of the H.M.S. Cape
+
+[itemdef i_corredor_sword]
+ID=i_paladin_sword
+DEFNAME=i_corredor_sword
+NAME=The Great Sword
+TYPE=t_weapon_sword
+SKILL=swordsmanship
+SPEED=30
+WEIGHT=3.1
+DAM=15,35
+//TEVENTS=t_aos_weapon
+TEVENTS=T_PROPRIEDADES
+TAG.DAMINCREASE=30
+TAG.HITCHANCEINCREASE=60
+TEVENTS=t_luck_item
+TAG.LUCK=70
+
+ON=@create
+	hitpoints=252
+	morem=2
+	COLOR=35
+
+[ITEMDEF i_fire_horn]
+ID=0fc7
+NAME=Fire Horn
+VALUE=5000
+WEIGHT=6
+
+ON=@Create
+	COLOR=0f8
+
+ON=@Dclick
+	IF (<CONT>)
+		IF (<TOPOBJ.UID>==<SRC>)
+			IF !(<SRC.FINDID.i_fire_horn_TIMER>)
+				IF (<SRC.RESTEST 4 i_reag_sulfur_ash>)
+					IF (<SRC.MUSICIANSHIP> >= 52.6)
+						SRC.CONSUME 4 i_reag_sulfur_ash
+						FORCHARS <EVAL (<SRC.Musicianship>/100)+(<SRC.Provocation>/100)>
+							IF (<UID>!=<SRC>)
+								IF (<CANSEELOS>)
+									LOCAL.DIV=<QVAL (<ISPLAYER>) ? 110:80>
+									DAMAGE <EVAL ((<SRC.Musicianship>/<LOCAL.DIV>)+(<SRC.Provocation>/<LOCAL.DIV>)+(<SRC.Peacemaking>/<LOCAL.DIV>)+(<SRC.Discordance>/<LOCAL.DIV>))-5> 02 <SRC>
+								endif
+							endif
+						end
+						SERV.NEWITEM=i_fire_horn_TIMER
+						NEW.CONT=<SRC>
+						NEW.TIMER=7
+					endif
+				ELSE
+					SRC.SYSMESSAGE Voce nao tem 4 Sulfurous Ash.
+				endif
+			ELSE
+				SRC.SYSMESSAGE Aguarde mais <SRC.FINDID.i_fire_horn_TIMER.TIMER> segundos.
+			endif
+		endif
+	endif
+	RETURN 1
+
+[ITEMDEF i_fire_horn_TIMER]
+ID=i_memory
+TYPE=T_EQ_SCRIPT
+NAME=Fire horn timer
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_sprinter_legs]
+DEFNAME=i_sprinter_legs
+NAME=Sprinter Legs
+TYPE=t_armor_leather
+ID=i_woodland_leggings
+ARMOR=80
+REQSTR=25
+TEVENTS=T_PROPRIEDADES
+TAG.DAMAGERETURN=10
+TEVENTS=t_luck_item
+TAG.LUCK=65
+WEIGHT=11.5
+
+ON=@CREATE
+	COLOR=colors_all
+	HITPOINTS=255
+
+ON=@Equip
+	SRC.MODDEX += 15
+
+ON=@UnEquip
+	SRC.MODDEX -= 15
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060409,15
+
+[ITEMDEF i_spiked_chest]
+DEFNAME=i_spiked_chest
+NAME=Spiked Chest
+ID=i_platemail_chest
+TYPE=t_armor
+ARMOR=90
+REQSTR=65
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.LUCK=55
+TAG.DAMAGERETURN=20
+WEIGHT=11.5
+
+ON=@CREATE
+	COLOR=colors_brown
+	HITPOINTS=255
+
+ON=@Equip
+	SRC.MODSTR += 10
+
+ON=@UnEquip
+	SRC.MODSTR -= 10
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060485,10
+
+[ITEMDEF i_Heart_Lion]
+DEFNAME=i_Heart_Lion
+NAME=Heart of the Lion
+ID=i_platemail_chest
+TYPE=t_armor
+ARMOR=80
+REQSTR=65
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=10
+TAG.LUCK=95
+WEIGHT=11.5
+
+ON=@CREATE
+	COLOR=0fc
+	HITPOINTS=255
+
+ON=@Equip
+	SRC.MODSTR += 5
+
+ON=@UnEquip
+	SRC.MODSTR -= 5
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060485,5
+
+[ITEMDEF i_Art_Shield_Invul]
+DEFNAME=i_Art_Shield_Invul
+NAME=Shield of Invulnerability
+ID=i_shield_order
+TYPE=t_shield
+ARMOR=15
+REQSTR=65
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=10
+TAG.LUCK=45
+WEIGHT=9.5
+
+ON=@CREATE
+	COLOR=0bc
+	HITPOINTS=255
+
+[ITEMDEF i_Aegis_Grace]
+DEFNAME=i_Aegis_Grace
+NAME=Aegis Of Grace
+ID=i_dragon_helm
+ARMOR=100
+REQSTR=65
+TEVENTS=T_PROPRIEDADES
+TEVENTS=t_luck_item
+TAG.DAMAGERETURN=10
+TAG.LUCK=25
+WEIGHT=6.0
+
+ON=@CREATE
+	HITPOINTS=255
+
+ON=@Equip
+	SRC.MAGICRESISTANCE += 10.0
+
+ON=@UnEquip
+	SRC.MAGICRESISTANCE -= 10.0
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,MagicResistance,10
+
+[ITEMDEF i_Dreads_Revenge]
+ID=i_kryss
+DEFNAME=i_Dreads_Revenge
+NAME=Dread's Revenge
+
+ON=@CREATE
+	HITPOINTS=255
+	COLOR=04f8
+
+ON=@Equip
+	SRC.FENCING += 20.0
+
+ON=@UnEquip
+	SRC.FENCING -= 20.0
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Fencing,20
+
+[ITEMDEF i_Robe_Equinox]
+ID=i_robe
+DEFNAME=i_Robe_Equinox
+NAME=Robe of the Equinox
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=95
+
+ON=@CREATE
+	HITPOINTS=255
+	COLOR=026c
+
+ON=@EquiTest
+	IF (<BODY>!=C_ELF_MALE) && (<BODY>!=C_ELF_FEMALE)
+		MESSAGE @0481,3,1 Apenas elfos podem usar.
+		RETURN 1
+	endif
+
+[ITEMDEF i_Robe_Eclipse]
+ID=i_robe
+DEFNAME=i_Robe_Eclipse
+NAME=Robe of the Eclipse
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=95
+
+ON=@CREATE
+	HITPOINTS=255
+	COLOR=0486
+
+[ITEMDEF i_Bloodwood_Spirit]
+ID=i_talisman3
+DEFNAME=i_Bloodwood_Spirit
+NAME=Bloodwood Spirit
+TEVENTS=T_LUCK_ITEM
+TAG.LUCK=50
+
+ON=@CREATE
+	COLOR=33
+
+ON=@Equip
+	SRC.SPIRITSPEAK += 100
+
+ON=@UnEquip
+	SRC.SPIRITSPEAK -= 100
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Spirit Speak,10
+
+[ITEMDEF i_Brightsight_Lenses]
+ID=i_elven_specs
+DEFNAME=i_Brightsight_Lenses
+NAME=Brightsight Lenses
+
+ON=@CREATE
+	HITPOINTS=255
+	COLOR=04e8
+
+ON=@Equip
+	TIMER=5
+	SRC.SPELLEFFECT S_NIGHT_SIGHT,1000
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Spirit Speak,10
+
+ON=@Timer
+	IF (<CONT.ISPLAYER>)
+		CONT.MANA += 3
+		IF (<CONT.MANA> > <CONT.MAXMANA>)
+			CONT.MANA=<CONT.MAXMANA>
+		endif
+		TIMER=4
+		RETURN 1
+	endif
+
+ON=@Dropon_Ground
+	IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+		TIMER -1
+	ELSE
+		ATTR |= ATTR_DECAY
+		TIMER=<EVAL <SERV.DECAYTIMER>*60>
+	endif
+
+[ITEMDEF i_Crimson_Cinture]
+ID=i_talisman4
+DEFNAME=i_Crimson_Cinture
+NAME=Crimson Cinture
+
+ON=@CREATE
+	COLOR=33
+
+ON=@Equip
+	TIMER=5
+	SRC.MODDEX += 5
+	SRC.MAXHITS += 10
+
+ON=@UnEquip
+	SRC.MODDEX -= 5
+	SRC.MAXHITS -= 10
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060451,Spirit Speak,10
+
+ON=@Timer
+	IF (<CONT.ISPLAYER>)
+		CONT.HITS += 2
+		IF (<CONT.HITS> > <CONT.MAXHITS>)
+			CONT.HITS=<CONT.MAXHITS>
+		endif
+		TIMER=5
+		RETURN 1
+	endif
+
+ON=@Dropon_Ground
+	IF (((<UID.<REGION.UID>.TYPE>==T_MULTI) || (<UID.<REGION.UID>.TYPE>==T_SHIP)) && (<UID.<REGION.UID>.MORE1>==<SRC>))
+		TIMER -1
+	ELSE
+		ATTR |= ATTR_DECAY
+		TIMER=<EVAL <SERV.DECAYTIMER>*60>
+	endif
+
+[ITEMDEF i_Fey_Leggings]
+DEFNAME=i_Fey_Leggings
+NAME=Fey Leggings
+ID=i_chainmail_leggings
+ARMOR=130
+TEVENTS=T_PROPRIEDADES
+TAG.DAMAGERETURN=6
+
+ON=@CREATE
+	HITPOINTS=255
+
+ON=@EquipTest
+	IF (<SRC.OBODY>!=C_ELF_MALE) && (<SRC.OBODY>!=C_ELF_FEMALE) && !(<SRC.ISGM>)
+		MESSAGE @03c1,3,1 Apenas elfos.
+		RETURN 1
+	endif
+
+ON=@Equip
+	SRC.MAXHITS += 6
+
+ON=@UnEquip
+	SRC.MAXHITS -= 6
+
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1060431,6
+	SRC.ADDCLILOC 1075086
+
+[ITEMDEF i_admirals_hearty_rum]
+ID=i_bottle_liquor
+NAME=The Admiral's Hearty Rum
+TYPE=T_NORMAL
+
+ON=@Create
+	COLOR=33
+
+[ITEMDEF 03FFE]
+DEFNAME=i_Phillip_Wooden_Steed
+NAME=Phillip's Wooden Steed
+TYPE=T_NORMAL
+
+[ITEMDEF i_dread_pirate_hat]
+ID=i_hat_tricorne
+NAME=Dread Pirate Hat
+WEIGHT=3
+REQSTR=10
+
+ON=@Create
+	HITPOINTS=255
+	COLOR=colors_brown
+	TAG.SKILL=<hval {SKILL_WRESTLING 1 SKILL_SWORDSMANSHIP 1 SKILL_FENCING 1 SKILL_PARRYING 1 SKILL_MACEFIGHTING 1}>
+
+ON=@Equip
+	SRC.spelleffect s_night_sight,1000,<SRC>
+	try SRC.<SERV.SKILL.<TAG0.SKILL>.KEY>=<hval <SRC.<SERV.SKILL.<TAG0.SKILL>.KEY>>+100>
+
+ON=@UnEquip
+	try SRC.<SERV.SKILL.<TAG0.SKILL>.KEY>=<hval <SRC.<SERV.SKILL.<TAG0.SKILL>.KEY>>-100>
+
+ON=@ClientToolTip
+	SRC.addcliloc 1060451,<SERV.SKILL.<TAG0.SKILL>.KEY>,10
+	SRC.addcliloc 1015008
+
+[EOF]

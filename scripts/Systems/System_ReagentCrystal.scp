@@ -1,0 +1,1186 @@
+﻿[ITEMDEF i_reag_store]
+ID=01f19
+name=reagent store
+type=t_script
+weight=5
+value=25000
+
+DESCRIPTION=Reagent Store
+SUBSECTION=Magical Items
+CATEGORY=Provisions - Alchemy & Magic
+
+On=@Create
+color 07a1
+tag.spider 0
+tag.sulfur 0
+tag.shade 0
+tag.bmoss 0
+tag.ginseng 0
+tag.bpearls 0
+tag.mroot 0
+tag.garlic 0
+tag.masteruid 0
+tag.mastername 0
+tag.bagsayisi 0
+timer=-1
+
+On=@Click
+message @65 Sahibi: <tag.mastername>
+message <name>
+return 1
+
+On=@Dclick
+src.sys_error Reagent storeler değiştirilmiştir. Bu nedenle lütfen yenisini temin edip reg'lerinizi yenisine aktarınız. 2 saat sonra bu store otomatik silinecektir.
+timerf 7200, remove
+
+//if (<eval(<tag.bagsayisi>)> < 0)
+//	tag.bagsayisi 0
+if (<eval(<tag.spider>)> < 0)
+	tag.spider 0
+elseif (<eval(<tag.sulfur>)> < 0)
+	tag.sulfur 0
+elseif (<eval(<tag.shade>)> < 0)
+	tag.shade 0
+elseif (<eval(<tag.bmoss>)> < 0)
+	tag.bmoss 0
+elseif (<eval(<tag.ginseng>)> < 0)
+	tag.ginseng 0
+elseif (<eval(<tag.bpearls>)> < 0)
+	tag.bpearls 0
+elseif (<eval(<tag.mroot>)> < 0)
+	tag.mroot 0
+elseif (<eval(<tag.garlic>)> < 0)
+	tag.garlic 0
+endif
+//if !(<tag0.masteruid>) || (<tag.masteruid> == 0)
+	tag.masteruid = <src.uid>
+	tag.mastername = <src.name>
+	//src.sysmessage @38 Artik size kayitli oldu.
+//elseif !(<cont.uid> == <src.findlayer.29.uid>)
+//	src.sysmessage @38 Bu esya sadece bankada iken calisir.
+//	return 1
+if (<tag.masteruid> == <src.uid>)
+	if (<uid.<src.memoryfindtype.08000.more2>.baseid> == i_reag_store)
+		src.sysmessage @38,3,1 Diğer store' u kapatmalisiniz.
+		return 1
+	endif
+	morep <src.p>
+	DIALOG d_reag_store
+//if (<src.account.plevel> > 4)
+//	morep <src.p>
+//	dialog d_reag_store
+//endif
+return 1
+
+on=@itemdropon_item
+return 1
+
+On=@Targon_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.sysmessage @38,3,1 Ekleyeceginiz esya bankanizda yada kendi ustunuzde olmali.
+	return 1
+endif
+if (<eval(<morex> - <src.p.x>)> >0) || (<eval(<src.p.x> - <morex>)> >0) || (<eval(<morey> - <src.p.y>)> > 0) || (<eval(<src.p.y> - <morey>)> > 0)
+	src.sysmessage Unexpected gump error
+	dialogclose d_reag_store
+	return 1
+endif
+if (<src.targ.baseid> == i_reag_spider_silk)
+	regekle 1
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_sulfur_ash)
+	regekle 2
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_nightshade)
+	regekle 3
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_blood_moss)
+	regekle 4
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_ginseng)
+	regekle 5
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_black_pearl)
+	regekle 6
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_mandrake_root)
+	regekle 7
+	src.targ.remove
+elseif (<src.targ.baseid> == i_reag_garlic)
+	regekle 8
+	src.targ.remove
+elseif (<src.targ.baseid> == i_bag)
+	regekle 9
+	src.targ.remove
+else
+	src.sysmessage @38 Bu esyayi ekleyemezsiniz.
+endif
+return 1
+
+On=@Timer
+remove
+return 1
+
+[DIALOG d_reag_store]
+0, 0
+PAGE 0
+resizepic 0 0 2620 400 400
+//checkertrans 5 5 390 410
+
+gumppic 17 19 52
+text 56 53 1152 0
+text 30 360 152 1
+button 340 40 2117 2118 1 0 21 //add all
+text 245 40 152 21 //add all
+text 325 70 152 2
+text 200 360 152 3
+text 340 85 152 4
+text 50 110 162 5
+text 195 110 122 6
+tilepic 10 115 <eval 0f8d>// spider silk
+tilepic 10 145 <eval 0f8c> // sulfurous ash
+tilepic 10 175 <eval 0f88> // nightshade
+tilepic 10 205 <eval 0f7b> // blood moss
+tilepic 10 235 <eval 0f85> // ginseng
+tilepic 10 270 <eval 0f7a> // black pearl
+tilepic 10 295 <eval 0f86> // mandrake root
+tilepic 10 325 <eval 0f84> // garlic
+
+button 340 115 2117 2118 1 0 1
+text 50 140 162 7
+text 195 140 122 8
+button 340 145 2117 2118 1 0 2
+text 50 170 162 9
+text 195 170 122 10
+button 340 175 2117 2118 1 0 3
+text 50 200 162 11
+text 195 200 122 12
+button 340 205 2117 2118 1 0 4
+text 50 230 162 13
+text 195 230 122 14
+button 340 235 2117 2118 1 0 5
+text 50 260 162 15
+text 195 260 122 16
+button 340 265 2117 2118 1 0 6
+text 50 290 162 17
+text 195 290 122 18
+button 340 295 2117 2118 1 0 7
+text 50 320 162 19
+text 195 320 122 20
+button 340 325 2117 2118 1 0 8
+
+button 150 364  2117 2118 1 0 9 //malzeme ekle
+button 332 364  2117 2118 1 0 10 //hepsinden cikar
+
+[DIALOG d_reag_store TEXT]
+Reagent Store
+Malzeme Ekle >
+Cikar
+Hepsinden cikar >
+^
+Spider's Silk
+<eval(<TAG.spider>)>
+Sulfurous ash
+<eval(<TAG.sulfur>)>
+Nightshade
+<eval(<TAG.shade>)>
+Blood Moss
+<eval(<TAG.bmoss>)>
+Ginseng
+<eval(<TAG.ginseng>)>
+Black Pearl
+<eval(<TAG.bpearls>)>
+Mandrake Root
+<eval(<TAG.mroot>)>
+Garlic
+<eval(<TAG.garlic>)>
+Hepsini ekle >
+
+[DIALOG d_reag_store BUTTON]
+on=0
+more 0
+more2 0
+return 1
+
+On=1
+more 1
+dialog d_reg_cikar// spider
+
+On=2
+more 2
+dialog d_reg_cikar//sulfur
+
+On=3
+more 3
+dialog d_reg_cikar// nights..
+
+On=4
+more 4
+dialog d_reg_cikar// bloodm
+
+On=5
+more 5
+dialog d_reg_cikar// ginseng
+
+On=6
+more 6
+dialog d_reg_cikar// b pearl
+
+On=7
+more 7
+dialog d_reg_cikar//m root
+
+On=8
+more 8
+dialog d_reg_cikar //garlic
+
+On=9
+target Malzemeyi seciniz?
+return 1
+
+On=10
+more 9 //hepsinden cikarma
+dialog d_reg_cikar//hepsinden bu kadar cikar.
+return 1
+
+On=21
+if (<src.findid.i_reag_spider_silk>)
+	tag.spider (<eval <tag0.spider>> + <src.rescount i_reag_spider_silk>)
+	src.consume <src.rescount i_reag_spider_silk> i_reag_spider_silk
+endif
+if (<src.findid.i_reag_sulfur_ash>)
+	tag.sulfur (<eval <tag0.sulfur>> + <src.rescount i_reag_sulfur_ash>)
+	src.consume <src.rescount i_reag_sulfur_ash> i_reag_sulfur_ash
+endif
+if (<src.findid.i_reag_garlic>)
+	tag.garlic (<eval <tag0.garlic>> + <src.rescount i_reag_garlic>)
+	src.consume <src.rescount i_reag_garlic> i_reag_garlic
+endif
+if (<src.findid.i_reag_nightshade>)
+	tag.shade (<eval <tag0.shade>> + <src.rescount i_reag_nightshade>)
+	src.consume <src.rescount i_reag_nightshade> i_reag_nightshade
+endif
+if (<src.findid.i_reag_blood_moss>)
+	tag.bmoss (<eval <tag0.bmoss>> + <src.rescount i_reag_blood_moss>)
+	src.consume <src.rescount i_reag_blood_moss> i_reag_blood_moss
+endif
+if (<src.findid.i_reag_black_pearl>)
+	tag.bpearls (<eval <tag0.bpearls>> + <src.rescount i_reag_black_pearl>)
+	src.consume <src.rescount i_reag_black_pearl> i_reag_black_pearl
+endif
+if (<src.findid.i_reag_mandrake_root>)
+	tag.mroot (<eval <tag0.mroot>> + <src.rescount i_reag_mandrake_root>)
+	src.consume <src.rescount i_reag_mandrake_root> i_reag_mandrake_root
+endif
+if (<src.findid.i_reag_ginseng>)
+	tag.ginseng (<eval <tag0.ginseng>> + <src.rescount i_reag_ginseng>)
+	src.consume <src.rescount i_reag_ginseng> i_reag_ginseng
+endif
+src.sysmessage @91 Cantanizdaki butun regler eklendi.
+return 1
+
+
+[DIALOG d_reg_cikar]
+0, 0
+PAGE 0
+resizepic 0 0 2620 300 150
+checkertrans 5 5 290 140
+text 44 24 1152 0
+gumppic 113 62 2445
+button 35 108 249 248 1 0 1
+button 200 108 243 241 1 0 2
+textentry 122 63 150 25 20 0 1
+
+[DIALOG d_reg_cikar TEXT]
+Malzeme sayisini yaziniz...
+0
+
+[DIALOG d_reg_cikar BUTTON]
+On=0
+more 0
+more2 0
+dialog d_reag_store
+return 1
+
+ON=1
+// more - islem cinsi
+// more2-reg sayisi
+if (<eval(<morex> - <src.p.x>)> >0) || (<eval(<src.p.x> - <morex>)> >0) || (<eval(<morey> - <src.p.y>)> > 0) || (<eval(<src.p.y> - <morey>)> > 0)
+	src.sysmessage Unexpected gump error
+	dialogclose d_reag_store
+	return 1
+endif
+if (<isnum <argtxt[0]>>) // abi bu işte dediğim hede.. 
+	more2 <argtxt[0]> //reg sayisi
+	if (<eval(<more2>)> > 1500)
+		src.sysmessage @38 1500' den fazla sayi giremezsiniz.
+		more 0
+		more2 0
+		dialog d_reag_store
+		return 1
+	elseif (<eval(<more2>)> > 0)
+		regcikar
+		return 1
+	else
+		src.sysmessage @38 0' dan buyuk bir sayi yaziniz.
+		more 0
+		more2 0
+		dialog d_reag_store
+		return 1
+	endif
+else
+	src.sysmessage @38 Deger olarak bir harf giremezsiniz.
+	more 0
+	more2 0
+	dialog d_reag_store
+	return 1
+endif
+
+[function regekle]
+if (<eval(<morex> - <src.p.x>)> >0) || (<eval(<src.p.x> - <morex>)> >0) || (<eval(<morey> - <src.p.y>)> > 0) || (<eval(<src.p.y> - <morey>)> > 0)
+	src.sysmessage Unexpected gump error
+	dialogclose d_reag_store
+	return 1
+endif
+if (<args> == 1)
+	tag.spider += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 2)
+	tag.sulfur += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 3)
+	tag.shade += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 4)
+	tag.bmoss += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 5)
+	tag.ginseng += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 6)
+	tag.bpearls += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 7)
+	tag.mroot += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 8)
+	tag.garlic += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+elseif (<args> == 9)
+	tag.bagsayisi += <src.targ.amount>
+	src.sysmessage @91 <src.targ.amount> adet <src.targ.name> eklendi.
+else
+	src.sysmessage @38 ERROR: Something goes wrong....
+endif
+dialog d_reag_store
+return 1
+
+[function regcikar]
+if (<more2> > 0) // bir sayi girilmisse
+	if (<more> == 1)		// spider
+		if (<more2> < <tag.spider>)
+			src.newitem i_reag_spider_silk
+			tag.spider -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet spider silk cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 2) // sulfur
+		if (<more2> < <tag.sulfur>)
+			src.newitem i_reag_sulfur_ash
+			tag.sulfur -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet sulfurous ash cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 3) // nshade
+		if (<more2> < <tag.shade>)
+			src.newitem i_reag_nightshade
+			tag.shade -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet nightshade cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 4) // blood moss
+		if (<more2> < <tag.bmoss>)
+			src.newitem i_reag_blood_moss
+			tag.bmoss -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet blood moss cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 5) // ginseng
+		if (<more2> < <tag.ginseng>)
+			src.newitem i_reag_ginseng
+			tag.ginseng -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet ginseng cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 6) // black pearls
+		if (<more2> < <tag.bpearls>)
+			src.newitem i_reag_black_pearl
+			tag.bpearls -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet black pearl cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 7) //mandrake root
+		if (<more2> < <tag.mroot>)
+			src.newitem i_reag_mandrake_root
+			tag.mroot -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet mandrake root cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 8) // garlic
+		if (<more2> < <tag.garlic>)
+			src.newitem i_reag_garlic
+			tag.garlic -= <more2>
+			src.act.amount <more2>
+			src.act.bounce
+			src.sysmessage @91 <eval(<more2>)> adet garlic cantaniza kondu.
+			dialog d_reag_store
+		else
+			src.sysmessage @38 Girdiginiz sayi, sizde bulunandan fazla.Tekrar kontrol ediniz.
+			dialog d_reag_store
+		endif
+	elseif (<more> == 9) //hepsinden cikar
+		if (<more2> > <tag.spider>) || (<more2> > <tag.sulfur>) || (<more2> > <tag.shade>) || (<more2> > <tag.bmoss>) || (<more2> > <tag.ginseng>)  || (<more2> > <tag.bpearls>) || (<more2> > <tag.mroot>) || (<more2> > <tag.garlic>)
+			src.sysmessage @38 Girdiginiz sayi, malzemelerden birinin sayisindan yuksek.
+			src.sysmessage @38 Malzemelerinizi kontrol edip tekrar sayi giriniz.			
+			more 0
+			more2 0
+			dialog d_reag_store
+			return 1
+		else
+			tag.spider -= <more2>
+			tag.sulfur -= <more2>
+			tag.shade -= <more2>
+			tag.bmoss -= <more2>
+			tag.ginseng -= <more2>
+			tag.bpearls -= <more2>
+			tag.mroot -= <more2>
+			tag.garlic -= <more2>
+			
+			src.newitem i_reag_spider_silk
+			loopcikar	
+			src.newitem i_reag_sulfur_ash
+			loopcikar
+			src.newitem i_reag_nightshade
+			loopcikar
+			src.newitem i_reag_ginseng
+			loopcikar
+			src.newitem i_reag_blood_moss
+			loopcikar
+			src.newitem i_reag_black_pearl
+			loopcikar
+			src.newitem i_reag_mandrake_root
+			loopcikar
+			src.newitem i_reag_garlic
+			loopcikar
+			src.sysmessage @91 <eval(<more2>)>er adet buyu malzemesi cantaniza kondu.
+			more 0
+			more2 0
+			dialog d_reag_store
+			return 1
+	else
+		src.sysmessa @38 Islem seciminde bir hata olustu. Tekrar deneyiniz.
+		more 0
+		more2 0
+		dialog d_reag_store
+		return 1
+	endif
+	more 0
+	more2 0
+	return 1
+else
+	src.sysmessage @38 0'dan buyuk bir sayi giriniz.
+endif
+endif
+
+on=2
+more 0
+more2 0
+dialog d_reag_store
+return 1
+
+[function loopcikar]
+src.act.amount <more2>
+src.act.bounce
+
+
+[function loopcikar2]
+ref1 = <args>
+src.act.amount <more2>
+src.act.cont <ref1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+[defname reagent_reg_options]
+reagentname_reg1	"Spider's Silk"
+reagentname_reg2	"Bloodmoss"
+reagentname_reg3	"Ginseng"
+reagentname_reg4	"Garlic"
+reagentname_reg5	"Mandrake"
+reagentname_reg6	"Nightshade"
+reagentname_reg7	"Sulfurous Ash"
+reagentname_reg8	"Black Pearls"
+
+reagent_reg1	"i_reag_spider_silk"
+reagent_reg2	"i_reag_blood_moss"
+reagent_reg3	"i_reag_ginseng"
+reagent_reg4	"i_reag_garlic"
+reagent_reg5	"i_reag_mandrake_root"
+reagent_reg6	"i_reag_nightshade"
+reagent_reg7	"i_reag_sulfur_ash"
+reagent_reg8	"i_reag_black_pearl"
+
+
+[ITEMDEF i_crystal_reagent]
+ID=01f19
+NAME=Reagent Storage Crystal
+type=t_normal
+RESOURCES=4 i_rock_plain
+VALUE=16785
+
+ON=@CREATE
+color 07a1
+
+ON=@Click
+message @07a1,,1 <name>
+return 1
+
+ON=@DClick
+src.newitem i_reag_store
+src.new.bounce
+src.sysmessage @,,1 Reagent Store guncellenmistir. Yeni storunuz cantaniza verildi...
+remove
+return 1
+
+if !(<topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Bunu ancak cantanizda iken kullanabilirsiniz.
+	return 1
+endif
+src.tag.crystal_reagent <uid>
+//src.say <uid.<src.tag0.crystal_reagent>.name>
+//src.tag.reg1	<tag0.reg1>
+//src.tag.reg2	<tag0.reg2>
+//src.tag.reg3	<tag0.reg3>
+//src.tag.reg4	<tag0.reg4>
+//src.tag.reg5	<tag0.reg5>
+//src.tag.reg6	<tag0.reg6>
+//src.tag.reg7	<tag0.reg7>
+//src.tag.reg8	<tag0.reg8>
+//src.update
+//src.REMOVEFROMVIEW
+attr 0
+src.dialog d_reagent_Crystal
+return 1
+
+[DIALOG d_reagent_Crystal]
+0,0
+page 0
+resizepic 100 0 9200 300 480	
+gumppictiled 110 10 280 460 2624
+src.dialogclose d_reagent_Crystal
+
+tilepic 120 60 3981 //spiders silk resmi
+tilepic 120 100 3963 //blooddmoss resmi
+tilepic 120 140 3973 //ginseng resmi
+tilepic 120 180 3972 //garlic resmi
+tilepic 120 220 3974 //mandrake root resmi
+tilepic 120 260 3976 //nightshade Ash root
+tilepic 120 300 3980 //sulphurous ash resmi 
+tilepic 120 340 3962 //black pearls resmi 
+
+dhtmlgump 170 20 300 20 0 0 <def.bfont_white> Reagent Storage Crystal
+
+dhtmlgump 170 60 300 20 0 0 <def.bfont_white> Spider's Silk
+dhtmlgump 170 100 300 20 0 0 <def.bfont_white> Blood Moss
+dhtmlgump 170 140 300 20 0 0 <def.bfont_white> Ginseng
+dhtmlgump 170 180 300 20 0 0 <def.bfont_white> Garlic
+dhtmlgump 170 220 300 20 0 0 <def.bfont_white> Mandrake
+dhtmlgump 170 260 300 20 0 0 <def.bfont_white> Nightsight
+dhtmlgump 170 300 300 20 0 0 <def.bfont_white> Supfurous Ash
+dhtmlgump 170 340 300 20 0 0 <def.bfont_white> Black Pearl
+
+
+button 286 60 4005 4007 1 0 1
+button 286 100 4005 4007 1 0 2
+button 286 140 4005 4007 1 0 3
+button 286 180 4005 4007 1 0 4
+button 286 220 4005 4007 1 0 5
+button 286 260 4005 4007 1 0 6
+button 286 300 4005 4007 1 0 7
+button 286 340 4005 4007 1 0 8
+
+dtextentrylimited 330 61 90 60 32 1 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg1>> //<eval <src.tag0.reg1>> 
+dtextentrylimited 330 101 90 60 32 2 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg2>> //<eval <src.tag0.reg2>>
+dtextentrylimited 330 141 90 60 32 3 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg3>>
+dtextentrylimited 330 181 90 60 32 4 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg4>>
+dtextentrylimited 330 221 90 60 32 5 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg5>>
+dtextentrylimited 330 261 90 60 32 6 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg6>>
+dtextentrylimited 330 301 90 60 32 7 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg7>>
+dtextentrylimited 330 341 90 60 32 8 4 <eval <uid.<src.tag.crystal_reagent>.tag.reg8>>
+
+button 120 380 4005 4007 1 0 100
+button 120 410 4005 4007 1 0 101
+button 120 440 4005 4007 1 0 102
+//button 120 470 4005 4007 1 0 102
+
+dtextentrylimited 300 410 90 60 32 9 4 0
+
+dhtmlgump 150 380 300 20 0 0 <def.bfont_white> Kristale reg koy
+dhtmlgump 150 410 300 20 0 0 <def.bfont_white> Tum reglerden cikart =
+dhtmlgump 150 440 300 20 0 0 <def.bfont_white> Cantamdaki tum regleri kristale koy
+//dhtmlgump 150 470 300 20 0 0 <def.bfont_white> Kristaldeki tum regleri cantama cikart
+
+[DIALOG d_reagent_Crystal text]
+
+[DIALOG d_reagent_Crystal button]
+
+on=0
+
+on=1
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[1]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[1]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[1]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg1>> < <argtxt[1]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg1> yok.
+	return 1
+endif
+
+
+if (strmatch('<strsub 0 1 <argtxt[1]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[1]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+
+serv.newitem <def.reagent_reg1>
+new.amount <eval <argtxt[1]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[1]>> adet <def.reagentname_reg1> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg1 -=<eval <argtxt[1]>>
+
+on=2
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[2]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[2]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[2]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg1>> < <argtxt[2]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg2> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[2]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[2]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg2>
+new.amount <eval <argtxt[2]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[2]>> adet <def.reagentname_reg2> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg2 -=<eval <argtxt[2]>>
+
+
+on=3
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[3]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[3]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[3]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg3>> < <argtxt[3]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg3> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[3]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[3]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg3>
+new.amount <eval <argtxt[3]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[3]>> adet <def.reagentname_reg3> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg3 -=<eval <argtxt[3]>>
+
+
+on=4
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[4]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[4]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[4]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg4>> <<argtxt[4]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg4> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[4]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[4]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg4>
+new.amount <eval <argtxt[4]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[4]>> adet <def.reagentname_reg4> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg4 -=<eval <argtxt[4]>>
+
+on=5
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[5]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[5]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[5]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg5>> < <argtxt[5]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg5> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[5]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[5]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg5>
+new.amount <eval <argtxt[5]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[5]>> adet <def.reagentname_reg5> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg5 -=<eval <argtxt[5]>>
+
+on=6
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[6]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[6]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[6]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg6>> < <argtxt[6]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg6> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[6]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[6]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg6>
+new.amount <eval <argtxt[6]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[6]>> adet <def.reagentname_reg6> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg6 -=<eval <argtxt[6]>>
+
+on=7
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[7]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[7]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[7]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg7>> < <argtxt[7]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg7> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[7]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[7]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg7>
+new.amount <eval <argtxt[7]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[7]>> adet <def.reagentname_reg7> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg7 -=<eval <argtxt[7]>>
+
+on=8
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[8]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[8]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[8]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+elif (<eval <uid.<src.tag.crystal_reagent>.tag.reg8>> < <argtxt[8]>)
+	src.sysmessage @,,1 Belirttiginiz sayida <def.reagentname_reg8> yok.
+	return 1
+endif
+
+if (strmatch('<strsub 0 1 <argtxt[8]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[8]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+serv.newitem <def.reagent_reg8>
+new.amount <eval <argtxt[8]>>
+src.new.bounce
+src.sysmessage @69,,1 <eval <argtxt[8]>> adet <def.reagentname_reg8> kristalden cikarildi.
+uid.<src.tag.crystal_reagent>.tag.reg8 -=<eval <argtxt[8]>>
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+on=100
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+src.targetf f_reagent_crystal_regsec
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+on=101
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<isnum <argtxt[9]>>)
+	src.sysmessage @,,1 Sadece rakam kullanabilirsiniz.
+	return 1
+elif (<eval <argtxt[9]>> < 1)
+	src.sysmessage @,,1 Hatali bir rakam girdiniz.
+	return 1
+elif (<eval <argtxt[9]>> > 250)
+	src.sysmessage @,,1 250'den fazla cikartamazsiniz.
+	return 1
+endif
+
+
+if (strmatch('<strsub 0 1 <argtxt[9]>>','0')) && !(strmatch('<strsub 0 2 <argtxt[9]>>','0'))
+	src.sysmessage @,,1 Sayin <src.name> alacaginiz miktarin basina 0 yazmayiniz.
+	return 1
+endif
+
+ref1 <src.uid>
+
+FOR 1 8
+if (<eval <argtxt[9]>> > <eval <uid.<ref1.tag.crystal_reagent>.tag.reg<eval <local._for>>>>)
+src.sysmessage @33,,1 <def.reagentname_reg<eval <local._for>>> yetersiz.
+endif
+endfor
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg1>>)
+serv.newitem <def.reagent_reg1>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg1 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg2>>)
+serv.newitem <def.reagent_reg2>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg2 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg3>>)
+serv.newitem <def.reagent_reg3>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg3 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg4>>)
+serv.newitem <def.reagent_reg4>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg4 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg5>>)
+serv.newitem <def.reagent_reg5>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg5 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg6>>)
+serv.newitem <def.reagent_reg6>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg6 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg7>>)
+serv.newitem <def.reagent_reg7>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg7 -=<eval <argtxt[9]>>
+endif
+
+if (<eval <argtxt[9]>> <= <eval <uid.<ref1.tag.crystal_reagent>.tag.reg8>>)
+serv.newitem <def.reagent_reg8>
+new.amount <eval <argtxt[9]>>
+ref1.new.bounce
+uid.<ref1.tag.crystal_reagent>.tag.reg8 -=<eval <argtxt[9]>>
+endif
+
+uid.<src.tag.crystal_reagent>.dclick
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+on=102
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+/////////////////////////////////////
+
+	if (<src.findid.<def.reagent_reg1>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg1>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg1 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg1>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg1>}.AMOUNT> adet <def.reagentname_reg1> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg1>}.AMOUNT> <def.reagent_reg1>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg2>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg2>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg2 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg2>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg2>}.AMOUNT> adet <def.reagentname_reg2> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg2>}.AMOUNT> <def.reagent_reg2>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg3>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg3>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg3 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg3>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg3>}.AMOUNT> adet <def.reagentname_reg3> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg3>}.AMOUNT> <def.reagent_reg3>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg4>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg4>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg4 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg4>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg4>}.AMOUNT> adet <def.reagentname_reg4> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg4>}.AMOUNT> <def.reagent_reg4>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg5>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg5>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg5 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg5>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg5>}.AMOUNT> adet <def.reagentname_reg5> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg5>}.AMOUNT> <def.reagent_reg5>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg6>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg6>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg6 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg6>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg6>}.AMOUNT> adet <def.reagentname_reg6> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg6>}.AMOUNT> <def.reagent_reg6>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg7>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg7>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg7 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg7>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg7>}.AMOUNT> adet <def.reagentname_reg7> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg7>}.AMOUNT> <def.reagent_reg7>
+endif
+	endif
+
+	if (<src.findid.<def.reagent_reg8>>)
+if <SRC.FINDLAYER{21}.rescount{<def.reagent_reg8>}.AMOUNT>
+	uid.<src.tag.crystal_reagent>.tag0.reg8 += <SRC.FINDLAYER{21}.rescount{<def.reagent_reg8>}.AMOUNT>
+	src.sysmessage @69,,1 <SRC.FINDLAYER{21}.rescount{<def.reagent_reg8>}.AMOUNT> adet <def.reagentname_reg8> kristale konuldu.
+	src.consume <SRC.FINDLAYER{21}.rescount{<def.reagent_reg8>}.AMOUNT> <def.reagent_reg8>
+endif
+	endif
+
+uid.<src.tag.crystal_reagent>.dclick
+
+return 1
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[function f_reagent_crystal_regsec]
+
+if !(<uid.<src.tag.crystal_reagent>.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Kristal cantanizda olmali.
+	return 1
+endif
+
+if !(<argo.topobj.uid> == <src.uid>)
+	src.sysmessage @38,,1 Cantanizda veya bankanizda olmali.
+	return 1
+endif
+
+src.sysmessage @69,,1 Hangi regi kristale koymak istiyorsunuz ?
+
+if (strmatch(´<argo.baseid>´,´i_reag_spider_silk´))
+uid.<src.tag.crystal_reagent>.tag.reg1 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_blood_moss´))
+uid.<src.tag.crystal_reagent>.tag.reg2 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_ginseng´))
+uid.<src.tag.crystal_reagent>.tag.reg3 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_garlic´))
+uid.<src.tag.crystal_reagent>.tag.reg4 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_mandrake_root´))
+uid.<src.tag.crystal_reagent>.tag.reg5 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_nightshade´))
+uid.<src.tag.crystal_reagent>.tag.reg6 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_sulfur_ash´))
+uid.<src.tag.crystal_reagent>.tag.reg7 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+elif (strmatch(´<argo.baseid>´,´i_reag_black_pearl´))
+uid.<src.tag.crystal_reagent>.tag.reg8 += <argo.amount>
+uid.<src.tag.crystal_reagent>.dclick
+src.sysmessage @69,,1 <argo.amount> adet <argo.name> kristale eklendi.
+argo.remove
+return 1
+else
+src.sysmessage @,,1 Bu bir reg degil.
+return 1
+endif
+
+src.targetf f_reagent_crystal_regsec
+uid.<src.tag.crystal_reagent>.dclick
+
+[EOF]

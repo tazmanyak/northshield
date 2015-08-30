@@ -1,0 +1,26 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+
+[EVENTS e_NpcSummoned]
+on=@attack
+if <findlayer.41.uid>
+	if <def.scp.NPCAI_Summon_AttackCaster> == 0
+		if <src.uid> == <findlayer.41.link>
+		return 1
+		endif
+	endif
+	if <def.scp.NPCAI_Summon_AttackBlue> == 0
+		if <uid.<findlayer.41.link>.notogetflag <src.uid>> == 01
+			if <src.notogetflag <findlayer.41.link>> == 01
+			return 1
+			endif
+		endif
+	endif
+endif
+
+[eof]

@@ -1,0 +1,310 @@
+
+
+
+[defname engelli_kosu_options]
+engelli_player_base		"819,1473,-28,2"
+
+engelli_katilimci_baraji		"2" // Eklenen sayidan kucukse iptal edilir
+
+engelli_finish_and_go		"5321,1823"
+
+engelli_open_gate_p		"5321,1813"
+engelli_timer_gate		"300"
+
+
+
+
+
+[function f_engelli_winner]
+var.son_engelli <name>	 // winner
+go <def.engelli_finish_and_go>
+say @,,1 Kazandiniz !
+f_engelli_fame_karma_kill_load
+f_option_mysql 0
+db.connect
+db.execute "insert into son_etkinlikler (tarih, kazanan, yarisma) VALUES ('<addslashes <serv.rtime>>','<addslashes <name>>','Engelli Kosu');"
+db.close
+serv.newitem might_silah
+new.cont <findlayer(layer_bankbox)>
+new.color 07a1
+new.name Etkinlik Odulu
+serv.newitem i_y_kupa
+new.cont <findlayer(layer_bankbox)>
+account.tag0.connecttimeused -= 20
+sysmessage @,,1 Odulunuz bankaniza aktarilmistir.
+sysmessage @,,1 Might Random Magical silah ve 20 saat online sure kazandiniz.
+//gold += <eval (<var.engelli_katilimcisi_X>)*15000> // Katilimci sayisi X 20k gold --> Odul
+duyur Engelli Kosu'yu kazanan <name> olmustur.
+var.etkinlikprogramisondurum Engelli Kosu yarismasi bitti , kazanan <name> olmustur.
+events -e_yarisma_engelli
+
+
+[function f_engelli_open]
+serv.allclients f_engelli_draw
+var.engelli_katilimcisi	0
+var.engelli_katilimcisi_x	0
+var.katilim_yarisma 1
+
+
+
+serv.newitem i_gate_engelli
+new.p <def.engelli_open_gate_p>
+new.timer <def.engelli_timer_gate>
+
+
+
+[function f_engelli_start]
+
+
+if (<isevent.e_yarisma_engelli>)
+stone 0
+sys_normal Yarisma basladi !
+endif
+
+
+
+
+
+
+[function f_engelli_loser]
+
+if <isevent.e_yarisma_engelli>
+go <def.engelli_finish_and_go>
+f_engelli_fame_karma_kill_load
+events -e_yarisma_engelli
+//serv.newitem i_gold
+//new.amount 5000
+//new.bounce
+say @33,,1 Kaybettiniz.
+
+endif
+
+
+[function f_engelli_loser_logout]
+events -e_yarisma_engelli
+var.engelli_katilimcisi --
+f_engelli_loser
+stone 0
+
+[function f_engelli_draw]
+if <isevent.e_yarisma_engelli>
+	go <def.engelli_finish_and_go>
+	f_engelli_fame_karma_kill_load
+	events -e_yarisma_engelli
+	sys_normal Engelli yarismasi iptal edildi.
+	stone 0
+endif
+
+
+
+
+[function f_engelli_fame_karma_kill_save]
+tag0.ctf_kill	<kills>
+tag0.ctf_fame	<fame>
+tag0.ctf_karma	<karma>
+
+[function f_engelli_fame_karma_kill_load]
+kills	<eval <tag0.ctf_kill>>
+fame	<eval <tag0.ctf_fame>>
+karma	<eval <tag0.ctf_karma>>
+flags &= ~statf_criminal
+tag0.ctf_kill
+tag0.ctf_fame
+tag0.ctf_karma
+binekstabil
+cantalarbanka_gerial
+/////////////////////////////////////////////////////////////////////////function finish
+/////////////////////////////////////////////////////////////////////////Events Start
+
+[events e_yarisma_engelli]
+
+on=@death
+var.engelli_katilimcisi --
+events -e_yarisma_engelli
+f_engelli_loser
+hits 100
+return 1
+
+on=@login
+if <var.katilim>
+	src.sys_error Yarışma başlamadan yarışmadan çıkamazsınız.
+endif
+if strmatch(*bitti*,<var.etkinlikprogramisondurum>)
+	f_engelli_loser_logout
+	return 1
+endif
+src.timerf clear
+src.stone 0
+
+on=@logout
+if !<var.katilim>
+src.timerf 10,f_engelli_loser_logout //src.timerf 1,
+endif
+on=@attack
+return 1
+
+on=@hit
+return 1
+
+on=@skillstart
+return 1
+
+on=@spellselect
+return 1
+
+
+
+[ITEMDEF i_teleporter_engelli_olu]
+id i_floor_marble
+name Hayalet Girisi
+
+on=@create
+color 07a1
+attr 080
+
+on=@step
+if (<src.flags>&statf_dead)
+	src.moveback
+	src.sys_error Daha ileriye olu halde ilerleyemezsiniz.
+endif
+	
+
+[ITEMDEF i_teleporter_odulver]
+id i_floor_marble
+name Odul Ver
+
+on=@create
+color 07bb
+attr 080
+
+on=@step
+if <src.isgm>
+	return 1
+endif
+if (<src.flags>&statf_dead)
+	src.moveback
+	src.sys_error Daha ileriye olu halde ilerleyemezsiniz.
+endif
+src.f_engelli_winner
+serv.allclients f_engelli_loser
+
+[itemdef i_gate_engelli]
+id i_moongate_blue
+name Engelli Kosu Etkinligi
+
+on=@click
+message @0808,1,1 Engelli Kosu Etkinligi
+return 1
+
+on=@create
+attr 08000
+color 09a9
+
+on=@dclick
+if (<src.findlayer.25>) 
+src.sysmessage @1953,1,1,1 Binek üzerinde katılamazsınız.
+return 1
+endif
+
+local.uid1 <src.uid>
+forchars 10
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<local.uid1>)
+try uid.<local.uid1>.sysmessage @1953,1,1,1 Etrafınızda bineğiniz olduğu taktirde yarışmaya katılamazsınız.
+return 1
+endif
+endif
+endfor
+local.uid1
+
+if <src.findtype.t_eq_trade_window>
+	src.sys_error Trade ekraninda yarışmaya katılamazsınız.
+	return 1
+endif
+if <src.account.plevel> > 1
+return 1
+endif
+src.spelleffect s_night_sight,100,0
+src.hits <src.str>
+SRC.FINDID.i_rune_protection.REMOVE
+SRC.FINDID.i_rune_reactive_armor.REMOVE
+
+src.findid.i_rune_bless.remove
+src.findid.i_rune_agility.remvove
+src.findid.i_rune_strength.remove
+var.engelli_katilimcisi ++
+
+src.cantalarbanka
+//src.binekolmazsaolmaz
+
+serv.allclients Yarisma_katilan <src.name> yarışmaya katıldı. Toplam katılımcı : <eval <var.engelli_katilimcisi>>
+
+src.events +e_yarisma_engelli
+src.go <def.engelli_player_base>
+src.f_engelli_fame_karma_kill_save
+src.stone 1
+on=@step
+src.sysmessage @39,1,1 <src.name>, cift tiklayin.
+return 1
+
+on=@timer
+
+
+if (<eval <var.engelli_katilimcisi>> < <def.engelli_katilimci_baraji>)
+serv.allclients f_engelli_draw
+duyur Katilimci sayisi baraji gecemedigi icin Engelli Kosu yarismasi iptal edildi.
+var.etkinlikprogramisondurum  Katilimci sayisi baraji gecemedigi icin Engelli Kosu yarismasi iptal edildi.
+var.katilim 0
+remove
+return 1
+endif
+
+var.engelli_katilimcisi_X <var.engelli_katilimcisi>
+duyur Engelli Kosu yarismasi basliyor.Katilimci : <eval <var.engelli_katilimcisi>>
+serv.allclients f_engelli_start
+var.katilim 0
+remove
+return 1
+
+
+
+
+
+
+
+
+[DIALOG d_engelli_bilgi_dialog]
+0,0
+page 0
+src.closealldialogs
+resizepic 250 10 9200 385 195	
+gumppictiled 260 20 365 175 2624
+
+htmlgump 270 30 345 154 0 1 1
+
+[DIALOG d_engelli_bilgi_dialog text]
+Yarisma hakkinda kisa bilgiler: Amac yarismadaki herkesi elemektir.Yarismada alacaginiz Fame, Karma ve Kill degerleriniz yarisma sonunda eski haline donecektir.Logout oldugunuzda ve ya oyundan dustugunuzde 10 saniye icerisinde tekrar girmezseniz elenirsiniz.Yarisma odulu katilimci sayisi ile orantilidir. Yarismanin amaci engelleri gecerek hedefe ilk ulasmaktir.Ilk hedefe varan kisiye odul verilmektedir.// Kaybedenlere teselli odulu verilmektedir.
+
+[itemdef i_engelli_bilgi_deed]
+id i_deed
+name Engelli Kosu Bilgi
+type t_normal
+
+on=@create
+attr 08000
+color 0810
+
+on=@click
+src.dialog d_engelli_bilgi_dialog
+
+
+
+
+
+
+
+
+
+
+
+[EOF]

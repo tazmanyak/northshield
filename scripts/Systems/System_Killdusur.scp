@@ -1,0 +1,129 @@
+[PLEVEL 1]
+KILLDUSUR
+
+[FUNCTION KILLDUSUR]
+src.dialogclose d_killdusur
+src.dialog d_killdusur
+
+[dialog d_killdusur]
+0,0
+page 0
+
+resizepic 0 0 9200 530 307	
+gumppictiled 10 10 510 287 2624
+
+button 25 50 210 211 1 0 1
+button 25 80 210 211 1 0 2
+button 25 110 210 211 1 0 3
+//button 25 140 210 211 1 0 4
+//button 25 170 210 211 1 0 5
+//button 25 200 210 211 1 0 6
+
+dText 50 50 800 1 Kill Dusur
+dtext 50 80 800 5 Kill Dusur
+dtext 50 110 800 10 Kill Dusur
+//dtext 50 140 800 100 Kill Dusur
+//dtext 50 170 800 500 Kill Dusur
+//dtext 50 200 800 1000 Kill Dusur
+dtext 230 20 800 Kill Dusurme
+
+dtext 380 50 32 200.000 Gold
+dtext 380 80 32 1.000.000 Gold
+dtext 380 110 32 2.000.000 Gold
+//dtext 380 140 32 20.000.000 Gold 
+//dtext 380 170 32 1.000.000.000 Gold
+//dtext 380 200 32 10.000.000.000 Gold
+
+dtext 25 250 800 Acc: <account> , Karakter : <name> , Kill Sayiniz : <kills>
+dtext 25 270 800 Zamana Bagli Kill Sayinizin Sifirlanmasi :
+dtext 280 270 69 <eval <kills>*8> Saat
+
+[dialog d_killdusur text]
+
+[dialog d_killdusur button]
+
+On=1 
+if !(<restest 200000 i_gold>)
+src.sysmessage @38,,1 200.000 gp cantanizda olmali..
+else
+if (<kills> < 1)
+src.sysmessage @38,,1 Zaten Killiniz 0
+else
+consume 200000 i_gold
+kills (<kills> +(-1))
+src.sysmessage @38,,1 Killiniz <kills>
+return 1
+endif
+endif
+
+On=2 
+if !(<restest 1000000 i_gold>)
+src.sysmessage @38,,1 1.000.000 gp cantanizda olmali..
+else
+if (<kills> < 5)
+src.sysmessage @38,,1 Zaten Killiniz <Kills>
+else
+consume 1000000 i_gold
+kills (<kills> +(-5))
+src.sysmessage @38,,1 Killiniz <kills>
+return 1
+endif
+endif
+
+On=3
+if !(<restest 2000000 i_gold>)
+src.sysmessage @38,,1 2.000.000 gp cantanizda olmali..
+else
+if (<kills> < 10)
+src.sysmessage @38,,1 Zaten Killiniz <Kills>
+else
+consume 2000000 i_gold
+kills (<kills> +(-10))
+src.sysmessage @38,,1 Killiniz <kills>
+return 1
+endif
+endif
+
+On=4 
+if !(<restest 20000000 i_gold>)
+src.sysmessage @38,,1 20.000.000 gp cantanizda olmali..
+else
+if (<kills> < 100)
+src.sysmessage @38,,1 Zaten Killiniz <Kills>
+else
+consume 20000000 i_gold
+kills (<kills> +(-100))
+src.sysmessage @38,,1 Killiniz <kills>
+return 1
+endif
+endif
+
+On=5
+if !(<restest 1000000000 i_gold>)
+src.sysmessage @38,,1 1.000.000.000 gp cantanizda olmali..
+else
+if (<kills> < 500)
+src.sysmessage @38,,1 Zaten Killiniz <Kills>
+else
+consume 1000000000 i_gold
+kills (<kills> +(-500))
+src.sysmessage @38,,1 Killiniz <kills>
+return 1
+endif
+endif
+
+On=6
+if !(<restest 10000000000 i_gold>)
+src.sysmessage @38,,1 10.000.000.000 gp cantanizda olmali..
+else
+if (<kills> < 1000)
+src.sysmessage @38,,1 Zaten Killiniz <Kills>
+else
+consume 10000000000 i_gold
+kills (<kills> +(-1000))
+src.sysmessage @38,,1 Killiniz <kills>
+return 1
+endif
+endif
+
+[eof]

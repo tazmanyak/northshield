@@ -1,0 +1,1370 @@
+﻿// branch created
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+
+VERSION=0.56b
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+[events e_PlayerGenericEvent]
+
+
+On=@ItemDropon_item
+if (<uid> == <argo.topobj.tag0.owner>)
+	src.sys_error Eşyanın fiyatını ekrana yazıp entera basınız.(ESC=Satılık Değil)
+	src.promptconsole f_evvendorfiyat_mysql
+	src.ctag.vendor_sent_item <act.uid>
+endif
+
+if (<argo.baseid> == i_bulk_order_book)
+	if <act.baseid> != i_bulk_order_deed
+		src.sys_error Bulk Order Deed dışında hiç bir eşya koyamazsınız.
+		return 1
+	endif
+endif
+
+// if <argo.isevent.t_itemaktar_bushel>
+	// if <src.bankbalance> >=250
+		// src.gold -=250
+		// src.sys_normal Banka hesabınızdan 250gp eşya transfer ücreti otomatik çekilmiştir.
+	// else
+		// src.sys_error Banka hesabınızda 250gp bulunmadığı için eşya transferi gerçekleştirilmedi.
+		// return 1
+	// endif
+// endif
+////////////////////////////////////////////////////////////////////////////////
+
+on=@REGIONENTER
+//if <src.account.plevel> > 2				// Eve eklenecek yeni sistem icin.
+//	If (strmatch("<argo.events>","r_house_system")
+//		src.sysmessage Eve girdin.	
+//	endif
+//endif
+
+//if (<argo.guarded>) && (<src.account.plevel> < 2) && (<NOTOGETFLAG <SRC>,0> == 6)
+//	if <eval <var.guard.yell>> == 1
+//	src.timerf 1,pkyellsistemi	
+//	timerf 5,var.guard.yell 1
+//	else
+//	src.sysmessage @69,,1 Yell gecmesi icin biraz beklemelisiniz.
+//	endif
+//endif
+
+ON=@UserExtCmd
+if <argn1> == 88
+  IF (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)
+	if !<src.isdeath>
+		FORITEMS 3
+		  if (<Type>==t_door) || (<Type>==t_door_locked)
+		   UseItem
+		  endif
+		ENDFOR
+	endif
+  ENDIF
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+on=@ItemPickUp_self
+
+
+if (<src.account.tag.pinkabul>==0)
+	if strmatch('<act.name>','Bank Box') || strmatch('<act.name>','strongbox')
+		src.sys_error Pin girişi yapmalısınız.
+		src.dialog d_pin_giris
+		return 1
+	endif
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////// Golem Besleme & Tedavi Sistemi
+
+on=@ITEMDROPON_CHAR
+/////////////// Golem zımbırtıları//////////////////
+
+if (<argo.baseid> == c_m_golem_tinker)
+	if !(<act.baseid> == i_ingot_iron)
+	src.sysmessage @,,1 Sadece iron ingot ile beslenir.
+	return 1
+	endif	
+
+
+
+	if (<act.amount> > 1)
+	src.sysmessage @69,,1 Tek tek veriniz.
+	return 1
+	endif
+
+	if (<argo.hits> < <argo.str>)
+		argo.hits += 25
+		argo.olumlu1 * <src.name> tarafından tedavi edilir *
+		act.remove
+		return 1
+	else
+		src.sysmessage @,,1 Golemin tedaviye ihtiyacı yok.
+	endif
+
+	if (<argo.food> < 25)
+	argo.food +=1
+	argo.olumlu1 * <src.name> tarafından beslenir *
+	act.remove
+	else
+	src.sys_normal Golemin beslenmeye ihtiyacı yok.
+	return 1
+	endif
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+on=@HitMiss
+sysmessage @,,1 Iska geçtiniz.
+f_olumsuz * Iskalar * 
+
+ON=@UserQuestArrowClick
+src.arrowquest
+
+on=@attack
+if <src.id> == c_vendor_player_burak
+	return 1
+endif
+
+on=@hit
+if <src.id> == c_vendor_player_burak
+	return 1
+endif
+if (<r5>==1) && ((<FINDLAYER.2.TYPE>== t_weapon_axe) || (<FINDLAYER.1.TYPE>== t_weapon_axe)) && (<SWORDSMANSHIP>==100.0)
+	SRC.DAMAGE=<EVAL {10,15}> 01 <UID>
+	sayua 0451,0,0,0 * Damage Increased *
+endif
+
+on=@hittry
+if !<isempty <tag.override.hitspeed>>
+		tag.override.hitspeed = // ne olur ne olmaz.
+	endif
+	
+if <src.id> == c_vendor_player_burak
+		return 1
+endif
+	
+argn1 = <f_combatsys_hitspeed <argn1>> // hitspeed hesaplama
+if <tactics> == 100
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r<eval 75 - <weapon.speed>>> == 1 ? -100 : 10> // Iskalama.
+	endif
+elif <tactics> >= 90
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r<eval 70 - <weapon.speed>>> == 1 ? -100 : 10>  // Iskalama.
+	endif
+elif <tactics> >= 80
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r<eval 60 - <weapon.speed>>> == 1 ? -100 : 10>  // Iskalama.
+	endif
+elif <tactics> >= 70
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r<eval 55 - <weapon.speed>>> == 1 ? -100 : 10> // Iskalama.
+	endif
+elif <tactics> >= 60
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r10> == 1 ? -100 : 10> // Iskalama.
+	endif
+elif <tactics> >= 50
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r8> == 1 ? -100 : 10> // Iskalama.
+	endif
+elif <tactics> < 50
+	if (<findlayer.2.baseid> == i_halberd)
+		if <r4> == 1
+			actdiff = -100
+		endif
+	else
+		actdiff = <qval <r5> == 1 ? -100 : 10> // Iskalama.
+	endif	
+endif
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+ON=@SKILLMAKEITEM
+// Son üretileni sildir //////////////
+call f_son_uretim_sil
+
+src.ctag.son_urun <act.uid>
+if strmatch(*crafted*,<act.name>)
+	src.timerf 1, uid.<src.ctag.son_urun>.name <uid.<src.ctag.son_urun>.name> <qval <isempty <src.tag.name.suffix>> ?: <src.tag.name.suffix>>
+else
+	src.timerf 1, uid.<src.ctag.son_urun>.name <uid.<src.ctag.son_urun>.name> crafted by <src.name> <qval <isempty <src.tag.name.suffix>> ?: <src.tag.name.suffix>>
+endif
+
+
+if ((<weight> + <act.weight>) > <maxweight>)
+	src.sys_error Ağırlığınızdan dolayı malzemeniz heba oldu. //(<src.weight>/<maxweight>)//(<act.name>=<act.weight>)
+	return 1
+endif
+
+if strmatch(<SERV.SKILL.<argn1>.KEY>,Inscription)
+	if <src.mana> > 0
+		src.mana -= 1
+	endif
+endif
+
+ON=@Criminal
+src.update
+update
+
+ON=@CallGuards
+IF (<GUILD>)
+	IF (<SRC.ISPLAYER>)
+		IF (<SRC.GUILD> == <GUILD>)
+			src.sys_error Mensubu olduğunuz guild üyeleri için korumaları çağıramazsınız.
+			RETURN 1
+		ENDIF
+	ENDIF
+ENDIF
+IF (<iscriminal>) || (<ispk>)
+	sys_error Katil ve suçlular korumaları çağıramazlar.
+	RETURN 1
+ENDIF
+IF (<SRC.FLAGS>&statf_dead)
+	sys_error Ölü durumda korumaları çağıramazsınız.
+	RETURN 1
+ENDIF
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+on=@itembuy
+act.tag0.saglamlik <act.hitpoints>
+act.tag0.vendordanaldim 1 // vendordan alınan eşyaların eritilmesini engelleme
+if <act.type> == t_potion // bod sisteminde siparişlerde üretim yerine direk tedarik etme engeli.
+	act.more2 +=1
+endif
+if (<act.type> == T_WEAPON_BOLT) || (<act.type> == T_WEAPON_ARROW)
+	color 0
+endif
+src.say Bye
+
+
+on=@STEPSTEALTH
+if ( (<src.flags>&statf_hidden) && (<src.flags>&statf_onhorse) )    	
+    src.sys_error Binek üzerinde gizlenmiş bir şekilde hareket edemezsiniz.
+	src.flags <src.flags>&~statf_hidden
+	src.update
+endif
+
+on=@mount
+IF (<SRC.FLAGS>&STATF_DEAD)
+	src.sys_error No Brain was found.
+	return 1
+endif
+src.sys_normal Bineğinizin açlık seviyesi = <eval <ARGO.food>> / <argo.maxfood>
+
+
+
+on=@rename
+if (<argo.npc> == 1) //&& !(<src.account.plevel> > 1)
+src.sysmessage @,,1 Npc'lerin isimleri değiştirilememektedir.
+return 1
+endif
+
+
+on=@spellfail
+src.f_fizzle
+
+
+
+on=@environchange
+if <color> != <oskin>
+	color 03f8
+	oskin=03f8
+endif
+if <ISDIALOGOPEN d_reg_store> || <ISDIALOGOPEN d_ingot_store>
+	closealldialogs
+endif
+//src.update
+
+
+//if !(<isevent.e_spr>)
+//	sysmessage @,,1 Statlarınız korumada değil, lütfen statlarınızı tekrar ayarlayıp korumaya alınız.
+//	stat
+//endif
+
+on=@skillgain
+if (<src.skilltotal> > 699.9)
+return 1
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+on=@PreStart
+if (<action> == id(skill_healing)) || (<action> == skill_healing)
+	if <findid.i_heal_bekleme>
+		src.sys_normal Tekrar bandaj kullanmanıza <eval <src.findid.i_heal_bekleme.timer>> saniye kaldı.
+		return 1
+	endif
+endif
+
+	
+
+On=@Skillstart
+if (<action> == id(skill_fishing)) || (<action> == skill_fishing)
+	if (<eval <WEIGHT>+10> > <MAXWEIGHT>) // Fazla agirlikta balik tutamasinlar
+		SRC.SYSMESSAGE @,,1 Ağırlığınız fazla olduğu balık tutamıyorsunuz.
+		skill fail
+		return 1
+	endif
+endif
+
+
+if (<action> == id(skill_fishing)) || (<action> == skill_fishing)
+	if (<FLAGS>&STATF_HIDDEN) || (<FLAGS>&statf_invisible)
+		src.sys_error Görünmez iken balık tutamazsınız.
+		skill fail
+		return 1
+	endif
+endif
+
+
+
+if (<action> == id(skill_snooping)) || (<action> == skill_snooping)
+	if (<targ.topobj.id> == c_pv) || (<targ.topobj.id> == c_vendor_player_burak)
+		if (<targ.type> == t_container)
+			targ.open // saçma sapan hardcoded problem. Bir ara sphere den düzelticem vakit olmadı.
+		endif
+		return 1
+	endif
+endif
+
+
+if (<action> == id(skill_herding)) || (<action> == skill_herding))
+	if (<targ.id> == c_pv) || (<targ.id> == c_vendor_player_burak)
+		skill fail
+		return 1
+	endif
+endif
+
+
+
+
+if (<action> == id(skill_animal_lore)) || (<action> == skill_animal_lore)
+   IF (<uid>==<SRC.UID>) 
+   SRC.ACTION -1 
+   src.smg Bu yeteneğinizi NPC'ler üzerinde kullanabilirsiniz.
+   RETURN 1 
+   ENDIF 
+ENDIF 
+
+
+
+if ((<action> == id(skill_herding)) || (<action> == skill_herding))
+	if (<targ.id> == c_pv)  || (<targ.id> == c_vendor_player_burak)
+		skill fail
+		return 1
+	elseif (<targ.id> == c_pv) || (<targ.id> == c_vendor_player_burak)
+		skill fail
+		return 1
+	endif
+endif
+
+
+IF (<action>==skill_mining) || (<action>==id(skill_mining))
+        if (<flags>&statf_onhorse)
+	        src.sys_error Binek üzerinde kazı yapamazsınız.
+		skill fail
+		return 1
+         endif
+endif
+
+
+
+
+on=@itemdropon_ground
+
+if !((<weight> + <act.weight>) > <maxweight>)
+	if ((<action> == id(skill_fishing)) || (<action> == skill_fishing))
+		if (<act.type> == t_fish)
+			act.bounce
+		endif
+	elseif ((<action> == id(skill_magery)) || (<action> == skill_magery))
+		if (<act.type> == t_food)
+			act.bounce
+		endif
+	endif
+endif
+
+
+On=@ItemTargOn_Item
+if (<targ.type>==t_corpse)
+ref1 <src>
+	if (<src.ISNEARTYPE t_lootsuz_pvp 50>)
+	ref1.sysmessage @33,,1 Ceset kesmek yasaktir.
+	return 1
+	endif
+endif
+
+IF (<SRC.FINDLAYER.1.ISWEAPON>) || (<SRC.FINDLAYER.2.ISWEAPON>)
+	if strmatch("<argo.type>","t_potion")
+		src.sys_error Elinizde silah varken iksir dolduramazsiniz.
+		return 1
+	endif
+	if strmatch("<argo.type>","t_fish")
+		if <argo.amount> > 15000
+			src.sys_error Kesmeye çalıştığınız balık miktarı çok fazla. Tek seferde maksimum 15 bin adet kesebilirsiniz.
+			return 1
+		endif
+	endif
+endif
+
+if (((<targ.topobj.id> == c_pv) || (<targ.topobj.id> == c_vendor_player_burak) ) && (<act.cont.uid> =! <targ.topobj.uid>))
+	return 1
+endif
+
+On=@ItemPickUp_Pack
+if (<act.topobj.id> == c_vendor_player_burak)
+	if !(<uid> == <act.topobj.tag0.owner>)
+		return 1
+	endif
+endif
+
+if strmatch('<act.topobj.baseid>','c_vendor_player_burak')
+	if strmatch('<act.baseid>','i_spellbook') || strmatch('<act.baseid>','i_full_spellbook') || strmatch('<act.type>','t_deed') || strmatch('<act.baseid>','i_runebook')
+		act.attr 04
+	endif
+	if (<uid> == <act.topobj.tag0.owner>)
+		if (<act.dtag0.fiyat> > 0)
+			act.tag0.fiyat
+			src.sys_error Eşyanızın fiyatı sıfırlandı ve genel vendor listesinden çıkartıldı.
+			serv.f_option_mysql 0
+			db.connect
+			if <db.connected>
+				//serv.log #connected 2
+				db.execute delete from vendor_list_items where item_id='<act.uid>'
+				db.close
+			endif
+		endif
+	endif
+endif
+
+
+
+on=@gethit
+TAG.ATTACKER_UID=<SRC.UID>
+if (<findtype.t_eq_trade_window>)
+	findtype.t_eq_trade_window.remove
+endif
+if !(<flags>&statf_dead)
+////////////////////// WARRIOR PVM SYSTEM ///////////////////////////////////////////////////////
+	IF (<FINDLAYER.2.TYPE> == T_SHIELD)
+		if !<src.isplayer>
+			local.get_damage <eval(<argn>-(((<argn>/5)*<parrying>)/1000)>
+	
+			local.parrychance <f_parry_chances <FINDLAYER.2.NAME>> //f_parry_chances hardcoded
+
+			if rand(<dlocal.parrychance>) == 1
+				if <parrying> == 100.0
+					sys_normal Parry sayesinde damage almadınız.
+					return 1
+				endif
+			else
+				sys_normal Parry sayesinde daha az damage aldınız.
+				// * Damage Reduced *
+				if (<argn> > 100) || strmatch(*dragon*,<src.name>) || strmatch(*deamon*,<src.name>) || strmatch(*wyrm*,<src.name>) || strmatch(*drake*,<src.name>)
+					argn <eval {20 25}>
+				else
+					argn <dlocal.get_damage>
+				endif
+			endif
+		endif	
+	endif	
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+	if (<argn2>&00004) // Magic Resistance
+		argn <eval(<argn>-(((<argn>/5)*2*<MagicResistance>)/1000)>
+		gainMagicResist
+		//serv.log <argn2>
+	endif
+	// if (<argn2>&00002) // Lumberjack bonus.
+		// if (<r5>==1) && ((<SRC.FINDLAYER.2.TYPE>== t_weapon_axe) || (<SRC.FINDLAYER.1.TYPE>== t_weapon_axe)) && (<SRC.SWORDSMANSHIP>==100.0)
+			// src.sayua 0451,0,0,0 * Damage Increased *
+		 	// argn = <eval <argn> + <eval <LUMBERJACKING>/5>>
+		// endif
+	// endif
+		
+		//serv.log <argn2>
+	endif
+
+	if <argn2>==16520 // poi fix
+		if (<src.action> == id(skill_magery)) || (<src.action> == skill_magery))
+			//serv.log deneme
+			skill fail
+			//action -1
+			//return 1
+		endif
+	endif	
+endif
+
+
+if (<src.findid.i_taming_staff.timer> > 0)
+src.findid.i_taming_staff.timer -=3
+src.message @33,,1 Tame iptal oldu.
+endif
+
+
+
+ON=@MsgPending //custom trigger to fix reply notifications
+	src.dialog d_pm_notify
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+On=@Profile
+if (<src.uid> == <uid>)//|| (0<src.account.plevel> > 2)
+src.bilgilerim
+src.sysmessage @0481,1,1 Char : <name>
+src.sysmessage @0481,1,1 Kayıt : <account.firstconnectdate>
+src.sysmessage @0481,1,1 Online Süre :<ftime <account.totalconnecttime>> (<eval <account.totalconnecttime>/60> dk)
+src.sysmessage @0481,1,1 Karakter yasi : <ftime <age>>
+else
+	src.sysmessage @0481,1,1 Online Süre : <ftime <account.totalconnecttime>>
+	src.sysmessage @0481,1,1 Karakter Yaşı : <ftime <age>>
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+on=@usewarmode
+if (<src.findid.i_taming_staff.timer> > 0)
+src.findid.i_taming_staff.timer -=3
+src.message @33,,1 Tame iptal oldu.
+endif
+//skill fail
+action -1
+if (<src.findid.i_magerylvl>)
+	src.findid.i_magerylvl.remove
+endif
+if (<src.findid.i_evallvl>)
+	src.findid.i_evallvl.remove
+endif
+if (<src.findid.i_poisonlvl>)
+	src.findid.i_poisonlvl.remove
+endif
+// Skill delays
+on=@skillwait
+if (<flags>&statf_freeze) || (<flags>&statf_stone)
+src.sys_error Şuanki durumunuzda kullanamazsınız.
+return 1
+endif
+if <flags>&statf_dead
+src.sys_error Şuan malesef ölüsünüz.
+return 1
+endif
+
+
+
+on=@userguildbutton
+if (<src.account.tag.pinkabul>==0)
+	src.sys_error Pin girişi yapmanız gerekmektedir.
+	src.dialog d_pin_giris
+	return 1
+endif
+
+src.guildmenu
+return 1
+
+
+on=@userchatbutton
+src.sys_normal Chat sistemi hoş geldiniz.
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// Quest Button
+on=@userquestbutton
+//openquestlog
+if (<src.account.tag.pinkabul>==0)
+	src.sysmessage @33,,1 Pin girisi yapmalisiniz.
+	src.dialog d_pin_giris
+	return 1
+endif
+
+src.quest
+src.sys_normal Yaptığınız görevlerle ilgili title almak için .rewardtitle komutunu kullanabilirsiniz.
+src.sys_normal Tüm görevlere ait title henüz eklenmemiştir.
+
+on=@userspecialmove
+return 1
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// OSI Calculation + Stats Bonus
+on=@userstats
+if <def.scp.Followers> == 1
+	if <isgm>
+	maxfollower = 255
+	else
+	maxfollower = <def.scp.MaxFollowers>
+	endif
+endif
+
+on=@skillmenu
+if <def.scp.CraftingSystem> == 0
+return 0
+endif
+if <args>==sm_blacksmith
+	if <def0.scp.NewCrafting_Blacksmithing> == 1
+	craftskill Blacksmithing
+	return 1
+	endif
+elif <args>==sm_alchemy
+	if <def0.scp.NewCrafting_Alchemy> == 1
+	craftskill Alchemy
+	return 1
+	endif
+elif <args>==sm_bowcraft
+	return 1
+	//if <def0.scp.NewCrafting_Bowcraft> == 1
+	//craftskill Bowcraft
+	//src.sysmessage @,,1 Suan bir duzenleme yapilmaktadir. Kisa sure icerisinde aktif olacaktir.
+	//return 1
+	//endif
+elif <args>==sm_cartography
+	if <def0.scp.NewCrafting_Cartography> == 1
+	//craftskill Cartography
+	return 1
+	endif
+elif <args>==sm_carpentry
+	if <def0.scp.NewCrafting_Carpentry> == 1
+	craftskill Carpentry
+	return 1
+	endif
+elif (<args>==sm_tailor_leather) || (<args>==sm_tailor_cloth)
+	if <def0.scp.NewCrafting_Tailoring> == 1
+	craftskill Tailoring
+	return 1
+	endif
+elif <args>==sm_tinker
+	if <def0.scp.NewCrafting_Tinkering> == 1
+	craftskill Tinkering
+	return 1
+	endif
+elif <args>==sm_inscription
+	if <def0.scp.NewCrafting_Inscription> == 1
+	craftskill Inscription
+	return 1
+	endif
+endif
+return 0
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// Fishing coast lines
+on=@RegionResourceFound
+if <src.action> == skill_fishing
+	if <def.scp.Fishing_CoastLines> == 1
+		if <serv.map(<src.targp.x>,<src.targp.y>,<src.targp.m>).type> == t_water
+		local.newbit = <serv.regiontype.r_water.resources.<eval <serv.regiontype.r_water.calcmemberindex <src.uid>>+1>.key>
+		argo.more1 = <local.newbit>
+		argo.amount = <r<serv.regionresource.<argo.more1>.amount>>
+		endif
+	endif
+endif
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+on=@spellselect 
+if <src.tag.suan_bandaj_var>
+	src.sys_error Bandaj basarken büyü kullanamazsınız.
+	//skill fail
+	return 1
+endif
+//////////////////////////////////////////////////Pure Magery Bonus
+
+
+
+//// RECYCLING OF MANA/////////////
+call f_recycling_mana //hardcoded
+
+//////////////////////////////////////////////////
+
+//if <findid.i_new_bandageheal> || <findid.i_new_bandagevet>
+//sysmessage @,,1 Bandaj atarken buyu kullanamazsiniz.
+//return 1
+//endif
+
+if <findid.i_heal_bekleme>
+	if <findid.i_heal_bekleme.timer> > 7
+	sysmessage @33,,1 Bandajin etkisinden dolayi suan buyu atamazsiniz.
+	return 1
+	endif
+endif
+
+
+on=@spellcast
+
+if <src.isdialogopen d_nbl_rbook> // Runebook delay problemi fix
+	src.dialogclose d_nbl_rbook
+endif
+
+
+if <findid.i_heal_bekleme>
+	if <findid.i_heal_bekleme.timer> > 7
+	sys_error Bandajın etkisinden dolayı şuanda büyü atamazsınız.
+	return 1
+	endif
+endif
+
+
+if (<src.findid.i_rb_delay> || (<src.findid.i_rb_delay2>)
+	src.sys_error Runebook kullanırken büyü atamazsınız.
+	return 1
+endif
+
+
+// if (<act.isevent.e_dummy_safe>) || (<act.flags>&statf_invul)//(<act.region.safe>)
+		// src.sys_error Büyünüz başarısız oldu.
+		// src.f_fizzle
+		// return 1
+// endif
+
+
+
+
+///////////////////// CAST WITH WEAPONS ///////////////////
+if (<findlayer(1).type> == t_spellbook)
+	findlayer(2).unequip
+elseif !((<findlayer(2).type> == t_weapon_mace_staff) || (<findlayer(1).type> == t_weapon_mace_staff) || (<findlayer(2).type> == t_weapon_mace_crook) || (<findlayer(1).type> == t_wand))
+	//findlayer(1).unequip
+	findlayer(1).unequip
+	findlayer(2).unequip
+endif
+
+//////////////////////////////////////////////////////////
+
+if ((<flags>&statf_freeze) || (<flags>&statf_stone) || (<findtype.t_armor.cont.uid> == <uid>)) // dur bakim
+	f_fizzle
+	return 1
+endif
+
+if (<act.ischar>)
+	if !(<act.flags>&statf_insubstantial) && (0<act.account.plevel> > 0<account.plevel>)
+		f_fizzle
+		return 1
+	elseif ((<argn> == 7) || (<argn> == 15)) // no prot. & reac. arm. over armor
+		if (<act.findtype.t_armor.cont.uid> == <act.uid>)
+			f_fizzle
+			return 1
+		endif
+	elseif (<argn> == 59) && !(<act.flags>&statf_dead)
+		f_fizzle
+		return 1
+	endif
+endif
+
+if (<act.id> == c_pv)  || (<act.id> == c_vendor_player_burak)
+	if !((<argn> == 25) || (<argn> == 26) || (<argn> == 46) || (<argn> == 48) || (<argn> == 49) || (<argn> == 54) || (<argn> == 55) || (<argn> == 57))
+		f_fizzle
+		return 1
+	endif
+endif
+
+////////////// FASTER CASTING/////////////
+if !((<argn> == 1) || (<argn> == 3) || (<argn> == 4) || (<argn> == 5) || (<argn> == 8) || (<argn> == 5) || (<argn> == 9) || (<argn> == 11) || (<argn> == 12) || (<argn> == 17) || (<argn> == 20) || (<argn> == 25) || (<argn> == 29)|| (<argn> == 33) || (<argn> == 36) || (<argn> == 40) || (<argn> == 49) || (<argn> == 49) || (<argn> == 55) || (<argn> == 57))
+	call f_faster_casting // hardcoded
+endif
+//////////////////////////////
+on=@SpellSuccess
+
+
+if <src.findid.i_heal_bekleme>
+	if <src.findid.i_heal_bekleme.timer> > 5
+	src.sysmessage @33,,1 Bandajin etikisinden dolayi buyunuz basarisiz oldu.
+	src.f_fizzle
+	return 1
+	endif
+endif
+
+//////////////////////////////// Eva Bonus -- Geliştirilmeye açık basit olarak eklendi.
+
+if (<src.puremage>) 
+	if (<src.EVALUATINGINTEL> == 100.0) && (rand(3)==1)
+		If (<argn>==51) || (<argn>==42) || (<argn>==18) || (<argn>==30)
+		sayua 0451,0,0,0 * Evaluatingintel *
+		argn2 += 1000
+		endif
+	endif
+endif
+
+
+
+
+////////////////////////////////
+
+on=@spelleffect 
+
+if !(<src.isevent.e_cpvp_duello>) && !(strmatch("<src.region.name>","Pvp Alani")) 
+	if (<argn> == 28) || (<argn> == 39) || (<argn> == 47)
+		if (<src.memoryfindtype.memory_guild.link.align> == 1) && (<memoryfindtype.memory_guild.link.align> == 1) && !(<src.uid> == <uid>)
+		return 1
+		endif
+
+		if (<src.memoryfindtype.memory_guild.link.align> == 2) && (<memoryfindtype.memory_guild.link.align> == 2) && !(<src.uid> == <uid>)
+		return 1
+		endif
+	endif
+endif
+
+
+
+if ((<argn> == 38) || (<argn> == 47)) // paralyze & paralyze field
+    if (<src.uid> != <uid>)
+		if (<findid.i_trappedpouch>)
+			//flags <FLAGS>&~statf_freeze
+			findid.i_trappedpouch.remove//dclick
+			effect 3,i_fx_explode,3,25,1
+			sound snd_spell_explosion
+			anim 20
+			DAMAGE=<EVAL {1,5}> 01 <SRC.UID>
+			return 1
+		endif
+	else
+		return 1
+
+    endif
+elseif ((<argn> == 9) || (<argn> == 10) || (<argn> == 16) || (<argn> == 17)) // stat fix
+	findlayer(32).remove // spell
+	findlayer(44).remove // potion
+elseif ((<argn> == 41) || (<argn> == 54)) // dispel & mass dispel
+	if (<findid.i_morpher>)
+		if !(<findid.i_pre_morph>)	
+			findid.i_morpher.remove
+		endif
+	endif	
+elseif (<argn> == 26) // no arch prot. over armor
+	if (<findtype.t_armor.cont.uid> == <uid>)
+		return 1
+	endif
+elseif (<argn> == 25) // arch cure
+	if (<memoryfindtype.memory_town>) && !(<src.memoryfindtype.memory_town>)
+		return 1
+	elseif (<memoryfindtype.memory_guild.link.align> > 0) && !(<src.memoryfindtype.memory_guild.link.align>)
+		return 1
+	endif
+	if (<findid.i_rune_poison>)
+		if (<findid.i_rune_poison.morey> > <eval ((<src.magery> + 400) / 2)>)
+			if !(rand(8) == 1)
+				effect 3,0374a,1,15,1
+				sound snd_spell_poison
+				return 1
+			endif
+		endif
+	endif
+elseif (<argn> == 4) || (<argn> == 29) || (<argn> == 11)
+	if (<memoryfindtype.memory_town>) && !(<src.memoryfindtype.memory_town>)
+		src.sysmessage Faction uyelerini iyilestiremezsiniz.
+		return 1
+	elseif 
+		if (<memoryfindtype.memory_guild.link.align> > 0) && !(<src.memoryfindtype.memory_guild.link.align>)
+			src.sysmessage Order/Chaos uyelerini iyilestiremezsiniz.
+			return 1
+		endif
+	endif
+	if (<argn> == 4) || (<argn> == 29)
+		if (<findid.i_rune_poison>)
+			effect 3,0374a,1,15,1
+			sound snd_spell_poison
+			return 1
+		endif
+	endif
+endif
+
+
+
+on=@death
+ref1=<TAG.ATTACKER_UID>
+
+//sendpacket 02c 00
+if <src.findid.i_rune_incognito>
+consume i_rune_INCOGNITO
+endif
+timerf 5, frozen
+closealldialogs
+//src.MEMORYFINDTYPE.memory_fight.remove
+if <ref1.isplayer>
+sdialog d_bounty
+ctag.murderers <ref1.uid> // bounty hunter system
+endif
+
+serv.writefile2 C:\North_Player_Log_Arsivi\son_olumler.txt <name> <qval <isempty <tag.name.suffix>> ?: <tag.name.suffix>>, <ref1.name> <qval <isempty <ref1.tag.name.suffix>> ?: <ref1.tag.name.suffix>> tarafından <region.name> civarında öldürüldü.
+if (<memoryfindtype.memory_harmedby>) && (<ref1.uid> != <uid>) && <ref1.isplayer> && (<fame> > 500)//  && //&& (<ref1.isplayer>)
+	local.cord = <p.x>,<p.y>
+	serv.f_option_mysql 0
+	db.connect
+	if ( <DB.connected> )
+	   DB.QUERY replace into son_olumler (killer,killed,where_die,when_time,where_xy) values ('<addslashes <name>>','<addslashes <ref1.name>>','<addslashes <region.name>>','<addslashes <serv.rtime>>','<addslashes <local.cord>>')
+    
+	  serv.b @90,3,1 <name> <qval <isempty <tag.name.suffix>> ?: <tag.name.suffix>>, <ref1.name> <qval <isempty <ref1.tag.name.suffix>> ?: <ref1.tag.name.suffix>> tarafından <region.name> civarında öldürüldü.
+	  //serv.log #Database Kapandi.
+	endif
+	db.close
+
+endif
+
+
+
+
+if (<ref1.isplayer>) && (<tag0.puan> > 0)
+tag0.puan --
+endif
+if (<ref1.account.plevel> == 1) && (<ref1.isplayer>) && !strmatch('<ref1.tag0.sonkesilen>','<uid>') && (<fame> > 500) && !strmatch('<ref1.account.lastip>','<account.lastip>')
+	ref1.msg_normal Puanınız artmıştır.
+	ref1.tag0.puan += 1
+	ref1.tag0.sonkesilen <argo.uid>
+	serv.f_option_mysql 0
+	db.connect
+	db.query "SELECT COUNT(uid) FROM faction WHERE Uid = '<ref1.uid>'";
+	if <db.row.0>
+		db.query "UPDATE faction SET puan = '<ref1.dtag0.puan>' WHERE Uid='<ref1.uid>'"
+		db.query"UPDATE faction SET destek = '<addslashes <ref1.memoryfindtype.memory_guild.link.name>>' WHERE Uid='<ref1.uid>'"
+	else
+		db.execute "insert faction VALUES (NULL, '<addslashes <ref1.uid>>','<addslashes <name>>','<addslashes <ref1.memoryfindtype.memory_guild.link.name>>','<ref1.dtag0.puan>');"
+	endif
+
+	db.query "SELECT COUNT(uid) FROM faction WHERE Uid = '<uid>'";
+	if <db.row.0>
+		db.query "UPDATE faction SET puan = '<dtag0.puan>' WHERE Uid='<uid>'"
+		db.query"UPDATE faction SET destek = '<addslashes <memoryfindtype.memory_guild.link.name>>' WHERE Uid='<uid>'"
+	else
+		db.execute "insert faction VALUES (NULL, '<addslashes <uid>>','<addslashes <name>>','<addslashes <memoryfindtype.memory_guild.link.name>>','<dtag0.puan>');"
+	endif
+	db.close
+endif
+
+
+// Hunger System triggers
+on=@login
+if <src.tag.gosterge>
+	src.sysmessage @69,,1 Suan .online sisteminde yeriniz gozukuyor. Kontrol etmek icin .online yaziniz.
+else
+	src.sysmessage @69,,1 Suan .online sisteminde yeriniz gozukmuyor. Kontrol etmek icin .online yaziniz.
+endif
+
+
+if (<def.scp.hunger_on_off>)
+	if (<src.findid.i_food_and_drink_sys_mem>)
+		src.findid.i_food_and_drink_sys_mem.timer=60
+	else
+		src.f_alimentation
+	endif
+	return 0
+endif
+
+on=@logout // Manually scripted logout
+if <src.region.guarded>
+	if (<src.isneartype t_campfire 5> && <src.camping> == 100.0)
+		src.newitem i_logout_suresi
+		src.new.timer 2
+		src.new.equip
+	else
+		src.newitem i_logout_suresi
+		src.new.timer 20
+		src.new.equip
+	endif
+else
+	src.newitem i_logout_suresi
+	src.new.timer 45
+	src.new.equip
+endif
+
+On=@ItemDClick
+
+if strmatch('<act.topobj.baseid>','c_vendor_player_burak')
+	if strmatch('<act.type>','t_container')
+		act.open
+		return 1
+	elseif strmatch('<act.type>','t_book') && !strmatch('<act.topobj.tag0.owner>','<src>') && !(<src.isgm>)
+		return 1
+	endif
+endif
+
+// if <act.baseid> == i_runebook
+	// if (<act.topobj.uid> == <src.uid>) // sadece canta kontrolu gerisi ilgilendermez.
+		// if <eval <rescount i_runebook>> > 6
+			// src.sys_error 6'den fazla rune book kullanamazsınız.
+			// return 1
+		// endif
+	// endif
+// endif
+
+
+
+if (<action> == id(skill_mining)) || (<action> == skill_mining)
+	if !(<act.type> == T_WEAPON_MACE_PICK)
+	src.sys_error Elinizde kazma olmadan kazma işlemini gerçekleştiremezsiniz.
+	skill fail
+	action -1
+	return 1
+	endif
+endif
+
+
+if (<src.account.tag.pinkabul>==0)
+	if <act.cont>
+		if strmatch('<act.cont.name>','Bank Box')
+		src.sys_error Pin girişini yapmanız gerekmektedir.
+		src.dialog d_pin_giris
+		return 1
+		endif
+	endif
+endif
+
+if (<act.type> == t_campfire)
+	return 1
+endif
+
+if <src.account.plevel> < 2)
+	if (<eval <act.tag.gmitem>> == 1)
+	src.events +e_player_edit_kontrol
+	endif
+	if (<act.baseid> == i_worldgem_bit) || (<act.baseid> == i_Spawnbit) // Hani olurya önlem...
+	act.attr attr_invis
+	return 1
+	endif
+endif
+
+
+if !<isempty <src.tag.ellesme>>
+	if (<src.tag.ellesme>)
+		return 1
+	endif
+endif
+
+if (<act.layer> == 21) && (<act.cont.ischar>)
+	act.message Inventory
+	if (<act.cont>==<uid>)
+	act.message @0481,,1 [<eval <rescount i_trappedpouch>> Tp] [<eval <rescount i_bandage>> bandaj] 
+	act.message @0481,,1 [<eval <rescount i_potion_HealGreat>+<rescount i_potion_Heal>> heal] [<eval <rescount i_potion_cureGreat>+<rescount i_potion_cure>> cure]
+	endif
+endif
+
+if (<targ.topobj.id> == c_pv)  || (<targ.topobj.id> == c_vendor_player_burak)
+	if (<targ.type> == t_container)
+		targ.open
+	endif
+	return 1
+endif
+
+if ((<action> == id(skill_magery)) || (<action> == skill_magery))
+	if (<targ.baseid> == i_runebook)
+	sys_error Büyü yaparken rune book kullanamazsınız.
+	return 1
+	endif
+endif
+
+if (<act.type> == t_deed)
+	if (<hits> < <str>)
+		sys_error Yaralı iken kullanamazsınız.
+		return 1
+	elseif (<flags>&statf_war)
+		sys_error War Mode açık iken kuramazsınız.
+		return 1
+	endif
+endif
+
+if (<action> == id(skill_fishing)) || (<action> == skill_fishing)
+	if !(<act.type> == t_fish_pole)
+		src.sys_error Oltanızı düşürdüğünüz için balık tutamadınız.
+		skill fail
+		action -1
+		return 1
+	endif
+endif
+   
+
+if (<action> == id(skill_lumberjack)) || (<action> == skill_lumberjack)
+	if !(<act.type> == t_weapon_axe)
+		src.sys_error Baltanınızı düşürdüğünüz için odun çıkartamadınız.
+		skill fail
+		action -1
+		return 1
+	endif
+endif
+
+// OSI STYLE HUNGER SYSTEM
+// IF (<DEF.SCP.HUNGER_ON_OFF>)
+	// IF (!<SRC.FINDID.i_food_and_drink_sys_mem>)
+		// SRC.F_ALIMENTATION
+	// ENDIF
+	// IF (<ACT.TYPE> == T_FOOD) || (<ACT.TYPE> == t_fruit)
+		// IF (<SRC.FOOD> >= <DDEF0.SCP.MAXFOOD>)
+			// SRC.SYSMESSAGELOC -1,1042971,You're satiated.
+			// RETURN 1
+		// ELSEIF (<SRC.RESTEST 1 <ACT.BASEID>>)
+			// SRC.CONSUME 1 <ACT.BASEID>
+			// IF (<SRC.FOOD> < <DDEF0.SCP.MAXFOOD>)
+				// SRC.FOOD_INCREASE
+				// RETURN 0
+			// ELSE
+				// SRC.SYSMESSAGELOC -1,1042971,You're satiated.
+				// RETURN 1	
+			// ENDIF
+		// ELSE
+			// SRC.SYSMESSAGELOC -1,1042971,You must have it in your pack.
+			// RETURN 1
+		// ENDIF
+	// ELSEIF (<ACT.TYPE> == t_booze) || (<ACT.TYPE> == t_drink) || (<ACT.TYPE> == t_water_wash)
+		// IF (<SRC.DTAG0.DRINK> >= <DDEF0.SCP.MAXDRINK>)
+			// SRC.SYSMESSAGELOC -1,1042971,You aren't thirsty.
+			// RETURN 1
+		// ELSEIF (<SRC.RESTEST 1 <ACT.BASEID>>)
+			// SRC.CONSUME 1 <ACT.BASEID>
+			// IF (<SRC.DTAG0.DRINK> < 10)
+				// SRC.DRINK_INCREASE
+				// RETURN 0
+			// ELSE
+				// SRC.SYSMESSAGELOC -1,1042971,You aren't thirsty.
+				// RETURN 1	
+			// ENDIF
+		// ELSE
+			// SRC.SYSMESSAGELOC -1,1042971,You must have it in your pack.
+			// RETURN 1
+		// ENDIF
+	// ENDIF
+// ENDIF
+
+
+
+On=@ItemClick
+if <act.type> == t_container 
+	if !<act.isevent.t_locked_down>
+		if <act.topobj.id> != c_vendor_player_burak
+		//act.message @,,1 <act.name> (eşya:<act.count>,ağırlık :<eval <act.weight>/10>>
+		//return 1
+			act.message @,,1 [ağırlık:<strsub 0 4 <floatval <act.weight>/10>>]
+		endif
+	endif
+endif
+if strmatch(*i_doom_*,<act.baseid>) || !(<isempty <act.tag.artifact>>)
+	act.message @,,1 [Artifact]
+endif
+if strmatch('<act.topobj.baseid>','c_vendor_player_burak')
+  if (<act.tag0.fiyat> > 0)
+	act.msg_normal [<bolukayir <act.dtag0.fiyat>> Gold]
+	if <act.isweapon> //<act.isweapon>//((<act.type> == t_weapon_fence) ||(<act.type> == t_weapon_sword) || (<act.type> == t_weapon_bow) ||(<act.type> == t_weapon_xbow) || (<act.type> == t_weapon_axe) || (<act.type> == t_weapon_mace_staff) || (<act.type> == t_weapon_mace_Smith) || (<act.type> == t_weapon_mace_sharp))
+	  if !(<isempty <act.tag.magicweapon>>)
+		act.message @,,1 <act.tag0.magicweapon> <act.name> |<act.hitpoints>/<act.maxhits>|
+		return 1
+	  else
+		act.message @,,1 <act.name> |<act.hitpoints>/<act.maxhits>|
+		return 1
+	  endif
+		
+	endif
+  else
+	act.msg_error [Satılık Değil]
+	if <act.isweapon> //((<act.type> == t_weapon_fence) ||(<act.type> == t_weapon_sword) || (<act.type> == t_weapon_bow) ||(<act.type> == t_weapon_xbow) || (<act.type> == t_weapon_axe) || (<act.type> == t_weapon_mace_staff) || (<act.type> == t_weapon_mace_Smith) || (<act.type> == t_weapon_mace_sharp))
+	  if !(<isempty <act.tag.magicweapon>>)
+		act.message @,,1 <act.tag0.magicweapon> <act.name> |<act.hitpoints>/<act.maxhits>|
+		return 1
+	  else
+		act.message @,,1 <act.name> |<act.hitpoints>/<act.maxhits>|
+		return 1
+	  endif
+	endif
+  endif
+endif
+
+if (<act.type> == t_armor_leather)
+	act.message @33,,1 [ Sağlamlık : <act.hitpoints>/<act.maxhits> ]
+endif
+
+if (<act.type> == t_clothing)
+	act.message @33,,1 [ Sağlamlık : <act.hitpoints>/<act.maxhits> ]
+endif
+
+if <act.baseid> == i_chest_hazine
+	sysmessage  @69,,1 Silinmesine <eval ((<act.timer> / 60) - ((<act.timer> / 3600) * 60))> dakika kalmış.
+endif
+
+
+if (strmatch('','t_eq_trade_window'))
+	act.message @125,,1 [secure]
+endif
+
+
+if (<targ.topobj.id> == c_pv) 
+	
+	if ( strmatch('<act.price>','') )
+		act.message [satilamaz]
+                serv.log @<act.baseid> satılamaz, value ekle scripte hülooo....
+	elseif (<act.price> <= 0)
+		act.message [satilik degil]
+	else
+		if ((<act.type> == t_armor) || (<act.type> == t_armor_leather) || (<act.type> == t_shield) || (<act.type> == t_clothing) || (<act.type> == t_weapon_sword) || (<act.type> == t_weapon_fence) || (<act.type> == t_weapon_mace_staff) || (<act.type> == t_weapon_mace_smith) || (<act.type> == t_weapon_mace_pick) || (<act.type> == t_weapon_bow) || (<act.type> == t_weapon_xbow))
+			if (<act.more1h>)
+				if !(<eval ((<act.more1l> * 100) / <act.more1h>)> == 100)
+						act.message [<act.price> gp] [%<eval (100 - ((<act.more1l> * 100) / <act.more1h>))> eski]
+                                                src.sysmessage @39 fiyat : [<act.price> gp]
+				else
+					act.message [<act.price> gp]
+                    src.sysmessage @39 fiyat : [<act.price> gp]
+				endif
+			else
+				act.message [<act.price> gp]
+			endif
+		else
+			act.message [<act.price> gp]
+		endif
+	endif
+endif
+
+if (<act.layer> == 21) && (<act.cont.ischar>)
+	act.message @38,,1 Inventory
+	if (<act.cont>==<uid>)
+		act.message @0481,,1 [<eval <rescount i_trappedpouch>> Tp] [<eval <rescount i_bandage>> bandaj] 
+		act.message @0481,,1 [<eval <rescount i_potion_HealGreat>+<rescount i_potion_Heal>> heal] [<eval <rescount i_potion_cureGreat>+<rescount i_potion_cure>> cure]
+		return 1
+	endif
+else
+	if (<act.attr>&attr_newbie)
+		act.message @,,1 [Newbie]
+	endif
+	if (<act.type> == t_container) && !(<act.TAG0.Access>)
+		if !(<act.baseid> == i_strong_box) 
+			if (<act.baseid> == i_bones)
+				act.message @0481  [loot: <act.rescount> esya]
+				act.message <act.name>
+			endif
+		endif
+	endif
+endif
+
+on=@hunger
+if ((<body> == c_man) || (<body> == c_woman)) // yimmeeah
+	if (<food> == 2)
+		sayua 045f,0,0,0 * açlıktan başı döner *
+	elseif (<food> == 1)
+		sayua 045f,0,0,0 * açlıktan ölmek üzeredir *
+	elseif (<food> == 0)
+		sayua 045f,0,0,0 * açlıktan ölür *
+		acliktangeber // harbi geber
+	endif		
+endif
+
+IF (<DDEF0.SCP.HUNGER_ON_OFF>)
+	RETURN 1
+ENDIF
+
+ON=@ItemSell
+// Eski usül sell vendor akıl fırakarası oyuncuların içi dolu eşya satma deneyimleri..
+IF (<ACT.TYPE> == t_container)
+ FORCONT <act.uid> 0	//Looking for ANY item in the container.
+  IF <IsItem>
+   SMSGL -1,500196	//You may not sell containers unless they are empty
+   RETURN 1		//Stop the sale.
+  ENDIF
+ ENDFOR
+ENDIF
+argo.bye
+
+
+
+on=@click
+
+
+if (!(<findid.i_rune_incognito>) && (<memoryfindtype.memory_town>) && !(<memoryfindtype.memory_guild>))
+	if (<memoryfindtype.memory_town.link.align> == 1)
+		message @07a1,1,1 [<memoryfindtype.memory_town.link.name>]
+	elseif (<memoryfindtype.memory_town.link.align> == 2)
+		message @07a1,1,1 [<memoryfindtype.memory_town.link.name>]
+	else
+		message @07a1,1,1 [<memoryfindtype.memory_town.link.name>]
+	endif
+endif
+
+
+if (!(<findid.i_rune_incognito>) && (<memoryfindtype.memory_town>) && (<memoryfindtype.memory_guild>))
+	if (<memoryfindtype.memory_town.link.align> == 1)
+		message @07a1,1,1 [<memoryfindtype.memory_town.link.name>, <memoryfindtype.memory_guild.link.name>]
+	elseif (<memoryfindtype.memory_town.link.align> == 2)
+		message @07a1,1,1 [<memoryfindtype.memory_town.link.name>, <memoryfindtype.memory_guild.link.name>]
+	else
+		message @07a1,1,1 [<memoryfindtype.memory_town.link.name>, <memoryfindtype.memory_guild.link.name>]
+	endif
+endif
+
+
+
+if (!(<findid.i_rune_incognito>) && (<memoryfindtype.memory_guild>) && !(<memoryfindtype.memory_town>)))
+		if (<memoryfindtype.memory_guild.link.morem> == 1)
+			if <isempty <tag.guild_title>>
+				message @0890,,1 [<memoryfindtype.memory_guild.link.name>]
+			else
+				message @0890,,1 [<tag.guild_title>,<memoryfindtype.memory_guild.link.<abbrev>]
+			endif
+		else 
+			if <isempty <tag.guild_title>>
+				message @0901,,1 [<memoryfindtype.memory_guild.link.name>]
+			else
+				message @0901,,1 [<tag.guild_title>, <memoryfindtype.memory_guild.link.abbrev>]
+			endif
+		endif	
+endif
+
+
+
+on=@itemequip
+
+if <src.account.plevel> < 2)
+	if (<eval <act.tag.gmitem>> == 1)
+	src.events +e_player_edit_kontrol
+	endif
+endif
+
+
+on=@ItemPickUp_Ground
+if <src.account.plevel> < 2)
+	if (<eval <act.tag.gmitem>> == 1)
+	src.events +e_player_edit_kontrol
+	endif
+endif
+
+
+[events e_player_edit_kontrol]
+//on=@click
+//if (<src.account.plevel> == 7)
+//message @33,,1 (--- EDIT ---)
+//message @,,1 <name> 
+//return 1
+//endif
+
+[EOF]

@@ -1,0 +1,7144 @@
+////////////////////////////////////////////////////////////
+///Scripted By:
+///Lord Techno
+///Script Version 1.55b
+///Sphere Server Ver 55i
+////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///**Dialogs**
+///***********
+////////////////////////////////////////////////////////////
+
+[function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+	argo.remove
+	src.sysmessage @,,1 Mesaji sildiniz.
+	return 1
+else
+	src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+	return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5 
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+		targetf mesaj_sil
+		src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+		
+		SRC.NEWITEM=i_mail_scroll
+		SRC.ACT.BOUNCE
+		DIALOG d_mbox_1
+
+ONBUTTON 3
+		DIALOG d_mbox_2
+		
+ONBUTTON 4
+		DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+		SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+		
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0 
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n> 
+<src.tag.member3n>
+<src.tag.member4n> 
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 2
+if (<src.tag.member2>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member2> 
+src.act=<src.uid>
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 3
+if (<src.tag.member3>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.  
+src.tag.select=<src.tag.member3> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 4
+if (<src.tag.member4>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member4> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 5
+if (<src.tag.member5>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member5> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 6
+if (<src.tag.member6>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member7> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 15
+if (<src.tag.member8>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member8> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 16
+if (<src.tag.member9>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member9> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 17
+if (<src.tag.member10>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member10> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 18
+if (<src.tag.member11>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member11> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 19
+if (<src.tag.member12>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member12> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0 
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n> 
+<src.tag.member15n> 
+<src.tag.member16n> 
+<src.tag.member17n> 
+<src.tag.member18n> 
+<src.tag.member19n> 
+<src.tag.member20n> 
+<src.tag.member21n> 
+<src.tag.member22n>
+<src.tag.member23n> 
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 2
+if (<src.tag.member14>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member14> 
+src.act=<src.uid>
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14> 
+src.act=<src.uid>
+return 1 
+endif 
+
+ONBUTTON 3
+if (<src.tag.member15>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member15> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 4
+if (<src.tag.member16>=0) 
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 5
+if (<src.tag.member17>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member17> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 6
+if (<src.tag.member18>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member18> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member19> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 15
+if (<src.tag.member20>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member20> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 16
+if (<src.tag.member21>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member21> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 17
+if (<src.tag.member22>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member22> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 18
+if (<src.tag.member23>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member23> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 19
+if (<src.tag.member24>=0) 
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz. 
+src.tag.select=<src.tag.member24> 
+src.act=<src.uid> 
+return 1 
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24> 
+src.act=<src.uid> 
+return 1 
+endif 
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0 
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[ITEMDEF i_mailbox_deed_N]
+NAME=Mailbox Deed N/S
+ID=i_deed
+VALUE=65000
+WEIGHT=40
+CATEGORY=AAA
+SUBSECTION=Mailbox
+DESCRIPTION=Mailbox Deed
+
+
+on=@create 
+ATTR=00004
+
+ON=@DCLICK
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+return 1
+endif
+if !(<attr>&attr_move_never)
+src.sysmessage @1153 Bu deedi evinize sabitlemeden kullanamazsiniz.
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sysmessage @1153 Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sysmessage @1153 Kapiya cok yakinsiniz.
+return 1
+endif
+
+SRC.NEWITEM i_mailbox_brass
+src.act.NAME=<src.name>'s Mailbox
+src.act.DISPID=0e80
+src.act.more2=<src.uid>
+src.act.mailbox
+src.act.p=<src.p>
+src.act.move=0 0 5
+new.tag.anaitem=<baseid>
+new.tag.ek_ev=1
+local.item=<new.uid>
+
+SRC.NEWITEM 0865
+src.act.p=<src.p>
+src.act.move=0 0 0
+SRC.ACT.ATTR=08014
+//new.tag.anaitem=<baseid>
+//new.tag.ek_ev=1
+new.link <local.item>
+REMOVE
+return 1
+
+[ITEMDEF i_mailbox_deed_E]
+NAME=Mailbox Deed E/W
+ID=i_deed
+VALUE=65000
+WEIGHT=40
+CATEGORY=AAA
+SUBSECTION=Mailbox
+DESCRIPTION=Mailbox Deed
+
+
+on=@create 
+ATTR=00004
+ON=@DCLICK
+
+link= <src.region.uid>
+IF !(((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))  && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>)))
+return 1
+endif
+
+if <src.is_tabelaya_yakin>
+src.sysmessage @1153 Tabelaya cok yakinsiniz.
+return 1
+endif
+
+if <src.is_kapiya_yakin>
+src.sysmessage @1153 Kapiya cok yakinsiniz.
+return 1
+endif
+
+REMOVE
+SRC.NEWITEM i_mailbox_brass
+src.act.NAME=<src.name>'s Mailbox
+//src.act.bounce
+src.act.more2=<src.uid>
+src.act.mailbox
+src.act.p=<src.p>
+src.act.move=0 0 5
+new.tag.anaitem=<baseid>
+new.tag.ek_ev=1
+local.item=<new.uid>
+
+SRC.NEWITEM 0865
+new.link <local.item>
+src.act.p=<src.p>
+src.act.move=0 0 0
+SRC.ACT.ATTR=08014
+
+
+[ITEMDEF i_mailbox_brass]
+ID=i_box_brass
+CATEGORY=AAA
+SUBSECTION=Mailbox
+DESCRIPTION=Mailbox
+
+on=@create 
+ATTR=08014
+TYPE=2	
+
+
+
+on=@dclick 
+if <more2>==<src.UID>
+type=1
+dialog d_mbox_1 
+else
+type=2
+src.sysmessage @,,1 Bu mailbox size ait degil baskasinin.
+endif
+
+on=@TARGON_ITEM
+if (<src.targ.cont.cont>==<src.uid>) 
+if (<src.targ.BASEID>==i_mail_scroll) 
+src.targ.AUTHOR=<src.name> 
+var.x=<src.act.tag.select> 
+src.act=<src.targ> 
+src.act.cont=<var.x> 
+src.update 
+return 1 
+else 
+src.message @,,1 Bu bir mesaj degil.
+return 1 
+endif 
+else 
+src.message @,,1 Mesaj size ait olmalidir.
+return 1 
+endif 
+
+ON=@TARGON_CHAR
+IF (<src.tag.member1>==<SRC.TARG.UID>) || (<src.tag.member2>==<SRC.TARG.UID>) || (<src.tag.member3>==<SRC.TARG.UID>) || (<src.tag.member4>==<SRC.TARG.UID>) || (<src.tag.member5>==<SRC.TARG.UID>) || (<src.tag.member6>==<SRC.TARG.UID>) || (<src.tag.member7>==<SRC.TARG.UID>) || (<src.tag.member8>==<SRC.TARG.UID>) || (<src.tag.member9>==<SRC.TARG.UID>) || (<src.tag.member10>==<SRC.TARG.UID>) || (<src.tag.member11>==<SRC.TARG.UID>) || (<src.tag.member12>==<SRC.TARG.UID>) || (<src.tag.member13>==<SRC.TARG.UID>) || (<src.tag.member14>==<SRC.TARG.UID>) || (<src.tag.member15>==<SRC.TARG.UID>) || (<src.tag.member16>==<SRC.TARG.UID>) || (<src.tag.member17>==<SRC.TARG.UID>) || (<src.tag.member18>==<SRC.TARG.UID>) || (<src.tag.member19>==<SRC.TARG.UID>) || (<src.tag.member20>==<SRC.TARG.UID>) || (<src.tag.member21>==<SRC.TARG.UID>) || (<src.tag.member22>==<SRC.TARG.UID>) || (<src.tag.member23>==<SRC.TARG.UID>) || (<src.tag.member24>==<SRC.TARG.UID>)
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi zaten adres defterinde.!
+RETURN 1
+ELSEIF (<src.tag.member1>=0)
+src.tag.member1=<SRC.TARG.UID>
+src.tag.member1n=<SRC.TARG.NAME>
+src.tag.member1b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member2>=0)
+src.tag.member2=<SRC.TARG.UID>
+src.tag.member2n=<SRC.TARG.NAME>
+src.tag.member2b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member3>=0)
+src.tag.member3=<SRC.TARG.UID>
+src.tag.member3n=<SRC.TARG.NAME>
+src.tag.member3b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member4>=0)
+src.tag.member4=<SRC.TARG.UID>
+src.tag.member4n=<SRC.TARG.NAME>
+src.tag.member4b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member5>=0)
+src.tag.member5=<SRC.TARG.UID>
+src.tag.member5n=<SRC.TARG.NAME>
+src.tag.member5b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member6>=0)
+src.tag.member6=<SRC.TARG.UID>
+src.tag.member6n=<SRC.TARG.NAME>
+src.tag.member6b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member7>=0)
+src.tag.member7=<SRC.TARG.UID>
+src.tag.member7n=<SRC.TARG.NAME>
+src.tag.member7b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member8>=0)
+src.tag.member8=<SRC.TARG.UID>
+src.tag.member8n=<SRC.TARG.NAME>
+src.tag.member8b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member9>=0)
+src.tag.member9=<SRC.TARG.UID>
+src.tag.member9n=<SRC.TARG.NAME>
+src.tag.member9b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member10>=0)
+src.tag.member10=<SRC.TARG.UID>
+src.tag.member10n=<SRC.TARG.NAME>
+src.tag.member10b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member11>=0)
+src.tag.member11=<SRC.TARG.UID>
+src.tag.member11n=<SRC.TARG.NAME>
+src.tag.member11b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member12>=0)
+src.tag.member12=<SRC.TARG.UID>
+src.tag.member12n=<SRC.TARG.NAME>
+src.tag.member12b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member13>=0)
+src.tag.member13=<SRC.TARG.UID>
+src.tag.member13n=<SRC.TARG.NAME>
+src.tag.member13b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member14>=0)
+src.tag.member14=<SRC.TARG.UID>
+src.tag.member14n=<SRC.TARG.NAME>
+src.tag.member14b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member15>=0)
+src.tag.member15=<SRC.TARG.UID>
+src.tag.member15n=<SRC.TARG.NAME>
+src.tag.member15b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member16>=0)
+src.tag.member16=<SRC.TARG.UID>
+src.tag.member16n=<SRC.TARG.NAME>
+src.tag.member16b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member17>=0)
+src.tag.member17=<SRC.TARG.UID>
+src.tag.member17n=<SRC.TARG.NAME>
+src.tag.member17b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member18>=0)
+src.tag.member18=<SRC.TARG.UID>
+src.tag.member18n=<SRC.TARG.NAME>
+src.tag.member18b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member19>=0)
+src.tag.member19=<SRC.TARG.UID>
+src.tag.member19n=<SRC.TARG.NAME>
+src.tag.member19b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member20>=0)
+src.tag.member20=<SRC.TARG.UID>
+src.tag.member20n=<SRC.TARG.NAME>
+src.tag.member20b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member21>=0)
+src.tag.member21=<SRC.TARG.UID>
+src.tag.member21n=<SRC.TARG.NAME>
+src.tag.member21b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member22>=0)
+src.tag.member22=<SRC.TARG.UID>
+src.tag.member22n=<SRC.TARG.NAME>
+src.tag.member22b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member23>=0)
+src.tag.member23=<SRC.TARG.UID>
+src.tag.member23n=<SRC.TARG.NAME>
+src.tag.member23b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSEIF (<src.tag.member24>=0)
+src.tag.member24=<SRC.TARG.UID>
+src.tag.member24n=<SRC.TARG.NAME>
+src.tag.member24b=<SRC.TARG.TAG.mbox>
+SRC.SYSMESSAGE <SRC.TARG.NAME> adli kisi adres defterine eklendi!
+SRC.TARG.SYSMESSAGE <src.name> adli kisi sizi adres defterine ekledi!
+RETURN 1
+ELSE
+SRC.SYSMESSAGE Adres defterine daha fazla kisi ekleyemezsiniz.
+RETURN 1
+ENDIF
+
+
+[ITEMDEF i_mail_scroll]
+NAME=Yeni Mesaj 
+ID=i_BOOK_LG_PUB
+WEIGHT=0
+
+ON=@CREATE
+DISPID=014ee
+TYPE=19
+	
+
+CATEGORY=AAA
+SUBSECTION=Mailbox
+DESCRIPTION=Mailbox Scroll
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF][function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF]
+[function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF][function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF]
+[function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF][function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF]
+[function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF][function mesaj_sil]
+if <argo.baseid> == i_mail_scroll
+argo.remove
+src.sysmessage @,,1 Mesaji sildiniz.
+return 1
+else
+src.sysmessage @,,1 Silmeye calistiginiz sey bir mesaj degil.
+return 1
+endif
+
+[DIALOG d_mbox_1] // main
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+gumppic 139 43 1418
+text 81 96 1350 0
+text 81 132 1350 1
+text 81 168 1350 2
+text 81 204 1350 3
+text 82 240 1350 4
+//text 134 54 1350 5
+text 155 34 1350 5
+button 33 95 4005 4006 1 0 1
+button 33 131 4005 4006 1 0 2
+button 33 167 4005 4006 1 0 3
+button 33 203 4005 4006 1 0 4
+button 33 239 4005 4006 1 0 5
+
+[DIALOG d_mbox_1 TEXT] //main text
+Mesaj Sil
+Mesaj Olustur
+Adres Defteri
+Ayarlar
+Kapat
+Post Office
+//.//Scripted By: Lord Techno
+
+
+[DIALOG d_mbox_1 BUTTON]
+
+ONBUTTON=1
+targetf mesaj_sil
+src.sysmessage @,,1 Silmek istediginiz mesaji seciniz.
+ONBUTTON=2
+
+SRC.NEWITEM=i_mail_scroll
+SRC.ACT.BOUNCE
+DIALOG d_mbox_1
+
+ONBUTTON 3
+DIALOG d_mbox_2
+
+ONBUTTON 4
+DIALOG D_MBOX_OPTIONS
+ONBUTTON 5
+SRC.SYSMESSAGE @,,1 Posta ofisinden ayrildiniz. By by.. :)
+
+////////////////
+//address book////////////////
+////////////////
+[DIALOG d_mbox_2]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 4005 4006 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_2 TEXT]
+Post Office
+.
+<src.tag.member1n>
+<src.tag.member2n>
+<src.tag.member3n>
+<src.tag.member4n>
+<src.tag.member5n>
+<src.tag.member6n>
+<src.tag.member7n>
+<src.tag.member8n>
+<src.tag.member9n>
+<src.tag.member10n>
+<src.tag.member11n>
+<src.tag.member12n>
+Onceki Sayfa
+Sonraki Sayfa
+
+[DIALOG d_mbox_2 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member1>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member1>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member1b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member2>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member2>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member2b>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member3>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member3>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member4>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member4>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member5>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member5>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member6>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member6>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_1
+
+ONBUTTON 8
+src.sysmessage @,,1 <src.tag.member1n> siliniyor.
+src.tag.member1=0
+src.tag.member1n=Bos
+src.tag.member1b=
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member2n>
+src.tag.member2=0
+src.tag.member2n=Bos
+src.tag.member2b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member3n>
+src.tag.member3=0
+src.tag.member3n=Bos
+src.tag.member3b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member4n>
+src.tag.member4=0
+src.tag.member4n=Bos
+src.tag.member4b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member5n>
+src.tag.member5=0
+src.tag.member5n=Bos
+src.tag.member5b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member6n>
+src.tag.member6=0
+src.tag.member6n=Bos
+src.tag.member6b=
+ONBUTTON 14
+if (<src.tag.member7>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member7>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member8>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member8>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member9>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member9>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member10>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member10>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member11>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member11>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member12>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member12>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_3
+
+ONBUTTON 21
+src.sysmessage @,,1 Siliniyor :<src.tag.member7n>
+src.tag.member7=0
+src.tag.member7n=Bos
+src.tag.member7b=
+ONBUTTON 22
+src.sysmessage @,,1 Siliniyor :<src.tag.member8n>
+src.tag.member8=0
+src.tag.member8n=Bos
+src.tag.member8b=
+ONBUTTON 23
+src.sysmessage @,,1 Siliniyor :<src.tag.member9n>
+src.tag.member9=0
+src.tag.member9n=Bos
+src.tag.member9b=
+ONBUTTON 24
+src.sysmessage @,,1 Siliniyor :<src.tag.member10n>
+src.tag.member10=0
+src.tag.member10n=Bos
+src.tag.member10b=
+ONBUTTON 25
+src.sysmessage @,,1 Siliniyor :<src.tag.member11n>
+src.tag.member11=0
+src.tag.member11n=Bos
+src.tag.member11b=
+ONBUTTON 26
+src.sysmessage @,,1 Siliniyor :<src.tag.member12n>
+src.tag.member12=0
+src.tag.member12n=Bos
+src.tag.member11b=
+[DIALOG d_mbox_3]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0  206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+text 72 123 95 3
+text 72 150 95 4
+text 72 177 95 5
+text 72 204 95 6
+text 72 231 95 7
+text 261 96 95 8
+text 262 123 95 9
+text 261 150 95 10
+text 261 177 95 11
+text 261 204 95 12
+text 261 231 95 13
+text 96 267 95 14
+text 243 267 95 15
+button 33 95 4005 4006 1 0 1
+button 33 122 4005 4006 1 0 2
+button 33 149 4005 4006 1 0 3
+button 33 176 4005 4006 1 0 4
+button 33 203 4005 4006 1 0 5
+button 33 230 4005 4006 1 0 6
+button 135 293 4014 4015 1 0 7
+button 174 99 2117 2118 1 0 8
+button 174 126 2117 2118 1 0 9
+button 174 153 2117 2118 1 0 10
+button 174 180 2117 2118 1 0 11
+button 174 207 2117 2118 1 0 12
+button 174 234 2117 2118 1 0 13
+button 222 95 4005 4006 1 0 14
+button 222 122 4005 4006 1 0 15
+button 222 149 4005 4006 1 0 16
+button 222 176 4005 4006 1 0 17
+button 222 203 4005 4006 1 0 18
+button 222 230 4005 4006 1 0 19
+button 279 294 1150 1150 1 0 20
+button 363 99 2117 2118 1 0 21
+button 363 126 2117 2118 1 0 22
+button 363 153 2117 2118 1 0 23
+button 363 180 2117 2118 1 0 24
+button 363 207 2117 2118 1 0 25
+button 363 234 2117 2118 1 0 26
+
+[DIALOG d_mbox_3 TEXT]
+Post Office v0.1a
+Scripted By: Lord Techno
+<src.tag.member13n>
+<src.tag.member14n>
+<src.tag.member15n>
+<src.tag.member16n>
+<src.tag.member17n>
+<src.tag.member18n>
+<src.tag.member19n>
+<src.tag.member20n>
+<src.tag.member21n>
+<src.tag.member22n>
+<src.tag.member23n>
+<src.tag.member24n>
+Previous Page
+Next Page
+[DIALOG d_mbox_3 BUTTON]
+
+ONBUTTON 1
+if (<src.tag.member13>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member13>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 2
+if (<src.tag.member14>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member14>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 3
+if (<src.tag.member15>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member15>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 4
+if (<src.tag.member16>=0)
+target @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member16>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 5
+if (<src.tag.member17>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member17>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 6
+if (<src.tag.member18>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member18>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 7
+dialog d_mbox_2
+
+ONBUTTON 8
+src.sysmessage @,,1 Siliniyor :<src.tag.member13n>
+src.remove.tag.member13=
+src.tag.member13n=
+src.tag.member13b
+ONBUTTON 9
+src.sysmessage @,,1 Siliniyor :<src.tag.member14n>
+src.tag.member14=0
+src.tag.member14n=
+src.tag.member14b=
+ONBUTTON 10
+src.sysmessage @,,1 Siliniyor :<src.tag.member15n>
+src.tag.member15=0
+src.tag.member15n=
+src.tag.member15b=
+ONBUTTON 11
+src.sysmessage @,,1 Siliniyor :<src.tag.member16n>
+src.tag.member16=0
+src.tag.member16n=
+src.tag.member16b=
+ONBUTTON 12
+src.sysmessage @,,1 Siliniyor :<src.tag.member17n>
+src.tag.member17=0
+src.tag.member17n=
+src.tag.member17b=
+ONBUTTON 13
+src.sysmessage @,,1 Siliniyor :<src.tag.member18n>
+src.tag.member18=0
+src.tag.member18n=
+src.tag.member18b=
+ONBUTTON 14
+if (<src.tag.member19>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member19>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 15
+if (<src.tag.member20>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member20>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 16
+if (<src.tag.member21>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member21>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 17
+if (<src.tag.member22>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member22>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 18
+if (<src.tag.member23>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member23>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 19
+if (<src.tag.member24>=0)
+target  @,,1 Listeye ekleyeceginiz kisiyi seciniz.
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+else
+Target @,,1 Mesaj gondereceginiz kisiyi seciniz
+src.tag.select=<src.tag.member24>
+src.act=<src.uid>
+return 1
+endif
+
+ONBUTTON 20
+dialog d_mbox_1
+
+ONBUTTON 21
+src.sysmessage @,,1 <src.tag.member19n> siliniyor.
+src.tag.member19=0
+src.tag.member19n=
+src.tag.member19b=
+ONBUTTON 22
+src.sysmessage @,,1 <src.tag.member20n> siliniyor.
+src.tag.member20=0
+src.tag.member20n=
+src.tag.member20b=
+ONBUTTON 23
+src.sysmessage @,,1 <src.tag.member21n> siliniyor.
+src.tag.member21=0
+src.tag.member21n=
+src.tag.member21b=
+ONBUTTON 24
+src.sysmessage @,,1 <src.tag.member22n> siliniyor.
+src.tag.member22=0
+src.tag.member22n=
+src.tag.member22b=
+ONBUTTON 25
+src.sysmessage @,,1 <src.tag.member23n> siliniyor.
+src.tag.member23=0
+src.tag.member23n=
+src.tag.member23b=
+ONBUTTON 26
+src.sysmessage @,,1 <src.tag.member24n> siliniyor.
+src.tag.member24=0
+src.tag.member24n=
+src.tag.member24b=
+
+[DIALOG d_mbox_help]
+0, 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+
+[DIALOG d_mbox_help TEXT]
+
+[DIALOG d_mbox_help BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+
+[DIALOG d_mbox_options]
+0, 0
+PAGE 0
+gumppic 44 44 200
+gumppic 17 0 201
+gumppic 0 16 202
+gumppic 418 16 203
+gumppic 18 303 233
+gumppic 0 0 206
+gumppic 418 303 205
+gumppic 0 303 204
+gumppic 418 0 207
+gumppic 44 169 200
+gumppic 172 44 200
+gumppic 44 182 200
+gumppic 172 171 200
+gumppic 294 29 200
+gumppic 172 195 200
+gumppic 296 150 200
+gumppic 293 188 200
+text 155 34 1350 0
+text 134 54 1350 1
+text 72 96 95 2
+button 33 95 4005 4006 1 0 1
+
+[DIALOG d_mbox_options TEXT]
+Post Office
+.//Scripted By: Lord Techno
+Kapali.
+
+[DIALOG d_mbox_options BUTTON]
+ONBUTTON 0
+DIALOG D_MBOX_1
+onbutton 1
+//src.sysmessage <src.tag.member1b> 1
+//src.sysmessage <src.tag.member2b> 2
+//src.sysmessage <src.tag.member3b> 3
+
+[DIALOG d_mail_MES]
+0,0
+NOCLOSE
+button 50 1 4037 4036 1 0 1
+TEXT 1 30 324 0
+
+[DIALOG d_mail_MES TEXT]
+Mesajiniz var.
+
+[DIALOG d_mail_MES BUTTON]
+ONBUTTON=1
+
+////////////////////////////////////////////////////////////
+///Mailboxes
+////////////////////////////////////////////////////////////
+///***********
+///***ITEMS***
+///***********
+////////////////////////////////////////////////////////////
+[PLEVEL 1]
+mailsent
+
+[function mailbox] //set tags
+src.tag.mbox=<serial>
+src.tag.member1=0
+src.tag.member2=0
+src.tag.member3=0
+src.tag.member4=0
+src.tag.member5=0
+src.tag.member6=0
+src.tag.member7=0
+src.tag.member8=0
+src.tag.member9=0
+src.tag.member10=0
+src.tag.member11=0
+src.tag.member12=0
+src.tag.member13=0
+src.tag.member14=0
+src.tag.member15=0
+src.tag.member16=0
+src.tag.member17=0
+src.tag.member18=0
+src.tag.member19=0
+src.tag.member20=0
+src.tag.member21=0
+src.tag.member22=0
+src.tag.member23=0
+src.tag.member24=0
+src.tag.member1n=Bos
+src.tag.member2n=Bos
+src.tag.member3n=Bos
+src.tag.member4n=Bos
+src.tag.member5n=Bos
+src.tag.member6n=Bos
+src.tag.member7n=Bos
+src.tag.member8n=Bos
+src.tag.member9n=Bos
+src.tag.member10n=Bos
+src.tag.member11n=Bos
+src.tag.member12n=Bos
+src.tag.member13n=Bos
+src.tag.member14n=Bos
+src.tag.member15n=Bos
+src.tag.member16n=Bos
+src.tag.member17n=Bos
+src.tag.member18n=Bos
+src.tag.member19n=Bos
+src.tag.member20n=Bos
+src.tag.member21n=Bos
+src.tag.member22n=Bos
+src.tag.member23n=Bos
+src.tag.member24n=Bos
+src.tag.member1b=
+src.tag.member2b=
+src.tag.member3b=
+src.tag.member4b=
+src.tag.member5b=
+src.tag.member6b=
+src.tag.member7b=
+src.tag.member8b=
+src.tag.member9b=
+src.tag.member10b=
+src.tag.member11b=
+src.tag.member12b=
+src.tag.member13b=
+src.tag.member14b=
+src.tag.member15b=
+src.tag.member16b=
+src.tag.member17b=
+src.tag.member18b=
+src.tag.member19b=
+src.tag.member20b=
+src.tag.member21b=
+src.tag.member22b=
+src.tag.member23b=
+src.tag.member24b=
+
+[function mailsent]
+Dialog d_mail_mes
+[EOF]

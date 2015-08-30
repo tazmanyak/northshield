@@ -1,0 +1,43 @@
+[CHARDEF 05d]
+DEFNAME=c_serpent_arrow
+NAME=serpent arrow
+ICON=i_pet_snake_giant
+SOUND=snd_animals_snake1
+CAN=MT_WALK|MT_RUN|MT_NONHUM
+DAM=19,35
+ARMOR=30
+//DESIRES=
+//AVERSIONS=
+//FOODTYPE=
+//RESOURCES=
+BLOODCOLOR=colors_blood
+MOVERATE=100
+TAG.Barding.Diff=71.0
+TAG.DamPoison=60
+TAG.HitPoison=3//Greater
+TAG.Slayer=SLAYER_SNAKE
+TEVENTS=e_carnivores2
+CATEGORY=Spells
+SUBSECTION=Combatskill
+DESCRIPTION=Serpent Arrow
+ON=@Create
+   NPC=brain_monster
+   FAME=2500
+   KARMA=-2500
+   STR={185 215}
+   MAXHITS={110 130}
+   DEX={56 80}
+   MAXSTAM={56 80}
+   INT={66 85}
+   MAXMANA={66 85}
+   MAGICRESISTANCE={25.0 40.0}
+   //POISONING={50.0 75.0}
+   TACTICS={65.0 70.0}
+   WRESTLING={70.0 80.0}
+   MODAR={0 5}
+   RESCOLD={10 20}
+   RESENERGY={10 20}
+   RESFIRE={5 10}
+   RESPOISON={70 90}
+
+[EOF]

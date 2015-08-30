@@ -1,0 +1,899 @@
+﻿[function gpdeposit]
+var.gp <argn>
+for 0 1000
+if (<eval <var.gp>> > 50000)
+	serv.newitem i_gold
+	new.amount 50000
+	new.cont <findlayer(layer_bankbox).uid>
+	var.gp -= 50000
+elseif (<eval <var.gp>> = 50000)
+	serv.newitem i_gold
+	new.amount 50000
+	new.cont <findlayer(layer_bankbox).uid>
+	var.gp = 0
+	return 1
+elseif (<eval <var.gp>> != 0)
+	serv.newitem i_gold
+	new.amount <eval <var.gp>>
+	new.cont <findlayer(layer_bankbox).uid>
+	var.gp 0
+	return 1
+endif
+endfor
+
+[function f_kumbara_owner_set]
+forinstances i_bank_kumbara
+	if <more1> != 0
+		ref1 <more1>
+		serv.log <ref1.name>
+		ref1.tag.kumbaram <uid>
+	endif
+endfor
+
+[ITEMDEF i_bank_kumbara]
+DEFNAME=i_bank_kumbara
+name=Kumbara
+//ID=i_box_brass
+ID=i_pet_pig
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+SKILLMAKE=TINKERING 99.9,i_tinker_tools
+RESOURCES=500 i_ingot_iron
+
+on=@create
+tag.gp 0
+//color 0809
+color 07a1
+ATTR=04
+
+on=@click
+message @0810 Kumbara
+message @69,1,1 [ Bakiye : <eval <tag.gp>> gp ]
+return 1
+
+on=@dclick
+
+if (<src.account.tag.pinkabul>==0)
+	src.sysmessage @33,,1 Pin girisi yapmalisiniz.
+	src.dialog d_pin_giris
+	return 1
+endif
+
+
+if (<more1> == 0)
+	more1 <src.uid>
+	src.tag.kumbaram <uid>
+	src.sysmessage @69,1,1 Kumbara artik size ait.
+elseif (<more1> != <src.uid>)
+	src.sysmessage @38,1,1 Bu kumbaranin sahibi degilsiniz.
+elseif (<topobj.uid> != <src.uid>)
+	src.sysmessage @38,1,1 Kumbarayi kullanabilmek icin uzerinize almalisiniz.
+else
+	more2 1
+	target @69,1,1 Kumbara menusunu acmak icin kumbarayi, para yatirmak icin parayi veya checki seciniz.
+endif
+return 1
+
+on=@targon_item
+if (<more2> == 1)
+	if (<src.targ.topobj.uid> != <src.uid>)
+		src.sysmessage @38,1,1 Sadece ustunuzdeki esyalari kullanabilirsiniz.
+		return 1
+	endif
+	if (<src.targ.baseid> == i_gold)
+		tag0.gp += <src.targ.amount>
+		src.targ.remove
+		more2 1
+		target @050,1,1 <eval <src.targ.amount>> GP hesabiniza aktarildi.
+	elseif (<src.targ.baseid> == i_check_brnx)
+		tag0.gp += <src.targ.more1>
+		src.targ.remove
+		more2 1
+		target @050,1,1 <eval <src.targ.more1>> GP Degerindeki cek hesaba aktarildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek Bozdurma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt <eval <src.targ.more1>> degerinde altini bankasina aktardi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+	elseif (<src.targ.uid> == <uid>)
+		var.kumbara <uid>
+		sdialog d_bank_kumbara
+	endif
+endif
+return 1
+
+on=@targon_char
+if (<more2> == 2)
+	if (<src.targ.uid> == <src.uid>)
+		return 1
+	endif
+	src.targ.sdialog d_bank_kumbara_havale
+endif
+return 1
+
+[dialog d_bank_kumbara_para_check_ver]
+330,130
+PAGE 0
+resizepic 2 2 2620 190 90
+resizepic 25 25 2620 110 35
+dtextentry 32 32 90 20 990 1 0
+dtext 50 5 52 Miktar ?
+button 140 30 4005 4006 1 0 1
+
+[dialog d_bank_kumbara_para_check_ver button]
+on=1
+if !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sayi yazmaniz gerekiyor.
+	return 1
+endif
+if (<strsub 0 1 <argtxt[1]>> == 0)
+	src.sysmessage @38,1,1 Ilk rakama 0 yazamazsiniz.
+elseif !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sadece rakam kullanabilirsiniz.
+elseif (<argtxt[1]> < 1)
+	src.sysmessage @38,1,1 Hatali bir rakam girdiniz.
+elseif (<argtxt[1]> > <eval <tag0.gp>>)
+	src.sysmessage @38,1,1 Kumbaranizda <argtxt[1]> gp bulunmuyor.
+elseif (<argtxt[1]> > 15000000)
+	src.sysmessage @38,1,1 15m den daha buyuk bir check yapamazsiniz.
+	return 1
+else
+	tag.gp -= <argtxt[1]>
+	newitem i_check_brnx
+	new.more1 <argtxt[1]>
+	new.more2 <src.uid>
+	new.cont <src.findlayer(21).uid>
+	SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+	SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek YApma____________________________________________
+	SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+	SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt <argtxt[1]> kadar Cek yapildi.
+
+endif
+
+
+
+
+
+[dialog d_bank_kumbara]
+300,90
+page 1
+//resizepic 50 50 5054 250 130
+//resizepic 60 60 3000 230 110
+
+resizepic 50 50 2620 290 150	
+gumppictiled 60 60 270 130 2624
+
+//resizepic 160 0 9200 475 590	
+//gumppictiled 170 10 455 570 2624
+
+dtext 110 90 150 Nakit para çek
+button 75 90 4006 4005 1 0 1
+dtext 110 110 150 Check yaz
+button 75 110 4006 4005 1 0 2
+//dtext 110 130 150 Havale yap
+//button 75 130 4006 4005 1 0 3
+dtext 110 150 150 Tüm parani yatır : <src.gold> Gold
+button 75 150 4006 4005 1 0 4
+dtext 75 68 52 Bakiye: <eval <tag.gp>> gp
+
+[dialog d_bank_kumbara button]
+on=1
+sdialog d_bank_kumbara_para_cek
+
+on=2
+sdialog d_bank_kumbara_para_check_ver //sdialog d_bank_kumbara_check
+
+on=3
+src.havaleyap
+
+on=4
+
+if (<src.gold> < 1)
+src.sysmessage @33,,1 Bankanizda para yok.
+else
+tag.gp += <src.gold>
+src.gold 0
+src.sysmessage @69,,1 Paraniz kumbaraniza yatirildi.
+endif
+
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________Para Yatirma________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ____________________________________________________________________________________________
+
+
+[dialog d_bank_kumbara_havale]
+100, 20
+PAGE 0
+resizepic 2 2 2620 190 90
+resizepic 25 25 2620 110 35
+dtextentry 32 32 90 20 990 1 0
+button 140 30 4005 4006 1 0 1
+
+[dialog d_bank_kumbara_havale button]
+on=1
+if !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sayi yazmaniz gerekiyor.
+	return 1
+endif
+if (<strsub 0 1 <argtxt[1]>> == 0)
+	src.sysmessage @38,1,1 Ilk rakama 0 yazamazsiniz.
+elseif !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sadece rakam kullanabilirsiniz.
+elseif (<argtxt[1]> < 1)
+	src.sysmessage @38,1,1 Hatali bir rakam girdiniz.
+elseif (<argtxt[1]> > <eval <uid.<var.kumbara>.tag.gp>>)
+	src.sysmessage @38,1,1 Kumbaranizda <argtxt[1]> gp bulunmuyor.
+else
+	src.sysmessage @69,1,1 <argtxt[1]> gp <name> isimli kisiye aktarildi.
+	sysmessage @69,1,1 <src.name> isimli kisi size <argtxt[1]> gp aktardi. Para bankanizda...
+	try uid.<var.kumbara>.tag.gp <eval <uid.<var.kumbara>.tag.gp> - <argtxt[1]>>
+	src.gpdeposit <argtxt[1]>
+	//serv.writefile C:\AppServ\www\web\havaleler.txt <serv.rtime> Havale yapan : <src.name> -- Havale yapilan : <name> -- Miktar : <argtxt[1]> Gold
+
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Havale___________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt <argtxt[1]> gp <name> isimli kisiye aktarildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ____________________________________________________________________________________________
+
+endif
+
+[dialog d_bank_kumbara_para_cek]
+330,130
+PAGE 0
+resizepic 2 2 2620 190 90
+resizepic 25 25 2620 110 35
+dtextentry 32 32 90 20 990 1 0
+dtext 50 5 52 Miktar ?
+button 140 30 4005 4006 1 0 1
+
+[dialog d_bank_kumbara_para_cek button]
+on=1
+if !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sayi yazmaniz gerekiyor.
+	return 1
+endif
+if (<strsub 0 1 <argtxt[1]>> == 0)
+	src.sysmessage @38,1,1 Ilk rakama 0 yazamazsiniz.
+elseif !(<isnum <argtxt[1]>>)
+	src.sysmessage @38,1,1 Sadece rakam kullanabilirsiniz.
+elseif (<argtxt[1]> < 1)
+	src.sysmessage @38,1,1 Hatali bir rakam girdiniz.
+elseif (<argtxt[1]> > <eval <tag0.gp>>)
+	src.sysmessage @38,1,1 Kumbaranizda <argtxt[1]> gp bulunmuyor.
+elseif (<argtxt[1]> > 15000000)
+	src.sysmessage @38,1,1 15m den daha para cekemezsiniz.
+	return 1
+else
+	src.sysmessage @69,1,1 <argtxt[1]> gp bankaniza aktarildi.
+	tag.gp -= <argtxt[1]>
+	src.gpdeposit <argtxt[1]>
+        src.newitem i_kumbarabugfix
+        src.new.equip
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Para Cekme___________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt <argtxt[1]> gp cekildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+endif
+
+
+[dialog d_bank_kumbara_check]
+50,50
+
+resizepic 60 20 5170 350 220
+
+htmlgump 100 50 300 20 0 0 0
+htmlgump 100 65 250 20 1 0 0
+
+button 120 95 2714 2715 1 0 1
+button 120 115 2714 2715 1 0 2
+button 120 135 2714 2715 1 0 3
+button 120 155 2714 2715 1 0 4
+button 120 175 2714 2715 1 0 5
+
+htmlgump 142 96 100 20 2 0 0
+htmlgump 142 116 100 20 3 0 0
+htmlgump 142 136 100 20 4 0 0
+htmlgump 142 156 100 20 5 0 0
+htmlgump 142 176 100 20 6 0 0
+
+tilepic 250 125 3826
+tilepic 240 120 3823
+tilepic 250 120 3819
+tilepic 255 135 3825
+tilepic 225 125 3820
+tilepic 235 135 3823
+tilepic 245 135 3820
+
+htmlgump 298 130 100 20 7 0 0
+
+tilepic 320 122 <eval 014ef>
+
+[dialog d_bank_kumbara_check text]
+Kumbaranizda <eval <tag.gp>> altin var.
+Cekinizin degeri ne olacakti <src.sex bayim/bayan>?
+50.000 gp
+100.000 gp
+250.000 gp
+500.000 gp
+1.000.000 gp
+-->
+
+[dialog d_bank_kumbara_check button]
+On=1
+if (<eval <tag.gp>> >= 50000)
+	tag.gp -= 50000
+	newitem i_check_brnx
+	new.more1 50000
+	new.more2 <src.uid>
+	new.cont <src.findlayer(21).uid>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek YApma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt 50k Cek yapildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+else
+	src.sysmessage @38,1,1 Kumbaranizda 50k altininiz bulunmuyor.
+endif
+
+On=2
+if (<eval <tag.gp>> >= 100000)
+	tag.gp -= 100000
+	serv.newitem i_check_brnx
+	new.more1 100000
+	new.more2 <src.uid>
+	new.cont <src.findlayer(21).uid>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek YApma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt 100k Cek yapildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+else
+	src.sysmessage @38,1,1 Kumbaranizda 100k altininiz bulunmuyor.
+endif
+
+On=3
+if (<eval <tag.gp>> >= 250000)
+	tag.gp -= 250000
+	newitem i_check_brnx
+	new.more1 250000
+	new.more2 <src.uid>
+	new.cont <src.findlayer(21).uid>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek YApma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt 250k Cek yapildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+else
+	src.sysmessage @38,1,1 Kumbaranizda 250k altininiz bulunmuyor.
+endif
+
+On=4
+if (<eval <tag.gp>> >= 500000)
+	tag.gp -= 500000
+	newitem i_check_brnx
+	new.more1 500000
+	new.more2 <src.uid>
+	new.cont <src.findlayer(21).uid>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek YApma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt 500k Cek yapildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+else
+	src.sysmessage @38,1,1 Kumbaranizda 500k altininiz bulunmuyor.
+endif
+
+serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt 500k degerinde check yaptirdi. Karakter adi <src.name>  ----------> CEK YAPMA
+serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt Tarih: <serv.rtime>  ---- Yer: <src.p> (<src.region.name>)
+serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt ---------------------------------------------------------------------------
+
+
+On=5
+if (<eval <tag.gp>> >= 1000000)
+	tag.gp -= 1000000
+	newitem i_check_brnx
+	new.more1 1000000
+	new.more2 <src.uid>
+	new.cont <src.findlayer(21).uid>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek YApma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt 1m Cek yapildi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+else
+	src.sysmessage @38,1,1 Kumbaranizda 1m altininiz bulunmuyor.
+endif
+
+//serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt 1m degerinde check yaptirdi. Karakter adi <src.name>  ----------> CEK YAPMA
+//serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt Tarih: <serv.rtime>  ---- Yer: <src.p> (<src.region.name>)
+//serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt ---------------------------------------------------------------------------
+
+
+[function f_give_money]
+var.gp <argn1>
+if (<eval <var0.gp>> >= 65000)
+	serv.newitem i_gold
+	new.amount 65000
+	new.cont <findlayer(layer_bankbox).uid>
+	var.gp -= 65000
+	f_give_money <eval <var0.gp>>
+elseif (<eval <var0.gp>> != 0)
+	serv.newitem i_gold
+	new.amount <eval <var0.gp>>
+	new.cont <findlayer(layer_bankbox).uid>
+	var.gp 0
+endif
+
+
+[itemdef i_check_brnx]
+id i_deed
+type t_script
+weight 0.1
+name check
+
+On=@Create
+color 096d
+attr 04
+
+On=@Click
+message @69,1,1 Cek Karsiligi: <eval <more1>> gp
+message @0790,1,1 [<src.uid.<more2>.name>]
+return 1
+
+On=@DClick
+target Islem yapacaginiz bankeri seciniz.
+return 1
+
+On=@TargOn_Char
+if (<src.targ.npc> == 5)
+	src.gpdeposit <more1>
+	src.sfx 50
+	src.sysmessage @69,1,1 <eval <more1>> altin bankaniza aktarildi.
+	remove
+
+serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt <eval <more1>> degerinde altini bankasina aktardi. Karakter adi <src.name> ----------> BANKAYA AKTARIM
+serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt Tarih: <serv.rtime>  ---- Yer: <src.p> (<src.region.name>)
+serv.writefile C:\DeathMatch\Kumbara\<src.account>.txt ---------------------------------------------------------------------------
+
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt  
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ___________________________________________Cek Bozdurma____________________________________________
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Saat: (<serv.rtime>) | <src.name> | Kumbaradaki Bakiye : <eval <tag.gp>> gp. | Bankadaki bakiye <eval <src.gold>>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt <eval <more1>> degerinde altini bankasina aktardi.
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt Mac: <src.account.tag.last_mac> | IP: <src.account.LASTIP> | PC ID: <src.account.tag.seri_no>
+SERV.WRITEFILE C:\North_Player_Log_Arsivi\Kumbara\<src.account.name>.txt ________________________________________________________________________________________________
+
+
+endif
+return 1
+
+
+
+On=@TargOn_Item
+return 1
+
+[function check_deposit]
+var.check <eval (<argn> - 50000)>
+newitem i_gold
+act.amount 50000
+act.cont <findlayer(29).uid>
+if (<eval <var.check>> >= 50000)
+	check_deposit <eval <var.check>>
+elseif (<eval <var.check>> > 0)
+	newitem i_gold
+	act.amount <eval <var.check>>
+	act.cont <findlayer(29).uid>
+	var.check
+else
+	var.check
+endif
+
+
+[plevel 1]
+hesapno
+
+[function hesapno]
+src.sysmessage @1153 Hesap Nonuz: <src.uid>
+return 1
+
+[function havaleyap]
+dialogclose d_havale
+dialog d_havale
+
+
+[dialog d_havale]
+120,301
+PAGE 0
+noclose
+nomove
+//resizepic 0 0 3500 520 180
+
+resizepic 0 0 9200 550 210	
+gumppictiled 10 10 530 190 2624
+
+resizepic 93 66 3000 120 25
+resizepic 357 66 3000 120 25
+
+
+
+dtextentry 97 70 105 105 1153 1
+dtextentry 361 70 105 105 1153 2
+
+dtext 10 10 024 <serv.name> havale sistemine hos geldiniz
+dtext 10 30 024 Lutfen havale bilgilerini giriniz
+dtext 17 68 024 Hesap no:
+dtext 237 68 024 Havale miktari:
+dtext 145 120 024 Havale et
+dtext 339 120 024 Iptal et
+
+button 305 119 4017 4019 1 0 0
+button 110 120 4020 4022 1 0 1
+
+
+[dialog d_havale button]
+on=0
+src.sysmessage @026 Havale yapmaktan vazgectiniz...
+
+on=1
+if (strmatch('<argtxt[1]>',''))
+src.sysmessage @1153 Lutfen parayi yollayacaginiz kisinin hesap nosunu yaziniz...
+return 1
+elseif (strmatch('<argtxt[2]>',''))
+src.sysmessage @1153 Lutfen bir havale miktari giriniz.
+return 1
+elseif ((strlen(<argtxt[1]>)) > 12) || ((strlen(<argtxt[1]>)) < 4)
+src.sysmessage @1153 Hesap nosu en fazla 12, en az 4  karakter olabilir.
+return 1
+elseif ((strlen(<argtxt[2]>)) > 6)  || ((strlen(<argtxt[2]>)) < 5)
+src.sysmessage @1153 Havale miktari en fazla 6, en az 5 haneli olabilir.
+return 1
+elseif (<IsNum <ARGTXT[2]>>==0)
+src.sysmessage @1153 Havale miktarina sadece rakam girebilirsiniz.
+return 1
+elseif (<uid.<ARGTXT[1]>> == 00) || !(<uid.<ARGTXT[1]>.isplayer>)
+src.sysmessage @1153 Boyle bir hesap no bulunmamaktadir.
+return 1
+elseif (<ARGTXT[1]> == <src.uid>)
+src.sysmessage @1153 Kendi kendinize havale yapamazsiniz
+return 1
+endif
+src.ctag.hesapnosu <argtxt[1]>
+src.ctag.havalemiktar <eval <argtxt[2]>>
+src.dialogclose d_havaleyi_sor
+src.dialog d_havaleyi_sor
+return 1
+
+[dialog d_havaleyi_sor]
+200,180
+page 0
+noclose
+nomove
+resizepic 0 0 3500 310 170
+resizepic 12 10 3000 290 150
+
+dtext 20 20 1153 <uid.<src.ctag.hesapnosu>.name> isimli kisiye,
+dtext 20 40 1153 <eval <src.ctag.havalemiktar>> gp gondermek istiyormusunuz?
+dtext 20 130 025 Havale ucreti 5k dir.
+
+dtext 55 91 048 Evet
+dtext 155 91 025 Hayir
+
+button 20 89 4020 4022 1 0 1
+button 120 89 4017 4019 1 0 0
+
+[dialog d_havaleyi_sor button]
+on=0
+src.sysmessage @026 Havale islemleri iptal edilmistir...
+
+on=1
+if (<src.toplampara> < <eval (<src.ctag.havalemiktar>+5000)>)
+src.sysmessage @1153 <eval (<src.ctag.havalemiktar>+5000)> gpniz yok.(5 k havale parasidir)
+return 1
+endif
+src.parayikes <eval <src.ctag.havalemiktar>+5000>
+src.sysmessage @1153 <eval <src.ctag.havalemiktar>> gp, <uid.<src.ctag.hesapnosu>.name> isimli kisiye gonderilmistir.
+try uid.<src.ctag.hesapnosu>.parayiyolla <eval <src.ctag.havalemiktar>>
+try uid.<src.ctag.hesapnosu>.sysmessage @1153 <src.name> isimli kisi size <eval <src.ctag.havalemiktar>> gp havale etmistir.Paraniz bankanizdadir.
+serv.writefile C:\AppServ\www\web\havaleler.txt <serv.rtime> Havale yapan : <src.name> -- Havale yapilan : <uid.<src.ctag.hesapnosu>.name> -- Miktar : <eval <src.ctag.havalemiktar>> Gold
+return 1
+
+
+
+[FUNCTION parayikes]
+IF (<toplampara> < <ARGN1>)
+RETURN 1
+ENDIF
+LOCAL.AMOUNT=<ARGN1>
+WHILE (<LOCAL.AMOUNT>)
+IF (0<FINDLAYER.21.FINDID.i_gold>)
+LOCAL.GOLD=<FINDLAYER.21.FINDID.i_gold.amount>
+IF (<EVAL <LOCAL.AMOUNT>-<LOCAL.GOLD>> < 0)
+FINDLAYER.21.FINDID.i_gold.AMOUNT -= <LOCAL.AMOUNT>
+LOCAL.AMOUNT=0
+ELSE
+FINDLAYER.21.FINDID.i_gold.remove
+LOCAL.AMOUNT -= <LOCAL.GOLD>
+ENDIF
+ELIF (0<FINDLAYER.29.FINDID.i_gold>)
+LOCAL.GOLD=<FINDLAYER.29.FINDID.i_gold.amount>
+IF (<EVAL <LOCAL.AMOUNT>-<LOCAL.GOLD>> < 0)
+FINDLAYER.29.FINDID.i_gold.AMOUNT -= <LOCAL.AMOUNT>
+LOCAL.AMOUNT=0
+ELSE
+FINDLAYER.29.FINDID.i_gold.remove
+LOCAL.AMOUNT -= <LOCAL.GOLD>
+ENDIF
+ENDIF
+ENDWHILE
+UPDATE
+
+[function toplampara]
+RETURN <eval <rescount <def.cmoney>>+<findlayer.29.rescount <def.cmoney>>>
+
+
+
+[FUNCTION parayiyolla]
+IF (<ARGS> > 0)
+   serv.newitem i_gold
+     IF (<ARGS> > 65000)
+      new.amount=65000
+      new.cont <uid.<src.ctag.hesapnosu>.findlayer.29.uid>
+      parayiyolla <eval <ARGS>-<NEW.AMOUNT>>
+     ELSE
+      new.amount=<ARGS>
+      new.cont <uid.<src.ctag.hesapnosu>.findlayer.29.uid>
+    ENDIF
+ENDIF
+////////////////////////////////////////////////
+
+[ITEMDEF i_para_stone]
+NAME=Gold Stone
+ID=i_grave_stone
+TYPE=t_script
+
+on=@create
+attr 04
+color 0980
+	
+ON=@Click
+message @68,1,1 <serv.name> <name>
+return 1 
+
+on=@dclick
+src.dialog d_para_stone1
+return 1
+
+
+
+[ITEMDEF i_deed_1m]
+NAME=1m Cek
+ID=i_deed
+TYPE=t_script
+
+on=@create
+attr 04
+color 0980
+	
+ON=@Click
+message @68,1,1 <serv.name> <name>
+return 1 
+
+on=@dclick
+if (<topobj.uid> != <src.uid>)
+src.sysmessage @810 Cantanizda aciniz.
+return 1
+endif
+src.newitem=t_1m
+src.act.equip
+remove
+return 1
+
+[ITEMDEF i_deed_500k]
+NAME=500k Cek
+ID=i_deed
+TYPE=t_script
+
+on=@create
+attr 04
+color 0980
+	
+ON=@Click
+message @68,1,1 <serv.name> <name>
+return 1 
+
+on=@dclick
+if (<topobj.uid> != <src.uid>)
+src.sysmessage @810 Cantanizda aciniz.
+return 1
+endif
+src.newitem=t_500k
+src.act.equip
+remove
+return 1
+
+[ITEMDEF i_deed_250k]
+NAME=250k Cek
+ID=i_deed
+TYPE=t_script
+
+on=@create
+attr 04
+color 0980
+	
+ON=@Click
+message @68,1,1 <serv.name> <name>
+return 1 
+
+on=@dclick
+if (<topobj.uid> != <src.uid>)
+src.sysmessage @810 Cantanizda aciniz.
+return 1
+endif
+src.newitem=t_250k
+src.act.equip
+remove
+return 1
+
+
+[ITEMDEF i_deed_100k]
+NAME=100k Cek
+ID=i_deed
+TYPE=t_script
+
+on=@create
+attr 04
+color 0980
+	
+ON=@Click
+message @68,1,1 <serv.name> <name>
+return 1 
+
+on=@dclick
+if (<topobj.uid> != <src.uid>)
+src.sysmessage @810 Cantanizda aciniz.
+return 1
+endif
+src.newitem=t_100k
+src.act.equip
+remove
+return 1
+
+
+[TEMPLATE t_1m]
+NAME=Gold Bag
+CONTAINER i_bag
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+
+[TEMPLATE t_500k]
+NAME=Gold Bag
+CONTAINER i_bag
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+
+
+[TEMPLATE t_250k]
+NAME=Gold Bag
+CONTAINER i_bag
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+ITEM=i_gold,50000
+
+
+
+[TEMPLATE t_100k]
+NAME=Gold Bag
+CONTAINER i_bag
+ITEM=i_gold,65000
+ITEM=i_gold,35000
+
+[dialog d_para_stone1]
+10,100
+nomove
+resizepic 260 100 3600 230 190
+page 0
+text 330 240 38 0   
+text 310 130 1152 1
+text 310 150 1152 2
+text 310 170 1152 3
+text 310 190 1152 4
+
+button 290 131 55 56  1 0 1
+button 290 151 55 56 1 0 2
+button 290 171 55 56 1 0 3
+button 290 191 55 56 1 0 4
+
+
+[DIALOG d_para_stone1 TEXT]
+  Cek Menu
+100k
+500k
+1m
+5m (Kapali)
+
+[DIALOG d_para_stone1 BUTTON]
+onbutton=0
+src.sysmessage @68,1,1 Cek menusu kapatildi.
+onbutton=1
+if !(<src.gp> >= 100000)
+src.sysmessage @11 Bankanizda 100000 gp bulunmuyor.
+else
+src.newitem i_silahtamir
+src.act.equip
+src.sysmessage @11 Lutfen silahinizi seciniz.
+
+onbutton=2
+return 1
+
+onbutton=3
+return 1
+
+onbutton=4
+return 1
+endif
+
+[itemdef i_kumbarabugfix] 
+id=i_memory 
+type=t_eq_script 
+name=kumbara bug fix 
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+on=@equip 
+timer 60
+
+on=@timer
+remove
+return 1
+
+
+[eof]
+

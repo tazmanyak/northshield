@@ -1,0 +1,395 @@
+//****************************************************************************
+// SphereServer ©1997-2009
+// This script is part from the Sphere Community Script Pack.
+// You can download the full pack from: www.sphereserver.net
+//****************************************************************************
+// FILE LAST UPDATED:
+VERSION=0.56b
+//
+// SCRIPT CREDITS
+// --------------
+// ShiryuX - All the script
+//
+// SCRIPT DOCUMENTATION
+// --------------------
+// Format of the entries is: SKILL_category_#_# "ID"
+// Replace SKILL with your crafting skill (sample: Blacksmithing)
+// Replace the 1st # with the category index
+// Replace the 2nd # with the item index
+// Replace ID with your item id (sample: i_sword_long)
+//
+// What is "SKILL_options_default"?
+// It is an entry which controls if you can make exceptional items
+// if you can mark the item, color it, need a recipe and which expansion is needed
+// The order is: "exceptional,mark,colored,recipe,expansion"
+//
+// Also, you can set individual options using the following format:
+// SKILL_category_#_#_opt "exceptional,mark,colored,recipe,expansion"
+// How to use them is explained above. Options are stored in "sphere_skillmenu_SKILL_options.scp"
+// NOTE: Colored only works with the crafting generator script.
+//
+// _smelt: The function called when you try to smelt an item.
+//         If empty, option won't show in the skill menu.
+//
+// _repair: The function called when you try to repair an item.
+//          If empty, option won't show in the skill menu.
+//
+// _check: A small check before trying to create the item.
+//         Things like asking for a forge or mana would work,
+//         RETURN 1 in this function cancels crafting.
+//
+// _check_notice: Text displayed if the _check property returns 1.
+//
+// _chanceatmin: Can't remember.
+//
+// _exceptional_bonus: Bonus function applied to the item if is crafted exceptionally.
+//		       Damage, Resistances bonus should be here.
+//
+// _aftercraft: Function called on the item AFTER you craft it.
+//              If success only.
+
+[defname sphere_crafting_blacksmithing_default]
+blacksmithing_marking		"1" // 1 or 0
+blacksmithing_firstmaterial	"1" // 1 or 0
+blacksmithing_secondmaterial	"0" // 1 or 0
+blacksmithing_options_default	"1,1,1,0,0"
+
+blacksmithing_smelt		"f_craft_blacksmith_smelt"
+blacksmithing_repair		"f_craft_blacksmith_repair"
+blacksmithing_check		"f_craft_blacksmith_checkforge"
+blacksmithing_check_notice	"1044267" // You must be near an anvil and a forge to smith items.
+blacksmithing_chanceatmin	"80.0"
+blacksmithing_exceptional_bonus	"f_craft_blacksmith_exceptionalbonus"
+blacksmithing_aftercraft	""
+
+blacksmithing_category_1_name	Hafif Sinif Armor // Ringmail
+blacksmithing_category_2_name	Orta Sinif Armor // Chainmail
+blacksmithing_category_3_name   Agir Sinif Armor // Platemail
+blacksmithing_category_4_name	Kafaliklar // Helmets
+blacksmithing_category_5_name	Kalkanlar // Shields
+blacksmithing_category_6_name	Swordsmanship W. // Bladed 
+blacksmithing_category_7_name	Fencer W. // Bashing 
+blacksmithing_category_8_name	Mace Fighting W. // Axes
+//blacksmithing_category_9_name	BOS // Polearms
+//blacksmithing_category_10_name	BOS // Dragon Scale Armor
+//blacksmithing_category_11_name	"1044117" // Throwing
+
+blacksmithing_category_1_1	"i_ringmail_gloves"
+blacksmithing_category_1_2	"i_ringmail_leggings"
+blacksmithing_category_1_3	"i_ringmail_sleeves"
+blacksmithing_category_1_4	"i_ringmail_tunic"
+
+blacksmithing_category_2_1	"i_chainmail_coif"
+blacksmithing_category_2_2	"i_chainmail_leggings"
+blacksmithing_category_2_3	"i_chainmail_tunic"
+
+blacksmithing_category_3_1	"i_platemail_arms"
+blacksmithing_category_3_2	"i_platemail_gloves"
+blacksmithing_category_3_3	"i_platemail_gorget"
+blacksmithing_category_3_4	"i_platemail_leggings"
+blacksmithing_category_3_5	"i_platemail_chest"
+blacksmithing_category_3_6	"i_armor_female_plate"
+blacksmithing_category_3_7	"i_platemail_mempo"
+blacksmithing_category_3_8	"i_platemail_do"
+blacksmithing_category_3_9	"i_platemail_hiro_sode"
+blacksmithing_category_3_10	"i_platemail_suneate"
+blacksmithing_category_3_11	"i_platemail_haidate"
+blacksmithing_category_3_12	""
+blacksmithing_category_3_13	""
+blacksmithing_category_3_14	""
+blacksmithing_category_3_15     ""
+blacksmithing_category_3_16	""
+
+blacksmithing_category_4_1	"i_bascinet"
+blacksmithing_category_4_2	"i_helm_closed"
+blacksmithing_category_4_3	"i_helm_open"
+blacksmithing_category_4_4	"i_helm_nose"
+blacksmithing_category_4_5	"i_platemail_helm"
+blacksmithing_category_4_6	"i_chainmail_hatsuburi"
+blacksmithing_category_4_7	"i_platemail_hatsuburi"
+blacksmithing_category_4_8	"i_plate_jingasa_heavy"
+blacksmithing_category_4_9	"i_plate_jingasa_light"
+blacksmithing_category_4_10	"i_plate_jingasa_small"
+blacksmithing_category_4_11	"i_platemail_kabuto_decorative"
+blacksmithing_category_4_12	"i_platemail_kabuto_battle"
+blacksmithing_category_4_13	"i_platemail_kabuto"
+blacksmithing_category_4_14	"i_circlet"
+blacksmithing_category_4_15	"i_circlet_royal"
+blacksmithing_category_4_16	"i_circlet_gemmed"
+
+blacksmithing_category_5_1	"i_shield_buckler"
+blacksmithing_category_5_2	"i_shield_round_bronze"
+blacksmithing_category_5_3	"i_shield_heater"
+blacksmithing_category_5_4	"i_shield_round_metal"
+blacksmithing_category_5_5	"i_shield_kite_metal"
+blacksmithing_category_5_6	"i_shield_kite_wood"
+blacksmithing_category_5_7	"i_shield_chaos"
+blacksmithing_category_5_8	"i_shield_order"
+blacksmithing_category_5_9	"i_shield_north"
+
+blacksmithing_category_6_1	"i_knife_skinning"
+blacksmithing_category_6_2	""//"i_cleaver_meat"
+blacksmithing_category_6_3	"i_cutlass"
+blacksmithing_category_6_4	"i_sword_long"
+blacksmithing_category_6_5	"i_sword_viking"
+blacksmithing_category_6_6	"i_sword_broad"
+blacksmithing_category_6_7	"i_scimitar"
+blacksmithing_category_6_8	"i_katana"
+blacksmithing_category_6_9	"i_bardiche"
+blacksmithing_category_6_10	"i_halberd"
+blacksmithing_category_6_11	""//"i_rune_blade"
+blacksmithing_category_6_12	""//"i_crescent_blade"
+blacksmithing_category_6_13	""//"i_radiant_scimitar"
+blacksmithing_category_6_14	""//"i_war_cleaver"
+blacksmithing_category_6_15	""//"i_scythe"
+blacksmithing_category_6_16	""//"i_bone_harvester"
+blacksmithing_category_6_17	""
+blacksmithing_category_6_18	""
+blacksmithing_category_6_19	""
+blacksmithing_category_6_20	""
+
+
+
+blacksmithing_category_7_1	"i_dagger"
+blacksmithing_category_7_2	"i_kryss"
+blacksmithing_category_7_3	"i_war_fork"
+blacksmithing_category_7_4	"i_spear_short"
+blacksmithing_category_7_5	"i_spear"
+blacksmithing_category_7_6	""//"i_pike"
+blacksmithing_category_7_7	""//"i_lance"
+blacksmithing_category_7_8	""//"i_bladed_staff"
+blacksmithing_category_7_9	""
+blacksmithing_category_7_10	""
+blacksmithing_category_7_11	""
+blacksmithing_category_7_12     ""
+blacksmithing_category_7_13     ""
+blacksmithing_category_7_14     ""
+blacksmithing_category_7_15	""
+blacksmithing_category_7_16     ""
+
+
+blacksmithing_category_8_1	"i_Hammer_smith"
+blacksmithing_category_8_2	"i_mace"
+blacksmithing_category_8_3	"i_mace_war"
+blacksmithing_category_8_4	"i_club"
+blacksmithing_category_8_5	"i_maul"
+blacksmithing_category_8_6	"i_axe_war"
+blacksmithing_category_8_7	"i_hammer_pick"
+blacksmithing_category_8_8	""
+blacksmithing_category_8_9	""//"i_diamond_mace"
+blacksmithing_category_8_10	"i_pickaxe"
+
+blacksmithing_category_9_1	""
+blacksmithing_category_9_2	""
+blacksmithing_category_9_3	""
+blacksmithing_category_9_4	""
+blacksmithing_category_9_5	""
+blacksmithing_category_9_6	""
+blacksmithing_category_9_7	""
+blacksmithing_category_9_8	""
+blacksmithing_category_9_9	""
+blacksmithing_category_9_10	""
+blacksmithing_category_9_11	""
+blacksmithing_category_9_12	""
+blacksmithing_category_9_13	""
+
+blacksmithing_category_10_1	""
+blacksmithing_category_10_2	""
+blacksmithing_category_10_3	""
+blacksmithing_category_10_4	""
+blacksmithing_category_10_5	""
+
+blacksmithing_category_11_1	""
+blacksmithing_category_11_2	""
+blacksmithing_category_11_3	""
+
+
+[defname sphere_crafting_blacksmithing_colored]
+blacksmithing_material_0		""
+blacksmithing_material_0_name		"Iron"
+blacksmithing_material_0_skill		"Blacksmithing 30.0"
+blacksmithing_resourceid	        "i_ingot_iron"
+
+//blacksmithing_resourceid
+
+blacksmithing_material_1		""
+blacksmithing_material_1_name		"Dull Copper"
+blacksmithing_material_1_skill		"Blacksmithing 45.0"
+blacksmithing_material_1_armor_res	"0,0,0,0,0,f_colored_armor_dullcopper"
+blacksmithing_material_1_weaps_dam	"0,0,0,0,0,f_colored_weaps_dullcopper"
+blacksmithing_material_1_color		"color_o_dull_copper"
+blacksmithing_material_1_resourceid	"i_ingot_dull_copper"
+
+blacksmithing_material_2		""
+blacksmithing_material_2_name		"Copper" // copper
+blacksmithing_material_2_skill		"Blacksmithing 50.0"
+blacksmithing_material_2_armor_res	"0,0,0,0,0,f_colored_armor_copper"
+blacksmithing_material_2_weaps_dam	"0,0,20,0,0,f_colored_weaps_copper"
+blacksmithing_material_2_color		"color_o_copper"
+blacksmithing_material_2_resourceid	"i_ingot_copper"
+
+blacksmithing_material_3		""
+blacksmithing_material_3_name		"Bronze"// bronze
+blacksmithing_material_3_skill		"Blacksmithing 60.0"
+blacksmithing_material_3_armor_res	"0,0,0,0,0,f_colored_armor_bronze"
+blacksmithing_material_3_weaps_dam	"0,0,0,0,0,f_colored_weaps_bronze"
+blacksmithing_material_3_color		"color_o_bronze"
+blacksmithing_material_3_resourceid	"i_ingot_bronze"
+
+blacksmithing_material_4		""
+blacksmithing_material_4_name		"Golden" //golden
+blacksmithing_material_4_skill		"Blacksmithing 62.0"
+blacksmithing_material_4_armor_res	"0,0,0,0,0,f_colored_armor_copper"
+blacksmithing_material_4_weaps_dam	"0,0,0,0,0,f_colored_weaps_copper"
+blacksmithing_material_4_color		"color_o_gold"
+blacksmithing_material_4_resourceid	"i_ingot_gold"
+
+blacksmithing_material_5		""
+blacksmithing_material_5_name		"Agapite" //agapite
+blacksmithing_material_5_skill		"Blacksmithing 65.0"
+blacksmithing_material_5_armor_res	"1,1,2,0,2,f_colored_armor_agapite"
+blacksmithing_material_5_weaps_dam	"0,0,0,0,0,f_colored_weaps_agapite"
+blacksmithing_material_5_color		"color_o_agapite"
+blacksmithing_material_5_resourceid	"i_ingot_agapite"
+
+blacksmithing_material_6		""
+blacksmithing_material_6_name		"Shadow" //shadow
+blacksmithing_material_6_skill		"Blacksmithing 70.0"
+blacksmithing_material_6_armor_res	"0,0,0,0,0,f_colored_armor_shadow"
+blacksmithing_material_6_weaps_dam	"0,0,0,0,0,f_colored_armor_shadow"
+blacksmithing_material_6_color		"color_o_shadow"
+blacksmithing_material_6_resourceid	"i_ingot_shadow"
+
+blacksmithing_material_7		""
+blacksmithing_material_7_name		"Verite"
+blacksmithing_material_7_skill		"Blacksmithing 80.0"
+blacksmithing_material_7_armor_res	"0,0,0,0,0,f_colored_armor_verite"
+blacksmithing_material_7_weaps_dam	"0,0,0,0,0,f_colored_armor_verite"
+blacksmithing_material_7_color		"color_o_verite"
+blacksmithing_material_7_resourceid	"i_ingot_verite"
+
+blacksmithing_material_8		""
+blacksmithing_material_8_name		"Valorite"
+blacksmithing_material_8_skill		"Blacksmithing 80.0"
+blacksmithing_material_8_armor_res	"0,0,0,0,0,f_colored_armor_valorite"
+blacksmithing_material_8_weaps_dam	"0,0,0,0,0,f_colored_armor_valorite"
+blacksmithing_material_8_color		"color_o_valorite"
+blacksmithing_material_8_resourceid	"i_ingot_valorite"
+
+blacksmithing_material_9		""
+blacksmithing_material_9_name		"Mytheril" // mytheril
+blacksmithing_material_9_skill		"Blacksmithing 90.0"
+blacksmithing_material_9_armor_res	"0,0,0,0,0,f_colored_armor_mytheril"
+blacksmithing_material_9_weaps_dam	"0,0,0,0,0,f_colored_weaps_mytheril"
+blacksmithing_material_9_color		"color_o_mytheril"
+blacksmithing_material_9_resourceid	"i_ingot_mytheril"
+
+blacksmithing_material_10		""
+blacksmithing_material_10_name		"Bloodrock" // blood
+blacksmithing_material_10_skill		"Blacksmithing 99.0"
+blacksmithing_material_10_armor_res	"0,0,0,0,0,f_colored_armor_Bloodrock"
+blacksmithing_material_10_weaps_dam	"0,0,0,0,0,f_colored_armor_Bloodrock"
+blacksmithing_material_10_color		"color_o_bloodrock"
+blacksmithing_material_10_resourceid	"i_ingot_bloodrock"
+
+blacksmithing_material_11		"Blackrock" //black
+blacksmithing_material_11_name		"Blackrock"
+blacksmithing_material_11_skill		"Blacksmithing 99.0"
+blacksmithing_material_11_armor_res	"0,0,0,0,0,f_colored_armor_blackrock"
+blacksmithing_material_11_weaps_dam	"0,0,0,0,0,f_colored_weaps_blackrock"
+blacksmithing_material_11_color		"color_o_blackrock"
+blacksmithing_material_11_resourceid	"i_ingot_blackrock"
+
+
+
+
+[function f_colored_armor_dullcopper]
+//tag.LowerRequeriments = 20
+hitpoints -= 10
+
+[function f_colored_weaps_dullcopper]
+tag.LowerRequeriments = 50
+hitpoints -= 10
+
+
+[function f_colored_armor_copper]
+//tag.LowerRequeriments = 20
+hitpoints += 10
+
+[function f_colored_weaps_copper]
+tag.LowerRequeriments = 50
+hitpoints += 10
+
+
+[function f_colored_armor_bronze]
+hitpoints += 20
+
+[function f_colored_weaps_bronze]
+hitpoints += 20
+
+
+
+[function f_colored_armor_golden]
+hitpoints += 30
+
+[function f_colored_weaps_golden]
+hitpoints += 30
+
+
+[function f_colored_weaps_agapite]
+hitpoints += 40
+
+[function f_colored_armor_agapite]
+hitpoints += 40
+
+[function f_colored_armor_shadow]
+hitpoints += 50
+
+[function f_colored_weaps_shadow]
+hitpoints += 50
+
+[function f_colored_armor_verite]
+hitpoints += 60
+
+[function f_colored_weaps_verite]
+hitpoints += 60
+
+[function f_colored_armor_valorite]
+hitpoints += 70
+
+[function f_colored_weaps_valorite]
+hitpoints += 70
+
+[function f_colored_armor_mytheril]
+hitpoints += 80
+
+[function f_colored_weaps_mytheril]
+hitpoints += 80
+
+[function f_colored_armor_bloodrock]
+hitpoints += 90
+
+[function f_colored_weaps_bloodrock]
+hitpoints += 90
+
+[function f_colored_armor_blackrock]
+hitpoints += 90
+
+[function f_colored_weaps_blackrock]
+hitpoints += 90
+hitpoints 90
+hitpoint 90
+
+
+
+
+
+
+
+
+
+
+
+
+
+[eof]
