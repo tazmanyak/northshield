@@ -5,3 +5,9 @@ What you will see from this repository is the content of scripts existed in the 
 I'm still developing scripts and also hard-coded stuffs on Sphere Server where I'm developer and also work on closed-project Sphere Server Game Emulator.
 
 If you want to participate in this project, you can simply ask me to do so. 
+
+
+
+
+Main Sphere Server Web Site : http://spherecommunity.net => You can look at me by the nick as Avatar which is my nickname in the community.
+
