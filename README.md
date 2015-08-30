@@ -16,7 +16,6 @@ This only the scripting repository. As I mentioned before, since the sphere serv
 
 
 
-Last change: 08-08-2005
 
 **** The FILE obj **************************************************************************
 FILE object permit the manipulation of a file. For the momnet is limited to one file at time
