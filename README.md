@@ -16,8 +16,9 @@ This only the scripting repository. As I mentioned before, since the sphere serv
 
 
 
+#Useful Informations
 
-**** The FILE obj **************************************************************************
+The FILE obj 
 FILE object permit the manipulation of a file. For the momnet is limited to one file at time
 but if the test goes well a FILE[x] will be added. To access file function you should use
 FILE.x or <FILE.x>. Some of the function/props can be used only when a file is opened, if
