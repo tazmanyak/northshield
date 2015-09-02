@@ -14,8 +14,8 @@ MYSQLHOST 127.0.0.1
 MYSQLPASS asdasd
 MYSQL_EXE c:\appServ\mysql\bin\mysqldump.exe
 MYSQL_SAVE c:\backup\yedekdb.sql	
-MYSQL_BAT mysql_backup.bat //C:\Users\Administrator\Documents\
-SVN_BAT Tortoise_Update.bat
+MYSQL_BAT mysql_backup.bat 
+SVN_BAT tortoise_commit.bat
 
 WINRAR  c:\progra~1\winrar\winrar.exe	
 WINPASS qweqwe
