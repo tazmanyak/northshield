@@ -3,6 +3,7 @@
 [function guildlist]
 dialog d_guildlist
 
+
 [defname guildpuanlistesi]
 guildpuanlistesi 20
 
