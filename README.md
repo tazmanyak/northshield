@@ -81,7 +81,7 @@ Default value:	FeaturesLogin=00
 NOTE: Do not enable AOS features if you plan that T2A/LBR clients will be used
 by clients of your server.
 
-## Things to pay attein in scripts
+## Things to pay attention in scripts
 
 - RETURN values
   Make sure you include an "eval" in your return, wherever you're not returning a plain number,
