@@ -1,3 +1,4 @@
+
 [DEFNAME poker_datastructure]
 //" 
 // Suits are: s,h,d,c (Spade,Heart,Diamond,Club) like bridge (anti-alphabetical).
