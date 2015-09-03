@@ -851,7 +851,9 @@ uretim
 
 [function r] //// Akıl almaz işler
 LOCAL.MYSQL_BACKUP <sysspawn <DEF0.SVN_BAT>>
+serv.log SVN UPDATE
 timerf 2,serv.resync
+
 
 [function rap]
 sayua 0481,6,0,enu <args>
