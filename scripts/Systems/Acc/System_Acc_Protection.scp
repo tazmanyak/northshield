@@ -87,7 +87,7 @@ new.equip <src>
 
 
 [itemdef i_accountlang]
-id=i_gold
+id=i_memory 
 type=t_eq_script
 
 ON=@create
@@ -95,7 +95,7 @@ timer 5
 
 ON=@timer
 cont.sys_error Bağlantınız doğrulanamadı...
-trysrc <cont.uid> sendpacket 082 04
+try <cont.uid> sendpacket 082 04
 remove
 return 1
 
