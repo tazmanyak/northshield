@@ -95,7 +95,7 @@ timer 5
 
 ON=@timer
 cont.sys_error Bağlantınız doğrulanamadı...
-try uid <cont.uid> sendpacket 082 04
+trysrc <cont.uid> sendpacket 082 04
 remove
 return 1
 
