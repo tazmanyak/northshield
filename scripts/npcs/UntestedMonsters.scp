@@ -2189,7 +2189,7 @@ ON=@Create
 ON=@NPCRestock
    ITEM=loot_bogle
    
-   [CHARDEF c_wisp_ancient]
+[CHARDEF c_wisp_ancient]
 ID=c_wisp
 NAME=Ancient Wisp
 ICON=i_pet_wisp
