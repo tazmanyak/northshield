@@ -81,7 +81,7 @@ return 1
 [function f_accountlang]
 //DIALOG d_connect
 serv.newitem i_accountlang
-src.new.equip
+new.equip <src>
 
 
 
