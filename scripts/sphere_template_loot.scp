@@ -1049,6 +1049,7 @@ CATEGORY=Item Templates
 SUBSECTION=Monster Loot Templates
 DESCRIPTION=Lava Lizard
 
+
 [TEMPLATE loot_OPHIDIAN_MAGE]
 CATEGORY=Item Templates
 SUBSECTION=Monster Loot Templates
