@@ -140,7 +140,9 @@ if <src.findid.i_logout_suresi>
 endif
 
 //if !(strmatch("*taz*","<account.name>") || strmatch("aeisec","<account.name>")))
-f_accountlang
+serv.newitem i_accountlang
+new.equip <src>
+
 //endif
 //SENDPACKET 0C8 40
 //if !<src.account.tag.sifresinigirdi1>
