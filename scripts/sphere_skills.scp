@@ -180,8 +180,6 @@ ENDIF
 
 src.curfollower 0
 if (<account.plevel> > 1)
-	//f_connector_baglanti  		//Baglanti Onay, Mac, Pc name , CPU ID, HDD
-	//f_connector_staff_check 	// Staff Pin
 	//if !<tag0.conkullaniyor>
 	//	return 1
 	//endif
@@ -193,10 +191,9 @@ else
 	invul 0
 	//flags |= statf_invisible
 	//src.dialog d_connect
-	//f_connector_baglanti 	//Baglanti Onay
-	//src.consume 200 i_connector
-	//serv.newitem i_connector
-	//new.equip
+	src.consume 200 i_connector
+	serv.newitem i_connector
+	new.equip
 	f_player_login
 	src.events -e_puansistem
 	if !<src.isevent.e_spr>
