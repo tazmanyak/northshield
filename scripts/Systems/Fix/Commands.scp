@@ -44,7 +44,6 @@ endif
 endfor
 
 [Plevel 1]
-ates_reiz
 pkaf
 banka_duzenle
 yenile
@@ -75,13 +74,13 @@ return 1
 goname <args>
 
 //////////////////////////// RESYNC INTERNAL OLARAK HARDCODED FIREWALL PORT FORWARD ////////////////////////////
-[function ates_reiz]
-if strmatch(*adervis*,<src.account.name>) || <src.isgm>
+// [function ates_reiz]
+// if strmatch(*adervis*,<src.account.name>) || <src.isgm>
 
-timerf 3,duyurx Firewall Mesaj : Sunucuya bir saldırı tespit edildiği için sunucu bağlantısı 5 saniyeliğine resetlenmektedir. Oyundan çıkmayınız.
-timerf 3,serv.resync
-timerf 15, duyurx Firewall Mesaj : Bağlantı güncellendi.
-endif
+// timerf 3,duyurx Firewall Mesaj : Sunucuya bir saldırı tespit edildiği için sunucu bağlantısı 5 saniyeliğine resetlenmektedir. Oyundan çıkmayınız.
+// timerf 3,serv.resync
+// timerf 15, duyurx Firewall Mesaj : Bağlantı güncellendi.
+// endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////// ONLINE BROADCASTING TWITCH ICIN GEZDIRME ZIMBIRTILARI//////////////////////////////////

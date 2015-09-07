@@ -1,214 +1,214 @@
 ﻿
 
 
-[DIALOG d_mithas_tns_aktarim]
-0,0
-page 0
-resizepic 113 91 9200 478 267
-resizepic 152 110 9200 411 143
-resizepic 185 117 9200 359 29
-htmlgump 146 264 421 68 0 1 1
-resizepic 200 180 9200 100 27
-text 202 123 69 1
-resizepic 200 217 9200 100 25
-text 209 185 69 2
-text 212 222 69 3
-resizepic 313 182 9200 141 23
-resizepic 314 215 9200 142 21
-textentry 320 185 130 21 69 0 4
-textentry 320 219 130 21 69 1 5
-button 473 216 247 248 1 0 1
+// [DIALOG d_mithas_tns_aktarim]
+// 0,0
+// page 0
+// resizepic 113 91 9200 478 267
+// resizepic 152 110 9200 411 143
+// resizepic 185 117 9200 359 29
+// htmlgump 146 264 421 68 0 1 1
+// resizepic 200 180 9200 100 27
+// text 202 123 69 1
+// resizepic 200 217 9200 100 25
+// text 209 185 69 2
+// text 212 222 69 3
+// resizepic 313 182 9200 141 23
+// resizepic 314 215 9200 142 21
+// textentry 320 185 130 21 69 0 4
+// textentry 320 219 130 21 69 1 5
+// button 473 216 247 248 1 0 1
 
-[DIALOG d_mithas_tns_aktarim text]
-Bu işlemi sadece bir kez yapabilirsiniz. Transfer edeceğiniz karakterdeki tüm skiller sıfırlanıp seçtiğiniz karakterin skilleri aktarılacaktır.
-Mithas Ultima Online - North Shield Aktarım Menüsü
-Kullanıcı Adı:
-Pin:
-*******
-*******
+// [DIALOG d_mithas_tns_aktarim text]
+// Bu işlemi sadece bir kez yapabilirsiniz. Transfer edeceğiniz karakterdeki tüm skiller sıfırlanıp seçtiğiniz karakterin skilleri aktarılacaktır.
+// Mithas Ultima Online - North Shield Aktarım Menüsü
+// Kullanıcı Adı:
+// Pin:
+// *******
+// *******
 
-[DIALOG d_mithas_tns_aktarim button]
-ON=0
-src.sys_error Herhangi bir işlem gerçekleştirmediniz.
+// [DIALOG d_mithas_tns_aktarim button]
+// ON=0
+// src.sys_error Herhangi bir işlem gerçekleştirmediniz.
 
-// 
-on=1
-serv.f_option_mysql 0
-serv.MySqlDatabase=mithas
-db.connect
-if <db.connected>
-	db.query select * from uye_bilgileri where account_name='<argtxt[0]>'
-	//src.sys_error Pin:	<eval <db.row.0.account_pin>>
-	local.pin <db.row.0.account_pin>
-	db.close
-endif
-serv.MySqlDatabase=sphere
+// // 
+// on=1
+// serv.f_option_mysql 0
+// serv.MySqlDatabase=mithas
+// db.connect
+// if <db.connected>
+	// db.query select * from uye_bilgileri where account_name='<argtxt[0]>'
+	// //src.sys_error Pin:	<eval <db.row.0.account_pin>>
+	// local.pin <db.row.0.account_pin>
+	// db.close
+// endif
+// serv.MySqlDatabase=sphere
 
-if strmatch("<eval <local.pin>>","<argtxt[1]>") 
-	src.sys_error Doğrulama tamamlandı.
-	src.tag.char_aktarim <argtxt[0]>
-	sdialog d_char_aktarim_nebula
-	//src.sys_error Account Name: <argtxt[0]>
-endif
+// if strmatch("<eval <local.pin>>","<argtxt[1]>") 
+	// src.sys_error Doğrulama tamamlandı.
+	// src.tag.char_aktarim <argtxt[0]>
+	// sdialog d_char_aktarim_nebula
+	// //src.sys_error Account Name: <argtxt[0]>
+// endif
 
-[Plevel 1]
-chartransfer
+// [Plevel 1]
+// chartransfer
 
-[function chartransfer]
-if !strmatch(*Britain*,<src.region.name>)
-	src.notice Lütfen önce karakterinizi ayarlayın isim belirtin ve rast gele 2 skill seçin daha sonra komutu Britain bölgesinde tekrar kullanınız.
-endif
-	//src.sysmessage @38 Kullanilmamaktadir.
-//return 1
-if !<isempty <tag.aktarildi>>
-sys_error Aynı karakter üzerinde 2.defa karakter aktarımı yapamazsınız. Aynı accdeki başka karaktere geçip işleme devam ediniz.
-return 1
-endif
-sdialog d_mithas_tns_aktarim
+// [function chartransfer]
+// if !strmatch(*Britain*,<src.region.name>)
+	// src.notice Lütfen önce karakterinizi ayarlayın isim belirtin ve rast gele 2 skill seçin daha sonra komutu Britain bölgesinde tekrar kullanınız.
+// endif
+	// //src.sysmessage @38 Kullanilmamaktadir.
+// //return 1
+// if !<isempty <tag.aktarildi>>
+// sys_error Aynı karakter üzerinde 2.defa karakter aktarımı yapamazsınız. Aynı accdeki başka karaktere geçip işleme devam ediniz.
+// return 1
+// endif
+// sdialog d_mithas_tns_aktarim
 
-[dialog d_char_aktarim_nebula]
-0,0
+// [dialog d_char_aktarim_nebula]
+// 0,0
 
-resizepic 30 40 5120 300 400
-checkertrans 40 50 280 380
+// resizepic 30 40 5120 300 400
+// checkertrans 40 50 280 380
 
-dtext 50 65 920 Mithas Char Transfer
+// dtext 50 65 920 Mithas Char Transfer
 
-local.acc=<src.tag.char_aktarim>
-local.y=100
-for a 0 4
-if <dosya_varmi aktarim/<local.acc>_<dlocal.a>.txt>
-local.varmi +=1
-dtext 70 <dlocal.y> 920 <serv.satir_oku aktarim/<local.acc>_<dlocal.a>.txt 59>
-button 50 <eval <dlocal.y>+2> 5601 5605 1 0 <eval <dlocal.a>+1>
-endif
-local.y +=20
-endfor
-if !<dlocal.varmi>
-dtext 50 100 025 Bu accounta ait kayıtlı bir char yok
-else
-dhtmlgump 50 230 220 150 1 1 Aktarmak istediğiniz karakteri seçiniz. Bu işlemi yalnızca 1 kere yapabilirsiniz. Bu sebeple lütfen dikkatli bir şekilde seçim yapın.
-endif
+// local.acc=<src.tag.char_aktarim>
+// local.y=100
+// for a 0 4
+// if <dosya_varmi aktarim/<local.acc>_<dlocal.a>.txt>
+// local.varmi +=1
+// dtext 70 <dlocal.y> 920 <serv.satir_oku aktarim/<local.acc>_<dlocal.a>.txt 59>
+// button 50 <eval <dlocal.y>+2> 5601 5605 1 0 <eval <dlocal.a>+1>
+// endif
+// local.y +=20
+// endfor
+// if !<dlocal.varmi>
+// dtext 50 100 025 Bu accounta ait kayıtlı bir char yok
+// else
+// dhtmlgump 50 230 220 150 1 1 Aktarmak istediğiniz karakteri seçiniz. Bu işlemi yalnızca 1 kere yapabilirsiniz. Bu sebeple lütfen dikkatli bir şekilde seçim yapın.
+// endif
 
-[dialog d_char_aktarim_nebula button]
-on=1 5
-if !<isempty <src.tag.aktarildi>>
-src.sysmessage @1153,,1 Sistemi yalnızca 1 kere kullanabilirsiniz.
-return 1
-endif
-src.spelleffect s_dispel,1000
-local.char=<eval <argn>-1>
-//skiller
-for skill 0 55
-src.<dlocal.skill>=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt <eval <dlocal.skill>+1>>
-endfor
-//statlar
-src.str=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt 57>
-src.dex=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt 58>
-src.int=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt 59>
-//isim ve pin
-//src.name=<satir_oku aktarim/<src.account>_<dlocal.char>.txt 60>
-//src.account.tag.pinstr=<satir_oku aktarim/<src.account>_<dlocal.char>.txt 61>
-//işlem okey :)
-src.tag.aktarildi=1
-src.tag.char_aktarim
-aktarim_sil aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt
-serv.writefile2 C:\North_Player_Log_Arsivi\Mithas_Aktarim\aktarim.txt Acc: <src.account.name> - Char: <src.name> - Zaman : <serv.rtime>
-src.sysmessage @1153,,1 işlem tamamlandı.
-src.spelleffect 6,1000
+// [dialog d_char_aktarim_nebula button]
+// on=1 5
+// if !<isempty <src.tag.aktarildi>>
+// src.sysmessage @1153,,1 Sistemi yalnızca 1 kere kullanabilirsiniz.
+// return 1
+// endif
+// src.spelleffect s_dispel,1000
+// local.char=<eval <argn>-1>
+// //skiller
+// for skill 0 55
+// src.<dlocal.skill>=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt <eval <dlocal.skill>+1>>
+// endfor
+// //statlar
+// src.str=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt 57>
+// src.dex=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt 58>
+// src.int=<satir_oku aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt 59>
+// //isim ve pin
+// //src.name=<satir_oku aktarim/<src.account>_<dlocal.char>.txt 60>
+// //src.account.tag.pinstr=<satir_oku aktarim/<src.account>_<dlocal.char>.txt 61>
+// //işlem okey :)
+// src.tag.aktarildi=1
+// src.tag.char_aktarim
+// aktarim_sil aktarim/<src.tag.char_aktarim>_<dlocal.char>.txt
+// serv.writefile2 C:\North_Player_Log_Arsivi\Mithas_Aktarim\aktarim.txt Acc: <src.account.name> - Char: <src.name> - Zaman : <serv.rtime>
+// src.sysmessage @1153,,1 işlem tamamlandı.
+// src.spelleffect 6,1000
 
-[function LINES]
-IF !(<FILE.INUSE>)
-FILE.MODE.CREATE=1
-FILE.MODE.APPEND=1
-FILE.MODE.READFLAG=1
-IF (<FILE.OPEN <STRARG <ARGS>>>)
-local.a = <FILE.FILELINES <STRARG <ARGS>>>
-FILE.CLOSE
-ENDIF
-ENDIF
-return <local.a>
+// [function LINES]
+// IF !(<FILE.INUSE>)
+// FILE.MODE.CREATE=1
+// FILE.MODE.APPEND=1
+// FILE.MODE.READFLAG=1
+// IF (<FILE.OPEN <STRARG <ARGS>>>)
+// local.a = <FILE.FILELINES <STRARG <ARGS>>>
+// FILE.CLOSE
+// ENDIF
+// ENDIF
+// return <local.a>
 
-[FUNCTION satir_oku]
-IF !(<FILE.INUSE>)
-FILE.MODE.CREATE=1
-FILE.MODE.APPEND=1
-FILE.MODE.READFLAG=1
-IF (<FILE.OPEN <STRARG <ARGS>>>)
-local.a = <FILE.READLINE <STREAT <ARGS>>>
-FILE.CLOSE
-ENDIF
-ENDIF
-return <local.a>
-
-
-[FUNCTION dosya_varmi]
-IF !(<FILE.INUSE>)
-local.return <FILE.FILEEXIST <ARGS>>
-ENDIF
-return <dlocal.return>
+// [FUNCTION satir_oku]
+// IF !(<FILE.INUSE>)
+// FILE.MODE.CREATE=1
+// FILE.MODE.APPEND=1
+// FILE.MODE.READFLAG=1
+// IF (<FILE.OPEN <STRARG <ARGS>>>)
+// local.a = <FILE.READLINE <STREAT <ARGS>>>
+// FILE.CLOSE
+// ENDIF
+// ENDIF
+// return <local.a>
 
 
+// [FUNCTION dosya_varmi]
+// IF !(<FILE.INUSE>)
+// local.return <FILE.FILEEXIST <ARGS>>
+// ENDIF
+// return <dlocal.return>
 
 
 
 
-[itemdef i_aktarici]
-id=i_gravestone
-type t_script
-name aktarici
-
-on=@create
-timer -1
-morex=2956
-
-on=@click
-message @1153 <dmorex> kisi kaldi
-return 1
-
-on=@timer
-if <morex> < 0
-say islem bitti
-timer -1
-return 1
-endif
- for b 0 4
-  if (<serv.account.<dmorex>.chars>)
-   ref1=<serv.account.<dmorex>.char.<dlocal.b>.uid>
-    if <ref1>
-    for skill 0 55
-     serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.<dlocal.skill>>  
-    endfor
-     serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.str>  
-     serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.dex> 
-     serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.int>   
-     serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.name>   
-     serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.account.tag.pinstr>   
-     say <ref1.tag.char_aktarim>_<dlocal.b> tamamdir <dmorex>
-    endif
-  endif
- endfor
- morex -=1
-timerd 1
-return 1
 
 
-[FUNCTION aktarim_yaz]
-IF !(<FILE.INUSE>)
-FILE.MODE.CREATE=1
-FILE.MODE.APPEND=1
-FILE.MODE.WRITEFLAG=1
-IF (<FILE.OPEN <STRARG <ARGS>>>)
-FILE.WRITELINE <STREAT <ARGS>>
-FILE.CLOSE
-ENDIF
-ENDIF
+// [itemdef i_aktarici]
+// id=i_gravestone
+// type t_script
+// name aktarici
 
-[FUNCTION aktarim_sil]
-IF !(<FILE.INUSE>)
-FILE.MODE.APPEND=1
-FILE.DELETEFILE <ARGS>
-FILE.CLOSE
-ENDIF
+// on=@create
+// timer -1
+// morex=2956
+
+// on=@click
+// message @1153 <dmorex> kisi kaldi
+// return 1
+
+// on=@timer
+// if <morex> < 0
+// say islem bitti
+// timer -1
+// return 1
+// endif
+ // for b 0 4
+  // if (<serv.account.<dmorex>.chars>)
+   // ref1=<serv.account.<dmorex>.char.<dlocal.b>.uid>
+    // if <ref1>
+    // for skill 0 55
+     // serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.<dlocal.skill>>  
+    // endfor
+     // serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.str>  
+     // serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.dex> 
+     // serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.int>   
+     // serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.name>   
+     // serv.aktarim_yaz aktarim/<ref1.tag.char_aktarim>_<dlocal.b>.txt <ref1.account.tag.pinstr>   
+     // say <ref1.tag.char_aktarim>_<dlocal.b> tamamdir <dmorex>
+    // endif
+  // endif
+ // endfor
+ // morex -=1
+// timerd 1
+// return 1
+
+
+// [FUNCTION aktarim_yaz]
+// IF !(<FILE.INUSE>)
+// FILE.MODE.CREATE=1
+// FILE.MODE.APPEND=1
+// FILE.MODE.WRITEFLAG=1
+// IF (<FILE.OPEN <STRARG <ARGS>>>)
+// FILE.WRITELINE <STREAT <ARGS>>
+// FILE.CLOSE
+// ENDIF
+// ENDIF
+
+// [FUNCTION aktarim_sil]
+// IF !(<FILE.INUSE>)
+// FILE.MODE.APPEND=1
+// FILE.DELETEFILE <ARGS>
+// FILE.CLOSE
+// ENDIF
 
 [EOF]

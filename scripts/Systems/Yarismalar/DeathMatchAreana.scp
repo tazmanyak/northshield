@@ -369,7 +369,7 @@ endif
 
 
 
-on=@death  /// Burak dingili lan aminisiktiiim @kill niye eklion dümbük surdan yapsana
+on=@death  ///
 
 
 if (strmatch('<src.account.lastip>','<act.account.lastip>'))
