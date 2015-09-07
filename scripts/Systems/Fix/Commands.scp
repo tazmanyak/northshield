@@ -853,6 +853,7 @@ uretim
 LOCAL.MYSQL_BACKUP <sysspawn <DEF0.SVN_BAT>>
 serv.log SVN UPDATE
 timerf 5,serv.resync
+timerf 5, src.sysmessage @,,1 SVN Updated.
 
 
 [function rap]
