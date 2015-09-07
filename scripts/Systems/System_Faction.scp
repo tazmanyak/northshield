@@ -18,6 +18,7 @@ endif
 
 [function factionsistemikur]
 if !(<db.connected>)
+	f_option_mysql 0
 	db.connect
 endif
 db.execute "create table if not exists faction (id int unsigned not null auto_increment primary key,uid text,isim text,destek text,puan text)";
@@ -102,6 +103,7 @@ sdialog d_top10
 [DIALOG d_top10]
 50,50
 page 1
+f_option_mysql 0
 db.connect
 db.query "select * from faction order by puan desc limit 0,10";
 
@@ -151,6 +153,8 @@ endif
 //dhtmlgump 20 160 270 60 1 1 <def.bfont_lred>Son Ölüm: <def.bfont_dblue><tag0.sonolum>
 //endif
 page 2
+
+f_option_mysql 0
 db.connect
 db.query "select * from faction where destek = '<name>' order by puan desc limit 0,9";
 resizepic 0 0 2550 314 300
@@ -161,9 +165,11 @@ ref1=<addslashes <db.row.<dlocal.a>.uid>>
 dhtmlgump 70 <dlocal.y> 300 30 0 0 <eval <dlocal.a>+1>- <def.bfont_dred><ref1.name> [<eval <db.row.<dlocal.a>.puan>> Puan]
 endif
 endfor
+db.close
 
 
 page 3
+f_option_mysql 0
 db.connect
 db.query "select * from faction where destek = '<name>' order by uid desc limit <eval <src.ctag0.dialogindex>>,<eval <src.ctag0.dialogindex>+7>";
 
@@ -178,6 +184,7 @@ endif
 endfor
 db.close
 
+f_option_mysql 0
 db.connect
 db.query "select * from faction;"
 if (<db.row.numrows> > 7)
@@ -282,6 +289,7 @@ cont.sys_normal <cont.guild.name> Faction undan ayrıldınız. 15 dakika sonra t
 ON=@timer
 topobj.notice Factiondan ayrıldınız.
 try uid.<topobj.guild.uid>.resign <topobj.uid>
+f_option_mysql 0
 db.connect
 //db.execute "UPDATE faction SET destek = '<addslashes <topobj.f_align>>' WHERE Uid='<topobj.uid>'"
 db.execute delete from faction WHERE Uid='<topobj.uid>'
@@ -297,6 +305,7 @@ ref1 = <argv[0]> // The guild
 ref2 = <argv[1]> // The char
 if !(<src.guild>)
 
+f_option_mysql 0
 db.connect
 db.query "SELECT COUNT(uid) FROM faction WHERE Uid = '<ref2.uid>'";
 if <db.row.0>
