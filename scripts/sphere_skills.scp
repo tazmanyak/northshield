@@ -139,9 +139,9 @@ if <src.findid.i_logout_suresi>
 	src.findid.i_logout_suresi.remove
 endif
 
-if !(strmatch("*taz*","<account.name>") || strmatch("aeisec","<account.name>")))
+//if !(strmatch("*taz*","<account.name>") || strmatch("aeisec","<account.name>")))
 f_accountlang
-endif
+//endif
 //SENDPACKET 0C8 40
 //if !<src.account.tag.sifresinigirdi1>
 //	src.dialog d_yenisifreaq
@@ -191,9 +191,9 @@ else
 	invul 0
 	//flags |= statf_invisible
 	//src.dialog d_connect
-	src.consume 200 i_connector
-	serv.newitem i_connector
-	new.equip
+	//src.consume 200 i_connector
+	//serv.newitem i_connector
+	//new.equip
 	f_player_login
 	src.events -e_puansistem
 	if !<src.isevent.e_spr>
