@@ -170,7 +170,7 @@ endif
 //	src.sys_normal Britain disinda baska sehre player vendor kuramassiniz.
 //	return 1
 //endif
-
+serv.f_option_mysql 0
 db.connect
 newnpc c_vendor_player_burak
 db.execute insert vendor_list_genel (vendor_uid, vendor_name) values ('<new.uid>','<new.name>')

@@ -74,5 +74,5 @@ ELSE
     SERV.LOG Acc sekronizasyonu tamamlandi.
 ENDIF
 
-
+serv.f_option_mysql 0
 [EOF]

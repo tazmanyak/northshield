@@ -118,7 +118,7 @@ on=@Start
 if (<src.isplayer>) && !(<isgm>)
 	anim 17
 	spell_say In Mani
-	nomoves 1.0
+	nomoves 0.6
 endif
 
 on=@effect

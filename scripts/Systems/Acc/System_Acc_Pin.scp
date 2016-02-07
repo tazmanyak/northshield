@@ -64,6 +64,6 @@ IF (<DB.AQUERY f_aquery_pin, SELECT * FROM smf_themes WHERE variable= 'cust_stat
 ELSE
     SERV.LOG Pin sekronizasyonu tamamlandi.
 ENDIF
-
+serv.f_option_mysql 0
 
 [EOF]

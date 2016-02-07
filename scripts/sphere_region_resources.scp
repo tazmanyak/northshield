@@ -181,6 +181,7 @@ REGEN=60*60
 ON=@RESOURCEFOUND
 	call f_tree_mob_spawn
 
+	
 [REGIONRESOURCE mr_plant_seed]
 SKILL=99.8,100.0
 AMOUNT=1,1
