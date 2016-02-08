@@ -814,19 +814,17 @@ elif <src.findlayer.2>
 endif
 		
 if <local.fr>
-
-	
 	if strmatch("<ref2.tag0.magicweapon>","Power") || strmatch("<ref2.tag0.magicweapon>","Vanquishing")
-		sd <argn1>
+		nomoves <argn1>
 		sayua 0451,0,0,0 * Freezetime Reduced *
 	elseif <r3>==1
-		sd <argn1>
+		nomoves <argn1>
 		sayua 0451,0,0,0 * Freezetime Reduced *
 	else
-		sd <argn2>
+		nomoves <argn2>
 	endif
 else
-	sd <argn2>
+	nomoves <argn2>
 endif
 
 

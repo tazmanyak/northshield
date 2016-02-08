@@ -649,7 +649,7 @@ INTERRUPT=100.0,100.0
 on=@Start 
 	if (<src.isplayer>) && !(<isgm>)
 		spell_say Vas Flam
-		call f_freezetime_reducer 1,2
+		call f_freezetime_reducer 1.0,2.0
 	endif
 
 on=@effect
@@ -1210,7 +1210,7 @@ on=@Start
 	endif
 	if (<src.isplayer>) && !(<isgm>)
 		spell_say Por Ort Grav
-		call f_freezetime_reducer 1,2
+		call f_freezetime_reducer 1.0,2.0
 	endif
 
 [Spell 31]
@@ -1448,7 +1448,7 @@ INTERRUPT=100.0,100.0
 on=@Start 
 	if (<src.isplayer>) && !(<isgm>)
 		spell_say Por Corp Wis
-		call f_freezetime_reducer 2,4
+		call f_freezetime_reducer 2.0,4.0
 	endif
 
 on=@effect
@@ -1683,7 +1683,7 @@ on=@Start
 	endif
 	if (<src.isplayer>) && !(<isgm>)
 		spell_say Corp Por
-		call f_freezetime_reducer 2,3
+		call f_freezetime_reducer 2.0,3.0
 	endif
 
 
@@ -1707,7 +1707,7 @@ INTERRUPT=100.0,100.0
 on=@Start 
 	if (<src.isplayer>) && !(<isgm>)
 		spell_say Vas Ort Flam
-		call f_freezetime_reducer 2,3
+		call f_freezetime_reducer 2.0,3.0
 	endif
 
 on=@effect
@@ -2020,7 +2020,7 @@ on=@Start
 		endif
 		if !(<isgm>)
 			spell_say Kal Vas Flam
-			call f_freezetime_reducer 3,4
+			call f_freezetime_reducer 3.0,4.0
 		endif
 	endif
 
